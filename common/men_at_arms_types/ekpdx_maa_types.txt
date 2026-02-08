@@ -1,0 +1,207 @@
+﻿hlaalu_battle_merchants = { #counters War Mages
+	type = spellblades
+	
+	damage = 25
+	toughness = 20
+	pursuit = 0
+	screen = 15
+	
+	can_recruit = {
+		OR = {
+			has_culture = culture:armun_an
+			primary_title = title:k_hlaalu
+		}
+	}
+	
+	counters = {
+		mages = 1
+		archers = 1
+ 		skirmishers = 1
+	}
+	
+	buy_cost = { gold = 150 }
+	low_maintenance_cost = { gold = 0.3 }
+	high_maintenance_cost = { gold = 2 }
+	provision_cost = @provisions_cost_special_cheap
+	
+	terrain_bonus = {
+		farmlands = { damage = 8 toughness = 8 screen = 8 }
+		wetlands = { damage = 5 toughness = 5 screen = 5 }
+		plains = { damage = 5 toughness = 5 screen = 5 }
+		hills = { damage = -5 toughness = -5 screen = -5 }
+		mountains = { damage = -10 toughness = -10 screen = -10 }
+	}	
+	
+	stack = 50
+	ai_quality = { value = culture_ai_weight_spellblades }
+	icon = spellblades
+}
+
+redoran_redoran_retainers = {
+	type = pikemen
+	
+	damage = 20
+	toughness = 27
+	pursuit = 0
+	screen = 10
+	
+	terrain_bonus = {
+		mountains = { toughness = 13 }
+		hills = { toughness = 8 }
+		wetlands = { toughness = -3 screen = -10 }
+		floodplains = { toughness = -3 screen = -10 }
+	}
+
+	counters = {
+		light_cavalry = 1
+		heavy_cavalry = 1
+		camel_cavalry = 1
+	}
+
+	can_recruit = {
+		culture = {
+			has_innovation = innovation_sanded_wood
+		}
+		OR = {
+			has_culture = culture:gah_julan
+			primary_title = title:k_redoran
+		}		
+	}
+	
+	buy_cost = { gold = 85 }
+	low_maintenance_cost = { gold = 1 }
+	high_maintenance_cost = { gold = 0.4 }
+	provision_cost = @provisions_cost_infantry_expensive
+
+	stack = 100
+	
+	ai_quality = {
+		value = culture_ai_weight_pikemen
+		add = counter_synergy_ai_weight_pikemen
+	}
+	
+	icon = pikemen
+}
+
+dres_whipmasters= {
+	type = skirmishers
+	
+	damage = 10
+	toughness = 15
+	pursuit = 20
+	screen = 0
+	
+	terrain_bonus = {
+		jungle = { damage = 5 toughness = 5 screen = 5 pursuit = 5 }
+		floodplains = { damage = 5 toughness = 5 screen = 5 pursuit = 5 }
+		wetlands = { damage = 5 toughness = 5 screen = 5 pursuit = 5 }
+		ashlands = { pursuit = -10 }
+	}
+
+	counters = {
+		skirmishers = 0.5
+		pikemen = 0.5
+	}
+
+	can_recruit = {
+		#EK EDIT: need innovation
+		culture = {
+			has_innovation = innovation_leather_armor
+		}
+		OR = {
+			has_culture = culture:marduhn_oad
+			primary_title = title:k_redoran
+		}			
+	}
+
+	buy_cost = { gold = 50 }
+	low_maintenance_cost = { gold = 0.5 }
+	high_maintenance_cost = { gold = 0.2 }
+	provision_cost = @provisions_cost_infantry_cheap
+
+
+	stack = 100
+	ai_quality = { value = culture_ai_weight_skirmishers }
+	icon = skirmishers
+}
+
+shinathi_red_swarm = {
+	type = archer_cavalry
+	
+	damage = 35
+	toughness = 17
+	pursuit = 40
+	screen = 25
+	
+	terrain_bonus = {
+		plains = { damage = 20 }
+		drylands = { damage = 20 }
+		ashlands = { damage = 5 }
+	}
+
+	counters = {
+		skirmishers = 1
+		heavy_infantry = 1
+	}
+
+	can_recruit = {
+		has_culture = culture:shinathi
+	}
+
+	buy_cost = { gold = 100 }
+	low_maintenance_cost = { gold = 1.14 }
+	high_maintenance_cost = { gold = 0.4 }
+	provision_cost = @provisions_cost_cavalry_cheap
+	
+	stack = 100
+	ai_quality = {
+		value = @cultural_maa_extra_ai_score
+		add = 20
+	}
+	icon = horse_archers
+}
+
+indoril_indoril_van = {
+	type = heavy_cavalry
+	
+	damage = 120
+	toughness = 40
+	pursuit = 20
+	screen = 5
+	
+	terrain_bonus = {
+		plains = { damage = 30 }
+		mountains = { damage = -80 }
+		jungle = { damage = -80 }
+		wetlands = { damage = -80 toughness = -15 pursuit = -15 }
+		taiga = { damage = -20 toughness = -5 pursuit = -5 }
+		hills = { damage = -20 }
+		forest = { damage = -20 pursuit = -5 }
+	}
+
+	counters = {
+		archers = 1
+	}
+
+	can_recruit = {
+		OR = {
+			has_culture = culture:chuzei
+			primary_title = title:k_indoril
+		}
+	}
+
+	should_show_when_unavailable = {
+		government_allows = subject_men_at_arms
+		culture = { has_cultural_era_or_later = culture_era_early_medieval }
+		NOT = { has_access_to_maa = nomad_lancers }
+	}
+	
+	buy_cost = { gold = 300 }
+	low_maintenance_cost = { gold = 0.9 }
+	high_maintenance_cost = { gold = 2.3 }
+	provision_cost = @provisions_cost_cavalry_expensive
+	
+	stack = 50
+	ai_quality = { value = culture_ai_weight_heavy_cavalry }
+	icon = heavy_cavalry
+}
