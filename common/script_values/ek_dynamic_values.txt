@@ -1,0 +1,427 @@
+﻿county_migration_extracted_wealth = {
+	value = monthly_income
+	multiply = 12
+}
+
+county_yearly_income = {
+	value = monthly_income
+	multiply = 12
+}
+
+county_three_months_income = {
+	value = monthly_income
+	multiply = 3
+}
+
+half_development = {
+	value = county.development_level
+	divide = 2
+	multiply = -100
+}
+
+county_opinion_times_100 = {
+	value = this.county_opinion
+	add = 100
+	divide = 100
+}
+
+low_tribute_extracted_wealth = {
+	value = this
+	# multiply = 100
+	multiply = 5
+	divide = 100
+}
+
+medium_tribute_extracted_wealth = {
+	value = this
+	# multiply = 100
+	multiply = 10
+	divide = 100
+}
+
+high_tribute_extracted_wealth = {
+	value = this
+	# multiply = 100
+	multiply = 15
+	divide = 100
+}
+
+very_high_tribute_extracted_wealth = {
+	value = this
+	# multiply = 100
+	multiply = 20
+	divide = 100
+}
+
+summon_dragons_cost = {
+	value = {
+		add = 5000
+		# Devotion
+		if = {
+			limit = {
+				faith = { has_doctrine_parameter = devotion_gives_reduced_cost_summon_dragons_active }
+			}
+			if = {
+				limit = { piety_level = 0 }
+				multiply = 1.1
+			}
+			else_if = {
+				limit = { piety_level = 2 }
+				multiply = 0.9
+			}
+			else_if = {
+				limit = { piety_level = 3 }
+				multiply = 0.8
+			}
+			else_if = {
+				limit = { piety_level = 4 }
+				multiply = 0.7
+			}
+			else_if = {
+				limit = { piety_level = 5 }
+				multiply = 0.6
+			}
+		}
+		# Dragon Temples
+		if = {
+			limit = {
+				faith = { has_doctrine_parameter = faith_uses_dragon_temple }
+			}
+			if = {
+				limit = {
+					any_held_title = {
+						count = 5
+						tier = tier_county
+						any_county_province = {
+							has_building_or_higher = dragon_temple_01
+						}
+					}	
+				}	
+				multiply = 0.5
+			}
+			else_if = {
+				limit = {
+					any_held_title = {
+						count = 4
+						tier = tier_county
+						any_county_province = {
+							has_building_or_higher = dragon_temple_01
+						}
+					}	
+				}
+				multiply = 0.6
+			}
+			else_if = {
+				limit = {
+					any_held_title = {
+						count = 3
+						tier = tier_county
+						any_county_province = {
+							has_building_or_higher = dragon_temple_01
+						}
+					}	
+				}
+				multiply = 0.7
+			}
+			else_if = {
+				limit = {
+					any_held_title = {
+						count = 2
+						tier = tier_county
+						any_county_province = {
+							has_building_or_higher = dragon_temple_01
+						}
+					}
+				}	
+				multiply = 0.8
+			}
+			else_if = {
+				limit = {
+					any_held_title = {
+						count = 1
+						tier = tier_county
+						any_county_province = {
+							has_building_or_higher = dragon_temple_01
+						}
+					}
+				}	
+				multiply = 0.9
+			}
+		}
+	}
+}
+
+# Effect of the hegemon_2 perk
+hegemon_2_1_scale = {
+	value = 0
+	if = {
+		limit = {
+			root = {
+				exists = dynasty
+				dynasty = liege.dynasty
+				dynasty = { has_dynasty_perk = hegemon_legacy_2 }
+			}
+		}
+		add = 1
+	}
+	if = {
+		limit = { root = { is_powerful_vassal = yes } }
+		multiply = 2
+	}
+}
+
+### For Might Makes Right
+mmr_requirement_level_change = {
+	value = this
+	if = {
+		limit = { root.faith = { has_doctrine_parameter = ek_might_makes_right_lower_requirement_active } }
+		add = -1
+	}
+	if = {
+		limit = { root.culture = { has_cultural_parameter = cb_lower_prestige_level_requirement } }
+		add = -1
+	}
+	min = 0
+	max = max_prestige_level
+}
+
+### Fervor Equilibrium
+# Yearly change instead of monthly, so we bump it by *10
+fervor_equilibrium_below_value = {
+	value = 0
+	add = var:fervor_equilibrium
+	subtract = fervor
+	divide = 10
+}
+
+fervor_equilibrium_above_value = {
+	value = 0
+	add = fervor
+	subtract = var:fervor_equilibrium
+	divide = 10
+}
+
+### Denizens of Lost Orsinium
+prowess_bonuses_scale = {
+	value = 0
+	if = {
+		limit = { liege.faith = { has_doctrine_parameter = prowess_bonuses } }
+		add = liege.prowess
+		subtract = 8
+	}
+}
+
+### Prowess claim
+prowess_claim_cost_modifier = {
+	# Cost = base_cost * 1 - (prowess_actor - prowess_recipient)/100
+	value = 1
+	subtract = prowess_claim_cost_prowess_diff_modifier
+}
+
+prowess_claim_cost_prowess_diff_modifier = {
+	value = 0
+	add = scope:actor.prowess
+	subtract = scope:recipient.prowess
+	divide = 100
+}
+
+### Arcana claim
+arcana_claim_cost_modifier = {
+	# Cost = base_cost * 1 - (arcana_actor - arcana_recipient)/100
+	value = 1
+	subtract = arcana_claim_cost_arcana_diff_modifier
+}
+
+arcana_claim_cost_arcana_diff_modifier = {
+	value = 0
+	add = scope:actor.arcana
+	subtract = scope:recipient.arcana
+	divide = 100
+}
+
+### Ratio of max_military_strength/(SUM VASSAL max_military_strength * factor)
+### EK NOTE: THIS IS CURRENTLY ONLY USED BY THE AUTOCRACY VASSAL/LIEGE STRENGTH RATIO CHECK
+ruler_max_military_strength = {
+	value = max_military_strength
+}
+
+ratio_max_military_strength_vassal_max_military_strength = {
+	value = ruler_max_military_strength
+	
+	divide = vassal_max_military_strength
+}
+
+vassal_max_military_strength = {
+	value = 0
+	
+	every_vassal = {
+		### Not all vassals should count
+		# Friends, allies, vassals you have a truce with, vassals you have a strong hook on do not count
+		limit = {
+			save_temporary_scope_as = curr_vassal
+			NOR = {
+				has_relation_friend = prev
+				is_allied_to = prev
+				has_truce = prev
+				prev = { has_strong_hook = scope:curr_vassal }
+				is_imprisoned = yes
+			}
+		}
+		add = ruler_max_military_strength
+	}
+	
+	min = 1 # To avoid dividing by 0 when we have no vassal
+}
+
+ratio_vassal_max_military_strength_max_military_strength = {
+	value = 1
+	
+	divide = ratio_max_military_strength_vassal_max_military_strength
+	
+	multiply = 100
+}
+
+### Ratio of provinces of your faith held (nb provinces of your faith that you hold / nb provinces of your faith) * 100
+nb_provinces_same_faith_held_provinces_same_faith = {
+	value = 0
+	
+	every_county = {
+		limit = {
+			faith = root.faith
+			exists = holder
+			OR = {
+				holder = root
+				AND = {
+					exists = holder.liege
+					holder.liege = root
+				}
+				AND = {
+					exists = holder.liege.liege
+					holder.liege.liege = root
+				}
+				AND = {
+					exists = holder.liege.liege.liege
+					holder.liege.liege.liege = root
+				}
+			}
+		}
+		add = 1
+	}
+}
+
+nb_provinces_same_faith = {
+	value = 0
+	
+	add = faith.num_county_followers
+}
+
+ratio_nb_provinces_same_faith_held_provinces_same_faith = {
+	value = 0
+	
+	add = nb_provinces_same_faith_held_provinces_same_faith
+	
+	divide = nb_provinces_same_faith
+	multiply = 100
+}
+
+### Tribals rulers have expectations to live up to
+current_prestige_level = {
+	value = prestige_level
+}
+expected_prestige_level = {
+	value = primary_title.tier
+	subtract = 1
+	
+	if = {
+		limit = { has_perk = a_life_of_glory_perk }
+		subtract = 1
+	}
+	
+	min = 0
+}
+
+### Faith id modulo 12
+faith_id_modulo_12 = {
+	add = var:faith_id
+	modulo = 12
+}
+faith_id_modulo_2 = {
+	add = var:faith_id
+	modulo = 2
+}
+
+### Province id modulo 12
+province_id_modulo_12 = {
+	add = var:province_id
+	modulo = 12
+}
+
+### Number of Daedric Princes in our Pantheon
+faith_nb_princes_pantheon = {
+	value = 0
+	
+	if = {
+		limit = { has_doctrine = doctrine_azura_pantheon }
+		add = 1
+	}
+	if = {
+		limit = { has_doctrine = doctrine_boethiah_pantheon }
+		add = 1
+	}
+	if = {
+		limit = { has_doctrine = doctrine_clavicus_pantheon }
+		add = 1
+	}
+	if = {
+		limit = { has_doctrine = doctrine_hermaeus_pantheon }
+		add = 1
+	}
+	if = {
+		limit = { has_doctrine = doctrine_hircine_pantheon }
+		add = 1
+	}
+	if = {
+		limit = { has_doctrine = doctrine_malacath_pantheon }
+		add = 1
+	}
+	if = {
+		limit = { has_doctrine = doctrine_mehrunes_pantheon }
+		add = 1
+	}
+	if = {
+		limit = { has_doctrine = doctrine_mephala_pantheon }
+		add = 1
+	}
+	if = {
+		limit = { has_doctrine = doctrine_meridia_pantheon }
+		add = 1
+	}
+	if = {
+		limit = { has_doctrine = doctrine_molag_pantheon }
+		add = 1
+	}
+	if = {
+		limit = { has_doctrine = doctrine_namira_pantheon }
+		add = 1
+	}
+	if = {
+		limit = { has_doctrine = doctrine_nocturnal_pantheon }
+		add = 1
+	}
+	if = {
+		limit = { has_doctrine = doctrine_peryite_pantheon }
+		add = 1
+	}
+	if = {
+		limit = { has_doctrine = doctrine_sanguine_pantheon }
+		add = 1
+	}
+	if = {
+		limit = { has_doctrine = doctrine_sheogorath_pantheon }
+		add = 1
+	}
+	if = {
+		limit = { has_doctrine = doctrine_vaermina_pantheon }
+		add = 1
+	}
+}

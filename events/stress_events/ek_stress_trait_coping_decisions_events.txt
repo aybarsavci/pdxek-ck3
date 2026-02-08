@@ -1,0 +1,670 @@
+﻿namespace = ek_stress_trait_coping_decisions
+
+#Skooma Drinker 1001-1050
+#Vampire 1051-1100
+#Lycan 1101-1150
+
+###############
+#	SKOOMA DRINKER
+###############
+ek_stress_trait_coping_decisions.1001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_trait_coping_decisions.1001.t
+	desc = ek_stress_trait_coping_decisions.1001.desc
+	theme = mental_break
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	option = {
+		name = ek_stress_trait_coping_decisions.1001.a
+		trait = skooma_drinker
+		add_character_modifier = {
+			modifier = stress_skooma_stupor
+			years = 2
+		}
+		add_stress = medium_stress_loss
+	}
+}
+
+###############
+#	VAMPIRE
+###############
+
+#Choosing who you will feed on
+ek_stress_trait_coping_decisions.1051 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_trait_coping_decisions.1051.t
+	desc = ek_stress_trait_coping_decisions.1051.desc
+	
+	theme = secret
+	override_background = {
+		reference = corridor_night
+	}
+	
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	immediate = {
+		save_scope_as = vampire_attacker
+		add_character_flag = vampire_cope
+	}
+
+	#COURTIER
+	option = {
+		name = ek_stress_trait_coping_decisions.1051.a
+		
+		trigger = {
+			any_courtier_or_guest = { 
+				NOT = { has_character_modifier = low_blood_modifier }
+				is_vampire = no
+				age >= 16
+			}
+		}
+		
+		random_courtier_or_guest = {
+			limit = {
+				NOT = { has_character_modifier = low_blood_modifier }
+				is_vampire = no
+				age >= 16
+			}
+			save_scope_as = vampire_target
+		}
+		
+		trigger_event = { id = ek_stress_threshold.0010 }
+	} 
+	
+	#PRISONER
+	option = {
+		name = ek_stress_trait_coping_decisions.1051.b
+		
+		trigger = {
+			any_prisoner = { 
+				NOT = { has_character_modifier = low_blood_modifier }
+				is_vampire = no
+				age >= 16
+			}
+		}
+		
+		random_prisoner = {
+			limit = {
+				NOT = { has_character_modifier = low_blood_modifier }
+				is_vampire = no
+				age >= 16
+			}
+			save_scope_as = vampire_target
+		}
+		
+		trigger_event = { id = ek_stress_threshold.0010 }
+	}
+	
+	#PEASANT
+	option = {
+		name = ek_stress_trait_coping_decisions.1051.c
+		
+		trigger = {
+			any_county = { 
+				holder = scope:vampire_attacker
+				NOT = { has_county_modifier = vampire_scare_modifier }
+			}
+		}
+		
+		random_county = {
+			limit = { 
+				holder = scope:vampire_attacker
+				NOT = { has_county_modifier = vampire_scare_modifier } 
+			}
+			save_scope_as = vampire_target_county
+		}
+		
+		trigger_event = { id = ek_stress_threshold.0020 }
+	}
+}
+
+###############
+#	LYCAN
+###############
+
+#Choosing who you will feed on
+ek_stress_trait_coping_decisions.1101 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_trait_coping_decisions.1101.t
+	desc = ek_stress_trait_coping_decisions.1101.desc
+	
+	theme = secret
+	override_background = {
+		reference = corridor_night
+	}
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	immediate = {
+		save_scope_as = lycan_attacker
+		add_character_flag = lycan_cope
+	}
+
+	#COURTIER
+	option = {
+		name = ek_stress_trait_coping_decisions.1101.a
+		
+		trigger = {
+			any_courtier_or_guest = { 
+				is_lycan = no
+				age >= 16
+			}
+		}
+		
+		random_courtier_or_guest = {
+			limit = {
+				is_lycan = no
+				age >= 16
+			}
+			save_scope_as = lycan_target
+		}
+		
+		trigger_event = { id = ek_stress_threshold.0110 }
+	} 
+	
+	#PRISONER
+	option = {
+		name = ek_stress_trait_coping_decisions.1101.b
+		
+		trigger = {
+			any_prisoner = { 
+				is_lycan = no
+				age >= 16
+			}
+		}
+		
+		random_prisoner = {
+			limit = {
+				is_lycan = no
+				age >= 16
+			}
+			save_scope_as = lycan_target
+		}
+		
+		trigger_event = { id = ek_stress_threshold.0110 }
+	}
+	
+	#PEASANT
+	option = {
+		name = ek_stress_trait_coping_decisions.1101.c
+		
+		trigger = {
+			any_county = { 
+				holder = scope:lycan_attacker
+				NOT = { has_county_modifier = lycan_scare_modifier }
+			}
+		}
+		
+		random_county = {
+			limit = { 
+				holder = scope:lycan_attacker
+				NOT = { has_county_modifier = lycan_scare_modifier } 
+			}
+			save_scope_as = lycan_target_county
+		}
+		
+		trigger_event = { id = ek_stress_threshold.0120 }
+	}
+}
+
+###############
+#	experimentalist
+###############
+
+# gain random spell modifier
+ek_stress_trait_coping_decisions.1151 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_trait_coping_decisions.1151.t
+	desc = ek_stress_trait_coping_decisions.1151.desc
+	theme = mental_break
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	option = {
+		name = ek_stress_trait_coping_decisions.1151.a
+		trait = experimentalist
+
+		custom_tooltip = {
+			text = ek_stress_trait_coping_decisions.1151.a.tt 
+		}
+
+		hidden_effect = {
+			magical_experiment_effect = yes
+		}		
+		add_stress = medium_stress_loss
+	}
+}
+
+# gain some magic lifestyle exp
+ek_stress_trait_coping_decisions.1152 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_trait_coping_decisions.1152.t
+	desc = ek_stress_trait_coping_decisions.1152.desc
+	theme = mental_break
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	trigger = {
+		has_all_magic_perks_trigger = no
+	}
+
+	option = {
+		name = ek_stress_trait_coping_decisions.1152.a
+		trait = experimentalist
+
+		custom_tooltip = {
+			text = ek_stress_trait_coping_decisions.1152.a.tt
+		}
+
+		hidden_effect = {
+			random_list = {
+				1 = { 
+					send_interface_toast = {
+                        type = event_toast_effect_good
+                    	title =  ek_stress_trait_coping_decisions.1152.a.tt
+                        left_icon = ROOT
+                        add_magic_lifestyle_xp = 200
+					}                    
+				}
+				1 = { 
+					trigger = { has_arcana = { VALUE >= 15 } }
+					send_interface_toast = {
+                        type = event_toast_effect_good
+                    	title =  ek_stress_trait_coping_decisions.1152.a.tt
+                        left_icon = ROOT
+                        add_magic_lifestyle_xp = 400
+					}                    
+				}
+				1 = { 
+					trigger = { has_arcana = { VALUE >= 20 } }
+					send_interface_toast = {
+                        type = event_toast_effect_good
+                    	title =  ek_stress_trait_coping_decisions.1152.a.tt
+                        left_icon = ROOT
+                        add_magic_lifestyle_xp = 600
+					} 
+				}
+				1 = { 
+					trigger = { has_arcana = { VALUE >= 25 } }
+					send_interface_toast = {
+                        type = event_toast_effect_good
+                    	title =  ek_stress_trait_coping_decisions.1152.a.tt
+                        left_icon = ROOT
+                        add_magic_lifestyle_xp = 800
+					} 
+				}
+				1 = { 
+					trigger = { has_arcana = { VALUE >= 30 } }
+					send_interface_toast = {
+                        type = event_toast_effect_good
+                    	title =  ek_stress_trait_coping_decisions.1152.a.tt
+                        left_icon = ROOT
+                        add_magic_lifestyle_xp = 1000
+					} 
+				}
+			}
+        }
+		add_stress = medium_stress_loss
+	}
+}
+
+# magical torture
+ek_stress_trait_coping_decisions.1153 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_trait_coping_decisions.1153.t
+	desc = ek_stress_trait_coping_decisions.1153.desc
+	theme = mental_break
+	left_portrait = {
+		character = root
+		animation = scheme
+	}
+
+	right_portrait = {
+		character = scope:torture_victim
+		animation = prisondungeon
+	}
+
+	trigger = {
+		has_prisoners = yes
+		any_prisoner = {
+			NOT= { has_character_flag = is_being_tortured }
+			is_adult = yes
+		}
+		has_perk = destruction_novice_perk
+		OR = {
+			has_trait = sadistic
+			has_trait = callous
+			has_trait = torturer
+		}
+		NOT = { has_trait = compassionate }
+	}
+
+	immediate = {
+		random_prisoner = {
+			limit = {
+				NOT = { has_character_flag = is_being_tortured }
+				is_adult = yes
+			}
+			save_scope_as = torture_victim
+		}
+	}
+
+	# do it
+	option = {
+		name = ek_stress_trait_coping_decisions.1153.a
+		trait = experimentalist
+
+		custom_tooltip = {
+			text = ek_stress_trait_coping_decisions.1153.a.tt 
+		}
+
+		if = {
+			limit = { has_all_magic_perks_trigger = no }
+			add_magic_lifestyle_xp = 200
+		}
+
+		scope:torture_victim = {
+			add_character_flag = {
+				flag = is_being_tortured
+				months = 6 # Players in MP can keep the event window open...
+			}
+		}		
+
+		###EVENTS###
+		hidden_effect = {
+			root = { save_scope_as = actor }
+			scope:torture_victim = { save_scope_as = recipient }
+			#Torture method for descs
+			save_scope_value_as = { name = torture_method value = flag:experimental }
+
+			#They have a secret I want to know about
+			if = {
+				limit = {
+					scope:torture_victim = {	
+						OR = {
+							any_secret = {
+								torture_secret_trigger = { PARTICIPANT = scope:torture_victim }
+							}
+							any_known_secret = {
+								secret_owner = { save_temporary_scope_as = torture_secret_owner }
+								torture_secret_trigger = { PARTICIPANT = scope:torture_secret_owner }
+							}
+						}
+					}
+				}
+				scope:torture_victim = {
+					trigger_event = {
+						id = prison.1001
+						days = 1
+					}
+				}
+			}
+			else = {
+				trigger_event = {
+					id = prison.1010
+					days = 1
+				}
+			}	
+		}
+
+		# Dark Insights Perk:
+		if = {
+			limit = {
+				has_perk = dark_insights_perk
+			}
+			dark_insights_skill_gain_roll_effect = yes
+		}
+		add_stress = medium_stress_loss
+	}
+}
+
+# the Vvardvark Experiment
+ek_stress_trait_coping_decisions.1154 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_trait_coping_decisions.1154.t
+	desc = ek_stress_trait_coping_decisions.1154.desc
+	theme = pet
+	override_background = { reference = study }
+		
+	left_portrait = {
+		character = root
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	trigger = {
+		location = { geographical_region = mundus_tamriel_morrowind }
+		can_magic_trigger = yes
+   		NOT = { has_character_flag = had_vvardvark_story }
+	}
+
+	option = { # i'll attempt to transmute it
+		name = ek_stress_trait_coping_decisions.1154.a
+		fake_duel = {
+			skill = arcana
+			value = average_skill_rating
+			target = this
+		}
+		random_list = {
+			10 = { # success
+				desc = ek_stress_trait_coping_decisions.1154.a.success.tt
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					type = event_toast_effect_good
+					left_icon = root
+					title = ek_stress_trait_coping_decisions.1154.a.success
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					start_vvardvark_story_cycle_effect = yes
+				}
+			}
+			12 = { #failure
+				desc = ek_stress_trait_coping_decisions.1154.a.failure.tt
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = ek_stress_trait_coping_decisions.1154.a.failure
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+				}
+			}
+		}
+		add_stress = medium_stress_loss
+	}
+}
+
+# necromancy experiments, strengthen one of your undead thralls
+ek_stress_trait_coping_decisions.1155 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_trait_coping_decisions.1155.t
+	desc = ek_stress_trait_coping_decisions.1155.desc
+	theme = necromancy
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:undead_courtier
+		animation = idle
+	}
+
+	trigger = {
+		has_perk = necromancy_novice_perk
+		any_courtier = {
+			has_trait = undead_character
+			OR = {
+				has_trait = hunchbacked
+				has_trait = maimed
+				has_trait = one_legged
+				has_trait = weak
+				has_trait = spindly
+				has_trait = blind
+			}
+		}
+	}
+
+	immediate = {
+		random_courtier = {
+			limit = { 
+				has_trait = undead_character
+				OR = {
+					has_trait = hunchbacked
+					has_trait = maimed
+					has_trait = one_legged
+					has_trait = weak
+					has_trait = spindly
+					has_trait = blind
+				}
+			}
+			save_scope_as = undead_courtier
+		}
+	}
+
+	option = {
+		name = ek_stress_trait_coping_decisions.1155.a
+		trait = experimentalist
+
+		custom_tooltip = {
+			text = ek_stress_trait_coping_decisions.1155.a.tt 
+		}
+
+		hidden_effect = {
+			scope:undead_courtier = {
+				random_list = {
+					# success
+					80 = {
+						random_list = {
+							10 = {
+								trigger = { has_trait = hunchbacked }
+								root = {
+									send_interface_toast = {
+										type = event_toast_effect_good
+										title = ek_stress_trait_coping_decisions.1155.a.success
+										left_icon = root
+										right_icon = scope:undead_courtier
+										scope:undead_courtier = {
+											remove_trait = hunchbacked
+										}
+									}
+								}								
+							}
+							10 = {
+								trigger = { has_trait = maimed }
+								root = {
+									send_interface_toast = {
+										type = event_toast_effect_good
+										title = ek_stress_trait_coping_decisions.1155.a.success
+										left_icon = root
+										right_icon = scope:undead_courtier
+										scope:undead_courtier = {
+											remove_trait = maimed
+										}
+									}
+								}								
+							}
+							10 = {
+								trigger = { has_trait = one_legged }
+								root = {
+									send_interface_toast = {
+										type = event_toast_effect_good
+										title = ek_stress_trait_coping_decisions.1155.a.success
+										left_icon = root
+										right_icon = scope:undead_courtier
+										scope:undead_courtier = {
+											remove_trait = one_legged
+										}
+									}
+								}								
+							}
+							10 = {
+								trigger = { has_trait = weak }
+								root = {
+									send_interface_toast = {
+										type = event_toast_effect_good
+										title = ek_stress_trait_coping_decisions.1155.a.success
+										left_icon = root
+										right_icon = scope:undead_courtier
+										scope:undead_courtier = {
+											remove_trait = weak
+										}
+									}
+								}								
+							}
+							10 = {
+								trigger = { has_trait = spindly }
+								root = {
+									send_interface_toast = {
+										type = event_toast_effect_good
+										title = ek_stress_trait_coping_decisions.1155.a.success
+										left_icon = root
+										right_icon = scope:undead_courtier
+										scope:undead_courtier = {
+											remove_trait = spindly
+										}
+									}
+								}								
+							}
+							10 = {
+								trigger = { has_trait = blind }
+								root = {
+									send_interface_toast = {
+										type = event_toast_effect_good
+										title = ek_stress_trait_coping_decisions.1155.a.success
+										left_icon = root
+										right_icon = scope:undead_courtier
+										scope:undead_courtier = {
+											remove_trait = blind
+										}
+									}
+								}								
+							}
+						}
+					}
+					# failure
+					20 = {
+						root = {
+							send_interface_toast = {
+								type = event_toast_effect_bad
+								title = ek_stress_trait_coping_decisions.1155.a.failure
+								left_icon = root
+								right_icon = scope:undead_courtier
+								scope:undead_courtier = {
+									death = { 
+										death_reason = death_failed_experiment
+										killer = root
+									}
+								}
+							}
+						}						
+					}
+				}
+			}
+		}
+		add_stress = medium_stress_loss
+	}
+}
+

@@ -1,0 +1,38 @@
+pdxmesh = {
+	name = "male_headgear_religious_dragon_priest_mesh"
+	file = "male_headgear_religious_dragon_priest.mesh"
+
+#	blend_shape = { id = "male_headgear_religious_dragon_priest_bs_fat"					type = "male_headgear_religious_dragon_priest_bs_fat.mesh" }
+#	blend_shape = { id = "male_headgear_religious_dragon_priest_bs_gaunt"				type = "male_headgear_religious_dragon_priest_bs_gaunt.mesh" }
+#	blend_shape = { id = "male_headgear_religious_dragon_priest_bs_old"					type = "male_headgear_religious_dragon_priest_bs_old.mesh" }
+
+
+	meshsettings = {
+		name = "dragonpriestmaskShape"
+		index = 0
+		texture_diffuse = "headgear_dragon_priest_diffuse.dds"
+		texture_normal = "headgear_dragon_priest_normal.dds"
+		texture_specular = "headgear_dragon_priest_properties.dds"
+		shader = "portrait_attachment_pattern"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+
+entity = {
+	name = "male_headgear_religious_dragon_priest_entity"
+	pdxmesh = "male_headgear_religious_dragon_priest_mesh"
+
+#	attribute = { name = "bs_body_fat_1"								blend_shape = "male_headgear_religious_dragon_priest_bs_fat" }
+#	attribute = { name = "bs_body_gaunt_1"								blend_shape = "male_headgear_religious_dragon_priest_bs_gaunt" }
+#	attribute = { name = "bs_body_old_1"								blend_shape = "male_headgear_religious_dragon_priest_bs_old" }
+
+	game_data = {
+		portrait_entity_user_data = {
+			portrait_accessory = {
+				pattern_mask = "gfx/models/portraits/m_headgear/dragon_priest_mask/headgear_dragon_priest_masks.dds"	#Any 4-channel texture. Each channel will be used to mask a pattern from the variation object
+				variation = "dragon_priest_mask_01"	#A "variation" object in gfx/portraits/accessory_variations/
+			}
+		}
+	}
+
+}

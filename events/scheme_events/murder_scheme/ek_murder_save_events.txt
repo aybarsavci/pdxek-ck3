@@ -1,0 +1,662 @@
+﻿namespace = ek_murder_save
+
+#############################
+# Saved from Assasin by Danger Sense
+#############################
+
+# Owner POV
+ek_murder_save.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_murder_save.0001.t
+	desc = {
+		desc = ek_murder_save.0001.opening
+		desc = ek_murder_save.0001.end
+	}
+	
+	theme = murder_scheme
+	left_portrait = {
+		character = scope:target
+		animation = shock
+	}
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+	
+	trigger = {
+		scope:murder_method = flag:hired_assassin
+		scope:target = { 
+			culture = { has_cultural_parameter = danger_sense_save }
+			NOT = { has_character_flag = danger_sense_save_used }
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+	}
+
+	immediate = {
+		save_scope_value_as = {
+			name = murder_saved
+			value = flag:danger_sense_stopped_assassin
+		}
+		random_dummy_gender_assassin_effect = yes
+		murder_failure_effect = yes # Fires the response for the target
+
+	}
+
+	option = {
+		name = murder_save.0001.a
+		show_as_tooltip = {
+			if = {
+				limit = { exists = scope:scheme_discovered }
+				add_dread = medium_dread_gain
+			}
+			scope:scheme = {
+				end_scheme = yes
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = murder_save.0001.b
+		show_as_tooltip = {
+			if = {
+				limit = { exists = scope:scheme_discovered }
+				add_dread = medium_dread_gain
+			}
+			start_scheme = {
+				type = murder
+				target_character = scope:target
+			}
+		}
+		hidden_effect = {
+			save_scope_value_as = {
+				name = restart_scheme
+				value = yes
+			}
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	after = {
+		scope:target = { trigger_event = ek_murder_save.1001 }
+	}
+}
+
+# Target POV
+ek_murder_save.1001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_murder_save.0001.t
+	desc = ek_murder_save.1001.desc
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+	right_portrait = {
+		character = scope:owner_revealed
+		animation = anger
+	}
+	theme = intrigue
+
+	trigger = {
+		exists = scope:murder_saved
+		scope:murder_saved = flag:danger_sense_stopped_assassin
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = danger_sense_save_used
+			years = 25
+		}
+		if = {
+			limit = {
+				exists = scope:scheme_discovered
+			}
+			scope:owner = {
+				save_scope_as = owner_revealed
+			}
+		}
+	}
+
+	option = { #Who could do such a thing?
+		name = murder_save.1001.a
+		trigger = {
+			NOT = {
+				exists = scope:scheme_discovered
+			}
+		}
+		custom_tooltip = murder_save.failure_unknown_owner_tt
+	}
+
+	option = { #Vengeance!
+		name = murder_save.1001.b
+		trigger = {
+			exists = scope:scheme_discovered
+		}
+		custom_tooltip = murder_save.failure_known_owner_tt
+	}
+
+	option = { #Who could do such a thing?
+		name = murder_save.1001.c
+		trigger = {
+			NOT = { exists = scope:scheme_discovered }
+			OR = {
+				has_trait = callous
+				has_trait = sadistic
+			}
+		}
+		exclusive = yes
+		custom_tooltip = murder_save.failure_unknown_owner_tt
+	}
+
+	after = {
+		add_character_modifier = {
+			modifier = watchful_modifier
+			days = watchful_modifier_duration
+		}
+	}
+}
+
+
+#############################
+# Saved from Poison by Danger Sense
+#############################
+
+# Owner POV
+ek_murder_save.0002 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_murder_save.0002.t
+	desc = {
+		desc = ek_murder_save.0002.opening
+		desc = ek_murder_save.0002.end
+	}
+	
+	theme = murder_scheme
+	left_portrait = {
+		character = scope:target
+		animation = shock
+	}
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+	
+	trigger = {
+		scope:target = { 
+			culture = { has_cultural_parameter = danger_sense_save }
+			NOT = { has_character_flag = danger_sense_save_used }
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+	}
+
+	immediate = {
+		save_scope_value_as = {
+			name = murder_saved
+			value = flag:danger_sense_stopped_poison
+		}
+		random_dummy_gender_assassin_effect = yes
+		murder_failure_effect = yes # Fires the response for the target
+
+	}
+
+	option = {
+		name = murder_save.0001.a
+		show_as_tooltip = {
+			if = {
+				limit = { exists = scope:scheme_discovered }
+				add_dread = medium_dread_gain
+			}
+			scope:scheme = {
+				end_scheme = yes
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = murder_save.0001.b
+		show_as_tooltip = {
+			if = {
+				limit = { exists = scope:scheme_discovered }
+				add_dread = medium_dread_gain
+			}
+			start_scheme = {
+				type = murder
+				target_character = scope:target
+			}
+		}
+		hidden_effect = {
+			save_scope_value_as = {
+				name = restart_scheme
+				value = yes
+			}
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	after = {
+		scope:target = { trigger_event = ek_murder_save.1002 }
+	}
+}
+
+# Target POV
+ek_murder_save.1002 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_murder_save.0002.t
+	desc = ek_murder_save.1002.desc
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+	right_portrait = {
+		character = scope:owner_revealed
+		animation = anger
+	}
+	theme = intrigue
+
+	trigger = {
+		exists = scope:murder_saved
+		scope:murder_saved = flag:danger_sense_stopped_poison
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = danger_sense_save_used
+			years = 25
+		}
+		if = {
+			limit = {
+				exists = scope:scheme_discovered
+			}
+			scope:owner = {
+				save_scope_as = owner_revealed
+			}
+		}
+	}
+
+	option = { #Who could do such a thing?
+		name = murder_save.1001.a
+		trigger = {
+			NOT = {
+				exists = scope:scheme_discovered
+			}
+		}
+		custom_tooltip = murder_save.failure_unknown_owner_tt
+	}
+
+	option = { #Vengeance!
+		name = murder_save.1001.b
+		trigger = {
+			exists = scope:scheme_discovered
+		}
+		custom_tooltip = murder_save.failure_known_owner_tt
+	}
+
+	option = { #Who could do such a thing?
+		name = murder_save.1001.c
+		trigger = {
+			NOT = { exists = scope:scheme_discovered }
+			OR = {
+				has_trait = callous
+				has_trait = sadistic
+			}
+		}
+		exclusive = yes
+		custom_tooltip = murder_save.failure_unknown_owner_tt
+	}
+
+	after = {
+		add_character_modifier = {
+			modifier = watchful_modifier
+			days = watchful_modifier_duration
+		}
+	}
+}
+
+
+
+#############################
+# Saved from Thugs by Danger Sense
+#############################
+
+# Owner POV
+ek_murder_save.0003 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_murder_save.0003.t
+	desc = {
+		desc = ek_murder_save.0003.opening
+		desc = ek_murder_save.0003.end
+	}
+	
+	theme = murder_scheme
+	left_portrait = {
+		character = scope:target
+		animation = shock
+	}
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+	
+	trigger = {
+		scope:murder_method = flag:hired_thugs
+		scope:target = { 
+			culture = { has_cultural_parameter = danger_sense_save }
+			NOT = { has_character_flag = danger_sense_save_used }
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+	}
+
+	immediate = {
+		save_scope_value_as = {
+			name = murder_saved
+			value = flag:danger_sense_stopped_hired_thugs
+		}
+		random_dummy_gender_assassin_effect = yes
+		murder_failure_effect = yes # Fires the response for the target
+
+	}
+
+	option = {
+		name = murder_save.0001.a
+		show_as_tooltip = {
+			if = {
+				limit = { exists = scope:scheme_discovered }
+				add_dread = medium_dread_gain
+			}
+			scope:scheme = {
+				end_scheme = yes
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = murder_save.0001.b
+		show_as_tooltip = {
+			if = {
+				limit = { exists = scope:scheme_discovered }
+				add_dread = medium_dread_gain
+			}
+			start_scheme = {
+				type = murder
+				target_character = scope:target
+			}
+		}
+		hidden_effect = {
+			save_scope_value_as = {
+				name = restart_scheme
+				value = yes
+			}
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	after = {
+		scope:target = { trigger_event = ek_murder_save.1003 }
+	}
+}
+
+# Target POV
+ek_murder_save.1003 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_murder_save.0003.t
+	desc = ek_murder_save.1003.desc
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+	right_portrait = {
+		character = scope:owner_revealed
+		animation = anger
+	}
+	theme = intrigue
+
+	trigger = {
+		exists = scope:murder_saved
+		scope:murder_saved = flag:danger_sense_stopped_hired_thugs
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = danger_sense_save_used
+			years = 25
+		}
+		if = {
+			limit = {
+				exists = scope:scheme_discovered
+			}
+			scope:owner = {
+				save_scope_as = owner_revealed
+			}
+		}
+	}
+
+	option = { #Who could do such a thing?
+		name = murder_save.1004.a
+		trigger = {
+			NOT = {
+				exists = scope:scheme_discovered
+			}
+		}
+		custom_tooltip = murder_save.failure_unknown_owner_tt
+	}
+
+	option = { #Vengeance!
+		name = murder_save.1004.b
+		trigger = {
+			exists = scope:scheme_discovered
+		}
+		custom_tooltip = murder_save.failure_known_owner_tt
+	}
+
+	option = { #Who could do such a thing?
+		name = murder_save.1004.c
+		trigger = {
+			NOT = { exists = scope:scheme_discovered }
+			OR = {
+				has_trait = callous
+				has_trait = sadistic
+			}
+		}
+		exclusive = yes
+		custom_tooltip = murder_save.failure_unknown_owner_tt
+	}
+
+	after = {
+		add_character_modifier = {
+			modifier = watchful_modifier
+			days = watchful_modifier_duration
+		}
+	}
+}
+
+#############################
+# Saved from Creepy Crawly by Danger Sense
+#############################
+
+# Owner POV
+ek_murder_save.0004 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_murder_save.0004.t
+	desc = {
+		desc = ek_murder_save.0004.opening
+		desc = ek_murder_save.0004.end
+	}
+	
+	theme = murder_scheme
+	left_portrait = {
+		character = scope:target
+		animation = shock
+	}
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+	
+	trigger = {
+		scope:target = { 
+			culture = { has_cultural_parameter = danger_sense_save }
+			NOT = { has_character_flag = danger_sense_save_used }
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+	}
+
+	immediate = {
+		save_scope_value_as = {
+			name = murder_saved
+			value = flag:danger_sense_stopped_creepy_crawly
+		}
+		random_dummy_gender_assassin_effect = yes
+		murder_failure_effect = yes # Fires the response for the target
+
+	}
+
+	option = {
+		name = murder_save.0001.a
+		show_as_tooltip = {
+			if = {
+				limit = { exists = scope:scheme_discovered }
+				add_dread = medium_dread_gain
+			}
+			scope:scheme = {
+				end_scheme = yes
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = murder_save.0001.b
+		show_as_tooltip = {
+			if = {
+				limit = { exists = scope:scheme_discovered }
+				add_dread = medium_dread_gain
+			}
+			start_scheme = {
+				type = murder
+				target_character = scope:target
+			}
+		}
+		hidden_effect = {
+			save_scope_value_as = {
+				name = restart_scheme
+				value = yes
+			}
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	after = {
+		scope:target = { trigger_event = ek_murder_save.1004 }
+	}
+}
+
+# Target POV
+ek_murder_save.1004 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_murder_save.0004.t
+	desc = ek_murder_save.1004.desc
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+	right_portrait = {
+		character = scope:owner_revealed
+		animation = anger
+	}
+	theme = intrigue
+
+	trigger = {
+		exists = scope:murder_saved
+		scope:murder_saved = flag:danger_sense_stopped_creepy_crawly
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = danger_sense_save_used
+			years = 25
+		}
+		if = {
+			limit = {
+				exists = scope:scheme_discovered
+			}
+			scope:owner = {
+				save_scope_as = owner_revealed
+			}
+		}
+	}
+
+	option = { #Who could do such a thing?
+		name = murder_save.1001.a
+		trigger = {
+			NOT = {
+				exists = scope:scheme_discovered
+			}
+		}
+		custom_tooltip = murder_save.failure_unknown_owner_tt
+	}
+
+	option = { #Vengeance!
+		name = murder_save.1001.b
+		trigger = {
+			exists = scope:scheme_discovered
+		}
+		custom_tooltip = murder_save.failure_known_owner_tt
+	}
+
+	option = { #Who could do such a thing?
+		name = murder_save.1001.c
+		trigger = {
+			NOT = { exists = scope:scheme_discovered }
+			OR = {
+				has_trait = callous
+				has_trait = sadistic
+			}
+		}
+		exclusive = yes
+		custom_tooltip = murder_save.failure_unknown_owner_tt
+	}
+
+	after = {
+		add_character_modifier = {
+			modifier = watchful_modifier
+			days = watchful_modifier_duration
+		}
+	}
+}

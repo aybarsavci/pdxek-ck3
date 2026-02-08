@@ -1,0 +1,237 @@
+﻿ek_pellitinian_headgear = {
+
+	usage = game
+	selection_behavior = weighted_random
+	priority = 1
+
+##############################
+#							 #	
+#			PELLITINIAN		 #
+#							 #
+##############################
+
+
+	ek_pellitinian_commoners = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = indian_common
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 80
+                portrait_commoner_headgear_fallback_trigger = {
+                    CULTURE_INPUT = ek_pellitinian
+                }
+			}
+			modifier = { # Non-european jesters should not use the jester hat
+				add = 1000
+                portrait_jester_trigger = {  
+                    CULTURE_INPUT = ek_pellitinian 
+                }
+			}
+			modifier = {
+				add = 20
+                portrait_commoner_clothing_trigger = {
+                    CULTURE_INPUT = ek_pellitinian
+                }
+			}
+		}
+	}
+	
+	ek_pellitinian_low_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = indian_nobility
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}	
+		weight = {
+			base = 0
+			court_fashion_level_4_headgear_modifier = { INPUT_PARAMETER = ek_pellitinian } 
+			modifier = {
+				add = 50
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_pellitinian
+                }
+			}
+		}
+	}
+
+	ek_pellitinian_high_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = indian_high_nobility
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}		
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_high_nobles_headgear_trigger = {
+                    CULTURE_INPUT = ek_pellitinian
+                }   
+			}
+		}
+	}
+
+	ek_pellitinian_royalty = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = indian_royalty
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}		
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_royalty_trigger = {
+                    CULTURE_INPUT = ek_pellitinian
+                }   
+			}
+		}
+	}
+	
+	ek_pellitinian_imperial = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = indian_imperial
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_imperial_nobles_headgear_trigger = {
+                    CULTURE_INPUT = ek_pellitinian 
+                }
+			}
+		}
+	}
+	
+	ep1_ek_pellitinian_imperial = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ep1_indian_royalty
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+                portrait_imperial_trigger = {
+                    CULTURE_INPUT = ek_pellitinian 
+                }
+				has_ep1_dlc_trigger = yes
+			}
+		}
+	}
+	
+	ep1_religious_mane_headgear = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ep1_indian_imperial
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+	    weight = {
+	        base = 0
+			modifier = {
+				add = 112
+	            exists = this
+				has_ep1_dlc_trigger = yes
+				has_trait = furstock_mane
+				OR = {
+					has_title = title:d_mane
+					has_title = title:d_many_paths_mane
+					has_title = title:d_new_moon_mane					
+					primary_title = title:e_elsweyr
+					primary_title = title:k_torval
+					primary_title = title:d_torval
+					primary_title = title:d_mane
+					primary_title = title:d_many_paths_mane
+					primary_title = title:d_new_moon_mane
+				}
+				religion = religion:khajiiti_religion				
+			}
+	   }	
+	}
+	
+	
+## PELLITINIAN WAR ##
+
+    ek_pellitinian_war_low_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = indian_war
+                accessory = m_headgear_sec_indian_war_nob_01_lo
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50	
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_pellitinian
+                }
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_pellitinian
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_pellitinian
+                    }
+                }
+            }
+        }
+    }
+
+    ek_pellitinian_war_high_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = indian_war
+                accessory = m_headgear_sec_indian_war_nob_01_hi
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_pellitinian
+                }
+                portrait_high_nobles_armor_trigger = {
+                    CULTURE_INPUT = ek_pellitinian
+                }
+            }
+        }
+    }
+
+}
+

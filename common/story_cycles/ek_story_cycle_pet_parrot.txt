@@ -1,0 +1,185 @@
+﻿story_cycle_pet_parrot = {
+
+	on_setup = {
+		# Has the gender already been specified?
+		if = { 
+			limit = {
+				story_owner = { exists = var:parrot_gender }
+			}
+			if = {
+				limit = {
+					story_owner = { var:parrot_gender = flag:male }
+				}
+				assign_parrot_gender_effect = { GENDER = male }
+			}
+			else_if = {
+				limit = {
+					story_owner = { var:parrot_gender = flag:female }
+				}
+				assign_parrot_gender_effect = { GENDER = female }
+			}
+		}
+		else = {
+			assign_parrot_gender_effect = { GENDER = random }
+		}
+		# Has the fur-color already been specified?
+		if = { 
+			limit = {
+				story_owner = { exists = var:parrot_plumage_color }
+			}
+			if = {
+				limit = {
+					story_owner = { var:parrot_plumage_color = flag:red }
+				}
+				assign_parrot_plumage_color_effect = { COLOR = red }
+			}
+			else_if = {
+				limit = {
+					story_owner = { var:parrot_plumage_color = flag:green }
+				}
+				assign_parrot_plumage_color_effect = { COLOR = green }
+			}
+			else_if = {
+				limit = {
+					story_owner = { var:parrot_plumage_color = flag:blue }
+				}
+				assign_parrot_plumage_color_effect = { COLOR = blue }
+			}
+		}
+		else = {
+			assign_parrot_plumage_color_effect = { COLOR = random }
+		}
+		
+		### Setup the rest
+		set_variable = {
+			name = parrot_age_variable
+			value = 0
+		}
+
+		story_owner = {
+			add_character_modifier = {
+				modifier = parrot_story_modifier
+			}
+			add_character_flag = had_parrot_story
+		}
+
+	}
+
+	on_end = {
+		story_owner = {
+			remove_parrot_story_modifiers_effect = yes
+			remove_parrot_name_effect = yes
+		}
+	}
+
+	on_owner_death = {
+		scope:story = { end_story = yes }
+	}
+
+	# Give the parrot a name!
+	effect_group = {
+		days = { 2 4 }
+		chance = 100
+	
+		triggered_effect = {
+			trigger = {
+				story_owner = {
+					NOT = { has_character_flag = is_naming_parrot }
+				}
+				NOT = { exists = story_owner.var:story_cycle_parrot_name }
+			}
+			effect = {
+				story_owner = {
+					add_character_flag = is_naming_parrot
+					trigger_event = ek_pet_animal.0001
+				}
+			}
+		}
+	}
+
+	#To save the name in the story's scope (can for some reason not be done in the naming event itself)
+	effect_group = {
+		days = 5
+		chance = 100
+	
+		triggered_effect = {
+			trigger = {
+				exists = story_owner.var:story_cycle_parrot_name
+			}
+			effect = {
+				set_variable = {
+					name = story_cycle_parrot_name
+					value = scope:story.story_owner.var:story_cycle_parrot_name
+				}
+			}
+		}
+	}
+
+	#Age the parrot
+	effect_group = {
+		days = 365
+
+		trigger = {
+			exists = var:parrot_age_variable
+		}
+
+		triggered_effect = {
+			trigger = { always = yes }
+			effect = {
+				change_variable = {
+					name = parrot_age_variable
+					add = 1
+				}
+			}
+		}
+	}
+
+	# The parrot dies :(
+	effect_group = {
+		days = { 10950 27375 }
+		chance = 100
+	
+		triggered_effect = {
+			trigger = {
+				exists = story_owner.var:story_cycle_parrot_name
+			}
+			effect = {
+				story_owner = {
+					add_character_flag = {
+						flag = parrot_is_dying
+					}
+					trigger_event = ek_pet_animal.0199
+				}
+			}
+		}
+	}
+
+	# Something happens - random events
+	effect_group = {
+		days = { 365 600 }
+		# days = { 7 10 }
+		chance = 50
+
+		trigger = {
+			exists = story_owner.var:story_cycle_parrot_name
+			story_owner = {
+				NOT = {
+					has_character_flag = parrot_is_dying
+				}
+			}
+		}
+
+		first_valid = {
+			triggered_effect = {
+				trigger = { always = yes }
+				effect = {
+					story_owner = {
+						trigger_event = {
+							on_action = ongoing_parrot_events
+						}
+					}
+				}
+			}
+		}
+	}
+}

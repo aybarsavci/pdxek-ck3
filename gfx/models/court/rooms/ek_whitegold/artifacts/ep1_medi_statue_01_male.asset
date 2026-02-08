@@ -1,0 +1,32 @@
+pdxmesh = {
+	name = "ek_imperial_statue_male_01_mesh"
+	file = "ek_imperial_statue_male_01.mesh"
+
+	meshsettings = {
+		name = "ep1_medi_statue_01_maleShape"
+		index = 0
+		texture_diffuse = "ep1_medi_statue_01_male_diffuse.dds"
+		texture_normal = "ep1_medi_statue_01_male_normal.dds"
+		texture_specular = "ep1_medi_statue_01_male_properties.dds"
+		shader = "portrait_artifact_pattern"
+		shader_file = "gfx/FX/court_scene.shader"
+	}
+}
+
+entity = {
+	name = "ek_imperial_statue_male_01_entity"
+	pdxmesh = "ek_imperial_statue_male_01_mesh"
+	game_data = {
+        portrait_entity_user_data = {
+			portrait_accessory = {
+				pattern_mask = "gfx/models/artifacts/statues/medi/ep1_medi_statue_01_male_masks.dds"	#Any 4-channel texture. Each channel will be used to mask a pattern from the variation object
+				variation = "statue_medi_marble_01"	#A "variation" object in gfx/portraits/accessory_variations/
+			}
+        }
+	}
+#	attach = { "statue_locator" = "ep1_medi_statue_01_male_hair_01_entity" }
+#	attach = { "statue_locator" = "ep1_medi_statue_01_male_headgear_01_entity" }
+#	attach = { "statue_locator" = "ep1_medi_statue_01_male_props_01_entity" }
+#	attach = { "statue_locator" = "ep1_medi_statue_01_male_beard_01_entity" }
+}
+

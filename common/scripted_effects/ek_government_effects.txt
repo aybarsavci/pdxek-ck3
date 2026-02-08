@@ -1,0 +1,475 @@
+﻿## Effects specific to government types
+
+###################
+#     PRAXIS      #
+###################
+
+large_praxis_increase_effect = {
+	if = {
+		limit = {
+			has_variable = state_praxis
+		}
+
+		custom_description = {
+			text = large_praxis_increase_effect
+		}
+		change_variable = {
+			name = state_praxis
+			add = 15
+		}
+		check_praxis_max_min_effect = yes
+	}
+}
+
+moderate_praxis_increase_effect = {
+	if = {
+		limit = {
+			has_variable = state_praxis
+		}
+
+		custom_description = {
+			text = moderate_praxis_increase_effect
+		}
+		change_variable = {
+			name = state_praxis
+			add = 10
+		}
+		check_praxis_max_min_effect = yes
+	}
+}
+
+small_praxis_increase_effect = {
+	if = {
+		limit = {
+			has_variable = state_praxis
+		}
+
+		custom_description = {
+			text = small_praxis_increase_effect
+		}
+		change_variable = {
+			name = state_praxis
+			add = 5
+		}
+		check_praxis_max_min_effect = yes
+	}
+}
+
+small_praxis_decrease_effect = {
+	if = {
+		limit = {
+			has_variable = state_praxis
+		}
+
+		custom_description = {
+			text = small_praxis_decrease_effect
+		}
+		change_variable = {
+			name = state_praxis
+			subtract = 5
+		}
+		check_praxis_max_min_effect = yes
+	}
+}
+
+moderate_praxis_decrease_effect = {
+	if = {
+		limit = {
+			has_variable = state_praxis
+		}
+
+		custom_description = {
+			text = moderate_praxis_decrease_effect
+		}
+		change_variable = {
+			name = state_praxis
+			subtract = 10
+		}
+		check_praxis_max_min_effect = yes
+	}
+}
+
+large_praxis_decrease_effect = {
+	if = {
+		limit = {
+			has_variable = state_praxis
+		}
+
+		custom_description = {
+			text = large_praxis_decrease_effect
+		}
+		change_variable = {
+			name = state_praxis
+			subtract = 15
+		}
+		check_praxis_max_min_effect = yes
+	}
+}
+
+
+### When changing praxis, check that the value isn't above 100 or below 0. If it is, reset it to the max/min value.
+check_praxis_max_min_effect = {
+	if = {
+		limit = {
+			has_variable = state_praxis
+		}
+		if = {
+			limit = {
+				var:state_praxis > 100
+			}
+			set_variable = {
+				name = state_praxis
+				value = 100
+			}
+		}
+		else_if = {
+			limit = {
+				var:state_praxis < 0
+			}
+			set_variable = {
+				name = state_praxis
+				value = 0
+			}
+		}
+	}
+}
+
+## Remove all praxis related modifiers - used for refreshing the praxis modifiers and for characters who lose their titles.
+remove_praxis_modifiers = {
+	remove_trait = praxis_positive_1
+	remove_trait = praxis_positive_2
+	remove_trait = praxis_positive_3
+	remove_trait = praxis_negative_1
+	remove_trait = praxis_negative_2
+	remove_trait = praxis_negative_3
+}
+
+### Effect for game start or on title gain - set state_praxis based on any traits present. Defaults to natural_praxis
+### This lets us make characters start praxic or apraxic just by setting the trait.
+### Could also be used to affect characters just starting out in a title based on their traits.
+set_starting_praxis = {
+	if = {
+		limit = { has_trait = praxis_negative_3 }
+		set_variable = {
+			name = state_praxis
+			value = minimum_praxis
+		}
+	}
+	else_if = {
+		limit = { has_trait = praxis_negative_2 }
+		set_variable = {
+			name = state_praxis
+			value = 10
+		}
+	}
+	else_if = {
+		limit = { has_trait = praxis_negative_1 }
+		set_variable = {
+			name = state_praxis
+			value = 35
+		}
+	}
+	else_if = {
+		limit = { has_trait = praxis_positive_1 }
+		set_variable = {
+			name = state_praxis
+			value = 65
+		}
+	}
+	else_if = {
+		limit = { has_trait = praxis_positive_2 }
+		set_variable = {
+			name = state_praxis
+			value = 80
+		}
+	}
+	else_if = {
+		limit = { has_trait = praxis_positive_3 }
+		set_variable = {
+			name = state_praxis
+			value = maximum_praxis
+		}
+	}
+	else = {
+		set_variable = {
+			name = state_praxis
+			value = natural_praxis
+		}
+	}
+
+}
+
+refresh_praxis_traits = {
+	if = {
+		limit = {
+			NOT = { has_variable = state_praxis }
+		}
+		set_variable = {
+			name = state_praxis
+			value = natural_praxis
+		}
+	}
+	if = {
+		limit = { var:state_praxis <= minimum_praxis } ### 0 or less, very apraxic
+		if = {
+			limit = {NOT = { has_trait = praxis_negative_3}}
+			remove_praxis_modifiers = yes
+			add_trait = praxis_negative_3
+		}
+	}
+	else_if = {
+		limit = { var:state_praxis < low_praxis } ### 0-25 - quite apraxic
+		if = {
+			limit = {NOT = { has_trait = praxis_negative_2}}
+			remove_praxis_modifiers = yes
+			add_trait = praxis_negative_2
+		}
+	}
+	else_if = {
+		limit = { var:state_praxis < average_praxis } ### 25-50 - Strayed from the path
+		if = {
+			limit = {NOT = { has_trait = praxis_negative_1}}
+			remove_praxis_modifiers = yes
+			add_trait = praxis_negative_1
+		}
+	}
+	else_if = {
+		limit = { var:state_praxis < high_praxis } ### 50-75 - Somewhat praxic
+		if = {
+			limit = {NOT = { has_trait = praxis_positive_1}}
+			remove_praxis_modifiers = yes
+			add_trait = praxis_positive_1
+		}
+	}
+	else_if = {
+		limit = { var:state_praxis < maximum_praxis } ### 75-100 - very praxic
+		if = {
+			limit = {NOT = { has_trait = praxis_positive_2}}
+			remove_praxis_modifiers = yes
+			add_trait = praxis_positive_2
+		}
+	}
+	else_if = {
+		limit = { var:state_praxis >= maximum_praxis } ### 100 - paragon
+		if = {
+			limit = {NOT = { has_trait = praxis_positive_3}}
+			remove_praxis_modifiers = yes
+			add_trait = praxis_positive_3
+		}
+	}
+}
+
+update_praxis_monthly = {
+	if = {
+		limit = {
+			NOT = { has_variable = state_praxis }
+		}
+		set_variable = {
+			name = state_praxis
+			value = natural_praxis
+		}
+	}
+	if = {  # For AI, their praxis only updates quarterly, so update it 3 times as much.
+		limit = {
+			is_ai = yes
+		}
+		change_variable = {
+			name = state_praxis
+			add = {
+				value = monthly_praxis_change
+				multiply = 3
+			}
+		}
+	}
+	else = {
+		change_variable = {
+			name = state_praxis
+			add = monthly_praxis_change
+		}
+	}
+	check_praxis_max_min_effect = yes
+}
+
+special_succession_moot_effect = {
+	if = {
+		limit = { highest_held_title_tier = tier_empire }
+		every_held_title = {
+			limit = {
+				tier = tier_empire
+				NOR = {
+					has_title_law_flag = advanced_succession_law
+					has_title_law_flag = elective_succession_law
+				}
+			}
+			add_title_law = moot_elective_succession_law
+		}
+		every_vassal = {
+			limit = { special_succession_moot_trigger = yes }
+			add_opinion = {
+				modifier = implemented_traditional_succession_law_opinion
+				years = 20
+				target = root
+			}
+			custom = major_decisions.3100.tt_opinion_moot
+		}
+	}
+	else = {
+		every_held_title = {
+			limit = {
+				tier = tier_kingdom
+				NOR = {
+					has_title_law_flag = advanced_succession_law
+					has_title_law_flag = elective_succession_law
+				}
+			}
+			add_title_law = moot_elective_succession_law
+		}
+		every_vassal = {
+			limit = { special_succession_moot_trigger = yes }
+			add_opinion = {
+				modifier = implemented_traditional_succession_law_opinion
+				years = 20
+				target = root
+			}
+			custom = major_decisions.3100.tt_opinion_moot
+		}
+	}
+}
+
+special_succession_sorcerous_effect = {
+	if = {
+		limit = { highest_held_title_tier = tier_empire }
+		every_held_title = {
+			limit = {
+				tier = tier_empire
+				NOR = {
+					has_title_law_flag = advanced_succession_law
+					has_title_law_flag = elective_succession_law
+				}
+			}
+			add_title_law = sorcerous_elective_succession_law
+		}
+		every_vassal = {
+			limit = { special_succession_sorcerous_trigger = yes }
+			add_opinion = {
+				modifier = implemented_traditional_succession_law_opinion
+				years = 20
+				target = root
+			}
+			custom = major_decisions.3100.tt_opinion_sorcerous
+		}
+	}
+	else = {
+		every_held_title = {
+			limit = {
+				tier = tier_kingdom
+				NOR = {
+					has_title_law_flag = advanced_succession_law
+					has_title_law_flag = elective_succession_law
+				}
+			}
+			add_title_law = sorcerous_elective_succession_law
+		}
+		every_vassal = {
+			limit = { special_succession_sorcerous_trigger = yes }
+			add_opinion = {
+				modifier = implemented_traditional_succession_law_opinion
+				years = 20
+				target = root
+			}
+			custom = major_decisions.3100.tt_opinion_sorcerous
+		}
+	}
+}
+
+special_succession_magelord_effect = {
+	if = {
+		limit = { highest_held_title_tier = tier_empire }
+		every_held_title = {
+			limit = {
+				tier = tier_empire
+				NOR = {
+					has_title_law_flag = advanced_succession_law
+					has_title_law_flag = elective_succession_law
+				}
+			}
+			add_title_law = magelord_elective_succession_law
+		}
+		every_vassal = {
+			limit = { special_succession_magelord_trigger = yes }
+			add_opinion = {
+				modifier = implemented_traditional_succession_law_opinion
+				years = 20
+				target = root
+			}
+			custom = major_decisions.3100.tt_opinion_sorcerous
+		}
+	}
+	else = {
+		every_held_title = {
+			limit = {
+				tier = tier_kingdom
+				NOR = {
+					has_title_law_flag = advanced_succession_law
+					has_title_law_flag = elective_succession_law
+				}
+			}
+			add_title_law = magelord_elective_succession_law
+		}
+		every_vassal = {
+			limit = { special_succession_magelord_trigger = yes }
+			add_opinion = {
+				modifier = implemented_traditional_succession_law_opinion
+				years = 20
+				target = root
+			}
+			custom = major_decisions.3100.tt_opinion_sorcerous
+		}
+	}
+}
+
+special_succession_altmeri_effect = {
+	if = {
+		limit = { highest_held_title_tier = tier_empire }
+		every_held_title = {
+			limit = {
+				tier = tier_empire
+				NOR = {
+					has_title_law_flag = advanced_succession_law
+					has_title_law_flag = elective_succession_law
+				}
+			}
+			add_title_law = altmeri_elective_succession_law
+		}
+		every_vassal = {
+			limit = { special_succession_altmeri_trigger = yes }
+			add_opinion = {
+				modifier = implemented_traditional_succession_law_opinion
+				years = 20
+				target = root
+			}
+			custom = major_decisions.3100.tt_opinion_altmeri
+		}
+	}
+	else = {
+		every_held_title = {
+			limit = {
+				tier = tier_kingdom
+				NOR = {
+					has_title_law_flag = advanced_succession_law
+					has_title_law_flag = elective_succession_law
+				}
+			}
+			add_title_law = altmeri_elective_succession_law
+		}
+		every_vassal = {
+			limit = { special_succession_altmeri_trigger = yes }
+			add_opinion = {
+				modifier = implemented_traditional_succession_law_opinion
+				years = 20
+				target = root
+			}
+			custom = major_decisions.3100.tt_opinion_altmeri
+		}
+	}
+}

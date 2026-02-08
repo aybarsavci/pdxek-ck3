@@ -1,0 +1,66 @@
+﻿### EK NOTE: Removed references to vanilla cultures
+
+#Special succession types
+#If adding new types to the decision, use a trigger, otherwise they may break if the culture is split.
+
+special_succession_witengamot_trigger = {
+	culture = { has_cultural_parameter = witenagemot_succession_enabled }
+}
+
+special_succession_thing_trigger = {
+	# EK EDIT: Scandinavian Elective reused for Ashlanders
+	culture = { has_cultural_parameter = scandinavian_elective_enabled }
+}
+
+special_succession_tanistry_trigger = {
+	# culture = { has_cultural_pillar = heritage_goidelic }
+	always = no
+}
+
+special_succession_jirga_trigger = {
+	# culture = { has_cultural_parameter = tribal_elective_enabled }
+	always = no
+}
+#EK EDIT: added our title
+historical_succession_access_single_heir_succession_law_trigger = {
+	OR = {
+		has_cyrodilic_empire_trigger = yes
+		has_title = title:e_summerset
+	}
+	#EK DISABLED
+	#OR = {
+	#	has_title = title:k_austria
+	#	has_title = title:e_roman_empire
+	#	has_title = title:e_byzantium
+	#	AND = {
+	#		has_title = title:e_france
+	#		is_target_in_global_variable_list = {
+	#			name = unavailable_unique_decisions
+	#			target = flag:flag_reformed_carolingian_empire
+	#		}
+	#	}
+	#	has_title = title:e_hindustan
+	#	#Add any subsequent exceptions here.
+	#}
+	NOT = { government_allows = administrative }
+}
+
+historical_succession_access_single_heir_succession_law_youngest_trigger = {
+	always = no
+	#NOT = { government_allows = administrative }
+	#EK DISABLED
+	#OR = {
+	#	has_title = title:e_byzantium
+	#	#Add any subsequent exceptions here.
+	#}
+}
+
+historical_succession_access_single_heir_dynasty_house_trigger = {
+	always = no
+	#NOT = { government_allows = administrative }
+	#EK DISABLED
+	#AND = {
+	#	has_title = title:d_bohemia
+	#	culture = { has_innovation = innovation_table_of_princes }
+	#}
+}

@@ -1,0 +1,96 @@
+﻿# Kept a few vanilla ones as an example of their syntax
+
+# pdi_at_war = {
+# 	is_shown = {
+# 		is_at_war = yes
+# 	}
+# }
+
+# pdi_no_player_heir = {
+# 	is_shown = {
+# 		NOT = { exists = player_heir }
+# 	}
+# }
+# pdi_primary_heir_of_wrong_dynasty = {
+# 	is_shown = {
+# 		exists = player_heir
+# 		exists = primary_heir
+# 		NOT = { primary_heir.dynasty = root.dynasty }
+# 	}
+# }
+
+pdi_is_dead_culture = {
+	is_shown = {
+		culture = {
+			culture_is_alive = no
+			NOT = { has_innovation = innovation_daedric_race } # Dremora shouldn't get this tooltip
+		}
+	}
+}
+
+pdi_is_pariah_culture = {
+	is_shown = {
+		is_pariah_character = yes
+	}
+}
+
+pdi_is_daedric_culture = {
+	is_shown = {
+		is_daedric_character = yes
+	}
+}
+
+pdi_is_known_vampire = {
+	is_shown = {
+		is_known_vampire = yes
+	}
+}
+
+pdi_is_known_lycan = {
+	is_shown = {
+		is_known_lycan = yes
+	}
+}
+
+pdi_is_known_necromancer = {
+	is_shown = {
+		is_known_necromancer = yes
+	}
+}
+
+pdi_is_secret_vampire = {
+	is_shown = {
+		has_trait = reclusive_vampire
+	}
+}
+
+pdi_is_secret_lycan = {
+	is_shown = {
+		has_trait = irritable_lycan
+	}
+}
+
+pdi_is_secret_necromancer = {
+	is_shown = {
+		has_trait = experimentalist_necromancer
+	}
+}
+
+# adding this here because it's cool in EK and vanilla doesn't have a pdi for it
+pdi_is_crypto_religionist = {
+	is_shown = {
+		any_secret = { secret_type = secret_crypto_religionist }
+	}
+}
+
+pdi_is_unmourned_blood = {
+	is_shown = {
+		dynasty = { has_dynasty_modifier = unmourned_blood_dynasty_modifier }
+	}
+}
+
+pdi_is_scarab_blood = {
+	is_shown = {
+		dynasty = { has_dynasty_modifier = scarab_blood_dynasty_modifier }
+	}
+}

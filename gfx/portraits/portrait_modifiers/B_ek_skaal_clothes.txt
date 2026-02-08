@@ -1,0 +1,378 @@
+﻿ek_skaal_clothes = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 1
+
+##############################
+#							 #	
+#			SKAAL		     #
+#							 #
+##############################
+
+#has_fp1_dlc_trigger = no
+
+    nord_clothing_lowborn = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = northern_commoner_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = western_common_legwear
+	            range = { 0 1 }
+	        }	
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 20
+				has_fp1_dlc_trigger = no
+                portrait_commoner_clothing_trigger = {
+                    CULTURE_INPUT = ek_skaal
+                }
+            }
+        }
+    }
+
+    nord_clothing_low_nobles = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = northern_low_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = western_common_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+				has_fp1_dlc_trigger = no
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_skaal
+                }
+            }
+        }
+    }
+
+    nord_clothing_high_nobles = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = northern_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = western_common_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+				has_fp1_dlc_trigger = no
+                portrait_high_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_skaal
+                }
+            }
+        }
+    }
+	
+    nord_clothing_royalty = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = northern_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = western_common_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+				has_fp1_dlc_trigger = no
+                portrait_royalty_trigger = {
+                    CULTURE_INPUT = ek_skaal
+                }
+            }
+        }
+    }
+
+#has_fp1_dlc_trigger = yes	
+
+    fp1_nord_clothing_lowborn = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = fp1_commoner_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = fp1_common_legwear
+	            range = { 0 1 }
+	        }	
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 20
+				has_fp1_dlc_trigger = yes
+                portrait_commoner_clothing_trigger = {
+                    CULTURE_INPUT = ek_skaal
+                }
+            }
+        }
+    }
+
+    fp1_nord_clothing_low_nobles = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = fp1_low_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = fp1_common_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+				has_fp1_dlc_trigger = yes
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_skaal
+                }
+            }
+        }
+    }
+
+    fp1_nord_clothing_high_nobles = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = fp1_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = fp1_common_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+				has_fp1_dlc_trigger = yes
+                portrait_high_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_skaal
+                }
+            }
+        }
+    }
+	
+    fp1_nord_clothing_royalty = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = fp1_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = fp1_common_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+				has_fp1_dlc_trigger = yes
+                portrait_royalty_trigger = {
+                    CULTURE_INPUT = ek_skaal
+                }
+            }
+        }
+    }	
+
+}
+
+ek_skaal_armor = { # NORD PLATE
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 4
+
+    skaal_war_common = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = northern_war_nobility_clothes
+                accessory = m_clothes_sec_northern_war_nob_01_lo #this is for the coa shader, here we're telling it to use the low (lo) variant
+            }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = western_war_legwear
+	            range = { 0 1 }
+	        }		
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 60
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_skaal
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_skaal
+                    }
+                }
+            }
+            modifier = {
+                add = 21        # So priests who are actively serving in a raised army as a commander or knight wear armor instead of priest robes
+                OR = {
+                    portrait_commoner_armor_in_army_trigger = { 
+                        CULTURE_INPUT = ek_skaal
+                    }
+                    portrait_low_nobles_armor_in_army_trigger = { 
+                        CULTURE_INPUT = ek_skaal
+                    }
+                }
+            }
+			modifier = {					# this is a better way of doing the dlc thing, i dont think it matters too much but its a bit cleaner, maybe we should consider switching to this
+				factor = 0
+				has_fp1_dlc_trigger = yes	# basically, if you have the dlc, multiply the result of all previous modifiers by zero - so that it uses the other one instead
+            }
+        }
+    }
+	
+    skaal_war_high = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = northern_war_nobility_clothes
+                accessory = m_clothes_sec_northern_war_nob_01_hi #this is for the coa shader, here we're telling it to use the high (hi) variant
+            }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = western_war_legwear
+	            range = { 0 1 }
+	        }	
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                portrait_high_nobles_armor_trigger = {
+                    CULTURE_INPUT = ek_skaal
+                }
+            }
+            modifier = {
+                add = 21        # So priests who are actively serving in a raised army as a commander or knight wear armor instead of priest robes
+                portrait_high_nobles_armor_in_army_trigger = {
+                    CULTURE_INPUT = ek_skaal
+                }
+            }
+			modifier = {					# this is a better way of doing the dlc thing, i dont think it matters too much but its a bit cleaner, maybe we should consider switching to this
+				factor = 0
+				has_fp1_dlc_trigger = yes	# basically, if you have the dlc, multiply the result of all previous modifiers by zero - so that it uses the other one instead
+            }
+        }
+    }	
+
+    fp1_skaal_war = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = fp1_war_nobility_clothes
+                range = { 0 1 } # For the randomness to work correctly
+            }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = fp1_common_legwear
+	            range = { 0 1 }
+	        }		
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+				add = 60
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_skaal
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_skaal
+                    }
+                    portrait_high_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_skaal
+                    }
+                }
+            }
+            modifier = {
+                add = 21        # So priests who are actively serving in a raised army as a commander or knight wear armor instead of priest robes
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_skaal
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_skaal
+                    }
+                    portrait_high_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_skaal
+                    }
+                }
+            }
+			modifier = {					# and this is the dlc version
+				factor = 0
+				has_fp1_dlc_trigger = no	# if you have don't have the dlc, multiply the result of all previous modifiers by zero - so that it uses the other one instead
+            }
+        }
+    }	
+
+}

@@ -1,0 +1,100 @@
+﻿
+# Referenced in code for granting titles to mages
+pool_magocratic_succession = {
+	valid_character = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_married = no
+		is_betrothed = no
+		can_magic_trigger = yes
+		has_magic_perk_trigger = yes
+	}
+	
+	character_score = {
+		base = 1
+		
+		modifier = {
+			add = 25
+			has_same_culture_as = scope:base
+		}
+		modifier = {
+			add = 15
+			culture = { has_same_culture_heritage = scope:base.culture }
+		}
+		modifier = {
+			add = 10
+			culture = { has_same_culture_language = scope:base.culture }
+		}
+		modifier = {
+			add = 5
+			culture = { has_same_culture_ethos = scope:base.culture }
+		}
+		
+		modifier = {
+			add = 40
+			has_arcana = { VALUE > 10 }
+		}
+		modifier = {
+			add = 50
+			has_arcana = { VALUE > 12 }
+		}
+		
+		modifier = {
+			add = 60
+			has_arcana = { VALUE > 15 }
+		}
+		
+		modifier = {
+			add = 20
+			has_trait = arcana_good
+		}
+		
+		modifier = {
+			add = 30
+			has_trait = education_magic
+		}
+		
+		modifier = {
+			add = 20
+			has_trait = lifespan
+		}
+		
+		modifier = {
+			add = -100
+			has_trait = disrupted
+		}
+		
+		modifier = {
+			add = -50
+			has_trait = arcana_bad
+		}
+		
+		modifier = {
+			add = -100
+			has_trait = vampire_character
+		}
+		
+		#modifier = { #random monks declaring a dragonborn Arch-Mage
+		#	add = 50000000000000
+		#	has_trait = dragonborn
+		#}
+				
+		modifier = {
+			factor = 1.5
+			age > 30
+		}
+
+	}
+	
+	config = {
+		age = { 25 300 }
+	}
+	
+	selection_count = 25
+	
+	pool = faith
+	court = yes
+	gender = gender_law
+}
+
+##Add more trait modifiers such as for long lived and stuff

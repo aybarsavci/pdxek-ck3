@@ -1,0 +1,2562 @@
+﻿##################
+# Cyrodiil Special Buildings
+##################
+### Imperial City Buildings
+# Imperial City
+# Temple of the One
+# Imperial City Arena
+# The Aboretum
+# Imperial Marketplace
+# Imperial Sewers
+# Arcane University
+# Port Hestra
+# Imperial Harbor
+# The Bastion
+
+### Countryside
+# Garlas Agea
+# Cloudruler Temple
+# Hot Springs of Mir Corrup
+# Hot Springs of Caer Suvio
+# Sancre Tor
+# Bridges of Leyawiin
+# Anvil Harborside
+# Ontus Quarry
+# Skingrad Vineyard
+# Weatherleah Hunting Lodge
+# Gottlesfont Priory
+# Chapel of the Eight
+# Scrollkeepers Vault
+# Harcane Grove
+# Pantherfang Chapel
+# Fort Redmane
+# St. Bravilius District
+# Abbey Bazaar of Zenithar
+# Artemon River Channels
+
+### Great Chapels
+# Great Chapel of Akatosh
+# Great Chapel of Dibella
+# Great Chapel of Kynareth
+# Great Chapel of Julianos
+# Great Chapel of Stendarr
+# Great Chapel of Shezaar
+# Great Chapel of Mara
+# Great Chapel of Arkay
+# Great Chapel of Zenithar
+##################
+
+################################
+#         IMPERIAL CITY        #
+################################
+imperial_city_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_aurelian_walls.dds"
+	
+	can_construct_potential = {
+		barony = title:b_white_gold
+		building_requirement_tribal = no
+	}
+	
+	cost_gold = 3000
+	
+	max_garrison = 500
+	
+	duchy_capital_county_modifier = {
+		levy_size = 0.15
+	}
+	county_modifier = {
+		development_growth = 0.15
+		development_growth_factor = 0.1
+		hostile_raid_time = 0.5
+		monthly_county_control_growth_add = 0.1
+		monthly_county_control_growth_factor = 0.2
+	}
+	province_modifier = {
+		fort_level = 3
+		garrison_size = 0.5
+		defender_holding_advantage = 5
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = duchy_capital
+}
+
+temple_of_the_one_01 = {
+	asset = {
+		type = pdxmesh
+		name = "building_special_cathedral_generic_mesh"
+	}
+
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_dome_of_the_rock.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		custom_tooltip = {
+			text = holy_site_or_the_one
+			OR = {
+				barony = {
+					is_holy_site_of = scope:holder.faith
+				}
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_the_one } }
+			}	
+		}
+		scope:holder = {
+			culture = {
+				has_innovation = innovation_crop_rotation
+			}
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = holy_site_or_the_one
+			OR = {
+				barony = {
+					is_holy_site_of = scope:holder.faith
+				}
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_the_one } }
+			}	
+		}
+	}
+	
+	cost_gold = 1000
+
+	character_modifier = {
+		monthly_piety = 0.25
+		monthly_dynasty_prestige_mult = 0.05
+		holy_order_hire_cost_mult = -0.1
+		clergy_opinion = 5
+		zealot_opinion = 5
+		stress_loss_per_piety_level = 0.05
+	}
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+### Owned by a baron-tier vassal, will have to handle it differently
+imperial_city_arena_01 = { 
+	asset = {
+		type = pdxmesh
+		name = "building_special_colosseum_mesh"
+	}
+	
+	construction_time = very_slow_construction_time
+
+	effect_desc = {
+		triggered_desc = {
+			trigger = { has_dlc_feature = tours_and_tournaments }
+			desc = tournament_activity_cost_max_discount_effect_desc
+		}
+	}
+
+	type_icon = "icon_structure_colosseum.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	cost_gold = 3000
+	
+	character_modifier = {
+		knight_limit = 2
+		knight_effectiveness_mult = 0.2
+		army_maintenance_mult = -0.1
+		men_at_arms_limit = 1
+	}
+	province_modifier = {
+		monthly_income = 0.5
+	}
+	county_modifier = {
+		tax_mult = 0.15
+		levy_size = 0.15
+		county_opinion_add = 5
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+##########
+#  The Arboretum
+##########
+the_arboretum_01 = {
+	type_icon = "icon_structure_beldama_wyrd_tree.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	construction_time = very_slow_construction_time	
+	
+	cost_gold = 1000
+
+	province_modifier = {
+		tax_mult = -0.25
+		development_growth_factor = -0.1
+	}
+	
+	county_modifier = {		
+		county_opinion_add = 10
+	}
+
+	character_modifier = {
+		stress_loss_mult = 0.05
+		monthly_dynasty_prestige = 0.05
+		monthly_dynasty_prestige_mult = 0.05
+	}
+
+	type = special
+
+	flag = travel_point_of_interest_natural_feature
+}
+
+##########
+# Imperial Marketplace
+# Tradehub Building
+##########
+imperial_marketplace_01 = {
+	type_icon = "icon_building_market_villages.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	province_modifier = {
+		monthly_income = 1.5
+		epidemic_resistance = -15
+	}
+
+	county_modifier = {
+		tax_mult = 0.15
+		development_growth = 0.1
+		development_growth_factor = 0.2
+		supply_limit_mult = 0.1
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+##########
+# Imperial Sewers
+##########
+imperial_sewers_01 = {
+	type_icon = "icon_building_qanats.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	province_modifier = {
+		epidemic_resistance = 10
+		fort_level = 1
+		defender_holding_advantage = 2
+	}
+
+	county_modifier = {
+		development_growth = 0.1
+		development_growth_factor = 0.2
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+# The Bastion
+the_bastion_01 = {
+	effect_desc = special_prison_effect_desc
+	
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_tower_of_london.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	cost_gold = 1000
+
+	character_modifier = {
+		dread_gain_mult = 0.3
+		monthly_county_control_growth_factor = 0.1
+
+	}
+	max_garrison = good_building_max_garrison_tier_2
+	province_modifier = {
+		defender_holding_advantage = normal_building_advantage_tier_2
+		fort_level = good_building_fort_level_tier_2
+		stationed_maa_damage_mult = normal_maa_damage_tier_1
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	next_building = the_bastion_02
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+the_bastion_02 = {
+	effect_desc = special_prison_effect_desc
+	
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_tower_of_london.dds"
+	
+	can_construct_potential = {
+		custom_tooltip = {
+            text = the_bastion_decision_req
+            always = no
+        }
+	}
+	
+	cost_gold = 1000
+
+	character_modifier = {
+		dread_gain_mult = 0.3
+		monthly_county_control_growth_factor = 0.1
+		men_at_arms_cap = 2
+		men_at_arms_limit = 1
+		men_at_arms_maintenance = -0.1
+	}
+	max_garrison = good_building_max_garrison_tier_3
+	province_modifier = {
+		defender_holding_advantage = normal_building_advantage_tier_3
+		fort_level = good_building_fort_level_tier_3
+		stationed_maa_damage_mult = normal_maa_damage_tier_2
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_2
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+# Imperial Harbor
+imperial_city_harbor_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_special_port.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	cost_gold = 1000
+	
+	is_enabled = {
+		ek_rumare_tradeports_enabled = yes
+	}
+
+	character_modifier = {
+		monthly_stewardship_lifestyle_xp_gain_mult = 0.1
+		cultural_head_fascination_mult = 0.1
+	}
+
+	province_modifier = {
+		monthly_income = 1.5
+	}
+	
+	county_modifier = {
+		development_growth = 0.3
+		development_growth_factor = 0.4
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+port_hestra_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_special_port.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	cost_gold = 1000
+	
+	is_enabled = {
+		ek_rumare_tradeports_enabled = yes
+	}
+	
+	character_modifier = {
+		naval_movement_speed_mult = 0.25
+		embarkation_cost_mult = -0.1
+		diplomatic_range_mult = 0.3
+	}
+	county_modifier = {
+		supply_limit_mult = 0.25
+	}
+	province_modifier = {
+		fort_level = 2
+		garrison_size = 0.25
+		defender_holding_advantage = 5
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+arcane_university_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_grand_library_of_baghdad.dds"
+
+	effect_desc = {
+		desc = unlocks_building_desc
+		triggered_desc = {
+			trigger = { has_dlc_feature = wards_and_wardens }
+			desc = ek_arcane_university_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = tours_and_tournaments }
+			desc = university_toto_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = royal_court }
+			desc = university_roco_effect_desc
+		}
+		desc = university_effect_desc
+	}
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	cost_gold = 1000
+	
+	character_modifier = {
+		monthly_lifestyle_xp_gain_mult = 0.15
+		cultural_head_fascination_mult = 0.15		
+		learning_per_prestige_level = 2		
+		mages_max_size_add = 1		
+		spellblades_max_size_add = 1	
+	}
+	province_modifier = {
+		tax_mult = 0.15
+		development_growth_factor = 0.15
+		stationed_mages_damage_mult = normal_maa_damage_tier_1
+		stationed_mages_toughness_mult = normal_maa_toughness_tier_1
+		stationed_spellblades_damage_mult = normal_maa_damage_tier_1
+		stationed_spellblades_toughness_mult = normal_maa_toughness_tier_1
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_magic
+	flag = arcane_education_location
+}
+
+################################
+#         COUNTRYSIDE		   #
+################################
+
+#########
+# Garlas Agea - fancy ayleid tower on the gold coast
+#########
+garlas_agea_01 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"building_special_garlas_agea_mesh"
+		}
+	}
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_brihadeeswarar_temple.dds"
+		
+	can_construct_potential = {
+		building_requirement_tribal = no
+		barony = title:b_garlas_agea
+	}
+
+	cost_gold = 1000
+
+	character_modifier = {
+		monthly_lifestyle_xp_gain_mult = 0.1
+		cultural_head_fascination_mult = 0.1
+		stress_loss_mult = 0.05
+		learning_per_prestige_level = 1
+	}
+	province_modifier = {
+		development_growth = 0.1
+	}
+	
+	ai_value = {
+		base = 100
+	}
+
+	next_building = garlas_agea_02
+	
+	type = special
+
+	flag = travel_point_of_interest_learning
+}
+
+garlas_agea_02 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"building_special_garlas_agea_mesh"
+		}
+	}
+
+	type_icon = "icon_structure_brihadeeswarar_temple.dds"
+
+	effect_desc = {
+		desc = unlocks_building_desc
+		triggered_desc = {
+			trigger = { has_dlc_feature = wards_and_wardens }
+			desc = ek_university_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = tours_and_tournaments }
+			desc = university_toto_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = royal_court }
+			desc = university_roco_effect_desc
+		}
+		desc = university_effect_desc
+		desc = garlas_agea_effect_desc
+	}
+
+	can_construct = {
+		scope:holder = {
+			culture = { has_cultural_pillar = heritage_ayleid }
+		}
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+	character_modifier = {
+		monthly_lifestyle_xp_gain_mult = 0.1
+		cultural_head_fascination_mult = 0.1
+		monthly_magic_lifestyle_xp_gain_mult = 0.2
+		learning_per_prestige_level = 1
+	}
+	province_modifier = {
+		development_growth = 0.2
+		stationed_mages_damage_mult = normal_maa_damage_tier_1
+		stationed_mages_toughness_mult = normal_maa_toughness_tier_1
+		stationed_spellblades_damage_mult = normal_maa_damage_tier_1
+		stationed_spellblades_toughness_mult = normal_maa_toughness_tier_1
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_magic
+	flag = arcane_education_location
+}
+
+#########
+# Cloudruler Temple - cyrodiilic refuge of the Dragonguard
+#########
+cloudruler_temple_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_aurelian_walls.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+		barony = title:b_cloudruler
+	}
+	
+	cost_gold = 1000
+	
+	county_modifier = {
+		hostile_raid_time = 0.1
+	}
+	province_modifier = {
+		fort_level = 2
+		defender_holding_advantage = normal_building_advantage_tier_1
+		stationed_maa_damage_mult = normal_maa_damage_tier_1
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+		travel_danger = -10
+	}
+	character_modifier = {
+		dread_gain_mult = 0.1
+		learning_per_prestige_level = 2
+	}
+	
+	ai_value = {
+		base = 100
+		culture_likely_to_fortify_modifier = yes
+		modifier = { # Fill all building slots before going for special buildings
+			factor = 0
+			free_building_slots > 0
+		}
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+
+##########
+# Hot Springs of Mir Corrup - nice wholesome place
+##########
+hot_springs_mir_corrup_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_building_leisure_palace.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		culture = {
+			has_innovation = innovation_crop_rotation
+		}
+	}
+	
+	cost_gold = 1000
+	
+	county_modifier = {
+		tax_mult = 0.05
+		development_growth_factor = 0.1
+	}
+	character_modifier = {
+		stress_loss_mult = 0.05
+		health = 0.05
+	}
+	
+	next_building = hot_springs_mir_corrup_02
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+hot_springs_mir_corrup_02 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_building_leisure_palace.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		culture = {
+			has_innovation = innovation_crop_rotation
+		}
+	}
+	
+	cost_gold = 1000
+	
+	province_modifier = {
+		monthly_income = 1
+	}
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth_factor = 0.2
+	}
+	character_modifier = {
+		monthly_prestige_gain_mult = 0.1
+		attraction_opinion = 5
+		stress_loss_mult = 0.1
+		health = 0.1
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+##########
+# Hot Springs of Mir Corrup - nice wholesome place
+##########
+hot_springs_caer_suvio_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_building_leisure_palace.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		culture = {
+			has_innovation = innovation_crop_rotation
+		}
+	}
+	
+	cost_gold = 1000
+	
+	county_modifier = {
+		tax_mult = 0.05
+		development_growth_factor = 0.1
+	}
+	character_modifier = {
+		stress_loss_mult = 0.05
+		health = 0.05
+	}
+	
+	next_building = hot_springs_caer_suvio_02
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+hot_springs_caer_suvio_02 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_building_leisure_palace.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		culture = {
+			has_innovation = innovation_crop_rotation
+		}
+	}
+	
+	
+	cost_gold = 1000
+	
+	province_modifier = {
+		monthly_income = 1
+	}
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth_factor = 0.2
+	}
+	character_modifier = {
+		monthly_prestige_gain_mult = 0.1
+		attraction_opinion = 5
+		stress_loss_mult = 0.1
+		health = 0.1
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+
+
+##########
+# Sancre Tor - A lot of stuff
+##########
+sancre_tor_01 = {
+	type_icon = "alcazar_segovia.dds"
+
+	effect_desc = {
+		desc = ek_graveyard_effect_desc
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = must_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = yes }
+		}
+	}
+	
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+	character_modifier = {
+		monthly_dark_arts_lifestyle_xp_gain_mult = 0.1
+		monthly_piety_gain_per_dread_add = 0.05
+		dread_gain_mult = 0.1
+	}
+
+	county_modifier = {
+		county_opinion_add = -10
+	}
+
+	province_modifier = {
+		travel_danger = 30
+		epidemic_resistance = -20
+		fort_level = 1
+		defender_holding_advantage = 2
+	}
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	next_building = sancre_tor_02
+
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+sancre_tor_02 = { # The city has been rebuilt and the tombs renovated
+	effect_desc = {
+		triggered_desc = {
+			trigger = { has_dlc_feature = legends_of_the_dead }
+			desc = ek_funeral_cost_discount_max_desc
+		}
+	}
+
+	construction_time = very_slow_construction_time
+	
+	can_construct_potential = {
+		custom_tooltip = {
+			text = must_not_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = no }
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = must_not_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = no }
+		}
+	}
+	
+	cost_gold = 500
+	
+	character_modifier = {
+		monthly_piety = 0.1
+		monthly_dynasty_prestige_mult = 0.05
+	}
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+	province_modifier = {
+		fort_level = 1
+		travel_danger = -10
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	next_building = sancre_tor_03
+
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+sancre_tor_03 = { # The city has been rebuilt and the tombs renovated
+	effect_desc = {
+		triggered_desc = {
+			trigger = { has_dlc_feature = legends_of_the_dead }
+			desc = ek_funeral_cost_discount_max_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = legends_of_the_dead }
+			desc = ek_funeral_renown_outcome_effect_desc
+		}
+	}
+
+	construction_time = very_slow_construction_time
+	
+	can_construct = {
+		custom_tooltip = {
+			text = cyrodiil_restored_requirement
+			OR = {
+				scope:holder = { has_cyrodilic_empire_trigger = yes }
+				scope:holder.liege = {
+					has_cyrodilic_empire_trigger = yes
+				}
+			}
+		}
+		custom_tooltip = {
+			text = must_not_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = no }
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = must_not_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = no }
+		}
+	}
+	
+	cost_gold = 1000
+	
+	character_modifier = {
+		monthly_piety = 0.25
+		monthly_dynasty_prestige_mult = 0.1
+		knight_effectiveness_mult = 0.1
+		general_opinion = 10
+	}
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+	province_modifier = {
+		fort_level = 3
+		defender_holding_advantage = 3
+		stationed_maa_damage_mult = normal_maa_damage_tier_2
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_2
+		travel_danger = -10
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+#########
+# Harcane Grove - Place of the unicorns
+#########
+harcane_grove_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_beldama_wyrd_tree.dds"
+	
+	show_disabled = yes
+	
+	cost_gold = 1000
+
+	character_modifier = { 
+		character_travel_speed_mult = 0.1
+		stress_gain_mult = -0.1
+	}
+
+	county_modifier = {
+		build_speed = 0.1
+		build_gold_cost = 0.2
+		county_opinion_add = 10
+	}
+
+	province_modifier = {
+		travel_danger = -5
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+#########
+# Chapel of the Eight - Important Abbey and seat of a holy order
+#########
+chapel_of_the_eight_01 = {
+	asset = {
+		type = pdxmesh
+		name = "special_szekesfehervar_basilica_03_mesh"
+	}
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_saint_lazarus.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		custom_tooltip = {
+			text = holy_site_or_cyrodiilic_cult
+			OR = {
+				barony = {
+					is_holy_site_of = scope:holder.faith
+				}
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_divines } }
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_nedic_aedra } }
+				scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+			}	
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = holy_site_or_cyrodiilic_cult
+			OR = {
+				barony = {
+					is_holy_site_of = scope:holder.faith
+				}
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_divines } }
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_nedic_aedra } }
+				scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+			}	
+		}
+	}
+	
+	cost_gold = 1000
+
+	max_garrison = 250
+
+	character_modifier = {
+		monthly_piety = 0.5
+		monthly_piety_gain_mult = 0.1
+		holy_order_hire_cost_mult = -0.15
+		zealot_opinion = 10
+	}
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+	province_modifier = {
+		stationed_maa_damage_mult = low_maa_damage_tier_1
+		stationed_maa_toughness_mult = low_maa_toughness_tier_1
+		travel_danger = -10
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+#########
+# Scrolls Vault - The catacombs where the elder scrolls are stored
+#########
+scrolls_vault_01 = {
+
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_petra.dds"
+
+	effect_desc = {
+		desc = unlocks_building_desc
+		triggered_desc = {
+			trigger = { has_dlc_feature = wards_and_wardens }
+			desc = ek_university_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = tours_and_tournaments }
+			desc = university_toto_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = royal_court }
+			desc = university_roco_effect_desc
+		}
+		desc = university_effect_desc
+	}
+	
+	cost_gold = 1000
+
+	character_modifier = {
+		cultural_head_fascination_mult = 0.1
+		monthly_learning_lifestyle_xp_gain_mult = 0.1
+		monthly_dynasty_prestige = 0.25
+		learning = 2
+	}
+	county_modifier = {
+		development_growth = 0.1
+		hostile_raid_time = 0.25
+	}
+	province_modifier = {
+		fort_level = normal_building_fort_level_tier_1
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_learning
+	flag = mundane_education_location
+}
+
+#########
+# Bridges of Leyawiin - cash to the city, disabled the Watefront District and Port Hestra special buildings
+#########
+bridges_leyawiin_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_bridge.dds"
+	
+	can_construct_potential = {
+		barony = title:b_leyawiin_castle
+		building_requirement_tribal = no
+	}
+	cost_gold = 1000
+	
+	province_modifier = {
+		monthly_income = 0.5
+		defender_holding_advantage = 3
+		epidemic_resistance = -5
+	}
+
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth = 0.05
+		development_growth_factor = 0.1
+	}
+	
+	next_building = bridges_leyawiin_02
+	
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+bridges_leyawiin_02 = {
+	can_construct_potential = {
+		barony = title:b_leyawiin_castle
+		building_requirement_tribal = no
+		county.holder = { is_independent_ruler = yes }
+	}
+
+	cost_gold = 750
+
+	construction_time = slow_construction_time
+
+	on_complete = {
+		county.holder = {
+			trigger_event = ek_special_buildings_events.0111
+		}
+	}
+	
+	province_modifier = {
+		monthly_income = 4
+		epidemic_resistance = -15
+	}
+
+	county_modifier = {
+		tax_mult = 0.4
+		development_growth = 0.2
+		development_growth_factor = 0.4
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+##########
+# Anvil Harborside - one of the biggest ports in Tamriel
+##########
+anvil_harborside_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_special_port.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	cost_gold = 1000
+
+	character_modifier = {
+		diplomatic_range_mult = 0.1
+		embarkation_cost_mult = -0.1
+	}
+
+	province_modifier = {
+		monthly_income = 2
+		epidemic_resistance = -15
+	}
+
+	county_modifier = {
+		tax_mult = 0.15
+		development_growth = 0.1
+		development_growth_factor = 0.3
+	}
+	
+	ai_value = {
+		base = 100
+	}
+		
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+#########
+# St. Bravillius District
+#########
+
+st_bravillius_01 = {
+	type_icon = "icon_structure_doges_palace.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}    
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = {
+		monthly_intrigue_lifestyle_xp_gain_mult = 0.1
+		monthly_stewardship_lifestyle_xp_gain_mult = 0.1
+	}
+	
+	province_modifier = {
+		monthly_income = 1.5
+		epidemic_resistance = -15
+	}
+
+	county_modifier = {
+		county_opinion_add = -10
+		tax_mult = 0.1		
+		development_growth = 0.1
+		development_growth_factor = 0.2
+		monthly_county_control_decline_factor = 0.1
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+##########
+# Artemon River Channels
+##########
+artemon_river_channels_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_canal.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	cost_gold = 1000
+
+	character_modifier = {
+		supply_limit_mult = 0.1
+		development_growth_factor = 0.05
+	}
+
+	province_modifier = {
+		monthly_income = 1.5
+	}
+	levy = 250
+
+	county_modifier = {
+		development_growth = 0.2
+		development_growth_factor = 0.3
+		supply_limit = 1000
+	}
+	
+	ai_value = {
+		base = 100
+	}
+		
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+##########
+# Great of Chapel of Dibella
+##########
+great_chapel_dibella_01 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"imperial_chapel_01_mesh"
+		}
+	}
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_imperial_chapel.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		custom_tooltip = {
+			text = dibella_or_cyrodiilic_cult
+			OR = {
+				scope:holder = { faith = { patron_dv_dibella_valid = yes }}
+				scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+			}		
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = dibella_or_cyrodiilic_cult
+			OR = {
+				scope:holder = { faith = { patron_dv_dibella_valid = yes }}
+				scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+			}
+		}
+	}
+	
+	cost_gold = 1000
+
+	character_modifier = {
+		monthly_piety = 0.5
+		monthly_piety_gain_mult = 0.1
+		clergy_opinion = 10
+		zealot_opinion = 10
+		fertility = 0.1
+	}
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+	province_modifier = {
+		epidemic_resistance = 10
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Great of Chapel of Akatosh
+##########
+great_chapel_akatosh_01 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"imperial_chapel_02_mesh"
+		}
+	}
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_imperial_chapel.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		custom_tooltip = {
+			text = holy_site_or_akatosh
+			OR = {
+				barony = {
+					is_holy_site_of = scope:holder.faith
+				}
+				OR = {
+					scope:holder = { faith = { patron_dv_akatosh_valid = yes }}
+					scope:holder = { faith = { patron_tc_aka_valid = yes }}
+					scope:holder = { faith = { patron_at_dragon_valid = yes }}
+					scope:holder = { faith = { has_doctrine = doctrine_pantheon_the_one } }	
+					scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+				}		
+			}	
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = holy_site_or_akatosh
+			OR = {
+				barony = {
+					is_holy_site_of = scope:holder.faith
+				}
+				OR = {
+					scope:holder = { faith = { patron_dv_akatosh_valid = yes }}
+					scope:holder = { faith = { patron_tc_aka_valid = yes }}
+					scope:holder = { faith = { patron_at_dragon_valid = yes }}
+					scope:holder = { faith = { has_doctrine = doctrine_pantheon_the_one } }	
+					scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+				}		
+			}	
+		}
+	}
+	
+	cost_gold = 1000
+
+	character_modifier = {
+		clergy_opinion = -5
+		zealot_opinion = -5
+	}
+
+	county_modifier = {
+		county_opinion_add = -10
+	}
+
+	ai_value = {
+		base = 100
+	}
+
+	next_building = great_chapel_akatosh_02
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+great_chapel_akatosh_02 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"imperial_chapel_02_mesh"
+		}
+	}
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_imperial_chapel.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		custom_tooltip = {
+			text = holy_site_or_akatosh
+			OR = {
+				barony = {
+					is_holy_site_of = scope:holder.faith
+				}
+				OR = {
+					scope:holder = { faith = { patron_dv_akatosh_valid = yes }}
+					scope:holder = { faith = { patron_tc_aka_valid = yes }}
+					scope:holder = { faith = { patron_at_dragon_valid = yes }}
+					scope:holder = { faith = { has_doctrine = doctrine_pantheon_the_one } }	
+					scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+				}		
+			}	
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = holy_site_or_akatosh
+			OR = {
+				barony = {
+					is_holy_site_of = scope:holder.faith
+				}
+				OR = {
+					scope:holder = { faith = { patron_dv_akatosh_valid = yes }}
+					scope:holder = { faith = { patron_tc_aka_valid = yes }}
+					scope:holder = { faith = { patron_at_dragon_valid = yes }}
+					scope:holder = { faith = { has_doctrine = doctrine_pantheon_the_one } }	
+					scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+				}		
+			}	
+		}
+	}
+	
+	cost_gold = 1000
+
+	character_modifier = {
+		monthly_piety = 0.5
+		monthly_piety_gain_mult = 0.1
+		clergy_opinion = 10
+		zealot_opinion = 10
+		monthly_prestige_gain_mult = 0.1
+	}
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+	province_modifier = {
+		epidemic_resistance = 10
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Great of Chapel of Julianos
+##########
+great_chapel_julianos_01 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"imperial_chapel_02_mesh"
+		}
+	}
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_imperial_chapel.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		custom_tooltip = {
+			text = julianos_or_cyrodiilic_cult
+			OR = {
+				scope:holder = { faith = { patron_dv_julianos_valid = yes }}
+				scope:holder = { faith = { patron_at_owl_valid = yes }}
+				scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+			}
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = julianos_or_cyrodiilic_cult
+			OR = {
+				scope:holder = { faith = { patron_dv_julianos_valid = yes }}
+				scope:holder = { faith = { patron_at_owl_valid = yes }}
+				scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+			}
+		}
+	}
+	
+	cost_gold = 1000
+
+	character_modifier = {
+		monthly_piety = 0.5
+		monthly_piety_gain_mult = 0.1
+		clergy_opinion = 10
+		zealot_opinion = 10
+		learning_per_piety_level = 2
+	}
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+	province_modifier = {
+		epidemic_resistance = 10
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Great of Chapel of Stendarr
+##########
+great_chapel_stendarr_01 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"imperial_chapel_02_mesh"
+		}
+	}
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_imperial_chapel.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		custom_tooltip = {
+			text = stendarr_or_cyrodiilic_cult
+			OR = {
+				scope:holder = { faith = { patron_dv_stendarr_valid = yes }}
+				scope:holder = { faith = { patron_at_whale_valid = yes }}
+				scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+			}
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = stendarr_or_cyrodiilic_cult
+			OR = {
+				scope:holder = { faith = { patron_dv_stendarr_valid = yes }}
+				scope:holder = { faith = { patron_at_whale_valid = yes }}
+				scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+			}
+		}
+	}
+	
+	cost_gold = 1000
+
+	character_modifier = {
+		monthly_piety = 0.5
+		monthly_piety_gain_mult = 0.1
+		clergy_opinion = 10
+		zealot_opinion = 10
+		diplomacy_per_piety_level = 2
+	}
+
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+	province_modifier = {
+		epidemic_resistance = 10
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Great of Chapel of Arkay
+##########
+great_chapel_arkay_01 = {
+	effect_desc = {
+		triggered_desc = {
+			trigger = { has_dlc_feature = legends_of_the_dead }
+			desc = ek_funeral_cost_discount_max_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = legends_of_the_dead }
+			desc = ek_funeral_piety_outcome_effect_desc
+		}
+	}
+
+	asset = {
+		type = pdxmesh
+		names = {
+			"imperial_chapel_01_mesh"
+		}
+	}
+	
+	type_icon = "icon_structure_imperial_chapel.dds"
+
+	is_enabled = {
+		custom_tooltip = {
+			text = must_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = yes }
+		}
+	}
+	
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+	character_modifier = {
+		monthly_dark_arts_lifestyle_xp_gain_mult = 0.1
+		intimidated_vassal_tax_contribution_mult = 0.2
+		cowed_vassal_tax_contribution_mult = 0.2   
+		dread_gain_mult = 0.1
+	}
+
+	county_modifier = {
+		county_opinion_add = -10
+	}
+
+	province_modifier = {
+		epidemic_resistance = -20
+	}
+	
+	ai_value = {
+		base = 100
+	}
+
+	next_building = great_chapel_arkay_02
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+great_chapel_arkay_02 = {
+	effect_desc = {
+		triggered_desc = {
+			trigger = { has_dlc_feature = legends_of_the_dead }
+			desc = ek_funeral_cost_discount_max_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = legends_of_the_dead }
+			desc = ek_funeral_piety_outcome_effect_desc
+		}
+	}
+
+	construction_time = slow_construction_time
+	
+	can_construct = {
+		custom_tooltip = {
+			text = holy_site_or_arkay
+			OR = {
+				barony = {
+					is_holy_site_of = scope:holder.faith
+				}
+				OR = {
+					scope:holder = { faith = { patron_dv_arkay_valid = yes }}
+					scope:holder = { faith = { patron_yp_tuwhacca_valid = yes }}
+					scope:holder = { faith = { patron_at_snake_valid = yes }}
+					scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+				}	
+			}	
+		}
+		custom_tooltip = {
+			text = must_not_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = no }
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = holy_site_or_arkay
+			OR = {
+				barony = {
+					is_holy_site_of = scope:holder.faith
+				}
+				OR = {
+					scope:holder = { faith = { patron_dv_arkay_valid = yes }}
+					scope:holder = { faith = { patron_yp_tuwhacca_valid = yes }}
+					scope:holder = { faith = { patron_at_snake_valid = yes }}
+					scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+				}	
+			}	
+		}
+		custom_tooltip = {
+			text = must_not_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = no }
+		}
+	}
+	
+	cost_gold = 500
+
+	character_modifier = {
+		monthly_piety = 0.5
+		monthly_piety_gain_mult = 0.1
+		clergy_opinion = 10
+		zealot_opinion = 10
+		health = 0.1
+		epidemic_resistance = 5
+	}
+
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+
+	province_modifier = {
+		epidemic_resistance = 20
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Great of Chapel of Mara
+##########
+great_chapel_mara_01 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"imperial_chapel_01_mesh"
+		}
+	}
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_imperial_chapel.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		custom_tooltip = {
+			text = mara_or_cyrodiilic_cult
+			OR = {
+				scope:holder = { faith = { patron_dv_mara_valid = yes }}
+				scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }	
+			}	
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = mara_or_cyrodiilic_cult
+			OR = {
+				scope:holder = { faith = { patron_dv_mara_valid = yes }}
+				scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }	
+			}	
+		}
+	}
+	
+	cost_gold = 1000
+
+	character_modifier = {
+		monthly_piety = 0.5
+		monthly_piety_gain_mult = 0.1
+		clergy_opinion = 10
+		zealot_opinion = 10
+		spouse_opinion = 10
+	}
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+	province_modifier = {
+		epidemic_resistance = 10
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Great of Chapel of Zenithar
+##########
+
+great_chapel_zenithar_01 = { #Chapel of Zenithar converted to Moons temple
+	asset = {
+		type = pdxmesh
+		names = {
+			"imperial_chapel_01_mesh"
+		}
+	}
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_imperial_chapel.dds"
+	
+	can_construct = {
+		custom_tooltip = {
+			text = holy_site_or_khajiiti
+			OR = {
+				barony = {
+					is_holy_site_of = scope:holder.faith
+				}
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_khajiiti } }
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_riddlethar } }
+			}	
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = holy_site_or_khajiiti
+			OR = {
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_khajiiti } }
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_riddlethar } }
+			}	
+		}
+	}
+	
+	cost_gold = 1000
+
+	character_modifier = {
+		monthly_piety = 0.5
+		monthly_piety_gain_mult = 0.1
+		clergy_opinion = 10
+		zealot_opinion = 10
+		martial_per_piety_level = 1
+	}
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+
+	province_modifier = {
+		epidemic_resistance = 5
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	next_building = great_chapel_zenithar_02
+
+	flag = travel_point_of_interest_religious
+}
+
+great_chapel_zenithar_02 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"imperial_chapel_01_mesh"
+		}
+	}
+	construction_time = slow_construction_time
+
+	type_icon = "icon_structure_imperial_chapel.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		custom_tooltip = {
+			text = holy_site_or_zenithar
+			OR = {
+				scope:holder = { faith = { patron_dv_zenithar_valid = yes }}
+				scope:holder = { faith = { patron_yp_zeht_valid = yes }}
+				scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+			}	
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = holy_site_or_zenithar
+			OR = {
+				scope:holder = { faith = { patron_dv_zenithar_valid = yes }}
+				scope:holder = { faith = { patron_yp_zeht_valid = yes }}
+				scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+			}		
+		}
+	}
+	
+	cost_gold = 500
+
+	character_modifier = {
+		monthly_piety = 0.5
+		monthly_piety_gain_mult = 0.1
+		clergy_opinion = 10
+		zealot_opinion = 10
+		stewardship_per_piety_level = 2
+	}
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+
+	province_modifier = {
+		epidemic_resistance = 10
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Great of Chapel of Kynareth
+##########
+great_chapel_kynareth_01 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"imperial_chapel_01_mesh"
+		}
+	}
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_imperial_chapel.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		custom_tooltip = {
+			text = kynareth_or_cyrodiilic_cult
+			OR = {
+				scope:holder = { faith = { patron_dv_kynareth_valid = yes }}
+				scope:holder = { faith = { patron_yp_tava_valid = yes }}
+				scope:holder = { faith = { patron_at_hawk_valid = yes }}
+				scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+			}	
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = kynareth_or_cyrodiilic_cult
+			OR = {
+				scope:holder = { faith = { patron_dv_kynareth_valid = yes }}
+				scope:holder = { faith = { patron_yp_tava_valid = yes }}
+				scope:holder = { faith = { patron_at_hawk_valid = yes }}
+				scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+			}	
+		}
+	}
+	
+	cost_gold = 1000
+
+	character_modifier = {
+		monthly_piety = 0.5
+		monthly_piety_gain_mult = 0.1
+		clergy_opinion = 10
+		zealot_opinion = 10
+		naval_movement_speed_mult = 0.1
+	}
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+
+	province_modifier = {
+		epidemic_resistance = 10
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Great of Chapel of Shezarr
+##########
+great_chapel_shezarr_01 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"imperial_chapel_01_mesh"
+		}
+	}
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_imperial_chapel.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		custom_tooltip = {
+			text = shezarr_or_cyrodiilic_cult
+			OR = {
+				scope:holder = { faith = { patron_dv_shezarr_valid = yes }}
+				scope:holder = { faith = { patron_at_fox_valid = yes }}
+				scope:holder = { faith = { patron_tc_missing_valid = yes }}
+				scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+			}	
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = shezarr_or_cyrodiilic_cult
+			OR = {
+				scope:holder = { faith = { patron_dv_shezarr_valid = yes }}
+				scope:holder = { faith = { patron_at_fox_valid = yes }}
+				scope:holder = { faith = { patron_tc_missing_valid = yes }}
+				scope:holder = { faith = { has_doctrine = special_doctrine_cyrodiilic_cult } }
+			}	
+		}
+	}
+	
+	cost_gold = 1000
+
+	character_modifier = {
+		monthly_piety = 0.5
+		monthly_piety_gain_mult = 0.1
+		clergy_opinion = 10
+		zealot_opinion = 10
+		owned_scheme_secrecy_add = 10
+	}
+
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+
+	province_modifier = {
+		epidemic_resistance = 10
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Pantherfang Chapel
+##########
+
+pantherfang_chapel_01 = {
+	asset = {
+		type = pdxmesh
+		name = ep3_saint_catherine_monastery_mesh
+	}
+
+	type_icon = "icon_structure_saint_catherine.dds"
+
+	construction_time = very_slow_construction_time
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		scope:holder = { faith = { has_doctrine_parameter = faith_uses_grand_cathedral } }
+	}
+	
+	is_enabled = {
+		scope:holder = { faith = { has_doctrine_parameter = faith_uses_grand_cathedral } }
+	}
+
+	show_disabled = yes
+	
+	cost_gold = 1000
+
+	character_modifier = {
+		monthly_piety = 0.25
+		holy_order_hire_cost_mult = -0.15
+		monthly_county_control_growth_factor = 0.05
+		zealot_opinion = 5
+	}
+	
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+	
+	province_modifier = {
+		fort_level = 2
+		defender_holding_advantage = normal_building_advantage_tier_1
+	}
+	
+	ai_value = {
+		base = 100
+		modifier = { # Fill all building slots before going for special buildings
+			factor = 0
+			free_building_slots > 0
+		}
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Ontus Quarry
+# Quarry Building
+##########
+ontus_quarry_01 = {
+	type_icon = "icon_structure_quarry.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}	
+	
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+	can_construct = {
+		custom_tooltip = {
+			text = ten_iron_oaths
+			scope:holder = { faith = { has_doctrine = doctrine_pantheon_stones } }
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = ten_iron_oaths
+			scope:holder = { faith = { has_doctrine = doctrine_pantheon_stones } }
+		}
+	}
+
+	character_modifier = {
+		monthly_piety = 0.25
+		monthly_piety_gain_mult = 0.1
+		zealot_opinion = 10
+		zealot_levy_contribution_mult = 0.1
+	}
+
+	county_modifier = {
+		county_opinion_add = 10
+	}
+
+	next_building = ontus_quarry_02
+
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+ontus_quarry_02 = {
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}	
+	
+	cost_gold = 250
+
+	construction_time = standard_construction_time
+
+	can_construct = {
+		custom_tooltip = {
+			text = not_ten_iron_oaths
+			scope:holder = { NOT = { faith = { has_doctrine = doctrine_pantheon_stones } } }
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = not_ten_iron_oaths
+			scope:holder = { NOT = { faith = { has_doctrine = doctrine_pantheon_stones } } }
+		}
+	}
+
+	character_modifier = {
+		build_gold_cost = -0.05
+	}
+
+	province_modifier = {
+		monthly_income = 1
+	}
+
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth_factor = 0.1
+		build_speed = -0.1
+		build_gold_cost = -0.2
+	}
+
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+##########
+# Skingrad Wineyards
+# Plantation Building
+##########
+skingrad_vineyards_01 = {
+	type_icon = "icon_structure_wineyard.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}	
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = {
+		stress_loss_mult = 0.1
+		court_grandeur_baseline_add = 10
+	}
+
+	province_modifier = {
+		monthly_income = 2
+	}
+
+	county_modifier = {
+		development_growth = 0.1
+		development_growth_factor = 0.2
+		supply_limit = 100
+		county_opinion_add = 10
+	}
+		
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+##########
+# Fort Redmane
+# Fortress Building
+##########
+fort_redmane_01 = {
+	asset = {
+		type = pdxmesh
+		name = ep3_patras_castle_01_a_mesh
+	}
+
+	type_icon = "icon_structure_patras_castle.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	cost_gold = 1000
+
+	construction_time = slow_construction_time
+
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+
+	character_modifier = {
+		monthly_dynasty_prestige_mult = 0.05
+	}
+	
+	county_modifier = {
+		hostile_raid_time = 0.75
+		travel_danger = -20
+		levy_size = 0.2
+		county_opinion_add = 10
+	}
+
+	province_modifier = {
+		defender_holding_advantage = normal_building_advantage_tier_3
+		fort_level = good_building_fort_level_tier_2
+		garrison_size = 0.2
+		stationed_maa_damage_mult = normal_maa_damage_tier_1
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+		monthly_income = -1
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+##########
+# Weatherleah Hunting Lodge
+# Hunting Lodge Building
+##########
+weatherleah_hunting_lodge_01 = {
+	asset = {
+		type = pdxmesh
+		name = ep3_cattolica_di_stilo_mesh
+	}
+
+	type_icon = "icon_structure_cattolica_stilo.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time	
+
+	effect_desc = {
+		desc = hunting_grounds_desc
+	}
+	
+	character_modifier = {
+		lifestyle_hunter_xp_gain_mult = 0.1
+		glory_hound_opinion = 10
+		glory_hound_tax_contribution_mult = 0.1
+		monthly_dynasty_prestige = 0.1
+	}
+
+	province_modifier = {
+		stationed_maa_damage_mult = normal_maa_damage_tier_1
+		stationed_maa_pursuit_mult = normal_maa_pursuit_tier_1
+	}
+
+	county_modifier = {
+		tax_mult = 0.1
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+##########
+# Gottlesfont Priory
+##########
+gottlesfont_priory_01 = { 
+	type_icon = "icon_structure_hosios_loukas.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	effect_desc = {
+		desc = unlocks_building_desc
+		triggered_desc = {
+			trigger = { has_dlc_feature = wards_and_wardens }
+			desc = ek_university_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = tours_and_tournaments }
+			desc = university_toto_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = royal_court }
+			desc = university_roco_effect_desc
+		}
+		desc = university_effect_desc
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = {
+		learning = 1
+		learning_per_piety_level = 1
+		monthly_lifestyle_xp_gain_mult = 0.1
+		cultural_head_fascination_mult = 0.05
+		monthly_piety = 0.25
+	}
+	
+	county_modifier = {
+		development_growth_factor = 0.2
+		development_growth = 0.3
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_learning
+	flag = mundane_education_location
+}
+
+##########
+# Abbey Bazaar of Zenithar
+# Tradehub Building
+##########
+# Original
+abbey_bazaar_of_zenithar_01 = {
+	asset = {
+		type = pdxmesh
+		name = ep3_jvari_monastery_01_a_mesh
+	}
+
+	type_icon = "icon_structure_jvari_monastery.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+	character_modifier = {
+		clergy_opinion = 10
+		monthly_stewardship_lifestyle_xp_gain_mult = 0.1
+		different_culture_opinion = 10
+	}
+	
+	province_modifier = {
+		monthly_income = 1
+		epidemic_resistance = -15
+	}
+
+	county_modifier = {
+		tax_mult = 0.15
+		development_growth = 0.1
+		development_growth_factor = 0.2
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+

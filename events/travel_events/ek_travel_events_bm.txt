@@ -1,0 +1,499 @@
+﻿namespace = ek_travel_events_bm
+
+############################
+## Black Marsh specific travel events
+## 0001-xxx
+## by TheynT & x
+############################
+
+# The Underground Express
+ek_travel_events_bm.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_bm.0001.t
+
+	# EK NOTE: this doesn't work 
+	# simply adding a new waypoint doesn't let us instantly progress there. add_destination_progress effect adds progress to the final destination, not next waypoint, so we just end up instantly teleporting to the end by using this
+	# so the entire premise of this event by adding a wacky detour waypoint is moot
+	# we can return to this if we're given new travel effects
+	orphan = yes
+
+
+	desc = {
+		desc = ek_travel_events_bm.0001.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					current_travel_plan = {
+						has_travel_option = hire_argonian_guide_option
+					}
+					NOT = { culture = { has_innovation = innovation_black_marsh_natives } }
+				}
+				desc = ek_travel_events_bm.0001.guide
+			}
+			triggered_desc = {
+				trigger = {
+					culture = { has_innovation = innovation_black_marsh_natives }
+				}
+				desc = ek_travel_events_bm.0001.native
+			}
+		}
+		desc = ek_travel_events_bm.0001.desc2
+	}
+	theme = travel_danger # this is a 'fake'danger event. wanna spook the player
+	
+	right_portrait = {
+		character = root
+		animation = shock
+	}
+
+	left_portrait = {
+		character = scope:random_entourage_char
+		animation = fear
+	}
+
+	cooldown = { years = 2 }
+	
+	trigger = {
+		is_available_travelling_adult = yes
+		is_location_valid_for_travel_event_on_land = yes
+		location = {
+			terrain = black_marsh
+		}
+		current_travel_plan ?= {
+			any_entourage_character = {
+				NOT = { this = root }
+				count > 1
+			}
+		}
+	}
+	
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 1 }
+		#Near next destination
+		if = {
+			limit = { current_travel_plan.next_destination_province = { geographical_region = mundus_tamriel_black_marsh_middle_argonia } }
+			random_county_in_region = {
+				region = mundus_tamriel_black_marsh_middle_argonia
+				random_county_province = {
+					save_scope_as = rootworm_destination_county_near_destination
+				}
+			}
+		}
+		else_if = {
+			limit = { current_travel_plan.next_destination_province = { geographical_region = mundus_tamriel_black_marsh_onkobra } }
+			random_county_in_region = {
+				region = mundus_tamriel_black_marsh_onkobra
+				random_county_province = {
+					save_scope_as = rootworm_destination_county_near_destination
+				}
+			}
+		}
+		else_if = {
+			limit = { current_travel_plan.next_destination_province = { geographical_region = mundus_tamriel_black_marsh_black_bays } }
+			random_county_in_region = {
+				region = mundus_tamriel_black_marsh_black_bays
+				random_county_province = {
+					save_scope_as = rootworm_destination_county_near_destination
+				}
+			}
+		}
+		else_if = {
+			limit = { current_travel_plan.next_destination_province = { geographical_region = mundus_tamriel_black_marsh_padomaic_marshes } }
+			random_county_in_region = {
+				region = mundus_tamriel_black_marsh_padomaic_marshes
+				random_county_province = {
+					save_scope_as = rootworm_destination_county_near_destination
+				}
+			}
+		}
+		#Same general region
+		if = {
+			limit = { current_travel_plan.travel_leader.location = { geographical_region = mundus_tamriel_black_marsh_middle_argonia } }
+			random_county_in_region = {
+				region = mundus_tamriel_black_marsh_middle_argonia
+				random_county_province = {
+					save_scope_as = rootworm_destination_county_random_same_area
+				}
+			}
+		}
+		else_if = {
+			limit = { current_travel_plan.travel_leader.location = { geographical_region = mundus_tamriel_black_marsh_onkobra } }
+			random_county_in_region = {
+				region = mundus_tamriel_black_marsh_onkobra
+				random_county_province = {
+					save_scope_as = rootworm_destination_county_random_same_area
+				}
+			}
+		}
+		else_if = {
+			limit = { current_travel_plan.travel_leader.location = { geographical_region = mundus_tamriel_black_marsh_black_bays } }
+			random_county_in_region = {
+				region = mundus_tamriel_black_marsh_black_bays
+				random_county_province = {
+					save_scope_as = rootworm_destination_county_random_same_area
+				}
+			}
+		}
+		else_if = {
+			limit = { current_travel_plan.travel_leader.location = { geographical_region = mundus_tamriel_black_marsh_padomaic_marshes } }
+			random_county_in_region = {
+				region = mundus_tamriel_black_marsh_padomaic_marshes
+				random_county_province = {
+					save_scope_as = rootworm_destination_county_random_same_area
+				}
+			}
+		}
+		#Random location you've been before
+		current_travel_plan = {
+			random_visited_location = {
+				limit = {
+					geographical_region = mundus_tamriel_black_marsh
+				}
+				save_scope_as = rootworm_destination_county_random_previous
+			}
+		}
+		#Good luck lmao
+		random_county_in_region = {
+			region = mundus_tamriel_black_marsh
+			random_county_province = {
+				save_scope_as = rootworm_destination_county_random
+			}
+		}
+		#Potential entourage member who gets warped
+		current_travel_plan = {
+			random_entourage_character = {
+				limit = { 
+					is_courtier = yes 
+					NOT = { has_character_flag = travel_option_added_character } # but not the guide
+				}
+				save_scope_as = random_entourage_char
+			}
+		}
+		# scope to the guide for loc
+		if = {
+			limit = {
+				NOT = { culture = { has_cultural_tradition = tradition_histskin } } #if your culture is Argonian you wouldn't hire an Argonian guide
+			}
+			current_travel_plan = {
+				random_entourage_character = {
+					limit = { 
+						has_character_flag = race_argonian #if they're both an argonian... 
+						has_character_flag = travel_option_added_character # and an entourage member added by travel option...
+					}
+					save_scope_as = argonian_guide # then they're probably your hired guide
+				}
+			}
+		}
+		#Current location, for followup event
+		root.location = {
+			save_scope_as = rootworm_start_location
+		}
+
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+	}
+
+	option = { # (Argonian Guide travel option) Guide tells you to stay calm, you're about to be picked up by a friend
+		name = ek_travel_events_bm.0001.a
+
+		trigger = {
+			current_travel_plan = {
+				has_travel_option = hire_argonian_guide_option
+			}
+			NOT = { culture = { has_innovation = innovation_black_marsh_natives } }
+		}
+
+		custom_tooltip = ek_travel_events_bm.0001.a.tt
+		
+		hidden_effect = {
+			random_list = {
+				25 = { #Spits you out near your next destination
+					current_travel_plan = {
+						add_travel_waypoint  = scope:rootworm_destination_county_near_destination
+					}
+					# save the result for loc purposes
+					save_scope_value_as = { name = rootworm_destination value = flag:random_near_destination }
+				}
+				50 = { #Spits you out in a random location in the same BM region
+					current_travel_plan = {
+						add_travel_waypoint  = scope:rootworm_destination_county_random_same_area
+					}
+					# save the result for loc purposes
+					save_scope_value_as = { name = rootworm_destination value = flag:random_same_area }
+				}
+				10 = { #Spits you out somewhere you've been before
+					current_travel_plan = {
+						add_travel_waypoint  = scope:rootworm_destination_county_random_previous
+					}
+					# save the result for loc purposes
+					save_scope_value_as = { name = rootworm_destination value = flag:random_previous }
+				}
+				15 = { #Spits you out in a random location somewhere in BM
+					current_travel_plan = {
+						add_travel_waypoint  = scope:rootworm_destination_county_random
+					}
+					# save the result for loc purposes
+					save_scope_value_as = { name = rootworm_destination value = flag:random }
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+
+		flavor = ek_travel_events_bm.0001.a.flavor
+	}
+
+	option = { # (Native to Argonia) you know exactly what it is & stay calm
+		name = ek_travel_events_bm.0001.b
+
+		trigger = {
+			culture = { has_innovation = innovation_black_marsh_natives } #An innovation given to all cultures who are native to BM. so this is a good check
+		}
+
+		custom_tooltip = ek_travel_events_bm.0001.a.tt
+
+		hidden_effect = {
+			random_list = {
+				30 = { #Spits you out near your next destination
+					current_travel_plan = {
+						add_travel_waypoint  = scope:rootworm_destination_county_near_destination
+					}
+					# save the result for loc purposes
+					save_scope_value_as = { name = rootworm_destination value = flag:random_near_destination }
+				}
+				50 = { #Spits you out in a random location in the same BM region
+					current_travel_plan = {
+						add_travel_waypoint  = scope:rootworm_destination_county_random_same_area
+					}
+					# save the result for loc purposes
+					save_scope_value_as = { name = rootworm_destination value = flag:random_same_area }
+				}
+				15 = { #Spits you out somewhere you've been before
+					current_travel_plan = {
+						add_travel_waypoint  = scope:rootworm_destination_county_random_previous
+					}
+					# save the result for loc purposes
+					save_scope_value_as = { name = rootworm_destination value = flag:random_previous }
+				}
+				5 = { #Spits you out in a random location somewhere in BM
+					current_travel_plan = {
+						add_travel_waypoint  = scope:rootworm_destination_county_random
+					}
+					# save the result for loc purposes
+					save_scope_value_as = { name = rootworm_destination value = flag:random }
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+
+		flavor = ek_travel_events_bm.0001.b.flavor
+	}
+
+	option = { # Attempt to fight yourselves free
+		name = ek_travel_events_bm.0001.c
+
+		custom_tooltip = ek_travel_events_bm.0001.a.tt
+
+		hidden_effect = {
+			random_list = {
+				25 = {
+					# save the result for loc purposes
+					save_scope_value_as = { name = rootworm_fight value = flag:success }
+				} # Success: the entire entourage gets out
+				25 = { # Minor Success: you get out, some people are lost (they get moved to random courts in bm)
+					current_travel_plan = {
+						remove_character = scope:random_entourage_char
+					}
+					scope:random_entourage_char = {
+						move_to_pool_at = scope:rootworm_destination_county_random
+					}
+					save_scope_value_as = { name = rootworm_fight value = flag:success }
+				}
+				25 = { # Minor Failure: you get eaten by the rootworm and spit out in a random location in the same BM region
+					random_list = {
+						50 = { #Spits you out somewhere you've been before
+							current_travel_plan = {
+								add_travel_waypoint  = scope:rootworm_destination_county_random_previous
+							}
+							# save the result for loc purposes
+							save_scope_value_as = { name = rootworm_destination value = flag:random_previous }
+						}
+						50 = { #Spits you out in a random location in the same BM region
+							current_travel_plan = {
+								add_travel_waypoint  = scope:rootworm_destination_county_random_same_area
+							}
+							# save the result for loc purposes
+							save_scope_value_as = { name = rootworm_destination value = flag:random_same_area }
+						}
+					}
+					# save the result for loc purposes
+					save_scope_value_as = { name = rootworm value = flag:failure }
+				}
+				25 = { # Failure: you get eaten by the rootworm and spit out in a random location in Black Marsh
+					current_travel_plan = {
+						add_travel_waypoint  = scope:rootworm_destination_county_random
+					}
+					# save the result for loc purposes
+					save_scope_value_as = { name = rootworm_destination value = flag:random }
+					save_scope_value_as = { name = rootworm_fight value = flag:failure }
+				}
+			}
+		}
+		
+		ai_chance = {
+			base = 100
+		}
+
+		flavor = ek_travel_events_bm.0001.c.flavor
+	}
+
+	after = {
+		hidden_effect = {
+			trigger_event = {
+				id = ek_travel_events_bm.0002
+				delayed = yes # moved to the next tick, so the event isn't instant
+			}
+		}
+	}
+}
+
+# The Underground Express (Followup)
+ek_travel_events_bm.0002 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_bm.0002.t
+
+	desc = {
+		first_valid = {
+			# Successfully fought your way out
+			triggered_desc = {
+				trigger = {
+					scope:rootworm_fight = flag:success
+				}
+				desc = ek_travel_events_bm.0002.desc_freed
+			}
+			# Failed to fight your way out
+			triggered_desc = {
+				trigger = {
+					scope:rootworm_fight = flag:failure
+				}
+				desc = ek_travel_events_bm.0002.desc_failed
+			}
+			# Trusted the guide
+			triggered_desc = {
+				trigger = {
+					current_travel_plan = {
+						has_travel_option = hire_argonian_guide_option
+					}
+					NOT = { culture = { has_innovation = innovation_black_marsh_natives } }
+				}
+				desc = ek_travel_events_bm.0002.desc_guide
+			}
+			# You're a native, let it happen
+			triggered_desc = {
+				trigger = {
+					culture = { has_innovation = innovation_black_marsh_natives }
+				}
+				desc = ek_travel_events_bm.0002.desc_native
+			}
+		}
+
+		first_valid = {
+			# Only display this if you were taken along
+			triggered_desc = {
+				trigger = {
+					NOT = { scope:rootworm_fight = flag:success }
+				}
+				desc = ek_travel_events_bm.0002.end
+			}
+		}
+		
+		# If the entourage char was lost
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { root.location = scope:random_entourage_char.location }
+				}
+				desc = ek_travel_events_bm.0002.desc_lost
+			}
+		}
+	}
+
+	theme = travel
+
+	right_portrait = {
+		character = root
+		animation = happiness
+	}
+
+	# Successfully escaped
+	option = {
+		name = ek_travel_events_bm.0002.a
+		
+		trigger = {
+			scope:rootworm_fight = flag:success
+		}
+
+		# if a party member was lost, that's a little worrisome
+		if = {
+			limit = {
+				exists = scope:random_entourage_char
+				NOT = { root.location = scope:random_entourage_char.location }
+			}
+			add_stress = medium_stress_gain
+			# unless you're callous i guess
+			stress_impact = {
+				callous = medium_stress_impact_loss
+			}
+			custom_tooltip = ek_travel_events_bm.0002.desc_lost.tt
+		}
+	}
+
+	# Was taken along for a ride - near destination
+	option = {
+		name = ek_travel_events_bm.0002.b
+
+		trigger = {
+			scope:rootworm_destination = flag:random_near_destination
+		}
+		flavor = ek_travel_events_bm.0002.desc_near_destination
+	}
+
+	# Was taken along for a ride - random same area
+	option = {
+		name = ek_travel_events_bm.0002.b
+
+		trigger = {
+			scope:rootworm_destination = flag:random_same_area
+		}
+		flavor = ek_travel_events_bm.0002.desc_same_area
+	}
+
+	# Was taken along for a ride - random previous
+	option = {
+		name = ek_travel_events_bm.0002.b
+
+		trigger = {
+			scope:rootworm_destination = flag:random_previous
+		}
+		flavor = ek_travel_events_bm.0002.desc_previous
+	}
+
+	# Was taken along for a ride - random
+	option = {
+		name = ek_travel_events_bm.0002.b
+
+		trigger = {
+			scope:rootworm_destination = flag:random
+		}
+		flavor = ek_travel_events_bm.0002.desc_random
+	}
+}

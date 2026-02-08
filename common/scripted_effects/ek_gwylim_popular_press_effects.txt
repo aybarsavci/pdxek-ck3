@@ -1,0 +1,53 @@
+﻿generate_gwylim_popular_press_author = {
+	if = {
+		limit = {
+			OR = {
+				NOT = { exists = global_var:gwylim_press_author }  #First generation
+				global_var:gwylim_press_author = { is_alive = no } #Or previous one died
+			}
+		}
+	
+		if = { # If Ajum-Ei is still alive, we pick him
+			limit = { character:iocundus_100 = { is_alive = yes } }
+			character:iocundus_100 = { save_scope_as = gwylim_press_author }
+			set_global_variable = {
+				name = gwylim_press_author
+				value = scope:gwylim_press_author
+			}
+		}
+		else_if = { # Check if Gwylim is an academy, then we take the holder
+			limit = { title:c_winefield = { holder = { has_government = academy_government } } }
+			title:c_winefield = { holder = { save_scope_as = gwylim_press_author } }
+			set_global_variable = {
+				name = gwylim_press_author
+				value = scope:gwylim_press_author
+			}
+		}
+		else = { # Else we generate an appropriate Gwylim scholar
+			create_character = {
+				age = { 25 60 }
+				gender_female_chance = 50
+				dynasty = none
+				faith = title:c_winefield.faith
+				culture = title:c_winefield.culture
+				location = province:2027 #Gwylim
+				trait = journaller
+				learning = 10
+				random_traits = yes
+	
+				after_creation = {
+					ek_character_setup_effect = yes
+				}
+	
+				save_scope_as = gwylim_press_author
+			}
+			set_global_variable = {
+				name = gwylim_press_author
+				value = scope:gwylim_press_author
+			}
+		}
+	}
+	else = {
+		global_var:gwylim_press_author = { save_scope_as = gwylim_press_author}
+	}
+}

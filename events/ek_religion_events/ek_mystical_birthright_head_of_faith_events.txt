@@ -1,0 +1,208 @@
+﻿namespace = ek_mbhof
+
+### The Head of Faith lacks an heir, either because we just died, or because the successor died
+# 4 candidates, if there are not enough we create them
+ek_mbhof.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_mbhof.0001.t
+	desc = {
+		first_valid = { # Intro, why you have to pick a new one
+			triggered_desc = { # The potential heir died, we pick another
+				trigger = { has_character_flag = last_mbhof_potential_died }
+				desc = ek_mbhof.0001.desc.last_mbhof_potential_died
+			}
+			triggered_desc = { # The potential HoF was led astray and converted
+				trigger = { has_character_flag = last_mbhof_potential_converted }
+				desc = ek_mbhof.0001.desc.last_mbhof_potential_converted
+			}
+			triggered_desc = { # We choose to pick another heir via decision
+				trigger = { has_character_flag = last_mbhof_potential_lives }
+				desc = ek_mbhof.0001.desc.last_mbhof_potential_lives
+			}
+			desc = ek_mbhof.0001.desc.other # Upon succession and others
+		}
+		
+		desc = ek_mbhof.0001.desc
+	}
+
+	theme = faith
+	
+	left_portrait = {
+		character = root
+	}
+
+	# to avoid event spam when player messes with titles
+	cooldown = { days = 2 }
+	
+	trigger = {
+		# Head of Faith of a faith with Mystical Birthright Head of Faith doctrine
+		faith = {
+			has_doctrine = doctrine_mystical_birthright_head
+			religious_head = root
+		}
+		
+		NOT = {
+			any_heir = {
+				has_trait = furstock_mane
+				faith = root.faith
+				NOT = { has_character_flag = about_to_die_but_not_dead_yet_flag }
+			}
+		}
+	}
+	
+	immediate = {
+		hidden_effect = {
+			every_living_character = {
+				limit = {
+					has_trait = furstock_mane
+					faith = root.faith # ... Obviously
+					
+					# Needs to be respect the cultural identity doctrines
+					trigger_if = {
+						limit = {
+							root.faith = {
+								OR = {
+									has_doctrine = doctrine_cultural_identity_heritage # Teeeeeeeechnically since it's not strongly tied it could I suppose accept outside heritages, but meh
+									has_doctrine = doctrine_cultural_identity_heritage_exclusive
+								}
+							}
+						}
+						culture = { has_same_culture_heritage = root.culture }
+					}
+					trigger_else_if = {
+						limit = {
+							root.faith = {
+								OR = {
+									has_doctrine = doctrine_cultural_identity_culture
+									has_doctrine = doctrine_cultural_identity_culture_exclusive
+								}
+							}
+						}
+						culture = root.culture
+					}
+					trigger_else = { always = yes }
+					
+					# Shouldn't be the house head as they'll switch house
+					NOT = {
+						AND = {
+							exists = house.house_head
+							this = house.house_head
+						}
+					}
+
+					# Shouldn't already be landed, otherwise we're gonna wipe out the Pride of Alkosh
+					is_landed = no
+					is_ruler = no
+					# Shouldn't have their parents refuse to recognise them as candidates
+					NOT = { has_character_flag = refused_mane_inheritance }
+				}
+				add_to_list = mbhof_potential_successor
+			}
+			
+			if = {
+				limit = { list_size = { name = mbhof_potential_successor value >= 4 } }
+				random_in_list = {
+					list = mbhof_potential_successor
+					save_scope_as = mbhof_potential_successor_4
+				}
+			}
+			else = {
+				mb_hof_generate_new_potential_heir = yes
+				scope:new_mb_hof_potential_heir = { save_scope_as = mbhof_potential_successor_4 }
+			}
+			
+			if = {
+				limit = { list_size = { name = mbhof_potential_successor value >= 3 } }
+				random_in_list = {
+					limit = { NOR = { this = scope:mbhof_potential_successor_4 } }
+					list = mbhof_potential_successor
+					save_scope_as = mbhof_potential_successor_3
+				}
+			}
+			else = {
+				mb_hof_generate_new_potential_heir = yes
+				scope:new_mb_hof_potential_heir = { save_scope_as = mbhof_potential_successor_3 }
+			}
+			
+			if = {
+				limit = { list_size = { name = mbhof_potential_successor value >= 2 } }
+				random_in_list = {
+					limit = { NOR = { this = scope:mbhof_potential_successor_4 this = scope:mbhof_potential_successor_3 } }
+					list = mbhof_potential_successor
+					save_scope_as = mbhof_potential_successor_2
+				}
+			}
+			else = {
+				mb_hof_generate_new_potential_heir = yes
+				scope:new_mb_hof_potential_heir = { save_scope_as = mbhof_potential_successor_2 }
+			}
+			
+			if = {
+				limit = { list_size = { name = mbhof_potential_successor value >= 1 } }
+				random_in_list = {
+					limit = { NOR = { this = scope:mbhof_potential_successor_4 this = scope:mbhof_potential_successor_3 this = scope:mbhof_potential_successor_2 } }
+					list = mbhof_potential_successor
+					save_scope_as = mbhof_potential_successor_1
+				}
+			}
+			else = {
+				mb_hof_generate_new_potential_heir = yes
+				scope:new_mb_hof_potential_heir = { save_scope_as = mbhof_potential_successor_1 }
+			}
+		}
+	}
+	
+	### Who will we play next?
+	option = {
+		name = ek_mbhof.0001.mbhof_potential_successor_1
+		
+		scope:mbhof_potential_successor_1 = { save_scope_as = mbhof_successor }
+		set_designated_heir = scope:mbhof_potential_successor_1
+		
+		custom_tooltip = ek_mbhof.0001.mbhof_potential_successor_1.tt
+	}
+	option = {
+		name = ek_mbhof.0001.mbhof_potential_successor_2
+		
+		scope:mbhof_potential_successor_2 = { save_scope_as = mbhof_successor }
+		set_designated_heir = scope:mbhof_potential_successor_2
+		
+		custom_tooltip = ek_mbhof.0001.mbhof_potential_successor_2.tt
+	}
+	option = {
+		name = ek_mbhof.0001.mbhof_potential_successor_3
+		
+		scope:mbhof_potential_successor_3 = { save_scope_as = mbhof_successor }
+		set_designated_heir = scope:mbhof_potential_successor_3
+		
+		custom_tooltip = ek_mbhof.0001.mbhof_potential_successor_3.tt
+	}
+	option = {
+		name = ek_mbhof.0001.mbhof_potential_successor_4
+		
+		scope:mbhof_potential_successor_4 = { save_scope_as = mbhof_successor }
+		set_designated_heir = scope:mbhof_potential_successor_4
+		
+		custom_tooltip = ek_mbhof.0001.mbhof_potential_successor_4.tt
+	}
+	
+	after = {
+		hidden_effect = {
+			scope:mbhof_successor = {
+				# We save their former dynasty, just in case they convert and need to be put back there
+				if = {
+					limit = { exists = house.house_head }
+					set_variable = {
+						name = mbhof_potential_successor_former_house_head
+						value = house.house_head
+					}
+				}
+				
+				set_house = root.house
+				add_character_flag = mystical_birthright_next_hof
+			}
+			add_courtier = scope:mbhof_successor
+		}
+	}
+}

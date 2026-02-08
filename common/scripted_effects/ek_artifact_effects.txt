@@ -1,0 +1,5325 @@
+﻿### EK EDIT: Added our own regions
+
+#Effects used in hunt events
+
+
+#####################################################################
+# EFFECT LIST
+#####################################################################
+# !!! Remember to add all new effects with a short description here !!!
+#
+
+######################################################################
+# EFFECTS
+######################################################################
+
+use_wabbajack_effect = {
+	$TARGET$ = { save_scope_as = target }
+	$CASTER$ = { save_scope_as = target }
+	random_list = {
+		10 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					increase_wounds_effect = { REASON = fire_magic } 
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							increase_wounds_effect = { REASON = fire_magic } 
+						}
+					}
+				}	
+			}
+		}
+		10 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					increase_wounds_effect = { REASON = ice_magic } 
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							increase_wounds_effect = { REASON = ice_magic } 
+						}
+					}
+				}	
+			}
+		}
+		10 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					increase_wounds_effect = { REASON = electricity_magic } 
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							increase_wounds_effect = { REASON = electricity_magic } 
+						}
+					}
+				}	
+			}
+		}
+		10 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					add_character_modifier = fortify_health
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							add_character_modifier = fortify_health
+						}
+					}
+				}	
+			}
+		}
+
+		10 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							add_character_modifier = fortify_health
+						}
+					}
+					add_character_modifier = damage_health
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							add_character_modifier = damage_health
+						}
+					}
+					add_character_modifier = fortify_health
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_rat }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_rat }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_imp }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_imp }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_spriggan }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_spriggan }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_bat }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_bat }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_bear }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_bear }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_spider }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_spider }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_nymph }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_nymph }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_harpy }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_harpy }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_scorpion }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_scorpion }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_iron_atronach }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_iron_atronach }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_flesh_atronach }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_flesh_atronach }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_ice_atronach }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_ice_atronach }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_fire_atronach }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_fire_atronach }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_daedroth }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_daedroth }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_deer }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_deer }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_ogre }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_ogre }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_sheep }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_sheep }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_troll }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_troll }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_chicken }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_chicken }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_rabbit }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_rabbit }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_mudcrab }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_mudcrab }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_sweetroll }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_sweetroll }
+						}
+					}
+				}	
+			}
+		}
+
+		1 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					death = { killer = scope:actor death_reason = transform_gold }
+					primary_heir = { add_gold = 50 }
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							death = { killer = scope:actor death_reason = transform_gold }
+							if = {
+								limit = { exists = primary_heir }
+								primary_heir = { add_gold = 50 }
+							}
+						}
+					}
+				}	
+			}
+		}
+
+		10 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					add_trait = undead_character
+					custom_tooltip = wabbajack_undeadified
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							add_trait = undead_character
+							custom_tooltip = wabbajack_undeadified
+						}
+					}
+				}	
+			}
+		}
+
+		10 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					add_trait = giant
+					custom_tooltip = wabbajack_giantified
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							add_trait = giant
+							custom_tooltip = wabbajack_giantified
+						}
+					}
+				}	
+			}
+		}
+
+		10 = {
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					add_trait = lich_character
+					custom_tooltip = wabbajack_lichified
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					show_as_tooltip = {
+						scope:recipient = {
+							add_trait = lich_character
+							custom_tooltip = wabbajack_lichified
+						}
+					}
+				}	
+			}
+		}
+
+		10 = {
+			random_living_character = {
+				limit = {
+					culture = { has_cultural_pillar = heritage_goblinken }
+				}
+				save_scope_as = goblin_base
+			}
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					add_character_flag = goblinized
+					custom_tooltip = wabbajack_goblinized
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					custom_tooltip = wabbajack_goblinized
+				}	
+			}
+		}
+
+		10 = {
+			random_living_character = {
+				limit = {
+					culture = { has_cultural_pillar = heritage_dremora }
+				}
+				save_scope_as = dremora_base
+			}
+			scope:recipient = {
+				send_interface_toast = {
+					left_icon = scope:actor
+					title = wabbajacked_message
+					add_character_flag = dremorized
+					custom_tooltip = wabbajack_dremorized
+				}	
+			}
+			scope:actor = {
+				send_interface_toast = {
+					left_icon = scope:recipient
+					title = wabbajacked_message
+					custom_tooltip = wabbajack_dremorized
+				}	
+			}
+		}
+	}
+}
+
+laamp_create_artifact_effect = {
+	
+	custom_tooltip = laamp_create_artifact.cc
+	#Creating the artifact based on the previous choice and outcome
+	hidden_effect = {
+		if = {
+			limit = { exists = scope:location }
+			scope:location = { add_to_list = artifact_material_sources } #Used for artifact creation
+		}
+		create_character = {
+			location = root.location
+			template = local_artisan_template
+			culture = scope:location.culture
+			faith = scope:location.faith
+			gender = root
+			dynasty = none
+			save_scope_as = artifact_origin #Fictional maker of artifact
+		}
+
+		random_list = {
+			25 = { #Epic Artifact
+				random_list = {
+					### EK EDIT: Removed references to vanilla regions and religions and added our own, also made better adventurers have a better chance of getting unique items
+					10 = { #Chance of Relic
+						random_list = { #This is a list inside an item in the other list because we need _one_ chance for relic and the relic types must be able to have overlapping triggers. 
+							100 = {	#Cyrodiil
+								trigger = {
+									scope:location ?= {
+										OR = {
+											geographical_region = mundus_tamriel_cyrodiil
+										}
+									}
+								}
+								random_list = {
+									100 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_dragonguard_katana_effect = {
+												OWNER = root
+											}
+										}	
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												OR = {
+													has_artifact_modifier = true_aok_modifier
+													has_artifact_modifier = aok_modifier
+												}
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_aok_effect = {
+												OWNER = root
+											}
+										}
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = messenger_diary_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_messenger_diary_effect = {
+												OWNER = root
+											}
+										}
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = fin_gleam_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_fin_gleam_effect = {
+												OWNER = root
+											}
+										}
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_magnus_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_magnus_effect = {
+												OWNER = root
+											}
+										}
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_worms_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_worms_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = necromancer_amulet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_necromancer_amulet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = bloodworm_helmet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bloodworm_helmet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = skeleton_key_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_skeleton_key_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mehrunes_razor_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mehrunes_razor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = auriels_bow_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_auriels_bow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_filament
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_filament_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = death_dealers_fete_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_death_dealers_fete_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_twilight
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_twilight_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_sallow
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_sallow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_change
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_change_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_untold
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_untold_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_waking
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_waking_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_untold
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_untold_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_waking
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_waking_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 5
+												has_artifact_modifier = elder_scroll_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_elder_scroll_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = ebony_blade_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_ebony_blade_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_hasedoki_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_hasedoki_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_dremora_armor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mentors_ring_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mentors_ring_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+								}
+							}
+							100 = { # Valenwood
+								trigger = {
+									scope:location ?= {
+										OR = {
+											geographical_region = mundus_tamriel_valenwood
+										}
+									}
+								}
+								random_list = {
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = lords_mail_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_lords_mail_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = oghma_infinium_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_oghma_infinium_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_magnus_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_magnus_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_worms_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_worms_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = necromancer_amulet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_necromancer_amulet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = bloodworm_helmet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bloodworm_helmet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = skeleton_key_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_skeleton_key_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mehrunes_razor_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mehrunes_razor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = auriels_bow_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_auriels_bow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_filament
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_filament_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = death_dealers_fete_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_death_dealers_fete_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_twilight
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_twilight_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_sallow
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_sallow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_change
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_change_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_untold
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_untold_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_waking
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_waking_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 5
+												has_artifact_modifier = elder_scroll_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_elder_scroll_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = ebony_blade_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_ebony_blade_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_hasedoki_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_hasedoki_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_dremora_armor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mentors_ring_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mentors_ring_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+								}
+							}
+							100 = {	#Elsweyr
+								trigger = {
+									scope:location ?= {
+										OR = {
+											geographical_region = mundus_tamriel_elsweyr
+										}
+									}
+								}
+								random_list = {
+									100 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_dragonguard_katana_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_armor_dragonguard_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = chrysamere_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_chrysamere_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = singing_crystal_modifier
+											}
+											NOT = { province:3704 = { has_building = kingdoms_song_03 } }
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_singing_crystal_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mask_alkosh_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mask_alkosh_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = moonlight_blade_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_moonlight_blade_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = horn_anequina_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_horn_anequina_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = horn_starhaven_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_horn_starhaven_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = horn_jadarri_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_horn_jadarri_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_magnus_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_magnus_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_worms_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_worms_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = necromancer_amulet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_necromancer_amulet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = bloodworm_helmet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bloodworm_helmet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = skeleton_key_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_skeleton_key_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mehrunes_razor_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mehrunes_razor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = auriels_bow_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_auriels_bow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_filament
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_filament_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = death_dealers_fete_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_death_dealers_fete_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_twilight
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_twilight_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_sallow
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_sallow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_change
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_change_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_untold
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_untold_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_waking
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_waking_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 5
+												has_artifact_modifier = elder_scroll_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_elder_scroll_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = ebony_blade_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_ebony_blade_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_hasedoki_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_hasedoki_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_dremora_armor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mentors_ring_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mentors_ring_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+								}
+							}
+							100 = {	#Skyrim
+								trigger = {
+									scope:location ?= {
+										OR = {
+											geographical_region = mundus_tamriel_skyrim
+										}
+									}
+								}
+								random_list = {
+									70 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_dragonguard_katana_effect = {
+												OWNER = root
+											}
+										}
+									}
+									70 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_armor_dragonguard_effect = {
+												OWNER = root
+											}
+										}
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = skull_crusher_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_skull_crusher_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = shield_aetherial_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_shield_aetherial_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_magnus_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_magnus_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_worms_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_worms_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = necromancer_amulet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_necromancer_amulet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = bloodworm_helmet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bloodworm_helmet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = skeleton_key_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_skeleton_key_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mehrunes_razor_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mehrunes_razor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = auriels_bow_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_auriels_bow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_filament
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_filament_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = death_dealers_fete_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_death_dealers_fete_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_twilight
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_twilight_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_sallow
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_sallow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_change
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_change_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_untold
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_untold_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_waking
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_waking_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 5
+												has_artifact_modifier = elder_scroll_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_elder_scroll_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = ebony_blade_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_ebony_blade_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_hasedoki_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_hasedoki_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = dragonbane_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_dragonbane_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = red_eagles_fury_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_red_eagles_fury_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = jagged_crown_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_jagged_crown_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = horn_jurgen_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_horn_jurgen_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = lodorr_crown_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_lodorr_crown_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = gauldur_jyrik_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_gauldur_jyrik_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = gauldur_mikrul_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_gauldur_mikrul_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = gauldur_sigdis_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_gauldur_sigdis_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = kahvozeins_fang_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_kahvozeins_fang_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = coral_claw
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_coral_claw_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = sapphire_claw
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_sapphire_claw_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = ruby_claw
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_ruby_claw_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = ivory_claw
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_ivory_claw_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = iron_claw
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_iron_claw_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = golden_claw
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_golden_claw_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = glass_claw
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_glass_claw_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = diamond_claw
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_diamond_claw_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = ebony_claw
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_ebony_claw_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = emerald_claw
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_emerald_claw_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = armor_stalhrim_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_armor_stalhrim_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 2
+												has_artifact_modifier = eye_falmer_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_eye_falmer_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = bloodskal_blade_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bloodskal_blade_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = white_phial_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_white_phial_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = chillrend_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_chillrend_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_unmelting_snow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_dremora_armor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mentors_ring_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mentors_ring_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+								}
+							}
+							100 = {	#Yokuda
+								trigger = {
+									scope:location ?= {
+										OR = {
+											geographical_region = mundus_tamriel_yokuda
+										}
+									}
+								}
+								random_list = {
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_magnus_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_magnus_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_worms_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_worms_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = necromancer_amulet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_necromancer_amulet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = bloodworm_helmet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bloodworm_helmet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = skeleton_key_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_skeleton_key_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mehrunes_razor_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mehrunes_razor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = auriels_bow_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_auriels_bow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_filament
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_filament_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = death_dealers_fete_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_death_dealers_fete_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_twilight
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_twilight_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_sallow
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_sallow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_change
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_change_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_untold
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_untold_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_waking
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_waking_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 5
+												has_artifact_modifier = elder_scroll_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_elder_scroll_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = ebony_blade_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_ebony_blade_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_hasedoki_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_hasedoki_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_dremora_armor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mentors_ring_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mentors_ring_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = sinople_talon_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_sinople_talon_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = harness_orun_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_harness_orun_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = circlet_storms_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_circlet_storms_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+								}
+							}
+							100 = {	#Hammerfell
+								trigger = {
+									scope:location ?= {
+										OR = {
+											geographical_region = mundus_tamriel_hammerfell
+										}
+									}
+								}
+								random_list = {
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_magnus_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_magnus_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_worms_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_worms_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = necromancer_amulet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_necromancer_amulet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = bloodworm_helmet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bloodworm_helmet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = skeleton_key_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_skeleton_key_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mehrunes_razor_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mehrunes_razor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = auriels_bow_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_auriels_bow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_filament
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_filament_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = death_dealers_fete_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_death_dealers_fete_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_twilight
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_twilight_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_sallow
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_sallow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_change
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_change_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_untold
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_untold_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_waking
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_waking_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 5
+												has_artifact_modifier = elder_scroll_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_elder_scroll_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = ebony_blade_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_ebony_blade_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_hasedoki_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_hasedoki_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_ritual_circle_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = amulet_skystone_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_amulet_skystone_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = seekers_sight_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_seekers_sight_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 3
+												has_artifact_modifier = seal_tarish_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_seal_tarish_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_dremora_armor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mentors_ring_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mentors_ring_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_circlet_yokudan_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+								}
+							}
+							100 = {	#High Rock
+								trigger = {
+									scope:location ?= {
+										OR = {
+											geographical_region = mundus_tamriel_high_rock
+										}
+									}
+								}
+								random_list = {
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_magnus_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_magnus_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_worms_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_worms_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = necromancer_amulet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_necromancer_amulet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = bloodworm_helmet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bloodworm_helmet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = skeleton_key_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_skeleton_key_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mehrunes_razor_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mehrunes_razor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = auriels_bow_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_auriels_bow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_filament
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_filament_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = death_dealers_fete_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_death_dealers_fete_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_twilight
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_twilight_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_sallow
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_sallow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_change
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_change_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_untold
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_untold_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_waking
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_waking_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 5
+												has_artifact_modifier = elder_scroll_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_elder_scroll_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = neb_crescen_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_neb_crescen_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = ebony_blade_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_ebony_blade_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_hasedoki_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_hasedoki_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = armlet_torug_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_armlet_torug_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = helm_uzdabikh_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_helm_uzdabikh_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_dremora_armor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mentors_ring_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mentors_ring_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_sword_alessian_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bow_alessian_effect = {
+												OWNER = root
+												SET_BOW_TYPE = flag:no
+											}
+										}
+										
+									}
+									100 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = shield_green_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_shield_green_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = agra_crun_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_agra_crun_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = sword_aphren_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_sword_aphren_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+								}
+							}
+							100 = {	#Morrowind
+								trigger = {
+									scope:location ?= {
+										OR = {
+											geographical_region = mundus_tamriel_morrowind
+										}
+									}
+								}
+								random_list = {
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_magnus_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_magnus_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_worms_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_worms_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = necromancer_amulet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_necromancer_amulet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = bloodworm_helmet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bloodworm_helmet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = skeleton_key_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_skeleton_key_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mentors_ring_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mentors_ring_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = skull_crusher_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_skull_crusher_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = eleidons_ward_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_eleidons_ward_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = chrysamere_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_chrysamere_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = calderas_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_calderas_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mehrunes_razor_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mehrunes_razor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = auriels_bow_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_auriels_bow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_filament
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_filament_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = death_dealers_fete_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_death_dealers_fete_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_twilight
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_twilight_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_sallow
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_sallow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_change
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_change_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_untold
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_untold_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_waking
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_waking_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 5
+												has_artifact_modifier = elder_scroll_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_elder_scroll_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = ebony_blade_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_ebony_blade_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_hasedoki_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_hasedoki_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_dremora_armor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mentors_ring_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mentors_ring_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+								}
+							}
+							100 = {	#Summerset
+								trigger = {
+									scope:location ?= {
+										OR = {
+											geographical_region = mundus_tamriel_summerset_isles
+										}
+									}
+								}
+								random_list = {
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_magnus_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_magnus_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_worms_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_worms_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = necromancer_amulet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_necromancer_amulet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = bloodworm_helmet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bloodworm_helmet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = skeleton_key_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_skeleton_key_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mehrunes_razor_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mehrunes_razor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = auriels_bow_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_auriels_bow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_filament
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_filament_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = death_dealers_fete_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_death_dealers_fete_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_twilight
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_twilight_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_sallow
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_sallow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_change
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_change_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_untold
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_untold_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_waking
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_waking_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 5
+												has_artifact_modifier = elder_scroll_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_elder_scroll_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = ebony_blade_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_ebony_blade_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_hasedoki_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_hasedoki_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_ulvor_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_ulvor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_dremora_armor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mentors_ring_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mentors_ring_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+								}
+							}
+							100 = {	#Black Marsh
+								trigger = {
+									scope:location ?= {
+										OR = {
+											geographical_region = mundus_tamriel_black_marsh
+										}
+									}
+								}
+								random_list = {
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_magnus_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_magnus_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_worms_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_worms_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = necromancer_amulet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_necromancer_amulet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = bloodworm_helmet_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bloodworm_helmet_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = skeleton_key_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_skeleton_key_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mehrunes_razor_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mehrunes_razor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = auriels_bow_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_auriels_bow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_filament
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_filament_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = death_dealers_fete_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_death_dealers_fete_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_twilight
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_twilight_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_sallow
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_sallow_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_change
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_change_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_untold
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_untold_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_variable = bb_waking
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_bb_waking_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 5
+												has_artifact_modifier = elder_scroll_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_elder_scroll_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = ebony_blade_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_ebony_blade_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = staff_hasedoki_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_staff_hasedoki_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									1 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_dremora_armor_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									100 = {
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_haynekhtnamet_fang_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = shuxaltsei_staff_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_shuxaltsei_staff_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = chalice_unquenchable_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_chalice_unquenchable_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = serpent_fang_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_serpent_fang_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+									10 = {
+										trigger = {
+											any_artifact = {
+												count < 1
+												has_artifact_modifier = mentors_ring_modifier
+											}
+										}
+										send_interface_toast = {
+											type = event_toast_effect_good
+											title = laamp_create_artifact.cc
+											left_icon = root
+											create_artifact_mentors_ring_effect = {
+												OWNER = root
+											}
+										}
+										
+									}
+								}
+							}
+							1 = { #Fallback Relic
+								create_artifact_antique_map_effect = {
+									OWNER = root
+								}
+							}
+						}
+					}
+				}
+			}
+
+			10 = {
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = laamp_create_artifact.cc
+					left_icon = root
+					create_artifact_weapon_effect = {
+						OWNER = root
+						CREATOR = scope:artifact_origin
+						SET_WEAPON_TYPE = flag:no
+					}
+				}
+		
+			}
+
+			5 = {
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = laamp_create_artifact.cc
+					left_icon = root
+					create_artifact_armor_effect = {
+						OWNER = root
+						CREATOR = scope:artifact_origin
+						SET_ARMOR_TYPE = flag:no
+					}
+				}
+				
+			}
+			5 = {
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = laamp_create_artifact.cc
+					left_icon = root
+					create_artifact_necklace_effect = {
+						OWNER = root
+						SMITH = scope:artifact_origin
+					}
+					scope:newly_created_artifact = { save_scope_as = necklace }
+				}
+				
+			}
+			5 = {
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = laamp_create_artifact.cc
+					left_icon = root
+					create_artifact_regalia_effect = {
+						OWNER = root
+						SMITH = scope:artifact_origin
+					}
+				}
+	
+			}
+			10 = {
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = laamp_create_artifact.cc
+					left_icon = root
+					create_artifact_wall_skull_effect = {
+						OWNER = root
+						HUNTER = scope:artifact_origin
+						LEGENDARY = no
+						ANIMAL = flag:none
+					}
+				}
+				
+			}
+			30 = {
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = laamp_create_artifact.cc
+					left_icon = root
+					create_artifact_animal_hide_effect = {
+						OWNER = root
+						HUNTER = scope:artifact_origin
+						LEGENDARY = no
+						ANIMAL = flag:none
+					}
+				}
+				
+			}
+			10 = {
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = laamp_create_artifact.cc
+					left_icon = root
+					create_artifact_box_small_effect = {
+						OWNER = root
+						CARPENTER = scope:artifact_origin
+					}
+				}
+				
+			}
+			10 = {
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = laamp_create_artifact.cc
+					left_icon = root
+					create_artifact_goblet_effect = {
+						OWNER = root
+						SMITH = scope:artifact_origin
+					}
+				}
+				
+			}
+			10 = {
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = laamp_create_artifact.cc
+					left_icon = root
+					create_artifact_tapestry_effect = {
+						OWNER = root
+						WEAVER = scope:artifact_origin
+					}
+				}
+				
+			}
+		}
+	}
+}

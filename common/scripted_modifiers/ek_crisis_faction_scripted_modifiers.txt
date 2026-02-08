@@ -1,0 +1,327 @@
+﻿
+
+#################################
+# Chance of rolling any crisis modifier
+#################################
+
+ek_low_control_crisis_modifier_roll_chance = {
+	modifier = {
+		has_game_rule = ek_crisis_factions_apocalyptic
+		add = 600
+	}
+	modifier = {
+		has_game_rule = ek_crisis_factions_frequent
+		add = 200
+	}
+	modifier = {
+		has_game_rule = ek_crisis_factions_rare
+		add = -100
+	}
+	modifier = { # less likely in high developed counties
+		add = {
+			value = 100
+			subtract = development_level
+		}
+	}
+	modifier = { # less likely in high control counties
+		add = {
+			value = 100
+			subtract = county_control
+		}
+	}
+	compare_modifier = { # More likely with low opinion
+		value = county_opinion
+		multiplier = -1
+	}
+	modifier = { # less likely in a capital
+		add = -100
+		holder.capital_county = this
+	}
+	modifier = { # more likely if there is no protecting top liege
+		add = 50
+		holder = holder.top_liege
+	}
+	modifier = { # more likely during a war
+		add = 100
+		holder = { is_at_war = yes }
+	}
+	modifier = {
+		add = 50
+		has_county_modifier = recently_sacked_modifier
+	}
+	modifier = {
+		add = 50
+		holder = { debt_level >= 0 }
+	}
+}
+
+#################################
+# Faction join or create score
+#################################
+
+ek_county_crisis_faction_join_or_create_score = {
+	# If has a relevant county modifier, create
+	modifier = {
+		add = 1000
+		ek_county_has_crisis_faction_modifier = yes
+	}	
+	# Protective effect of control
+	compare_modifier = {
+		value = county_control			
+		multiplier = -5.0
+	}
+	liege_debt_modifier = {
+		TARGET = $FACTION_TARGET$
+		SCORE_PER_DEBT_LEVEL = 20 # Worth ~5 opinon per debt level, up to a max of 140 (-35 opinion)
+	}
+	# Realm Stability Settings
+	modifier = {
+		desc = "FACTION_REASON_GAME_RULE_REALM_STABILITY_LESSER"
+		add = 50
+		has_game_rule = lesser_realm_stability
+	}
+	modifier = {
+		desc = "FACTION_REASON_GAME_RULE_REALM_STABILITY_HIGHER"
+		add = -100
+		has_game_rule = higher_realm_stability
+	}
+	modifier = {
+		desc = "FACTION_REASON_GAME_RULE_REALM_STABILITY_EXTREME"
+		add = -200
+		has_game_rule = extreme_realm_stability
+	}
+	legalism_virtue_and_sin_modifier = {
+		TARGET = $FACTION_TARGET$
+		SCORE_PER_TRAIT = 10 # Worth 10 opinion per virtue.
+	}
+	# More likely during a war
+	modifier = { 
+		add = 25
+		$FACTION_TARGET$ = { is_at_war = yes }
+	}
+	# less likely if there is a protecting top liege
+	modifier = { 
+		add = -25
+		NOT = { holder = holder.top_liege }
+	}
+	# a legitimate ruler is less likely to get a crisis
+	modifier = { 
+		always = yes
+		add = {
+			value = $FACTION_TARGET$.legitimacy_level
+			multiply = -10
+		}
+	}
+	modifier = { 
+		always = yes
+		add = {
+			value = development_level
+			multiply = -0.4
+		}
+	}
+	modifier = { 
+		always = yes
+		add = {
+			every_county_province = {
+				limit = { has_holding = no }
+				add = 20
+			}
+		}
+	}
+}
+
+#################################
+# Factors generic to all crisis types
+#################################
+
+ek_county_crisis_modifier_common_score = {
+	modifier = { # prefer to roll same modifier (use cases where previous existence is not relevant)
+		add = 1000
+		has_county_modifier = county_corruption_$TYPE$_rampant_modifier
+	}
+	modifier = { # more likely if there is neighboring corruption
+		add = 100
+		any_neighboring_county = { has_county_modifier = county_corruption_$TYPE$_rampant_modifier }
+	}
+	modifier = { # more likely if there is corruption in domain
+		add = 100
+		holder = {
+			any_held_title = {
+				tier = tier_county
+				has_county_modifier = county_corruption_$TYPE$_rampant_modifier 
+			}
+		}
+	}
+	modifier = { # more likely if there is already the relevant faction
+		add = 100
+		holder = {
+			is_independent_ruler = yes
+			any_targeting_faction = {
+				faction_is_type = ek_crisis_faction
+				var:crisis_type ?= flag:$TYPE$_flag
+			}
+		}
+	}
+	modifier = { # more likely if there is already the relevant faction
+		add = 100
+		holder = { 
+			is_independent_ruler = no
+			top_liege = {
+				any_targeting_faction = {
+					faction_is_type = ek_crisis_faction
+					var:crisis_type ?= flag:$TYPE$_flag
+				}
+			}
+		}
+	}
+	ek_county_crisis_$TYPE$_modifier = yes
+}
+
+#################################
+# Factors specific to a crisis type
+#################################
+
+ek_county_crisis_bandits_modifier = {
+	modifier = {
+		always = yes
+		add = -60
+	}
+}
+
+ek_county_crisis_goblinken_modifier = {
+	#If goblins are around faction should be less likely
+	modifier = {
+		add = -400
+		title_province = { geographical_region = ek_goblins_crisis_region }
+		culture:goblin = {
+			culture_is_alive = yes
+		}
+	}
+	modifier = {
+		add = -400
+		title_province = { geographical_region = ek_riekling_crisis_region }
+		culture:riekling = {
+			culture_is_alive = yes
+		}
+	}
+	modifier = {
+		add = -400
+		title_province = { geographical_region = ek_riekr_crisis_region }
+		culture:riekr = {
+			culture_is_alive = yes
+		}
+	}
+}
+
+ek_county_crisis_vampires_modifier = {
+	modifier = { #Morrowind eradicated vampires
+		add = -1000
+		title_province = { geographical_region = mundus_tamriel_morrowind }
+	}
+	modifier = { #Vampires in Cyrodiil are "peaceful" nobles integrated into local power structures
+		add = -500
+		title_province = { geographical_region = mundus_tamriel_cyrodiil }
+	}
+	modifier = { #Should be rare in general
+		always = yes
+		add = -80
+	}
+}
+
+ek_county_crisis_werewolves_modifier = {
+	modifier = { #Game called "Morrowind" only shows werewolves in Solstheim
+		add = -500
+		title_province = { geographical_region = mundus_tamriel_morrowind }
+	}
+	modifier = { #Game set in Cyrodiil doesn't have werewolves
+		add = -1000
+		title_province = { geographical_region = mundus_tamriel_cyrodiil }
+	}
+	modifier = { #Should be rare in general
+		always = yes
+		add = -80
+	}
+}
+
+ek_county_crisis_imga_modifier = {
+	#If imga are around faction should be less likely
+	modifier = {
+		add = -600
+		culture:imga = {
+			culture_is_alive = yes
+		}
+	}
+}
+
+ek_county_crisis_falmer_modifier = {
+	# if the Betrayed aren't alive and about, never trigger this as a random faction
+	modifier = {
+		add = -10000
+		culture:falmer_betrayed = {
+			culture_is_alive = no
+		}
+	}
+	# if they are however, make this a common crisis
+	modifier = {
+		add = 150
+		culture:falmer_betrayed = {
+			culture_is_alive = yes
+		}
+	}
+}
+
+ek_county_crisis_necromancers_modifier = {
+	modifier = { #Morrowind is very serious about persecuting necromancers
+		add = -800
+		title_province = { geographical_region = mundus_tamriel_morrowind }
+	}
+	modifier = {
+		add = 100
+		has_county_modifier = plague_zombies_modifier
+	}
+}
+
+ek_county_crisis_peryite_modifier = {
+	modifier = {
+		add = 25
+		title_province = { 
+			any_province_epidemic = {
+				count >= 1
+				outbreak_intensity = minor
+			}
+		}
+	}
+	modifier = {
+		add = 50
+		title_province = { 
+			any_province_epidemic = {
+				count >= 1
+				outbreak_intensity = major
+			}
+		}
+	}
+	modifier = {
+		add = 100
+		title_province = { 
+			any_province_epidemic = {
+				count >= 1
+				outbreak_intensity = apocalyptic
+			}
+		}
+	}
+}
+
+ek_county_crisis_daedra_modifier = {
+	modifier = { #Daedra should be rare
+		always = yes
+		add = -200 
+	}
+}
+
+ek_county_crisis_ashlanders_modifier = {
+	# EK TODO for Anarchaz: apply any relevant weights here (e.g. GHC laws)
+}
+
+ek_county_crisis_slaves_modifier = {
+	# EK TODO for Anarchaz: apply any relevant weights here (e.g. higher levels of slave pens building, GHC laws)
+}

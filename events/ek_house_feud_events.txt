@@ -1,0 +1,22 @@
+﻿namespace = ek_house_feud
+
+# This is a hidden maintenance event that is used to start a feud between two houses at gamestart
+# see on_action/ek_game_start_misc for more
+ek_house_feud.0001 = {
+	hidden = yes
+
+	immediate = {
+		house_feud_start_effect = {
+			# Feuding House Head
+			ACTOR = root
+			# Target House Head
+			TARGET = scope:rival
+			# Feud Reason
+			REASON = inherited_rivalry
+			# House Member attacker if relevant
+			ATTACKER = scope:rival
+			# House Member victim if relevant
+			VICTIM = root.father
+		}
+	}
+}

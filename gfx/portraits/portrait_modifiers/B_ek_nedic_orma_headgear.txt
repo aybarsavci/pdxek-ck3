@@ -1,0 +1,90 @@
+﻿ek_nedic_orma_headgear = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 1
+	
+##############################
+#							 #	
+#			ORMA		 	 #
+#							 #
+##############################
+
+ 	ek_nedic_orma_commoners = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_south_nedic_orma_common
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 80
+                portrait_commoner_headgear_fallback_trigger = {
+                    CULTURE_INPUT = ek_nedic_orma
+                }
+			}
+			modifier = {
+				add = 20
+				OR = {
+						portrait_commoner_clothing_trigger = { 
+							CULTURE_INPUT = ek_nedic_orma
+						}
+						portrait_low_nobles_clothing_trigger = { 
+							CULTURE_INPUT = ek_nedic_orma
+						}
+						portrait_high_nobles_headgear_trigger = { 
+							CULTURE_INPUT = ek_nedic_orma
+						}
+						portrait_royalty_trigger = { 
+							CULTURE_INPUT = ek_nedic_orma
+						}
+						portrait_imperial_trigger = { 
+							CULTURE_INPUT = ek_nedic_orma
+						}						
+					}
+			}
+		}
+	}
+	
+	ek_nedic_orma_commoner_war = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+                template = ek_south_nedic_orma_common
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		outfit_tags = { military_outfit }
+		weight = {
+			base = 0
+			modifier = {
+				add = 80
+				OR = {
+						portrait_war_nobles_helmet_trigger = { 
+							CULTURE_INPUT = ek_nedic_orma
+						}						
+					}							
+				OR = {
+						portrait_commoner_armor_trigger = { 
+							CULTURE_INPUT = ek_nedic_orma
+						}
+						portrait_low_nobles_armor_trigger = { 
+							CULTURE_INPUT = ek_nedic_orma
+						}
+						portrait_high_nobles_armor_trigger = { 
+							CULTURE_INPUT = ek_nedic_orma
+						}
+						portrait_royalty_armor_trigger = { 
+							CULTURE_INPUT = ek_nedic_orma
+						}							
+					}
+			}
+		}
+	}
+ 
+}

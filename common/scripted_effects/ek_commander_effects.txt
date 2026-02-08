@@ -1,0 +1,81 @@
+﻿knight_nedic_headhunter_trophy_effect = {
+    if = {
+        limit = {
+            AND = {
+                culture = { has_cultural_tradition = tradition_headhunters }
+                highest_held_title_tier >= tier_barony
+                scope:victim_knight = {
+                    OR = {
+                        prowess > 20 # Trophy from a skilled opponent
+                        highest_held_title_tier >= tier_duchy # A notable opponent
+                    }
+                }
+            }
+        }
+        random = {
+            chance = 50
+            save_scope_as = owner
+            create_artifact = {
+                name = artifact_headhunter_trophy_of_the_enemy_name
+                description = artifact_headhunter_trophy_of_the_enemy_description
+                visuals = human_skull
+                type = pedestal
+                modifier = artifact_dread_baseline_add_2_modifier
+                save_scope_as = newly_created_artifact
+            }
+            if = {
+                limit = {
+                    scope:victim_knight = {
+                        highest_held_title_tier = tier_kingdom
+                    }
+                }
+                hidden_effect = {
+                    scope:newly_created_artifact = {
+                        add_artifact_modifier = artifact_dread_decay_neg_mult_2_modifier
+                        add_artifact_modifier = artifact_monthly_prestige_2_modifier
+                        remove_artifact_modifier = artifact_dread_baseline_add_2_modifier
+                        add_artifact_modifier = artifact_dread_baseline_add_3_modifier
+                    }
+                }
+            }
+            else_if = {
+                limit = {
+                    scope:victim_knight = {
+                        highest_held_title_tier = tier_empire
+                    }
+                }
+                hidden_effect = {
+                    scope:newly_created_artifact = {
+                        add_artifact_modifier = artifact_dread_decay_neg_mult_3_modifier
+                        add_artifact_modifier = artifact_monthly_prestige_3_modifier
+                        remove_artifact_modifier = artifact_dread_baseline_add_2_modifier
+                        add_artifact_modifier = artifact_dread_baseline_add_4_modifier
+                    }
+                }
+            }
+            else = {
+                hidden_effect = {
+                    scope:newly_created_artifact = {
+                        add_artifact_modifier = artifact_dread_decay_neg_mult_1_modifier
+                        add_artifact_modifier = artifact_monthly_prestige_1_modifier
+                    }
+                }
+            }
+
+            scope:newly_created_artifact = {
+                save_scope_as = this_artifact
+            }
+            scope:victim_knight = {
+                save_scope_as = old_owner
+            }
+            hidden_effect = {
+                send_interface_toast = {	
+                    title = artifact.0012.t
+                    left_icon = scope:this_artifact
+                    right_icon = scope:old_owner
+                    custom_tooltip = artifact.0012.tooltip
+                }
+            }
+        }
+    }
+}

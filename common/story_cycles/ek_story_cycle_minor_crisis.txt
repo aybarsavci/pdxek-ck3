@@ -1,0 +1,116 @@
+﻿story_cycle_bandit_uprising = {
+
+	# Bandit uprising crisis when county_corruption_bandits_rampant_modifier is present
+
+	### We add the challengers to the list
+	on_setup = {
+		story_owner = {
+			add_character_flag = had_bandit_uprising_story_cycle
+		}
+		set_variable = {
+			name = story_state
+			value = flag:bandit_uprising
+		}
+		set_variable = {
+			name = bandit_escalation
+			value = 1
+		}
+	}
+
+	### When everyone has been defeated
+	on_end = {
+		story_owner = { trigger_event = { id = ek_scmc.0010 days = 3 } }
+	}
+
+	### The new ruler inherits the story
+	on_owner_death = {
+		if = {  #VARLA ERRORLOG - missing(?) if statement
+			limit = {
+				story_owner.player_heir = {
+					exists = this #also added check that they even exist
+					is_alive = yes
+					is_imprisoned = no
+				}
+			}
+			story_owner = {
+				save_scope_as = predecessor
+			}
+			story_owner.player_heir = {
+				add_character_flag = {
+					flag = just_inherited_story
+					days = 31
+				}
+				trigger_event = {
+					id = ek_scmc.8003
+					days = { 14 30 }
+				}
+			}
+			make_story_owner = story_owner.player_heir
+		}
+		else = {
+			end_story = yes
+		}
+	}
+
+
+	# Will the uprising succeed?
+	effect_group = {
+		days = { 70 90 } #Duration between checks of this effect group
+		chance = 50 #Chance of the group firing on a given check
+
+		first_valid = {
+			triggered_effect = {
+				trigger = {
+					story_owner = {
+						NOR = {
+							has_character_flag = uprising_succeeded
+							has_character_flag = just_inherited_story
+						}
+					}
+					var:bandit_escalation >= 4
+				}
+				effect = {
+					story_owner = {
+						add_character_flag = {
+							flag = uprising_succeeded
+							years = 5
+						}
+						trigger_event = {
+							on_action = bandit_uprising_final_events
+						}
+					}
+				}
+			}
+		}
+	}
+
+	# Bandit Uprising
+	effect_group = {
+		days = { 300 365 } #Duration between checks of this effect group
+		chance = 80 #Chance of the group firing on a given check
+
+		trigger = {
+			var:story_state = flag:bandit_uprising
+			story_owner = { #Not currently confrontation the murderer or just inherited the story
+				NOR = {
+					has_character_flag = uprising_succeeded
+					has_character_flag = just_inherited_story
+				}
+			}
+		}
+
+		first_valid = {
+			triggered_effect = {
+				trigger = { always = yes }
+				effect = {
+					story_owner = {
+						trigger_event = {
+							on_action = bandit_uprising_events
+						}
+					}
+				}
+			}
+		}
+	}
+
+}

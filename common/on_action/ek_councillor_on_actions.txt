@@ -1,0 +1,63 @@
+﻿# scopes are all over the place in that, this needs a complete rewrite because this won't work and will clutter the error.log
+# Once the scopes are fixed, uncomment this
+
+ek_on_leave_council = {
+	effect = {
+		# if = {
+			# limit = {
+				# scope:actor = {
+					# has_government = legionary_government
+				# }
+				# scope:recipient = {
+					# has_claim_on = scope:actor.primary_title
+				# }
+			# }
+			# scope:recipient = {
+				# remove_claim = scope:actor.primary_title
+			# }
+		# }
+	}
+}
+
+ek_on_fired_from_council = {
+	effect = {
+		# if = {
+			# limit = {
+				# scope:actor = {
+					# has_government = legionary_government
+				# }
+				# scope:recipient = {
+					# has_claim_on = scope:actor.primary_title
+				# }
+			# }
+			# scope:recipient = {
+				# remove_claim = scope:actor.primary_title
+			# }
+		# }
+	}
+}
+
+## Fires when a character leaves the council due to them leaving the court.
+# Will fire just before on_leave_court.
+# Root is the character
+# scope:old_employer is their old employer
+# scope:council_task is their (previous) council task
+# scope:councillor is the councillor in question that left (same as root)
+ek_on_councillor_left = {
+	effect = {
+		# ? Wrong scopes
+		# if = {
+			# limit = {
+				# scope:actor = {
+					# has_government = legionary_government
+				# }
+				# scope:recipient = {
+					# has_claim_on = scope:actor.primary_title
+				# }
+			# }
+			# scope:recipient = {
+				# remove_claim = scope:actor.primary_title
+			# }
+		# }
+	}
+}

@@ -1,0 +1,183 @@
+﻿namespace = ek_dynasty_events
+
+ek_dynasty_events.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_dynasty_events.0001.t
+	desc = ek_dynasty_events.0001.desc
+	theme = learning_scholarship_focus
+	
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	
+	trigger = {
+		dynasty = {
+			NOR = {
+				has_dynasty_modifier = magicka_legacy_alteration_focus
+				has_dynasty_modifier = magicka_legacy_conjuration_focus
+				has_dynasty_modifier = magicka_legacy_destruction_focus
+				has_dynasty_modifier = magicka_legacy_illusion_focus
+				has_dynasty_modifier = magicka_legacy_restoration_focus
+				has_dynasty_modifier = magicka_legacy_necromancy_focus
+			}
+		}
+	}
+
+	option = {
+		name = ek_dynasty_events.0001.a
+		dynasty = {
+			add_dynasty_modifier = {
+				modifier = magicka_legacy_alteration_focus
+			}
+		}
+		ai_chance = {
+			base = 10
+			modifier = {
+				culture = { has_cultural_parameter = cheaper_alteration_spells }
+				add = 50
+			}
+		}
+	}
+	option = {
+		name = ek_dynasty_events.0001.b
+		dynasty = {
+			add_dynasty_modifier = {
+				modifier = magicka_legacy_conjuration_focus
+			}
+		}
+		ai_chance = {
+			base = 10
+			modifier = {
+				culture = { has_cultural_parameter = cheaper_conjuration_spells }
+				add = 50
+			}
+			modifier = {
+				religion = { is_in_family = rf_daedra }
+				add = 50
+			}
+			modifier = {
+				religion = { is_in_family = rf_aedra }
+				NOT = { has_trait = cynical }
+				add = -50
+			}
+		}
+	}
+	option = {
+		name = ek_dynasty_events.0001.c
+		dynasty = {
+			add_dynasty_modifier = {
+				modifier = magicka_legacy_destruction_focus
+			}
+		}
+		ai_chance = {
+			base = 10
+			modifier = {
+				culture = { has_cultural_parameter = cheaper_destruction_spells }
+				add = 50
+			}
+			modifier = {
+				has_trait = brave
+				add = 20
+			}
+			modifier = {
+				has_trait = wrathful
+				add = 20
+			}
+		}
+	}
+	option = {
+		name = ek_dynasty_events.0001.d
+		dynasty = {
+			add_dynasty_modifier = {
+				modifier = magicka_legacy_illusion_focus
+			}
+		}
+		ai_chance = {
+			base = 10
+			modifier = {
+				culture = { has_cultural_parameter = cheaper_illusion_spells }
+				add = 50
+			}
+			modifier = {
+				has_trait = paranoid
+				add = 20
+			}
+			modifier = {
+				has_trait = deceitful
+				add = 20
+			}
+		}
+	}
+	option = {
+		name = ek_dynasty_events.0001.e
+		dynasty = {
+			add_dynasty_modifier = {
+				modifier = magicka_legacy_restoration_focus
+			}
+		}
+		ai_chance = {
+			base = 10
+			modifier = {
+				religion = { is_in_family = rf_aedra }
+				add = 10
+			}
+			modifier = {
+				culture = { has_cultural_parameter = cheaper_restoration_spells }
+				add = 50
+			}
+			modifier = {
+				has_trait = zealous
+				religion = { is_in_family = rf_aedra }
+				add = 50
+			}
+			modifier = {
+				religion = { is_in_family = rf_daedra }
+				NOR = {
+					religion = religion:meridia_religion
+					religion = religion:velothi_religion
+				}
+				add = -20
+			}
+			modifier = {
+				has_trait = compassionate
+				add = 20
+			}
+		}
+	}
+	option = {
+		name = ek_dynasty_events.0001.f
+		dynasty = {
+			add_dynasty_modifier = {
+				modifier = magicka_legacy_necromancy_focus
+			}
+		}
+		ai_chance = {
+			base = 0
+			modifier = {
+				OR = {
+					has_religion = religion:necromantic_religion 
+					faith = { malevolent_necromantic_faith = yes }
+				}
+				add = 100
+			}
+			modifier = {
+				is_necromancer = yes
+				add = 1000
+			}
+			modifier = {
+				has_trait = compassionate
+				add = -50
+			}
+			modifier = {
+				has_trait = sadistic
+				add = 50
+			}
+			modifier = {
+				has_trait = callous
+				add = 25
+			}
+		}
+	}
+}

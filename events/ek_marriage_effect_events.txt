@@ -1,0 +1,295 @@
+﻿namespace = ek_marriage_effect
+
+ek_marriage_effect.2002 = {
+	type = character_event
+	title = ek_marriage_effect.2002.t
+	desc = {
+		first_valid = {
+			triggered_desc = { #arrow to the knee
+				trigger = {
+					culture = { has_cultural_pillar = heritage_atmoran }
+				}
+				desc = ek_marriage_effect.2002.nord.desc
+			}
+			desc = ek_marriage_effect.2002.desc
+		}
+	} 
+	theme = marriage
+	left_portrait = {
+		character = root
+		triggered_animation = {
+			trigger = { 
+				scope:new_spouse = {
+					is_imprisoned = yes 
+				}
+			}
+			animation = shame
+		}
+		triggered_animation = {
+			trigger = { always = yes }
+			animation = happiness
+		}
+	}
+	right_portrait = {
+		character = scope:inspired_courtier
+		triggered_animation = {
+			trigger = { is_imprisoned = yes }
+			animation = shame
+		}
+		triggered_animation = {
+			trigger = { always = yes }
+			animation = happiness
+		}
+	}
+	trigger = {
+		OR = {
+			AND = {is_male = yes patrilinear_marriage = yes}
+			AND = {is_female = yes matrilinear_marriage = yes}
+		}
+		has_dlc_feature = royal_court
+	}
+
+	immediate = {
+		random_courtier = {
+			limit = {
+				is_alive = yes
+				is_courtier_of = root
+				ep1_is_valid_character_for_inspiration_trigger = yes
+			}
+			save_scope_as = inspired_courtier
+		}
+		grant_inspiration_to_character_effect = { CHARACTER = scope:inspired_courtier }
+	}
+
+	option = {
+		name = ek_marriage_effect.2002.a
+		trigger = {
+			is_ai = no
+			scope:inspired_courtier = {
+				inspiration = {
+					NOT = { exists = inspiration_sponsor }
+				}
+			}
+		}
+		#We need to save the scopes to be able to use the fund inspiration effect properly
+		save_scope_as = actor
+		scope:inspired_courtier = { save_scope_as = recipient }
+		fund_inspiration_effect = yes
+		if = {
+			limit = { has_royal_court = yes }
+			change_current_court_grandeur = medium_court_grandeur_gain
+		}
+
+		trigger_event = marriage_effect.0001
+	}
+
+	option = {
+		name = ek_marriage_effect.2002.b
+		trigger_event = marriage_effect.0001
+		reverse_add_opinion = {
+			modifier = disappointed_opinion
+			target = scope:inspired_courtier
+			opinion = -20
+		}
+		stress_impact = {
+			content = major_stress_impact_loss
+		}
+	}
+
+}
+
+ek_marriage_effect.2003 = {
+	type = character_event
+	title = ek_marriage_effect.2003.t
+	desc = {
+		desc = ek_marriage_effect.2003.opening
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:omen = flag:great
+				}
+				desc = ek_marriage_effect.2003.great
+			}	
+			triggered_desc = {	
+				trigger = {
+					scope:omen = flag:good
+				}
+				desc = ek_marriage_effect.2003.good
+			}
+			triggered_desc = {	
+				trigger = {
+					scope:omen = flag:bad
+				}
+				desc = ek_marriage_effect.2003.bad
+			}
+			triggered_desc = {	
+				trigger = {
+					scope:omen = flag:terrible
+				}
+				desc = ek_marriage_effect.2003.terrible
+			}
+		}	
+	}
+
+	immediate = {
+		#check for omen
+		random_list = {
+			1 = { save_scope_value_as = { name = omen value = flag:great } }
+			3 = { save_scope_value_as = { name = omen value = flag:good } } 
+			3 = { save_scope_value_as = { name = omen value = flag:bad } }
+			1 = { save_scope_value_as = { name = omen value = flag:terrible } } 
+		}
+	}
+		
+	theme = marriage
+	override_background = wilderness
+	left_portrait = {
+		character = root
+		triggered_animation = {
+			trigger = { 
+				scope:new_spouse = {
+					is_imprisoned = yes 
+				}
+			}
+			animation = shame
+		}
+		triggered_animation = {
+			trigger = { always = yes }
+			animation = personality_zealous
+		}
+	}
+	right_portrait = {
+		character = scope:new_spouse
+		triggered_animation = {
+			trigger = { is_imprisoned = yes }
+			animation = shame
+		}
+		triggered_animation = {
+			trigger = { always = yes }
+			animation = personality_zealous
+		}
+	}
+	trigger = {
+		OR = { 
+			AND = {is_male = yes patrilinear_marriage = yes}
+			AND = {is_female = yes matrilinear_marriage = yes}
+		}
+	}
+
+	option = {
+		name = ek_marriage_effect.2003.a
+		trigger = {
+			scope:omen = flag:great
+		}
+		add_piety = major_piety_value
+		add_opinion = {
+			target = scope:new_spouse
+			modifier = great_marriage_omen
+		}
+		scope:new_spouse = { 
+			add_piety = major_piety_value
+			add_opinion = {
+				target = root
+				modifier = great_marriage_omen
+			}
+			custom_tooltip = {
+				text = ek_marriage_effect.2003.a.tt
+				every_close_family_member = {
+					add_opinion = {
+						target = root
+						modifier = great_marriage_omen
+					}
+				}	
+			}	
+		}
+	}
+	option = {
+		name = ek_marriage_effect.2003.b
+		trigger = {
+			scope:omen = flag:good
+		}
+		add_piety = medium_piety_value
+		add_opinion = {
+			target = scope:new_spouse
+			modifier = good_marriage_omen
+		}
+		scope:new_spouse = { 
+			add_piety = medium_piety_value
+			add_opinion = {
+				target = root
+				modifier = good_marriage_omen
+			}	
+		}
+	}
+	option = {
+		name = ek_marriage_effect.2003.b
+		trigger = {
+			scope:omen = flag:good
+		}
+		add_piety = medium_piety_value
+		add_opinion = {
+			target = scope:new_spouse
+			modifier = good_marriage_omen
+		}
+		scope:new_spouse = { 
+			add_piety = medium_piety_value
+			add_opinion = {
+				target = root
+				modifier = good_marriage_omen
+			}
+		}		
+		custom_tooltip = {
+			text = marriage_effect.2001.d.tt
+			scope:new_spouse = { 	
+				every_close_family_member = {
+					add_opinion = {
+						target = root
+						modifier = did_not_seek_marriage_blessing
+					}
+				}
+			}	
+		}		
+		stress_impact = {
+			zealous = major_stress_impact_gain
+			cynical = medium_stress_impact_loss
+		}
+		ai_chance = { #ai should only sometimes choose this
+			base = 30
+			modifier = {
+				add = -20
+				has_trait = zealous
+			}
+			modifier = {
+				add = 20
+				has_trait = cynical
+			}
+		}
+	}
+
+
+	after = {
+		if = {
+			limit = {
+				faith = {
+					has_doctrine_parameter = divine_marriage_piety_gain_active
+				}
+				scope:new_spouse = {
+					is_close_family_of = root
+				}
+			}
+			add_piety = massive_piety_value
+		}
+		save_scope_as = spouse_scope
+		scope:spouse = {
+			scope:spouse_scope = {
+				save_scope_as = spouse
+			}
+			trigger_event = marriage_effect.0001
+		}
+
+		hidden_effect = {
+			# To disable prestige & gold remarrying exploit
+			add_character_flag = ignore_marriage_event
+		}
+	}
+}

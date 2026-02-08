@@ -1,0 +1,198 @@
+﻿ek_ayleid_headgear = {
+
+	usage = game
+	selection_behavior = weighted_random
+	priority = 1
+
+##############################
+#							 #	
+#			AYLEIDS		 	 #
+#							 #
+##############################
+
+	ek_ayleid_commoners = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 80
+                portrait_commoner_headgear_fallback_trigger = {
+                    CULTURE_INPUT = ek_ayleid
+                }
+			}
+			modifier = {
+				add = 20
+                portrait_commoner_clothing_trigger = {  
+                    CULTURE_INPUT = ek_ayleid 
+                }
+			}
+		}
+	}
+
+	ek_ayleid_low_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_ayleid_crown
+				value = 0
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+				is_independent_ruler = no
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_ayleid
+                }
+			}
+		}
+	}	
+	ek_ayleid_high_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_ayleid_crown
+				value = 0
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+				is_independent_ruler = no
+                portrait_high_nobles_headgear_trigger = {
+                    CULTURE_INPUT = ek_ayleid
+                }   
+			}
+		}
+	}
+
+	ek_ayleid_royalty = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_ayleid_crown
+				value = 0.9
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+				OR = {   
+					portrait_royalty_trigger = {
+						CULTURE_INPUT = ek_ayleid
+					}
+					portrait_imperial_trigger = {
+						CULTURE_INPUT = ek_ayleid
+					}					
+				}
+			}
+		}
+	}
+	
+	ek_ayleid_independent = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_ayleid_crown
+				value = 0.9
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+				is_independent_ruler = yes
+				OR = {
+					portrait_low_nobles_clothing_trigger = {
+						CULTURE_INPUT = ek_ayleid
+					}
+					portrait_high_nobles_headgear_trigger = {
+						CULTURE_INPUT = ek_ayleid
+					}					  
+					portrait_royalty_trigger = {
+						CULTURE_INPUT = ek_ayleid
+					}
+					portrait_imperial_trigger = {
+						CULTURE_INPUT = ek_ayleid
+					} 					
+				}
+			}
+		}
+	}
+
+}
+
+
+ek_ayleid_war_headgear = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 4
+
+    ek_ayleid_war_low_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = indian_war
+                accessory = m_headgear_sec_indian_war_nob_01_lo
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_ayleid
+                }
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_ayleid
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_ayleid
+                    }
+                }
+            }
+        }
+    }
+
+    ek_ayleid_war_high_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = indian_war
+                accessory = m_headgear_sec_indian_war_nob_01_hi
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_ayleid
+                }
+                portrait_high_nobles_armor_trigger = {
+                    CULTURE_INPUT = ek_ayleid
+                }
+            }
+        }
+    }
+}

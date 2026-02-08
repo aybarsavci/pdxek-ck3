@@ -1,0 +1,118 @@
+﻿ek_nibenese_headgear = {
+
+	usage = game
+	selection_behavior = weighted_random
+	priority = 1
+
+##############################
+#							 #	
+#			NIBENESE		 #
+#							 #
+##############################
+
+	ek_nibenese_commoners = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = byzantine_common
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 80
+                portrait_commoner_headgear_fallback_trigger = {
+                    CULTURE_INPUT = ek_nibenese
+                }
+			}
+			modifier = {
+				add = 20
+                portrait_commoner_clothing_trigger = {
+                    CULTURE_INPUT = ek_nibenese
+                }
+			}
+		}
+	}
+
+	ek_nibenese_low_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = byzantine_nobility
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_low_nobles_clothing_trigger = {  
+                    CULTURE_INPUT = ek_nibenese 
+                }
+			}
+		}
+	}
+
+	ek_nibenese_high_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = byzantine_high_nobility
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_high_nobles_headgear_trigger = {
+                    CULTURE_INPUT = ek_nibenese
+                }   
+			}
+		}
+	}
+
+	ek_nibenese_royalty = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = byzantine_royalty
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_royalty_trigger = {
+                    CULTURE_INPUT = ek_nibenese
+                }   
+			}
+		}
+	}
+
+	ek_nibenese_imperial = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = byzantine_royalty
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+				portrait_imperial_trigger = {
+                    CULTURE_INPUT = ek_nibenese 
+                }
+			}
+		}
+	}
+}

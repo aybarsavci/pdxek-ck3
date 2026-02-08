@@ -1,0 +1,40 @@
+﻿### EK EDIT: Added our own effects (religious bonus scaling with devotion)
+
+ek_on_piety_level_gain = {
+	effect = {
+		update_religions_piety_level = yes
+	}
+	events = {
+		ek_tenets.0051 # New Saint
+	}
+}
+
+ek_on_piety_level_loss = {
+	effect = {
+		update_religions_piety_level = yes
+		might_makes_right_update_law_fame_devotion = yes
+	}
+}
+
+ek_on_prestige_level_gain = {
+	effect = {
+		if = {
+			limit = { government_has_flag = government_is_tribal }
+			update_tribal_ruler_prestige_level = yes
+		}
+	}
+	events = {
+		ek_tenets.0051 # New Saint
+	}
+}
+
+ek_on_prestige_level_loss = {
+	effect = {
+		might_makes_right_update_law_fame_devotion = yes
+		
+		if = {
+			limit = { government_has_flag = government_is_tribal }
+			update_tribal_ruler_prestige_level = yes
+		}
+	}
+}

@@ -1,0 +1,249 @@
+﻿get_staff_decoration_effect = {
+	random_list = {
+		40 = {
+			trigger = { ep1_extravagant_artifact_decorations_trigger = yes }
+			set_artifact_feature_group = shaft_decoration
+			set_artifact_feature_group = decoration_material_gem
+		}
+		20 = {
+			trigger = {	ep1_advanced_artifact_decorations_trigger = yes }
+			set_artifact_feature_group = decoration_material_gem
+		}
+		40 = {
+			trigger = {	ep1_simple_artifact_decorations_trigger = yes }
+			set_artifact_feature_group = shaft_decoration
+		}
+		10 = {
+			trigger = {	ep1_no_artifact_decorations_trigger = yes }
+			modifier = {
+				add = 30
+				AND = {
+					exists = scope:inspiration_owner
+					scope:inspiration_owner = { ai_greed <= -40	}
+				}
+			}
+			# No decoration
+		}
+
+	}
+}
+
+get_bow_decoration_effect = {
+	random_list = {
+		40 = {
+			trigger = { ep1_extravagant_artifact_decorations_trigger = yes }
+			set_artifact_feature_group = shaft_decoration
+			set_artifact_feature_group = decoration_material_gem
+		}
+		20 = {
+			trigger = {	ep1_advanced_artifact_decorations_trigger = yes }
+			set_artifact_feature_group = decoration_material_gem
+		}
+		40 = {
+			trigger = {	ep1_simple_artifact_decorations_trigger = yes }
+			set_artifact_feature_group = shaft_decoration
+		}
+		10 = {
+			trigger = {	ep1_no_artifact_decorations_trigger = yes }
+			modifier = {
+				add = 30
+				AND = {
+					exists = scope:inspiration_owner
+					scope:inspiration_owner = { ai_greed <= -40	}
+				}
+			}
+			# No decoration
+		}
+
+	}
+}
+
+# EK EDIT: Added staff effect
+set_staff_artifact_type_effect = {
+	save_temporary_scope_value_as = {
+		name = allow_no_type_option
+		value = $NO_TYPE$
+	}
+	# Historically many of these types of weapon were used in some combination, but to give a clearer portrayal to the player we have to simplify it a bit
+	hidden_effect = {
+		$BASE_SCOPE$ = {
+			#The type has been decided in events, when the character got inspired, or now. Let's save it! (might still leave it up to the sponsor if allow_no_type_option = yes!)
+			if = {
+				limit = {
+					NOT = { exists = var:artifact_staff_type }
+				}
+				random_list = { #What weapon do they want to forge?
+					50 = {
+						set_variable = {
+							name = artifact_staff_type
+							value = flag:artifact_staff_type_staff
+						}
+					}
+					50 = { #They don't care and you can decide!
+						trigger = { scope:allow_no_type_option = yes }
+						modifier = {
+							add = 30
+							has_personality_submissive_trigger = yes
+						}
+						modifier = {
+							add = 9890 # ~1% chance of being predetermined if comissioning from a local artisan.
+							has_character_flag = local_artisan
+						}
+						ai_value_modifier = {
+							ai_boldness = -0.25
+							ai_energy = -0.25
+						}
+						# Don't set on creation so that the player has more input on what gets forged in inspiration start events, like fund_inspiration.0015
+					}
+				}
+			}
+		}
+	}
+}
+
+create_artifact_staff_effect = {
+	# Get the character the artifact is being made for.
+	# If scope:adventurer exists this will result in the history entry reading that the weapon was discovered instead of made.
+	$OWNER$ = { save_scope_as = owner }
+	$CREATOR$ = { save_scope_as = staff_maker }
+	save_temporary_scope_value_as = {
+		name = staff_type_is_set
+		value = $SET_STAFF_TYPE$
+	}
+	if = { #Any existing dummy character gets turned into the staffmaker
+		limit = {
+			exists = scope:dummy_gender
+			scope:staff_maker = scope:dummy_gender
+		}
+		clear_saved_scope = staff_maker
+		clear_saved_scope = dummy_gender
+	}
+	hidden_effect_new_object = {
+		if = {
+			limit = { scope:staff_type_is_set = flag:no }
+			if = {
+				limit = { exists = scope:staff_maker }
+				set_bow_artifact_type_effect = {
+					BASE_SCOPE = scope:staff_maker
+					NO_TYPE = no
+				}
+				scope:staff_maker = {
+					var:artifact_staff_type = { save_scope_as = staff_type }
+					remove_variable = artifact_staff_type
+				}
+			}
+			else = {
+				set_staff_artifact_type_effect = {
+					BASE_SCOPE = scope:owner
+					NO_TYPE = no
+				}
+				scope:owner = {
+					var:artifact_staff_type = { save_scope_as = staff_type }
+					remove_variable = artifact_staff_type
+				}
+			}
+		}
+		else = {
+			scope:staff_type_is_set = { save_scope_as = staff_type }
+		}
+		# Get artifact quality and wealth.
+		get_artifact_quality_effect = yes
+		get_artifact_wealth_effect = yes
+
+		# Get the type of weapon to forge. Defaults to staff if an invalid type is provided.
+		if = { # Standard
+			limit = { scope:staff_type = flag:artifact_staff_type_staff }
+			if = {
+				limit = { exists = scope:adventurer }
+				create_artifact = {
+					name = artifact_staff_name
+					description = placeholder # Will be re-generated once decorations are added in the post-creation effects.
+					visuals = staff
+					type = staff
+					modifier = artifact_prowess_1_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_artifact
+					history = {
+						location = scope:location
+						actor = scope:adventurer
+						recipient = root
+						type = discovered
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					scope:host ?= $OWNER$
+					scope:activity ?= { has_activity_type = activity_tournament }
+				}
+				tournament_contest_staff_prize_effect = { TYPE = staff }
+			}
+			else_if = {
+				limit = { exists = scope:staff_maker }
+				create_artifact = {
+					name = artifact_staff_name
+					creator = scope:staff_maker
+					description = placeholder # Will be re-generated once decorations are added in the post-creation effects.
+					visuals = staff
+					type = staff
+					modifier = artifact_prowess_1_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_artifact
+				}
+			}
+			else = {
+				create_artifact = {
+					name = artifact_staff_name
+					description = placeholder # Will be re-generated once decorations are added in the post-creation effects.
+					visuals = staff
+					type = staff
+					modifier = artifact_prowess_1_modifier
+					wealth = scope:wealth
+					quality = scope:quality
+					save_scope_as = newly_created_artifact
+					history = { type = created_before_history } 
+				}
+			}
+			scope:newly_created_artifact = {
+				get_artifact_feature_references_effect = yes
+				set_artifact_description = artifact_staff_description
+			}
+		}
+		scope:newly_created_artifact = {
+			# Arcana from weapon rarity
+			if = {
+				limit = {
+					OR = {
+						rarity = famed
+						rarity = illustrious
+					}
+				}
+				set_variable = { name = arcana_modifier value = 2 }
+				set_variable = { name = magicka_modifier_flat value = 0.1 }
+				set_variable = { name = magicka_modifier_mult value = 0.03 }
+			}
+			else_if = {
+				limit = {
+					OR = {
+						rarity = common
+						rarity = masterwork
+					}
+				}
+				set_variable = { name = arcana_modifier value = 1 }
+				set_variable = { name = magicka_modifier_flat value = 0.1 }
+				set_variable = { name = magicka_modifier_mult value = 0.03 }
+			}
+			# Save the quality and wealth of this artifact in case we need to reference it later. 
+			set_variable = {
+				name = quality
+				value = scope:quality
+			}
+			set_variable = {
+				name = wealth
+				value = scope:wealth
+			}
+		}
+	}
+}

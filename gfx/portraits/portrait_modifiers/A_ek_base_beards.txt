@@ -1,0 +1,1522 @@
+﻿### EK NOTE: Removed references to vanilla religions
+
+# Make sure the weights here match up best as possible with the custom_beards set
+beards = {
+
+	usage = game
+    selection_behavior = max #EK EDIT: honestly just setting this to max seems to fix most issues
+
+	no_beard_for_children = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = no_beard
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        #EK EDIT: make transition from 17 to 18 bearded less weird
+        weight = {
+            base = 0
+            modifier = {
+                add = 200
+                scope:age < 17
+            }
+        }
+    }
+	
+	teenage_beard = { # to make that transition from 17 to 18 a little bit less weird
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = teenage_beard
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        } 		
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                scope:age >= 17
+				scope:age < 20
+            } 
+            modifier = {
+                factor = 0
+                portrait_ek_aldmeri_clothing_trigger = yes
+            }
+        }		
+	
+	}
+	#EK EDIT END
+
+    has_no_beard = { # This is to give a random chance of a clean shaven look
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = no_beard
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        weight = {
+            base = 0 #EK EDIT: was 30
+            modifier = {
+                add = -50
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                }
+            }
+            #EK ADDITION
+			modifier = {			#### young mer dont do beards
+				add = 100
+				OR = {
+					AND = {
+						portrait_ek_aldmeri_clothing_trigger = yes
+						scope:age < 80
+					}
+					AND = {
+						portrait_ek_balfieri_clothing_trigger = yes
+						scope:age < 80
+					}					
+					AND = {
+						portrait_ek_bosmeri_clothing_trigger = yes
+						scope:age < 80
+					}
+					AND = {
+						culture = { has_cultural_pillar = heritage_ayleid }
+						portrait_ek_ayleid_clothing_trigger = yes
+						scope:age < 80
+					}					
+				}
+			}
+			modifier = {			#### mer beards less common
+				add = 80
+				OR = {	
+					AND = {
+						portrait_ek_aldmeri_clothing_trigger = yes
+						scope:age < 150
+					}
+					AND = {
+						portrait_ek_balfieri_clothing_trigger = yes
+						scope:age < 150
+					}					
+					AND = {
+						portrait_ek_bosmeri_clothing_trigger = yes
+						scope:age < 150
+					}
+					AND = {
+						culture = { has_cultural_pillar = heritage_ayleid }
+						portrait_ek_ayleid_clothing_trigger = yes
+						scope:age < 150
+					}										
+				}		
+			}
+			modifier = {			#### mer beards more common if ancient
+				add = -50
+				OR = {
+					AND = {
+						portrait_ek_balfieri_clothing_trigger = yes
+						scope:age > 270	
+					}				
+					AND = {
+						portrait_ek_aldmeri_clothing_trigger = yes
+						scope:age > 270	
+					}
+					AND = {
+						portrait_ek_bosmeri_clothing_trigger = yes
+						scope:age > 270	
+					}
+					AND = {
+						culture = { has_cultural_pillar = heritage_ayleid }
+						portrait_ek_ayleid_clothing_trigger = yes
+						scope:age > 270	
+					}					
+				}	
+			}
+			modifier = {			#### only old goblins get beards
+				add = 80
+				OR = {
+					AND = {
+						portrait_ek_goblin_clothing_trigger = yes
+						scope:age < 70
+					}				
+				}	
+			}
+			modifier = {
+				add = 100
+				OR = {
+				portrait_ek_nedic_orma_clothing_trigger = yes
+				portrait_ek_nedic_south_clothing_trigger = yes
+				portrait_ek_yespest_clothing_trigger  = yes
+				}
+			}
+            modifier = {
+                add = 200
+				OR = {
+                    has_gene = {
+                        category = beast_race_features
+                        template = argonian_features
+                    }
+                    has_gene = {
+                        category = beast_race_features
+                        template = argonian_snake_features
+                    }
+                    has_gene = {
+                        category = beast_race_features
+                        template = argonian_frog_features
+                    }
+					has_gene = { #CR ADDED
+                        category = beast_race_features
+                        template = imgan_features
+                    }
+				}
+            }
+            modifier = { # EK:TODO this needs to be better handled incase of cross species culture conversion
+                add = 200
+				OR = {
+					has_character_flag = race_daedra
+					has_character_flag = race_lilmothiit
+					culture = { has_cultural_pillar = heritage_lilmothiit }
+					culture = { has_cultural_pillar = heritage_dremora }
+				}
+            }
+			modifier = { # EK:TODO this needs to be better handled incase of cross species culture conversion
+				add = 500
+				culture = { has_cultural_pillar = heritage_falmeri }
+				portrait_ek_goblin_clothing_trigger = yes
+			}			
+            modifier = {
+                add = 200
+                exists = character:reman_100 # Reman I
+                this = character:reman_100
+            }
+            modifier = {
+                add = 200
+                exists = character:whitestrake_100 # Pelinal Whitestrake
+                this = character:whitestrake_100
+            }
+            modifier = {
+                add = 200
+                exists = character:sotha_100 # Sotha Sil
+                this = character:sotha_100
+            }
+            modifier = {
+                add = 200
+                exists = character:vehk_100 # Vivec
+                this = character:vehk_100
+            }
+        }
+    }
+	
+	skeletons_no_beard = {
+		dna_modifiers = {
+			morph = {
+				mode = modify				
+				gene = gene_eyebrows_shape
+				template = no_eyebrows
+				value = 0.5
+			}
+			morph = {
+				mode = modify				
+				gene = gene_eyebrows_fullness
+				template = no_eyebrows
+				value = 0.5
+			}
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = no_hairstyles
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 200
+				is_undead = yes
+				has_character_flag = has_decay_value
+				var:ek_undead_decay >= 0.87
+				NOT = { has_character_modifier = modifier_ritual_conceal }
+			}
+		}
+	}	
+	
+	altmer_beards = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = altmer_beards
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+			modifier = {
+				add = 70
+				portrait_ek_aldmeri_clothing_trigger = yes
+			}
+			modifier = {
+				add = 70
+				portrait_ek_ayleid_clothing_trigger = yes
+			}				
+			modifier = {
+				factor = 0
+				has_fp2_dlc_trigger = yes
+			}
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                    
+                }
+            }
+        }
+    }
+	altmer_beards_fp2 = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = altmer_beards_fp2
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+			modifier = {
+				add = 70
+				portrait_ek_aldmeri_clothing_trigger = yes
+			}
+			modifier = {
+				add = 70
+				portrait_ek_ayleid_clothing_trigger = yes
+			}			
+			modifier = {
+				factor = 0
+				has_fp2_dlc_trigger = no
+			}
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                    
+                }
+            }
+        }
+    }
+	
+	khajiit_beards_dlc = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = khajiit_beards_fp1_fp2
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+			modifier = {
+				add = 70
+				OR = {
+					portrait_ek_pellitinian_clothing_trigger = yes
+					portrait_ek_anequinan_clothing_trigger = yes
+				}
+				has_fp2_dlc_trigger = yes
+				has_fp1_dlc_trigger = yes
+			}
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                    
+                }
+            }
+        }
+    }
+
+	dunmer_beards = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = beards
+				template = dunmer_beards
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 70
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					portrait_ek_dunmer_clothing_trigger = yes
+					portrait_ek_gah_julan_clothing_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				has_fp2_dlc_trigger = yes
+			}
+			modifier = {
+				factor = 0
+				trigger = {
+					culture = {	 #Set Shinathi to 0 so they use their custom beards
+						OR = {
+							this = culture:shinathi
+							any_parent_culture_or_above = {
+								this = culture:shinathi
+							}
+						}
+					}
+				}
+			}
+			modifier = {
+				add = -100
+				OR = {
+					is_from_ruler_designer = yes
+					has_character_flag = has_scripted_appearance
+					has_trait = line_of_x
+				}
+			}
+		}
+	}
+	dunmer_beards_fp2 = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = beards
+				template = dunmer_beards_fp2
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 70
+				OR = {
+					portrait_ek_ashlander_clothing_trigger = yes
+					portrait_ek_dunmer_clothing_trigger = yes
+					portrait_ek_gah_julan_clothing_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				has_fp2_dlc_trigger = no
+			}
+			modifier = {
+				factor = 0
+				trigger = {
+					culture = {	 #Set Shinathi to 0 so they use their custom beards
+						OR = {
+							this = culture:shinathi
+							any_parent_culture_or_above = {
+								this = culture:shinathi
+							}
+						}
+					}
+				}
+			}
+			modifier = {
+				add = -100
+				OR = {
+					is_from_ruler_designer = yes
+					has_character_flag = has_scripted_appearance
+					has_trait = line_of_x
+				}
+			}
+		}
+	}
+    dunmer_shinathi_beards = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = beards
+				template = dunmer_shinathi_beards
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 200
+				trigger = {
+					culture = {
+						OR = {
+							this = culture:shinathi
+							any_parent_culture_or_above = {
+								this = culture:shinathi
+							}
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				has_fp2_dlc_trigger = yes
+			}
+			modifier = {
+				add = -250
+				OR = {
+					is_from_ruler_designer = yes
+					has_character_flag = has_scripted_appearance
+					has_trait = line_of_x
+				}
+			}
+		}
+	}
+	dunmer_shinathi_beards_fp2 = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = beards
+				template = dunmer_shinathi_beards_fp2
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 200
+				trigger = {
+					culture = {
+						OR = {
+							this = culture:shinathi
+							any_parent_culture_or_above = {
+								this = culture:shinathi
+							}
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				has_fp2_dlc_trigger = no
+			}
+			modifier = {
+				add = -250
+				OR = {
+					is_from_ruler_designer = yes
+					has_character_flag = has_scripted_appearance
+					has_trait = line_of_x
+				}
+			}
+		}
+	}
+	#EK ADDITION END
+	
+    western_straight = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = western_beards_straight
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+            modifier = {
+                add = 70
+                OR = {
+                    NOT = { exists = this }
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_straight
+                    }       
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_wavy
+                    }            
+                }
+                OR = {
+                    portrait_ek_breton_clothing_trigger = yes
+					portrait_ek_northmen_clothing_trigger = yes
+					portrait_ek_balfieri_clothing_trigger = yes
+                    portrait_ek_nibenese_clothing_trigger = yes
+					portrait_ek_heartlander_clothing_trigger = yes
+					portrait_ek_colovian_clothing_trigger = yes
+					portrait_ek_strident_clothing_trigger = yes
+                }
+            }
+           # modifier = { # Muslims should always have a beard
+           #     add = 200
+           #     scope:faith.religion = religion:islam_religion
+           #     portrait_western_clothing_trigger = yes
+           # }
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                }
+            }
+        }
+    }
+
+    western_curly = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = western_beards_curly
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+            modifier = {
+                add = 70
+                OR = {
+                    NOT = { exists = this }
+                     has_gene = {
+                        category = gene_hair_type
+                        template = hair_wavy
+                    }       
+                     has_gene = {
+                        category = gene_hair_type
+                        template = hair_curly
+                    }            
+                }
+                OR = {
+                    portrait_ek_breton_clothing_trigger = yes
+					portrait_ek_northmen_clothing_trigger = yes
+					portrait_ek_balfieri_clothing_trigger = yes
+                    portrait_ek_nibenese_clothing_trigger = yes
+					portrait_ek_heartlander_clothing_trigger = yes
+					portrait_ek_colovian_clothing_trigger = yes
+					portrait_ek_strident_clothing_trigger = yes
+                }
+            }
+            #modifier = { # Muslims should always have a beard
+            #    add = 200
+            #    scope:faith.religion = religion:islam_religion
+            #    portrait_western_clothing_trigger = yes
+            #}
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                }
+            }
+        }
+    }
+
+    mena_straight = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = mena_beards_straight
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+            modifier = {
+                add = 70
+                OR = {
+                    NOT = { exists = this }
+                     has_gene = {
+                        category = gene_hair_type
+                        template = hair_straight
+                    }       
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_wavy
+                    }            
+                }
+				OR = {
+					portrait_ek_anequinan_clothing_trigger = yes
+					portrait_ek_redguard_clothing_trigger = yes
+					portrait_ek_alikr_clothing_trigger = yes
+				}
+            }
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                }
+            }
+        }
+    }
+
+    mena_curly = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = mena_beards_curly
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+            modifier = {
+                add = 70
+                OR = {
+                    NOT = { exists = this }
+                     has_gene = {
+                        category = gene_hair_type
+                        template = hair_wavy
+                    }       
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_curly
+                    }            
+                }
+                OR = {
+					portrait_ek_anequinan_clothing_trigger = yes
+					portrait_ek_redguard_clothing_trigger = yes
+					portrait_ek_alikr_clothing_trigger = yes
+				}
+            }
+           # modifier = { # Muslims should always have a beard
+           #     add = 200
+           #     scope:faith.religion = religion:islam_religion
+           #     OR = {
+		#			portrait_mena_clothing_trigger = yes
+		#			portrait_african_clothing_trigger = yes
+		#		}
+         #       NAND = { # The Prophet Muhammad does not have a portrait
+          #          exists = this
+           #         this = character:33922 # Prophet Muhammad
+            #    }
+            #}
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                }
+            }
+        }
+    }
+
+    indian_straight = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = indian_beards_straight
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+            modifier = {
+                add = 70
+                OR = {
+                    NOT = { exists = this }
+                     has_gene = {
+                        category = gene_hair_type
+                        template = hair_straight
+                    }       
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_wavy
+                    }            
+                }
+            }
+           # modifier = { # Muslims should always have a beard
+           #     add = 200
+           #     scope:faith.religion = religion:islam_religion
+           #     portrait_indian_clothing_trigger = yes
+           # }
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                }
+            }
+        }
+    }
+
+    indian_curly = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = indian_beards_curly
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+            modifier = {
+                add = 70
+                OR = {
+                    NOT = { exists = this }
+                     has_gene = {
+                        category = gene_hair_type
+                        template = hair_wavy
+                    }       
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_curly
+                    }            
+                }
+                OR = {
+					portrait_ek_anequinan_clothing_trigger = yes
+					portrait_ek_redguard_clothing_trigger = yes
+					portrait_ek_alikr_clothing_trigger = yes
+					portrait_ek_bosmeri_clothing_trigger = yes
+				}
+            }
+            #modifier = { # Muslims should always have a beard
+            #    add = 200
+            #    scope:faith.religion = religion:islam_religion
+            #    portrait_indian_clothing_trigger = yes
+            #}
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                }
+            }
+        }
+    }
+
+    thin_beards = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = thin_beards_straight
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+            modifier = {
+                add = 70
+                exists = this
+                has_gene = {
+                    category = gene_hair_type
+                    template = hair_straight_thin_beard
+                }
+            }
+            #modifier = { # Muslims should always have a beard
+            #    add = 200
+            #    scope:faith.religion = religion:islam_religion
+            #    trigger_if = {
+            #       limit = { exists = this }
+            #       has_gene = {
+            #            category = gene_hair_type
+            #            template = hair_straight_thin_beard
+            #        }
+            #    }
+            #}
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                }
+            }
+        }
+    }
+
+	akaviri_straight = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = akaviri_beards
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }  	
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                OR = {
+                    NOT = { exists = this }
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_straight
+                    }       
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_wavy
+                    }            
+                }
+                portrait_ek_akaviri_clothing_trigger = yes
+            }
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                }
+            }
+        }	
+	}
+
+    steppe_straight = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = steppe_beards_straight
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                OR = {
+                    NOT = { exists = this }
+                     has_gene = {
+                        category = gene_hair_type
+                        template = hair_straight
+                    }       
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_wavy
+                    }            
+                }
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					portrait_ek_dwemeri_clothing_trigger = yes
+				}
+            }
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                }
+            }
+        }
+    }
+
+    steppe_curly = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = steppe_beards_curly
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                OR = {
+                    NOT = { exists = this }
+                     has_gene = {
+                        category = gene_hair_type
+                        template = hair_wavy
+                    }       
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_curly
+                    }            
+                }
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					portrait_ek_dwemeri_clothing_trigger = yes
+				}
+            }
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                }
+            }
+        }
+    }
+
+    northern_straight = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = northern_beards_straight
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+            modifier = {
+                add = 70
+                OR = {
+                    NOT = { exists = this }
+                     has_gene = {
+                        category = gene_hair_type
+                        template = hair_straight
+                    }       
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_wavy
+                    }            
+                }
+                OR = {
+					portrait_ek_nedic_north_clothing_trigger = yes
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					portrait_ek_nedic_keptu_clothing_trigger = yes
+                    portrait_ek_nedic_south_clothing_trigger = yes
+					portrait_ek_nedic_orma_clothing_trigger = yes
+					portrait_ek_bjoule_clothing_trigger = yes
+					portrait_ek_bosmeri_clothing_trigger = yes
+					portrait_ek_yespest_clothing_trigger = yes
+					AND = {
+						has_fp1_dlc_trigger = no
+						OR = {
+							portrait_ek_skaal_clothing_trigger = yes
+							portrait_ek_nordic_clothing_trigger = yes
+							portrait_ek_cyro_nordic_clothing_trigger = yes
+						}
+					}
+				}
+            }
+            #modifier = { # Muslims should always have a beard
+            #    add = 200
+            #    scope:faith.religion = religion:islam_religion
+            #    portrait_northern_clothing_trigger = yes
+            #}
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                }
+            }
+        }
+    }
+
+    northern_curly = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = northern_beards_curly
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+            modifier = {
+                add = 70
+                OR = {
+                    NOT = { exists = this }
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_wavy
+                    }       
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_curly
+                    }            
+                }
+                OR = {
+					portrait_ek_nedic_north_clothing_trigger = yes
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					portrait_ek_nedic_keptu_clothing_trigger = yes
+                    portrait_ek_nedic_south_clothing_trigger = yes
+					portrait_ek_nedic_orma_clothing_trigger = yes
+					portrait_ek_bjoule_clothing_trigger = yes
+					portrait_ek_bosmeri_clothing_trigger = yes
+					portrait_ek_yespest_clothing_trigger = yes
+					AND = {
+						has_fp1_dlc_trigger = no
+						OR = {
+							portrait_ek_skaal_clothing_trigger = yes
+							portrait_ek_nordic_clothing_trigger = yes
+							portrait_ek_cyro_nordic_clothing_trigger = yes
+						}
+					}
+				}
+            }
+            #modifier = { # Muslims should always have a beard
+            #    add = 200
+            #    scope:faith.religion = religion:islam_religion
+            #    portrait_northern_clothing_trigger = yes
+            #}
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                }
+            }
+        }
+    }
+	
+
+
+    african = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = sub_saharan_beards_afro
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+            modifier = {
+                add = 70
+                exists = this
+                 has_gene = {
+                    category = gene_hair_type
+                    template = hair_afro
+                }              
+            }
+            #modifier = { # Muslims should always have a beard
+            #    add = 200
+            #    scope:faith.religion = religion:islam_religion
+            #    portrait_african_clothing_trigger = yes
+            #}
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                }
+            }
+        }
+    }
+
+    fp1_straight = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = fp1_beards_straight
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+            modifier = {
+                add = 70
+                OR = {
+                    NOT = { exists = this }
+                     has_gene = {
+                        category = gene_hair_type
+                        template = hair_straight
+                    }       
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_wavy
+                    }            
+                }
+				OR = {
+					portrait_ek_skaal_clothing_trigger = yes
+					portrait_ek_nordic_clothing_trigger = yes
+					portrait_ek_cyro_nordic_clothing_trigger = yes
+				}
+
+            }
+			modifier = {
+				factor = 0
+				OR = {
+					has_fp1_dlc_trigger = no
+					has_fp2_dlc_trigger = yes
+				}
+			}
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                }
+            }
+        }
+    }
+
+    fp1_curly = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = fp1_beards_curly
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+            modifier = {
+                add = 70
+                OR = {
+                    NOT = { exists = this }
+                     has_gene = {
+                        category = gene_hair_type
+                        template = hair_wavy
+                    }       
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_curly
+                    }            
+                }
+				OR = {
+					portrait_ek_skaal_clothing_trigger = yes
+					portrait_ek_nordic_clothing_trigger = yes
+					portrait_ek_cyro_nordic_clothing_trigger = yes
+				}
+            }
+			modifier = {
+				factor = 0
+				OR = {
+					has_fp1_dlc_trigger = no
+					has_fp2_dlc_trigger = yes
+				}
+			}
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                    
+                }
+            }
+        }
+    }
+
+	reach_dlc = {
+        dna_modifiers = {
+             accessory = {
+                 mode = add
+                 gene = beards
+                 template = reach_beards_fp1_fp2
+                 range = { 0 1 } # For the randomness to work correctly
+             }
+         }   
+         # outfit_tags = { no_clothes }
+         weight = {
+             base = 0
+             modifier = {
+                 add = 90
+                      portrait_ek_nedic_reach_clothing_trigger = yes 
+             }
+             modifier = {
+                 factor = 0
+                 OR = {
+                     has_fp1_dlc_trigger = no
+                     has_fp2_dlc_trigger = no
+                 }
+             }
+             modifier = {
+                 add = -100
+                 exists = this
+                 OR = {
+                     is_from_ruler_designer = yes
+                     has_character_flag = has_scripted_appearance
+                     has_trait = line_of_x
+                     
+                 }
+             }
+         }
+     }
+	
+	nord_straight_dlc = {
+       dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = nord_beards_straight_fp1_fp2
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+            modifier = {
+                add = 90
+                OR = {
+                    NOT = { exists = this }
+                     has_gene = {
+                        category = gene_hair_type
+                        template = hair_straight
+                    }       
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_wavy
+                    }            
+                }
+				OR = {
+					portrait_ek_skaal_clothing_trigger = yes
+					portrait_ek_nordic_clothing_trigger = yes
+					portrait_ek_cyro_nordic_clothing_trigger = yes
+				}
+
+            }
+			modifier = {
+				factor = 0
+				OR = {
+					has_fp1_dlc_trigger = no
+					has_fp2_dlc_trigger = no
+				}
+			}
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                    
+                }
+            }
+        }
+    }
+	nord_curly_dlc = {
+       dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = nord_beards_curly_fp1_fp2
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+            modifier = {
+                add = 90
+                OR = {
+                    NOT = { exists = this }
+                     has_gene = {
+                        category = gene_hair_type
+                        template = hair_wavy
+                    }       
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_curly
+                    }            
+                }
+
+				OR = {
+					portrait_ek_skaal_clothing_trigger = yes
+					portrait_ek_nordic_clothing_trigger = yes
+					portrait_ek_cyro_nordic_clothing_trigger = yes
+				}
+
+            }
+			modifier = {
+				factor = 0
+				OR = {
+					has_fp1_dlc_trigger = no
+					has_fp2_dlc_trigger = no
+				}
+			}
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                    
+                }
+            }
+        }
+    }
+
+    ek_dwemer_beard = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = dwemer_beards
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+			modifier = {
+				add = 500
+				portrait_ek_dwemeri_clothing_trigger = yes
+			
+			}
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                    
+                }
+            }
+			modifier = {
+				factor = 0
+				has_dlc_feature = legacy_of_persia	
+            }
+        }
+    }
+    ek_dwemer_beard_fp3 = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = dwemer_beards_fp3
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        # outfit_tags = { no_clothes }
+        weight = {
+            base = 0
+			modifier = {
+				add = 500
+				portrait_ek_dwemeri_clothing_trigger = yes
+			
+			}
+            modifier = {
+                add = -100
+                exists = this
+                OR = {
+                    is_from_ruler_designer = yes
+                    has_character_flag = has_scripted_appearance
+                    has_trait = line_of_x
+                    
+                }
+            }
+        }
+    }
+    ### EP3 beards ###
+
+    ep3_beards_straight = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = ep3_beards_straight
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 75
+                OR = {
+                    NOT = { exists = this }
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_straight
+                    }
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_wavy
+                    }
+                }
+				OR = {
+					portrait_ek_nedic_old_clothing_trigger = yes
+                    portrait_ek_nibenese_clothing_trigger = yes
+					portrait_ek_heartlander_clothing_trigger = yes
+					portrait_ek_colovian_clothing_trigger = yes
+					portrait_ek_strident_clothing_trigger = yes
+				}
+                has_ep3_dlc_trigger = yes
+            }
+        }
+    }
+
+    ep3_beards_curly = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = beards
+                template = ep3_beards_curly
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 75
+                OR = {
+                    NOT = { exists = this }
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_wavy
+                    }
+                    has_gene = {
+                        category = gene_hair_type
+                        template = hair_curly
+                    }
+                }
+				OR = {
+					portrait_ek_nedic_old_clothing_trigger = yes
+                    portrait_ek_nibenese_clothing_trigger = yes
+					portrait_ek_heartlander_clothing_trigger = yes
+					portrait_ek_colovian_clothing_trigger = yes
+					portrait_ek_strident_clothing_trigger = yes
+				}
+                has_ep3_dlc_trigger = yes
+            }
+        }
+    }
+}

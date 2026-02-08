@@ -1,0 +1,273 @@
+﻿#### Local Types ####
+@administration_1 = "gfx/interface/icons/culture_innovations/innovation_administration_01.dds"
+@administration_2 = "gfx/interface/icons/culture_innovations/innovation_administration_02.dds"
+@administration_3 = "gfx/interface/icons/culture_innovations/innovation_administration_03.dds"
+@civil_construction_1 = "gfx/interface/icons/culture_innovations/innovation_civil_construction_01.dds"
+@civil_construction_2 = "gfx/interface/icons/culture_innovations/innovation_civil_construction_02.dds"
+@leadership_1 = "gfx/interface/icons/culture_innovations/innovation_leadership_01.dds"
+@leadership_2 = "gfx/interface/icons/culture_innovations/innovation_leadership_02.dds"
+@raised_banner = "gfx/interface/icons/culture_innovations/innovation_raised_banner.dds"
+@fortifications = "gfx/interface/icons/culture_innovations/innovation_fortifications.dds"
+@siege_weapons = "gfx/interface/icons/culture_innovations/innovation_siege_weapons.dds"
+@levy_building = "gfx/interface/icons/culture_innovations/innovation_levy_building.dds"
+@maa_01 = "gfx/interface/icons/culture_innovations/innovation_maa_01.dds"
+@maa_02 = "gfx/interface/icons/culture_innovations/innovation_maa_02.dds"
+@weapons_and_armor_01 = "gfx/interface/icons/culture_innovations/innovation_weapons_and_armor_01.dds"
+@weapons_and_armor_02 = "gfx/interface/icons/culture_innovations/innovation_weapons_and_armor_02.dds"
+@knight = "gfx/interface/icons/culture_innovations/innovation_knight.dds"
+@hird = "gfx/interface/icons/culture_innovations/innovation_hird.dds"
+@longboats = "gfx/interface/icons/culture_innovations/innovation_longboats.dds"
+@majesty_01 = "gfx/interface/icons/culture_innovations/innovation_majesty_01.dds"
+@majesty_02 = "gfx/interface/icons/culture_innovations/innovation_majesty_02.dds"
+@majesty_03 = "gfx/interface/icons/culture_innovations/innovation_majesty_03.dds"
+@nobility_01 = "gfx/interface/icons/culture_innovations/innovation_nobility_01.dds"
+@nobility_02 = "gfx/interface/icons/culture_innovations/innovation_nobility_02.dds"
+@nobility_03 = "gfx/interface/icons/culture_innovations/innovation_nobility_03.dds"
+@nobility_04 = "gfx/interface/icons/culture_innovations/innovation_nobility_04.dds"
+@misc_inventions = "gfx/interface/icons/culture_innovations/innovation_misc_inventions.dds"
+
+@camel = "gfx/interface/icons/culture_innovations/innovation_camel.dds"
+@elephant = "gfx/interface/icons/culture_innovations/innovation_elephant.dds"
+@special_maa_01 = "gfx/interface/icons/culture_innovations/innovation_special_maa_01.dds"
+@special_maa_02 = "gfx/interface/icons/culture_innovations/innovation_special_maa_02.dds"
+
+@moonstone_armor_01 = "gfx/interface/icons/culture_innovations/innovation_moonstone_armor_01.dds"
+@high_rock_crowning_01 = "gfx/interface/icons/culture_innovations/innovation_high_rock_crowning_01.dds"
+@crown_01 = "gfx/interface/icons/culture_innovations/innovation_crown_01.dds"
+@bombard = "gfx/interface/icons/culture_innovations/innovation_bombard.dds"
+@alchemy = "gfx/interface/icons/culture_innovations/innovation_alchemy.dds"
+@blood_price = "gfx/interface/icons/culture_innovations/innovation_blood_price.dds"
+@mammoth = "gfx/interface/icons/culture_innovations/innovation_mammoth.dds"
+@senche_raht = "gfx/interface/icons/culture_innovations/ai_innovation_senche_raht.dds"
+
+@magical_studies = "gfx/interface/icons/culture_innovations/ai_innovation_magical_studies.dds"
+@curse_forging = "gfx/interface/icons/culture_innovations/ai_innovation_curse_forging.dds"
+@lunar_mysteries = "gfx/interface/icons/culture_innovations/ai_innovation_lunar_mysteries.dds"
+@wamasu_tactics = "gfx/interface/icons/culture_innovations/ai_innovation_wamasu_tactics.dds"
+@warding_amulets = "gfx/interface/icons/culture_innovations/ai_innovation_warding_amulets.dds"
+@local_school = "gfx/interface/icons/culture_innovations/ai_innovation_local_school.dds"
+#EK TODO: Change modifiers to more relevant ones like Vassal Stance Opinion, chance of having a Stance and so on...
+#culture_group_military
+innovation_magical_studies = {
+	group = culture_group_military
+	culture_era = culture_era_early_medieval
+	icon = @magical_studies
+
+	potential = {
+		NOR = { 
+			has_innovation_flag = innovation_magical_studies_replacement
+			has_innovation_flag = unique_cultural_maa
+		}
+	}
+	
+	can_progress = {
+		OR = {
+			has_innovation = innovation_war_magic
+			has_innovation_flag = innovation_war_magic_replacement
+		}
+		NOT = { 
+			has_innovation = innovation_disorganized_military
+		}
+	}
+	
+	unlock_maa = spellswords
+
+	maa_upgrade = {
+		type = mages
+		damage = 3
+	}
+	maa_upgrade = {
+		type = spellblades
+		damage = 3
+	}
+	
+	custom = education_magic_available_1
+	custom = unlocks_arcane_clash_tournament_phase
+	custom = eligible_accolade_spellsword_attribute
+
+	flag = global_regular
+	flag = early_medieval_era_regular
+}
+
+innovation_curse_forging = { #Goblin version of Codified Magical Studies. Should do everything that innovation does, except also unlock their Goblin Witches MaA 
+	group = culture_group_military
+	culture_era = culture_era_early_medieval
+	icon = @curse_forging
+
+	potential = {
+		has_innovation = innovation_primal_tradition
+	}
+	
+	can_progress = {
+		OR = {
+			has_innovation = innovation_war_magic
+			has_innovation_flag = innovation_war_magic_replacement
+		}
+		NOT = { 
+			has_innovation = innovation_disorganized_military
+		}
+	}
+
+	unlock_maa = goblin_spellblades
+	
+	character_modifier = {
+		mages_max_size_add = 1
+		spellblades_max_size_add = 1
+	}
+	maa_upgrade = {
+		type = mages
+		damage = 3
+	}
+	maa_upgrade = {
+		type = spellblades
+		damage = 3
+	}
+	
+	custom = education_magic_available_1
+
+	flag = innovation_magical_studies_replacement
+	flag = global_regular
+	flag = early_medieval_era_regular
+}
+
+innovation_wamasu_tactics = { #Argonian version of Codified Magical Studies. Should do everything that innovation does, except also unlock their Thunderscales MaA 
+	group = culture_group_military
+	culture_era = culture_era_early_medieval
+	icon = @wamasu_tactics
+
+	potential = {
+		has_innovation = innovation_ancient_roots
+	}
+	
+	can_progress = {
+		OR = {
+			has_innovation = innovation_war_magic
+			has_innovation_flag = innovation_war_magic_replacement
+		}
+		NOT = { 
+			has_innovation = innovation_disorganized_military
+		}
+	}
+
+	unlock_maa = argonian_spellblades
+	
+	maa_upgrade = {
+		type = mages
+		damage = 3
+	}
+	maa_upgrade = {
+		type = spellblades
+		damage = 3
+	}
+	
+	custom = education_magic_available_1
+
+	flag = innovation_magical_studies_replacement
+	flag = global_regular
+	flag = early_medieval_era_regular
+}
+
+innovation_lunar_mysteries = { #Khajiiti version of Codified Magical Studies. Should do everything that innovation does, except also unlock their Tojay MaA 
+	group = culture_group_military
+	culture_era = culture_era_early_medieval
+	icon =  @lunar_mysteries
+	
+	potential = {
+		has_innovation = innovation_lunar_lattice
+	}
+	
+	can_progress = {
+		OR = {
+			has_innovation = innovation_war_magic
+			has_innovation_flag = innovation_war_magic_replacement
+		}
+		NOT = { has_innovation = innovation_disorganized_military }
+	}
+	
+	unlock_maa = khajiit_spellblades
+	maa_upgrade = {
+		type = mages
+		damage = 3
+	}
+	maa_upgrade = {
+		type = spellblades
+		damage = 3
+	}
+	custom = education_magic_available_1
+	custom = unlocks_arcane_clash_tournament_phase
+	custom = eligible_accolade_spellsword_attribute
+
+	flag = global_regular
+	flag = late_medieval_era_regular
+	flag = innovation_magical_studies_replacement
+}
+
+innovation_senche_raht = {
+	group = culture_group_military
+	culture_era = culture_era_early_medieval
+	icon = @senche_raht
+
+	potential = {
+		has_innovation = innovation_lunar_lattice
+	}
+
+	unlock_maa = khajiit_heavy_cavalry
+
+	flag = global_maa
+	flag = heavy_cavalry_maa
+}
+
+innovation_warding_amulets = {
+	group = culture_group_military
+	culture_era = culture_era_early_medieval
+	icon = @warding_amulets
+
+	potential = {
+		has_innovation = innovation_canopy_tactics
+	}
+	
+	can_progress = {
+		OR = {
+			has_innovation = innovation_war_magic
+			has_innovation_flag = innovation_war_magic_replacement
+		}
+		NOT = { 
+			has_innovation = innovation_disorganized_military
+		}
+	}
+
+	unlock_maa = imga_spellblades
+	
+	character_modifier = {
+		mages_max_size_add = 1
+		spellblades_max_size_add = 1
+	}
+	maa_upgrade = {
+		type = mages
+		damage = 3
+	}
+	maa_upgrade = {
+		type = spellblades
+		damage = 3
+	}
+	
+	custom = education_magic_available_1
+
+	flag = innovation_magical_studies_replacement
+	flag = global_regular
+	flag = early_medieval_era_regular
+}
+
+#culture_group_civic
+innovation_local_school = {
+	group = culture_group_civic
+	culture_era = culture_era_early_medieval
+	icon = @local_school
+	
+	can_progress = { has_innovation = innovation_master_field }
+	
+	custom = unlock_early_medieval_academy_buildings
+
+	flag = global_regular
+	flag = early_medieval_era_regular
+}

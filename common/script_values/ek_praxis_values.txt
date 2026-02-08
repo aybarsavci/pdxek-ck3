@@ -1,0 +1,106 @@
+﻿### Custom script values for praxis
+
+# Thresholds for different praxis levels.
+maximum_praxis = 100
+high_praxis = 75
+average_praxis = 50
+low_praxis = 25
+minimum_praxis = 0
+
+# Calculate the monthly change for an individuals praxis
+monthly_praxis_change = {
+	value = 0
+	desc = "Natural Praxis"
+	if = {
+		limit = { var:state_praxis < natural_praxis }
+		add = 0.1
+		desc = "Below Natural Praxis"
+	}
+	else_if = {
+		limit = { var:state_praxis > natural_praxis }
+		add = -0.2
+		desc = "Above Natural Praxis"
+	}
+}
+
+base_praxis = {
+	value = 40
+	if = {
+		limit = {
+			is_ai = yes
+		}
+		add = 15
+		desc = "AI"
+	}
+}
+
+natural_praxis = {
+	value = base_praxis
+	add = {
+		value = 0
+		add = num_virtuous_traits
+		multiply = 10
+		desc = praxis_virtue_desc
+	}
+	add = {
+		value = 0
+		add = num_sinful_traits
+		multiply = -10
+		desc = praxis_sinful_desc
+	}
+	if = {
+		limit = {
+			has_trait = pure_blooded
+		}
+		add = {
+			value = 10
+			desc = praxis_pure_blooded
+		}
+	}
+	if = {
+		limit = {
+			has_trait = impure
+		}
+		subtract = {
+			value = 15
+			desc = praxis_impure
+		}
+	}
+	if = {
+		limit = {
+			has_trait = house_of_reveries
+		}
+		subtract = {
+			value = 30
+			desc = praxis_house_of_reveries
+		}
+	}
+	if = {
+		limit = {
+			culture = {
+				NOT = {
+					has_cultural_parameter = uses_praxis_mechanics
+				}
+			}
+		}
+		subtract = {
+			value = 10
+			desc = praxis_foreigner_desc
+		}
+	}
+	if = {
+		limit = {
+			faith = {
+				NOT = {
+					has_doctrine = tenet_divine_purity
+				}
+			}
+		}
+		subtract = {
+			value = 15
+			desc = praxis_impurity_desc
+		}
+	}
+}
+
+great_alinor_isolationism_catalyst_gain = 1000

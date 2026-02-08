@@ -1,0 +1,151 @@
+﻿#########################
+# EK GOVERNMENT VALUES  #
+#########################
+
+#Autocracy, copied from clan
+autocracy_government_levies_default = 0.04
+autocracy_government_levies_player = 0.25
+
+autocracy_government_tax_default = 0.02
+autocracy_government_tax_player = 0.25
+
+autocracy_government_tax_collector_aptitude_multiplier = {
+	value =	{
+		if = {
+			limit = {
+				check_autocracy_tax_collector_aptitude = {
+					CHARACTER = scope:tax_collector
+					VALUE = 5
+				}
+			}
+			add = 15
+		}
+		else_if = {
+			limit = {
+				check_autocracy_tax_collector_aptitude = {
+					CHARACTER = scope:tax_collector
+					VALUE = 4
+				}
+			}
+			add = 10
+		}
+		else_if = {
+			limit = {
+				check_autocracy_tax_collector_aptitude = {
+					CHARACTER = scope:tax_collector
+					VALUE = 3
+				}
+			}
+			add = 6
+		}
+		else_if = {
+			limit = {
+				check_autocracy_tax_collector_aptitude = {
+					CHARACTER = scope:tax_collector
+					VALUE = 2
+				}
+			}
+			add = 3
+		}
+		else_if = {
+			limit = {
+				check_autocracy_tax_collector_aptitude = {
+					CHARACTER = scope:tax_collector
+					VALUE = 1
+				}
+			}
+			add = 1
+		}
+		else = {
+			add = 0
+		}
+	}
+}
+
+autocracy_government_levies_max_possible = {
+	value = autocracy_government_levies_default
+}
+
+autocracy_government_tax_max_possible = {
+	value = autocracy_government_tax_default
+}
+
+############################
+# Deprecated
+############################
+# these are former clan_government values which we used prior to 1.11 for the autocracy_government
+# They're still used in vassal_contracts\ek_vassal_contribution.txt for the opinion-based variant.
+autocracy_government_levies_min_ca_1 = 0.05
+autocracy_government_levies_min_ca_2 = 0.15
+autocracy_government_levies_min_ca_3 = 0.25
+autocracy_government_tax_min_ca_1 = 0.025
+autocracy_government_tax_min_ca_2 = 0.05
+autocracy_government_tax_min_ca_3 = 0.1
+
+#Hierocracy, copied from clan
+hierocracy_government_levies_default = 0.04
+hierocracy_government_levies_player = 0.25
+
+hierocracy_government_tax_default = 0.02
+hierocracy_government_tax_player = 0.25
+
+hierocracy_government_tax_collector_aptitude_multiplier = {
+	value =	{
+		if = {
+			limit = {
+				check_hierocracy_tax_collector_aptitude = {
+					CHARACTER = scope:tax_collector
+					VALUE = 5
+				}
+			}
+			add = 15
+		}
+		else_if = {
+			limit = {
+				check_hierocracy_tax_collector_aptitude = {
+					CHARACTER = scope:tax_collector
+					VALUE = 4
+				}
+			}
+			add = 10
+		}
+		else_if = {
+			limit = {
+				check_hierocracy_tax_collector_aptitude = {
+					CHARACTER = scope:tax_collector
+					VALUE = 3
+				}
+			}
+			add = 6
+		}
+		else_if = {
+			limit = {
+				check_hierocracy_tax_collector_aptitude = {
+					CHARACTER = scope:tax_collector
+					VALUE = 2
+				}
+			}
+			add = 3
+		}
+		else_if = {
+			limit = {
+				check_hierocracy_tax_collector_aptitude = {
+					CHARACTER = scope:tax_collector
+					VALUE = 1
+				}
+			}
+			add = 1
+		}
+		else = {
+			add = 0
+		}
+	}
+}
+
+hierocracy_government_levies_max_possible = {
+	value = hierocracy_government_levies_default
+}
+
+hierocracy_government_tax_max_possible = {
+	value = hierocracy_government_tax_default
+}

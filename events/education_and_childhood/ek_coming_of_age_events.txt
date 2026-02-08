@@ -1,0 +1,3013 @@
+﻿#Events dealing with coming of age
+
+namespace = ek_coming_of_age
+
+
+# Ice Wraith Hunt by AJ :sunglasses:
+ek_coming_of_age.0001 = {
+	type = character_event
+	trigger = {
+		AND = {
+			age >= 16
+			culture = { has_cultural_pillar = heritage_atmoran }
+			trigger_if = {
+				limit = { exists = capital_province }
+				capital_province = { geographical_region = mundus_tamriel_skyrim }
+			}
+			trigger_else_if = {
+				limit = { exists = liege }
+				liege.capital_province = { geographical_region = mundus_tamriel_skyrim }
+			}
+			trigger_else_if = {
+				limit = { exists = location }
+				location = { geographical_region = mundus_tamriel_skyrim }
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+	}
+
+	theme = hunt_activity
+	override_background = { reference = wilderness_mountains }
+	left_portrait = {
+		character = root
+	}
+
+	title = ek_ice_wraith_hunt.0001.t
+	desc = ek_ice_wraith_hunt.0001.desc
+
+	# Brave/Just/Arrogant
+	option = {
+		name = ek_ice_wraith_hunt.0001.a 		#fight the biggest of them
+		trigger = {
+			OR = {
+				has_trait = brave
+				has_trait = just
+				has_trait = arrogant
+				has_trait = ambitious
+			}
+		}
+		trait = brave
+		trait = just
+		trait = arrogant
+		trait = ambitious
+		duel = {
+			skill = prowess
+			value = high_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.0001.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				trigger_event = {
+					id = ek_coming_of_age.0002
+					days = {2 4}
+				}
+				random_list = {
+					80 = {	}
+
+					20 = {
+						increase_wounds_effect = { REASON = fight }
+					}
+				}
+				add_character_modifier = {
+				modifier = nord_brave_modifier 	#Nordic opinion penalty for being brave
+				years = 10
+				}
+			}
+			10 = { #failure
+				desc = ek_coming_of_age.0001.a.failure
+				random_list = {
+					50 = {	
+						increase_wounds_effect = { REASON = fight }
+						trigger_event = {
+							id = ek_coming_of_age.0003
+							days = {2 4}
+						}
+					}
+
+					10 = {	
+						add_trait = maimed
+						trigger_event = {
+							id = ek_coming_of_age.0003
+							days = {2 4}
+						}
+					}
+					5 = {	
+						death = { death_reason = death_battle }
+					}
+				}
+				add_prestige = -50
+			}
+		}
+	}
+
+	# Calm/Forgiving/Gregarious/Compassionate
+	option = {
+		name = ek_ice_wraith_hunt.0001.b 		#tame one of them
+		trigger = {
+			OR = {
+				has_trait = calm
+				has_trait = forgiving
+				has_trait = gregarious
+				has_trait = compassionate
+			}
+		}
+		trait = calm
+		trait = forgiving
+		trait = gregarious
+		trait = compassionate
+		duel = {
+			skill = diplomacy
+			value = high_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.0001.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				trigger_event = {
+					id = ek_coming_of_age.0004
+					days = {2 4}
+				}
+				add_character_modifier = {
+				modifier = nord_brave_modifier 	#Nordic opinion penalty for being brave
+				years = 10
+				}
+		}
+		10 = { #failure
+				desc = ek_coming_of_age.0001.a.failure
+				increase_wounds_effect = { REASON = fight }
+				add_prestige = -50
+				trigger_event = {
+					id = ek_coming_of_age.0003
+					days = {2 4}
+				}
+			}
+		}
+	}
+
+	# Content/Honest/Humble/Impatient
+	option = {
+		name = ek_ice_wraith_hunt.0002.a	# do just enough
+		trigger = {
+			OR = {
+				has_trait = content
+				has_trait = honest
+				has_trait = humble
+				has_trait = impatient
+				has_trait = cynical
+			}
+		}
+		trait = content
+		trait = honest
+		trait = humble
+		trait = impatient
+		trait = cynical
+		duel = {
+			skill = prowess
+			value = mediocre_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.0001.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				trigger_event = {
+					id = ek_coming_of_age.0005
+					days = {2 4}
+				}
+				add_character_modifier = {
+				modifier = nord_brave_modifier 	# Nordic opinion penalty for being brave
+				years = 10
+				}
+		}
+		10 = { #failure
+				desc = ek_coming_of_age.0001.a.failure
+				increase_wounds_effect = { REASON = fight }
+				add_prestige = -50
+				trigger_event = {
+					id = ek_coming_of_age.0003
+					days = {2 4}
+				}
+			}
+		}
+	}
+
+	# Diligent/Trusting/Zealous/Ambitious
+	option = {
+		name = ek_ice_wraith_hunt.0002.b	# challenge an entire pack
+		trigger = { 
+			OR = {
+				has_trait = diligent
+				has_trait = trusting
+				has_trait = zealous
+				has_trait = wrathful
+				has_trait = ambitious
+			}
+		}
+		trait = diligent
+		trait = trusting
+		trait = zealous
+		trait = wrathful
+		trait = ambitious
+		duel = {
+			skill = prowess
+			value = high_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.0001.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				trigger_event = {
+					id = ek_coming_of_age.0006
+					days = {2 4}
+				}
+				random_list = {
+					80 = {	}
+
+					20 = {
+						increase_wounds_effect = { REASON = fight }
+					}
+				}
+				add_character_modifier = {
+				modifier = nord_brave_modifier 	#Nordic opinion penalty for being brave
+				years = 10
+				}
+		}
+		10 = { #failure
+				desc = ek_coming_of_age.0001.a.failure
+				increase_wounds_effect = { REASON = fight }
+				add_prestige = -50
+				trigger_event = {
+					id = ek_coming_of_age.0003
+					days = {2 4}
+				}
+			}
+		}
+	}
+
+	# Generous/Deceitful
+	option = {
+		name = ek_ice_wraith_hunt.0001.c	# entice the wraith with goods
+		trigger = {
+			OR = {
+				has_trait = generous
+				has_trait = deceitful
+			}
+		}
+		trait = generous
+		trait = deceitful
+		duel = {
+			skill = stewardship
+			value = high_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.0001.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				trigger_event = {
+					id = ek_coming_of_age.0007
+					days = {2 4}
+				}
+				add_character_modifier = {
+				modifier = nord_brave_modifier 	#Nordic opinion penalty for being brave
+				years = 10		
+				}
+		}
+		10 = { #failure
+				desc = ek_coming_of_age.0001.a.failure
+				increase_wounds_effect = { REASON = fight }
+				add_prestige = -50
+				trigger_event = {
+					id = ek_coming_of_age.0003
+					days = {2 4}
+				}
+			}
+		}
+	}	
+
+	# Patient/Temperate
+	option = {
+		name = ek_ice_wraith_hunt.0001.d	# wait patiently
+		trigger = { 
+			OR = {
+				has_trait = patient
+				has_trait = temperate
+			}
+		}
+		trait = patient
+		trait = temperate
+		duel = {
+			skill = intrigue
+			value = medium_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.0001.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				trigger_event = {
+					id = ek_coming_of_age.0008
+					days = {2 4}
+				}
+				add_character_modifier = {
+				modifier = nord_brave_modifier 	#Nordic opinion penalty for being brave
+				years = 10
+				}
+			}
+		10 = { #failure
+				desc = ek_coming_of_age.0001.a.failure
+				increase_wounds_effect = { REASON = fight }
+				add_prestige = -50
+				trigger_event = {
+					id = ek_coming_of_age.0003
+					days = {2 4}
+				}
+			}
+		}
+	}
+
+	# Callous/Sadistic
+	option = {
+		name = ek_ice_wraith_hunt.0001.e	# get a little baby
+		trigger = { 
+			OR = {
+				has_trait = callous
+				has_trait = sadistic
+			}
+		}
+		trait = callous
+		trait = sadistic
+		add_dread = minor_dread_gain
+		duel = {
+			skill = intrigue
+			value = low_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.0001.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				trigger_event = {
+					id = ek_coming_of_age.0009
+					days = {2 4}
+				}
+				add_character_modifier = {
+				modifier = nord_brave_modifier 	#Nordic opinion penalty for being brave
+				years = 10
+				}
+		}
+		10 = { #failure
+				desc = ek_coming_of_age.0001.a.failure
+				increase_wounds_effect = { REASON = fight }
+				add_prestige = -50
+				trigger_event = {
+					id = ek_coming_of_age.0003
+					days = {2 4}
+				}
+			}
+		}
+	}
+
+	#Bail
+	option = {
+		name = ek_ice_wraith_hunt.0001.x 		#Decide not to go
+		add_prestige = medium_prestige_loss
+		add_character_modifier = {
+			modifier = nord_coward_modifier 	#Nordic opinion penalty for being cowardly
+			years = 10
+		}
+		stress_impact = {
+			brave = medium_stress_impact_gain
+			ambitious = medium_stress_impact_gain
+			fickle = medium_stress_impact_loss
+			craven = medium_stress_impact_loss
+			paranoid = medium_stress_impact_loss
+			shy = medium_stress_impact_loss
+		}
+		if = {
+			limit = {
+				NOT = { has_trait = craven }
+			}
+			random_list = {
+				70 = {}
+				30 = {
+					if = {
+					limit = { has_trait = paranoid }
+					remove_trait = paranoid
+					add_trait = craven
+					}
+					else_if = {
+					limit = { has_trait = shy }
+					remove_trait = shy
+					add_trait = craven
+					}
+					else_if = {
+					limit = { has_trait = lazy }
+					remove_trait = lazy
+					add_trait = craven
+					}
+					else_if = {
+					limit = { has_trait = fickle }
+					remove_trait = fickle
+					add_trait = craven
+					}
+					else_if = {
+					limit = { has_trait = brave }
+					remove_trait = brave
+					add_trait = craven
+					}
+					else_if = {
+					limit = { has_trait = ambitious }
+					remove_trait = ambitious
+					add_trait = craven
+					}
+				}
+			}
+		}
+	}
+}
+
+# Ice Wraith - BJAA Victory - Slain the fiercest
+ek_coming_of_age.0002 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_ice_wraith_hunt.0002.t
+	desc = ek_ice_wraith_hunt.0002.bjaa.desc
+	theme = hunting
+	
+	right_portrait = {
+		character = root
+		animation = war_over_win
+	}
+		
+	option = { # hell ye
+		name = ek_yearly_events.0010.a
+		add_prestige = 30
+		add_prowess_skill = 2
+	}
+} 
+
+# Ice Wraith - Defeat
+ek_coming_of_age.0003 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_ice_wraith_hunt.0003.t
+	desc = ek_ice_wraith_hunt.0003.desc
+	theme = hunting
+	
+	right_portrait = {
+		character = root
+		animation = shame
+	}
+		
+	option = { # BJAA defeat
+		name = ek_ice_wraith_hunt.0003.a
+		trigger = {
+			OR = {
+				has_trait = brave
+				has_trait = just
+				has_trait = arrogant
+				has_trait = ambitious
+			}
+		}
+		trait = brave
+		trait = just
+		trait = arrogant
+		trait = ambitious
+		if = {
+			limit = { has_trait = brave }
+			remove_trait = brave
+			random_list = {
+				10 = { add_trait = just }
+				10 = { add_trait = arrogant }
+				10 = { add_trait = ambitious }
+				10 = { add_trait = craven }
+			}
+		}
+		else_if = {
+			limit = { has_trait = just }
+			remove_trait = just
+			random_list = {
+				10 = { add_trait = brave }
+				10 = { add_trait = arrogant }
+				10 = { add_trait = ambitious }
+				10 = { add_trait = arbitrary }
+			}
+		}
+		else_if = {
+			limit = { has_trait = arrogant }
+				remove_trait = arrogant
+				random_list = {
+				10 = { add_trait = brave }
+				10 = { add_trait = just }
+				10 = { add_trait = ambitious }
+				10 = { add_trait = humble }
+				}	
+		}
+		else_if = {
+			limit = { has_trait = ambitious }
+			remove_trait = ambitious
+			random_list = {
+				10 = { add_trait = brave }
+				10 = { add_trait = just }
+				10 = { add_trait = arrogant }
+				10 = { add_trait = content }
+				}
+		}
+	}
+	option = { # CFGC defeat
+		name = ek_ice_wraith_hunt.0003.a
+		trigger = {
+			OR = {
+				has_trait = calm
+				has_trait = forgiving
+				has_trait = gregarious
+				has_trait = compassionate
+			}
+		}
+		trait = calm
+		trait = forgiving
+		trait = gregarious
+		trait = compassionate
+		if = {
+			limit = { has_trait = calm }
+			remove_trait = calm
+			random_list = {
+				10 = { add_trait = forgiving }
+				10 = { add_trait = gregarious }
+				10 = { add_trait = compassionate }
+				10 = { add_trait = wrathful }
+			}
+		}
+		else_if = {
+			limit = { has_trait = forgiving }
+			remove_trait = forgiving
+			random_list = {
+				10 = { add_trait = calm }
+				10 = { add_trait = gregarious }
+				10 = { add_trait = compassionate }
+				10 = { add_trait = vengeful }
+			}
+		}
+		else_if = {
+			limit = { has_trait = gregarious }
+				remove_trait = gregarious
+				random_list = {
+				10 = { add_trait = calm }
+				10 = { add_trait = forgiving }
+				10 = { add_trait = compassionate }
+				10 = { add_trait = shy }
+				}	
+		}
+		else_if = {
+			limit = { has_trait = compassionate }
+			remove_trait = compassionate
+			random_list = {
+				10 = { add_trait = calm }
+				10 = { add_trait = forgiving }
+				10 = { add_trait = gregarious }
+				10 = { add_trait = sadistic }
+				10 = { add_trait = callous }
+				}
+		}
+	}
+	option = { # CHHIC defeat
+		name = ek_ice_wraith_hunt.0003.a
+		trigger = {
+			OR = {
+				has_trait = content
+				has_trait = honest
+				has_trait = humble
+				has_trait = impatient
+				has_trait = cynical
+			}
+		}
+		trait = content
+		trait = honest
+		trait = humble
+		trait = impatient
+		trait = cynical
+		if = {
+			limit = { has_trait = content }
+			remove_trait = content
+			random_list = {
+				10 = { add_trait = honest }
+				10 = { add_trait = humble }
+				10 = { add_trait = impatient }
+				10 = { add_trait = cynical }
+				10 = { add_trait = ambitious }
+			}
+		}
+		else_if = {
+			limit = { has_trait = honest }
+			remove_trait = honest
+			random_list = {
+				10 = { add_trait = content }
+				10 = { add_trait = humble }
+				10 = { add_trait = impatient }
+				10 = { add_trait = cynical }
+				10 = { add_trait = deceitful }
+			}
+		}
+		else_if = {
+			limit = { has_trait = humble }
+			remove_trait = humble
+			random_list = {
+				10 = { add_trait = content }
+				10 = { add_trait = honest }
+				10 = { add_trait = impatient }
+				10 = { add_trait = cynical }
+				10 = { add_trait = arrogant }
+			}
+		}
+		else_if = {
+			limit = { has_trait = impatient }
+			remove_trait = impatient
+			random_list = {
+				10 = { add_trait = content }
+				10 = { add_trait = honest }
+				10 = { add_trait = humble }
+				10 = { add_trait = cynical }
+				10 = { add_trait = patient }
+			}
+		}
+		else_if = {
+			limit = { has_trait = cynical }
+			remove_trait = cynical
+			random_list = {
+				10 = { add_trait = content }
+				10 = { add_trait = honest }
+				10 = { add_trait = humble }
+				10 = { add_trait = impatient }
+				10 = { add_trait = zealous }
+			}
+		}
+	}
+	option = { # DTZW defeat
+		name = ek_ice_wraith_hunt.0003.a
+		trigger = { 
+			OR = {
+				has_trait = diligent
+				has_trait = trusting
+				has_trait = zealous
+				has_trait = wrathful
+			}
+		}
+		trait = diligent
+		trait = trusting
+		trait = zealous
+		trait = wrathful
+		if = {
+			limit = { has_trait = diligent }
+			remove_trait = diligent
+			random_list = {
+				10 = { add_trait = trusting }
+				10 = { add_trait = zealous }
+				10 = { add_trait = wrathful }
+				10 = { add_trait = lazy }
+			}
+		}
+		else_if = {
+			limit = { has_trait = trusting }
+			remove_trait = trusting
+			random_list = {
+				10 = { add_trait = diligent }
+				10 = { add_trait = zealous }
+				10 = { add_trait = wrathful }
+				10 = { add_trait = paranoid }
+			}
+		}
+		else_if = {
+			limit = { has_trait = zealous }
+			remove_trait = zealous
+			random_list = {
+				10 = { add_trait = diligent }
+				10 = { add_trait = trusting }
+				10 = { add_trait = wrathful }
+				10 = { add_trait = cynical }
+			}
+		}
+		else_if = {
+			limit = { has_trait = wrathful }
+			remove_trait = wrathful
+			random_list = {
+				10 = { add_trait = diligent }
+				10 = { add_trait = trusting }
+				10 = { add_trait = zealous }
+				10 = { add_trait = calm }
+			}
+		}
+	}
+	option = { # GD defeat
+		name = ek_ice_wraith_hunt.0003.a
+		trigger = {
+			OR = {
+				has_trait = generous
+				has_trait = deceitful
+			}
+		}
+		trait = generous
+		trait = deceitful
+		if = {
+			limit = { has_trait = generous }
+			remove_trait = generous
+			random_list = {
+				10 = { add_trait = deceitful }
+				10 = { add_trait = greedy }
+			}
+		}
+		else_if = {
+			limit = { has_trait = deceitful }
+			remove_trait = deceitful
+			random_list = {
+				10 = { add_trait = generous }
+				10 = { add_trait = honest }
+			}
+		}
+	}
+	option = { # PT defeat
+		name = ek_ice_wraith_hunt.0003.a
+		trigger = { 
+			OR = {
+				has_trait = patient
+				has_trait = temperate
+			}
+		}
+		if = {
+			limit = { has_trait = patient }
+			remove_trait = patient
+			random_list = {
+				10 = { add_trait = temperate }
+				10 = { add_trait = impatient }
+			}
+		}
+		else_if = {
+			limit = { has_trait = temperate }
+			remove_trait = temperate
+			random_list = {
+				10 = { add_trait = patient }
+				10 = { add_trait = gluttonous }
+			}
+		}
+	}
+	option = { # CS defeat
+		name = ek_ice_wraith_hunt.0003.a
+		trigger = { 
+			OR = {
+				has_trait = callous
+				has_trait = sadistic
+			}
+		}
+		trait = callous
+		trait = sadistic
+		if = {
+			limit = { has_trait = callous }
+			remove_trait = callous
+			random_list = {
+				10 = { add_trait = sadistic }
+				10 = { add_trait = compassionate }
+			}
+		}
+		else_if = {
+			limit = { has_trait = sadistic }
+			remove_trait = sadistic
+			random_list = {
+				10 = { add_trait = callous }
+				10 = { add_trait = compassionate }
+			}
+		}
+	}
+	option = { # vengeful/stubborn
+		name = ek_ice_wraith_hunt.0003.vs
+		trigger = { 
+			OR = {
+				has_trait = vengeful
+				has_trait = stubborn
+			}
+		}
+		trait = vengeful
+		trait = stubborn
+		trigger_event = {
+					id = ek_coming_of_age.0001
+					days = {2 4}
+				}
+	}
+}
+
+# Ice Wraith - CFGG Victory - Tamed one of them
+ek_coming_of_age.0004 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_ice_wraith_hunt.0002.t
+	desc = ek_ice_wraith_hunt.0002.cfgc.desc
+	theme = hunting
+	
+	right_portrait = {
+		character = root
+		animation = war_over_win
+	}
+		
+	option = { # hell ye
+		name = ek_yearly_events.0010.a
+		add_prestige = 30
+	}
+}
+
+# Ice Wraith - CHHI Victory - Do just enough
+ek_coming_of_age.0005 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_ice_wraith_hunt.0002.t
+	desc = ek_ice_wraith_hunt.0002.chhi.desc
+	theme = hunting
+	
+	right_portrait = {
+		character = root
+		animation = war_over_win
+	}
+		
+	option = { # hell ye
+		name = ek_yearly_events.0010.a
+	}
+}
+
+# Ice Wraith - DTZA Victory - Slain an entire pack
+ek_coming_of_age.0006 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_ice_wraith_hunt.0002.t
+	desc = ek_ice_wraith_hunt.0002.dtza.desc
+	theme = hunting
+	
+	right_portrait = {
+		character = root
+		animation = war_over_win
+	}
+		
+	option = { # hell ye
+		name = ek_yearly_events.0010.a
+		add_prestige = 30
+		add_prowess_skill = 2
+	}
+}
+
+# Ice Wraith - GD Victory - Entice an Ice Wraith with goods
+ek_coming_of_age.0007 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_ice_wraith_hunt.0002.t
+	desc = ek_ice_wraith_hunt.0002.gd.desc
+	theme = hunting
+	
+	right_portrait = {
+		character = root
+		animation = war_over_win
+	}
+		
+	option = { # hell ye
+		name = ek_yearly_events.0010.a
+	}
+}
+
+# Ice Wraith - PT Victory - Wait patiently
+ek_coming_of_age.0008 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_ice_wraith_hunt.0002.t
+	desc = ek_ice_wraith_hunt.0002.pt.desc
+	theme = hunting
+	
+	right_portrait = {
+		character = root
+		animation = war_over_win
+	}
+		
+	option = { # hell ye
+		name = ek_yearly_events.0010.a
+		add_prestige = 10
+	}
+}
+
+# Ice Wraith - CS Victory - Murder a baby Ice Wraith
+ek_coming_of_age.0009 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_ice_wraith_hunt.0002.t
+	desc = ek_ice_wraith_hunt.0002.cs.desc
+	theme = hunting
+	
+	right_portrait = {
+		character = root
+		animation = war_over_win
+	}
+		
+	option = { # hell ye
+		name = ek_yearly_events.0010.a
+	}
+}
+
+# Chukka-Sei
+ek_coming_of_age.0010 = {
+	type = character_event
+	trigger = {
+		age >= 16
+		OR = {
+			culture = { has_cultural_pillar = heritage_argonian }
+		}
+		NOR = { 
+			has_character_flag = chukka-sei 
+			culture = culture:ojel 
+		}
+		current_month = 5
+	}
+
+	theme = family
+	override_background = { reference = wilderness }
+	left_portrait = {
+		character = root
+	}
+
+	title = ek_coming_of_age.argonian1.t
+	desc = ek_coming_of_age.argonian1.desc
+
+	# Intrigue
+	option = {
+		name = ek_coming_of_age.argonian1.intrigue 		# investigate
+		trigger = {
+			has_trait = education_intrigue
+		}
+		skill = intrigue
+
+		trigger_event = ek_coming_of_age.0011
+	}
+
+	# Diplomacy
+	option = {
+		name = ek_coming_of_age.argonian1.diplomacy 		# solve dispute
+		trigger = {
+			has_trait = education_diplomacy
+		}
+		skill = diplomacy
+
+		trigger_event = ek_coming_of_age.0012
+	}
+
+	# Stewardship
+	option = {
+		name = ek_coming_of_age.argonian1.stewardship 		# negotiate
+		trigger = {
+			has_trait = education_stewardship
+		}
+		skill = stewardship
+
+		trigger_event = ek_coming_of_age.0013
+	}
+
+	# Martial
+	option = {
+		name = ek_coming_of_age.argonian1.martial 		# lead a battle
+		trigger = {
+			has_trait = education_martial
+		}
+		skill = martial
+		trigger_event = ek_coming_of_age.0014
+	}
+
+	# Learning
+	option = {
+		name = ek_coming_of_age.argonian1.learning 		# overcome shunatei
+		trigger = {
+			has_trait = education_learning
+		}
+		skill = learning
+		trigger_event = ek_coming_of_age.0015
+	}
+	# Prowess
+	option = {
+		name = ek_coming_of_age.argonian1.prowess 		# defeat local animal
+		trigger = {
+			has_trait = education_martial_prowess
+		}
+		skill = prowess
+		trigger_event = ek_coming_of_age.0016
+	}
+	# Arcana
+	option = {
+		name = ek_coming_of_age.argonian1.arcana 		# Hist-Magic
+		trigger = {
+			has_trait = education_magic
+		}
+		# Note: Can't use skill = arcana because Arcana isn't really a skill
+		trait = education_magic_1
+		trigger_event = ek_coming_of_age.0017
+	}
+}
+
+# Chukka-Sei Intrigue
+ek_coming_of_age.0011 = { 
+	type = character_event
+	theme = intrigue
+	
+	left_portrait = {
+		character = scope:suspect_1
+		animation = fear
+	}
+
+	right_portrait = {
+		character = scope:suspect_2
+		animation = fear
+	}
+
+	lower_center_portrait = {
+		character = root
+	}
+
+	title = ek_coming_of_age.argonian.intrigue.t
+	desc = ek_coming_of_age.argonian.intrigue.desc
+	
+	immediate = {
+		random_courtier = {
+			limit = {
+				is_available_ai_adult = yes
+			}
+			save_scope_as = suspect_1
+		}
+		random_courtier = {
+			limit = {
+				is_available_ai_adult = yes
+			}
+			save_scope_as = suspect_2
+		}
+	}
+
+	option = {
+		name = ek_coming_of_age.argonian.intrigue.a
+		trigger = { 
+			intrigue < 10
+		} 
+		duel = {
+			skill = intrigue
+			value = medium_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.argonian.intrigue.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				trigger_event = {
+					id = ek_coming_of_age.0018
+					days = {2 4}
+				}
+			}
+		10 = { #failure
+				desc = ek_coming_of_age.argonian.intrigue.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = tooltip.ek_coming_of_age.argonian.a.failure
+					add_prestige = minor_prestige_loss	
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_coming_of_age.argonian.intrigue.b 
+		trigger = { 
+			intrigue >= 10
+		}
+		skill = intrigue
+		trigger_event = {
+			id = ek_coming_of_age.0018
+			days = {2 4}
+		}
+	}
+}
+
+# Chukka-Sei Diplomacy
+ek_coming_of_age.0012 = {
+	type = character_event
+	theme = diplomacy
+	
+	left_portrait = {
+		character = scope:arguer_1
+		animation = anger
+	}
+
+	right_portrait = {
+		character = scope:arguer_2
+		animation = anger
+	}
+
+	lower_center_portrait = {
+		character = root
+	}
+
+	title = ek_coming_of_age.argonian.diplomacy.t
+	desc = ek_coming_of_age.argonian.diplomacy.desc
+	
+	immediate = {
+		random_courtier = {
+			limit = {
+				is_available_ai_adult = yes
+			}
+			save_scope_as = arguer_1
+		}
+		random_courtier = {
+			limit = {
+				is_available_ai_adult = yes
+			}
+			save_scope_as = arguer_2
+		}
+	}
+	option = {
+		name = ek_coming_of_age.argonian.diplomacy.a 
+		trigger = { 
+			diplomacy < 10
+		}
+		duel = {
+			skill = diplomacy
+			value = medium_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.argonian.diplomacy.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				trigger_event = {
+					id = ek_coming_of_age.0018
+					days = {2 4}
+				}
+			}
+		10 = { #failure
+				desc = ek_coming_of_age.argonian.diplomacy.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = tooltip.ek_coming_of_age.argonian.a.failure
+					add_prestige = minor_prestige_loss	
+				}
+			}
+		}
+	}
+	option = {
+		name = ek_coming_of_age.argonian.diplomacy.b 
+		trigger = { 
+			diplomacy >= 10
+		}
+		skill = diplomacy
+		trigger_event = {
+			id = ek_coming_of_age.0018
+			days = {2 4}
+		}
+	}
+}
+
+# Chukka-Sei Stewardship
+ek_coming_of_age.0013 = {
+	type = character_event
+	theme = stewardship
+	override_background = { reference = market_tribal }
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:seller
+	}
+
+	title = ek_coming_of_age.argonian.stewardship.t
+	desc = ek_coming_of_age.argonian.stewardship.desc
+	
+	immediate = {
+		random_courtier = {
+			limit = {
+				is_available_ai_adult = yes
+			}
+			save_scope_as = seller
+		}
+	}
+	option = {
+		name = ek_coming_of_age.argonian.stewardship.a
+		trigger = { 
+			stewardship < 10
+		}
+		duel = {
+			skill = stewardship
+			value = medium_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.argonian.stewardship.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				trigger_event = {
+					id = ek_coming_of_age.0018
+					days = {2 4}
+				}
+			}
+		10 = { #failure
+				desc = ek_coming_of_age.argonian.stewardship.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = tooltip.ek_coming_of_age.argonian.a.failure
+					add_prestige = minor_prestige_loss	
+				}
+			}
+		}
+	}
+	option = {
+		name = ek_coming_of_age.argonian.stewardship.b 
+		trigger = { 
+			stewardship >= 10
+		}
+		skill = stewardship
+		trigger_event = {
+			id = ek_coming_of_age.0018
+			days = {2 4}
+		}
+	}
+}
+
+# Chukka-Sei Martial
+ek_coming_of_age.0014 = {
+	type = character_event
+	theme = martial
+	override_background = { reference = army_camp }
+
+	left_portrait = {
+		character = root
+	}
+
+	title = ek_coming_of_age.argonian.martial.t
+	desc = ek_coming_of_age.argonian.martial.desc
+	
+	option = {
+		name = ek_coming_of_age.argonian.martial.a
+		trigger = { 
+			martial < 10
+		}
+		duel = {
+			skill = martial
+			value = medium_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.argonian.martial.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				trigger_event = {
+					id = ek_coming_of_age.0018
+					days = {2 4}
+				}
+			}
+		10 = { #failure
+				desc = ek_coming_of_age.argonian.martial.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = tooltip.ek_coming_of_age.argonian.a.failure
+					add_prestige = minor_prestige_loss	
+				}
+			}
+		}
+	}
+	option = {
+		name = ek_coming_of_age.argonian.martial.b 
+		trigger = { 
+			martial >= 10
+		}
+		skill = martial
+		trigger_event = {
+			id = ek_coming_of_age.0018
+			days = {2 4}
+		}
+	}
+}
+
+# Chukka-Sei Learning
+ek_coming_of_age.0015 = {
+	type = character_event
+	theme = learning
+	override_background = { reference = dungeon }
+	
+	left_portrait = {
+		character = root
+	}
+
+	title = ek_coming_of_age.argonian.learning.t
+	desc = ek_coming_of_age.argonian.learning.desc
+
+	option = {
+		name = ek_coming_of_age.argonian.learning.a
+		trigger = { 
+			learning < 10
+		}
+		duel = {
+			skill = learning
+			value = medium_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.argonian.learning.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				trigger_event = {
+					id = ek_coming_of_age.0018
+					days = {2 4}
+				}
+			}
+		10 = { #failure
+				desc = ek_coming_of_age.argonian.learning.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = tooltip.ek_coming_of_age.argonian.a.failure
+					add_prestige = minor_prestige_loss	
+				}
+			}
+		}
+	}
+	option = {
+		name = ek_coming_of_age.argonian.learning.b
+		trigger = { 
+			learning >= 10
+		}
+		skill = learning
+		trigger_event = {
+			id = ek_coming_of_age.0018
+			days = {2 4}
+		}
+	}
+}
+
+# Chukka-Sei Prowess
+ek_coming_of_age.0016 = {
+	type = character_event
+	theme = battle
+	override_background = { reference = wilderness }
+	
+	left_portrait = {
+		character = root
+	}
+
+	title = ek_coming_of_age.argonian.prowess.t
+	desc = ek_coming_of_age.argonian.prowess.desc
+
+	immediate = {
+		select_local_animal_effect = { TYPE = big } # Save scope to limit possible animals: any/big/small/dangerous/harmless/prowling
+	}
+
+	option = {
+		name = ek_coming_of_age.argonian.prowess.a
+		trigger = { 
+			prowess < 10
+		}
+		duel = {
+			skill = prowess
+			value = medium_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.argonian.prowess.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				trigger_event = {
+					id = ek_coming_of_age.0018
+					days = {2 4}
+				}
+			}
+		10 = { #failure
+				desc = ek_coming_of_age.argonian.prowess.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = tooltip.ek_coming_of_age.argonian.a.failure
+					add_prestige = minor_prestige_loss	
+				}
+			}
+		}
+	}
+	option = {
+		name = ek_coming_of_age.argonian.prowess.b
+		trigger = { 
+			prowess >= 10
+		}
+		skill = prowess
+		trigger_event = {
+			id = ek_coming_of_age.0018
+			days = {2 4}
+		}
+	}
+}
+
+# Chukka-Sei Arcana
+ek_coming_of_age.0017 = {
+	type = character_event
+	theme = witchcraft
+	override_background = { reference = wilderness }
+	
+	left_portrait = {
+		character = root
+	}
+
+	title = ek_coming_of_age.argonian.arcana.t
+	desc = ek_coming_of_age.argonian.arcana.desc
+
+	option = {
+		name = ek_coming_of_age.argonian.arcana.a
+		# Arcana isn't a real skill, so you can't use it like that
+		trigger = { 
+			has_trait = arcana_good
+		}
+		fake_duel = {
+				skill = arcana
+				value = average_skill_rating
+				target = this
+		}
+		random_list = {
+			10 = { # success
+				desc = ek_coming_of_age.argonian.arcana.a.success
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 1
+				}
+				trigger_event = {
+					id = ek_coming_of_age.0018
+					days = {2 4}
+				}
+			}
+		12 = { #failure
+				desc = ek_coming_of_age.argonian.arcana.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = tooltip.ek_coming_of_age.argonian.a.failure
+					add_prestige = minor_prestige_loss	
+				}
+			}
+		}
+	}
+	option = {
+		name = ek_coming_of_age.argonian.arcana.b
+		trigger = { 
+			prowess >= 10
+		}
+		skill = learning
+		trigger_event = {
+			id = ek_coming_of_age.0018
+			days = {2 4}
+		}
+	}
+}
+
+# Chukka-Sei: Conclusion
+ek_coming_of_age.0018 = {
+	type = character_event
+	trigger = {
+		NOT = { has_character_flag = chukka-sei }
+	}
+
+	theme = family
+	override_background = { reference = wilderness }
+	
+	left_portrait = {
+		character = root
+	}
+
+	title = ek_coming_of_age.0018.t
+	desc = {
+		# Skill
+		random_valid = {
+			triggered_desc = { #intrigue
+				trigger = {
+					has_trait = education_intrigue
+					}
+				desc = ek_coming_of_age.0018.intrigue
+			}
+			triggered_desc = { #diplomacy
+				trigger = {
+					has_trait = education_diplomacy
+					}
+				desc = ek_coming_of_age.0018.diplomacy
+			}
+			triggered_desc = { #stewardship
+				trigger = {
+					has_trait = education_stewardship
+					}
+				desc = ek_coming_of_age.0018.stewardship
+			}
+			triggered_desc = { #martial
+				trigger = {
+					has_trait = education_martial
+					}
+				desc = ek_coming_of_age.0018.martial
+			}
+			triggered_desc = { #learning
+				trigger = {
+					has_trait = education_learning
+					}
+				desc = ek_coming_of_age.0018.learning
+			}
+			triggered_desc = { #prowess
+				trigger = {
+					has_trait = education_martial_prowess
+					}
+				desc = ek_coming_of_age.0018.prowess
+			}
+			triggered_desc = { #arcana
+				trigger = {
+					has_trait = education_magic
+					}
+				desc = ek_coming_of_age.0018.arcana
+			}
+		}
+		desc = ek_coming_of_age.0018.end
+	}
+
+	immediate = { 
+		create_character = {
+			location = root.location
+			template = chukka_sei_template
+			save_scope_as = new_name_dummy
+		}
+		change_first_name = { template_character = scope:new_name_dummy }
+	}
+
+	#NAMING WIDGET
+	widgets = {
+		widget = {
+			is_shown = {
+				always = yes
+			}
+			gui = "event_window_widget_name_child"
+			container = "dynamic_birth_name"
+			controller = name_character
+			setup_scope = { root = { save_scope_as = name_character_target } }
+		}
+	}
+
+	option = {
+		name = ek_coming_of_age.0018.a
+		add_character_flag = chukka-sei
+		add_prestige = minor_prestige_gain
+		hidden_effect = {
+			scope:new_name = {
+				silent_disappearance_effect = yes
+			}
+		}
+	}
+}
+
+# Chukka-Sei - AI edition
+
+ek_coming_of_age.0019 = {
+	type = character_event
+	theme = family
+	override_background = { reference = wilderness }
+	
+	left_portrait = {
+		character = root
+	}
+
+	title = ek_coming_of_age.0018.t
+	desc = {
+		# Skill
+		random_valid = {
+			triggered_desc = { #intrigue
+				trigger = {
+					has_trait = education_intrigue
+					}
+				desc = ek_coming_of_age.0018.intrigue
+			}
+			triggered_desc = { #diplomacy
+				trigger = {
+					has_trait = education_diplomacy
+					}
+				desc = ek_coming_of_age.0018.diplomacy
+			}
+			triggered_desc = { #stewardship
+				trigger = {
+					has_trait = education_stewardship
+					}
+				desc = ek_coming_of_age.0018.stewardship
+			}
+			triggered_desc = { #martial
+				trigger = {
+					has_trait = education_martial
+					}
+				desc = ek_coming_of_age.0018.martial
+			}
+			triggered_desc = { #learning
+				trigger = {
+					has_trait = education_learning
+					}
+				desc = ek_coming_of_age.0018.learning
+			}
+			triggered_desc = { #prowess
+				trigger = {
+					has_trait = education_martial_prowess
+					}
+				desc = ek_coming_of_age.0018.prowess
+			}
+			triggered_desc = { #arcana
+				trigger = {
+					has_trait = education_magic
+					}
+				desc = ek_coming_of_age.0018.arcana
+			}
+		}
+		desc = ek_coming_of_age.0018.end
+	}
+
+	trigger = {
+		is_ai = yes
+		age >= 16
+		OR = {
+			culture = { has_cultural_pillar = heritage_argonian }
+			has_character_flag = race_argonian
+		}
+		NOT = { 
+			has_character_flag = chukka-sei 
+			culture = culture:ojel 
+		}
+	}
+
+	immediate = { 
+		create_character = {
+			location = root.location
+			template = chukka_sei_template
+			save_scope_as = new_name_dummy
+		}
+		change_first_name = { template_character = scope:new_name_dummy }
+	}
+
+	#NAMING WIDGET
+	widgets = {
+		widget = {
+			is_shown = {
+				always = yes
+			}
+			gui = "event_window_widget_name_child"
+			container = "dynamic_birth_name"
+			controller = name_character
+			setup_scope = { root = { save_scope_as = name_character_target } }
+		}
+	}
+
+	option = {
+		name = ek_coming_of_age.0018.a
+		add_character_flag = chukka-sei
+		add_prestige = minor_prestige_gain
+		hidden_effect = {
+			scope:new_name_dummy = {
+				silent_disappearance_effect = yes
+			}
+		}
+	}
+}
+
+# Harrowing
+ek_coming_of_age.0020 = {
+	type = character_event
+	trigger = {
+		AND = {
+			age >= 16
+			culture = { has_cultural_tradition = tradition_red_mountain_might }
+			trigger_if = {
+				limit = { exists = capital_province }
+				capital_province = { geographical_region = mundus_tamriel_morrowind }
+			}
+			trigger_else_if = {
+				limit = { exists = liege }
+				liege.capital_province = { geographical_region = mundus_tamriel_morrowind }
+			}
+			trigger_else_if = {
+				limit = { exists = location }
+				location = { geographical_region = mundus_tamriel_morrowind }
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+	}
+
+	theme = family
+	override_background = { reference = temple }
+	left_portrait = {
+		character = root
+	}
+
+	immediate = {
+		add_character_modifier = {
+			modifier = harrowing_not_complete
+			years = 10
+		}
+	}
+
+	title = ek_coming_of_age.0020.t
+	desc = ek_coming_of_age.0020.desc
+
+	option = {
+		trigger = {
+			num_virtuous_traits > num_sinful_traits
+		}
+		name = ek_coming_of_age.0020.a
+		custom_tooltip = ek_coming_of_age.0020.a.tt.1
+		
+		save_scope_value_as = {
+			name = sinful
+			value = flag:not_at_all
+		}
+		
+		trigger_event = {
+			id = ek_coming_of_age.0021
+			days = { 2 3 }
+		}
+		ai_chance = {
+			base = 0
+
+			ai_value_modifier = {
+				ai_zeal = 10
+			}
+		}		
+	}
+
+	option = {
+		trigger = {
+			num_virtuous_traits = num_sinful_traits
+		}
+		name = ek_coming_of_age.0020.b
+		custom_tooltip = ek_coming_of_age.0020.b.tt
+		save_scope_value_as = {
+			name = sinful
+			value = flag:not
+		}
+		trigger_event = {
+			id = ek_coming_of_age.0021
+			days = { 2 3 }
+		}
+		ai_chance = {
+			base = 100
+		}		
+	}
+
+	option = {
+		trigger = {
+			num_virtuous_traits < num_sinful_traits
+		}
+		name = ek_coming_of_age.0020.c
+		custom_tooltip = ek_coming_of_age.0020.c.tt
+		save_scope_value_as = {
+			name = sinful
+			value = flag:yes
+		}
+		stress_impact = {
+			humble = medium_stress_gain
+		}
+		trigger_event = {
+			id = ek_coming_of_age.0021
+			days = { 2 3 }
+		}
+
+		ai_chance = {
+			base = 0
+
+			ai_value_modifier = {
+				ai_boldness = 5
+				ai_zeal = -10
+			}
+
+			modifier = {
+				add = 980
+				has_trait = arrogant
+			}
+		}		
+	}
+
+	option = {
+		name = ek_coming_of_age.0020.d
+		custom_tooltip = ek_coming_of_age.0020.d.flavour
+		add_prestige = medium_prestige_loss
+		dynasty = {
+			add_dynasty_prestige = medium_dynasty_prestige_loss
+		}
+		stress_impact = {
+			brave = medium_stress_impact_gain
+			ambitious = medium_stress_impact_gain
+			fickle = medium_stress_impact_loss
+			craven = medium_stress_impact_loss
+			paranoid = medium_stress_impact_loss
+			shy = medium_stress_impact_loss
+		}
+	}
+}
+
+ek_coming_of_age.0021 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_coming_of_age.0021.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:sinful = flag:yes
+				}
+				desc = ek_coming_of_age.0021.desc.start_very_sinful
+			}
+			triggered_desc = {
+				trigger = {
+					scope:sinful = flag:not_at_all
+				}
+				desc = ek_coming_of_age.0021.desc.start_virtuous
+			}
+			desc = ek_coming_of_age.0021.desc.start_not_very_sinful
+		}
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:outcome = flag:no_effect
+				}
+				desc = ek_coming_of_age.0021.desc.end_no_change
+			}
+			triggered_desc = {
+				trigger = {
+					scope:outcome = flag:shrewd
+				}
+				desc = ek_coming_of_age.0021.desc.shrewd
+			}
+			triggered_desc = {
+				trigger = {
+					scope:outcome = flag:strong
+				}
+				desc = ek_coming_of_age.0021.desc.strong
+			}
+			triggered_desc = {
+				trigger = {
+					scope:outcome = flag:herder_spirit
+				}
+				desc = ek_coming_of_age.0021.desc.herder
+			}
+			triggered_desc = {
+				trigger = {
+					scope:outcome = flag:hunter_spirit
+				}
+				desc = ek_coming_of_age.0021.desc.hunter
+			}
+			triggered_desc = {
+				trigger = {
+					scope:outcome = flag:wise_spirit
+				}
+				desc = ek_coming_of_age.0021.desc.wise
+			}
+			triggered_desc = {
+				trigger = {
+					scope:outcome = flag:wife_spirit
+				}
+				desc = ek_coming_of_age.0021.desc.wife
+			}
+			triggered_desc = {
+				trigger = {
+					scope:outcome = flag:warrior_spirit
+				}
+				desc = ek_coming_of_age.0021.desc.warrior
+			}
+			triggered_desc = {
+				trigger = {
+					scope:outcome = flag:possessed
+				}
+				desc = ek_coming_of_age.0021.desc.possessed
+			}
+			triggered_desc = {
+				trigger = {
+					scope:outcome = flag:impotent
+				}
+				desc = ek_coming_of_age.0021.desc.impotent
+			}
+			triggered_desc = {
+				trigger = {
+					scope:outcome = flag:ill
+				}
+				desc = ek_coming_of_age.0021.desc.ill
+			}
+			triggered_desc = {
+				trigger = {
+					scope:outcome = flag:weak
+				}
+				desc = ek_coming_of_age.0021.desc.weak
+			}
+
+		}
+	}
+	theme = family
+	override_background = { reference = temple }
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:ancestor
+		trigger = {
+			NOT = {
+				scope:outcome = flag:no_effect
+			}
+		}
+		animation = personality_zealous
+		hide_info = yes
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				any_ancestor = {
+					num_virtuous_traits > 0
+					is_alive = no
+				}
+			}
+			random_ancestor = {
+				even_if_dead = yes
+				limit = {
+					num_virtuous_traits > 0
+					is_alive = no
+				}
+				save_scope_as = ancestor
+			}
+		}
+		else = {
+			create_character = {
+				template = virtuous_priest_character_template
+				age = { 250 1000 }
+				location = root.location
+				save_scope_as = ancestor
+			}
+		}
+		
+
+		random_list = {
+			# Positive Effect
+			40 = {
+				compare_modifier = {
+					value = {
+						value = scope:ancestor.num_virtuous_traits
+						multiply = 5
+					}
+				}
+				modifier = {
+					add = 10
+					scope:ancestor = {
+						has_trait = zealous
+					}
+				}
+				random_list = {
+					# Trait Gain
+					10 = {
+						# Minimum chance of ~0%. Maximum chance of ~40% (Miracle Worker RP with 20 Learning and an Expensive Offering)
+						compare_modifier = {
+							value = {
+								value = scope:ancestor.num_virtuous_traits
+								multiply = 5
+							}
+						}
+						modifier = {
+							add = 10
+							scope:ancestor = {
+								has_trait = zealous
+							}
+						}
+						modifier = {
+							add = 30
+							scope:sinful = flag:not
+						}
+						modifier = {
+							add = 40
+							scope:sinful = flag:not_at_all
+						}
+						trigger = {
+							NAND = {
+								AND = {
+									has_trait = shrewd
+									has_trait_rank = {
+										trait = intellect_bad
+										rank > 0
+									}
+								}
+								AND = {
+									has_trait = strong
+									has_trait_rank = {
+										trait = physique_bad
+										rank > 0
+									}
+								}
+							}
+						}
+						random_list = {
+							50 = {
+								trigger = {
+									NOR = {
+										has_trait = shrewd
+										has_trait_rank = {
+											trait = intellect_bad
+											rank > 0
+										}
+									}
+								}
+								save_scope_value_as = {
+									name = outcome
+									value = flag:shrewd
+								}
+							}
+							50 = {
+								trigger = {
+									NOR = {
+										has_trait = strong
+										has_trait_rank = {
+											trait = physique_bad
+											rank > 0
+										}
+									}
+								}
+								save_scope_value_as = {
+									name = outcome
+									value = flag:strong
+								}
+							}
+						}
+					}
+					# Modifier Gain
+					90 = {
+						random_list = {
+							20 = {
+								save_scope_value_as = {
+									name = outcome
+									value = flag:herder_spirit
+								}
+							}
+							20 = {
+								save_scope_value_as = {
+									name = outcome
+									value = flag:hunter_spirit
+								}
+							}
+							20 = {
+								save_scope_value_as = {
+									name = outcome
+									value = flag:wise_spirit
+								}
+							}
+							20 = {
+								save_scope_value_as = {
+									name = outcome
+									value = flag:wife_spirit
+								}
+							}
+							20 = {
+								save_scope_value_as = {
+									name = outcome
+									value = flag:warrior_spirit
+								}
+							}
+						}					
+					}
+				}
+			}
+			# No Effect
+			40 = {
+				# Offering modifiers only effect the 'None' chance.
+				modifier = {
+					add = -40
+					scope:sinful = flag:not_at_all
+				}
+				modifier = {
+					add = 80
+					scope:sinful = flag:yes
+					NOT = { has_trait = arrogant }
+				}
+
+				
+				modifier = { # Cynical characters less likely to succeed in the ritual.
+					add = 40
+					has_trait = cynical
+				}
+				modifier = { # Zealous characters more likely to succeed in the ritual.
+					add = -20
+					has_trait = zealous
+				}
+				save_scope_value_as = {
+					name = outcome
+					value = flag:no_effect
+				}
+			}
+			# Negative Effects
+			20 = {
+				modifier = {
+					add = 20
+					scope:sinful = flag:yes
+				}
+				compare_modifier = {
+					value = {
+						value = scope:ancestor.num_virtuous_traits
+						multiply = -5
+						min = -10
+					}
+				}
+				random_list = {
+					25 = {
+						trigger = { NOT = { has_trait = possessed } }
+						modifier = {
+							add = 100
+							scope:sinful = flag:not
+						}
+						save_scope_value_as = {
+							name = outcome
+							value = flag:possessed
+						}
+					}
+					25 = {
+						trigger = { NOT = { has_trait = impotent } }
+						save_scope_value_as = {
+							name = outcome
+							value = flag:impotent
+						}
+					}
+					25 = {
+						trigger = { can_contract_disease_trigger = { DISEASE = ill } }
+						save_scope_value_as = {
+							name = outcome
+							value = flag:ill
+						}
+					}
+					25 = {
+						trigger = { NOT = { has_trait = weak } }
+						save_scope_value_as = {
+							name = outcome
+							value = flag:weak
+						}
+					}
+				}
+			}
+		}
+
+		# If we failed to set the outcome flag, set it now.
+		if = {
+			limit = {
+				NOT = { exists = scope:outcome }
+			}
+			save_scope_value_as = {
+				name = outcome
+				value = flag:no_effect
+			}
+		}
+	}
+
+	option = {
+		# Custom name text based on ritual outcome.
+		name = {
+			trigger = { scope:outcome = flag:shrewd }
+			text = ek_coming_of_age.0021.shrewd
+		}
+		name = {
+			trigger = { scope:outcome = flag:strong }
+			text = ek_coming_of_age.0021.strong
+		}
+		name = {
+			trigger = {
+				OR = {
+					scope:outcome = flag:herder_spirit
+					scope:outcome = flag:hunter_spirit
+					scope:outcome = flag:wise_spirit
+					scope:outcome = flag:wife_spirit
+					scope:outcome = flag:warrior_spirit
+				}
+			}
+			text = ek_coming_of_age.0021.good
+		}
+		name = {
+			trigger = {
+				OR = {
+					scope:outcome = flag:ill
+					scope:outcome = flag:impotent
+					scope:outcome = flag:weak
+				}
+			}
+			text = ek_coming_of_age.0021.bad
+		}
+		name = {
+			trigger = { scope:outcome = flag:possessed }
+			text = ek_coming_of_age.0021.possessed
+		}
+		name = {
+			trigger = {
+				scope:outcome = flag:no_effect
+				has_trait = zealous
+			}
+			text = ek_coming_of_age.0021.no_change.zealous
+		}
+		name = {
+			trigger = {
+				scope:outcome = flag:no_effect
+				NOT = { has_trait = zealous }
+			}
+			text = ek_coming_of_age.0021.no_change
+		}
+
+		# Apply the actual outcome effects:
+		# Good Outcomes
+		if = {
+			limit = { scope:outcome = flag:shrewd}
+			remove_character_modifier = harrowing_not_complete
+			if = {
+				limit = { has_trait = dull}
+				remove_trait = dull
+			}
+			else = {
+				add_trait = shrewd
+			}
+		}
+		else_if = {
+			limit = { scope:outcome = flag:strong}
+			remove_character_modifier = harrowing_not_complete
+			if = {
+				limit = { has_trait = weak}
+				remove_trait = weak
+			}
+			else = {
+				add_trait = strong
+			}
+		}
+		else_if = {
+			limit = { scope:outcome = flag:herder_spirit}
+			remove_character_modifier = harrowing_not_complete
+			add_character_modifier = {
+				modifier = herder_blessing
+			}
+		}
+		else_if = {
+			limit = { scope:outcome = flag:hunter_spirit}
+			remove_character_modifier = harrowing_not_complete
+			add_character_modifier = {
+				modifier = hunter_blessing
+			}
+		}
+		else_if = {
+			limit = { scope:outcome = flag:wise_spirit}
+			remove_character_modifier = harrowing_not_complete
+			add_character_modifier = {
+				modifier = wise_blessing
+			}
+		}
+		else_if = {
+			limit = { scope:outcome = flag:wife_spirit}
+			remove_character_modifier = harrowing_not_complete
+			add_character_modifier = {
+				modifier = wife_blessing
+			}
+		}
+		else_if = {
+			limit = { scope:outcome = flag:warrior_spirit}
+			remove_character_modifier = harrowing_not_complete
+			add_character_modifier = {
+				modifier = warrior_blessing
+			}
+		}
+		# Bad Outcomes
+		else_if = {
+			limit = { scope:outcome = flag:possessed}
+			add_trait = possessed_1
+			add_prestige = medium_prestige_loss
+			dynasty = {
+				add_dynasty_prestige = medium_dynasty_prestige_loss
+			}
+		}
+		else_if = {
+			limit = { scope:outcome = flag:impotent}
+			add_character_modifier = {
+				modifier = impotency_curse
+				years = 10
+			}
+			add_prestige = medium_prestige_loss
+			dynasty = {
+				add_dynasty_prestige = medium_dynasty_prestige_loss
+			}
+		}
+		else_if = {
+			limit = { scope:outcome = flag:ill}
+			contract_disease_effect = { DISEASE = ill TREATMENT_EVENT = yes }
+			add_prestige = medium_prestige_loss
+			dynasty = {
+				add_dynasty_prestige = medium_dynasty_prestige_loss
+			}
+		}
+		else_if = {
+			limit = { scope:outcome = flag:weak}
+			add_trait = weak
+			add_prestige = medium_prestige_loss
+			dynasty = {
+				add_dynasty_prestige = medium_dynasty_prestige_loss
+			}
+		}
+
+		else_if = {
+			limit = { scope:outcome = flag:no_effect }
+			add_prestige = medium_prestige_loss
+			remove_character_modifier = harrowing_not_complete
+			dynasty = {
+				add_dynasty_prestige = medium_dynasty_prestige_loss
+			}
+		}
+	}
+}
+
+# Once
+ek_coming_of_age.0022 = {
+	type = character_event
+
+	theme = family
+	override_background = { reference = temple }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:adamantine_holder
+	}
+
+	title = ek_coming_of_age.0022.t
+	desc = ek_coming_of_age.0022.desc
+
+	immediate = {
+		add_prestige = minor_prestige_gain
+		if = {
+			limit = {
+				NOT = {
+					location = title:b_adamantine.title_province
+				}
+			}
+			title:b_adamantine.holder = {
+				save_scope_as = adamantine_holder
+			}
+		}
+	}
+
+	# Intrigue
+	option = {
+		name = ek_coming_of_age.0022.a
+		trigger = {
+			has_trait = education_intrigue
+		}
+		skill = intrigue
+		random = {
+			chance = 30
+			add_intrigue_skill = 1
+		}
+	}
+
+	# Diplomacy
+	option = {
+		name = ek_coming_of_age.0022.b
+		trigger = {
+			has_trait = education_diplomacy
+		}
+		skill = diplomacy
+		random = {
+			chance = 30
+			add_diplomacy_skill = 1
+		}
+	}
+
+	# Stewardship
+	option = {
+		name = ek_coming_of_age.0022.c
+		trigger = {
+			has_trait = education_stewardship
+		}
+		random = {
+			chance = 30
+			add_stewardship_skill = 1
+		}
+		skill = stewardship
+
+	}
+
+	# Martial
+	option = {
+		name = ek_coming_of_age.0022.d
+		trigger = {
+			has_trait = education_martial
+		}
+		random = {
+			chance = 30
+			add_martial_skill = 1
+		}
+		skill = martial
+	}
+
+	# Learning
+	option = {
+		name = ek_coming_of_age.0022.e
+		trigger = {
+			has_trait = education_learning
+		}
+		random = {
+			chance = 30
+			add_learning_skill = 1
+		}
+		skill = learning
+	}
+	# Prowess
+	option = {
+		name = ek_coming_of_age.0022.f
+		trigger = {
+			has_trait = education_martial_prowess
+		}
+		random = {
+			chance = 30
+			add_prowess_skill = 2
+		}
+		skill = prowess
+	}
+	# Arcana
+	option = {
+		name = ek_coming_of_age.0022.g
+		trigger = {
+			has_trait = education_magic
+		}
+		random = {
+			chance = 30
+			add_arcana_skill = { VALUE = 2 }
+		}
+		trait = education_magic_1
+	}
+}
+
+# Once Again
+ek_coming_of_age.0023 = {
+	type = character_event
+
+	theme = family
+	override_background = { reference = temple }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:adamantine_holder
+	}
+
+	title = ek_coming_of_age.0023.t
+	desc = ek_coming_of_age.0023.desc
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = {
+					location = title:b_adamantine.title_province
+				}
+			}
+			title:b_adamantine.holder = {
+				save_scope_as = adamantine_holder
+			}
+		}
+	}
+
+	# Intrigue
+	option = {
+		name = ek_coming_of_age.0023.a
+		trigger = {
+			has_trait = education_intrigue
+		}
+		skill = intrigue
+		duel = {
+			skill = intrigue
+			value = extremely_high_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.0023.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				root = {
+					send_interface_toast = {
+						type = event_toast_effect_good
+						left_icon = root
+						title = ek_coming_of_age.0023.success
+						dynasty = {
+							add_dynasty_prestige = excessive_dynasty_prestige_gain
+						}
+					}
+				}
+			}
+
+			10 = { #failure
+				desc = ek_coming_of_age.0023.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -2
+				}
+				root = {
+					send_interface_toast = {
+						type = event_toast_effect_bad
+						left_icon = root
+						title = ek_coming_of_age.0023.failure
+						dynasty = {
+							add_dynasty_prestige = minor_dynasty_prestige_gain
+						}
+						custom_tooltip = ek_coming_of_age.0023.failure.tt
+						hidden_effect = {
+							random_list = {
+								10 = {
+									add_trait_force_tooltip = disfigured
+								}
+								10 = {
+									add_trait_force_tooltip = disrupted
+								}
+								10 = {
+									add_trait_force_tooltip = incapable
+								}
+								10 = {
+									add_trait_force_tooltip = lunatic_1
+								}
+							}
+						}
+					}
+				}
+			}
+
+			10 = { #critical failure
+				desc = ek_coming_of_age.0023.crit_failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -4
+				}
+				death = { death_reason = death_adamantine }
+			}
+		}
+	}
+
+	# Diplomacy
+	option = {
+		name = ek_coming_of_age.0023.b
+		trigger = {
+			has_trait = education_diplomacy
+		}
+		skill = diplomacy
+		duel = {
+			skill = diplomacy
+			value = extremely_high_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.0023.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				root = {
+					send_interface_toast = {
+						type = event_toast_effect_good
+						left_icon = root
+						title = ek_coming_of_age.0023.success
+						dynasty = {
+							add_dynasty_prestige = excessive_dynasty_prestige_gain
+						}
+					}
+				}
+			}
+
+			10 = { #failure
+				desc = ek_coming_of_age.0023.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -2
+				}
+				root = {
+					send_interface_toast = {
+						type = event_toast_effect_bad
+						left_icon = root
+						title = ek_coming_of_age.0023.failure
+						dynasty = {
+							add_dynasty_prestige = minor_dynasty_prestige_gain
+						}
+						custom_tooltip = ek_coming_of_age.0023.failure.tt
+						hidden_effect = {
+							random_list = {
+								10 = {
+									add_trait_force_tooltip = disfigured
+								}
+								10 = {
+									add_trait_force_tooltip = disrupted
+								}
+								10 = {
+									add_trait_force_tooltip = incapable
+								}
+								10 = {
+									add_trait_force_tooltip = lunatic_1
+								}
+							}
+						}
+					}
+				}
+			}
+
+			10 = { #critical failure
+				desc = ek_coming_of_age.0023.crit_failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -4
+				}
+				death = { death_reason = death_adamantine }
+			}
+		}
+	}
+
+	# Stewardship
+	option = {
+		name = ek_coming_of_age.0023.c
+		trigger = {
+			has_trait = education_stewardship
+		}
+		skill = stewardship
+		duel = {
+			skill = stewardship
+			value = extremely_high_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.0023.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				root = {
+					send_interface_toast = {
+						type = event_toast_effect_good
+						left_icon = root
+						title = ek_coming_of_age.0023.success
+						dynasty = {
+							add_dynasty_prestige = excessive_dynasty_prestige_gain
+						}
+					}
+				}
+			}
+
+			10 = { #failure
+				desc = ek_coming_of_age.0023.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -2
+				}
+				root = {
+					send_interface_toast = {
+						type = event_toast_effect_bad
+						left_icon = root
+						title = ek_coming_of_age.0023.failure
+						dynasty = {
+							add_dynasty_prestige = minor_dynasty_prestige_gain
+						}
+						custom_tooltip = ek_coming_of_age.0023.failure.tt
+						hidden_effect = {
+							random_list = {
+								10 = {
+									add_trait_force_tooltip = disfigured
+								}
+								10 = {
+									add_trait_force_tooltip = disrupted
+								}
+								10 = {
+									add_trait_force_tooltip = incapable
+								}
+								10 = {
+									add_trait_force_tooltip = lunatic_1
+								}
+							}
+						}
+					}
+				}
+			}
+
+			10 = { #critical failure
+				desc = ek_coming_of_age.0023.crit_failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -4
+				}
+				death = { death_reason = death_adamantine }
+			}
+		}
+	}
+
+	# Martial
+	option = {
+		name = ek_coming_of_age.0023.d
+		trigger = {
+			has_trait = education_martial
+		}
+		skill = martial
+		duel = {
+			skill = martial
+			value = extremely_high_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.0023.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				root = {
+					send_interface_toast = {
+						type = event_toast_effect_good
+						left_icon = root
+						title = ek_coming_of_age.0023.success
+						dynasty = {
+							add_dynasty_prestige = excessive_dynasty_prestige_gain
+						}
+					}
+				}
+			}
+
+			10 = { #failure
+				desc = ek_coming_of_age.0023.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -2
+				}
+				root = {
+					send_interface_toast = {
+						type = event_toast_effect_bad
+						left_icon = root
+						title = ek_coming_of_age.0023.failure
+						dynasty = {
+							add_dynasty_prestige = minor_dynasty_prestige_gain
+						}
+						custom_tooltip = ek_coming_of_age.0023.failure.tt
+						hidden_effect = {
+							random_list = {
+								10 = {
+									add_trait_force_tooltip = disfigured
+								}
+								10 = {
+									add_trait_force_tooltip = disrupted
+								}
+								10 = {
+									add_trait_force_tooltip = incapable
+								}
+								10 = {
+									add_trait_force_tooltip = lunatic_1
+								}
+							}
+						}
+					}
+				}
+			}
+
+			10 = { #critical failure
+				desc = ek_coming_of_age.0023.crit_failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -4
+				}
+				death = { death_reason = death_adamantine }
+			}
+		}
+	}
+
+	# Learning
+	option = {
+		name = ek_coming_of_age.0023.e
+		trigger = {
+			has_trait = education_learning
+		}
+		skill = learning
+		duel = {
+			skill = learning
+			value = extremely_high_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.0023.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				root = {
+					send_interface_toast = {
+						type = event_toast_effect_good
+						left_icon = root
+						title = ek_coming_of_age.0023.success
+						dynasty = {
+							add_dynasty_prestige = excessive_dynasty_prestige_gain
+						}
+					}
+				}
+			}
+
+			10 = { #failure
+				desc = ek_coming_of_age.0023.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -2
+				}
+				root = {
+					send_interface_toast = {
+						type = event_toast_effect_bad
+						left_icon = root
+						title = ek_coming_of_age.0023.failure
+						dynasty = {
+							add_dynasty_prestige = minor_dynasty_prestige_gain
+						}
+						custom_tooltip = ek_coming_of_age.0023.failure.tt
+						hidden_effect = {
+							random_list = {
+								10 = {
+									add_trait_force_tooltip = disfigured
+								}
+								10 = {
+									add_trait_force_tooltip = disrupted
+								}
+								10 = {
+									add_trait_force_tooltip = incapable
+								}
+								10 = {
+									add_trait_force_tooltip = lunatic_1
+								}
+							}
+						}
+					}
+				}
+			}
+
+			10 = { #critical failure
+				desc = ek_coming_of_age.0023.crit_failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -4
+				}
+				death = { death_reason = death_adamantine }
+			}
+		}
+	}
+
+	# Prowess
+	option = {
+		name = ek_coming_of_age.0023.f
+		trigger = {
+			has_trait = education_martial_prowess
+		}
+		skill = prowess
+		duel = {
+			skill = prowess
+			value = extremely_high_skill_rating
+			10 = { # success
+				desc = ek_coming_of_age.0023.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				root = {
+					send_interface_toast = {
+						type = event_toast_effect_good
+						left_icon = root
+						title = ek_coming_of_age.0023.success
+						dynasty = {
+							add_dynasty_prestige = excessive_dynasty_prestige_gain
+						}
+					}
+				}
+			}
+
+			10 = { #failure
+				desc = ek_coming_of_age.0023.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -2
+				}
+				root = {
+					send_interface_toast = {
+						type = event_toast_effect_bad
+						left_icon = root
+						title = ek_coming_of_age.0023.failure
+						dynasty = {
+							add_dynasty_prestige = minor_dynasty_prestige_gain
+						}
+						custom_tooltip = ek_coming_of_age.0023.failure.tt
+						hidden_effect = {
+							random_list = {
+								10 = {
+									add_trait_force_tooltip = disfigured
+								}
+								10 = {
+									add_trait_force_tooltip = disrupted
+								}
+								10 = {
+									add_trait_force_tooltip = incapable
+								}
+								10 = {
+									add_trait_force_tooltip = lunatic_1
+								}
+							}
+						}
+					}
+				}
+			}
+
+			10 = { #critical failure
+				desc = ek_coming_of_age.0023.crit_failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -4
+				}
+				death = { death_reason = death_adamantine }
+			}
+		}
+	}
+	
+	# Arcana
+	option = {
+		name = ek_coming_of_age.0023.g
+		trigger = {
+			has_trait = education_magic
+		}
+		trait = education_magic_1
+		fake_duel = {
+			skill = arcana
+			value = extremely_high_skill_rating
+			target = this
+		}
+		random_list = { 
+			10 = { # success
+				desc = ek_coming_of_age.0023.success
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 1
+				}
+				root = {
+					send_interface_toast = {
+						type = event_toast_effect_good
+						left_icon = root
+						title = ek_coming_of_age.0023.success
+						dynasty = {
+							add_dynasty_prestige = excessive_dynasty_prestige_gain
+						}
+					}
+				}
+			}
+
+			10 = { #failure
+				desc = ek_coming_of_age.0023.failure
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -2
+				}
+				root = {
+					send_interface_toast = {
+						type = event_toast_effect_bad
+						left_icon = root
+						title = ek_coming_of_age.0023.failure
+						dynasty = {
+							add_dynasty_prestige = minor_dynasty_prestige_gain
+						}
+						custom_tooltip = ek_coming_of_age.0023.failure.tt
+						hidden_effect = {
+							random_list = {
+								10 = {
+									add_trait_force_tooltip = disfigured
+								}
+								10 = {
+									add_trait_force_tooltip = disrupted
+								}
+								10 = {
+									add_trait_force_tooltip = incapable
+								}
+								10 = {
+									add_trait_force_tooltip = lunatic_1
+								}
+							}
+						}
+					}
+				}
+			}
+
+			10 = { #critical failure
+				desc = ek_coming_of_age.0023.crit_failure
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -4
+				}
+				death = { death_reason = death_adamantine }
+			}
+		}
+	}
+
+	option = { # this is foolish
+		name = ek_coming_of_age.0023.h
+		dynasty = {
+			add_dynasty_prestige = medium_dynasty_prestige_loss
+		}
+		stress_impact = { 
+			diligent = medium_stress_impact_gain
+		}
+	}
+}
+

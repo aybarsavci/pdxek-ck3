@@ -1,0 +1,4400 @@
+﻿### This file will look a lot like story_cycles/story_cycle_pet_animals_events
+
+namespace = ek_pet_animal
+
+###########################################
+# PARROT (0001-0999)
+#	ek_pet_animal.0001 - Name your parrot!
+#
+# Other events for your parrot
+#	ek_pet_animal.0101 - Share some healthy fruits with your parrot, smol health bonus
+#	ek_pet_animal.0102 - Your parrot follows you in battle, prowess bonus
+#	ek_pet_animal.0103 - Your parrot hurts a vassal (wounded, small chance for one-eyed/blinded)
+#
+#	ek_pet_animal.0199 - Parrot dies :(
+#
+#
+# PARROT DECISION EVENTS
+#	ek_pet_animal.0501 - You pet your parrot
+#	ek_pet_animal.0502 - You pet your parrot v2
+#
+###########################################
+
+
+###########################################
+# Name your parrot
+#	0001-0999
+###########################################
+
+#Name your parrot
+ek_pet_animal.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.0001.t
+	desc = ek_pet_animal.0001.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	immediate = {
+		#To give some options to show
+		assign_name_options_parrot_story_cycle_effect = yes
+		assign_name_options_parrot_story_cycle_effect = yes
+		assign_name_options_parrot_story_cycle_effect = yes
+		play_music_cue = "mx_cue_low_key_positive"
+
+		if = {
+			limit = { is_ai = yes }
+			random_list = {
+				1 = {
+					trigger = { has_character_flag = name_orsone }
+					set_variable = {
+						name = story_cycle_parrot_name
+						value = flag:parrot_name_orsone
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_coco }
+					set_variable = {
+						name = story_cycle_parrot_name
+						value = flag:parrot_name_coco
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_abby }
+					set_variable = {
+						name = story_cycle_parrot_name
+						value = flag:parrot_name_abby
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_flint }
+					set_variable = {
+						name = story_cycle_parrot_name
+						value = flag:parrot_name_flint
+					}
+				}
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_enter_text"
+		container = "dynamic_birth_name"
+		controller = {
+			type = text
+			data = {
+				key = story_cycle_parrot_name
+				default = {
+					localization_key = parrot_name_orsone
+					trigger = {
+						has_character_flag = name_orsone
+					}
+				}
+				default = {
+					localization_key = parrot_name_coco
+					trigger = {
+						has_character_flag = name_coco
+					}
+				}
+				default = {
+					localization_key = parrot_name_abby
+					trigger = {
+						has_character_flag = name_abby
+					}
+				}
+				default = {
+					localization_key = parrot_name_flint
+					trigger = {
+						has_character_flag = name_flint
+					}
+				}
+			}
+		}
+		setup_scope = {
+			root = { save_scope_as = text_target }
+		}
+	}
+
+	option = { 
+		name = ek_pet_animal.0001.a
+	}
+
+	after = {
+		remove_character_flag = is_naming_parrot
+		remove_character_flag = name_orsone
+		remove_character_flag = name_coco
+		remove_character_flag = name_abby
+		remove_character_flag = name_flint
+		
+		if = {
+			# We entered custom text into the pop up
+			limit = { NOT = { has_variable = story_cycle_parrot_name } }
+			set_variable = {
+				name = story_cycle_parrot_name
+				value = flag:custom
+			}
+		}
+	}
+}
+
+###########################################
+# Other events for your parrot
+#	0100-0199
+###########################################
+
+# Share some healthy fruits with your parrot, smol health bonus
+ek_pet_animal.0101 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.0101.t
+	desc = ek_pet_animal.0101.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	override_background = {
+		reference = bedchamber
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_0101_event }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_0101_event
+			years = 10
+		}
+	}
+
+	option = { # Hey, leave some for me!
+		name = ek_pet_animal.0101.a
+		
+		add_character_modifier = {
+			modifier = parrot_story_eating_fruit_modifier
+			days = 3650
+		}
+	}
+}
+
+# Your parrot follows you in battle, prowess bonus
+ek_pet_animal.0102 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.0102.t
+	desc = ek_pet_animal.0102.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	override_background = {
+		reference = army_camp
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_0102_event }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_0102_event
+			years = 10
+		}
+	}
+
+	option = { # With me, into battle!
+		name = ek_pet_animal.0102.a
+		
+		add_character_modifier = {
+			modifier = parrot_story_fighting_with_you_modifier
+			days = 3650
+		}
+	}
+}
+
+# Your parrot hurts a vassal (wounded, small chance for one-eyed/blinded)
+ek_pet_animal.0103 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.0103.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { local_var:ek_pet_animal_0103_result = flag:wounded }
+				desc = ek_pet_animal.0103.desc_wounded
+			}
+			triggered_desc = {
+				trigger = {
+					local_var:ek_pet_animal_0103_result = flag:eye_removed
+					scope:vassal = { NOT = { has_trait = one_eyed } }
+				}
+				desc = ek_pet_animal.0103.desc_eye_removed_not_one_eyed
+			}
+			triggered_desc = { # That will hurt
+				trigger = {
+					local_var:ek_pet_animal_0103_result = flag:eye_removed
+					scope:vassal = { has_trait = one_eyed }
+				}
+				desc = ek_pet_animal.0103.desc_eye_removed_one_eyed
+			}
+		}
+	}
+	theme = pet
+	override_background = {
+		reference = throne_room
+	}
+	left_portrait = {
+		character = scope:vassal
+		animation = severelywounded
+	}
+	right_portrait = {
+		character = root
+		animation = shock
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_0103_event }
+		any_vassal = {
+			is_available_ai = yes
+		}
+	}
+
+	immediate = {
+		random_vassal = {
+			limit = {
+				is_available_ai = yes
+				NOT = { has_trait = blind }
+			}
+			weight = {
+				base = 50
+			}
+			save_scope_as = vassal
+		}
+		add_character_flag = {
+			flag = had_ek_pet_animal_0103_event
+			years = 10
+		}
+		# Do we just wound or remove an eye?
+		random_list = {
+			80 = {
+				set_local_variable = {
+					name = ek_pet_animal_0103_result
+					value = flag:wounded
+				}
+			}
+			20 = {
+				set_local_variable = {
+					name = ek_pet_animal_0103_result
+					value = flag:eye_removed
+				}
+			}
+		}
+	}
+	
+	# Just wounded
+	option = {
+		trigger = { local_var:ek_pet_animal_0103_result = flag:wounded }
+		
+		name = ek_pet_animal.0103.a
+
+		scope:vassal = {
+			add_opinion = {
+				modifier = scared_opinion
+				target = root
+				opinion = -30
+			}
+			
+			increase_wounds_effect = { REASON = attacked }
+		}
+	}
+	
+	# Eye(s) pecked
+	option = {
+		trigger = { local_var:ek_pet_animal_0103_result = flag:eye_removed }
+		
+		name = ek_pet_animal.0103.b
+
+		# Push towards becoming Nemesis
+		progress_towards_rival_effect = {
+			CHARACTER = scope:vassal
+			OPINION = 0
+			REASON = rival_imprisoned
+		}
+		
+		# Remove one eye
+		scope:vassal = {
+			if = {
+				limit = { has_trait = one_eyed }
+				remove_trait = one_eyed
+				add_trait = blind
+			}
+			else = {
+				add_trait_force_tooltip = one_eyed
+			}
+		}
+	}
+}
+
+#Parrot dies
+ek_pet_animal.0199 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.0199.t
+	desc = ek_pet_animal.0199.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = sadness
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_prison"
+	}
+
+	option = {
+		name = ek_pet_animal.0199.a
+		show_as_tooltip = {
+			remove_parrot_story_modifiers_effect = yes
+		}
+		scope:story = {
+			hidden_effect = { end_story = yes }
+		}
+	}
+	after = {
+		remove_character_flag = parrot_is_dying
+	}
+}
+
+#########################
+#########################
+## PARROT DECISION EVENTS
+#########################
+#########################
+
+###You pet your parrot
+# Parrots get out of its cage, sings and you cuddle it
+ek_pet_animal.0501 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.0501.t
+	desc = ek_pet_animal.0501.desc
+	theme = pet
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = { #No blockage, so the decision is available, but very unlikely with repetition
+			add = -0.9
+			has_character_flag = had_ek_pet_animal_0501_event
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_0501_event
+			years = 10
+		}
+	}
+
+	option = {
+		name = ek_pet_animal.0501.a
+		add_stress = minor_stress_loss
+	}
+}
+# Parrot was already out, you bring it a snack and it happily sings and eats in your hand
+ek_pet_animal.0502 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.0501.t
+	desc = ek_pet_animal.0502.desc
+	theme = pet
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = { #No blockage, so the decision is available, but very unlikely with repetition
+			add = -0.9
+			has_character_flag = had_ek_pet_animal_0502_event
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_0502_event
+			years = 10
+		}
+	}
+
+	option = {
+		name = ek_pet_animal.0502.a
+		add_stress = minor_stress_loss
+	}
+}
+
+###########################################
+# SCORPION (1001-1999)
+#	ek_pet_animal.1001 - Name your scorpion!
+#
+# Other events for your scorpion
+#	ek_pet_animal.1101 - Observe your scorpion, smol intrigue bonus
+#	ek_pet_animal.1102 - Your scorpion follows you in battle, prowess bonus
+#	ek_pet_animal.1103 - Your scorpion hurts a vassal (wounded, small chance for death from poisoning)
+#
+#	ek_pet_animal.1199 - Scorpion dies :(
+#
+#
+# SCORPION DECISION EVENTS
+#	ek_pet_animal.1501 - You play with your scorpion
+#	ek_pet_animal.1502 - You play with your scorpion v2
+#
+###########################################
+
+
+###########################################
+# Name your scorpion
+#	1001-1099
+###########################################
+
+#Name your scorpion
+ek_pet_animal.1001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.1001.t
+	desc = ek_pet_animal.1001.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	immediate = {
+		#To give some options to show
+		assign_name_options_scorpion_story_cycle_effect = yes
+		assign_name_options_scorpion_story_cycle_effect = yes
+		assign_name_options_scorpion_story_cycle_effect = yes
+		play_music_cue = "mx_cue_low_key_positive"
+
+		if = {
+			limit = { is_ai = yes }
+			random_list = {
+				1 = {
+					trigger = { has_character_flag = name_kaveh }
+					set_variable = {
+						name = story_cycle_scorpion_name
+						value = flag:scorpion_name_kaveh
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_clamper }
+					set_variable = {
+						name = story_cycle_scorpion_name
+						value = flag:scorpion_name_clamper
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_stinger }
+					set_variable = {
+						name = story_cycle_scorpion_name
+						value = flag:scorpion_name_stinger
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_kopyo }
+					set_variable = {
+						name = story_cycle_scorpion_name
+						value = flag:scorpion_name_kopyo
+					}
+				}
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_enter_text"
+		container = "dynamic_birth_name"
+		controller = {
+			type = text
+			data = {
+				key = story_cycle_scorpion_name
+				default = {
+					localization_key = scorpion_name_kaveh
+					trigger = {
+						has_character_flag = name_kaveh
+					}
+				}
+				default = {
+					localization_key = scorpion_name_clamper
+					trigger = {
+						has_character_flag = name_clamper
+					}
+				}
+				default = {
+					localization_key = scorpion_name_stinger
+					trigger = {
+						has_character_flag = name_stinger
+					}
+				}
+				default = {
+					localization_key = scorpion_name_kopyo
+					trigger = {
+						has_character_flag = name_kopyo
+					}
+				}
+			}
+		}
+		setup_scope = {
+			root = { save_scope_as = text_target }
+		}
+	}
+
+	option = { 
+		name = ek_pet_animal.1001.a
+	}
+
+	after = {
+		remove_character_flag = is_naming_scorpion
+		remove_character_flag = name_kaveh
+		remove_character_flag = name_clamper
+		remove_character_flag = name_stinger
+		remove_character_flag = name_kopyo
+		
+		if = {
+			# We entered custom text into the pop up
+			limit = { NOT = { has_variable = story_cycle_scorpion_name } }
+			set_variable = {
+				name = story_cycle_scorpion_name
+				value = flag:custom
+			}
+		}
+	}
+}
+
+###########################################
+# Other events for your scorpion
+#	1100-1199
+###########################################
+
+# Observe your scorpion, smol intrigue bonus
+ek_pet_animal.1101 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.1101.t
+	desc = ek_pet_animal.1101.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	override_background = {
+		reference = bedchamber
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_1101_event }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_1101_event
+			years = 10
+		}
+	}
+
+	option = { # How sneaky!
+		name = ek_pet_animal.1101.a
+		
+		add_character_modifier = {
+			modifier = scorpion_story_observing_modifier
+			days = 3650
+		}
+	}
+}
+
+# Your scorpion follows you in battle, prowess bonus
+ek_pet_animal.1102 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.1102.t
+	desc = ek_pet_animal.1102.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	override_background = {
+		reference = army_camp
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_1102_event }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_1102_event
+			years = 10
+		}
+	}
+
+	option = { # With me, into battle!
+		name = ek_pet_animal.1102.a
+		
+		add_character_modifier = {
+			modifier = scorpion_story_fighting_with_you_modifier
+			days = 3650
+		}
+	}
+}
+
+# Your scorpion hurts a vassal (wounded, small chance for death from poisoning)
+ek_pet_animal.1103 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.1103.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { local_var:ek_pet_animal_1103_result = flag:wounded }
+				desc = ek_pet_animal.1103.desc_wounded
+			}
+			triggered_desc = {
+				trigger = {	local_var:ek_pet_animal_1103_result = flag:poisoned	}
+				desc = ek_pet_animal.1103.desc_poisoned
+			}
+		}
+	}
+	theme = pet
+	override_background = {
+		reference = throne_room
+	}
+	left_portrait = {
+		character = scope:vassal
+		animation = severelywounded
+	}
+	right_portrait = {
+		character = root
+		animation = shock
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_1103_event }
+		any_vassal = {
+			is_available_ai = yes
+		}
+	}
+
+	immediate = {
+		random_vassal = {
+			limit = {
+				is_available_ai = yes
+			}
+			weight = {
+				base = 50
+			}
+			save_scope_as = vassal
+		}
+		add_character_flag = {
+			flag = had_ek_pet_animal_1103_event
+			years = 10
+		}
+		# Do we just wound or remove an eye?
+		random_list = {
+			80 = {
+				set_local_variable = {
+					name = ek_pet_animal_1103_result
+					value = flag:wounded
+				}
+			}
+			20 = {
+				set_local_variable = {
+					name = ek_pet_animal_1103_result
+					value = flag:poisoned
+				}
+			}
+		}
+	}
+	
+	# Just wounded
+	option = {
+		trigger = { local_var:ek_pet_animal_1103_result = flag:wounded }
+		
+		name = ek_pet_animal.1103.a
+
+		scope:vassal = {
+			add_opinion = {
+				modifier = scared_opinion
+				target = root
+				opinion = -30
+			}
+			
+			increase_wounds_effect = { REASON = attacked }
+		}
+	}
+	
+	# Poisoned
+	option = {
+		trigger = { local_var:ek_pet_animal_1103_result = flag:poisoned }
+		
+		name = ek_pet_animal.1103.b
+
+		# Push towards becoming Nemesis
+		progress_towards_rival_effect = {
+			CHARACTER = scope:vassal
+			OPINION = 0
+			REASON = rival_imprisoned
+		}
+		
+		# Poison
+		scope:vassal = {
+			death = { death_reason = death_accident }
+		}
+	}
+}
+
+
+#Scorpion dies
+ek_pet_animal.1199 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.1199.t
+	desc = ek_pet_animal.1199.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = sadness
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_prison"
+	}
+
+	option = {
+		name = ek_pet_animal.1199.a
+		show_as_tooltip = {
+			remove_scorpion_story_modifiers_effect = yes
+		}
+		scope:story = {
+			hidden_effect = { end_story = yes }
+		}
+	}
+	after = {
+		remove_character_flag = scorpion_is_dying
+	}
+}
+
+#########################
+#########################
+## SCORPION DECISION EVENTS
+#########################
+#########################
+
+###You pet your parrot
+# Scorpion get out of its cage, but it goes to you and you put it back in
+ek_pet_animal.1501 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.1501.t
+	desc = ek_pet_animal.1501.desc
+	theme = pet
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = { #No blockage, so the decision is available, but very unlikely with repetition
+			add = -0.9
+			has_character_flag = had_ek_pet_animal_1501_event
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_1501_event
+			years = 10
+		}
+	}
+
+	option = {
+		name = ek_pet_animal.1501.a
+		add_stress = minor_stress_loss
+	}
+}
+# Scorpion was already out, you bring it a snack and it happily eats in your hand
+ek_pet_animal.1502 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.1501.t
+	desc = ek_pet_animal.1502.desc
+	theme = pet
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = { #No blockage, so the decision is available, but very unlikely with repetition
+			add = -0.9
+			has_character_flag = had_ek_pet_animal_1502_event
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_1502_event
+			years = 10
+		}
+	}
+
+	option = {
+		name = ek_pet_animal.1502.a
+		add_stress = minor_stress_loss
+	}
+}
+
+###########################################
+# SCRIB (2001-2999)
+#	ek_pet_animal.2001 - Name your scrib!
+#
+# Other events for your scrib
+#	ek_pet_animal.2101 - Observe your scrib, smol intrigue bonus
+#	ek_pet_animal.2102 - Your scrib follows you in battle, prowess bonus
+#	ek_pet_animal.2103 - Your scrib hurts a vassal (wounded, small chance for death from poisoning)
+#
+#	ek_pet_animal.2199 - Scrib dies :(
+#
+#
+# SCRIB DECISION EVENTS
+#	ek_pet_animal.2501 - You play with your scrib
+#	ek_pet_animal.2502 - You play with your scrib v2
+#
+###########################################
+
+
+###########################################
+# Name your scrib
+#	2001-2099
+###########################################
+
+#Name your scrib
+ek_pet_animal.2001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.2001.t
+	desc = ek_pet_animal.2001.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	immediate = {
+		#To give some options to show
+		assign_name_options_scrib_story_cycle_effect = yes
+		assign_name_options_scrib_story_cycle_effect = yes
+		assign_name_options_scrib_story_cycle_effect = yes
+		play_music_cue = "mx_cue_low_key_positive"
+
+		if = {
+			limit = { is_ai = yes }
+			random_list = {
+				1 = {
+					trigger = { has_character_flag = name_grubchum }
+					set_variable = {
+						name = story_cycle_scrib_name
+						value = flag:scrib_name_grubchum
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_larvie }
+					set_variable = {
+						name = story_cycle_scrib_name
+						value = flag:scrib_name_larvie
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_bert }
+					set_variable = {
+						name = story_cycle_scrib_name
+						value = flag:scrib_name_bert
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_ernie }
+					set_variable = {
+						name = story_cycle_scrib_name
+						value = flag:scrib_name_ernie
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_brave }
+					set_variable = {
+						name = story_cycle_scrib_name
+						value = flag:scrib_name_brave
+					}
+				}
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_enter_text"
+		container = "dynamic_birth_name"
+		controller = {
+			type = text
+			data = {
+				key = story_cycle_scrib_name
+				default = {
+					localization_key = scrib_name_grubchum
+					trigger = {
+						has_character_flag = name_grubchum
+					}
+				}
+				default = {
+					localization_key = scrib_name_larvie
+					trigger = {
+						has_character_flag = name_larvie
+					}
+				}
+				default = {
+					localization_key = scrib_name_bert
+					trigger = {
+						has_character_flag = name_bert
+					}
+				}
+				default = {
+					localization_key = scrib_name_ernie
+					trigger = {
+						has_character_flag = name_ernie
+					}
+				}
+				default = {
+					localization_key = scrib_name_brave
+					trigger = {
+						has_character_flag = name_brave
+					}
+				}
+			}
+		}
+		setup_scope = {
+			root = { save_scope_as = text_target }
+		}
+	}
+
+	option = { 
+		name = ek_pet_animal.2001.a
+	}
+
+	after = {
+		remove_character_flag = is_naming_scrib
+		remove_character_flag = name_larvie
+		remove_character_flag = name_grubchum
+		remove_character_flag = name_bert
+		remove_character_flag = name_ernie
+		remove_character_flag = name_brave
+		
+		if = {
+			# We entered custom text into the pop up
+			limit = { NOT = { has_variable = story_cycle_scrib_name } }
+			set_variable = {
+				name = story_cycle_scrib_name
+				value = flag:custom
+			}
+		}
+	}
+}
+
+###########################################
+# Other events for your scrib
+#	1100-1199
+###########################################
+
+# Observe your scrib, smol intrigue bonus
+ek_pet_animal.2101 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.2101.t
+	desc = ek_pet_animal.2101.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	override_background = {
+		reference = bedchamber
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_2101_event }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_2101_event
+			years = 10
+		}
+	}
+
+	option = { # How sneaky!
+		name = ek_pet_animal.2101.a
+		
+		add_character_modifier = {
+			modifier = scrib_story_observing_modifier
+			days = 3650
+		}
+	}
+}
+
+# Your scrib follows you in battle, prowess bonus
+ek_pet_animal.2102 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.2102.t
+	desc = ek_pet_animal.2102.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	override_background = {
+		reference = army_camp
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_2102_event }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_2102_event
+			years = 10
+		}
+	}
+
+	option = { # With me, into battle!
+		name = ek_pet_animal.2102.a
+		
+		add_character_modifier = {
+			modifier = scrib_story_fighting_with_you_modifier
+			days = 3650
+		}
+	}
+}
+
+# Your scrib hurts a vassal (wounded, small chance for death from poisoning)
+ek_pet_animal.2103 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.2103.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { local_var:ek_pet_animal_2103_result = flag:wounded }
+				desc = ek_pet_animal.2103.desc_wounded
+			}
+			triggered_desc = {
+				trigger = {	local_var:ek_pet_animal_2103_result = flag:poisoned	}
+				desc = ek_pet_animal.2103.desc_poisoned
+			}
+		}
+	}
+	theme = pet
+	override_background = {
+		reference = throne_room
+	}
+	left_portrait = {
+		character = scope:vassal
+		animation = severelywounded
+	}
+	right_portrait = {
+		character = root
+		animation = shock
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_2103_event }
+		any_vassal = {
+			is_available_ai = yes
+		}
+	}
+
+	immediate = {
+		random_vassal = {
+			limit = {
+				is_available_ai = yes
+			}
+			weight = {
+				base = 50
+			}
+			save_scope_as = vassal
+		}
+		add_character_flag = {
+			flag = had_ek_pet_animal_2103_event
+			years = 10
+		}
+		# Do we just wound or remove an eye?
+		random_list = {
+			80 = {
+				set_local_variable = {
+					name = ek_pet_animal_2103_result
+					value = flag:wounded
+				}
+			}
+			20 = {
+				set_local_variable = {
+					name = ek_pet_animal_2103_result
+					value = flag:poisoned
+				}
+			}
+		}
+	}
+	
+	# Just wounded
+	option = {
+		trigger = { local_var:ek_pet_animal_2103_result = flag:wounded }
+		
+		name = ek_pet_animal.2103.a
+
+		scope:vassal = {
+			add_opinion = {
+				modifier = scared_opinion
+				target = root
+				opinion = -30
+			}
+			
+			increase_wounds_effect = { REASON = attacked }
+		}
+	}
+	
+	# Poisoned
+	option = {
+		trigger = { local_var:ek_pet_animal_2103_result = flag:poisoned }
+		
+		name = ek_pet_animal.2103.b
+
+		# Push towards becoming Nemesis
+		progress_towards_rival_effect = {
+			CHARACTER = scope:vassal
+			OPINION = 0
+			REASON = rival_bit_by_scrib
+		}
+		
+		# Poison
+		scope:vassal = {
+			increase_wounds_effect = { REASON = attacked }
+			add_character_modifier = {
+				modifier = bit_by_scrib_modifier
+				years = 2
+			}
+		}
+	}
+}
+
+# Your scrib makes a burrow
+ek_pet_animal.2104 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.2104.t
+	desc = ek_pet_animal.2104.desc
+	theme = pet
+	override_background = {
+		reference = throne_room
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_2104_event }
+	}
+
+	left_portrait = {
+		character = scope:spouse
+		animation = worry
+	}
+	lower_left_portrait = scope:receiver_1
+	lower_center_portrait = scope:receiver_2
+	lower_right_portrait = scope:receiver_3
+
+	immediate = {
+		save_scope_as = giver
+		add_character_flag = {
+			flag = had_ek_pet_animal_2104_event
+			years = 10
+		}
+
+		random_spouse = {
+			limit = {
+				is_available_ai = yes
+			}
+			save_scope_as = spouse
+		}
+
+		#Who can you give it away to?
+		if = {
+			limit = {
+				any_relation = {
+					type = friend
+					NOT = {
+						any_owned_story = {
+								story_type = story_cycle_pet_scrib
+							}
+					}
+					NOT = { this = scope:spouse }
+				}
+			}
+			every_relation = {
+				type = friend
+				limit = {
+					NOT = {
+						any_owned_story = {
+								story_type = story_cycle_pet_scrib
+							}
+					}
+					NOT = { this = scope:spouse }
+				}
+				add_to_list = can_get_scrib
+			}
+		}
+		if = {
+			limit = {
+				any_relation = {
+					type = lover
+					NOT = {
+						any_owned_story = {
+								story_type = story_cycle_pet_scrib
+							}
+					}
+					NOT = { is_in_list = can_get_scrib }
+					NOT = { this = scope:spouse }
+				}
+			}
+			every_relation = {
+				type = lover
+				limit = {
+					NOT = {
+						any_owned_story = {
+								story_type = story_cycle_pet_scrib
+							}
+					}
+					NOT = { is_in_list = can_get_scrib }
+					NOT = { this = scope:spouse }
+				}
+				add_to_list = can_get_scrib
+			}
+		}
+		if = {
+			limit = {
+				any_vassal = {
+					NOT = { has_relation_rival = root }
+					NOT = {
+						any_owned_story = {
+								story_type = story_cycle_pet_scrib
+							}
+					}
+					NOT = { is_in_list = can_get_scrib }
+					NOT = { this = scope:spouse }
+				}
+			}
+			every_vassal = {
+				limit = {
+					NOT = { has_relation_rival = root }
+					NOT = {
+						any_owned_story = {
+								story_type = story_cycle_pet_scrib
+							}
+					}
+					NOT = { is_in_list = can_get_scrib }
+					NOT = { this = scope:spouse }
+				}
+				add_to_list = can_get_scrib
+			}
+		}
+		if = { #Ehehehe, give it to another consort!
+			limit = {
+				any_consort = {
+					NOT = {
+						any_owned_story = {
+								story_type = story_cycle_pet_scrib
+							}
+					}
+					NOT = { is_in_list = can_get_scrib }
+					NOT = { this = scope:spouse }
+				}
+			}
+			every_consort = {
+				limit = {
+					NOT = {
+						any_owned_story = {
+								story_type = story_cycle_pet_scrib
+							}
+					}
+					NOT = { is_in_list = can_get_scrib }
+					NOT = { this = scope:spouse }
+				}
+				add_to_list = can_get_scrib
+			}
+		}
+		random_in_list = {
+			list = can_get_scrib
+			save_scope_as = receiver_1
+		}
+		random_in_list = {
+			list = can_get_scrib
+			limit = { NOT = { this = scope:receiver_1 } }
+			save_scope_as = receiver_2
+		}
+		random_in_list = {
+			list = can_get_scrib
+			limit = {
+				NOR = {	
+					this = scope:receiver_1
+					this = scope:receiver_2
+				}
+
+			}
+			save_scope_as = receiver_3
+		}
+	}
+
+	# pay for the damage
+	option = {
+		show_as_unavailable = { short_term_gold < minor_gold_value }
+		
+		name = ek_pet_animal.2104.a
+
+		remove_short_term_gold = minor_gold_value
+		add_prestige = minor_prestige_loss
+	}
+	
+	# who cares?
+	option = {
+		name = ek_pet_animal.2104.b
+
+		add_prestige = medium_prestige_loss
+	}
+
+	option = { #Ok, I'll give it away to receiver_1
+		name = ek_pet_animal.2104.c
+		trigger = {
+			exists = scope:receiver_1
+		}
+		transfer_scrib_story_cycle_to_effect = { CHARACTER = scope:receiver_1 STORY = scope:story }
+		scope:receiver_1 = {
+			trigger_event = ek_pet_animal.2105
+		}
+	}
+
+	option = { #Ok, I'll give it away to receiver_2
+		name = ek_pet_animal.2104.d
+		trigger = {
+			exists = scope:receiver_2
+		}
+		transfer_scrib_story_cycle_to_effect = { CHARACTER = scope:receiver_2 STORY = scope:story }
+		scope:receiver_2 = {
+			trigger_event = ek_pet_animal.2105
+		}
+	}
+
+	option = { #Ok, I'll give it away to receiver_3
+		name = ek_pet_animal.2104.e
+		trigger = {
+			exists = scope:receiver_3
+		}
+		transfer_scrib_story_cycle_to_effect = { CHARACTER = scope:receiver_3 STORY = scope:story }
+		scope:receiver_3 = {
+			trigger_event = ek_pet_animal.2105
+		}
+	}
+}
+
+#You got a scrib!
+ek_pet_animal.2105 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.2105.t
+	desc = ek_pet_animal.2105.desc
+	theme = pet
+	left_portrait = {
+		character = scope:giver
+		animation = sadness
+	}
+
+	immediate = {
+		save_scope_as = receiver
+	}
+
+	option = { #Nice!
+		name = ek_pet_animal.2105.a
+		show_as_tooltip = { start_scrib_story_cycle_effect = yes }
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_compassion = 0.25
+			}
+		}
+	}
+
+	option = { #I don't want it...
+		name = ek_pet_animal.2105.b
+		add_gold = 10
+		show_as_tooltip = {
+			remove_scrib_story_modifiers_effect = yes
+		}
+		scope:story = {
+			hidden_effect = { end_story = yes }
+		}
+		ai_chance = {
+			base = 0
+			ai_value_modifier = {
+				ai_vengefulness = 0.15
+			}
+			opinion_modifier = {
+				opinion_target = scope:giver
+				multiplier = -1
+			}
+		}
+	}
+
+	after = {
+		scope:giver = { #Check-up event for owner
+			trigger_event = {
+				id = ek_pet_animal.2106
+				days = { 365 380 }
+			}
+		}
+	}
+}
+
+#How's the scrib doing with its new owner?
+ek_pet_animal.2106 = {
+	type = character_event
+	content_source = dlc_ek
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { exists = scope:alive }
+				desc = ek_pet_animal.2106.t
+			}
+			desc = ek_pet_animal.2106.t_dead
+		}
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { exists = scope:alive }
+				desc = {
+					desc = ek_pet_animal.2106.desc_opening
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								scope:receiver = { is_landed = yes }
+							}
+							desc = ek_pet_animal.2106.desc_alive_landed
+						}
+						desc = ek_pet_animal.2106.desc_alive
+					}
+					random_valid = {
+						desc = ek_pet_animal.2106.desc_alive_1
+						desc = ek_pet_animal.2106.desc_alive_2
+					}
+				}
+			}
+			desc = {
+				desc = ek_pet_animal.2106.desc_dead_opening
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							scope:receiver = { is_landed = yes }
+						}
+						desc = ek_pet_animal.2106.desc_dead_landed
+					}
+					desc = ek_pet_animal.2106.desc_dead
+				}
+				desc = ek_pet_animal.2106.desc_dead_ending
+			}
+		}
+	}
+	theme = pet
+	left_portrait = {
+		character = scope:receiver
+		triggered_animation = {
+			trigger = { NOT = { exists = scope:alive } }
+			animation = paranoia
+		}
+		triggered_animation = {
+			trigger = { exists = scope:alive }
+			animation = happiness
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				scope:receiver= {
+					any_owned_story = {
+						story_type = story_cycle_pet_scrib
+					}
+				}
+			}
+			save_scope_value_as = {
+				name = alive
+				value = yes
+			}
+		}
+	}
+
+	option = { #It's alive and happy!
+		name = ek_pet_animal.2106.a
+		trigger = { exists = scope:alive }
+		add_stress = minor_stress_loss
+	}
+
+	option = { #Where is the scrib?!
+		name = ek_pet_animal.2106.b
+		trigger = { NOT = { exists = scope:alive } }
+		add_stress = minor_stress_gain
+	}
+}
+
+#scrib dies
+ek_pet_animal.2199 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.2199.t
+	desc = ek_pet_animal.2199.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = sadness
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_prison"
+	}
+
+	option = {
+		name = ek_pet_animal.2199.a
+		show_as_tooltip = {
+			remove_scrib_story_modifiers_effect = yes
+		}
+		scope:story = {
+			hidden_effect = { end_story = yes }
+		}
+	}
+	after = {
+		remove_character_flag = scrib_is_dying
+	}
+}
+
+#########################
+#########################
+## SCRIB DECISION EVENTS
+#########################
+#########################
+
+###You pet your scrib
+# scrib does cute stuff
+ek_pet_animal.2501 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.2501.t
+	desc = ek_pet_animal.2501.desc
+	theme = pet
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = { #No blockage, so the decision is available, but very unlikely with repetition
+			add = -0.9
+			has_character_flag = had_ek_pet_animal_2501_event
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_2501_event
+			years = 10
+		}
+	}
+
+	option = {
+		name = ek_pet_animal.2501.a
+		add_stress = minor_stress_loss
+	}
+}
+# you bring your scrib a snack and it happily eats in your hand
+ek_pet_animal.2502 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.2501.t
+	desc = ek_pet_animal.2502.desc
+	theme = pet
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = { #No blockage, so the decision is available, but very unlikely with repetition
+			add = -0.9
+			has_character_flag = had_ek_pet_animal_2502_event
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_2502_event
+			years = 10
+		}
+	}
+
+	option = {
+		name = ek_pet_animal.2502.a
+		add_stress = minor_stress_loss
+	}
+}
+
+###########################################
+# BANTAM GUAR (3001-3999)
+#	ek_pet_animal.3001 - Name your bantam guar!
+#
+# Other events for your bantam guar
+#	ek_pet_animal.3101 - Share some healthy fruits with your bantam guar, smol health bonus
+#	ek_pet_animal.3102 - Your bantam guar follows you in battle, prowess bonus
+#	ek_pet_animal.3103 - Your bantam guar hurts a vassal (wounded, small chance for one-eyed/blinded)
+#
+#	ek_pet_animal.3199 - Bantam guar dies :(
+#
+#
+# BANTAM GUAR DECISION EVENTS
+#	ek_pet_animal.3501 - You pet your bantam guar
+#	ek_pet_animal.3502 - You pet your bantam guar v2
+#
+###########################################
+
+
+###########################################
+# Name your bantam guar
+#	3001-3999
+###########################################
+
+#Name your bantam guar
+ek_pet_animal.3001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.3001.t
+	desc = ek_pet_animal.3001.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	immediate = {
+		#To give some options to show
+		assign_name_options_bantam_story_cycle_effect = yes
+		assign_name_options_bantam_story_cycle_effect = yes
+		assign_name_options_bantam_story_cycle_effect = yes
+		play_music_cue = "mx_cue_low_key_positive"
+
+		if = {
+			limit = { is_ai = yes }
+			random_list = {
+				1 = {
+					trigger = { has_character_flag = name_drooler }
+					set_variable = {
+						name = story_cycle_bantam_name
+						value = flag:bantam_name_drooler
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_honor }
+					set_variable = {
+						name = story_cycle_bantam_name
+            value = flag:bantam_name_honor
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_indring }
+					set_variable = {
+						name = story_cycle_bantam_name
+						value = flag:bantam_name_indring
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_mogi }
+					set_variable = {
+						name = story_cycle_bantam_name
+						value = flag:bantam_name_mogi
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_puddles }
+					set_variable = {
+						name = story_cycle_bantam_name
+						value = flag:bantam_name_puddles
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_small_one }
+					set_variable = {
+						name = story_cycle_bantam_name
+						value = flag:bantam_name_small_one
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_spriggan_bane }
+					set_variable = {
+						name = story_cycle_bantam_name
+						value = flag:bantam_name_spriggan_bane
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_sir_scratch_scales }
+					set_variable = {
+						name = story_cycle_bantam_name
+						value = flag:bantam_name_sir_scratch_scales
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_pouncer }
+					set_variable = {
+						name = story_cycle_bantam_name
+						value = flag:bantam_name_pouncer
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_tasty_legs }
+					set_variable = {
+						name = story_cycle_bantam_name
+						value = flag:bantam_name_tasty_legs
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_wobble_claw }
+					set_variable = {
+						name = story_cycle_bantam_name
+						value = flag:bantam_name_wobble_claw
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_squee }
+					set_variable = {
+						name = story_cycle_bantam_name
+						value = flag:bantam_name_squee
+					}
+				}
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_enter_text"
+		container = "dynamic_birth_name"
+		controller = {
+			type = text
+			data = {
+				key = story_cycle_bantam_name
+				default = {
+					localization_key = bantam_name_drooler
+					trigger = {
+						has_character_flag = name_drooler
+					}
+				}
+				default = {
+					localization_key = bantam_name_honor
+					trigger = {
+						has_character_flag = name_honor
+					}
+				}
+				default = {
+					localization_key = bantam_name_indring
+					trigger = {
+						has_character_flag = name_indring
+					}
+				}
+				default = {
+					localization_key = bantam_name_mogi
+					trigger = {
+						has_character_flag = name_mogi
+					}
+				}
+				default = {
+					localization_key = bantam_name_puddles
+					trigger = {
+						has_character_flag = name_puddles
+					}
+				}
+				default = {
+					localization_key = bantam_name_small_one
+					trigger = {
+						has_character_flag = name_small_one
+					}
+				}
+				default = {
+					localization_key = bantam_name_spriggan_bane
+					trigger = {
+						has_character_flag = name_spriggan_bane
+					}
+				}
+				default = {
+					localization_key = bantam_name_sir_scratch_scales
+					trigger = {
+						has_character_flag = name_sir_scratch_scales
+					}
+				}
+				default = {
+					localization_key = bantam_name_pouncer
+					trigger = {
+						has_character_flag = name_pouncer
+					}
+				}
+				default = {
+					localization_key = bantam_name_tasty_legs
+					trigger = {
+						has_character_flag = name_tasty_legs
+					}
+				}
+				default = {
+					localization_key = bantam_name_wobble_claw
+					trigger = {
+						has_character_flag = name_wobble_claw
+					}
+				}
+				default = {
+					localization_key = bantam_name_squee
+					trigger = {
+						has_character_flag = name_squee
+					}
+				}
+			}
+		}
+		setup_scope = {
+			root = { save_scope_as = text_target }
+		}
+	}
+
+	option = { 
+		name = ek_pet_animal.3001.a
+	}
+
+	after = {
+		remove_character_flag = is_naming_bantam
+		remove_character_flag = name_drooler
+		remove_character_flag = name_honor
+		remove_character_flag = name_indring
+		remove_character_flag = name_mogi
+		remove_character_flag = name_puddles
+		remove_character_flag = name_small_one
+		remove_character_flag = name_spriggan_bane
+		remove_character_flag = name_sir_scratch_scales
+		remove_character_flag = name_pouncer
+		remove_character_flag = name_tasty_legs
+		remove_character_flag = name_wobble_claw
+		remove_character_flag = name_squee
+		
+		if = {
+			# We entered custom text into the pop up
+			limit = { NOT = { has_variable = story_cycle_bantam_name } }
+			set_variable = {
+				name = story_cycle_bantam_name
+				value = flag:custom
+			}
+		}
+	}
+}
+
+###########################################
+# Other events for your bantam guar
+#	3100-3199
+###########################################
+
+# Share some healthy fruits with your bantam guar, smol health bonus
+ek_pet_animal.3101 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.3101.t
+	desc = ek_pet_animal.3101.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	override_background = {
+		reference = bedchamber
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_3101_event }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_3101_event
+			years = 10
+		}
+	}
+
+	option = { # Hey, leave some for me!
+		name = ek_pet_animal.3101.a
+		
+		add_character_modifier = {
+			modifier = bantam_story_eating_fruit_modifier
+			days = 3650
+		}
+	}
+}
+
+# Your bantam guar follows you in battle, prowess bonus
+ek_pet_animal.3102 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.3102.t
+	desc = ek_pet_animal.3102.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	override_background = {
+		reference = army_camp
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_3102_event }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_3102_event
+			years = 10
+		}
+	}
+
+	option = { # With me, into battle!
+		name = ek_pet_animal.3102.a
+		
+		add_character_modifier = {
+			modifier = bantam_story_fighting_with_you_modifier
+			days = 3650
+		}
+	}
+}
+
+# Your bantam hurts a vassal (wounded, small chance for one-eyed/blinded)
+ek_pet_animal.3103 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.3103.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { local_var:ek_pet_animal_3103_result = flag:wounded }
+				desc = ek_pet_animal.3103.desc_wounded
+			}
+			triggered_desc = {
+				trigger = {
+					local_var:ek_pet_animal_3103_result = flag:eye_removed
+					scope:vassal = { NOT = { has_trait = one_eyed } }
+				}
+				desc = ek_pet_animal.3103.desc_eye_removed_not_one_eyed
+			}
+			triggered_desc = { # That will hurt
+				trigger = {
+					local_var:ek_pet_animal_3103_result = flag:eye_removed
+					scope:vassal = { has_trait = one_eyed }
+				}
+				desc = ek_pet_animal.3103.desc_eye_removed_one_eyed
+			}
+		}
+	}
+	theme = pet
+	override_background = {
+		reference = throne_room
+	}
+	left_portrait = {
+		character = scope:vassal
+		animation = severelywounded
+	}
+	right_portrait = {
+		character = root
+		animation = shock
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_3103_event }
+		any_vassal = {
+			is_available_ai = yes
+		}
+	}
+
+	immediate = {
+		random_vassal = {
+			limit = {
+				is_available_ai = yes
+				NOT = { has_trait = blind }
+			}
+			weight = {
+				base = 50
+			}
+			save_scope_as = vassal
+		}
+		add_character_flag = {
+			flag = had_ek_pet_animal_3103_event
+			years = 10
+		}
+		# Do we just wound or remove an eye?
+		random_list = {
+			80 = {
+				set_local_variable = {
+					name = ek_pet_animal_3103_result
+					value = flag:wounded
+				}
+			}
+			20 = {
+				set_local_variable = {
+					name = ek_pet_animal_3103_result
+					value = flag:eye_removed
+				}
+			}
+		}
+	}
+	
+	# Just wounded
+	option = {
+		trigger = { local_var:ek_pet_animal_3103_result = flag:wounded }
+		
+		name = ek_pet_animal.3103.a
+
+		scope:vassal = {
+			add_opinion = {
+				modifier = scared_opinion
+				target = root
+				opinion = -30
+			}
+			
+			increase_wounds_effect = { REASON = attacked }
+		}
+	}
+	
+	# Eye(s) pecked
+	option = {
+		trigger = { local_var:ek_pet_animal_3103_result = flag:eye_removed }
+		
+		name = ek_pet_animal.3103.b
+
+		# Push towards becoming Nemesis
+		progress_towards_rival_effect = {
+			CHARACTER = scope:vassal
+			OPINION = 0
+			REASON = rival_bantam_peck
+		}
+		
+		# Remove one eye
+		scope:vassal = {
+			if = {
+				limit = { has_trait = one_eyed }
+				remove_trait = one_eyed
+				add_trait = blind
+			}
+			else = {
+				add_trait_force_tooltip = one_eyed
+			}
+		}
+	}
+}
+
+# Bantam Phenomenon
+ek_pet_animal.3104 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.3104.t
+	desc = ek_pet_animal.3104.desc
+	theme = pet
+	override_background = {
+		reference = throne_room
+	}
+	left_portrait = {
+		character = scope:noble
+	}
+	right_portrait = {
+		character = root
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_3104_event }
+		any_neighboring_top_liege_realm_owner = {
+			primary_title.tier >= root.primary_title.tier
+		}
+	}
+
+	immediate = {
+		random_neighboring_top_liege_realm_owner = {
+			limit = {
+				primary_title.tier >= root.primary_title.tier
+			}
+			save_scope_as = noble
+			save_scope_as = recipient
+		}
+		add_character_flag = {
+			flag = had_ek_pet_animal_3104_event
+			years = 10
+		}
+	}
+	
+	# Sell the pet
+	option = {
+		name = ek_pet_animal.3104.a
+		
+		transfer_bantam_story_cycle_to_effect = { CHARACTER = scope:noble STORY = scope:story }
+		scope:noble = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 15
+			}
+			pay_short_term_gold = {
+				target = root
+				gold = major_gold_value
+			}
+		}
+		stress_impact = {
+			compassionate = medium_stress_impact_gain
+			arrogant = medium_stress_impact_gain
+		}
+	}
+	
+	# decline the offer
+	option = {
+		
+		name = ek_pet_animal.3104.b
+		add_prestige = medium_prestige_gain
+		progress_towards_rival_effect = {
+			CHARACTER = scope:noble
+			OPINION = -20
+			REASON = rival_bantam_denied
+		}
+		stress_impact = {
+			ambitious = medium_stress_impact_gain
+			greedy = medium_stress_impact_gain
+		}
+	}
+
+	# trade bantam guar for an alliance
+	option = {
+		
+		name = ek_pet_animal.3104.c
+		transfer_bantam_story_cycle_to_effect = { CHARACTER = scope:noble STORY = scope:story }
+		create_alliance = {
+            target = scope:noble
+            allied_through_owner = root
+            allied_through_target = scope:noble
+        }
+		scope:noble = { custom_tooltip = negotiate_alliance_effect_tooltip }
+		stress_impact = {
+			compassionate = medium_stress_impact_gain
+		}
+	}
+}
+
+#Bantam guar dies
+ek_pet_animal.3199 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.3199.t
+	desc = ek_pet_animal.3199.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = sadness
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_prison"
+	}
+
+	option = {
+		name = ek_pet_animal.3199.a
+		show_as_tooltip = {
+			remove_bantam_story_modifiers_effect = yes
+		}
+		scope:story = {
+			hidden_effect = { end_story = yes }
+		}
+	}
+	after = {
+		remove_character_flag = bantam_is_dying
+	}
+}
+
+#########################
+#########################
+## BANTAM DECISION EVENTS
+#########################
+#########################
+
+###You pet your bantam
+# Bantam get out of its cage, sings and you cuddle it
+ek_pet_animal.3501 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.3501.t
+	desc = ek_pet_animal.3501.desc
+	theme = pet
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = { #No blockage, so the decision is available, but very unlikely with repetition
+			add = -0.9
+			has_character_flag = had_ek_pet_animal_3501_event
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_3501_event
+			years = 10
+		}
+	}
+
+	option = {
+		name = ek_pet_animal.3501.a
+		add_stress = minor_stress_loss
+	}
+}
+# Bantam was already out, you bring it a snack and it happily sings and eats in your hand
+ek_pet_animal.3502 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.3501.t
+	desc = ek_pet_animal.3502.desc
+	theme = pet
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = { #No blockage, so the decision is available, but very unlikely with repetition
+			add = -0.9
+			has_character_flag = had_ek_pet_animal_3502_event
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_3502_event
+			years = 10
+		}
+	}
+
+	option = {
+		name = ek_pet_animal.3502.a
+		add_stress = minor_stress_loss
+	}
+}
+
+###########################################
+# VVARDVARK (4001-4999)
+#	ek_pet_animal.4001 - Name your vvardvark!
+#
+# Other events for your vvardvark
+#	ek_pet_animal.4101 - Share some healthy fruits with your vvardvark, smol health bonus
+#	ek_pet_animal.4102 - Your vvardvark follows you in battle, prowess bonus
+#	ek_pet_animal.4103 - Your vvardvark hurts a vassal (wounded, small chance for one-eyed/blinded)
+#
+#	ek_pet_animal.4199 - Vvardvark dies :(
+#
+#
+# VVARDVARK DECISION EVENTS
+#	ek_pet_animal.4501 - You pet your vvardvark
+#	ek_pet_animal.4502 - You pet your vvardvark
+#
+###########################################
+
+
+###########################################
+# Name your vvardvark
+#	4001-4999
+###########################################
+
+#Name your vvardvark
+ek_pet_animal.4001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.4001.t
+	desc = ek_pet_animal.4001.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	immediate = {
+		#To give some options to show
+		assign_name_options_vvardvark_story_cycle_effect = yes
+		assign_name_options_vvardvark_story_cycle_effect = yes
+		assign_name_options_vvardvark_story_cycle_effect = yes
+		play_music_cue = "mx_cue_low_key_positive"
+
+		if = {
+			limit = { is_ai = yes }
+			random_list = {
+				1 = {
+					trigger = { has_character_flag = name_anbanmil }
+					set_variable = {
+						name = story_cycle_vvardvark_name
+						value = flag:vvardvark_name_anbanmil
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_sebystii }
+					set_variable = {
+						name = story_cycle_vvardvark_name
+						value = flag:vvardvark_name_sebystii
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_serjo_licky }
+					set_variable = {
+						name = story_cycle_vvardvark_name
+						value = flag:vvardvark_name_serjo_licky
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_stibbons }
+					set_variable = {
+						name = story_cycle_vvardvark_name
+						value = flag:vvardvark_name_stibbons
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_lickspittle }
+					set_variable = {
+						name = story_cycle_vvardvark_name
+						value = flag:vvardvark_name_lickspittle
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_master_scaly_tale }
+					set_variable = {
+						name = story_cycle_vvardvark_name
+						value = flag:vvardvark_name_master_scaly_tale
+					}
+				}
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_enter_text"
+		container = "dynamic_birth_name"
+		controller = {
+			type = text
+			data = {
+				key = story_cycle_vvardvark_name
+				default = {
+					localization_key = vvardvark_name_anbanmil
+					trigger = {
+						has_character_flag = name_anbanmil
+					}
+				}
+				default = {
+					localization_key = vvardvark_name_sebystii
+					trigger = {
+						has_character_flag = name_sebystii
+					}
+				}
+				default = {
+					localization_key = vvardvark_name_serjo_licky
+					trigger = {
+						has_character_flag = name_serjo_licky
+					}
+				}
+				default = {
+					localization_key = vvardvark_name_stibbons
+					trigger = {
+						has_character_flag = name_stibbons
+					}
+				}
+				default = {
+					localization_key = vvardvark_name_lickspittle
+					trigger = {
+						has_character_flag = name_lickspittle
+					}
+				}
+				default = {
+					localization_key = vvardvark_name_master_scaly_tale
+					trigger = {
+						has_character_flag = name_master_scaly_tale
+					}
+				}
+			}
+		}
+		setup_scope = {
+			root = { save_scope_as = text_target }
+		}
+	}
+
+	option = { 
+		name = ek_pet_animal.4001.a
+	}
+
+	after = {
+		remove_character_flag = is_naming_vvardvark
+		remove_character_flag = name_anbanmil
+		remove_character_flag = name_sebystii
+		remove_character_flag = name_serjo_licky
+		remove_character_flag = name_stibbons
+		remove_character_flag = name_lickspittle
+		remove_character_flag = name_master_scaly_tale
+		
+		if = {
+			# We entered custom text into the pop up
+			limit = { NOT = { has_variable = story_cycle_vvardvark_name } }
+			set_variable = {
+				name = story_cycle_vvardvark_name
+				value = flag:custom
+			}
+		}
+	}
+}
+
+###########################################
+# Other events for your vvardvark
+#	4100-4199
+###########################################
+
+# Share some healthy fruits with your bantam guar, smol health bonus
+ek_pet_animal.4101 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.4101.t
+	desc = ek_pet_animal.4101.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	override_background = {
+		reference = bedchamber
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_4101_event }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_4101_event
+			years = 10
+		}
+	}
+
+	option = { # Hey, leave some for me!
+		name = ek_pet_animal.4101.a
+		
+		add_character_modifier = {
+			modifier = vvardvark_story_eating_fruit_modifier
+			days = 3650
+		}
+	}
+}
+
+# Your vvardvark follows you in battle, prowess bonus
+ek_pet_animal.4102 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.4102.t
+	desc = ek_pet_animal.4102.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	override_background = {
+		reference = army_camp
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_4102_event }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_4102_event
+			years = 10
+		}
+	}
+
+	option = { # With me, into battle!
+		name = ek_pet_animal.4102.a
+		
+		add_character_modifier = {
+			modifier = vvardvark_story_fighting_with_you_modifier
+			days = 3650
+		}
+	}
+}
+
+# Your vvardvark hurts a vassal (wounded, small chance for one-eyed/blinded)
+ek_pet_animal.4103 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.4103.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { local_var:ek_pet_animal_4103_result = flag:wounded }
+				desc = ek_pet_animal.4103.desc_wounded
+			}
+			triggered_desc = {
+				trigger = {
+					local_var:ek_pet_animal_4103_result = flag:eye_removed
+					scope:vassal = { NOT = { has_trait = one_eyed } }
+				}
+				desc = ek_pet_animal.4103.desc_eye_removed_not_one_eyed
+			}
+			triggered_desc = { # That will hurt
+				trigger = {
+					local_var:ek_pet_animal_4103_result = flag:eye_removed
+					scope:vassal = { has_trait = one_eyed }
+				}
+				desc = ek_pet_animal.4103.desc_eye_removed_one_eyed
+			}
+		}
+	}
+	theme = pet
+	override_background = {
+		reference = throne_room
+	}
+	left_portrait = {
+		character = scope:vassal
+		animation = severelywounded
+	}
+	right_portrait = {
+		character = root
+		animation = shock
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_4103_event }
+		any_vassal = {
+			is_available_ai = yes
+		}
+	}
+
+	immediate = {
+		random_vassal = {
+			limit = {
+				is_available_ai = yes
+				NOT = { has_trait = blind }
+			}
+			weight = {
+				base = 50
+			}
+			save_scope_as = vassal
+		}
+		add_character_flag = {
+			flag = had_ek_pet_animal_4103_event
+			years = 10
+		}
+		# Do we just wound or remove an eye?
+		random_list = {
+			80 = {
+				set_local_variable = {
+					name = ek_pet_animal_4103_result
+					value = flag:wounded
+				}
+			}
+			20 = {
+				set_local_variable = {
+					name = ek_pet_animal_4103_result
+					value = flag:eye_removed
+				}
+			}
+		}
+	}
+	
+	# Just wounded
+	option = {
+		trigger = { local_var:ek_pet_animal_4103_result = flag:wounded }
+		
+		name = ek_pet_animal.4103.a
+
+		scope:vassal = {
+			add_opinion = {
+				modifier = scared_opinion
+				target = root
+				opinion = -30
+			}
+			
+			increase_wounds_effect = { REASON = attacked }
+		}
+	}
+	
+	# Eye(s) pecked
+	option = {
+		trigger = { local_var:ek_pet_animal_4103_result = flag:eye_removed }
+		
+		name = ek_pet_animal.4103.b
+
+		# Push towards becoming Nemesis
+		progress_towards_rival_effect = {
+			CHARACTER = scope:vassal
+			OPINION = 0
+			REASON = rival_vvardvark_peck
+		}
+		
+		# Remove one eye
+		scope:vassal = {
+			if = {
+				limit = { has_trait = one_eyed }
+				remove_trait = one_eyed
+				add_trait = blind
+			}
+			else = {
+				add_trait_force_tooltip = one_eyed
+			}
+		}
+	}
+}
+
+#Vvardvark dies
+ek_pet_animal.4199 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.4199.t
+	desc = ek_pet_animal.4199.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = sadness
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_prison"
+	}
+
+	option = {
+		name = ek_pet_animal.4199.a
+		show_as_tooltip = {
+			remove_vvardvark_story_modifiers_effect = yes
+		}
+		scope:story = {
+			hidden_effect = { end_story = yes }
+		}
+	}
+	after = {
+		remove_character_flag = vvardvark_is_dying
+	}
+}
+
+#########################
+#########################
+## VVARDVARK DECISION EVENTS
+#########################
+#########################
+
+###You pet your vvardvark
+# Vvardvark plays around a bit
+ek_pet_animal.4501 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.4501.t
+	desc = ek_pet_animal.4501.desc
+	theme = pet
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = { #No blockage, so the decision is available, but very unlikely with repetition
+			add = -0.9
+			has_character_flag = had_ek_pet_animal_4501_event
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_4501_event
+			years = 10
+		}
+	}
+
+	option = {
+		name = ek_pet_animal.4501.a
+		add_stress = minor_stress_loss
+	}
+}
+# Vvardvark eats a snack happily in your hand
+ek_pet_animal.4502 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.4501.t
+	desc = ek_pet_animal.4502.desc
+	theme = pet
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = { #No blockage, so the decision is available, but very unlikely with repetition
+			add = -0.9
+			has_character_flag = had_ek_pet_animal_4502_event
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_4502_event
+			years = 10
+		}
+	}
+
+	option = {
+		name = ek_pet_animal.4502.a
+		add_stress = minor_stress_loss
+	}
+}
+
+###########################################
+# MUDCRAB (5001-5999)
+#	ek_pet_animal.5001 - Name your mudcrab!
+#
+# Other events for your mudcrab
+#	ek_pet_animal.5101 - Share some healthy fruits with your mudcrab, smol health bonus
+#	ek_pet_animal.5102 - Your mudcrab follows you in battle, prowess bonus
+#	ek_pet_animal.5103 - Your mudcrab hurts a vassal (wounded, small chance for one-eyed/blinded)
+#
+#	ek_pet_animal.5199 - mudcrab dies :(
+#
+#
+# MUDCRAB DECISION EVENTS
+#	ek_pet_animal.5501 - You pet your mudcrab
+#	ek_pet_animal.5502 - You pet your mudcrab
+#
+###########################################
+
+
+###########################################
+# Name your mudcrab
+#	5001-5999
+###########################################
+
+#Name your mudcrab
+ek_pet_animal.5001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.5001.t
+	desc = ek_pet_animal.5001.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	immediate = {
+		#To give some options to show
+		assign_name_options_mudcrab_story_cycle_effect = yes
+		assign_name_options_mudcrab_story_cycle_effect = yes
+		assign_name_options_mudcrab_story_cycle_effect = yes
+		play_music_cue = "mx_cue_low_key_positive"
+
+		if = {
+			limit = { is_ai = yes }
+			random_list = {
+				1 = {
+					trigger = { has_character_flag = name_clatterclaw }
+					set_variable = {
+						name = story_cycle_mudcrab_name
+						value = flag:mudcrab_name_clatterclaw
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_jagged_claw }
+					set_variable = {
+						name = story_cycle_mudcrab_name
+						value = flag:mudcrab_name_jagged_claw
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_shellcracker }
+					set_variable = {
+						name = story_cycle_mudcrab_name
+						value = flag:mudcrab_name_shellcracker
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_titanclaw }
+					set_variable = {
+						name = story_cycle_mudcrab_name
+						value = flag:mudcrab_name_titanclaw
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_witherhope }
+					set_variable = {
+						name = story_cycle_mudcrab_name
+						value = flag:mudcrab_name_witherhope
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_crabcakes }
+					set_variable = {
+						name = story_cycle_mudcrab_name
+						value = flag:mudcrab_name_crabcakes
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_scissors }
+					set_variable = {
+						name = story_cycle_mudcrab_name
+						value = flag:mudcrab_name_scissors
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_pincer }
+					set_variable = {
+						name = story_cycle_mudcrab_name
+						value = flag:mudcrab_name_pincer
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_toetugger }
+					set_variable = {
+						name = story_cycle_mudcrab_name
+						value = flag:mudcrab_name_toetugger
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_grasper }
+					set_variable = {
+						name = story_cycle_mudcrab_name
+						value = flag:mudcrab_name_grasper
+					}
+				}
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_enter_text"
+		container = "dynamic_birth_name"
+		controller = {
+			type = text
+			data = {
+				key = story_cycle_mudcrab_name
+				default = {
+					localization_key = mudcrab_name_clatterclaw
+					trigger = {
+						has_character_flag = name_clatterclaw
+					}
+				}
+				default = {
+					localization_key = mudcrab_name_jagged_claw
+					trigger = {
+						has_character_flag = name_jagged_claw
+					}
+				}
+				default = {
+					localization_key = mudcrab_name_shellcracker
+					trigger = {
+						has_character_flag = name_shellcracker
+					}
+				}
+				default = {
+					localization_key = mudcrab_name_titanclaw
+					trigger = {
+						has_character_flag = name_titanclaw
+					}
+				}
+				default = {
+					localization_key = mudcrab_name_witherhope
+					trigger = {
+						has_character_flag = name_witherhope
+					}
+				}
+				default = {
+					localization_key = mudcrab_name_crabcakes
+					trigger = {
+						has_character_flag = name_crabcakes
+					}
+				}
+				default = {
+					localization_key = mudcrab_name_scissors
+					trigger = {
+						has_character_flag = name_scissors
+					}
+				}
+				default = {
+					localization_key = mudcrab_name_pincer
+					trigger = {
+						has_character_flag = name_pincer
+					}
+				}
+				default = {
+					localization_key = mudcrab_name_toetugger
+					trigger = {
+						has_character_flag = name_toetugger
+					}
+				}
+				default = {
+					localization_key = mudcrab_name_grasper
+					trigger = {
+						has_character_flag = name_grasper
+					}
+				}
+			}
+		}
+		setup_scope = {
+			root = { save_scope_as = text_target }
+		}
+	}
+
+	option = { 
+		name = ek_pet_animal.5001.a
+	}
+
+	after = {
+		remove_character_flag = is_naming_mudcrab
+		remove_character_flag = name_clatterclaw
+		remove_character_flag = name_jagged_claw
+		remove_character_flag = name_shellcracker
+		remove_character_flag = name_titanclaw
+		remove_character_flag = name_witherhope
+		remove_character_flag = name_crabcakes
+		remove_character_flag = name_scissors
+		remove_character_flag = name_pincer
+		remove_character_flag = name_toetugger
+		remove_character_flag = name_grasper
+		
+		if = {
+			# We entered custom text into the pop up
+			limit = { NOT = { has_variable = story_cycle_mudcrab_name } }
+			set_variable = {
+				name = story_cycle_mudcrab_name
+				value = flag:custom
+			}
+		}
+	}
+}
+
+###########################################
+# Other events for your mudcrab
+#	5100-5199
+###########################################
+
+# Share some healthy fruits with your mudcrab, smol health bonus
+ek_pet_animal.5101 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.5101.t
+	desc = ek_pet_animal.5101.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	override_background = {
+		reference = bedchamber
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_5101_event }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_5101_event
+			years = 10
+		}
+	}
+
+	option = { # Hey, leave some for me!
+		name = ek_pet_animal.5101.a
+		
+		add_character_modifier = {
+			modifier = mudcrab_story_eating_fruit_modifier
+			days = 3650
+		}
+	}
+}
+
+# Your mudcrab follows you in battle, prowess bonus
+ek_pet_animal.5102 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.5102.t
+	desc = ek_pet_animal.5102.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	override_background = {
+		reference = army_camp
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_5102_event }
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_5102_event
+			years = 10
+		}
+	}
+
+	option = { # With me, into battle!
+		name = ek_pet_animal.5102.a
+		
+		add_character_modifier = {
+			modifier = mudcrab_story_fighting_with_you_modifier
+			days = 3650
+		}
+	}
+}
+
+# Your mudcrab hurts a vassal (wounded, small chance for one-eyed/blinded)
+ek_pet_animal.5103 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.5103.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { local_var:ek_pet_animal_5103_result = flag:wounded }
+				desc = ek_pet_animal.5103.desc_wounded
+			}
+			triggered_desc = {
+				trigger = {
+					local_var:ek_pet_animal_5103_result = flag:eye_removed
+					scope:vassal = { NOT = { has_trait = one_eyed } }
+				}
+				desc = ek_pet_animal.5103.desc_eye_removed_not_one_eyed
+			}
+			triggered_desc = { # That will hurt
+				trigger = {
+					local_var:ek_pet_animal_5103_result = flag:eye_removed
+					scope:vassal = { has_trait = one_eyed }
+				}
+				desc = ek_pet_animal.5103.desc_eye_removed_one_eyed
+			}
+		}
+	}
+	theme = pet
+	override_background = {
+		reference = throne_room
+	}
+	left_portrait = {
+		character = scope:vassal
+		animation = severelywounded
+	}
+	right_portrait = {
+		character = root
+		animation = shock
+	}
+	
+	trigger = {
+		NOT = { has_character_flag = had_ek_pet_animal_5103_event }
+		any_vassal = {
+			is_available_ai = yes
+		}
+	}
+
+	immediate = {
+		random_vassal = {
+			limit = {
+				is_available_ai = yes
+				NOT = { has_trait = blind }
+			}
+			weight = {
+				base = 50
+			}
+			save_scope_as = vassal
+		}
+		add_character_flag = {
+			flag = had_ek_pet_animal_5103_event
+			years = 10
+		}
+		# Do we just wound or remove an eye?
+		random_list = {
+			80 = {
+				set_local_variable = {
+					name = ek_pet_animal_5103_result
+					value = flag:wounded
+				}
+			}
+			20 = {
+				set_local_variable = {
+					name = ek_pet_animal_5103_result
+					value = flag:eye_removed
+				}
+			}
+		}
+	}
+	
+	# Just wounded
+	option = {
+		trigger = { local_var:ek_pet_animal_5103_result = flag:wounded }
+		
+		name = ek_pet_animal.5103.a
+
+		scope:vassal = {
+			add_opinion = {
+				modifier = scared_opinion
+				target = root
+				opinion = -30
+			}
+			
+			increase_wounds_effect = { REASON = attacked }
+		}
+	}
+	
+	# Eye(s) pecked
+	option = {
+		trigger = { local_var:ek_pet_animal_5103_result = flag:eye_removed }
+		
+		name = ek_pet_animal.5103.b
+
+		# Push towards becoming Nemesis
+		progress_towards_rival_effect = {
+			CHARACTER = scope:vassal
+			OPINION = 0
+			REASON = rival_mudcrab_peck
+		}
+		
+		# Remove one eye
+		scope:vassal = {
+			if = {
+				limit = { has_trait = one_eyed }
+				remove_trait = one_eyed
+				add_trait = blind
+			}
+			else = {
+				add_trait_force_tooltip = one_eyed
+			}
+		}
+	}
+}
+
+#Mudcrab dies
+ek_pet_animal.5199 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.5199.t
+	desc = ek_pet_animal.5199.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = sadness
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_prison"
+	}
+
+	option = {
+		name = ek_pet_animal.5199.a
+		show_as_tooltip = {
+			remove_mudcrab_story_modifiers_effect = yes
+		}
+		scope:story = {
+			hidden_effect = { end_story = yes }
+		}
+	}
+	after = {
+		remove_character_flag = mudcrab_is_dying
+	}
+}
+
+#########################
+#########################
+## MUDCRAB DECISION EVENTS
+#########################
+#########################
+
+###You pet your mudcrab
+# mudcrab plays around a bit
+ek_pet_animal.5501 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.5501.t
+	desc = ek_pet_animal.5501.desc
+	theme = pet
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = { #No blockage, so the decision is available, but very unlikely with repetition
+			add = -0.9
+			has_character_flag = had_ek_pet_animal_5501_event
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_5501_event
+			years = 10
+		}
+	}
+
+	option = {
+		name = ek_pet_animal.5501.a
+		add_stress = minor_stress_loss
+	}
+}
+# mudcrab eats a snack happily in your hand
+ek_pet_animal.5502 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.5501.t
+	desc = ek_pet_animal.5502.desc
+	theme = pet
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = { #No blockage, so the decision is available, but very unlikely with repetition
+			add = -0.9
+			has_character_flag = had_ek_pet_animal_5502_event
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_5502_event
+			years = 10
+		}
+	}
+
+	option = {
+		name = ek_pet_animal.5502.a
+		add_stress = minor_stress_loss
+	}
+}
+
+###########################################
+# SKEEVER (6001-6999)
+#	ek_pet_animal.6001 - Name your skeever!
+#
+# Other events for your skeever
+#	ek_pet_animal.6101 - Share some healthy fruits with your mudcrab, smol health bonus
+#	ek_pet_animal.6102 - Your mudcrab follows you in battle, prowess bonus
+#	ek_pet_animal.6103 - Your mudcrab hurts a vassal (wounded, small chance for one-eyed/blinded)
+#
+#	ek_pet_animal.6199 - skeever dies :(
+#
+#
+# MUDCRAB DECISION EVENTS
+#	ek_pet_animal.5501 - You pet your skeever
+#	ek_pet_animal.5502 - You pet your skeever
+#
+###########################################
+
+
+###########################################
+# Name your skeever
+#	6001-6999
+###########################################
+
+#Name your skeever
+ek_pet_animal.6001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.6001.t
+	desc = ek_pet_animal.6001.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	immediate = {
+		#To give some options to show
+		assign_name_options_skeever_story_cycle_effect = yes
+		assign_name_options_skeever_story_cycle_effect = yes
+		assign_name_options_skeever_story_cycle_effect = yes
+		play_music_cue = "mx_cue_low_key_positive"
+
+		if = {
+			limit = { is_ai = yes }
+			random_list = {
+				1 = {
+					trigger = { has_character_flag = name_nibble }
+					set_variable = {
+						name = story_cycle_skeever_name
+						value = flag:skeever_name_nibble
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_scurry }
+					set_variable = {
+						name = story_cycle_skeever_name
+						value = flag:skeever_name_scurry
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_rotfang }
+					set_variable = {
+						name = story_cycle_skeever_name
+						value = flag:skeever_name_rotfang
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_whisker }
+					set_variable = {
+						name = story_cycle_skeever_name
+						value = flag:skeever_name_whisker 
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_squeak }
+					set_variable = {
+						name = story_cycle_skeever_name
+						value = flag:skeever_name_squeak
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_filthpaw }
+					set_variable = {
+						name = story_cycle_skeever_name
+						value = flag:skeever_name_filthpaw
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_moldtail }
+					set_variable = {
+						name = story_cycle_skeever_name
+						value = flag:skeever_name_moldtail
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_scab }
+					set_variable = {
+						name = story_cycle_skeever_name
+						value = flag:skeever_name_scab 
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_scritch }
+					set_variable = {
+						name = story_cycle_skeever_name
+						value = flag:skeever_name_scritch
+					}
+				}
+				1 = {
+					trigger = { has_character_flag = name_pestle }
+					set_variable = {
+						name = story_cycle_skeever_name
+						value = flag:skeever_name_pestle
+					}
+				}
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_enter_text"
+		container = "dynamic_birth_name"
+		controller = {
+			type = text
+			data = {
+				key = story_cycle_skeever_name
+				default = {
+					localization_key = skeever_name_nibble
+					trigger = {
+						has_character_flag = name_nibble
+					}
+				}
+				default = {
+					localization_key = skeever_name_scurry
+					trigger = {
+						has_character_flag = name_scurry
+					}
+				}
+				default = {
+					localization_key = skeever_name_rotfang
+					trigger = {
+						has_character_flag = name_rotfang
+					}
+				}
+				default = {
+					localization_key = skeever_name_whisker
+					trigger = {
+						has_character_flag = name_whisker
+					}
+				}
+				default = {
+					localization_key = skeever_name_squeak
+					trigger = {
+						has_character_flag = name_squeak
+					}
+				}
+				default = {
+					localization_key = skeever_name_filthpaw
+					trigger = {
+						has_character_flag = name_filthpaw
+					}
+				}
+				default = {
+					localization_key = skeever_name_moldtail
+					trigger = {
+						has_character_flag = name_moldtail
+					}
+				}
+				default = {
+					localization_key = skeever_name_scab
+					trigger = {
+						has_character_flag = name_scab
+					}
+				}
+				default = {
+					localization_key = skeever_name_scritch
+					trigger = {
+						has_character_flag = name_scritch
+					}
+				}
+				default = {
+					localization_key = skeever_name_pestle
+					trigger = {
+						has_character_flag = name_pestle
+					}
+				}
+			}
+		}
+		setup_scope = {
+			root = { save_scope_as = text_target }
+		}
+	}
+
+	option = { 
+		name = ek_pet_animal.6001.a
+	}
+
+	after = {
+		remove_character_flag = is_naming_skeever
+		remove_character_flag = name_nibble
+		remove_character_flag = name_scurry
+		remove_character_flag = name_rotfang
+		remove_character_flag = name_whisker
+		remove_character_flag = name_squeak
+		remove_character_flag = name_filthpaw
+		remove_character_flag = name_moldtail
+		remove_character_flag = name_scab
+		remove_character_flag = name_scritch
+		remove_character_flag = name_pestle
+		
+		if = {
+			# We entered custom text into the pop up
+			limit = { NOT = { has_variable = story_cycle_skeever_name } }
+			set_variable = {
+				name = story_cycle_skeever_name
+				value = flag:custom
+			}
+		}
+	}
+}
+
+###########################################
+# Other events for your skeever
+#	6100-6199
+###########################################
+
+# Your skeever carrys disease
+ek_pet_animal.6101 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.6101.t
+	desc = ek_pet_animal.6101.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	cooldown = {
+		years = 10
+	}
+
+	override_effect_2d = {
+		reference = flies
+	}
+
+	trigger = { 
+		OR = {
+			has_character_modifier = skeever_story_modifier
+			has_character_modifier = skeever_story_pack_skeever_modifier
+		}
+	}	
+
+	option = { # Might be an improvement
+		name = ek_pet_animal.6101.a
+		
+		if = {
+			limit = { has_character_modifier = skeever_story_modifier }
+			add_character_modifier = skeever_story_diseased_skeever_modifier
+		}
+		else_if = {
+			limit = { has_character_modifier = skeever_story_pack_skeever_modifier }
+			add_character_modifier = skeever_story_diseased_pack_skeever_modifier
+		}
+
+		stress_impact = {
+			callous = medium_stress_impact_gain
+			compassionate = minor_stress_impact_loss
+		}
+	}
+
+	option = { # Heal the skeever
+		name = ek_pet_animal.6101.b
+		reason = restoration
+		trigger = {
+			has_perk = restoration_journeyman_perk
+			has_magicka_more_than = { VALUE = t3_spell_cost }
+		}
+		show_as_unavailable = { has_magicka_less_than = { VALUE = t3_spell_cost } }
+
+		add_magicka = { VALUE = t3_spell_cost.negate }
+		
+		if = {
+			limit = { has_character_modifier = skeever_story_modifier }
+			add_character_modifier = skeever_story_healthy_skeever_modifier
+		}
+		else_if = {
+			limit = { has_character_modifier = skeever_story_pack_skeever_modifier }
+			add_character_modifier = skeever_story_healthy_pack_skeever_modifier
+		}
+
+		stress_impact = {
+			callous = minor_stress_impact_gain
+			compassionate = major_stress_impact_loss
+		}
+	}
+	
+	option = { # Get rid of the skeever
+		name = ek_pet_animal.6101.c
+		
+		show_as_tooltip = {
+			remove_skeever_story_modifiers_effect = yes
+		}
+		scope:story = {
+			hidden_effect = { end_story = yes }
+		}
+
+		stress_impact = {
+			callous = minor_stress_impact_loss
+			compassionate = medium_stress_impact_gain
+		}
+	}
+}
+
+# A mage wants to heal your skeever
+ek_pet_animal.6102 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.6102.t
+	desc = ek_pet_animal.6102.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	right_portrait = {
+		character = scope:healer
+		animation = personality_rational
+	}
+
+	cooldown = {
+		years = 10
+	}
+
+	override_effect_2d = {
+		reference = flies
+	}
+
+	trigger = { 
+		OR = {
+			has_character_modifier = skeever_story_diseased_skeever_modifier
+			has_character_modifier = skeever_story_diseased_pack_skeever_modifier
+		}
+		any_courtier = {
+			is_available_ai_adult = yes
+			has_perk = restoration_journeyman_perk
+			has_magicka_more_than = { VALUE = t3_spell_cost }
+		}
+	}
+
+	immediate = {
+		random_courtier = {
+			limit = {
+				is_available_ai_adult = yes
+				has_perk = restoration_journeyman_perk
+				has_magicka_more_than = { VALUE = t3_spell_cost }
+			}
+			save_scope_as = healer
+		}
+	}
+
+	option = { # It's worth the price
+		name = ek_pet_animal.6102.a
+		trigger = {
+			gold  >= minor_gold_value
+		}
+		show_as_unavailable = { gold < minor_gold_value }
+
+		pay_short_term_gold = {
+			target = scope:healer
+			gold = minor_gold_value
+		}
+		
+		if = {
+			limit = { has_character_modifier = skeever_story_modifier }
+			add_character_modifier = skeever_story_healthy_skeever_modifier
+		}
+		else_if = {
+			limit = { has_character_modifier = skeever_story_pack_skeever_modifier }
+			add_character_modifier = skeever_story_healthy_pack_skeever_modifier
+		}
+
+		stress_impact = {
+			greedy = minor_stress_impact_gain
+			compassionate = minor_stress_impact_loss
+		}
+	}
+
+	option = { # Nah
+		name = ek_pet_animal.6102.b
+
+		stress_impact = {
+			greedy = minor_stress_impact_loss
+			compassionate = minor_stress_impact_gain
+		}
+	}
+}
+
+# Diseased skeever causes Ataxia outbreak
+ek_pet_animal.6103 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.6103.t
+	desc = ek_pet_animal.6103.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+
+	cooldown = {
+		years = 10
+	}
+
+	override_effect_2d = {
+		reference = flies
+	}
+
+	trigger = { 
+		OR = {
+			has_character_modifier = skeever_story_diseased_skeever_modifier
+			has_character_modifier = skeever_story_diseased_pack_skeever_modifier
+		}
+	}
+
+	immediate = {
+		capital_province = {
+			create_epidemic_outbreak = {
+				type = typhus				
+				intensity = minor
+			}
+		}
+	}
+
+	option = { # Oops
+		name = ek_pet_animal.6103.a
+		trigger = {
+			NOT = { faith = { has_doctrine = tenet_veneration_of_diseases } }
+		}
+
+		stress_impact = {
+			base = medium_stress_gain
+		}
+	}
+
+	option = { # Wonderful
+		name = ek_pet_animal.6103.b
+		reason = veneration_of_diseases
+		trigger = {
+			faith = { has_doctrine = tenet_veneration_of_diseases }
+		}
+
+		add_piety = minor_piety_gain
+
+		stress_impact = {
+			zealous = medium_stress_impact_loss
+		}
+	}
+
+	option = { # Thats enough
+		name = ek_pet_animal.6103.c
+
+		show_as_tooltip = {
+			remove_skeever_story_modifiers_effect = yes
+		}
+		scope:story = {
+			hidden_effect = { end_story = yes }
+		}
+	}
+}
+
+# Skeever bites a courtier
+ek_pet_animal.6104 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.6104.t
+	desc = ek_pet_animal.6104.desc
+	theme = pet
+
+	left_portrait = {
+		character = scope:courtier
+		animation = severelywounded
+	}
+
+	right_portrait = {
+		character = root
+		animation = shock
+	}
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = { 
+		any_courtier = {
+			is_available = yes
+			location = root.location
+		}
+	}
+
+	immediate = {
+		random_courtier = {
+			limit = {
+				is_available = yes
+				location = root.location
+			}
+			save_scope_as = courtier
+			increase_wounds_no_death_effect = { REASON = skeever }
+		}
+		if = {
+			limit = {
+				employs_court_position = court_physician_court_position
+				court_position:court_physician_court_position = {
+					is_available = yes
+					location = root.location
+				}
+			}
+			court_position:court_physician_court_position = { save_scope_as = physician }
+		}
+	}
+
+	option = { # Physician will heal you
+		name = ek_pet_animal.6104.a
+
+		trigger = {
+			exists = scope:physician
+		}
+
+		scope:physician = {
+			duel = {
+				skill = learning
+				value = medium_skill_rating
+				20 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = 3.5
+						min = -25
+					}
+					desc = ek_pet_animal.6104.a.success
+					root = {
+						send_interface_toast = {
+							title = ek_pet_animal.6104.a.failure
+							left_icon = scope:courtier
+							right_icon = scope:physician
+							scope:courtier = {
+								change_trait_rank = {
+									trait = wounded
+									rank = -1
+									max = 1
+								}
+								add_opinion = {
+									target = scope:physician
+									modifier = grateful_opinion
+									opinion = 10
+								}
+							}
+						}
+					}
+				}
+				15 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = -3.5
+						min = -25
+					}
+					modifier = {
+						factor = 0.5
+						has_trait = lifestyle_physician
+					}
+					desc = ek_pet_animal.6104.a.failure
+					root = {
+						send_interface_toast = {
+							title = ek_pet_animal.6104.a.failure
+							left_icon = scope:courtier
+							right_icon = scope:physician
+							scope:courtier = {
+								add_character_modifier = { modifier = infected_wound_modifier }
+								add_opinion = {
+									target = scope:physician
+									modifier = failed_to_treat_me_opinion
+									opinion = -15
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = { # I heal it
+		name = ek_pet_animal.6104.b
+		reason = restoration
+		trigger = {
+			has_perk = restoration_journeyman_perk
+			has_magicka_more_than = { VALUE = t1_spell_cost }
+		}
+		show_as_unavailable = { 
+			has_perk = restoration_journeyman_perk
+			has_magicka_less_than = { VALUE = t1_spell_cost }
+		}
+
+		add_magicka = { VALUE = t1_spell_cost.negate }
+
+		scope:courtier = {
+			change_trait_rank = {
+				trait = wounded
+				rank = -1
+				max = 1
+			}
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 10
+			}
+		}
+
+		stress_impact = {
+			compassionate = medium_stress_impact_loss
+			callous = minor_stress_impact_gain
+			sadistic = medium_stress_impact_gain
+		}
+	}
+
+	option = { # Whatever
+		name = ek_pet_animal.6104.c
+
+		scope:courtier = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+
+		random_list = {
+			40 = {
+				desc = ek_pet_animal.6104.c.succes
+				send_interface_toast = {
+					title = ek_pet_animal.6104.c.succes
+					left_icon = scope:courtier
+				}
+			}
+			60 = {
+				modifier = {
+					OR = { 
+						has_character_modifier = skeever_story_diseased_skeever_modifier
+						has_character_modifier = skeever_story_diseased_pack_skeever_modifier
+					}
+					add = 40
+				}
+				desc = ek_pet_animal.6104.c.failure
+				send_interface_toast = {
+					title = ek_pet_animal.6104.c.failure
+					left_icon = scope:courtier
+					scope:courtier = {
+						add_character_modifier = { modifier = infected_wound_modifier }
+					}
+				}
+			}
+		}
+	}
+}
+
+# Skeever gathers a pack
+ek_pet_animal.6105 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.6105.t
+	desc = ek_pet_animal.6105.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		location = capital_province
+		OR = {
+			has_character_modifier = skeever_story_diseased_skeever_modifier
+			has_character_modifier = skeever_story_healthy_skeever_modifier
+		}
+	}
+
+	option = { # Not good
+		name = ek_pet_animal.6105.a
+		trigger = {
+			NOT = { faith = { has_doctrine = tenet_veneration_of_diseases } }
+		}
+
+		scope:capital = {
+			change_county_control = -25
+			add_county_modifier = {
+				modifier = county_corruption_skeever_infested_modifier
+				years = 10
+			}
+		}
+	}
+
+	option = { # Thats enough
+		name = ek_pet_animal.6105.b
+
+		show_as_tooltip = {
+			remove_skeever_story_modifiers_effect = yes
+		}
+		scope:story = {
+			hidden_effect = { end_story = yes }
+		}
+	}
+
+	option = { # Blessed be the Taskmaster
+		name = ek_pet_animal.6105.c
+		reason = veneration_of_diseases
+		trigger = {
+			faith = { has_doctrine = tenet_veneration_of_diseases }
+		}
+
+		capital_county = {
+			change_county_control = -25
+			add_county_modifier = {
+				modifier = county_corruption_skeever_infested_modifier
+				years = 5
+			}
+		}
+
+		add_piety = minor_piety_gain
+
+		stress_impact = {
+			zealous = medium_stress_impact_loss
+		}
+	}	
+}
+
+# Skeever kills rats
+ek_pet_animal.6106 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.6106.t
+	desc = ek_pet_animal.6106.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = happy_teacher
+	}
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		location = capital_province
+		OR = {
+			has_character_modifier = skeever_story_healthy_skeever_modifier
+			has_character_modifier = skeever_story_healthy_pack_skeever_modifier
+		}
+	}
+
+	option = { # Good job
+		name = ek_pet_animal.6106.a
+		
+		capital_province = {
+			add_province_modifier = {
+				modifier = cat_killing_rodents_modifier
+				years = 5
+			}
+		}
+	}		
+}
+
+# Skeever is lauded by the court
+ek_pet_animal.6107 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.6107.t
+	desc = ek_pet_animal.6107.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = happy_teacher
+	}
+
+	cooldown = {
+		years = 10
+	}
+
+	trigger = {
+		OR = {
+			has_character_modifier = skeever_story_healthy_skeever_modifier
+			has_character_modifier = skeever_story_healthy_pack_skeever_modifier
+		}
+	}
+
+	option = { # Prestige
+		name = ek_pet_animal.6107.a
+		
+		add_prestige = minor_prestige_gain
+
+		stress_impact = {
+			arrogant = minor_stress_impact_loss
+			humble = medium_stress_impact_gain
+		}
+	}
+
+	option = { # Stress loss
+		name = ek_pet_animal.6107.b
+		
+		stress_impact = {
+			base = minor_stress_impact_loss
+			arrogant = minor_stress_impact_gain
+			humble = minor_stress_impact_loss
+		}
+	}	
+}
+
+# Skeever steals food
+ek_pet_animal.6108 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.6108.t
+	desc = ek_pet_animal.6108.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+
+	cooldown = {
+		years = 10
+	}
+
+	option = { # Carry on
+		name = ek_pet_animal.6108.a
+		
+		add_prestige = minor_prestige_loss
+		if = {
+			limit = { has_royal_court = yes }
+			change_current_court_grandeur = minor_court_grandeur_loss
+		}
+
+		stress_impact = {
+			compassionate = minor_stress_impact_loss
+			lazy = minor_stress_impact_loss
+		}
+	}
+
+	option = { # Stop it
+		name = ek_pet_animal.6108.b
+		custom_tooltip = ek_pet_animal.6108.b.tt
+		
+		stress_impact = {
+			base = medium_stress_impact_gain
+			diligent = minor_stress_impact_loss
+		}
+	}	
+}
+
+# Skeever is Peryite vessel
+ek_pet_animal.6109 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.6109.t
+	desc = ek_pet_animal.6109.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = paranoia
+	}
+
+	cooldown = {
+		years = 10
+	}
+
+	option = { # Convert openly
+		name = ek_pet_animal.6108.a
+		
+		set_character_faith = faith:peryite_cult
+
+		stress_impact = {
+			cynical = minor_stress_impact_loss
+			zealous = major_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				has_trait = cynical
+				add = 10
+			}
+			modifier = {
+				has_trait = zealous
+				add = -10
+			}
+		}
+	}
+
+	option = { # Convert secretly
+		name = ek_pet_animal.6108.b
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:peryite_cult }
+
+		stress_impact = {
+			cynical = minor_stress_impact_loss
+			zealous = major_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				has_trait = cynical
+				add = 10
+			}
+			modifier = {
+				has_trait = zealous
+				add = -10
+			}
+		}
+	}
+
+	option = { # Part ways
+		name = ek_pet_animal.6109.c
+		show_as_tooltip = {
+			remove_skeever_story_modifiers_effect = yes
+		}
+		scope:story = {
+			hidden_effect = { end_story = yes }
+		}
+
+		stress_impact = {
+			zealous = medium_stress_impact_loss
+		}
+	}	
+
+	option = { # Ignore it
+		name = ek_pet_animal.6109.d
+		
+		stress_impact = {
+			base = medium_stress_impact_gain
+			paranoid = medium_stress_impact_gain
+			zealous = major_stress_impact_gain
+		}
+	}
+}
+
+#Skeever dies
+ek_pet_animal.6199 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.6199.t
+	desc = ek_pet_animal.6199.desc
+	theme = pet
+	left_portrait = {
+		character = root
+		animation = sadness
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_prison"
+	}
+
+	option = {
+		name = ek_pet_animal.6199.a
+		show_as_tooltip = {
+			remove_skeever_story_modifiers_effect = yes
+		}
+		scope:story = {
+			hidden_effect = { end_story = yes }
+		}
+	}
+	after = {
+		remove_character_flag = skeever_is_dying
+	}
+}
+
+#########################
+#########################
+## SKEEVER DECISION EVENTS
+#########################
+#########################
+
+###You pet your skeever
+# skeever plays around a bit
+ek_pet_animal.6501 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.6501.t
+	desc = ek_pet_animal.6501.desc
+	theme = pet
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = { #No blockage, so the decision is available, but very unlikely with repetition
+			add = -0.9
+			has_character_flag = had_ek_pet_animal_6501_event
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_6501_event
+			years = 10
+		}
+	}
+
+	option = {
+		name = ek_pet_animal.6501.a
+		add_stress = minor_stress_loss
+	}
+}
+# skeever eats a snack happily in your hand
+ek_pet_animal.6502 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_pet_animal.6501.t
+	desc = ek_pet_animal.6502.desc
+	theme = pet
+	override_background = {
+		reference = sitting_room
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = { #No blockage, so the decision is available, but very unlikely with repetition
+			add = -0.9
+			has_character_flag = had_ek_pet_animal_6502_event
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_ek_pet_animal_6502_event
+			years = 10
+		}
+	}
+
+	option = {
+		name = ek_pet_animal.6502.a
+		add_stress = minor_stress_loss
+	}
+}

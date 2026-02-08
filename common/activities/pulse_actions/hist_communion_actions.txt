@@ -1,0 +1,284 @@
+﻿#Devotion Intent
+apa_silent_prayer = {
+	icon = positive
+	is_valid = {
+		is_current_phase_active = yes
+		OR = {
+			AND = {
+				has_activity_type = activity_hist_communion
+				any_attending_character = {
+					location = scope:province
+					has_activity_intent = devotion_intent
+					OR = {
+						this = scope:host
+						is_close_family_of = scope:host
+						likes_character_trigger = { CHARACTER = scope:host }
+					}
+				}
+			}
+		}
+	}
+
+	weight = {
+		value = 1
+	}
+
+	effect = {
+		if = {
+			limit = { has_activity_type = activity_hist_communion }
+			random_attending_character = {
+				limit = {
+					location = scope:province
+					has_activity_intent = devotion_intent
+					OR = {
+						this = scope:host
+						is_close_family_of = scope:host
+						likes_character_trigger = { CHARACTER = scope:host }
+					}
+				}
+				save_scope_as = first
+			}
+		}
+		else = {
+			random_attending_character = {
+				limit = {
+					location = scope:province
+				}
+				save_scope_as = first
+			}
+		}
+
+		add_activity_log_entry = {
+			key = apa_silent_prayer
+			tags = { pulse_action }
+			character = scope:first
+			
+			scope:first = {
+				add_piety = 10
+				if = {
+					limit = {
+						has_trait = lifestyle_mystic
+					}
+					add_trait_xp = {
+						trait = lifestyle_mystic
+						value = lifestyle_mystic_xp_gain_minor_value
+					}
+				}
+				stress_impact = {
+					base = minor_stress_impact_loss
+				}
+			}
+		}
+	}
+}
+
+#Healing Intent
+apa_wounds_healed = {
+	icon = wound
+	is_valid = {
+		has_activity_type = activity_hist_communion
+		is_current_phase_active = yes
+		any_attending_character = {
+            has_activity_intent = healing_intent
+			location = scope:province
+			OR = {
+				has_trait = wounded_1
+				has_trait = wounded_2
+				has_trait = wounded_3
+			}
+			OR = {
+				this = scope:host
+				is_close_family_of = scope:host
+			}
+		}
+	}
+
+	weight = { value = 5 } #Weighted up
+
+	effect = {
+		random_attending_character = {
+			limit = {
+				location = scope:province
+				OR = {
+					has_trait = wounded_1
+					has_trait = wounded_2
+					has_trait = wounded_3
+				}
+				OR = {
+					this = scope:host
+					is_close_family_of = scope:host
+				}
+			}
+			save_scope_as = first
+		}
+
+		add_activity_log_entry = {
+			key = apa_wounds_healed
+			tags = { pulse_action }
+			character = scope:first
+			
+			scope:first = {
+				if = {
+					limit = {
+						NOT = {
+							has_trait = scarred
+						}
+						OR = {
+							has_trait = wounded_1
+							has_trait = wounded_2
+							has_trait = wounded_3
+						}
+					}
+					random = {
+						chance = 40
+						add_character_flag = will_get_scar
+					}
+				}
+				switch = {
+					trigger = has_trait
+					wounded_1 = {
+						remove_trait = wounded_1
+					}
+					wounded_2 = {
+						change_trait_rank = {
+							trait = wounded
+							rank = -1
+							max = 1
+						}
+					}
+					wounded_3 = {
+						change_trait_rank = {
+							trait = wounded
+							rank = -1
+							max = 1
+						}
+					}
+				}
+				if = {
+					limit = {
+						has_character_modifier = infected_wound_modifier
+					}
+					remove_character_modifier = infected_wound_modifier
+				}
+				if = {
+					limit = {
+						has_character_modifier = infected_wound_modifier
+					}
+					remove_character_modifier = infected_wound_modifier
+					if = {
+						limit = {
+							NOR = {
+								has_trait = scarred
+								has_character_flag = will_get_scar
+							}
+						}
+						add_character_flag = will_get_scar
+					}
+				}
+				if = {
+					limit = { has_character_flag = will_get_scar }
+					add_trait = scarred
+					add_trait_xp = {
+		                trait = scarred
+		                value = {
+		                    integer_range = {
+		                        min = 5
+		                        max = 25
+		                    }
+		                }
+		            }
+					remove_character_flag = will_get_scar
+				}
+			}
+		}
+	}
+}
+
+# Random
+apa_feeling_connected = {
+	icon = friendship
+	is_valid = {
+		has_activity_type = activity_hist_communion
+		is_current_phase_active = yes
+		any_attending_character = {
+			location = scope:province
+			NOT = { has_trait = callous }
+			count >= 2
+		}
+	}
+
+	weight = {
+		value = 1
+	}
+
+	effect = {			
+		random_attending_character = {
+			limit = {
+				location = scope:province
+				NOT = { has_trait = callous }
+			}
+			save_scope_as = first
+		}
+		
+		random_attending_character = {
+			limit = {
+				location = scope:province
+				NOT = { has_trait = callous }
+				NOT = { this = scope:first }
+			}
+			save_scope_as = second
+		}
+		
+		add_activity_log_entry = {
+			key = apa_feeling_connected
+			tags = { pulse_action }
+			character = scope:first
+			
+			scope:first = {
+				add_opinion = {
+					target = scope:second 
+					opinion = 10
+					modifier = friendliness_opinion
+				}
+			}
+		}
+	}
+}
+
+apa_hist_sap = {
+	icon = positive
+	is_valid = {
+		is_current_phase_active = yes
+		has_activity_type = activity_hist_communion
+	}
+
+	weight = { value =  0.5 }
+
+	effect = {
+		scope:host = {
+			save_scope_as = first
+		}
+
+		add_activity_log_entry = {
+			key = apa_hist_sap
+			tags = { pulse_action }
+			character = scope:first
+			
+			scope:first = {
+				add_piety = 10
+				if = {
+					limit = {
+						has_trait = lifestyle_mystic
+					}
+					add_trait_xp = {
+						trait = lifestyle_mystic
+						value = lifestyle_mystic_xp_gain_minor_value
+					}
+				}
+				stress_impact = {
+					base = minor_stress_impact_loss
+				}
+			}
+		}
+	}
+}

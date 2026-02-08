@@ -1,0 +1,55 @@
+﻿# BP1 MUSC
+
+# Mood Tracks
+
+
+mx_BP1Mood_Generic = {
+	music = "event:/DLC/BP1/MUSIC/moodtrack/mx_BP1Mood_Generic"
+	name = "mx_mood_bp1_01"
+	group = group_bp1
+}
+
+
+mx_BP1Mood_Western = {
+	music = "event:/DLC/BP1/MUSIC/moodtrack/mx_BP1Mood_Western"
+	name = "mx_mood_bp1_02_western"
+	group = group_bp1
+
+	is_valid = { # EK EDit
+		OR = {
+			culture = { has_clothing_gfx = ek_colovian_clothing_gfx }
+			culture = { has_clothing_gfx = ek_strident_clothing_gfx }
+			culture = { has_clothing_gfx = ek_breton_clothing_gfx }
+			culture = { has_clothing_gfx = ek_northmen_clothing_gfx }
+		}
+	}
+}
+
+mx_BP1Mood_MiddleEastern = {
+	music = "event:/DLC/BP1/MUSIC/moodtrack/mx_BP1Mood_MiddleEastern"
+	name = "mx_mood_bp1_03_mena"
+	group = group_bp1
+
+	is_valid = { # EK EDit
+		OR = {
+			culture = { has_clothing_gfx = ek_anequinan_clothing_gfx }
+			culture = { has_clothing_gfx = ek_redguard_clothing_gfx }
+			culture = { has_clothing_gfx = ek_yokudan_clothing_gfx }
+		}
+	}
+}
+
+
+# Group settings
+
+group_bp1 = {
+ 	#subsequent_playback_chance = { 0.65 0.35 0.1 }
+ 	mood = yes
+ 	trigger_prio_override = no
+	can_be_interrupted = yes
+	is_prioritized_mood = no
+	pause_factor = 15
+
+	is_valid = { has_bp1_dlc_trigger = yes }
+}
+

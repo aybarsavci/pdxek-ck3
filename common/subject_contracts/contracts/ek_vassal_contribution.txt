@@ -1,0 +1,335 @@
+﻿### Most governments don't use the vanilla Feudal contributions, but they still should have access to the Vassal Contract
+### EK NOTE: vassal_update_obligations_type in ek_misc_scripted_effects handles the usage of this when called
+
+@ai_standard_liege_desire = 2
+@ai_standard_vassal_desire = 1
+
+#Do NOT reshuffle the order of these. The order is important, as they are 'levels' to be referenced when setting obligations via effect
+vassal_contribution_group = {
+	# display_mode = list
+	uses_opinion_of_liege = yes # Annoying, but eh
+	
+	obligation_levels = {
+		# Basic ones
+		vassal_contribution_none = { # No contributions, you free-loader
+			default = yes
+			levies = { value = 0 }
+			tax = { value = 0 }
+			subject_opinion = 15
+			
+			ai_liege_desire = 0
+			ai_subject_desire = 10
+			score = 1
+		}
+		vassal_contribution_opinion = { # Scales with the opinion of the vassal about the liege. Crown authority puts a floor level
+			# Based on clan_government_obligations
+			is_valid = { # Basic obligations, so just not have access to any special one
+				vassal_should_use_obligation = { OBLIGATION_LEVEL = flag:opinion }
+			}
+
+			levies = {
+				value = 0
+				max = 0.5
+				scope:subject = {
+					if = {
+						limit = { is_ai = yes }
+						add = {
+							value = scope:opinion_of_liege
+							multiply = 0.005
+						}
+					}
+					else = { # is a player
+						value = 0.25
+					}
+				}
+			}
+			min_levies = {
+				scope:liege = {
+					if = {
+						limit = {
+							has_realm_law = crown_authority_1
+						}
+						value = autocracy_government_levies_min_ca_1
+					}
+					else_if = {
+						limit = {
+							has_realm_law = crown_authority_2
+						}
+						value = autocracy_government_levies_min_ca_2
+					}
+					else_if = {
+						limit = {
+							has_realm_law = crown_authority_3
+						}
+						value = autocracy_government_levies_min_ca_3
+					}
+					else = {
+						value = 0.0
+					}
+				}
+			}
+			tax = {
+				value = 0.0
+				max = 0.25
+				scope:subject = {
+					if = {
+						limit = { is_ai = yes }
+						add = {
+							value = scope:opinion_of_liege
+							multiply = 0.0025
+						}
+					}
+					else = { # is a player
+						value = 0.12
+					}
+				}
+			}
+			min_tax = {
+				scope:liege = {
+					if = {
+						limit = {
+							has_realm_law = crown_authority_1
+						}
+						value = autocracy_government_tax_min_ca_1
+					}
+					else_if = {
+						limit = {
+							has_realm_law = crown_authority_2
+						}
+						value = autocracy_government_tax_min_ca_2
+					}
+					else_if = {
+						limit = {
+							has_realm_law = crown_authority_3
+						}
+						value = autocracy_government_tax_min_ca_3
+					}
+					else = {
+						value = 0.0
+					}
+				}
+			}
+		
+			ai_liege_desire = @ai_standard_liege_desire
+			ai_subject_desire = 0
+			score = 0
+		}
+		
+		# Special, tied to governments
+		vassal_contribution_devotion = { # Scales with your level of devotion. Non-Righteous faiths only give a fraction of it (66%, 33%, 0%)
+			# Based on theocracy_government_obligations
+			is_valid = { # For theocracies and hierocracies
+				vassal_should_use_obligation = { OBLIGATION_LEVEL = flag:devotion }
+			}
+			
+			levies = {
+				value = 0
+				max = 0.5
+				scope:liege = {
+					add = {
+						value = 0.1
+						multiply = piety_level
+					}
+				}
+				if = {
+					limit = {
+						scope:subject.faith = {
+							faith_hostility_level = {
+								target = scope:liege.faith
+								value >= faith_astray_level
+							}
+							faith_hostility_level = {
+								target = scope:liege.faith
+								value < faith_hostile_level
+							}
+						}
+					}
+					multiply = 0.66
+				}
+				else_if = {
+					limit = {
+						scope:subject.faith = {
+							faith_hostility_level = {
+								target = scope:liege.faith
+								value >= faith_hostile_level
+							}
+							faith_hostility_level = {
+								target = scope:liege.faith
+								value < faith_evil_level
+							}
+						}
+					}
+					multiply = 0.33
+				}
+				else_if = {
+					limit = {
+						scope:subject.faith = {
+							faith_hostility_level = {
+								target = scope:liege.faith
+								value >= faith_evil_level
+							}
+						}
+					}
+					multiply = 0
+				}
+			}
+			tax = {
+				value = 0
+				max = 0.25
+				scope:liege = {
+					add = {
+						value = 0.05
+						multiply = piety_level
+					}
+				}
+				if = {
+					limit = {
+						scope:subject.faith = {
+							faith_hostility_level = {
+								target = scope:liege.faith
+								value >= faith_astray_level
+							}
+							faith_hostility_level = {
+								target = scope:liege.faith
+								value < faith_hostile_level
+							}
+						}
+					}
+					multiply = 0.66
+				}
+				else_if = {
+					limit = {
+						scope:subject.faith = {
+							faith_hostility_level = {
+								target = scope:liege.faith
+								value >= faith_hostile_level
+							}
+							faith_hostility_level = {
+								target = scope:liege.faith
+								value < faith_evil_level
+							}
+						}
+					}
+					multiply = 0.33
+				}
+				else_if = {
+					limit = {
+						scope:subject.faith = {
+							faith_hostility_level = {
+								target = scope:liege.faith
+								value >= faith_evil_level
+							}
+						}
+					}
+					multiply = 0
+				}
+			}
+			
+			contribution_desc = {
+				first_valid = {
+					triggered_desc = {
+						trigger = { NOT = { scope:liege.faith = scope:subject.faith } }
+						desc = "theocracy_government_vassal_contribution_wrong_faith"
+					}
+					desc = "theocracy_government_vassal_contribution_piety_level"
+				}
+			}
+			
+			ai_liege_desire = @ai_standard_liege_desire
+			ai_subject_desire = 0
+			score = 0
+		}
+		vassal_contribution_fame = { # Scales with your level of fame
+			# Based on tribal_government_obligations
+			is_valid = { # For tribes
+				vassal_should_use_obligation = { OBLIGATION_LEVEL = flag:fame }
+			}
+			
+			levies = {
+				value = 0
+				max = 0.5
+				scope:liege = {
+					add = {
+						value = 0.1
+						multiply = prestige_level
+					}
+				}
+			}
+			tax = {
+				value = 0
+				max = 0.25
+				scope:liege = {
+					add = {
+						value = 0.05
+						multiply = prestige_level
+					}
+				}
+			}
+			
+			ai_liege_desire = @ai_standard_liege_desire
+			ai_subject_desire = 0
+		}
+		vassal_contribution_arcana = { # Scales with your arcana
+			is_valid = { # For magocracies
+				vassal_should_use_obligation = { OBLIGATION_LEVEL = flag:arcana }
+			}
+			
+			levies = {
+				value = 0
+				max = 0.5
+				scope:liege = {
+					add = {
+						value = 0.01
+						multiply = arcana
+					}
+				}
+			}
+			tax = {
+				value = 0
+				max = 0.25
+				scope:liege = {
+					add = {
+						value = 0.005
+						multiply = arcana
+					}
+				}
+			}
+			
+			ai_liege_desire = @ai_standard_liege_desire
+			ai_subject_desire = 0
+			score = 0
+		}
+		
+		# Special, tied to faiths or cultures
+		vassal_contribution_prowess = { # Contributions scale with your prowess
+			is_valid = {
+				vassal_should_use_obligation = { OBLIGATION_LEVEL = flag:prowess }
+			}
+			
+			levies = {
+				value = 0
+				max = 0.5
+				scope:liege = {
+					add = {
+						value = 0.01
+						multiply = prowess
+					}
+				}
+			}
+			tax = {
+				value = 0
+				max = 0.25
+				scope:liege = {
+					add = {
+						value = 0.005
+						multiply = prowess
+					}
+				}
+			}
+			
+			ai_liege_desire = @ai_standard_liege_desire
+			ai_subject_desire = 0
+			score = 0
+		}
+	}
+}

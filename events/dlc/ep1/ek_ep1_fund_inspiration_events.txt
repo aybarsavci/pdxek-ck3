@@ -1,0 +1,435 @@
+﻿namespace = ek_fund_inspiration
+
+# Aventurers Race
+ek_fund_inspiration.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_fund_inspiration.0001.t
+	desc = ek_fund_inspiration.0001.desc
+	theme = war
+
+	left_portrait = {
+		character = scope:adventurer
+		animation = scheme
+	}
+
+	right_portrait = {
+		character = scope:local_adventurer
+		animation = throne_room_one_handed_passive_1 
+	}
+	
+	override_background = {
+		reference = temple
+	}
+	
+	cooldown = { years = 5 }
+
+	trigger = {
+		exists = scope:inspiration
+		scope:inspiration_owner = {
+			exists = var:adventure_destination
+			exists = var:adventure_type
+			NOR = {
+				has_character_flag = fund_adventure_inspiration_event_cooldown
+			}
+			exists = location
+			any_pool_character = {
+				province = scope:inspiration_owner.location
+				is_available_ai_adult = yes
+			}
+		}
+	}
+
+	immediate = {
+		scope:inspiration_owner = {
+			save_scope_as = adventurer
+			random_pool_character = {
+				province = location.barony.title_province
+				limit = {
+					is_available_ai_adult = yes
+				}
+				weight = {
+					base = 10
+					modifier = {
+						can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = THIS }
+						add = 100
+					}
+				}
+				save_scope_as = local_adventurer
+			}
+		}
+	}
+	option = {
+		name = ek_fund_inspiration.0001.a
+		
+		scope:adventurer = {
+			duel = {
+				skill = intrigue
+				target = scope:local_adventurer
+				2 = {
+					desc = ek_fund_inspiration.0001.a.critical_success
+					compare_modifier = {
+						value = scope:duel_value
+					}
+					root = {
+						send_interface_toast = {
+							title = ek_fund_inspiration.0001.a.critical_success
+							left_icon = scope:adventurer
+							scope:inspiration = { change_inspiration_progress = 2 }
+							add_gold = medium_gold_value
+							hidden_effect = { # The adventurer also gains some gold!
+								scope:adventurer = {
+									add_gold = medium_gold_value
+								}
+							}
+						}
+					}
+				}
+				8 = {
+					desc = ek_fund_inspiration.0001.a.success
+					compare_modifier = {
+						value = scope:duel_value
+					}
+					root = {
+						send_interface_toast = {
+							title = ek_fund_inspiration.0001.a.success
+							left_icon = scope:adventurer
+							scope:inspiration = { change_inspiration_progress = 1 }
+						}
+					}
+				}
+				8 = {
+					desc = ek_fund_inspiration.0001.a.failure
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = -1
+					}
+					root = {
+						send_interface_toast = {
+							title = ek_fund_inspiration.0001.a.failure
+							left_icon = scope:adventurer
+							scope:adventurer = {
+								increase_wounds_effect = { REASON = fall }
+							}
+							scope:inspiration = { change_inspiration_progress = -2 }
+						}
+					}
+				}
+			}
+		}
+		
+		ai_chance = {
+			base = 4
+			modifier = {
+				add = scope:adventurer.intrigue
+			}
+			modifier = {
+				add = {
+					value = scope:local_adventurer.intrigue
+					multiply = -1
+				}
+			}
+		}
+	}
+	option = {
+		name = ek_fund_inspiration.0001.b
+		
+		scope:adventurer = {
+			duel = {
+				skill = prowess
+				target = scope:local_adventurer
+				1 = {
+					desc = ek_fund_inspiration.0001.b.critical_success
+					compare_modifier = {
+						value = scope:duel_value
+					}
+					root = {
+						send_interface_toast = {
+							title = ek_fund_inspiration.0001.b.critical_success
+							left_icon = scope:adventurer
+							scope:adventurer = {
+								if = {
+									limit = {
+										NOR = {
+											has_trait = compassionate
+											ai_compassion >= high_positive_ai_value
+										}
+									}
+									hidden_effect = {
+										scope:local_adventurer = {
+											death = {
+												death_reason = death_duel
+												killer = scope:adventurer
+											}
+										}
+									}
+									scope:inspiration_owner = {
+										change_artifact_quality_effect = { AMOUNT = 4 }
+									}
+								}
+								else = {
+									scope:local_adventurer = {
+										death = {
+											death_reason = death_duel
+											killer = scope:adventurer
+										}
+										scope:inspiration_owner = {
+											change_artifact_quality_effect = { AMOUNT = 4 }
+										}
+										scope:inspiration = { change_inspiration_progress = 1 }
+									}
+								}
+							}
+						}
+					}
+				}
+				11 = {
+					desc = ek_fund_inspiration.0001.b.success
+					compare_modifier = {
+						value = scope:duel_value
+					}
+					root = {
+						send_interface_toast = {
+							title = ek_fund_inspiration.0001.b.success
+							left_icon = scope:adventurer
+							scope:adventurer = {
+								scope:local_adventurer = {
+									increase_wounds_effect = { REASON = fight }
+								}
+								scope:inspiration_owner = {
+									change_artifact_quality_effect = { AMOUNT = 2 }
+								}
+							}
+						}
+					}
+				}
+				8 = {
+					desc = ek_fund_inspiration.0001.b.failure
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = -1
+					}
+					root = {
+						send_interface_toast = {
+							title = ek_fund_inspiration.0001.b.failure
+							left_icon = scope:adventurer
+							scope:adventurer = {
+								increase_wounds_effect = { REASON = fight }
+							}
+						}
+					}
+				}
+				1 = {
+					desc = ek_fund_inspiration.0001.b.critical_failure
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = -1
+					}
+					root = {
+						send_interface_toast = {
+							title = ek_fund_inspiration.0001.b.critical_failure
+							left_icon = scope:adventurer
+							scope:adventurer = {
+								death = {
+									death_reason = death_duel
+									killer = scope:local_adventurer
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		ai_chance = {
+			base = 4
+			modifier = {
+				add = scope:adventurer.prowess
+			}
+			modifier = {
+				add = {
+					value = scope:local_adventurer.prowess
+					multiply = -1
+				}
+			}
+		}
+	}
+	option = {
+		name = ek_fund_inspiration.0001.c
+		scope:adventurer = {
+			fake_duel = {
+				skill = arcana
+				value = average_skill_rating
+				target = scope:local_adventurer
+			}
+		}
+		random_list = {
+			2 = {
+				desc = ek_fund_inspiration.0001.c.critical_success
+				compare_modifier = {
+					value = scope:fake_duel_value
+				}
+				root = {
+					send_interface_toast = {
+						title = ek_fund_inspiration.0001.c.critical_success
+						left_icon = scope:adventurer
+						scope:inspiration = { change_inspiration_progress = 2 }
+						add_gold = medium_gold_value
+						hidden_effect = { # The adventurer also gains some gold!
+							scope:adventurer = {
+								add_gold = medium_gold_value
+							}
+						}
+					}
+				}
+			}
+			8 = {
+				desc = ek_fund_inspiration.0001.c.success
+				compare_modifier = {
+					value = scope:fake_duel_value
+				}
+				root = {
+					send_interface_toast = {
+						title = ek_fund_inspiration.0001.c.success
+						left_icon = scope:adventurer
+						add_gold = medium_gold_value
+					}
+				}
+			}
+			8 = {
+				desc = ek_fund_inspiration.0001.c.failure
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -1
+				}
+				root = {
+					send_interface_toast = {
+						title = ek_fund_inspiration.0001.c.failure
+						left_icon = scope:adventurer
+						scope:adventurer = {
+							increase_wounds_effect = { REASON = fall }
+						}
+						scope:inspiration = { change_inspiration_progress = -2 }
+					}
+				}
+			}
+		}
+		ai_chance = {
+			base = 4
+			modifier = {
+				add = scope:adventurer.arcana
+			}
+			modifier = {
+				add = {
+					value = scope:local_adventurer.arcana
+					multiply = -1
+				}
+			}
+		}
+	}
+}
+
+#EK NOTE: Copied for ep1_fund_inspiration_events
+scripted_trigger has_no_inspiration_event_cooldown = {
+	NOR = {
+		has_character_flag = fund_weapon_inspiration_event_cooldown
+		has_character_flag = fund_armor_inspiration_event_cooldown
+		has_character_flag = fund_book_inspiration_event_cooldown
+		has_character_flag = fund_weaver_inspiration_event_cooldown
+		has_character_flag = fund_adventure_inspiration_event_cooldown
+		has_character_flag = fund_artisan_inspiration_event_cooldown
+		has_character_flag = fund_smith_inspiration_event_cooldown
+		has_character_flag = fund_alchemy_inspiration_event_cooldown
+		has_character_flag = fund_research_inspiration_event_cooldown
+	}
+}
+
+#Postcard from Morrowind
+
+ek_fund_inspiration.0002 = {
+	type = letter_event
+	opening = { desc = ek_fund_inspiration.0002.t }
+	desc = ek_fund_inspiration.0002.desc
+	sender = scope:inspiration_owner
+	
+	cooldown = { years = 5 }
+
+	trigger = {
+		exists = scope:inspiration
+		location = {#We can't have an adventurer writing home about what a region is like that we belong to
+			NOT = {
+				geographical_region = mundus_tamriel_morrowind
+			}
+		}
+		NOT = {
+			any_character_artifact = {
+				has_artifact_modifier = necrom_chronicle_modifier
+			}
+		}
+		is_ai = no
+		scope:inspiration_owner = {
+			exists = var:adventure_destination
+			exists = var:adventure_type
+			NOT = {  has_character_flag = had_event_ek_fund_inspiration_0002 }
+			has_no_inspiration_event_cooldown = yes
+			OR = {
+				var:adventure_destination = flag:morrowind
+			}
+			NOT = {
+				any_character_artifact = {
+					has_artifact_modifier = necrom_chronicle_modifier
+				}
+			}
+		}
+	}
+
+	immediate = {
+		save_scope_as = owner #for loc
+		scope:inspiration_owner = {
+			add_character_flag = {
+				flag = had_event_ek_fund_inspiration_0002
+				years = 5
+			}
+			#To stagger any following events
+			add_character_flag = {
+				flag = fund_adventure_inspiration_event_cooldown
+				days = { 30 60 }
+			}
+		}
+		create_artifact_necrom_chronicle_effect = { OWNER = this }
+		random_courtier = { 
+			limit = {
+				learning > 9
+			}
+			save_scope_as = event_courtier 
+		}
+	}
+	#Keep the necrom chronicle for yourself
+	option = {
+		name = ek_fund_inspiration.0002.a
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_honor = -0.5
+			}
+		}
+	}
+	option = {
+		name = ek_fund_inspiration.0002.b
+		trigger = { exists = scope:event_courtier }
+		reverse_add_opinion = {
+			target = scope:event_courtier
+			modifier = grateful_opinion
+			opinion = 15
+		}
+		scope:necrom_chronicle = {
+			set_owner = scope:event_spouse
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_honor = 0.5
+			}
+		}
+	}
+}

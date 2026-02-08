@@ -1,0 +1,103 @@
+﻿namespace = ek_fullerton_events
+ek_fullerton_events.9999 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_fullerton_events.9999.t
+	desc = ek_fullerton_events.9999.desc
+	theme = hunting
+
+	cooldown = { years = yearly_cooldown }
+
+	trigger = {
+		ROOT.culture = { has_cultural_pillar = heritage_breton }
+		faith = { NOT = { religion = religion:wyrd_religion } }
+		exists = capital_province
+		capital_province = { geographical_region = mundus_tamriel_high_rock }
+	}
+
+	immediate = {
+		hidden_effect = {
+			if = { 
+				limit = {
+					NOR = {
+						faith = { has_doctrine = doctrine_pantheon_daedra }
+						faith = { has_doctrine = doctrine_main_pantheon_type_daedric_prince }
+					}
+				}
+				create_character = {
+					template = beldama_wyress_template
+					dynasty = none
+					location = root.capital_province
+					save_scope_as = wyress
+				}
+			}
+			else = {
+				create_character = {
+					template = glenmoril_wyress_template
+					dynasty = none
+					location = root.capital_province
+					save_scope_as = wyress
+				}
+			}
+			scope:wyress = { visit_court_of = root }
+		}
+	}
+
+	left_portrait = {
+		character = root
+		animation = boredom
+	}
+	right_portrait = {
+		character = scope:wyress
+		animation = personality_zealous
+	}
+
+	option = { 
+		name = ek_fullerton_events.9999.a
+		add_piety = medium_piety_gain
+		scope:wyress = { select_and_move_to_pool_effect = yes }
+	}
+	option = { 
+		name = ek_fullerton_events.9999.b
+		add_character_modifier = { modifier = wyresss_counsel_modifier days = 365 }
+		add_piety = minor_piety_loss
+		scope:wyress = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 15
+			}
+		}
+	}
+	option = { 
+		name = ek_fullerton_events.9999.c
+		add_courtier = scope:wyress
+		add_character_modifier = { modifier = wyresss_counsel_modifier days = 1825 }	
+		random_list = {
+			2 = {				
+				desc = ek_fullerton_events.9999.c.tt_failure
+				set_character_faith_with_conversion = scope:wyress.faith
+				add_piety = massive_piety_loss
+				add_prestige = minor_prestige_loss
+				scope:wyress = {
+					add_opinion = {
+						target = root
+						modifier = respect_opinion
+						opinion = 20
+					}
+				}
+			}
+			98 = {
+				desc = ek_fullerton_events.9999.c.tt_success
+				add_piety = minor_piety_loss
+				scope:wyress = {
+					add_opinion = {
+						target = root
+						modifier = respect_opinion
+						opinion = 10
+					}
+				}
+			}
+		}
+	}
+}

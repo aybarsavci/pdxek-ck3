@@ -1,0 +1,1597 @@
+﻿convert_dragon_cult_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_personal_religious.dds" }
+	
+	desc = convert_dragon_cult_decision_desc
+	selection_tooltip = convert_dragon_cult_decision_tooltip
+	
+	is_shown = {
+		has_trait = p_at_dragon
+		NOT = { faith = faith:dragon_cult }	
+	}
+
+	is_valid = {
+		OR = {
+			AND = {
+				has_trait = cynical
+				has_trait = ambitious
+			}
+			has_trait = lunatic
+			has_trait = scholar
+		}
+		has_trait = p_at_dragon
+	}
+		
+	effect = {
+		custom_tooltip = convert_dragon_cult_custom_desc
+		remove_trait = cynical
+		trigger_event = dragon_cult.1001
+	}
+	
+	cost = {
+		piety = 200
+		prestige = 100
+	}
+	
+	ai_potential = {
+		has_trait = lunatic
+		has_trait = cynical
+	}
+	ai_will_do = { base = 50 }
+	ai_check_interval = 120
+}
+
+
+pet_parrot_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+
+	desc = pet_parrot_decision_desc
+	selection_tooltip = pet_parrot_decision_tooltip
+
+	ai_check_interval = 120
+
+	cooldown = { days = 1825 }
+
+	is_shown = {
+		any_owned_story = {
+			story_type = story_cycle_pet_parrot
+			exists = story_owner.var:story_cycle_parrot_name
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available = yes
+	}
+
+	effect = {
+		custom_tooltip = pet_decision_effect_tooltip
+
+		trigger_event = {
+			on_action = story_cycle_parrot_decision_on_actions
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 0
+
+		modifier = {
+			add = 25
+			stress > low_medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > high_stress
+		}
+	}
+}
+
+pet_scorpion_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+
+	desc = pet_scorpion_decision_desc
+	selection_tooltip = pet_scorpion_decision_tooltip
+
+	ai_check_interval = 120
+
+	cooldown = { days = 1825 }
+
+	is_shown = {
+		any_owned_story = {
+			story_type = story_cycle_pet_scorpion
+			exists = story_owner.var:story_cycle_scorpion_name
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available = yes
+	}
+
+	effect = {
+		custom_tooltip = pet_decision_effect_tooltip
+
+		trigger_event = {
+			on_action = story_cycle_scorpion_decision_on_actions
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 0
+
+		modifier = {
+			add = 25
+			stress > low_medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > high_stress
+		}
+	}
+}
+
+pet_scrib_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+
+	desc = pet_scrib_decision_desc
+	selection_tooltip = pet_scrib_decision_tooltip
+
+	ai_check_interval = 120
+
+	cooldown = { days = 1825 }
+
+	is_shown = {
+		any_owned_story = {
+			story_type = story_cycle_pet_scrib
+			exists = story_owner.var:story_cycle_scrib_name
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available = yes
+	}
+
+	effect = {
+		custom_tooltip = pet_decision_effect_tooltip
+
+		trigger_event = {
+			on_action = story_cycle_scrib_decision_on_actions
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 0
+
+		modifier = {
+			add = 25
+			stress > low_medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > high_stress
+		}
+	}
+}
+
+pet_bantam_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+
+	desc = pet_bantam_decision_desc
+	selection_tooltip = pet_bantam_decision_tooltip
+
+	ai_check_interval = 120
+
+	cooldown = { days = 1825 }
+
+	is_shown = {
+		any_owned_story = {
+			story_type = story_cycle_pet_bantam
+			exists = story_owner.var:story_cycle_bantam_name
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available = yes
+	}
+
+	effect = {
+		custom_tooltip = pet_decision_effect_tooltip
+
+		trigger_event = {
+			on_action = story_cycle_bantam_decision_on_actions
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 0
+
+		modifier = {
+			add = 25
+			stress > low_medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > high_stress
+		}
+	}
+}
+
+pet_vvardvark_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+
+	desc = pet_vvardvark_decision_desc
+	selection_tooltip = pet_vvardvark_decision_tooltip
+
+	ai_check_interval = 120
+
+	cooldown = { days = 1825 }
+
+	is_shown = {
+		any_owned_story = {
+			story_type = story_cycle_pet_vvardvark
+			exists = story_owner.var:story_cycle_vvardvark_name
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available = yes
+	}
+
+	effect = {
+		custom_tooltip = pet_decision_effect_tooltip
+
+		trigger_event = {
+			on_action = story_cycle_vvardvark_decision_on_actions
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 0
+
+		modifier = {
+			add = 25
+			stress > low_medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > high_stress
+		}
+	}
+}
+
+pet_mudcrab_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+
+	desc = pet_mudcrab_decision_desc
+	selection_tooltip = pet_mudcrab_decision_tooltip
+
+	ai_check_interval = 120
+
+	cooldown = { days = 1825 }
+
+	is_shown = {
+		any_owned_story = {
+			story_type = story_cycle_pet_mudcrab
+			exists = story_owner.var:story_cycle_mudcrab_name
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available = yes
+	}
+
+	effect = {
+		custom_tooltip = pet_decision_effect_tooltip
+
+		trigger_event = {
+			on_action = story_cycle_mudcrab_decision_on_actions
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 0
+
+		modifier = {
+			add = 25
+			stress > low_medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > high_stress
+		}
+	}
+}
+
+pet_skeever_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+
+	desc = pet_skeever_decision_desc
+	selection_tooltip = pet_skeever_decision_tooltip
+
+	ai_check_interval = 120
+
+	cooldown = { days = 1825 }
+
+	is_shown = {
+		any_owned_story = {
+			story_type = story_cycle_pet_skeever
+			exists = story_owner.var:story_cycle_skeever_name
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available = yes
+	}
+
+	effect = {
+		custom_tooltip = pet_decision_effect_tooltip
+
+		trigger_event = {
+			on_action = story_cycle_skeever_decision_on_actions
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 0
+
+		modifier = {
+			add = 25
+			stress > low_medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > high_stress
+		}
+	}
+}
+
+# Coping mechanisms
+stress_loss_skooma_drinker_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+	desc = stress_loss_skooma_drinker_decision_desc
+	selection_tooltip = stress_loss_skooma_drinker_decision_tooltip
+
+	ai_check_interval = 120
+
+	cooldown = { days = 1095 }
+
+	is_shown = {
+		has_trait = skooma_drinker
+	}
+
+	is_valid_showing_failures_only = {
+		is_available = yes
+	}
+
+	effect = {
+		
+		custom_tooltip = stress_loss_drunkard_decision_effect_tooltip
+
+		show_as_tooltip = { #The effect is actually applied in the event itself
+			add_character_modifier = {
+				modifier = stress_skooma_stupor
+				years = 2
+			}
+		}
+
+		trigger_event = {
+			on_action = stress_loss_skooma_drinker
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 0
+
+		modifier = {
+			add = 25
+			stress > low_medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > high_stress
+		}
+	}
+}
+
+# Event Decisions
+
+
+stress_loss_vampire_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+	desc = stress_loss_vampire_decision_desc
+	selection_tooltip = stress_loss_vampire_decision_tooltip
+
+	ai_check_interval = 120
+
+	cooldown = { days = 1095 }
+
+	is_shown = {
+		is_vampire = yes
+	}
+
+	is_valid_showing_failures_only = {
+		is_available = yes
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+	effect = {
+		trigger_event = {
+			on_action = stress_loss_vampire
+		}
+	}
+	ai_will_do = {	
+		base = 0
+
+		modifier = {
+			add = 5
+			has_trait = gluttonous
+		}
+		
+		modifier = {
+			add = 5
+			has_character_modifier = malnourished_modifier
+		}
+		
+		modifier = {
+			add = 25
+			stress > low_medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > high_stress
+		}
+	}
+}
+
+stress_loss_lycan_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+	desc = stress_loss_lycan_decision_desc
+	selection_tooltip = stress_loss_lycan_decision_tooltip
+
+	ai_check_interval = 120
+
+	cooldown = { days = 1095 }
+
+	is_shown = {
+		is_lycan = yes
+	}
+
+	is_valid_showing_failures_only = {
+		is_available = yes
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+	effect = {
+		trigger_event = {
+			on_action = stress_loss_lycan
+		}
+	}
+	ai_will_do = {	
+		base = 0
+
+		modifier = {
+			add = 5
+			has_trait = gluttonous
+		}
+		
+		modifier = {
+			add = 5
+			has_character_modifier = malnourished_modifier
+		}
+		
+		modifier = {
+			add = 25
+			stress > low_medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > medium_stress
+		}
+
+		modifier = {
+			add = 50
+			stress > high_stress
+		}
+	}
+}
+
+spawn_razak_army_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+	desc = spawn_razak_army_decision_desc
+	selection_tooltip = spawn_razak_army_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	cooldown = { days = 3650 }
+
+	is_shown = {
+		has_title = title:c_onsi
+		has_global_variable = ek_razak_army
+	}
+
+	effect = {
+		
+		custom_tooltip = spawn_razak_army_decision_tooltip
+
+		hidden_effect = {
+			spawn_army = {
+				men_at_arms = {
+					type = razak_army
+					stacks = 1
+				}
+				location = root.capital_province
+				name = "razak_army"
+			}
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+invite_criminals_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_recruitment.dds" }
+	
+	sort_order = 82
+	decision_group_type = courtier
+
+	desc = invite_criminals_decision_desc
+	selection_tooltip = invite_criminals_decision_tooltip
+
+	ai_check_interval = 60
+
+	is_shown = {
+		is_ruler = yes
+		has_perk = call_henchmen_perk
+		is_landless_adventurer = no
+	}
+
+	cooldown = { years = 3 }
+
+	is_valid_showing_failures_only = {
+		is_imprisoned = no
+	}
+
+	cost = {
+        prestige = medium_prestige_value
+    }
+
+	effect = {
+		random_list = {
+			95 = {
+				trigger_event = {
+					id = ek_court_position.0005
+					days = 14
+				}
+			}
+			5 = {
+				trigger = {
+					gold >= 1000
+				}
+				trigger_event = {
+					id = ek_lifestyles.0118
+					days = 14
+				}				
+			}
+		}
+		custom_tooltip = invite_criminals_decision_effect_tooltip
+	}
+	
+	ai_potential = {
+		highest_held_title_tier > tier_barony
+		is_landed = yes
+		is_at_war = no
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+
+}
+
+adopt_child_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_recruitment.dds" }
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { government_has_flag = government_is_tribal }
+				desc = tribal_adopt_child_decision_name
+			}
+			desc = adopt_child_decision
+		}
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { government_has_flag = government_is_tribal }
+				desc = tribal_adopt_child_decision_desc
+			}
+			desc = adopt_child_decision_desc
+		}
+	}
+	selection_tooltip = adopt_child_decision_tooltip
+	decision_group_type = major
+	ai_check_interval = 600
+
+	is_shown = {
+		is_ruler = yes
+		is_lowborn = no
+		NOR = { #none of these governments are dynastic and having valid dynastic heirs is therefore unnecessary
+			government_has_flag = government_is_republic
+			government_has_flag = government_is_theocracy
+			government_has_flag = government_is_holy_order
+			government_has_flag = government_is_academy
+			government_has_flag = government_is_landed_order
+		}	
+		NOT = { #who are you gonna adopt when there are no children of your culture?
+			culture = {
+				NOT = { culture_is_alive = yes }
+			}
+		}
+		OR = {
+			has_government = tribal_government #since tribals cannot build orphanages at the moment
+			custom_tooltip = {
+				text = adopt_child_requirement_4
+				any_sub_realm_barony = {
+					title_province = {
+						has_building_or_higher = orphanage_01
+					}
+				}
+			}
+		}	
+	}
+
+	is_valid = {
+		is_married = yes
+		OR = {
+			custom_tooltip = {
+				text = adopt_child_requirement_1
+				health < death_chance_dying_health
+			}	
+			custom_tooltip = {
+				text = adopt_child_requirement_2
+				can_have_children = no
+			}	
+			custom_tooltip = {
+				text = adopt_child_requirement_3
+				OR  = {
+					AND = {
+						exists = root.primary_spouse
+						NOT = { sex_opposite_of = root.primary_spouse }
+						any_concubine = { count = 0 }
+					}
+					AND = {
+						exists = root.primary_spouse
+						root.primary_spouse = { can_have_children = no }
+						any_concubine = { count > 0 }
+						allowed_more_concubines = no
+						any_concubine = {
+							can_have_children = no
+						}	
+					}
+					AND = {
+						exists = root.primary_spouse
+						root.primary_spouse = { can_have_children = no }
+						any_concubine = { count > 0 }
+						allowed_more_concubines = no
+						any_concubine = {
+							NOT = { sex_opposite_of = root.primary_spouse }
+						}	
+					}
+					AND = {
+						exists = root.primary_spouse
+						root.primary_spouse = { 
+							NOT = { sex_opposite_of = root.primary_spouse }
+						}
+						any_concubine = { count > 0 }
+						allowed_more_concubines = no
+						any_concubine = {
+							NOT = { sex_opposite_of = root.primary_spouse }
+						}	
+					}
+					AND = {
+						exists = root.primary_spouse
+						root.primary_spouse = { can_have_children = no }
+						any_concubine = { count = 0 }
+					}
+				}
+			}	
+		}	
+		OR = {
+			government_has_flag = government_is_tribal #since tribals cannot build orphanages at the moment
+			custom_tooltip = {
+				text = adopt_child_requirement_4
+				any_sub_realm_barony = {
+					title_province = {
+						has_building_or_higher = orphanage_01
+					}
+				}
+			}	
+		}
+		OR = {
+			custom_tooltip = {
+				text = adopt_child_requirement_5
+				NOT = { exists = player_heir }
+			}	
+			has_trait = compassionate
+		}	
+	}
+
+	cooldown = { days = 3650 }
+
+	is_valid_showing_failures_only = {
+		is_imprisoned = no
+	}
+
+	effect = {
+		trigger_event = {
+			id = ek_orphanage.0001
+			days = 14
+		}
+		custom_tooltip = adopt_child_decision_effect_tooltip
+	}
+	
+	ai_potential = {
+		is_landed = yes
+		is_at_war = no
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+##Reins
+#Restore the Capital of Nenalata
+restore_nenalata_decision = {
+    picture = { reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds" }
+
+    decision_group_type = major
+
+    ai_check_interval = 120
+
+    is_shown = {
+        #only visible to Ayleids
+        is_landed = yes
+        culture = { has_cultural_pillar = heritage_ayleid }
+		# nenalata must be within your realm
+		any_sub_realm_county = { this = title:c_nenalata }	
+  		#Can only do it once.
+        NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_restored_nenalata
+			}
+        }
+    }
+    is_valid = {
+		# minimum king tier
+		highest_held_title_tier >= tier_kingdom
+		# holds nenalata and surrounding area
+		has_title = title:c_nenalata
+		completely_controls = title:d_grief
+		prestige_level >= 3
+    }
+    is_valid_showing_failures_only = {
+		is_available_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+    }
+    cost = {
+        gold = 500
+    }
+    effect =  {
+        #sets Nenalata as new name, de jure and realm capital of k_bravil or k_nibenay, and d_grief
+        if = {
+			limit = { title:k_nibenay = { is_de_jure_liege_or_above_target = title:d_grief }}
+			title:k_nibenay = { set_capital_county = title:c_nenalata }
+			# if nobody holds cis-niben, gain it. this is an alternate way of forming the title
+			if = {
+				limit = {
+					NOT = { exists = title:k_nibenay.holder }
+				}
+				get_title = title:k_nibenay
+			}
+		}	
+		else_if = {
+			limit = { title:k_bravil = { is_de_jure_liege_or_above_target = title:d_grief }}
+			title:k_bravil = { set_capital_county = title:c_nenalata }
+		}	
+
+        title:d_grief = { set_capital_county = title:c_nenalata }
+		# the below effect is borrowed from set_de_jure_capital_decision.
+		# copying the vanilla comment below to explain:
+		#"A bit of an ugly script hack, to make sure the Duchy Building slot is properly moved, which happens when a duchy capital is moved out of the duchy de jure. We temporarily move them out of the duchy de jure, and back again, to force this effect. Remove when Code gets a chance to have a look at it"
+		hidden_effect = {
+			title:c_grief = {
+				duchy = { save_scope_as = current_duchy }
+				random_duchy = {
+					limit = {
+						NOT = { this = scope:current_duchy }
+						is_noble_family_title = no
+						is_mercenary_company = no
+					}
+					save_scope_as = placeholder_duchy
+				}
+				scope:current_duchy = {
+					every_de_jure_county = {
+						limit = {
+							NOT = { this = root.capital_county }
+						}
+						set_de_jure_liege_title = scope:placeholder_duchy
+						add_to_list = correction_list
+					}
+				}
+				every_in_list = {
+					list = correction_list
+					set_de_jure_liege_title = scope:current_duchy
+				}
+			}
+		}
+		set_realm_capital = title:c_nenalata
+        #increased development of Nenalata - influx of Ayleid settlers
+        title:c_nenalata = { change_development_level = 5}
+		title:c_nenalata = { set_county_culture = root.culture}
+        #first event about the restoration
+        trigger_event = nenalata_restore.0001
+        #makes it only possible to do once
+        add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:flag_restored_nenalata
+        }
+    }  
+}
+
+#Recruit Shadowscale
+recruit_shadowscale_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_recruitment.dds" }
+
+	desc = recruit_shadowscale_decision_desc
+	selection_tooltip = recruit_shadowscale_decision_tooltip
+	decision_group_type = courtier
+	
+	ai_check_interval = 60
+	
+	#Available to Argonian duke tier with Hist or Sithis based faiths
+	is_shown = {
+		is_landed = yes
+		culture = {has_cultural_pillar = heritage_argonian}
+		highest_held_title_tier >= tier_duchy
+		OR = {
+			faith = {has_doctrine = doctrine_pantheon_hist}
+			faith = {has_doctrine = doctrine_pantheon_sithis}
+		}
+	}	
+	cooldown = { months = 60 }
+	is_valid_showing_failures_only = {
+		is_imprisoned = no
+	}
+	is_valid = {
+		piety_level >= 1
+		custom_tooltip = { #flag added by ek_shadowscale_event.0003 and 0004
+			NOT = { has_character_flag = refused_shadowscales_flag }
+			text = recruit_shadowscale_decision_trigger
+		}
+		NOT = {
+			employs_court_position = shadowscale_court_position
+		}	
+    }
+	cost = {
+        gold = 100
+		piety = 300
+	}
+	effect =  {
+		trigger_event = {
+			id = ek_shadowscale_event.0001
+			days = 14
+		}
+		custom_tooltip = {
+			text = recruit_shadowscale_decision_effect
+		}
+	}
+
+	ai_will_do = {
+		base = 80
+	}
+}	
+
+recruit_organization_specialist_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_invite_knights.dds" }
+	sort_order = 75
+	decision_group_type = courtier
+
+	ai_check_interval = 120
+
+	cooldown = { years = 5 }
+	
+	desc = recruit_organization_specialist_decision_desc
+
+	is_shown = {
+		culture = {
+			has_cultural_parameter = can_recruit_organization_specialist
+		}
+	}
+
+	effect = {
+		custom_tooltip = recruit_organization_specialist_decision.tt
+		hidden_effect = {
+			recruit_terrain_specialist_effect = {
+				SPECIALIST_TRAIT = organizer
+				SPECIALIST_TEMPLATE_CHARACTER = organizer_commander_character
+			}
+		}
+	}
+
+	cost = {
+		gold = {
+			value = minor_gold_value
+		}
+		prestige = {
+			value = medium_prestige_value
+		}
+	}
+
+	ai_potential = {
+		culture = {
+			has_cultural_parameter = can_recruit_organization_specialist
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+
+		modifier = {
+			factor = 0
+			any_courtier = {
+				has_trait = organizer
+			}
+		}
+	}
+}
+
+stress_loss_experimentalist_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+	desc = stress_loss_experimentalist_decision_desc
+	selection_tooltip = stress_loss_experimentalist_decision_tooltip
+
+	ai_check_interval = 36
+
+	cooldown = { days = 1095 }
+
+	is_shown = {
+		has_trait = experimentalist
+	}
+
+	effect = {
+		
+		custom_tooltip = stress_loss_drunkard_decision_effect_tooltip
+
+		trigger_event = {
+			on_action = stress_loss_experimentalist
+		}
+	}
+	
+	ai_potential = {
+		has_trait = experimentalist
+	}
+
+	ai_will_do = {
+		base = 0
+
+		modifier = {
+			add = 100
+			stress >= 10
+		}
+	}
+}
+
+# For when a ruler wants to ban slavery within their own realm
+ban_slavery_in_realm_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+	desc = ban_slavery_in_realm_decision_desc
+	selection_tooltip = ban_slavery_in_realm_decision_tooltip
+
+	is_shown = {
+		is_independent_ruler = yes
+		is_landed = yes #No laamps
+		OR = {
+			AND = {
+				culture = { has_cultural_parameter = keeps_slaves } # either your own culture is a slaver culture and you wish to stop that
+				is_ai = no # we don't want AI Chi Adduni to suddenly not want to keep slaves
+			}	
+			AND = { # or you do not have a slaver culture, but you wish to prevent your slaver culture vassals from keeping them within your realm
+				NOT = {	culture = { has_cultural_parameter = keeps_slaves }}
+				any_vassal_or_below = { 
+					culture = {
+						has_cultural_parameter = keeps_slaves
+					}
+				}
+			}
+			is_in_morrowind_council = yes
+		}
+		NOT = {	primary_title = { has_variable = slavery_banned_in_realm_flag }} # don't show this if it has already been banned
+	}
+
+	is_valid = { #repeating the reqs here to make them visible to players, something I am a big fan on
+		is_independent_ruler = yes
+		trigger_if = {
+			limit = {
+				NOT = { any_character_situation = { this = situation:grand_council } }
+			}
+			OR = {
+				custom_tooltip = {
+					text = culture_keeps_slaves_tooltip
+					culture = { has_cultural_parameter = keeps_slaves }
+				}
+				custom_tooltip = {
+					text = vassal_culture_keeps_slaves_tooltip
+					AND = {
+						NOT = {	culture = { has_cultural_parameter = keeps_slaves }}
+						any_vassal_or_below = { 
+							culture = {
+								has_cultural_parameter = keeps_slaves
+							}
+						}
+					}
+				}
+			}
+		}
+		trigger_else = {		
+			can_ban_slavery_gcm = yes
+		}
+	}
+
+	cost = {
+		prestige = { #the difficulty in doing this depends on the size of the realm you're enforcing this ban in
+			if = {
+				limit = {
+					highest_held_title_tier = tier_county
+				}
+				value = 250
+			}
+			else_if = {
+				limit = {
+					highest_held_title_tier = tier_duchy
+				}
+				value = 500
+			}
+			else_if = {
+				limit = {
+					highest_held_title_tier = tier_kingdom
+				}
+				value = 1000
+			}
+			else_if = {
+				limit = {
+					highest_held_title_tier = tier_empire
+				}
+				value = 2000
+			}
+		}	
+	}
+
+	is_valid_showing_failures_only = {
+		is_adult = yes
+	}
+
+	effect = {
+		custom_tooltip = ban_slavery_in_realm_decision_effect
+		trigger_event = ek_slavery_events.0001
+		if = {
+			limit = {
+				is_morrowind_high_councilor = { CHARACTER = this }
+			}
+			set_global_variable = {
+				name = hc_banned_slavery
+				value = yes
+			}
+		}
+	}
+
+	ai_will_do = {
+		base = 0 # AI shouldn't do this a ton
+
+		# Their personality can make this more likely
+		modifier = {
+			add = 20
+			has_trait = compassionate
+		}
+		modifier = {
+			add = 20
+			has_trait = just
+		}
+		modifier = {
+			add = 20
+			has_trait = generous
+		}
+		# Their personality can also make this less likely
+		modifier = {
+			add = -20
+			has_trait = sadistic
+		}
+		modifier = {
+			add = -20
+			has_trait = callous
+		}
+		modifier = {
+			add = -20
+			has_trait = arbitrary
+		}
+		modifier = {
+			add = -20
+			has_trait = greedy
+		}
+		modifier = {
+			add = -20
+			has_trait = stubborn # doesn't like change
+		}
+		# Also, some cultural heritages have historically *been* enslaved, and are sympathetic towards banning it
+		modifier = {
+			add = 30
+			culture = {
+				has_cultural_pillar = heritage_cyrodiilic
+			}
+		}
+		modifier = {
+			add = 30
+			culture = {
+				has_cultural_pillar = heritage_argonian
+			}
+		}
+		modifier = {
+			add = 30
+			culture = {
+				has_cultural_pillar = heritage_khajiiti
+			}
+		}
+		modifier = {
+			add = 30
+			culture = {
+				has_cultural_pillar = heritage_goblinken
+			}
+		}
+		# Also historically, though perhaps anachronistic, these guys have banned slavery Empire wide
+		modifier = {
+			add = 30
+			faith = faith:imperial_cult
+		}
+		#Some people really love slavery
+		modifier = { #Dres/Telvanni really really love slavery
+			add = -1000
+			culture = { has_cultural_tradition = tradition_deshaan_agronomy } #Dres/Marduhn
+			culture = { has_cultural_tradition = tradition_cynical_believers } #Telvanni/Chi-Addun
+		}
+		modifier = { #Dunmer in general like slavery
+			add = -50
+			culture = { has_cultural_pillar = heritage_dunmeri }
+		}
+	}
+
+	ai_check_interval = 120
+}
+
+# for when someone might wanna reverse the above ban
+allow_slavery_in_realm_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+	desc = allow_slavery_in_realm_decision_desc
+	selection_tooltip = allow_slavery_in_realm_decision_tooltip
+
+	is_shown = {
+		is_independent_ruler = yes
+		primary_title = { # someone already banned it in this primary title
+			has_variable = slavery_banned_in_realm_flag
+		}
+	}
+
+	is_valid = { #repeating the reqs here to make them visible to players, something I am a big fan on
+		is_independent_ruler = yes
+		is_landed = yes #No laamps
+		custom_tooltip = {
+			text = allow_slavery_in_realm_decision_trigger
+			primary_title = {
+				has_variable = slavery_banned_in_realm_flag
+			}
+		}
+	}
+
+	cost = {
+		prestige = { # reversing the ban also costs political power
+			if = {
+				limit = {
+					highest_held_title_tier = tier_county
+				}
+				value = 250
+			}
+			else_if = {
+				limit = {
+					highest_held_title_tier = tier_duchy
+				}
+				value = 500
+			}
+			else_if = {
+				limit = {
+					highest_held_title_tier = tier_kingdom
+				}
+				value = 1000
+			}
+			else_if = {
+				limit = {
+					highest_held_title_tier = tier_empire
+				}
+				value = 2000
+			}
+		}	
+	}
+
+	is_valid_showing_failures_only = {
+		is_adult = yes
+	}
+
+	effect = {
+		custom_tooltip = allow_slavery_in_realm_decision_effect
+		primary_title = {
+			remove_variable = slavery_banned_in_realm_flag
+		}
+		if = {
+			limit = {
+				is_morrowind_high_councilor = { CHARACTER = this }
+			}
+			remove_global_variable = hc_banned_slavery
+		}
+	}
+
+	# Mostly same as above but in reverse
+	ai_will_do = {
+		base = 0 # AI shouldn't do this a ton
+
+		# Their personality can make this less likely
+		modifier = {
+			add = -20
+			has_trait = compassionate
+		}
+		modifier = {
+			add = -20
+			has_trait = just
+		}
+		modifier = {
+			add = -20
+			has_trait = generous
+		}
+		modifier = {
+			add = -20
+			has_trait = stubborn # doesn't like change
+		}
+		# Their personality can also make this more likely
+		modifier = {
+			add = 20
+			has_trait = sadistic
+		}
+		modifier = {
+			add = 20
+			has_trait = callous
+		}
+		modifier = {
+			add = 20
+			has_trait = arbitrary
+		}
+		modifier = {
+			add = 20
+			has_trait = greedy
+		}
+		# Also, some cultural heritages have historically *been* enslaved, and won't typically want to lift the ban
+		modifier = {
+			add = -30
+			culture = {
+				has_cultural_pillar = heritage_cyrodiilic
+			}
+		}
+		modifier = {
+			add = -30
+			culture = {
+				has_cultural_pillar = heritage_argonian
+			}
+		}
+		modifier = {
+			add = -30
+			culture = {
+				has_cultural_pillar = heritage_khajiiti
+			}
+		}
+		modifier = {
+			add = -30
+			culture = {
+				has_cultural_pillar = heritage_goblinken
+			}
+		}
+		# Also historically, though perhaps anachronistic, these guys are unlikely to allow slavery again after banning it
+		modifier = {
+			add = -30
+			faith = faith:imperial_cult
+		}
+		# Slaver cultures are very likely to lift the ban if they acquire a title where it is banned
+		modifier = {
+			add = 60
+			culture = {
+				has_cultural_parameter = keeps_slaves
+			}
+		}
+		#Some people really love slavery
+		modifier = { #Dres/Telvanni really really love slavery
+			add = 1000
+			culture = { has_cultural_tradition = tradition_deshaan_agronomy } #Dres/Marduhn
+			culture = { has_cultural_tradition = tradition_cynical_believers } #Telvanni/Chi-Addun
+		}
+		modifier = { #Dunmer in general like slavery
+			add = 50
+			culture = { has_cultural_pillar = heritage_dunmeri }
+		}
+	}
+	
+	ai_check_interval = 120
+}
+
+#Abdicate Decision
+### Basic implementation, meant to be expanded upon later. Only for incapable rulers atm.
+abdicate_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds" }
+	desc = {
+		first_valid = {			
+			triggered_desc = {
+				trigger = { has_trait = incapable }
+				desc = abdicate_decision_desc_incapable
+			}
+			triggered_desc = {
+				trigger = { ek_human_age_equivalent >= 75 }
+				desc = abdicate_decision_desc_old_age
+			}
+			triggered_desc = {
+				trigger = { 
+					has_trait = infirm
+					ek_human_age_equivalent >= 60
+				}
+				desc = abdicate_decision_desc_old_age
+			}
+			triggered_desc = {
+				trigger = { years_as_ruler >= 50 }
+				desc = abdicate_decision_desc_long_rule
+			}
+			triggered_desc = {
+				trigger = { 
+					has_trait = infirm
+					years_as_ruler >= 40
+				}
+				desc = abdicate_decision_desc_old_age
+			}
+		}
+	}
+	selection_tooltip = abdicate_decision_tooltip
+	
+	ai_check_interval = 500
+
+	is_shown = {
+		OR = {
+			has_trait = incapable
+			ek_human_age_equivalent >= 75
+			years_as_ruler >= 50
+			AND = {
+				has_trait = infirm
+				years_as_ruler >= 40
+			}
+			AND = {
+				has_trait = infirm
+				ek_human_age_equivalent >= 50
+			}
+		}
+		NOR = {
+			has_title = title:d_mane
+			faith = { has_doctrine_parameter = weak_rulers_contest_rule }
+			culture = { has_cultural_parameter = weak_rulers_contest_rule }
+		}
+	}
+
+	is_valid = {
+		is_adult = yes
+		OR = {
+			has_trait = incapable
+			custom_tooltip = {
+				text = abdicate_old_age
+				ek_human_age_equivalent >= 75	
+			}
+			custom_tooltip = {
+				text = abdicate_long_rule
+				years_as_ruler >= 50
+			}
+			AND = {
+				has_trait = infirm
+				custom_tooltip = {
+					text = abdicate_old_age_infirm
+					ek_human_age_equivalent >= 60	
+				}
+			}			
+			AND = {
+				has_trait = infirm
+				custom_tooltip = {
+					text = abdicate_long_rule_infirm
+					years_as_ruler >= 40
+				}
+			}				
+		}
+		custom_tooltip = {
+			text = abdicate_scales_of_power
+			OR = {
+				diarchy_swing <= 5
+				player_heir = {
+					is_diarch = yes
+				}
+			}
+		}
+		player_heir = {
+			exists = yes
+			is_adult = yes
+			is_imprisoned = no				
+			NOT = { has_trait = incapable }
+		}				
+	}
+
+	is_valid_showing_failures_only = {
+		not = { exists = involved_activity }
+		is_imprisoned = no
+	}
+
+	effect = {	
+		custom_tooltip = abdicate_decision_effect_tooltip
+		player_heir = { 
+			add_opinion = {
+				modifier = thankful_opinion
+				target = root
+				opinion = 25
+			}
+		}
+		depose = yes
+		hidden_effect = {
+			dynasty = {
+				add_dynasty_prestige = major_dynasty_prestige_loss
+			}
+		}
+	}
+
+	minimum_cost = {
+		renown = {
+			value = major_dynasty_prestige_value
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 0
+		modifier = {
+			add = 50
+			has_trait = incapable
+		}
+		modifier = {
+			add = -10
+			has_trait = arrogant
+		}
+		modifier = {
+			add = -10
+			has_trait = stubborn
+		}
+		modifier = {
+			add = -10
+			has_trait = ambitious
+		}
+		modifier = {
+			add = 10
+			has_trait = lazy
+		}
+		modifier = {
+			add = 10
+			has_trait = content
+		}
+		modifier = {
+			add = 10
+			has_trait = humble
+		}
+		modifier = {
+			add = 20
+			has_trait = eccentric
+		}
+	}
+}

@@ -1,0 +1,59 @@
+﻿### Custom script values for undead decay
+# based on ek_praxis_values lol
+
+# Thresholds for different decay levels.
+ek_max_decay = 1
+ek_min_decay = 0
+ek_fleshy_decay_min = 0.1
+ek_fleshy_decay_max = 0.6
+ek_skeleton_decay_min = 0.6
+ek_almost_fully_skeletal_decay = 0.9
+ek_skeleton_decay_max = 1
+
+# random value thingies - these don't seem to work for some reason, need a different way of getting random values within a range other than using range, as it always results in the value being set to 0.0
+# outcommented for now, to avoid errors in the log
+#ek_random_decay = {
+#	value = 0
+#	add = {
+#		range = { ek_min_decay ek_max_decay }
+#	}
+#}
+#ek_fleshy_decay = {
+#	value = 0
+#	add = {
+#		range = { ek_fleshy_decay_min ek_fleshy_decay_max }
+#	}
+#}
+#ek_skeletal_decay = {
+#	value = 0
+#	add = {
+#		range = { ek_almost_fully_skeletal_decay ek_fleshy_decay_max }
+#	}
+#}
+
+# Calculate the monthly change for an individuals decay level
+# can make this more nuanced by making the values higher or lower based on circumstances, for example climate or stress or skill in restoration
+# High arcana lowers the decay, characters with 30 or more arcana are able to slow it significantly
+# The slowing tops out at 50 arcana, halving the decay rate (50 arcana x 0.0001 = 0.005, which is half of the default value)
+monthly_decay_increase = {
+	value = 0.01
+	add = {
+        value = arcana.negate
+        multiply = 0.0001
+    }
+    min = 0.005
+}
+
+# Decay bursts
+
+small_decay_increase = 0.01
+small_decay_decrease = -0.01
+
+medium_decay_increase = 0.05
+medium_decay_decrease = -0.05
+
+big_decay_increase = 0.1
+big_decay_decrease = -0.1
+
+huge_decay_increase = 0.25
+huge_decay_decrease = -0.25

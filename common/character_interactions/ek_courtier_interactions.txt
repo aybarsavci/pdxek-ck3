@@ -1,0 +1,154 @@
+﻿send_mage_to_wander = {
+	category = interaction_category_friendly
+	common_interaction = yes
+	desc = send_mage_to_wander_interaction_desc
+
+	icon = guest
+	
+	is_shown = {
+		NOT = { scope:recipient = scope:actor }
+
+		scope:actor = { culture = { has_cultural_parameter = send_mage_to_wander }}
+		scope:recipient = { culture = { has_cultural_parameter = send_mage_to_wander }}
+
+		scope:recipient = {
+			is_courtier_of = scope:actor
+			is_adult = yes
+			is_ruler = no
+			OR = {
+				has_trait = arcana_good_1
+				has_trait = arcana_good_2
+				has_trait = arcana_good_3
+			}	
+			NOT = { has_trait = education_magic }
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		custom_tooltip = {
+			text = sent_to_wander_already
+			NOT = { scope:recipient = { has_character_flag = sent_to_wander }}
+		}
+	}
+
+	on_accept = {
+		# The recipient goes wandering for five years
+		scope:recipient = {
+			move_to_pool = yes
+			save_scope_as = wandering_mage
+			add_character_flag = sent_to_wander
+			add_character_modifier = {
+				modifier = on_an_adventure
+				years = 5
+			}	
+		}
+		custom_tooltip = send_mage_to_wander_five_years_tt
+		scope:actor = { trigger_event = { id = ek_court_wanderer.0001 years = 5 }}
+		
+	}
+	auto_accept = yes
+
+	# AI
+	ai_targets = {
+		ai_recipients = courtiers
+	}
+	ai_frequency = 24
+
+	ai_potential = {
+		is_at_war = no # Try to avoid losing valuable courtiers during wars
+	}
+
+	ai_will_do = {
+		base = 60
+
+		#Wants family to gain magic skills
+		modifier = {
+			add = 20
+			scope:recipient = { is_close_or_extended_family_of = scope:actor }
+		}
+
+		#Especially wants children to gain magic skills
+		modifier = {
+			add = 30
+			scope:recipient = { is_child_of = scope:actor }
+		}
+	}
+}
+
+send_knight_to_wander = {
+	category = interaction_category_friendly
+	common_interaction = yes
+	desc = send_knight_to_wander_interaction_desc
+	
+	icon = guest
+
+	is_shown = {
+		NOT = { scope:recipient = scope:actor }
+
+		scope:actor = { culture = { has_innovation = innovation_knightly_orders }}
+		scope:recipient = { culture = { has_innovation = innovation_knightly_orders }}
+
+		scope:recipient = {
+			is_courtier_of = scope:actor
+			is_adult = yes
+			is_ruler = no
+			age <= 25
+			OR = {
+				has_trait = education_martial_prowess_1
+				has_trait = education_martial_prowess_2
+				has_trait = education_martial_prowess_3
+				has_trait = education_martial_prowess_4
+			}	
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		custom_tooltip = {
+			text = sent_to_wander_already
+			NOT = {scope:recipient = { has_character_flag = sent_to_wander }}
+		}
+	}
+
+	on_accept = {
+		# The recipient goes wandering for five years
+		scope:recipient = {
+			move_to_pool = yes
+			save_scope_as = wandering_knight
+			add_character_flag = sent_to_wander
+			add_character_modifier = {
+				modifier = on_an_adventure
+				years = 5
+			}
+		}
+		custom_tooltip = send_knight_to_wander_five_years_tt
+		scope:actor = { trigger_event = { id = ek_court_wanderer.0002 years = 5 }}
+		
+	}
+	auto_accept = yes
+
+	# AI
+	ai_targets = {
+		ai_recipients = courtiers
+	}
+	ai_frequency = 24
+
+	ai_potential = {
+		is_at_war = no # Try to avoid losing knights during wars
+	}
+
+	ai_will_do = {
+		base = 60
+
+		#Wants family to gain fame
+		modifier = {
+			add = 20
+			scope:recipient = { is_close_or_extended_family_of = scope:actor }
+		}
+
+		#Especially wants children to gain fame
+		modifier = {
+			add = 30
+			scope:recipient = { is_child_of = scope:actor }
+		}
+	}
+}

@@ -1,0 +1,197 @@
+﻿story_cycle_pet_scrib = {
+
+	on_setup = {
+		# Has the gender already been specified?
+		if = { 
+			limit = {
+				story_owner = { exists = var:scrib_gender }
+			}
+			if = {
+				limit = {
+					story_owner = { var:scrib_gender = flag:male }
+				}
+				assign_scrib_gender_effect = { GENDER = male }
+			}
+			else_if = {
+				limit = {
+					story_owner = { var:scrib_gender = flag:female }
+				}
+				assign_scrib_gender_effect = { GENDER = female }
+			}
+		}
+		else = {
+			assign_scrib_gender_effect = { GENDER = random }
+		}
+		# Has the color already been specified?
+		if = { 
+			limit = {
+				story_owner = { exists = var:scrib_color }
+			}
+			if = {
+				limit = {
+					story_owner = { var:scrib_color = flag:black }
+				}
+				assign_scrib_color_effect = { COLOR = black }
+			}
+			else_if = {
+				limit = {
+					story_owner = { var:scrib_color = flag:blue }
+				}
+				assign_scrib_color_effect = { COLOR = blue }
+			}
+			else_if = {
+				limit = {
+					story_owner = { var:scrib_color = flag:caramel }
+				}
+				assign_scrib_color_effect = { COLOR = caramel }
+			}
+			else_if = {
+				limit = {
+					story_owner = { var:scrib_color = flag:orange }
+				}
+				assign_scrib_color_effect = { COLOR = orange }
+			}
+			else_if = {
+				limit = {
+					story_owner = { var:scrib_color = flag:yellow }
+				}
+				assign_scrib_color_effect = { COLOR = yellow }
+			}
+		}
+		else = {
+			assign_scrib_color_effect = { COLOR = random }
+		}
+		
+		### Setup the rest
+		set_variable = {
+			name = scrib_age_variable
+			value = 0
+		}
+
+		story_owner = {
+			add_character_modifier = {
+				modifier = scrib_story_modifier
+			}
+			add_character_flag = had_scrib_story
+		}
+
+	}
+
+	on_end = {
+		story_owner = {
+			remove_scrib_story_modifiers_effect = yes
+			remove_scrib_name_effect = yes
+		}
+	}
+
+	on_owner_death = {
+		scope:story = { end_story = yes }
+	}
+
+	# Give the scrib a name!
+	effect_group = {
+		days = { 2 4 }
+		chance = 100
+	
+		triggered_effect = {
+			trigger = {
+				story_owner = {
+					NOT = { has_character_flag = is_naming_scrib }
+				}
+				NOT = { exists = story_owner.var:story_cycle_scrib_name }
+			}
+			effect = {
+				story_owner = {
+					add_character_flag = is_naming_scrib
+					trigger_event = ek_pet_animal.2001
+				}
+			}
+		}
+	}
+
+	#To save the name in the story's scope (can for some reason not be done in the naming event itself)
+	effect_group = {
+		days = 5
+		chance = 100
+	
+		triggered_effect = {
+			trigger = {
+				exists = story_owner.var:story_cycle_scrib_name
+			}
+			effect = {
+				set_variable = {
+					name = story_cycle_scrib_name
+					value = scope:story.story_owner.var:story_cycle_scrib_name
+				}
+			}
+		}
+	}
+
+	#Age the scrib
+	effect_group = {
+		days = 365
+
+		trigger = {
+			exists = var:scrib_age_variable
+		}
+
+		triggered_effect = {
+			trigger = { always = yes }
+			effect = {
+				change_variable = {
+					name = scrib_age_variable
+					add = 1
+				}
+			}
+		}
+	}
+
+	# The scrib dies :(
+	effect_group = {
+		days = { 7000 10000 }
+		chance = 100
+	
+		triggered_effect = {
+			trigger = {
+				exists = story_owner.var:story_cycle_scrib_name
+			}
+			effect = {
+				story_owner = {
+					add_character_flag = {
+						flag = scrib_is_dying
+					}
+					trigger_event = ek_pet_animal.2199
+				}
+			}
+		}
+	}
+
+	# Something happens - random events
+	effect_group = {
+		days = { 365 600 }
+		# days = { 7 10 }
+		chance = 50
+
+		trigger = {
+			exists = story_owner.var:story_cycle_scrib_name
+			story_owner = {
+				NOT = {
+					has_character_flag = scrib_is_dying
+				}
+			}
+		}
+
+		first_valid = {
+			triggered_effect = {
+				trigger = { always = yes }
+				effect = {
+					story_owner = {
+						trigger_event = {
+							on_action = ongoing_scrib_events
+						}
+					}
+				}
+			}
+		}
+	}
+}

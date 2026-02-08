@@ -1,0 +1,9069 @@
+﻿namespace = ek_lifestyles
+
+#############################
+# Commune with a Loved One	#
+# by LeSingeAffame			#
+# 0001 - 0002				#
+#############################
+ek_lifestyles.0001 = {
+	hidden = yes
+
+	# When someone dies, their soul mates and best friends are noticed
+	trigger = {
+		OR = {
+			any_relation = {
+				type = soulmate
+			}
+			any_relation = {
+				type = best_friend
+			}
+		}
+	}
+
+	immediate = {
+		every_relation = {
+			type = soulmate
+			set_variable = {
+				name = soulmate_to_commune
+				value = root
+				years = 50
+			}
+		}
+		every_relation = {
+			type = best_friend
+			set_variable = {
+				name = best_friend_to_commune
+				value = root
+				years = 50
+			}
+		}
+	}
+}
+ek_lifestyles.0002 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0002.t
+	desc = ek_lifestyles.0002.d
+	theme = faith
+
+	left_portrait = {
+		character = var:best_friend_to_commune
+	}
+
+	option = {
+		name = ek_lifestyles.0002.a
+		add_stress = medium_stress_loss
+	}
+
+	after = {
+		remove_variable = best_friend_to_commune
+	}
+}
+ek_lifestyles.0003 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0003.t
+	desc = ek_lifestyles.0003.d
+	theme = faith
+
+	left_portrait = {
+		character = var:soulmate_to_commune
+	}
+
+	option = {
+		name = ek_lifestyles.0003.a
+		add_stress = major_stress_gain
+	}
+
+	after = {
+
+		remove_variable = soulmate_to_commune
+	}
+}
+
+ek_lifestyles.0004 = {
+	hidden = yes
+
+	# When someone dies, their soul mates and best friends are noticed
+	trigger = {
+		OR = {
+			any_relation = {
+				type = lover
+			}
+			any_relation = {
+				type = friend
+			}
+		}
+	}
+
+	immediate = {
+		save_scope_as = char_1
+
+		every_relation = {
+			type = lover
+			remove_relation_lover = scope:char_1
+			set_relation_soulmate = scope:char_1
+		}
+
+		every_relation = {
+			type = friend
+			remove_relation_friend = scope:char_1
+			set_relation_best_friend = scope:char_1
+		}
+	}
+}
+
+# Novice Conjuration Event - The Daedric Alphabet
+ek_lifestyles.0005 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0005.t
+	desc = {
+		desc = ek_lifestyles.0005.intro.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						knows_language = language_dunmeris
+						knows_language = language_velothis
+						knows_language = language_daedric
+					}
+				}
+				desc = ek_lifestyles.0005.knows_language.desc
+			}
+			desc = ek_lifestyles.0005.desc
+		}
+	}
+
+	theme = learning_scholarship_focus
+	left_portrait = {
+		character = root
+		triggered_animation = {
+			trigger = {
+				NOT = {
+					knows_language = language_dunmeris
+					knows_language = language_daedric
+					knows_language = language_velothis
+				}
+			}
+			animation = idle
+		}
+		animation = worry
+	}
+	right_portrait = {
+		trigger = { exists = scope:helper }
+		character = scope:helper
+	}
+	lower_left_portrait = {
+		trigger = { exists = scope:penpal }
+		character = scope:penpal
+	}
+
+	trigger = {
+		NOT = {
+			has_character_flag = had_event_ek_lifestyles_0005
+		}
+		is_landed = yes
+		is_ai = no
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_event_ek_lifestyles_0005
+		}
+		if = {
+			limit = {
+				NOT = {
+					knows_language = language_dunmeris
+					knows_language = language_daedric
+					knows_language = language_velothis
+				}
+			}
+			#Find a helper (potential friend)
+			if = {
+				limit = {
+					any_courtier_or_guest = {
+						OR = {
+							knows_language = language_dunmeris
+							knows_language = language_daedric
+							knows_language = language_velothis
+						}
+					}
+				}
+				random_courtier_or_guest = {
+					limit = {
+						OR = {
+							knows_language = language_dunmeris
+							knows_language = language_daedric
+							knows_language = language_velothis
+						}
+					}
+					save_scope_as = helper
+				}
+			}
+			else = {
+				random_living_character = {
+					limit = {
+						OR = {
+							knows_language = language_dunmeris
+							knows_language = language_daedric
+							knows_language = language_velothis
+						}
+					}
+					save_scope_as = penpal
+				}
+			}
+		}
+	}
+
+	#seek help from guest/penpal
+	option = {
+		trigger = {
+			NOT = {
+				knows_language = language_dunmeris
+				knows_language = language_daedric
+				knows_language = language_velothis
+			}
+		}
+		custom_tooltip = ek_lifestyles.0005.a.tooltip
+		name = {
+			text = ek_lifestyles.0005.a.penpal
+			trigger = {
+				exists = scope:penpal
+			}
+		}
+		name = {
+			text = ek_lifestyles.0005.a.helper
+			trigger = {
+				exists = scope:helper
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:helper
+			}
+			trigger_event = ek_lifestyles.0006
+		}
+
+		if = {
+			limit = {
+				exists = scope:penpal
+			}
+			trigger_event = ek_lifestyles.0007
+		}
+
+		stress_impact = {
+			arrogant = medium_stress_impact_gain
+			paranoid = medium_stress_impact_gain
+		}
+	}
+
+	#gitgud lol
+	option = {
+		trigger = {
+			NOT = {
+				knows_language = language_dunmeris
+				knows_language = language_daedric
+				knows_language = language_velothis
+			}
+		}
+		name = ek_lifestyles.0005.b
+
+		add_magic_lifestyle_xp = minor_lifestyle_xp
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+			lazy = medium_stress_impact_gain
+		}
+	}
+
+	#well f this
+	option = {
+		trigger = {
+			NOT = {
+				knows_language = language_dunmeris
+				knows_language = language_daedric
+				knows_language = language_velothis
+			}
+		}
+		name = ek_lifestyles.0005.c
+		
+		add_character_modifier = {
+			modifier = neglected_studies
+			years = 2
+		}
+
+		if = {
+			limit = {
+				faith = {
+					NOT = { has_doctrine = doctrine_liturgical_language_daedric }
+				}
+			}
+			add_piety = minor_piety_gain
+		}
+	}
+
+	# lol i learned how to write with those
+	option = {
+		trigger = {
+			OR = {
+				knows_language = language_dunmeris
+				knows_language = language_daedric
+				knows_language = language_velothis
+			}
+		}
+		name = ek_lifestyles.0005.d
+		custom_tooltip = ek_lifestyles.0005.d.tooltip
+		add_magic_lifestyle_xp = medium_lifestyle_xp
+	}
+}
+
+# Daedric Alphabet helper
+ek_lifestyles.0006 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0005.t
+	desc = ek_lifestyles.0006.desc
+
+	theme = learning_scholarship_focus
+	left_portrait = root
+	right_portrait = scope:helper
+
+	option = {
+		name = ek_lifestyles.0006.a
+
+		duel = {
+			skill = diplomacy
+			target = scope:helper
+			2 = {
+				desc = ek_lifestyles.0006.a.success
+				compare_modifier = {
+					value = scope:helper.diplomacy
+					multiplier = 5
+				} 
+				root = {
+					send_interface_toast = {
+						title = ek_lifestyles.0006.a.success
+						left_icon = scope:helper
+						pay_short_term_gold = {
+							target = scope:helper
+							gold = medium_gold_value
+						}
+						add_magic_lifestyle_xp = medium_lifestyle_xp
+					}
+				}
+			}
+			2 = {
+				desc = ek_lifestyles.0006.a.failure
+				compare_modifier = {
+					value = scope:helper.diplomacy
+					multiplier = -5
+				}
+				send_interface_toast = {
+					title = ek_lifestyles.0006.a.failure
+					left_icon = scope:helper
+					scope:helper = {
+						add_hook = {
+							target = root
+							type = favor_hook
+						}
+					}
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0006.b
+		custom_tooltip = ek_lifestyles.0006.b.tooltip
+		scope:helper = {
+			add_hook = {
+				target = root
+				type = favor_hook
+			}
+		}
+		add_magic_lifestyle_xp = medium_lifestyle_xp
+	}
+
+	option = {
+		name = ek_lifestyles.0006.c
+		custom_tooltip = ek_lifestyles.0006.c.tooltip
+		add_magic_lifestyle_xp = minor_lifestyle_xp
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+	}
+}
+
+# Daedric Alphabet penpal
+ek_lifestyles.0007 = {
+	type = letter_event
+	opening = { 
+		first_valid = {
+			triggered_desc = {
+			    trigger = {
+					scope:penpal = {
+						opinion = {
+							target = root
+							value > 0
+						}
+					}
+			    }
+			    desc = ek_lifestyles.0007.opening.friendly
+			}
+			desc = ek_lifestyles.0007.opening.unfriendly
+		} 
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:penpal = {
+						opinion = {
+							target = root
+							value > 0
+						}
+					}
+			    }
+				desc = ek_lifestyles.0007.desc.friendly
+			}
+			desc = ek_lifestyles.0007.desc.unfriendly
+		}
+	}
+	sender = scope:penpal
+	
+	option = {
+		name = ek_lifestyles.0007.a
+		pay_short_term_gold = {
+			target = scope:penpal
+			gold = medium_gold_value
+		}
+		duel = {
+			skill = learning
+			value = 10
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+				}
+				desc = ek_lifestyles.0007.a.success
+				root = {
+					send_interface_toast = {
+						title = ek_lifestyles.0007.a.success
+						left_icon = scope:penpal
+						if = {
+							limit = {
+								NOT = { has_relation_friend = scope:penpal }
+								can_set_relation_friend_trigger = { CHARACTER = scope:penpal }
+							}
+							progress_towards_friend_effect = { REASON = friend_arcane_studies CHARACTER = scope:penpal OPINION = default_friend_opinion }
+						}
+						add_magic_lifestyle_xp = medium_lifestyle_xp
+					}
+				}
+			}
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = ek_lifestyles.0007.a.failure
+				root = {
+					send_interface_toast = {
+						title = ek_lifestyles.0007.a.failure
+						left_icon = scope:penpal
+						if = {
+							limit = {
+								NOT = { has_relation_rival = scope:penpal }
+								can_set_relation_rival_trigger = { CHARACTER = scope:penpal }
+							}
+							progress_towards_rival_effect = {
+								CHARACTER = scope:penpal
+								REASON = rival_arcane_studies
+								OPINION = default_rival_opinion
+							}
+						}
+						add_magic_lifestyle_xp = minor_lifestyle_xp
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = ek_lifestyles.0006.c
+		custom_tooltip = ek_lifestyles.0006.c.tooltip
+		add_magic_lifestyle_xp = minor_lifestyle_xp
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+	}
+}
+
+# Mapping the Planes
+ek_lifestyles.0008 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0008.t
+	desc = {
+		desc = ek_lifestyles.0008.intro.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					culture = {
+						has_cultural_pillar = heritage_dremora
+					}
+				}
+				desc = ek_lifestyles.0008.dremora.desc
+			}
+			desc = ek_lifestyles.0008.desc
+		}
+	}
+
+	theme = learning_scholarship_focus
+	left_portrait = root
+
+	trigger = {
+		NOT = { has_character_flag = had_ek_lifestyles_0008_this_lifetime }
+		has_perk = conjuration_journeyman_perk
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = is_in_magic_special_event
+			days = 200
+		}
+		add_character_flag = had_ek_lifestyles_0008_this_lifetime
+		random_list = {
+			10 = {
+				save_scope_value_as = {
+					name = portal_option1
+					value = flag:azura
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option1
+					value = flag:boethiah
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option1
+					value = flag:clavicus
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option1
+					value = flag:hermaeus
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option1
+					value = flag:hircine
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option1
+					value = flag:malacath
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option1
+					value = flag:mehrunes
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option1
+					value = flag:mephala
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option1
+					value = flag:meridia
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option1
+					value = flag:molag
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option1
+					value = flag:namira
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option1
+					value = flag:nocturnal
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option1
+					value = flag:peryite
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option1
+					value = flag:sanguine
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option1
+					value = flag:sheogorath
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option1
+					value = flag:vaermina
+				}
+			}
+		}
+		random_list = {
+			10 = {
+				save_scope_value_as = {
+					name = portal_option2
+					value = flag:azura
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option2
+					value = flag:boethiah
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option2
+					value = flag:clavicus
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option2
+					value = flag:hermaeus
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option2
+					value = flag:hircine
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option2
+					value = flag:malacath
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option2
+					value = flag:mehrunes
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option2
+					value = flag:mephala
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option2
+					value = flag:meridia
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option2
+					value = flag:molag
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option2
+					value = flag:namira
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option2
+					value = flag:nocturnal
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option2
+					value = flag:peryite
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option2
+					value = flag:sanguine
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option2
+					value = flag:sheogorath
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = portal_option2
+					value = flag:vaermina
+				}
+			}
+		}
+	}
+
+	option = { #demiplane
+		name = ek_lifestyles.0008.a
+		trigger = {
+			NOT = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+			}
+		}
+		add_magic_lifestyle_xp = minor_lifestyle_xp
+	}
+
+	option = { #moonshadow
+		name = ek_lifestyles.0008.azura
+		trigger = {
+			NOT = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+			}
+			OR = {
+				secret_faith ?= { has_doctrine = doctrine_pantheon_azura }
+				has_trait = p_ob_azura
+				scope:portal_option1 = flag:azura
+				scope:portal_option2 = flag:azura
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					add_character_modifier = {
+						modifier = conjuration_focus
+						years = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_fail
+					left_icon = root
+					add_prestige = miniscule_prestige_loss
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+					add_character_modifier = {
+						modifier = azuras_attention
+						years = 2
+					}
+				}
+			}
+		}
+	}
+
+	option = { #attribution's share
+		name = ek_lifestyles.0008.boethiah
+		trigger = {
+			NOT = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+			}
+			OR = {
+				secret_faith ?= { has_doctrine = doctrine_pantheon_boethiah }
+				has_trait = p_ob_boethiah
+				scope:portal_option1 = flag:boethiah
+				scope:portal_option2 = flag:boethiah
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					add_character_modifier = {
+						modifier = conjuration_focus
+						years = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_fail
+					left_icon = root
+					add_prestige = miniscule_prestige_loss
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+					add_character_modifier = {
+						modifier = boethiahs_attention
+						years = 2
+					}
+				}
+			}
+		}
+	}
+
+	option = { #fields of regret
+		name = ek_lifestyles.0008.clavicus
+		trigger = {
+			NOT = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+			}
+			OR = {
+				secret_faith ?= { has_doctrine = doctrine_pantheon_clavicus }
+				has_trait = p_ob_clavicus
+				scope:portal_option1 = flag:clavicus
+				scope:portal_option2 = flag:clavicus
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					add_character_modifier = {
+						modifier = conjuration_focus
+						years = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_fail
+					left_icon = root
+					add_prestige = miniscule_prestige_loss
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+					add_character_modifier = {
+						modifier = clavicus_attention
+						years = 2
+					}
+				}
+			}
+		}
+	}
+
+	option = { #apocrypha
+		name = ek_lifestyles.0008.hermaeus
+		trigger = {
+			NOT = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+			}
+			OR = {
+				secret_faith ?= { has_doctrine = doctrine_pantheon_hermaeus }
+				has_trait = p_ob_hermaeus
+				scope:portal_option1 = flag:hermaeus
+				scope:portal_option2 = flag:hermaeus
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					add_character_modifier = {
+						modifier = conjuration_focus
+						years = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_fail
+					left_icon = root
+					add_prestige = miniscule_prestige_loss
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+					add_character_modifier = {
+						modifier = hermaeus_attention
+						years = 2
+					}
+				}
+			}
+		}
+	}
+
+	option = { #hunting grounds
+		name = ek_lifestyles.0008.hircine
+		trigger = {
+			NOT = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+			}
+			OR = {
+				secret_faith ?= { has_doctrine = doctrine_pantheon_hircine }
+				has_trait = p_ob_hircine
+				scope:portal_option1 = flag:hircine
+				scope:portal_option2 = flag:hircine
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					add_character_modifier = {
+						modifier = conjuration_focus
+						years = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_fail
+					left_icon = root
+					add_prestige = miniscule_prestige_loss
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+					add_character_modifier = {
+						modifier = hircines_attention
+						years = 2
+					}
+				}
+			}
+		}
+	}
+
+	option = { #The Ashpit
+		name = ek_lifestyles.0008.malacath
+		trigger = {
+			NOT = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+			}
+			OR = {
+				secret_faith ?= { has_doctrine = doctrine_pantheon_malacath }
+				has_trait = p_ob_malacath
+				scope:portal_option1 = flag:malacath
+				scope:portal_option2 = flag:malacath
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					add_character_modifier = {
+						modifier = conjuration_focus
+						years = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_fail
+					left_icon = root
+					add_prestige = miniscule_prestige_loss
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+					add_character_modifier = {
+						modifier = malacaths_attention
+						years = 2
+					}
+				}
+			}
+		}
+	}
+
+	option = { #The Deadlands
+		name = ek_lifestyles.0008.mehrunes
+		trigger = {
+			NOT = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+			}
+			OR = {
+				secret_faith ?= { has_doctrine = doctrine_pantheon_mehrunes }
+				has_trait = p_ob_mehrunes
+				scope:portal_option1 = flag:mehrunes
+				scope:portal_option2 = flag:mehrunes
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					add_character_modifier = {
+						modifier = conjuration_focus
+						years = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_fail
+					left_icon = root
+					add_prestige = miniscule_prestige_loss
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+					add_character_modifier = {
+						modifier = mehrunes_attention
+						years = 2
+					}
+				}
+			}
+		}
+	}
+
+	option = { #The Spiral Skein
+		name = ek_lifestyles.0008.mephala
+		trigger = {
+			NOT = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+			}
+			OR = {
+				secret_faith ?= { has_doctrine = doctrine_pantheon_mephala }
+				has_trait = p_ob_mephala
+				scope:portal_option1 = flag:mephala
+				scope:portal_option2 = flag:mephala
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					add_character_modifier = {
+						modifier = conjuration_focus
+						years = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_fail
+					left_icon = root
+					add_prestige = miniscule_prestige_loss
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+					add_character_modifier = {
+						modifier = mephalas_attention
+						years = 2
+					}
+				}
+			}
+		}
+	}
+
+	option = { #The Colored Rooms
+		name = ek_lifestyles.0008.meridia
+		trigger = {
+			NOT = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+			}
+			OR = {
+				secret_faith ?= { has_doctrine = doctrine_pantheon_meridia }
+				has_trait = p_ob_meridia
+				scope:portal_option1 = flag:meridia
+				scope:portal_option2 = flag:meridia
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					add_character_modifier = {
+						modifier = conjuration_focus
+						years = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_fail
+					left_icon = root
+					add_prestige = miniscule_prestige_loss
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+					add_character_modifier = {
+						modifier = meridias_attention
+						years = 2
+					}
+				}
+			}
+		}
+	}
+
+	option = { #Colharbour
+		name = ek_lifestyles.0008.molag
+		trigger = {
+			NOT = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+			}
+			OR = {
+				secret_faith ?= { has_doctrine = doctrine_pantheon_molag }
+				has_trait = p_ob_molag
+				scope:portal_option1 = flag:molag
+				scope:portal_option2 = flag:molag
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					add_character_modifier = {
+						modifier = conjuration_focus
+						years = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_fail
+					left_icon = root
+					add_prestige = miniscule_prestige_loss
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+					add_character_modifier = {
+						modifier = molags_attention
+						years = 2
+					}
+				}
+			}
+		}
+	}
+
+	option = { #The Scuttling Void
+		name = ek_lifestyles.0008.namira
+		trigger = {
+			NOT = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+			}
+			OR = {
+				secret_faith ?= { has_doctrine = doctrine_pantheon_namira }
+				has_trait = p_ob_namira
+				scope:portal_option1 = flag:namira
+				scope:portal_option2 = flag:namira
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					add_character_modifier = {
+						modifier = conjuration_focus
+						years = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_fail
+					left_icon = root
+					add_prestige = miniscule_prestige_loss
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+					add_character_modifier = {
+						modifier = namiras_attention
+						years = 2
+					}
+				}
+			}
+		}
+	}
+
+	option = { #Evergloam
+		name = ek_lifestyles.0008.nocturnal
+		trigger = {
+			NOT = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+			}
+			OR = {
+				secret_faith ?= { has_doctrine = doctrine_pantheon_nocturnal }
+				has_trait = p_ob_nocturnal
+				scope:portal_option1 = flag:nocturnal
+				scope:portal_option2 = flag:nocturnal
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					add_character_modifier = {
+						modifier = conjuration_focus
+						years = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_fail
+					left_icon = root
+					add_prestige = miniscule_prestige_loss
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+					add_character_modifier = {
+						modifier = nocturnals_attention
+						years = 2
+					}
+				}
+			}
+		}
+	}
+
+	option = { #Pits
+		name = ek_lifestyles.0008.peryite
+		trigger = {
+			NOT = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+			}
+			OR = {
+				secret_faith ?= { has_doctrine = doctrine_pantheon_peryite }
+				has_trait = p_ob_peryite
+				scope:portal_option1 = flag:peryite
+				scope:portal_option2 = flag:peryite
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					add_character_modifier = {
+						modifier = conjuration_focus
+						years = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_fail
+					left_icon = root
+					add_prestige = miniscule_prestige_loss
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+					add_character_modifier = {
+						modifier = peryites_attention
+						years = 2
+					}
+				}
+			}
+		}
+	}
+
+	option = { #Myriad Realms of Revelry
+		name = ek_lifestyles.0008.sanguine
+		trigger = {
+			NOT = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+			}
+			OR = {
+				secret_faith ?= { has_doctrine = doctrine_pantheon_sanguine}
+				has_trait = p_ob_sanguine
+				scope:portal_option1 = flag:sanguine
+				scope:portal_option2 = flag:sanguine
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					add_character_modifier = {
+						modifier = conjuration_focus
+						years = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_fail
+					left_icon = root
+					add_prestige = miniscule_prestige_loss
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+					add_character_modifier = {
+						modifier = sanguines_attention
+						years = 2
+					}
+				}
+			}
+		}
+	}
+
+	option = { #Shivering Isles
+		name = ek_lifestyles.0008.sheogorath
+		trigger = {
+			NOT = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+			}
+			OR = {
+				secret_faith ?= { has_doctrine = doctrine_pantheon_sheogorath }
+				has_trait = p_ob_sheogorath
+				scope:portal_option1 = flag:sheogorath
+				scope:portal_option2 = flag:sheogorath
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					add_character_modifier = {
+						modifier = conjuration_focus
+						years = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_fail
+					left_icon = root
+					add_prestige = miniscule_prestige_loss
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+					add_character_modifier = {
+						modifier = sheogoraths_attention
+						years = 2
+					}
+				}
+			}
+		}
+	}
+
+	option = { #Quagmire
+		name = ek_lifestyles.0008.vaermina
+		trigger = {
+			NOT = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+			}
+			OR = {
+				secret_faith ?= { has_doctrine = doctrine_pantheon_vaermina }
+				has_trait = p_ob_vaermina
+				scope:portal_option1 = flag:vaermina
+				scope:portal_option2 = flag:vaermina
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					add_character_modifier = {
+						modifier = conjuration_focus
+						years = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0008.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0008.tt_fail
+					left_icon = root
+					add_prestige = miniscule_prestige_loss
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+					add_character_modifier = {
+						modifier = vaerminas_attention
+						years = 2
+					}
+				}
+			}
+		}
+	}
+
+	option = { #Dremora Heritage
+		name = ek_lifestyles.0008.dremora_heritage
+		trigger = {
+			culture = {
+				has_cultural_pillar = heritage_dremora
+			}
+		}
+		add_magic_lifestyle_xp = medium_lifestyle_xp
+		add_prestige = minor_prestige_gain
+	}
+}
+
+# Communion with a Demiprince
+ek_lifestyles.0009 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0009.t
+	desc = ek_lifestyles.0009.desc
+
+	theme = learning_scholarship_focus
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		NOT = { has_character_flag = had_ek_lifestyles_0009_this_lifetime }
+		has_perk = conjuration_master_perk
+	}
+
+	immediate = {
+		add_character_flag = had_ek_lifestyles_0009_this_lifetime
+	}
+
+	option = { #begin
+		name = ek_lifestyles.0009.a
+		add_magicka = { VALUE = root.var:magicka.negate }
+		remove_short_term_gold = medium_gold_value
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0009.a.tt_success
+				trigger_event = {
+					id = ek_lifestyles.0010
+					days = { 3 7 }
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0009.a.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0009.a.tt_fail
+					left_icon = root
+				}
+			}
+		}
+	}
+
+	option = { #just write it
+		name = ek_lifestyles.0009.b
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0009.b.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0009.b.tt_success
+					left_icon = root
+					add_prestige = minor_prestige_gain
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+					add_character_modifier = {
+						modifier = conjuration_focus
+						years = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0009.b.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0009.b.tt_fail
+					left_icon = root
+					stress_impact = {
+						ambitious = major_stress_gain
+					}
+				}
+			}
+		}
+	}
+}
+
+# Wandering through the planes
+ek_lifestyles.0010 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0009.t
+	desc = ek_lifestyles.0010.desc
+	theme = learning_scholarship_focus
+	right_portrait = {
+		character = root
+	}
+
+	option = {
+		name = ek_lifestyles.0010.a
+		custom_tooltip = ek_lifestyles.0010.a.tooltip
+		duel = {
+			skill = diplomacy
+			value = average_skill_rating
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+				}
+				desc = ek_lifestyles.0010.a.success
+				send_interface_toast = {
+					title = ek_lifestyles.0010.a.success
+					left_icon = root
+					save_scope_value_as = {
+						name = markynaz_outcome
+						value = flag:success
+					}
+					trigger_event = ek_lifestyles.0011
+				}
+			}
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = ek_lifestyles.0010.a.failure
+				send_interface_toast = {
+					title = ek_lifestyles.0010.a.failure
+					left_icon = root
+					save_scope_value_as = {
+						name = markynaz_outcome
+						value = flag:failure
+					}
+					trigger_event = ek_lifestyles.0011
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0010.b
+		custom_tooltip = ek_lifestyles.0010.b.tooltip
+		duel = {
+			skill = diplomacy
+			value = average_skill_rating
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+				}
+				desc = ek_lifestyles.0010.b.success
+				send_interface_toast = {
+					title = ek_lifestyles.0010.b.success
+					left_icon = root
+					save_scope_value_as = {
+						name = vault_outcome
+						value = flag:success
+					}
+					trigger_event = ek_lifestyles.0012
+				}
+			}
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = ek_lifestyles.0010.a.failure
+				send_interface_toast = {
+					title = ek_lifestyles.0010.a.failure
+					left_icon = root
+					save_scope_value_as = {
+						name = vault_outcome
+						value = flag:failure
+					}
+					trigger_event = ek_lifestyles.0012
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0010.c
+		custom_tooltip = ek_lifestyles.0010.c.tooltip
+		duel = {
+			skill = learning
+			value = average_skill_rating
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+				}
+				desc = ek_lifestyles.0010.c.success
+				send_interface_toast = {
+					title = ek_lifestyles.0010.c.success
+					left_icon = root
+					add_arcana_skill = { VALUE = 10 }
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					add_character_modifier = {
+						modifier = daedric_secret
+					}
+				}
+			}
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = ek_lifestyles.0010.a.failure
+				send_interface_toast = {
+					title = ek_lifestyles.0010.a.failure
+					left_icon = root
+					stress_impact = {
+						base = major_stress_gain
+					}
+					trigger_event = {
+						id = ek_stress_threshold.0201
+					}
+				}
+			}
+		}
+	}
+}
+
+# Wandering through the planes - markynaz encounter
+ek_lifestyles.0011 = {
+	type = character_event
+	content_source = dlc_ek
+	window = duel_event
+	title = ek_lifestyles.0009.t
+	theme = martial_chivalry_focus
+	override_background = {
+		reference = wilderness_scope
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:markynaz_outcome = flag:success }
+				desc = ek_lifestyles.0011.success.desc
+			}
+			triggered_desc = {
+				trigger = { scope:markynaz_outcome = flag:failure }
+				desc = ek_lifestyles.0011.failure.desc
+			}
+		}
+	}
+	left_portrait = {
+		character = root
+		triggered_animation = {
+			trigger = { scope:markynaz_outcome = flag:success }
+			animation = idle
+		}
+		scripted_animation = duel_wield_weapon
+	}
+	right_portrait = {
+		character = scope:dremora_markynaz
+		triggered_animation = {
+			trigger = { scope:markynaz_outcome = flag:success }
+			animation = idle
+		}
+		scripted_animation = duel_wield_weapon
+	}
+
+	immediate = {
+		create_character = {
+			template = dremora_markynaz_template
+			location = root.capital_province
+			gender = male
+			save_scope_as = dremora_markynaz
+		}
+		
+	}
+
+	option = {
+		name = ek_lifestyles.0011.a
+		trigger = { scope:markynaz_outcome = flag:success }
+		scope:dremora_markynaz = {
+			add_character_flag = summoned_daedra
+			add_opinion = {
+				target = prev
+				modifier = thrall_opinion
+			}
+		}
+		add_hook = {
+			type = loyalty_hook
+			target = scope:dremora_markynaz
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0011.b
+		trigger = { scope:markynaz_outcome = flag:failure }
+		configure_start_single_combat_effect = {
+			SC_INITIATOR = root
+			SC_ATTACKER = scope:dremora_markynaz
+			SC_DEFENDER = root
+			FATALITY = no
+			FIXED = no
+			LOCALE = terrain_scope
+			OUTPUT_EVENT = ek_lifestyles.0013
+			INVALIDATION_EVENT = single_combat.1006
+		}
+	}
+}
+
+# Wandering through the planes - vault encounter
+ek_lifestyles.0012 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0009.t
+	theme = learning_scholarship_focus
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:vault_outcome = flag:success }
+				desc = ek_lifestyles.0012.success.desc
+			}
+			triggered_desc = {
+				trigger = { scope:vault_outcome = flag:failure }
+				desc = ek_lifestyles.0012.failure.desc
+			}
+		}
+	}
+	left_portrait = {
+		character = root
+		triggered_animation = {
+			trigger = { scope:vault_outcome = flag:success }
+			animation = idle
+		}
+		animation = fear
+	}
+
+
+	option = {
+		name = ek_lifestyles.0012.a
+		trigger = { scope:vault_outcome = flag:success }
+		add_gold = major_gold_value
+		add_character_modifier = {
+			modifier = conjured_hoard
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0012.b
+		trigger = { scope:vault_outcome = flag:failure }
+		death = {
+			death_reason = death_disappearance
+		}
+	}
+}
+
+ek_lifestyles.0013 = { #duel markynaz
+	hidden = yes
+	
+
+	immediate = {
+		if = {
+			limit = {
+				root = scope:sc_victor
+			}
+			trigger_event = { id = ek_lifestyles.0014 days = 1 }
+		}
+		else = {
+			trigger_event = { id = ek_lifestyles.0015 days = 1 }
+		}
+	}
+}
+
+# Wandering through the planes - defeated markynaz
+ek_lifestyles.0014 = {
+	type = character_event
+	content_source = dlc_ek
+	window = duel_event
+	title = ek_lifestyles.0009.t
+	desc = ek_lifestyles.0014.desc
+	theme = martial_chivalry_focus
+	override_background = {
+		reference = wilderness_scope
+	}
+	left_portrait = {
+		character = root
+		scripted_animation = duel_celebrate
+	}
+
+	right_portrait = {
+		character = scope:dremora_markynaz
+		animation = fear
+	}
+
+
+	option = {
+		name = ek_lifestyles.0014.a
+		scope:dremora_markynaz = {
+			add_character_flag = summoned_daedra
+			add_opinion = {
+				target = prev
+				modifier = thrall_opinion
+			}
+		}
+		add_courtier = scope:dremora_markynaz
+		add_hook = {
+			type = loyalty_hook
+			target = scope:dremora_markynaz
+		}
+	}
+}
+
+# Wandering through the planes - victorious markynaz
+ek_lifestyles.0015 = {
+	type = character_event
+	content_source = dlc_ek
+	window = duel_event
+	title = ek_lifestyles.0009.t
+	desc = ek_lifestyles.0015.desc
+	theme = martial_chivalry_focus
+	override_background = {
+		reference = wilderness_scope
+	}
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+
+	right_portrait = {
+		character = scope:dremora_markynaz
+		scripted_animation = duel_celebrate
+	}
+
+
+	option = {
+		name = ek_lifestyles.0015.a
+		death = {
+			death_reason = death_disappearance
+		}
+	}
+}	
+
+# Destruction Event - Drain and Damage
+ek_lifestyles.0016 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0016.t
+	desc = ek_lifestyles.0016.desc
+
+	theme = learning_scholarship_focus
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		NOT = {
+			has_character_flag = had_event_ek_lifestyles_0016
+		}
+		is_landed = yes
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_event_ek_lifestyles_0016
+		}
+	}
+
+	#read further
+	option = {
+		custom_tooltip = ek_lifestyles.0016.a.tooltip
+		name = ek_lifestyles.0016.a
+
+		add_magic_lifestyle_xp = minor_lifestyle_xp
+
+		stress_impact = {
+			lazy = medium_stress_impact_gain
+		}
+	}
+
+	#read completely
+	option = {
+		custom_tooltip = ek_lifestyles.0016.b.tooltip
+		name = ek_lifestyles.0016.b
+
+		add_magic_lifestyle_xp = medium_lifestyle_xp
+		add_character_modifier = {
+			modifier = sorcerous_sophistication
+			years = 2
+		}
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+			lazy = major_stress_impact_gain
+		}
+	}
+
+	#boohoo reading hard
+	option = {
+		custom_tooltip = ek_lifestyles.0016.c.tooltip
+		name = ek_lifestyles.0016.c
+
+		add_character_modifier = {
+			modifier = neglected_studies
+			years = 2
+		}
+
+		stress_impact = {
+			base = medium_stress_impact_loss
+			diligent = major_stress_impact_gain
+		}
+	}
+}
+
+# Destruction Event - Emotional Response
+ek_lifestyles.0017 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0017.t
+	desc = ek_lifestyles.0017.desc
+
+	theme = learning_scholarship_focus
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		NOT = {
+			has_character_flag = had_event_ek_lifestyles_0017
+		}
+		has_perk = destruction_journeyman_perk
+		is_landed = yes
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_event_ek_lifestyles_0017
+		}
+	}
+
+	#rage
+	option = {
+		custom_tooltip = ek_lifestyles.0017.a.tooltip
+		name = ek_lifestyles.0017.a
+		trigger = {
+			NOT = { has_trait = wrathful }
+		}
+		add_magic_lifestyle_xp = medium_lifestyle_xp
+		add_trait = wrathful
+		add_character_modifier = {
+			modifier = inferno_expert
+			years = 3
+		}
+		stress_impact = {
+			base = medium_stress_impact_gain
+			patient = major_stress_impact_gain
+		}
+	}
+
+	#rage harder
+	option = {
+		custom_tooltip = ek_lifestyles.0017.b.tooltip
+		name = ek_lifestyles.0017.b
+		trigger = {
+			has_trait = irritable
+		}
+
+		add_magic_lifestyle_xp = minor_lifestyle_xp
+		add_character_modifier = {
+			modifier = inferno_expert
+			years = 3
+		}
+	}
+
+	#unpredictable!
+	option = {
+		custom_tooltip = ek_lifestyles.0017.c.tooltip
+		name = ek_lifestyles.0017.c
+		trigger = {
+			NOT = { has_trait = fickle }
+		}
+		add_magic_lifestyle_xp = medium_lifestyle_xp
+		add_trait = fickle
+		add_character_modifier = {
+			modifier = lightning_expert
+			years = 3
+		}
+		stress_impact = {
+			base = medium_stress_impact_gain
+			stubborn = major_stress_impact_gain
+		}
+	}
+
+	#bonkers!
+	option = {
+		custom_tooltip = ek_lifestyles.0017.d.tooltip
+		name = ek_lifestyles.0017.d
+		trigger = {
+			has_trait = fickle
+		}
+		add_magic_lifestyle_xp = minor_lifestyle_xp
+		add_character_modifier = {
+			modifier = lightning_expert
+			years = 3
+		}
+	}
+
+	#stone cold
+	option = {
+		custom_tooltip = ek_lifestyles.0017.e.tooltip
+		name = ek_lifestyles.0017.e
+		trigger = {
+			NOT = { has_trait = callous }
+		}
+		add_magic_lifestyle_xp = medium_lifestyle_xp
+		add_trait = callous
+		add_character_modifier = {
+			modifier = ice_expert
+			years = 3
+		}
+		stress_impact = {
+			base = medium_stress_impact_gain
+			compassionate = major_stress_impact_gain
+		}
+	}
+
+	#freezing
+	option = {
+		custom_tooltip = ek_lifestyles.0017.g.tooltip
+		name = ek_lifestyles.0017.g
+		trigger = {
+			has_trait = callous
+		}
+		add_magic_lifestyle_xp = minor_lifestyle_xp
+		add_character_modifier = {
+			modifier = ice_expert
+			years = 3
+		}
+	}
+
+	#i'm good
+	option = {
+		custom_tooltip = ek_lifestyles.0017.h.tooltip
+		name = ek_lifestyles.0017.h
+		stress_impact = {
+			base = medium_stress_impact_loss
+			diligent = major_stress_impact_gain
+		}
+	}
+}
+
+# Destruction Event - Battle Magic
+ek_lifestyles.0018 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0018.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = scope:court_mage
+				}
+				desc = ek_lifestyles.0018.court_mage.desc
+			}
+			desc = ek_lifestyles.0018.desc
+		}
+	}
+
+	theme = learning_scholarship_focus
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		trigger = {
+			exists = scope:marshal
+		}
+		character = scope:marshal
+	}
+
+	lower_left_portrait = {
+		trigger = {
+			exists = scope:court_mage
+		}
+		character = scope:court_mage
+	}
+
+	trigger = {
+		NOT = {
+			has_character_flag = had_event_ek_lifestyles_0018
+		}
+		has_perk = destruction_master_perk
+		is_landed = yes
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_event_ek_lifestyles_0018
+		}
+		cp:councillor_marshal = { save_scope_as = marshal }
+		if = {
+			limit = {
+				employs_court_position = court_mage_court_position
+			}
+			court_position:court_mage_court_position = { save_scope_as = court_mage }
+		}
+	}
+
+	#tactics
+	option = {
+		custom_tooltip = ek_lifestyles.0018.a.tooltip
+		name = ek_lifestyles.0018.a
+		duel = {
+			skill = martial
+			value = 10
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+				}
+				desc = ek_lifestyles.0018.a.success
+				root = {
+					send_interface_toast = {
+						title = ek_lifestyles.0018.a.success
+						left_icon = root
+						add_character_modifier = {
+							modifier = devious_mages
+							years = 5
+						}
+						if = {
+							limit = {
+								OR = {
+									has_trait = education_martial
+									has_trait = education_martial_prowess
+									has_trait = logistician
+									has_trait = military_engineer
+									has_trait = aggressive_attacker
+									has_trait = unyielding_defender
+									has_trait = forder
+									has_trait = flexible_leader
+									has_trait = desert_warrior
+									has_trait = jungle_stalker
+									has_trait = reaver
+									has_trait = reckless
+									has_trait = holy_warrior
+									has_trait = open_terrain_expert
+									has_trait = rough_terrain_expert
+									has_trait = forest_fighter
+									has_trait = cautious_leader
+									has_trait = organizer
+									has_trait = winter_soldier
+								}
+							}
+							trigger_event = {
+								id = ek_lifestyles.0019
+								days = { 7 10 }
+							}
+						}
+					}
+				}
+			}
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = ek_lifestyles.0018.a.failure
+				send_interface_toast = {
+					title = ek_lifestyles.0018.a.failure
+					left_icon = root
+					add_character_modifier = {
+						modifier = confused_mages
+						years = 3
+					}
+				}
+			}
+		}
+	}
+
+	#offense
+	option = {
+		custom_tooltip = ek_lifestyles.0018.b.tooltip
+		name = ek_lifestyles.0018.b
+		duel = {
+			skill = martial
+			value = 10
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+				}
+				desc = ek_lifestyles.0018.a.success
+				root = {
+					send_interface_toast = {
+						title = ek_lifestyles.0018.a.success
+						left_icon = root
+						add_character_modifier = {
+							modifier = ferocious_mages
+							years = 5
+						}
+						if = {
+							limit = {
+								OR = {
+									has_trait = education_martial
+									has_trait = education_martial_prowess
+									has_trait = logistician
+									has_trait = military_engineer
+									has_trait = aggressive_attacker
+									has_trait = unyielding_defender
+									has_trait = forder
+									has_trait = flexible_leader
+									has_trait = desert_warrior
+									has_trait = jungle_stalker
+									has_trait = reaver
+									has_trait = reckless
+									has_trait = holy_warrior
+									has_trait = open_terrain_expert
+									has_trait = rough_terrain_expert
+									has_trait = forest_fighter
+									has_trait = cautious_leader
+									has_trait = organizer
+									has_trait = winter_soldier
+								}
+							}
+							trigger_event = {
+								id = ek_lifestyles.0019
+								days = { 7 10 }
+							}
+						}
+					}
+				}
+			}
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = ek_lifestyles.0018.a.failure
+				send_interface_toast = {
+					title = ek_lifestyles.0018.a.failure
+					left_icon = root
+					add_character_modifier = {
+						modifier = bungling_mages
+						years = 3
+					}
+				}
+			}
+		}
+	}
+
+	# send for an expert
+	option = {
+		custom_tooltip = ek_lifestyles.0018.c.tooltip
+		name = ek_lifestyles.0018.c
+		trigger = {
+			NOT = {
+				employs_court_position = court_mage_court_position
+			}
+		}
+		remove_short_term_gold = medium_gold_value
+		random_list = {
+			40 = {}
+			15 = { 
+				add_character_modifier = {
+					modifier = ferocious_mages
+					years = 3
+				}
+			}
+			15 = {
+				add_character_modifier = {
+					modifier = bungling_mages
+					years = 3
+				}
+			}
+			15 = {
+				add_character_modifier = {
+					modifier = devious_mages
+					years = 3
+				}
+			}
+			15 = {
+				add_character_modifier = {
+					modifier = confused_mages
+					years = 3
+				}
+			}
+		}
+	}
+
+	# court mage
+	option = {
+		custom_tooltip = ek_lifestyles.0018.d.tooltip
+		name = ek_lifestyles.0018.d
+		trigger = {
+			employs_court_position = court_mage_court_position
+		}
+		reverse_add_opinion = {
+			modifier = overworking_me_opinion
+			target = court_position:court_mage_court_position
+		}
+		court_position:court_mage_court_position = {
+			duel = {
+				skill = martial
+				value = 10
+				2 = {
+					compare_modifier = {
+						value = scope:duel_value
+					}
+					desc = ek_lifestyles.0018.d.success
+					root = {
+						send_interface_toast = {
+							title = ek_lifestyles.0018.d.success
+							left_icon = court_position:court_mage_court_position
+							random_list = {
+								50 = {
+									add_character_modifier = {
+										modifier = ferocious_mages
+										years = 3
+									}
+									court_position:court_mage_court_position = {
+										add_prestige = minor_prestige_gain
+									}
+								}
+								50 = {
+									add_character_modifier = {
+											modifier = devious_mages
+											years = 3
+										}
+									court_position:court_mage_court_position = {
+										add_prestige = minor_prestige_gain
+									}
+								}
+							}
+						}
+					}
+				}
+				2 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = -1
+					}
+					desc = ek_lifestyles.0018.d.failure
+					send_interface_toast = {
+						title = ek_lifestyles.0018.d.failure
+						left_icon = court_position:court_mage_court_position
+						root = {
+							send_interface_toast = {
+								title = ek_lifestyles.0018.d.success
+								left_icon = court_position:court_mage_court_position
+								random_list = {
+									50 = {
+										add_character_modifier = {
+											modifier = bungling_mages
+											years = 3
+										}
+										court_position:court_mage_court_position = {
+											add_prestige = minor_prestige_gain
+										}
+									}
+									50 = {
+										add_character_modifier = {
+											modifier = confused_mages
+											years = 3
+										}
+										court_position:court_mage_court_position = {
+											add_prestige = minor_prestige_gain
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# Destruction Event - Battlemage Trait
+ek_lifestyles.0019 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0018.t
+	desc = ek_lifestyles.0019.desc
+
+	theme = learning_scholarship_focus
+	left_portrait = {
+		character = root
+	}
+
+	option = {
+		name = ek_lifestyles.0019.a
+		add_trait = battlemage
+	}
+}
+
+# Alteration Event - Feathers and Lead
+ek_lifestyles.0020 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0020.t
+	desc = ek_lifestyles.0020.desc
+
+	theme = learning_scholarship_focus
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		NOT = { has_character_flag = had_ek_lifestyles_0020_this_lifetime }
+	}
+
+	immediate = {
+		add_character_flag = had_ek_lifestyles_0020_this_lifetime
+	}
+
+	# stay simple
+	option = {
+		name = ek_lifestyles.0020.a
+		custom_tooltip = ek_lifestyles.0020.a.tooltip
+		add_magic_lifestyle_xp = minor_lifestyle_xp
+	}
+
+	# go nuts
+	option = {
+		name = ek_lifestyles.0020.b
+		custom_tooltip = ek_lifestyles.0020.b.tooltip
+		duel = {
+			skill = learning
+			value = 10
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+				}
+				desc = ek_lifestyles.0020.b.success
+				root = {
+					send_interface_toast = {
+						title = ek_lifestyles.0020.b.success
+						left_icon = root
+						add_arcana_skill = { VALUE = 1 }
+						add_magic_lifestyle_xp = minor_lifestyle_xp
+					}
+				}
+			}
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = ek_lifestyles.0020.b.failure
+				send_interface_toast = {
+					title = ek_lifestyles.0020.b.failure
+					left_icon = root
+					add_magic_lifestyle_xp = miniscule_lifestyle_xp
+				}
+			}
+		}
+	}
+}
+
+# Alteration Event - Structural Integrity
+ek_lifestyles.0021 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0021.t
+	desc = {
+		desc = ek_lifestyles.0021.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					capital_province = {				
+						NOT = {
+							terrain = desert
+							terrain = desert_mountains
+							terrain = oasis
+							terrain = ashlands
+							terrain = tundra
+							terrain = taiga
+						}
+					}
+				}
+				desc = ek_lifestyles.0021.rain.desc
+			}
+			triggered_desc = {
+				trigger = {
+					capital_province = {				
+						OR = {
+							terrain = desert
+							terrain = desert_mountains
+							terrain = oasis
+						}
+					}
+				}
+				desc = ek_lifestyles.0021.sandstorm.desc
+			}
+			triggered_desc = {
+				trigger = {
+					capital_province = {				
+						OR = {
+							terrain = ashlands
+						}
+					}
+				}
+				desc = ek_lifestyles.0021.ash_storm.desc
+			}
+			triggered_desc = {
+				trigger = {
+					capital_province = {				
+						OR = {
+							terrain = tundra
+							terrain = taiga
+						}
+					}
+				}
+				desc = ek_lifestyles.0021.blizzard.desc
+			}
+		}
+	}
+
+
+	theme = learning_scholarship_focus
+	override_background = {
+		reference = terrain
+	}
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	immediate = {
+		add_character_flag = had_ek_lifestyles_0021_this_lifetime
+	}
+
+	trigger = {
+		NOT = { has_character_flag = had_ek_lifestyles_0021_this_lifetime }
+		has_perk = alteration_journeyman_perk
+		exists = capital_province
+	}
+
+	# save it
+	option = {
+		name = ek_lifestyles.0021.a
+		custom_tooltip = ek_lifestyles.0021.a.tooltip
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0021.a.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0021.a.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = medium_lifestyle_xp
+					root.capital_county = {
+						add_county_modifier = {
+							modifier = hunt_aided_peasants_modifier
+							years = 10
+						}
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0021.a.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0021.a.tt_fail
+					left_icon = root
+					add_prestige = minor_prestige_loss
+					add_magic_lifestyle_xp = minor_lifestyle_xp
+				}
+			}
+		}
+	}
+
+	# stay out
+	option = {
+		name = ek_lifestyles.0021.b
+		stress_impact = {
+			brave = medium_stress_impact_gain
+			compassionate = medium_stress_impact_gain
+			craven = medium_stress_impact_loss
+		}
+	}
+}
+
+# Alteration Event - Icarian Flight
+ek_lifestyles.0022 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0022.t
+	desc = ek_lifestyles.0022.desc
+
+	theme = learning_scholarship_focus
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:tarhiel
+	}
+
+	immediate = {
+		add_character_flag = had_ek_lifestyles_0022_this_lifetime
+		create_character = {
+			template = tarhiel_template
+			location = root.capital_province
+			gender = male
+			culture = root.culture
+			faith = root.faith
+			save_scope_as = tarhiel
+		}
+	}
+
+	trigger = {
+		NOT = { has_character_flag = had_ek_lifestyles_0022_this_lifetime }
+		has_perk = alteration_master_perk
+		exists = capital_province
+	}
+
+	# ok, but i want to watch
+	option = {
+		name = ek_lifestyles.0022.a
+		custom_tooltip = ek_lifestyles.0022.a.tooltip
+		pay_short_term_gold = {
+			target = scope:tarhiel
+			gold = medium_gold_value
+		}
+		trigger_event = {
+			id = ek_lifestyles.0023
+			days = { 7 30 }
+		}
+	}
+
+	# i wanna fly tho
+	option = {
+		name = ek_lifestyles.0022.b
+		custom_tooltip = ek_lifestyles.0022.b.tooltip
+		stress_impact = {
+			brave = medium_stress_impact_loss
+			craven = major_stress_impact_gain
+		}
+		pay_short_term_gold = {
+			target = scope:tarhiel
+			gold = medium_gold_value
+		}
+		trigger_event = {
+			id = ek_lifestyles.0024
+			days = { 7 30 }
+		}
+	}
+
+	# oh no
+	option = {
+		name = ek_lifestyles.0022.c
+		add_magic_lifestyle_xp = minor_lifestyle_xp
+		stress_impact = {
+			brave = medium_stress_impact_gain
+			craven = major_stress_impact_loss
+		}
+		add_character_modifier = {
+			modifier = by_the_books
+			years = 3
+		}
+	}
+}
+
+# Icarian Flight - Watch
+ek_lifestyles.0023 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0022.t
+	desc = ek_lifestyles.0023.desc
+
+	theme = learning_scholarship_focus
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:tarhiel
+	}
+
+	override_background = {
+		reference = terrain
+	}
+
+	immediate = {
+		scope:tarhiel = {
+			death = {
+				death_reason = death_flight_attempt
+			}
+		}
+	}
+
+	# tragic
+	option = {
+		name = ek_lifestyles.0023.a
+		stress_impact = {
+			craven = medium_stress_impact_gain
+		}
+		add_magic_lifestyle_xp = 150
+	}
+}
+
+# Icarian Flight - AIEEEEEEEEEEEEEEEEEEEEE
+ek_lifestyles.0024 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0022.t
+	desc = ek_lifestyles.0024.desc
+
+	theme = learning_scholarship_focus
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:tarhiel
+	}
+
+	override_background = {
+		reference = terrain
+	}
+
+
+	# oh shit oh fuck
+	option = {
+		name = ek_lifestyles.0024.a
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = high_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0024.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0024.tt_success
+					left_icon = root
+					trigger_event = {
+						id = ek_lifestyles.0025
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0024.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0024.tt_fail
+					left_icon = root
+					add_prestige = -200
+					death = {
+						death_reason = death_flight_attempt
+					}					
+				}
+			}
+		}
+	}
+}
+
+# Icarian Flight - whew
+ek_lifestyles.0025 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0022.t
+	desc = ek_lifestyles.0025.desc
+
+	theme = learning_scholarship_focus
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:tarhiel
+	}
+
+	
+	immediate = {
+		scope:tarhiel = {
+			silent_disappearance_effect = yes
+		}
+	}
+
+	# tragic
+	option = {
+		name = ek_lifestyles.0025.a
+		add_trait = wounded_2
+		add_magic_lifestyle_xp = 50
+	}
+}
+
+# Illusion Event - Clairvoyant
+ek_lifestyles.0026 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0026.t
+	desc = ek_lifestyles.0026.desc
+
+	theme = learning_scholarship_focus
+	
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		NOT = { has_character_flag = had_ek_lifestyles_0026_this_lifetime }
+	}
+	
+	immediate = {
+		add_character_flag = had_ek_lifestyles_0026_this_lifetime
+	}
+	
+
+	# attempt it
+	option = {
+		name = ek_lifestyles.0026.a
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = decent_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 35
+					min = -49
+				}
+				desc = ek_lifestyles.0026.tt_crit_success
+				send_interface_toast = {
+					title = ek_lifestyles.0026.tt_crit_success
+					left_icon = root
+					add_magic_lifestyle_xp = 100
+					random_courtier_or_guest = {
+						limit = {
+							has_any_secrets = yes
+						}
+						random_secret = {
+							reveal_to = root
+						}
+					}
+					add_character_modifier = {
+						modifier = clairvoyant_mage
+						months = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0026.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0026.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = 100
+					add_character_modifier = {
+						modifier = clairvoyant_mage
+						months = 5
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0026.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0026.tt_fail
+					left_icon = root
+					add_magic_lifestyle_xp = 50
+					stress_impact = {
+						paranoid = major_stress_impact_gain
+					}				
+				}
+			}
+		}
+	}
+
+	# not for me
+	option = {
+		name = ek_lifestyles.0026.b
+		add_piety = medium_piety_gain
+		add_character_modifier = {
+			modifier = scholarship_down_to_earth_modifier
+			years = 5
+		}
+	}
+}
+
+# Illusion Event - Ontological Uncertainty
+ek_lifestyles.0027 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0027.t
+	desc = ek_lifestyles.0027.desc
+
+	theme = learning_scholarship_focus
+	
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		NOT = { has_character_flag = had_ek_lifestyles_0027_this_lifetime }
+		has_perk = illusion_journeyman_perk
+	}
+	
+	immediate = {
+		add_character_flag = had_ek_lifestyles_0027_this_lifetime
+	}
+	
+
+	# attempt it
+	option = {
+		name = ek_lifestyles.0027.a
+		random_list = {
+			50 = {
+				desc = ek_lifestyles.0027.a.good
+				send_interface_toast = {
+					title = ek_lifestyles.0027.a.good
+					left_icon = root
+					add_magic_lifestyle_xp = 100
+					stress_impact = {
+						base = major_stress_impact_gain
+					}
+					add_character_modifier = {
+						modifier = illusion_focus
+						years = 5
+					}				
+				}
+			}
+			50 = {
+				desc = ek_lifestyles.0027.a.bad
+				send_interface_toast = {
+					title = ek_lifestyles.0027.a.bad
+					left_icon = root
+					add_magic_lifestyle_xp = 100
+					add_trait = paranoid
+					stress_impact = {
+						base = major_stress_impact_gain
+					}
+					add_character_modifier = {
+						modifier = illusion_focus
+						years = 5
+					}				
+				}
+			}
+		}
+	}
+
+	# take a break
+	option = {
+		name = ek_lifestyles.0027.b
+		add_character_modifier = {
+			modifier = neglected_studies
+			years = 2
+		}
+		stress_impact = {
+			base = medium_stress_impact_loss
+		}
+	}
+
+	# zealous shit
+	option = {
+		name = ek_lifestyles.0027.c
+		zealous_progression_effect = yes
+		add_piety = medium_piety_gain
+	}
+
+	# deception
+	option = {
+		name = ek_lifestyles.0027.d
+		add_trait = deceitful
+	}
+}
+
+# Illusion Event - Shadow Magic
+ek_lifestyles.0028 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0028.t
+	desc = ek_lifestyles.0028.desc
+
+	theme = learning_scholarship_focus
+	
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		NOT = { has_character_flag = had_ek_lifestyles_0028_this_lifetime }
+		has_perk = illusion_master_perk
+	}
+	
+	immediate = {
+		add_character_flag = had_ek_lifestyles_0028_this_lifetime
+	}
+	
+
+	# merge shadows
+	option = {
+		name = ek_lifestyles.0028.a
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = decent_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0028.a.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0028.a.tt_success
+					left_icon = root
+					add_character_modifier = {
+						modifier = umbric_henosis
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0028.b.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0028.b.tt_fail
+					left_icon = root
+					stress_impact = {
+						base = monumental_stress_gain
+					}				
+				}
+			}
+		}
+	}
+
+	# shadowkey
+	option = {
+		name = ek_lifestyles.0028.b
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = decent_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0028.b.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0028.b.tt_success
+					left_icon = root
+					create_artifact_shadow_key_effect = {
+						OWNER = root
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0028.b.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0028.b.tt_fail
+					left_icon = root
+					add_character_modifier = {
+						modifier = sealed_possibilities
+					}				
+				}
+			}
+		}
+	}
+
+	# tome of shadow magic
+	option = {
+		name = ek_lifestyles.0028.c
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = decent_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0028.c.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0028.c.tt_success
+					left_icon = root
+					add_prestige = medium_prestige_gain
+					add_arcana_skill = { VALUE = 2 }
+					add_character_modifier = {
+						modifier = haunted_by_shadows
+						years = 3
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0028.c.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0028.c.tt_fail
+					left_icon = root
+					add_character_modifier = {
+						modifier = haunted_by_shadows
+						years = 10
+					}				
+				}
+			}
+		}
+	}
+
+	# leave it
+	option = {
+		name = ek_lifestyles.0028.d
+		stress_impact = {
+			base = medium_stress_impact_loss
+			ambitious = major_stress_impact_gain
+		}
+	}
+}
+
+
+# Restoration Event - Living Energies
+ek_lifestyles.0029 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0029.t
+	desc = ek_lifestyles.0029.desc
+
+	theme = learning_scholarship_focus
+	
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		NOT = { has_character_flag = had_ek_lifestyles_0029_this_lifetime }
+	}
+	
+	immediate = {
+		add_character_flag = had_ek_lifestyles_0029_this_lifetime
+	}
+	
+
+	# it's divine
+	option = {
+		trigger = {
+			faith = {
+				NOT = {
+					has_doctrine = doctrine_meridia_pantheon
+				}
+			}
+		}
+		name = ek_lifestyles.0029.a
+		add_piety = medium_piety_gain
+		add_magic_lifestyle_xp = 25
+		zealous_progression_effect = yes
+	}
+
+	# exotic creatia
+	option = {
+		name = ek_lifestyles.0029.b
+		add_magic_lifestyle_xp = 50
+		cynical_progression_effect = yes
+	}
+
+	# use it for good
+	option = {
+		name = ek_lifestyles.0029.c
+		add_character_modifier = {
+			modifier = heart_over_reason
+			years = 3
+		}
+	}
+
+	# hail meridia
+	option = {
+		trigger = {
+			faith = {
+				has_doctrine = doctrine_meridia_pantheon
+			}
+		}
+		name = ek_lifestyles.0029.a
+		add_piety = medium_piety_gain
+	}
+}
+
+# Restoration Event - The Shielding Hand
+ek_lifestyles.0030 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0030.t
+	desc = ek_lifestyles.0030.desc
+
+	theme = learning_scholarship_focus
+	
+	left_portrait = {
+		character = root
+	}
+
+	lower_right_portrait = {
+		trigger = {
+			exists = scope:warded_candidate
+		}
+		character = scope:warded_candidate
+	}
+
+	trigger = {
+		NOT = { has_character_flag = had_ek_lifestyles_0030_this_lifetime }
+		has_perk = restoration_journeyman_perk
+	}
+	
+	immediate = {
+		add_character_flag = had_ek_lifestyles_0030_this_lifetime
+		capital_province = { save_scope_as = capital }
+		random_living_character = {
+			limit = {
+				NOT = { this = root }
+				OR = {
+					has_relation_best_friend = root
+					has_relation_friend = root
+					has_relation_lover = root
+					has_relation_soulmate = root
+					is_close_family_of = root
+				}
+			}
+			save_scope_as = warded_candidate
+		}
+	}
+	
+
+	# protect capital
+	option = {
+		name = ek_lifestyles.0030.a
+		add_magic_lifestyle_xp = 100
+		root.capital_county = {
+			add_county_modifier = { 
+				modifier = warded_capital
+				years = 10
+			}
+		}
+	}
+
+	# protect yourself
+	option = {
+		name = ek_lifestyles.0030.b
+		add_magic_lifestyle_xp = 50
+		add_character_modifier = {
+			modifier = warded
+			years = 5
+		}
+	}
+
+	# protect someone
+	option = {
+		name = ek_lifestyles.0030.c
+		trigger = {
+			exists = scope:warded_candidate
+		}
+		scope:warded_candidate = {
+			add_character_modifier = {
+				modifier = warded
+				years = 5
+			}
+		}
+		progress_towards_friend_effect = {
+			CHARACTER = scope:warded_candidate
+			REASON = friend_warded_me
+			OPINION = 30
+		}
+	}
+}
+
+# Restoration Event - Gods and Mortals
+ek_lifestyles.0031 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0031.t
+	desc = ek_lifestyles.0031.desc
+
+	theme = learning_scholarship_focus
+	
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		NOT = { has_character_flag = had_ek_lifestyles_0031_this_lifetime }
+		has_perk = restoration_master_perk
+	}
+	
+	immediate = {
+		add_character_flag = had_ek_lifestyles_0031_this_lifetime
+	}
+	
+
+	# achieve godhood
+	option = {
+		name = ek_lifestyles.0031.a
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = high_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0031.tt_success
+				send_interface_toast = {
+					title = ek_lifestyles.0031.tt_success
+					left_icon = root
+					add_magic_lifestyle_xp = 100
+					add_character_modifier = {
+						modifier = godlike_health
+						years = 3
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_lifestyles.0031.tt_fail
+				send_interface_toast = {
+					title = ek_lifestyles.0031.tt_fail
+					left_icon = root
+					add_prestige = -200
+					death = {
+						death_reason = death_godhood
+					}					
+				}
+			}
+		}
+	}
+
+	# this is enough
+	option = {
+		name = ek_lifestyles.0031.b
+		add_magic_lifestyle_xp = 50
+		add_character_modifier = {
+			modifier = splendor
+			years = 3
+		}
+	}
+
+	# praise the divine essence
+	option = {
+		name = ek_lifestyles.0031.c
+		zealous_progression_effect = yes
+		add_piety = major_piety_gain
+	}
+
+	# enhance capital
+	option = {
+		name = ek_lifestyles.0031.d
+		add_magic_lifestyle_xp = 50
+		root.capital_county = {
+			add_county_modifier = { 
+				modifier = enriched_capital
+				years = 10
+			}
+		}
+	}
+}
+# Scholarship Event - Nedic Heritage
+ek_lifestyles.0032 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0032.t
+	desc = ek_lifestyles.0032.desc
+	theme = learning_scholarship_focus
+	left_portrait = {
+		character = root
+	}
+	trigger = {
+		NOT = { has_character_flag = had_ek_lifestyles_0032_this_lifetime }
+		culture = {
+			OR = {	
+				has_cultural_pillar = heritage_breton
+				has_cultural_pillar = heritage_cyrodiilic
+				has_cultural_pillar = heritage_nedic_north
+				has_cultural_pillar = heritage_kothri
+				has_cultural_pillar = heritage_nedic_central
+			}
+		}
+	}
+	weight_multiplier = {
+		base = 1
+		upweight_for_focus_modifier = { FOCUS = learning_scholarship_focus }
+	}
+	immediate = {
+		add_character_flag = had_ek_lifestyles_0032_this_lifetime
+	}
+	# Publish opinion
+	option = {
+		name = ek_lifestyles.0032.a
+		duel = {
+			skill = learning
+			value = decent_skill_rating
+			desc = outcome_in_a_few_days
+			20 = {		
+				compare_modifier = {
+					value = scope:duel_value
+				}
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lifestyles_0032.tt_succes
+					left_icon = scope:root
+					add_prestige = medium_prestige_gain          
+				}
+			}
+			20 = {		
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				send_interface_toast = {
+					type =  event_toast_effect_bad
+					title = ek_lifestyles_0032.tt_failure
+					left_icon = scope:root
+					add_prestige = medium_prestige_loss
+				}
+			}
+		}
+	}
+	# Study more
+	option = {
+		name = ek_lifestyles.0032.b
+		add_learning_lifestyle_xp = 100
+		add_stress = minor_stress_gain
+		stress_impact = {
+			lazy = minor_stress_impact_gain
+			arrogant = minor_stress_impact_gain
+	    }
+	}
+	# Disregard the past
+	option = {
+		name = ek_lifestyles.0032.c
+		add_stress = minor_stress_loss
+		stress_impact = {
+			lazy = minor_stress_impact_loss
+			diligent = minor_stress_impact_gain
+			arrogant = minor_stress_impact_loss
+	    }
+	}
+}
+
+# Scholarship Event - The Descendants of Auri-El
+ek_lifestyles.0033 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0033.t
+	desc = ek_lifestyles.0033.desc
+	theme = learning_scholarship_focus	
+	left_portrait = {
+		character = root
+	}
+	trigger = {
+		NOT = { has_character_flag = had_ek_lifestyles_0033_this_lifetime }
+		culture = { has_cultural_pillar = heritage_aldmeri }
+	}
+	weight_multiplier = {
+		base = 1
+		upweight_for_focus_modifier = { FOCUS = learning_scholarship_focus }
+	}
+	immediate = {
+		add_character_flag = had_ek_lifestyles_0033_this_lifetime
+	}
+	# Contest it
+	option = {
+		name = ek_lifestyles.0033.a
+		add_piety = medium_piety_gain
+		zealous_progression_effect = yes
+		stress_impact = {
+			arrogant = minor_stress_impact_loss
+		}	
+	}
+	# Study it
+	option = {
+		name = ek_lifestyles.0033.b
+		add_learning_lifestyle_xp = 100
+		cynical_progression_effect = yes
+	}
+	# Ignore it
+	option = {
+		name = ek_lifestyles.0033.c
+		stress_impact = {
+			lazy = minor_stress_impact_loss
+			diligent = minor_stress_impact_gain
+	    }
+	}
+}
+
+# Scholarship Event - The Destruction of Yokuda
+ek_lifestyles.0034 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0034.t
+	desc = ek_lifestyles.0034.desc
+	theme = learning_scholarship_focus
+	left_portrait = {
+		character = root
+	}
+	trigger = {
+		NOT = { has_character_flag = had_ek_lifestyles_0034_this_lifetime }
+		culture = { has_cultural_pillar = heritage_yokudan }
+	}
+	weight_multiplier = {
+		base = 1
+		upweight_for_focus_modifier = { FOCUS = learning_scholarship_focus }
+	}
+	immediate = {
+		add_character_flag = had_ek_lifestyles_0034_this_lifetime
+	}
+	# Read about Satakal
+	option = {
+		name = ek_lifestyles.0034.a
+		add_piety = medium_piety_gain
+		zealous_progression_effect = yes
+	}
+	# Read about a sword technique
+	option = {
+		name = ek_lifestyles.0034.b
+		random_list = {
+			10 = { 
+				add_prowess_skill = 3 
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lifestyles_0034.tta
+				}
+			}
+			20 = {
+				add_prowess_skill = 2 
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lifestyles_0034.ttb
+				}
+			}
+			70 = {
+				add_prowess_skill = 1 
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lifestyles_0034.ttc
+				}
+			}
+		}
+	}
+ 	# Read about natural disasters
+	option = {
+		name = ek_lifestyles.0034.c
+		remove_short_term_gold = medium_gold_value
+		root.capital_county = {
+			add_county_modifier = { 
+				modifier = prepared_for_natural_disasters
+				years = 10
+			}
+		}
+	}
+}
+
+# Strategy Event - Redguard Heroes
+ek_lifestyles.0035 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0035.t
+	desc = ek_lifestyles.0035.desc
+	theme = martial_strategy_focus
+	left_portrait = {
+		character = root
+	}
+	trigger = {
+		NOT = { has_character_flag = had_ek_lifestyles_0035_this_lifetime }
+		culture = { has_cultural_pillar = heritage_yokudan }
+	}
+	weight_multiplier = {
+		base = 1
+		upweight_for_focus_modifier = { FOCUS = martial_strategy_focus }
+	}
+	immediate = {
+		add_character_flag = had_ek_lifestyles_0035_this_lifetime
+	}
+	# Study the life of Frandar Hunding
+	option = {
+		name = ek_lifestyles.0035.a
+		duel = {
+			skill = martial
+			value = 10
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+				}
+				desc = ek_lifestyles.0035.a.success
+				root = {
+					send_interface_toast = {
+						title = ek_lifestyles.0035.a.success
+						left_icon = root
+						add_trait = holy_warrior
+						add_character_modifier = {
+							modifier = redguard_hero_frandar
+							years = 10
+						}
+					}
+				}
+			}
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = ek_lifestyles.0035.a.failure
+				send_interface_toast = {
+					title = ek_lifestyles.0035.a.failure
+					left_icon = root
+					add_character_modifier = {
+						modifier = redguard_zero
+						years = 3
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = {
+				add = 9
+				has_trait = zealous
+			}
+		}
+	}
+	# Study the life of Gaiden Shinji
+	option = {
+		name = ek_lifestyles.0035.b
+		duel = {
+			skill = martial
+			value = 10
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+				}
+				desc = ek_lifestyles.0035.b.success
+				root = {
+					send_interface_toast = {
+						title = ek_lifestyles.0035.b.success
+						left_icon = root
+						add_trait = cautious_leader
+						add_character_modifier = {
+							modifier = redguard_hero_shinji
+							years = 10
+						}
+					}
+				}
+			}
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = ek_lifestyles.0035.b.failure
+				send_interface_toast = {
+					title = ek_lifestyles.0035.b.failure
+					left_icon = root
+					add_character_modifier = {
+						modifier = redguard_zero
+						years = 3
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = {
+				add = 9
+				has_trait = craven
+			}
+		}
+	}
+ 	# Study the life of Makela Leki
+	option = {
+		name = ek_lifestyles.0035.c
+		duel = {
+			skill = martial
+			value = 10
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+				}
+				desc = ek_lifestyles.0035.c.success
+				root = {
+					send_interface_toast = {
+						title = ek_lifestyles.0035.c.success
+						left_icon = root
+						add_trait = unyielding_defender
+						add_character_modifier = {
+							modifier = redguard_hero_makela
+							years = 10
+						}
+					}
+				}
+			}
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = ek_lifestyles.0035.c.failure
+				send_interface_toast = {
+					title = ek_lifestyles.0035.c.failure
+					left_icon = root
+					add_character_modifier = {
+						modifier = redguard_zero
+						years = 3
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = {
+				add = 9
+				has_trait = stubborn
+			}
+		}
+	}
+}
+
+# The Philosophy of Stealth
+ek_lifestyles.0036 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0036.t
+	desc = ek_lifestyles.0036.desc
+
+	theme = intrigue_skulduggery_focus
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	cooldown = { years = 5 }
+
+	option = {
+		name = ek_lifestyles.0036.a
+		add_intrigue_lifestyle_xp = minor_lifestyle_xp	
+	}
+
+	option = {
+		name = ek_lifestyles.0036.b
+		add_dread = minor_dread_gain
+	}
+
+	option = {
+		name = ek_lifestyles.0036.c
+		add_prestige = medium_prestige_gain
+		stress_impact = {
+			shy = medium_stress_impact_gain
+			craven = medium_stress_impact_gain
+			brave = medium_stress_impact_loss
+		}
+	}	
+}
+
+# The Truth of Minotaurs
+ek_lifestyles.0037 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0037.t
+	desc = ek_lifestyles.0037.desc
+
+	theme = learning_scholarship_focus
+	left_portrait = root
+
+	cooldown = { years = 5 }
+
+	option = {
+		name = ek_lifestyles.0037.a
+		add_prestige = minor_prestige_gain
+		random = {
+			chance = 30
+			add_prowess_skill = 1
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0037.b
+		add_learning_lifestyle_xp = medium_lifestyle_xp
+	}	
+}
+
+# Calcinator Treatise
+ek_lifestyles.0038 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0038.t
+	desc = ek_lifestyles.0038.desc
+
+	theme = learning_medicine_focus
+	left_portrait = root
+
+	cooldown = { years = 5 }
+
+	option = {
+		name = ek_lifestyles.0038.a
+		random = {
+			chance = 30
+			add_learning_lifestyle_xp = medium_lifestyle_xp
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0038.b
+		add_learning_lifestyle_xp = minor_lifestyle_xp
+	}	
+}
+
+# Illusion Event - The Lantern Thief
+ek_lifestyles.0039 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0039.t
+	desc = ek_lifestyles.0039.desc
+
+	theme = learning_scholarship_focus
+	
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		NOT = { has_character_flag = had_ek_lifestyles_0039_this_lifetime }
+		has_perk = illusion_journeyman_perk
+	}
+	
+	immediate = {
+		add_character_flag = had_ek_lifestyles_0039_this_lifetime
+	}
+	
+
+	# attempt it
+	option = {
+		name = ek_lifestyles.0039.a
+		add_magic_lifestyle_xp = medium_lifestyle_xp
+	}
+
+	# take a break
+	option = {
+		name = ek_lifestyles.0039.b
+		random = {
+			chance = 30
+			add_prowess_skill = 2
+		}
+		add_character_modifier = {
+			modifier = neglected_studies
+			years = 2
+		}
+		stress_impact = {
+			base = medium_stress_impact_loss
+		}
+	}
+}
+
+# Corpse Pallor
+ek_lifestyles.0040 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0040.t
+	desc = ek_lifestyles.0040.desc
+
+	theme = learning_medicine_focus
+	left_portrait = root
+
+	cooldown = { years = 5 }
+
+	option = {
+		name = ek_lifestyles.0040.a
+		random = {
+			chance = 30
+			add_learning_lifestyle_xp = medium_lifestyle_xp
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0040.b
+		add_learning_lifestyle_xp = minor_lifestyle_xp
+	}	
+}
+
+# Three Pretexts
+ek_lifestyles.0041 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0041.t
+	desc = ek_lifestyles.0041.desc
+	theme = necromancy
+	left_portrait = root
+
+	cooldown = { years = 5 }
+
+	option = {
+		name = ek_lifestyles.0041.a
+		random = {
+			chance = 30
+			add_dark_arts_lifestyle_xp = medium_lifestyle_xp
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0041.b
+		add_dread = minor_dread_gain
+	}	
+}
+
+# Codified Law
+ek_lifestyles.0042 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0042.t
+	desc = ek_lifestyles.0042.desc
+	theme = learning_theology_focus
+	override_background = { reference = sitting_room }
+	left_portrait = root
+
+	cooldown = { years = 5 }
+
+	trigger = {
+		faith.religion = religion:imperial_religion # let's limit this a little
+	}
+
+	option = {
+		name = ek_lifestyles.0042.a
+		if = {
+			limit = {
+				has_trait = cynical
+			}
+			random = {
+				chance = 30
+				set_character_faith_with_conversion = faith:alessian
+			}
+		}
+		duel = {
+			skill = learning
+			value = high_skill_rating
+			75 = {
+				desc = ek_lifestyles.0042.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				send_interface_toast = {
+					title = ek_lifestyles.0042.a.success
+					type = event_toast_effect_good
+					left_icon = root
+					add_learning_lifestyle_xp = major_lifestyle_xp
+				}
+			}
+			25 = {	
+				desc = ek_lifestyles.0042.a.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				send_interface_toast = {
+					title = ek_lifestyles.0042.a.failure
+					type = event_toast_effect_bad
+					left_icon = root
+					add_piety = medium_piety_loss
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0042.b
+		add_learning_lifestyle_xp = minor_lifestyle_xp
+	}	
+}
+
+# Where Magical Paths Meet
+ek_lifestyles.0043 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0043.t
+	desc = ek_lifestyles.0043.desc
+
+	theme = learning_scholarship_focus
+	left_portrait = {
+		character = root
+		animation = stressed_teacher
+	}
+
+	trigger = {
+		has_perk = conjuration_novice_perk
+	}
+
+	cooldown = { years = 5 }
+
+	option = {
+		name = ek_lifestyles.0043.a
+		random = {
+			chance = 30
+			add_magic_lifestyle_xp = medium_lifestyle_xp
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0043.b
+		add_magic_lifestyle_xp = minor_lifestyle_xp
+	}	
+}
+
+# A Daedric Proposal
+ek_lifestyles.0044 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0044.t
+	desc = ek_lifestyles.0044.desc
+
+	theme = necromancy
+	left_portrait = root
+
+	right_portrait = {
+		character = scope:victim
+		animation = prisondungeon
+	}
+
+	cooldown = { years = 5 }
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 0.75
+			has_trait = sadistic
+		}
+		modifier = {
+			add = 0.75
+			has_trait = deceitful
+		}
+		upweight_for_focus_modifier = { FOCUS = dark_arts_blood_magic_focus }
+	}
+
+	immediate = {
+		save_scope_as = imprisoner
+		random_courtier_or_guest = {
+			limit = {
+				is_available_healthy_ai_adult = yes
+				is_close_family_or_spouse_of_root_trigger = no
+				is_undead = no
+				reverse_opinion = {
+					target = root
+					value <= low_negative_opinion
+				}
+			}
+			alternative_limit = {
+				is_available_healthy_ai_adult = yes
+				is_close_family_or_spouse_of_root_trigger = no
+				is_undead = no
+				reverse_opinion = {
+					target = root
+					value <= neutral_opinion
+				}
+			}
+			weight = {
+				base = 1
+				modifier = {
+					add = 25
+					has_relation_rival = root
+				}
+				modifier = {
+					add = 25
+					reverse_opinion = {
+						target = root
+						value <= -50
+					}
+				}
+			}
+			save_scope_as = victim
+			if = {
+				limit = { root = { is_ai = no }	}
+				assign_quirk_effect = yes
+			}
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0044.a
+		add_character_flag = thrall_prowess
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = high_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+				}
+				modifier = {
+					add = 50
+					has_perk = necromancy_master_perk
+				}
+				desc = ek_lifestyles.0044.a.success
+				send_interface_toast = {
+					type = event_toast_effect_good
+					left_icon = scope:victim
+					title = ek_lifestyles.0044.a.success
+					add_dark_arts_lifestyle_xp = medium_lifestyle_xp
+					scope:victim = {
+						add_prowess_skill = { 10 20 }
+						death = {
+							death_reason = death_execution_thralldom
+							killer = root
+						}
+						create_undead_thrall_effect = { MASTER = root THRALL = scope:victim }
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+				}
+				desc = ek_lifestyles.0044.a.failure
+				send_interface_toast = {
+					title = ek_lifestyles.0044.a.failure
+					left_icon = scope:victim
+					type = event_toast_effect_bad
+					scope:victim = {
+						death = {
+							death_reason = death_execution_thralldom
+							killer = root
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0044.b
+		add_character_flag = thrall_arcana
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = high_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+				}
+				modifier = {
+					add = 50
+					has_perk = necromancy_master_perk
+				}
+				desc = ek_lifestyles.0044.b.success
+				send_interface_toast = {
+					type = event_toast_effect_good
+					left_icon = scope:victim
+					title = ek_lifestyles.0044.b.success
+					add_dark_arts_lifestyle_xp = medium_lifestyle_xp
+
+					scope:victim = {
+						add_arcana_skill = { VALUE = "{ 10 20 }" }
+						death = {
+							death_reason = death_execution_thralldom
+							killer = root
+						}
+						create_undead_thrall_effect = { MASTER = root THRALL = scope:victim }
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+				}
+				desc = ek_lifestyles.0044.b.failure
+				send_interface_toast = {
+					title = ek_lifestyles.0044.b.failure
+					left_icon = scope:victim
+					type = event_toast_effect_bad
+					add_dark_arts_lifestyle_xp = medium_lifestyle_xp
+					scope:victim = {
+						death = {
+							death_reason = death_execution_thralldom
+							killer = root
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0044.c
+		add_dread = minor_dread_loss
+	}
+	after = {
+		empower_thrall_arcana = yes
+		empower_thrall_prowess = yes
+	}	
+}
+
+# Sword-Wisdom of Saikhalar
+ek_lifestyles.0045 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0045.t
+	desc = ek_lifestyles.0045.desc
+	theme = martial_chivalry_focus
+
+	override_background = { reference = courtyard }
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	right_portrait = {
+		character = scope:knight
+		animation = marshal
+	}
+
+	trigger = {
+		is_landed = yes
+		culture = {
+			has_cultural_pillar = heritage_yokudan
+		}
+		any_knight = {
+			is_available_healthy_ai_adult = yes
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = { #More likely to occur if the character has a little Dread
+			add = 1
+			dread > 10
+		}
+		modifier = { #More likely if you are into duels
+			add = 2
+			has_trait = lifestyle_blademaster		
+		}
+		upweight_for_focus_modifier = { FOCUS = martial_chivalry_focus }
+	}
+
+	cooldown = { years = 5 }
+
+	immediate = {
+		random_knight = {
+			limit = {
+				is_available_healthy_ai_adult = yes
+			}
+			save_scope_as = knight
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0045.a
+		trait = zealous
+		trigger = {
+			OR = {
+				has_trait = zealous
+				piety_level >= 2
+			}
+			faith = {
+				has_doctrine = doctrine_pantheon_yokudan
+			}
+		}
+		add_martial_lifestyle_xp = medium_lifestyle_xp
+		add_piety = minor_piety_gain
+	}
+
+	option = {
+		name = ek_lifestyles.0045.b
+		skill = learning
+		trigger = {
+			learning > 9
+		}
+		add_martial_lifestyle_xp = medium_lifestyle_xp
+		add_learning_lifestyle_xp = minor_lifestyle_xp
+	}
+
+	option = {
+		name = ek_lifestyles.0045.c
+		add_dread = minor_dread_gain
+		stress_impact = {
+			gluttonous = medium_stress_impact_gain
+		}		
+	}
+
+	option = {
+		name = ek_lifestyles.0045.d
+		add_martial_lifestyle_xp = medium_lifestyle_xp
+		add_dread = minor_dread_loss
+		add_prestige = minor_prestige_loss
+		stress_impact = {
+			gluttonous = medium_stress_impact_gain
+			sadistic = medium_stress_impact_gain
+			ambitious = medium_stress_impact_gain
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0045.e
+		trait = gluttonous
+		trigger = {
+			has_trait = gluttonous
+		}
+		progress_towards_friend_effect = {
+			CHARACTER = scope:knight
+			OPINION = 20
+			REASON = friend_invited_to_feast
+		}
+		stress_impact = {
+			gluttonous = medium_stress_impact_loss
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0045.f
+		trait = sadistic
+		trigger = {
+			has_trait = sadistic
+		}
+		
+		add_dread = major_dread_gain
+		scope:knight = {
+			death = {
+				killer = root
+				death_reason = death_punishment
+			}
+		}
+
+		stress_impact = {
+			just = minor_stress_impact_gain
+			compassionate = minor_stress_impact_gain
+			sadistic = medium_stress_impact_loss
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0045.g
+		trait = ambitious
+		trigger = {
+			has_trait = ambitious
+		}
+		
+		add_dread = minor_dread_gain
+		add_martial_lifestyle_xp = medium_lifestyle_xp
+		scope:knight = {
+			progress_towards_rival_effect = {
+				REASON = rival_pushed_too_far
+				CHARACTER = root
+				OPINION = default_rival_opinion
+			}
+			add_prowess_skill = 2
+		}
+
+		stress_impact = {
+			just = minor_stress_impact_gain
+			compassionate = minor_stress_impact_gain
+			sadistic = medium_stress_impact_loss
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+		hidden_effect = { add_focus_progress = standard_lifestyle_focus_progress }
+	}
+}
+
+# Words and Power
+ek_lifestyles.0046 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0046.t
+	desc = ek_lifestyles.0046.desc
+
+	theme = learning_scholarship_focus
+	left_portrait = {
+		character = root
+		animation = stressed_teacher
+	}
+
+	cooldown = { years = 5 }
+
+	option = {
+		name = ek_lifestyles.0046.a
+		remove_short_term_gold = medium_gold_value
+		add_prestige = minor_prestige_gain
+		add_magic_lifestyle_xp = minor_lifestyle_xp
+		random = {
+			chance = 30
+			add_magic_lifestyle_xp = medium_lifestyle_xp
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0046.b
+		add_magic_lifestyle_xp = minor_lifestyle_xp
+	}	
+}
+
+# Alchemy: Discovering Traits
+ek_lifestyles.0047 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0047.t
+	desc = ek_lifestyles.0047.desc
+
+	theme = learning_medicine_focus
+	left_portrait = {
+		character = root
+		animation = stressed_teacher
+	}
+
+	cooldown = { years = 5 }
+
+	trigger = {
+		is_landed = yes
+		exists = root.capital_province
+	}
+
+	weight_multiplier = {
+		base = 1
+		upweight_for_focus_modifier = { FOCUS = learning_medicine_focus }
+	}
+
+	option = {
+		name = ek_lifestyles.0047.a
+		add_learning_lifestyle_xp = medium_lifestyle_xp
+		random_list = {
+			50 = {
+				show_chance = no
+				desc = travel_danger_events.1012.ate_poisonous_plant
+				root = {
+					send_interface_toast = {
+						title = travel_danger_events.1012.ate_poisonous_plant
+						left_icon = root
+						add_character_modifier = {
+							modifier = travel_ate_poisonous_plant_modifier
+							years = 5
+						}
+					}
+				}
+			}
+			50 = {
+				show_chance = no
+				modifier = { #maybe you know what you're doing?
+					add = root.learning
+				}
+				desc = travel_danger_events.1012.regular_plant
+				root = {
+					send_interface_toast = { #grant the xp to the root
+						title = travel_danger_events.1012.regular_plant
+						left_icon = root
+						stress_impact = {
+							base = minor_stress_impact_loss
+						}
+					}
+				}
+			}
+			1 = {
+				show_chance = no
+				modifier = { #increase chance if character eating it know plants
+					add = 200
+					root = { has_trait = lifestyle_herbalist }
+				}
+				desc = travel_danger_events.1012.ate_delicious_plant
+				root = {
+					send_interface_toast = {
+						title = travel_danger_events.1012.ate_delicious_plant
+						left_icon = root
+						root = { #grant the modifier to the person that ate it
+							add_character_modifier = {
+								modifier = travel_good_poisonous_plant_modifier
+								years = 5
+							}
+						}
+					}
+				}
+			}
+		}
+		stress_impact = {
+			gluttonous = medium_stress_impact_gain
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0047.b
+		add_learning_lifestyle_xp = minor_lifestyle_xp
+	}	
+}
+
+# Heavy Armor Repair
+ek_lifestyles.0048 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0048.t
+	desc = ek_lifestyles.0048.desc
+	theme = martial_authority_focus
+	
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+		
+	trigger = {
+		has_lifestyle = martial_lifestyle
+		is_ruler = yes
+		is_landed = yes
+	}
+
+	weight_multiplier = {
+		base = 1
+		upweight_for_focus_modifier = { FOCUS = martial_authority_focus }
+	}
+
+	option = {
+		name = ek_lifestyles.0048.a
+		remove_short_term_gold = stewardship_wealth_5002_payment
+		capital_province = {
+			add_province_modifier = {
+				modifier = smithy_investment_modifier
+				years = stewardship_wealth_5002_investment_duration
+			}
+			ROOT = {
+				add_character_modifier = {
+					modifier = smithy_investment_character_modifier
+					years = stewardship_wealth_5002_investment_duration
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0048.b
+		remove_short_term_gold = stewardship_wealth_5002_payment
+		random_list = {
+			75 = {
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = stewardship_wealth.5002.b.success
+					left_icon = root
+					capital_province = {
+						add_province_modifier = {
+							modifier = great_smithy_investment_modifier
+							years = stewardship_wealth_5002_investment_duration
+						}
+						ROOT = {
+							add_character_modifier = {
+								modifier = great_smithy_investment_character_modifier
+								years = stewardship_wealth_5002_investment_duration
+							}
+						}
+					}
+				}
+			}
+			25 = {
+				desc = stewardship_wealth.5002.b.failure
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = stewardship_wealth.5002.b.failure
+					left_icon = root
+
+					custom_tooltip = stewardship_wealth.5002.b.failure.tt
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_lifestyles.0048.c
+		add_martial_lifestyle_xp = minor_lifestyle_xp
+	}
+}
+
+# Theory of Lightning
+ek_lifestyles.0049 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0049.t
+	desc = ek_lifestyles.0049.desc
+
+	theme = learning_scholarship_focus
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		is_landed = yes
+	}
+
+	# contemplate
+	option = {
+		flavor = ek_lifestyles.0049.a.tooltip
+		name = ek_lifestyles.0049.a
+
+		add_magic_lifestyle_xp = minor_lifestyle_xp
+	}
+
+	# experiment
+	option = {
+		trigger = { can_be_experimentalist = yes }
+		flavor = ek_lifestyles.0049.b.tooltip
+		name = ek_lifestyles.0049.b
+
+		add_trait = experimentalist
+		add_magic_lifestyle_xp = medium_lifestyle_xp
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+			lazy = major_stress_impact_gain
+		}
+	}
+
+	# document
+	option = {
+		trigger = {
+			learning > 9
+		}
+		flavor = ek_lifestyles.0049.c.tooltip
+		name = ek_lifestyles.0049.c
+
+		add_magic_lifestyle_xp = minor_lifestyle_xp
+		add_learning_lifestyle_xp = minor_lifestyle_xp
+
+		if = {
+			limit = {
+				NOT = { has_trait = journaller }
+			}
+			random = {
+				chance = 30
+				add_trait = journaller
+			}
+		}
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+			lazy = major_stress_impact_gain
+		}
+	}
+
+	# nope
+	option = {
+		flavor = ek_lifestyles.0049.d.tooltip
+		name = ek_lifestyles.0049.d
+
+		stress_impact = {
+			base = medium_stress_impact_loss
+			diligent = major_stress_impact_gain
+		}
+	}
+}
+
+# Above and Beyond
+ek_lifestyles.0050 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0050.t
+	desc = ek_lifestyles.0050.desc
+
+	theme = crown
+
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		is_available = yes
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				AND = {
+					has_perk = diplomat_perk
+					has_perk = august_perk
+					has_perk = family_man_perk
+					diplomacy_lifestyle_perk_points > 0
+				}
+			}
+			save_scope_value_as = {
+				name = extra_point
+				value = flag:diplomacy
+			}
+		}
+		else_if = {
+			limit = {
+				AND = {
+					has_perk = schemer_perk
+					has_perk = seducer_perk
+					has_perk = torturer_perk
+					intrigue_lifestyle_perk_points > 0
+				}
+			}
+			save_scope_value_as = {
+				name = extra_point
+				value = flag:intrigue
+			}
+		}
+		else_if = {
+			limit = {
+				AND = {
+					has_perk = whole_of_body_perk
+					has_perk = scholar_perk
+					has_perk = theologian_perk
+					learning_lifestyle_perk_points > 0
+				}
+			}
+			save_scope_value_as = {
+				name = extra_point
+				value = flag:learning
+			}
+		}
+		else_if = {
+			limit = {
+				AND = {
+					has_perk = strategist_perk
+					has_perk = overseer_perk
+					has_perk = gallant_perk
+					martial_lifestyle_perk_points > 0
+				}
+			}
+			save_scope_value_as = {
+				name = extra_point
+				value = flag:martial
+			}
+		}
+		else_if = {
+			limit = {
+				AND = {
+					has_perk = avaricious_perk
+					has_perk = architect_perk
+					has_perk = administrator_perk
+					stewardship_lifestyle_perk_points > 0
+				}
+			}
+			save_scope_value_as = {
+				name = extra_point
+				value = flag:stewardship
+			}
+		}
+		else_if = {
+			limit = {
+				AND = {
+					has_perk = surveyor_perk
+					has_perk = wayfarer_perk
+					has_perk = voyager_perk
+					wanderer_lifestyle_perk_points > 0
+				}
+			}
+			save_scope_value_as = {
+				name = extra_point
+				value = flag:wanderer
+			}
+		}
+		else_if = {
+			limit = {
+				AND = {
+					has_perk = conjuration_master_perk
+					has_perk = destruction_master_perk
+					has_perk = alteration_master_perk
+					has_perk = illusion_master_perk
+					has_perk = restoration_master_perk
+					magic_lifestyle_perk_points > 0
+				}
+			}
+			save_scope_value_as = {
+				name = extra_point
+				value = flag:magic
+			}
+		}
+		else_if = {
+			limit = {
+				AND = {
+					has_perk = necromancy_master_perk
+					dark_arts_lifestyle_perk_points > 0
+				}
+			}
+			save_scope_value_as = {
+				name = extra_point
+				value = flag:dark_arts
+			}
+		}
+		random_list = {
+			pick = 3
+			unique = yes
+			
+			50 = {
+				trigger = {
+					has_trait = cynical
+					NOT = {
+						any_secret = { secret_type = secret_crypto_religionist }
+					}
+				}
+				get_random_faith_effect = { FORBIDROOTFAITH = yes }
+				set_local_variable = {
+					name = outcome_cynical
+					value = yes
+				}
+			}
+			50 = {
+				trigger = {
+					has_trait = brave
+					prowess < 20
+				}
+				set_local_variable = {
+					name = outcome_brave
+					value = yes
+				}
+			}
+			50 = {
+				trigger = {
+					has_trait = lazy
+				}
+				set_local_variable = {
+					name = outcome_lazy
+					value = yes
+				}
+			}
+			50 = {
+				trigger = {
+					has_trait = content
+				}
+				set_local_variable = {
+					name = outcome_content
+					value = yes
+				}
+			}
+			50 = {
+				trigger = {
+					has_trait = humble
+				}
+				set_local_variable = {
+					name = outcome_humble
+					value = yes
+				}
+			}
+			50 = {
+				trigger = {
+					has_focus_intrigue = yes
+				}
+				set_local_variable = {
+					name = outcome_intrigue
+					value = yes
+				}
+			}
+			50 = {
+				trigger = {
+					has_focus_diplomacy = yes
+				}
+				set_local_variable = {
+					name = outcome_diplomacy
+					value = yes
+				}
+			}
+			50 = {
+				trigger = {
+					has_focus_learning = yes
+				}
+				set_local_variable = {
+					name = outcome_learning
+					value = yes
+				}
+			}
+			50 = {
+				trigger = {
+					has_focus_martial = yes
+				}
+				set_local_variable = {
+					name = outcome_martial
+					value = yes
+				}
+			}
+			50 = {
+				trigger = {
+					has_focus_stewardship = yes
+				}
+				set_local_variable = {
+					name = outcome_stewardship
+					value = yes
+				}
+			}
+			50 = {
+				trigger = {
+					has_focus_wanderer = yes
+				}
+				set_local_variable = {
+					name = outcome_wanderer
+					value = yes
+				}
+			}
+			50 = {
+				trigger = {
+					has_focus_magic = yes
+				}
+				set_local_variable = {
+					name = outcome_magic
+					value = yes
+				}
+			}
+			50 = {
+				trigger = {
+					can_magic_trigger = yes
+					arcana < 20
+				}
+				set_local_variable = {
+					name = outcome_arcana
+					value = yes
+				}
+			}
+			50 = {
+				trigger = {
+					has_focus_dark_arts = yes
+				}
+				set_local_variable = {
+					name = outcome_dark_arts
+					value = yes
+				}
+			}
+		}
+	}
+
+	# cynical
+	option = {
+		name = ek_lifestyles.0050.cynical
+		trait = cynical
+		trigger = {
+			exists = local_var:outcome_cynical
+		}
+
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:random_faith }
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+	}
+
+	# brave
+	option = {
+		trait = brave
+		name = ek_lifestyles.0050.brave
+		trigger = {
+			exists = local_var:outcome_brave
+		}
+
+		add_prowess_skill = 2
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+	}
+
+	# lazy
+	option = {
+		trait = lazy
+		name = ek_lifestyles.0050.lazy
+		trigger = {
+			exists = local_var:outcome_lazy
+		}
+
+		stress_impact = {
+			base = medium_stress_impact_loss
+		}
+	}
+
+	# content
+	option = {
+		trait = content
+		name = ek_lifestyles.0050.content
+		trigger = {
+			exists = local_var:outcome_content
+		}
+
+		add_prestige = medium_prestige_gain
+	}
+
+	# humble
+	option = {
+		trait = humble
+		name = ek_lifestyles.0050.humble
+		trigger = {
+			exists = local_var:outcome_humble
+		}
+
+		add_piety = medium_piety_gain
+	}
+
+	# intrigue
+	option = {
+		name = ek_lifestyles.0050.intrigue
+		trigger = {
+			exists = local_var:outcome_intrigue
+		}
+
+		add_intrigue_lifestyle_perk_points = 1
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+	}
+
+	# diplomacy
+	option = {
+		name = ek_lifestyles.0050.diplomacy
+		trigger = {
+			exists = local_var:outcome_diplomacy
+		}
+
+		add_diplomacy_lifestyle_perk_points = 1
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+	}
+
+	# learning
+	option = {
+		name = ek_lifestyles.0050.learning
+		trigger = {
+			exists = local_var:outcome_learning
+		}
+
+		add_learning_lifestyle_perk_points = 1
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+	}
+
+	# martial
+	option = {
+		name = ek_lifestyles.0050.martial
+		trigger = {
+			exists = local_var:outcome_martial
+		}
+
+		add_martial_lifestyle_perk_points = 1
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+	}
+
+	# stewardship
+	option = {
+		name = ek_lifestyles.0050.stewardship
+		trigger = {
+			exists = local_var:outcome_stewardship
+		}
+
+		add_stewardship_lifestyle_perk_points = 1
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+	}
+
+	# wanderer
+	option = {
+		name = ek_lifestyles.0050.wanderer
+		trigger = {
+			exists = local_var:outcome_wanderer
+		}
+
+		add_wanderer_lifestyle_perk_points = 1
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+	}
+
+	# magic
+	option = {
+		name = ek_lifestyles.0050.magic
+		trigger = {
+			exists = local_var:outcome_magic
+		}
+
+		add_magic_lifestyle_perk_points = 1
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+	}
+
+	# arcana
+	option = {
+		name = ek_lifestyles.0050.arcana
+		trigger = {
+			exists = local_var:outcome_arcana
+		}
+
+		add_arcana_skill = { VALUE = 2 }
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+	}
+
+	# dark arts
+	option = {
+		name = ek_lifestyles.0050.dark_arts
+		trigger = {
+			exists = local_var:outcome_dark_arts
+		}
+
+		add_dark_arts_lifestyle_perk_points = 1
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+		}
+	}
+
+	# abandon perk point
+	option = {
+		name = ek_lifestyles.0050.abandon_perk_point
+	}
+
+	after = {
+		if = {
+			limit = { scope:extra_point = flag:diplomacy }
+			add_diplomacy_lifestyle_perk_points = -1
+		}
+		else_if = {
+			limit = { scope:extra_point = flag:intrigue }
+			add_intrigue_lifestyle_perk_points = -1
+		}
+		else_if = {
+			limit = { scope:extra_point = flag:learning }
+			add_learning_lifestyle_perk_points = -1
+		}
+		else_if = {
+			limit = { scope:extra_point = flag:martial }
+			add_martial_lifestyle_perk_points = -1
+		}
+		else_if = {
+			limit = { scope:extra_point = flag:stewardship }
+			add_stewardship_lifestyle_perk_points = -1
+		}
+		else_if = {
+			limit = { scope:extra_point = flag:wanderer }
+			add_wanderer_lifestyle_perk_points = -1
+		}
+		else_if = {
+			limit = { scope:extra_point = flag:magic }
+			add_magic_lifestyle_perk_points = -1
+		}
+		else_if = {
+			limit = { scope:extra_point = flag:dark_arts }
+			add_dark_arts_lifestyle_perk_points = -1
+		}
+	}
+}
+
+# Interrogating a Dunmer
+ek_lifestyles.0051 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0051.t
+	desc = ek_lifestyles.0051.desc
+	theme = intrigue_intimidation_focus
+	override_background = {
+		reference = dungeon
+	}	
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:dunmer_prisoner
+		animation = prisondungeon
+	}
+
+	cooldown = { years = 5 }
+
+	trigger = {
+		is_landed = yes
+		culture = {
+			NOT = {
+				has_cultural_pillar = heritage_dunmeri
+			}
+		}
+		any_prisoner = {
+			culture = {
+				has_cultural_pillar = heritage_dunmeri
+			}
+		}
+	}
+
+	immediate = {
+		random_prisoner = {
+			limit = {
+				culture = {
+					has_cultural_pillar = heritage_dunmeri
+				}	
+			}
+			save_scope_as = dunmer_prisoner
+		}
+	}
+
+	option = { # turn their arrogance against them
+		name = ek_lifestyles.0051.a
+		trigger = {
+			scope:dunmer_prisoner = {
+				NOT = {
+					culture = {
+						has_cultural_tradition = tradition_red_mountain_might
+					}
+				}
+			}
+		}
+		scope:dunmer_prisoner = {
+			add_prestige = medium_prestige_loss
+		}
+		add_intrigue_lifestyle_xp = medium_lifestyle_xp
+	}
+
+	option = { # dress them with other house colors
+		name = ek_lifestyles.0051.b
+		trigger = {
+			scope:dunmer_prisoner = {
+				NOT = {
+					culture = {
+						has_cultural_tradition = tradition_red_mountain_might
+					}
+				}
+			}
+		}
+		scope:dunmer_prisoner = {
+			dynasty = {
+				add_dynasty_prestige = medium_dynasty_prestige_loss
+			}
+		}
+		add_intrigue_lifestyle_xp = medium_lifestyle_xp
+	}
+	
+	option = { # ashlander option
+		name = ek_lifestyles.0051.c
+		trigger = {
+			learning > 9
+			scope:dunmer_prisoner = {
+				culture = {
+					has_cultural_tradition = tradition_red_mountain_might
+				}
+			}
+		}
+		
+		scope:dunmer_prisoner = {
+			add_prestige = major_prestige_loss
+		}
+		
+		add_intrigue_lifestyle_xp = major_lifestyle_xp
+	}
+
+	option = { # make them weak to fire
+		name = ek_lifestyles.0051.d
+		trigger = {
+			has_perk = destruction_journeyman_perk
+		}
+		
+		scope:dunmer_prisoner = {
+			add_prestige = major_prestige_loss
+		}
+		
+		add_intrigue_lifestyle_xp = major_lifestyle_xp
+	}
+
+	option = { # no idea
+		name = ek_lifestyles.0051.e
+		add_piety = minor_piety_gain
+	}
+}
+
+### EK Intrigue events
+# 0100 - 0200
+
+# Confiscated Skooma
+ek_lifestyles.0100 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0100.t
+	desc = ek_lifestyles.0100.desc
+
+	theme = intrigue
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:enforcer
+		animation = scheme 
+	}
+
+	override_background = { 
+		reference = sitting_room 
+	}
+
+	trigger = {
+		is_landed = yes
+		has_perk = sense_opportunity_perk
+		any_held_county = { has_county_modifier = county_corruption_bustling_drug_business_modifier }
+	}
+
+	immediate = {
+		if = {
+			limit = { 
+				any_court_position_holder = {
+					type = enforcer_court_position
+					has_court_event_flag = no
+					is_ai = yes
+					is_available = yes
+				}
+			}
+			random_court_position_holder = {
+				type = enforcer_court_position
+				limit = { 					
+					has_court_event_flag = no
+					is_ai = yes
+					is_available = yes
+				}
+				save_scope_as = enforcer
+			}
+		}
+		else = {
+			random_knight = {
+				limit = {
+					has_court_event_flag = no
+					is_ai = yes
+					is_available = yes
+				}
+				save_scope_as = enforcer
+			}
+		}
+		random_held_county = {
+			limit = { has_county_modifier = county_corruption_bustling_drug_business_modifier }
+			save_scope_as = skooma_county
+		}
+	}
+
+	# Give the skooma back - for a price
+	option = {
+		name = ek_lifestyles.0100.a
+
+		add_gold = major_gold_value
+		scope:skooma_county = {
+			add_county_modifier = {
+				modifier = drugged_populace_modifier
+				years = 5
+			}
+		}
+
+		if = { 
+			limit = { has_trait = skooma_drinker }			
+			add_stress = medium_stress_gain
+		}
+
+		stress_impact = {
+			diligent = medium_stress_impact_gain
+			greedy = medium_stress_impact_loss
+		}
+	}
+
+	# I need it!
+	option = {
+		name = ek_lifestyles.0100.b
+		trait = skooma_drinker
+
+		trigger = { 
+			has_trait = skooma_drinker
+		}
+
+		add_stress = major_stress_loss
+
+		add_character_modifier = {
+			modifier = stress_skooma_stupor
+			years = 5
+		}
+	}
+
+	# Keep it for yourself
+	option = {
+		name = ek_lifestyles.0100.c
+
+		trigger = { 
+			NOT = { has_trait = skooma_drinker }
+		}
+
+		add_trait = skooma_drinker
+
+		add_character_modifier = {
+			modifier = stress_skooma_stupor
+			years = 5
+		}
+
+		add_stress = medium_stress_loss
+	}
+
+	# Just get rid of it
+	option = {
+		name = ek_lifestyles.0100.d
+
+		if = { 
+			limit = { has_trait = skooma_drinker }			
+			add_stress = major_stress_gain
+		}
+
+		stress_impact = {
+			diligent = medium_stress_impact_loss
+			greedy = major_stress_impact_gain
+		}
+	}
+}
+
+# Gang war produces worthy recruit
+ek_lifestyles.0101 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0101.t
+	desc = ek_lifestyles.0101.desc
+
+	theme = intrigue
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = scope:gang_member
+		animation = personality_bold 
+	}
+
+	override_background = { 
+		reference = market
+	}
+
+	trigger = {
+		is_landed = yes
+		has_perk = sense_opportunity_perk
+		any_held_county = { has_county_modifier = county_corruption_growing_gangs_modifier }
+	}
+
+	immediate = {
+		random_held_county = {
+			limit = { has_county_modifier = county_corruption_growing_gangs_modifier }
+			save_scope_as = gang_war_county
+		}
+		create_character = {
+			template = thief
+			location = root.capital_province
+			culture = root.culture
+			faith = root.faith
+			age = { 16 26 }
+			save_scope_as = gang_member
+		}
+	}
+
+	# Hire them
+	option = {
+		name = ek_lifestyles.0101.a
+
+		pay_short_term_gold = {
+			target = scope:gang_member
+			gold = medium_gold_value
+		}
+
+		add_courtier = scope:gang_member
+
+		stress_impact = {
+			paranoid = minor_stress_impact_gain
+			gregarious = minor_stress_impact_loss
+		}
+	}
+
+	# Leave them where they are
+	option = {
+		name = ek_lifestyles.0101.b
+
+		scope:gang_war_county = {
+			change_county_control = 10
+		}
+
+		stress_impact = {
+			paranoid = minor_stress_impact_loss
+			gregarious = minor_stress_impact_gain
+		}
+	}	
+}
+
+# Join into a street fight
+ek_lifestyles.0102 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0102.t
+	desc = ek_lifestyles.0102.desc
+
+	theme = martial
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:eager_knight
+	}
+
+	override_background = { 
+		reference = throne_room
+	}
+
+	trigger = {
+		is_landed = yes
+		has_perk = sense_opportunity_perk
+		any_held_county = { has_county_modifier = county_corruption_street_war_experience_modifier }
+		any_knight = { 
+			is_available = yes
+			NOR = { 
+				has_trait = craven
+				has_trait = compassionate
+				has_trait = lazy
+			}
+		}
+	}
+
+	immediate = {
+		random_held_county = {
+			limit = { has_county_modifier = county_corruption_street_war_experience_modifier }
+			save_scope_as = street_war_county
+		}
+		random_knight = {
+			limit = { 
+				is_available = yes
+				NOR = { 
+					has_trait = craven
+					has_trait = compassionate
+					has_trait = lazy
+				} 
+			}
+			save_scope_as = eager_knight
+		}
+	}
+
+	# Do what you want
+	option = {
+		name = ek_lifestyles.0102.a
+		custom_tooltip = ek_lifestyles.0102.a.t
+
+		hidden_effect = {
+			random_list = {
+				20 = { 
+					send_interface_toast = {						
+						title = ek_lifestyles.0102.a.success
+						type = event_toast_effect_good
+						left_icon = scope:eager_knight
+						scope:eager_knight = {
+							random_list = {
+								10 = { add_prowess_skill = 3 }
+								20 = { add_prowess_skill = 2 }
+								20 = { add_prowess_skill = 1 }
+							}
+						}
+					}
+				}
+				10 = { 
+					send_interface_toast = {
+						title = ek_lifestyles.0102.a.failure
+						type = event_toast_effect_bad
+						left_icon = scope:eager_knight
+						scope:eager_knight = {
+							random_list = {
+								90 = { increase_wounds_effect = { REASON = fight } }
+								10 = { 
+									death = {
+										death_reason = death_fight
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			callous = minor_stress_impact_loss
+		}
+	}
+
+	# I will join you
+	option = {
+		name = ek_lifestyles.0102.b
+		custom_tooltip = ek_lifestyles.0102.b.t
+
+		hidden_effect = {
+			random_list = {
+				20 = { 
+					send_interface_toast = {
+						title = ek_lifestyles.0102.b.success
+						type = event_toast_effect_good
+						left_icon = root
+						random_list = {
+							10 = { add_prowess_skill = 3 }
+							20 = { add_prowess_skill = 2 }
+							20 = { add_prowess_skill = 1 }
+						}
+					}
+				}
+				10 = { 
+					send_interface_toast = {
+						title = ek_lifestyles.0102.b.failure
+						type = event_toast_effect_bad
+						left_icon = root
+						increase_wounds_effect = { REASON = fight }
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			brave = minor_stress_impact_loss
+			sadistic = minor_stress_impact_loss
+			craven = medium_stress_impact_gain
+			compassionate = medium_stress_impact_gain
+		}
+	}	
+
+	# Just stay out of it
+	option = {
+		name = ek_lifestyles.0102.c
+
+		scope:eager_knight = {
+			add_opinion = {
+				modifier = disappointed_opinion
+				target = root
+				opinion = -20
+			}
+		}
+	}	
+}
+
+# Sell cheap produce to a neighboring ruler
+ek_lifestyles.0103 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0103.t
+	desc = ek_lifestyles.0103.desc
+
+	theme = intrigue
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+	}
+
+	lower_left_portrait = {
+		character = scope:neighboring_ruler
+	}
+
+	override_background = {
+		reference = council_chamber 
+	}
+
+	trigger = {
+		is_landed = yes
+		has_perk = sense_opportunity_perk
+		any_held_county = { has_county_modifier = county_corruption_cheap_produce_modifier }
+		any_neighboring_and_across_water_top_liege_realm_owner = {
+			is_ai = yes
+		}
+	}
+
+	immediate = {
+		random_held_county = {
+			limit = { has_county_modifier = county_corruption_cheap_produce_modifier }
+			save_scope_as = cheap_produce_county
+		}
+		random_neighboring_and_across_water_top_liege_realm_owner = {
+			limit = { is_ai = yes }
+			save_scope_as = neighboring_ruler
+		}
+	}
+
+	# They won't notice it, surely
+	option = {
+		name = ek_lifestyles.0103.a
+
+		duel = {
+			skill = intrigue
+			value = high_skill_rating
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+				}
+				desc = ek_lifestyles.0103.a.success
+				send_interface_toast = {
+					title = ek_lifestyles.0103.a.success
+					type = event_toast_effect_good
+					left_icon = scope:neighboring_ruler
+					scope:neighboring_ruler = {
+						pay_short_term_gold = {
+							target = root
+							gold = major_gold_value
+						}
+					}
+					add_intrigue_lifestyle_xp = medium_lifestyle_xp
+				}			
+			}
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = ek_lifestyles.0103.a.failure
+				root = {
+					send_interface_toast = {
+						title = ek_lifestyles.0103.a.failure
+						type = event_toast_effect_bad
+						left_icon = scope:neighboring_ruler
+						scope:neighboring_ruler = {
+							add_opinion = {
+								target = root
+								modifier = suspicion_opinion
+								opinion = -25
+							}
+						}
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			greedy = medium_stress_impact_loss
+			arbitrary = minor_stress_impact_loss
+			compassionate = medium_stress_impact_gain
+		}
+	}
+
+	# Not the best idea
+	option = {
+		name = ek_lifestyles.0103.b
+	
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+		}
+	}
+}
+
+# Civil unrest leads to security measures
+ek_lifestyles.0104 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0104.t
+	desc = ek_lifestyles.0104.desc
+
+	theme = intrigue
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+		animation = worry 
+	}
+
+	trigger = {
+		is_landed = yes
+		has_perk = sense_opportunity_perk
+		any_held_county = { has_county_modifier = county_corruption_bolstered_hideouts_modifier }
+	}
+
+	immediate = {
+		random_held_county = {
+			limit = { has_county_modifier = county_corruption_bolstered_hideouts_modifier }
+			save_scope_as = bolstered_defences_county
+		}
+	}
+
+	# Invest in additional security
+	option = {
+		name = ek_lifestyles.0104.a
+
+		remove_short_term_gold = medium_gold_value
+
+		add_character_modifier = {
+			modifier = increased_security_measures
+			years = 5
+		}
+
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+			paranoid = major_stress_impact_loss
+		}
+	}
+
+	# That won't be neccesary
+	option = {
+		name = ek_lifestyles.0104.b
+
+		stress_impact = {
+			paranoid = medium_stress_impact_gain
+		}
+	}	
+}
+
+# Explore the positive side of a corrupted county
+ek_lifestyles.0105 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0105.t
+	desc = ek_lifestyles.0105.desc
+
+	theme = intrigue
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+		animation = personality_dishonorable 
+	}
+
+	trigger = {
+		is_landed = yes
+		has_perk = sense_opportunity_perk
+		capital_county = { has_county_modifier = county_corruption_unsactioned_debauchery_modifier }
+	}
+
+	# Fulffil your desires
+	option = {
+		name = ek_lifestyles.0105.a
+		trait = rakish
+
+		trigger = { 
+			has_trait = rakish
+		}
+
+		remove_short_term_gold = medium_gold_value
+
+		add_stress = medium_stress_loss
+
+		stress_impact = {
+			greedy = minor_stress_impact_gain
+			lustful = major_stress_impact_loss
+			chaste = major_stress_impact_gain
+		}
+	}
+
+	# Visit a brothel
+	option = {
+		name = ek_lifestyles.0105.b
+
+		trigger = { 
+			NOT = { has_trait = rakish }
+		}
+
+		add_trait = rakish
+
+		remove_short_term_gold = medium_gold_value
+
+		add_stress = medium_stress_loss
+
+		stress_impact = {
+			greedy = minor_stress_impact_gain
+			lustful = major_stress_impact_loss
+			chaste = major_stress_impact_gain
+		}
+	}
+
+	# Eh, whatever
+	option = {
+		name = ek_lifestyles.0105.c
+
+		if = { 
+			limit = { has_trait = rakish }			
+			add_stress = major_stress_gain
+		}
+
+		stress_impact = {
+			lustful = medium_stress_impact_gain
+			chaste = minor_stress_impact_loss
+		}
+	}
+}
+
+# Influential Merchant is annoyed by protection fees
+ek_lifestyles.0106 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0106.t
+	desc = ek_lifestyles.0106.desc
+
+	theme = intrigue
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:merchant
+		animation = beg
+	}
+
+	override_background = {
+		reference = throne_room
+	}
+
+	trigger = {
+		is_landed = yes
+		has_perk = sense_opportunity_perk
+		any_held_county = { has_county_modifier = county_corruption_protection_fees_modifier }
+	}
+
+	immediate = {
+		random_held_county = {
+			limit = { has_county_modifier = county_corruption_protection_fees_modifier }
+			save_scope_as = protection_fees_county
+		}
+		create_character = {
+			template = merchant_template
+			location = root.capital_province
+			culture = root.culture
+			faith = root.faith
+			save_scope_as = merchant
+		}
+	}
+
+	# Leave everything as it is
+	option = {
+		name = ek_lifestyles.0106.a
+
+		scope:protection_fees_county = {
+			change_county_control = -10
+		}
+
+		stress_impact = {
+			arbitrary = minor_stress_impact_loss
+			callous = minor_stress_impact_loss
+		}
+	}
+
+	# Lift the fees
+	option = {
+		name = ek_lifestyles.0106.b
+
+		scope:protection_fees_county = {
+			remove_county_modifier = county_corruption_protection_fees_modifier
+			change_county_control = 30
+		}
+
+		stress_impact = {
+			greedy = major_stress_impact_gain
+			compassionate = minor_stress_impact_loss
+		}
+	}
+
+	# Increase the fees!
+	option = {
+		name = ek_lifestyles.0106.c
+
+		scope:protection_fees_county = {
+			remove_county_modifier = county_corruption_protection_fees_modifier
+			add_county_modifier = {
+				modifier = heavy_protection_fees_modifier
+				years = 5
+			}
+			change_county_control = -50
+		}
+
+		stress_impact = {
+			greedy = medium_stress_impact_loss
+			content = minor_stress_impact_gain
+			sadistic = minor_stress_impact_loss
+			compassionate = medium_stress_impact_gain
+		}
+	}
+
+	after = {
+		scope:merchant = {
+			silent_disappearance_effect = yes
+		}
+	}
+}
+
+# Let's profit of people having fun
+ek_lifestyles.0107 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0107.t
+	desc = ek_lifestyles.0107.desc
+
+	theme = intrigue
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+		animation = personality_greedy
+	}
+
+	trigger = {
+		is_landed = yes
+		has_perk = sense_opportunity_perk
+		any_held_county = { has_county_modifier = county_corruption_thriving_nightlife_modifier }
+	}
+
+	immediate = {
+		random_held_county = {
+			limit = { has_county_modifier = county_corruption_thriving_nightlife_modifier}
+			save_scope_as = thriving_nightlife_county
+		}
+	}
+
+	# Let them pay
+	option = {
+		name = ek_lifestyles.0107.a
+
+		scope:thriving_nightlife_county = {
+			add_county_modifier = {
+				modifier = county_corruption_protection_fees_modifier
+				years = 5
+			}
+			change_county_control = -10
+		}
+
+		stress_impact = {
+			greedy = medium_stress_impact_loss
+			content = minor_stress_impact_gain
+			diligent = minor_stress_impact_gain
+		}
+	}
+
+	# Encourage that behaviour
+	option = {
+		name = ek_lifestyles.0107.b
+		
+		remove_short_term_gold = major_gold_value
+
+		scope:thriving_nightlife_county = {
+			add_county_modifier = {
+				modifier = invested_in_province_modifier
+				years = 5
+			}
+		}		
+
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+			diligent = minor_stress_impact_loss
+		}
+	}
+}
+
+# A poorly constructed building collapses
+ek_lifestyles.0108 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0108.t
+	desc = ek_lifestyles.0108.desc
+
+	theme = intrigue
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+	}
+
+	override_background = {
+		reference = council_chamber 
+	}
+
+	trigger = {
+		is_landed = yes
+		has_perk = sense_opportunity_perk
+		any_held_county = { has_county_modifier = county_corruption_uncontrolled_sprawl_modifier }
+	}
+
+	immediate = {
+		random_held_county = {
+			limit = { has_county_modifier = county_corruption_uncontrolled_sprawl_modifier }
+			save_scope_as = uncontrolled_sprawl_county
+		}
+	}
+
+	# Pay money to the survivors
+	option = {
+		name = ek_lifestyles.0108.a
+
+		remove_short_term_gold = medium_gold_value
+
+		scope:uncontrolled_sprawl_county = {
+			change_county_control = 25
+		}
+
+		stress_impact = {
+			greedy = major_stress_impact_gain
+			compassionate = medium_stress_impact_loss
+			diligent = minor_stress_impact_gain
+		}
+	}
+
+	# Find a scapegoat
+	option = {
+		name = ek_lifestyles.0108.b
+		
+		scope:uncontrolled_sprawl_county = {
+			remove_county_modifier = county_corruption_uncontrolled_sprawl_modifier
+			change_county_control = 15
+		}	
+
+		add_intrigue_lifestyle_xp = minor_lifestyle_xp	
+
+		stress_impact = {
+			sadistic = minor_stress_impact_loss
+			compassionate = medium_stress_impact_gain
+		}
+	}
+
+	# Do nothing
+	option = {
+		name = ek_lifestyles.0108.c
+
+		scope:uncontrolled_sprawl_county = {
+			change_county_control = -10
+		}
+				
+		stress_impact = {
+			lazy = minor_stress_impact_loss
+			callous = minor_stress_impact_loss
+		}
+	}
+}
+
+# A prisoner pleas for freedom
+ek_lifestyles.0109 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0109.t
+	desc = ek_lifestyles.0109.desc
+
+	theme = prison
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:prisoner
+		animation = beg
+	}
+
+	trigger = {
+		is_landed = yes
+		has_perk = sense_opportunity_perk
+		any_prisoner = {
+			has_infamous_trait_trigger = no
+			is_daedra_cultist = no
+			has_dynasty = no
+			age <= 30
+		}
+	}
+
+	immediate = {
+		random_prisoner = {
+			limit = { 
+				has_infamous_trait_trigger = no
+				is_daedra_cultist = no
+				has_dynasty = no
+				age <= 30
+			}
+			save_scope_as = prisoner
+		}
+	}
+
+	# Recruit prisoner
+	option = {
+		name = ek_lifestyles.0109.a
+
+		add_courtier = scope:prisoner
+
+		stress_impact = {
+			sadistic = medium_stress_impact_gain
+			compassionate = minor_stress_impact_loss
+		}
+	}
+
+	# Punish prisoner
+	option = {
+		name = ek_lifestyles.0109.b
+
+		scope:prisoner = {
+			add_character_modifier = {
+				modifier = recently_tortured
+				years = 5
+			}
+			add_opinion = {
+				modifier = tortured_me
+				target = root
+			}
+		}
+
+		add_dread = minor_dread_gain
+
+		stress_impact = {
+			compassionate = major_stress_impact_gain
+			sadistic = medium_stress_impact_loss			
+			wrathful = minor_stress_impact_loss
+		}
+	}
+
+	# Free prisoner
+	option = {
+		name = ek_lifestyles.0109.c
+
+		scope:prisoner = {
+			release_from_prison = yes
+			add_opinion = {
+				modifier = thankful_opinion
+				target = root
+			}
+		}		
+
+		stress_impact = {
+			compassionate = major_stress_impact_loss
+			sadistic = major_stress_impact_gain		
+			wrathful = minor_stress_impact_gain
+		}
+	}
+
+	# Ignore Prisoner
+	option = {
+		name = ek_lifestyles.0109.d
+
+		stress_impact = {
+			callous = medium_stress_impact_loss	
+			sadistic = medium_stress_impact_gain		
+			compassionate = minor_stress_impact_gain
+		}
+	}
+}
+
+# Sent someone to beat up a landless rival
+ek_lifestyles.0110 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0110.t
+	desc = ek_lifestyles.0110.desc
+
+	theme = intrigue
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	lower_left_portrait = {
+		character = scope:landless_rival
+	}
+
+	trigger = {
+		is_landed = yes
+		has_perk = sense_opportunity_perk
+		any_relation = {
+			type = rival
+			is_ruler = no
+			in_diplomatic_range = root
+		}
+	}
+
+	immediate = {
+		random_relation = {
+			type = rival
+			limit = { 
+				is_ruler = no
+				in_diplomatic_range = root
+			}
+			save_scope_as = landless_rival
+		}
+	}
+
+	# What a great idea
+	option = {
+		name = ek_lifestyles.0110.a
+
+		remove_short_term_gold = major_gold_value
+
+		duel = {
+			skill = intrigue
+			value = high_skill_rating
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+				}
+				desc = ek_lifestyles.0110.a.success
+				random_list = { 
+					30 = {
+						send_interface_toast = {
+							title = ek_lifestyles.0110.a.great.success
+							type = event_toast_effect_good
+							left_icon = scope:landless_rival
+							scope:landless_rival = {
+								death = {
+									death_reason = death_fight
+								}
+							}
+							add_intrigue_lifestyle_xp = major_lifestyle_xp
+						}						
+					}
+					70 = {
+						send_interface_toast = {
+							title = ek_lifestyles.0110.a.success
+							type = event_toast_effect_bad
+							left_icon = scope:landless_rival
+							scope:landless_rival = {
+								increase_wounds_effect = { REASON = fight }
+							}
+							add_intrigue_lifestyle_xp = medium_lifestyle_xp
+						}
+					}
+				}				
+			}
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = ek_lifestyles.0110.a.failure
+				root = {
+					send_interface_toast = {
+						title = ek_lifestyles.0110.a.failure
+						type = event_toast_effect_bad
+						left_icon = scope:landless_rival
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			vengeful = medium_stress_impact_loss
+			sadistic = minor_stress_impact_loss
+			compassionate = medium_stress_impact_gain
+			greedy = minor_stress_impact_loss
+		}
+	}
+
+	# Not worth the money
+	option = {
+		name = ek_lifestyles.0110.b
+
+		stress_impact = {
+			compassionate = minor_stress_impact_loss
+			sadistic = medium_stress_impact_gain		
+			vengeful = medium_stress_impact_gain
+		}
+	}
+}
+
+# Young hero causes trouble
+ek_lifestyles.0111 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0111.t
+	desc = ek_lifestyles.0111.desc
+
+	theme = intrigue
+
+	cooldown = { years = 100 }
+
+	left_portrait = {
+		character = root
+		animation = personality_rational 
+	}
+
+	right_portrait = {
+		character = scope:enforcer
+		animation = personality_vengeful
+	}
+
+	lower_center_portrait = {
+		character = scope:young_hero
+	}
+
+	override_background = {
+		reference = council_chamber 
+	}
+
+	trigger = {
+		is_landed = yes
+		has_trait = crimeboss
+	}
+
+	immediate = {
+		if = {
+			limit = { 
+				any_court_position_holder = {
+					type = enforcer_court_position
+					has_court_event_flag = no
+					is_ai = yes
+					is_available = yes
+				}
+			}
+			random_court_position_holder = {
+				type = enforcer_court_position
+				limit = { 					
+					has_court_event_flag = no
+					is_ai = yes
+					is_available = yes
+				}
+				save_scope_as = enforcer
+			}
+		}
+		else = {
+			random_knight = {
+				limit = {
+					has_court_event_flag = no
+					is_ai = yes
+					is_available = yes
+				}
+				save_scope_as = enforcer
+			}
+		}
+		create_character = {
+			template = young_hero_template
+			location = root.capital_province
+			culture = root.culture
+			faith = root.faith
+			age = { 20 25 }
+			save_scope_as = young_hero
+		}
+		random_held_county = {
+			save_scope_as = heroes_county
+		}
+	}
+
+	# Let them have an "accident"
+	option = {
+		name = ek_lifestyles.0111.a
+
+		duel = {
+			skill = intrigue
+			value = 20
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+				}
+				desc = ek_lifestyles.0111.a.success
+				send_interface_toast = {
+					title = ek_lifestyles.0111.a.success
+					type = event_toast_effect_good
+					left_icon = scope:young_hero
+					scope:young_hero = {
+						death = {
+							death_reason = death_vanished
+						}
+					}
+					add_intrigue_lifestyle_xp = medium_lifestyle_xp
+				}						
+			}
+			2 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				desc = ek_lifestyles.0111.a.failure
+				root = {
+					send_interface_toast = {
+						title = ek_lifestyles.0111.a.failure
+						type = event_toast_effect_bad
+						left_icon = scope:young_hero
+						add_character_modifier = {
+							modifier = villain_modifier
+							years = 5
+						}
+					}
+					hidden_effect = {
+						random_list = { 
+							75 = {
+								trigger_event = {
+									id = ek_lifestyles.0112
+									days = { 31 62 }
+								}
+							}
+							25 = {
+								trigger_event = {
+									id = ek_lifestyles.0113
+									days = { 31 62 }
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			compassionate = major_stress_impact_gain
+			sadistic = medium_stress_impact_loss
+		}
+	}
+
+	# Let your enforcer deal with that
+	option = {
+		name = ek_lifestyles.0111.b
+		custom_tooltip = ek_lifestyles.0111.b.t
+
+		trigger = { 
+			any_court_position_holder = {
+				type = enforcer_court_position
+				has_court_event_flag = no
+				is_ai = yes
+				is_available = yes
+			}
+		}
+
+		hidden_effect = {
+			random_list = {
+				50 = {
+					send_interface_toast = {
+						title = ek_lifestyles.0111.b.success
+						type = event_toast_effect_good
+						left_icon = scope:young_hero
+						right_icon = scope:enforcer
+						scope:young_hero = {
+							death = {
+								death_reason = death_murder
+								killer = scope:enforcer
+							}
+						}
+					}
+				}
+				25 = {
+					send_interface_toast = {
+						title = ek_lifestyles.0111.b.failure
+						type = event_toast_effect_bad
+						left_icon = scope:young_hero
+						right_icon = scope:enforcer
+						scope:enforcer = {
+							add_character_modifier = {
+								modifier = villain_modifier
+								years = 5
+							}
+						}
+					}
+					random_list = { 
+						75 = {
+							trigger_event = {
+								id = ek_lifestyles.0112
+								days = { 31 62 }
+							}
+						}
+						25 = {
+							trigger_event = {
+								id = ek_lifestyles.0113
+								days = { 31 62 }
+							}
+						}
+					}
+				}
+				25 = {
+					send_interface_toast = {
+						title = ek_lifestyles.0111.b.critical_failure
+						type = event_toast_effect_bad
+						left_icon = scope:young_hero
+						right_icon = scope:enforcer
+						scope:enforcer = {
+							death = {
+								death_reason = death_fight
+								killer = scope:young_hero
+							}
+						}
+					}
+					random_list = { 
+						75 = {
+							trigger_event = {
+								id = ek_lifestyles.0112
+								days = { 31 62 }
+							}
+						}
+						25 = {
+							trigger_event = {
+								id = ek_lifestyles.0113
+								days = { 31 62 }
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	# What's the worst that could happen?
+	option = {
+		name = ek_lifestyles.0111.c
+
+		hidden_effect = {
+			random_list = { 
+				75 = {
+					trigger_event = {
+						id = ek_lifestyles.0112
+						days = { 31 62 }
+					}
+				}
+				25 = {
+					trigger_event = {
+						id = ek_lifestyles.0113
+						days = { 31 62 }
+					}
+				}
+			}
+		}	
+
+		stress_impact = {
+			lazy = medium_stress_impact_loss
+			diligent = minor_stress_impact_gain		
+		}
+	}
+}
+
+# Young hero disrupts income
+ek_lifestyles.0112 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0112.t
+	desc = ek_lifestyles.0112.desc
+
+	theme = intrigue
+
+	left_portrait = {
+		character = root
+		animation = stress 
+	}
+
+	lower_left_portrait = {
+		character = scope:young_hero
+	}
+
+	immediate = {
+		add_character_modifier = {
+			modifier = disrupted_business
+			years = 3
+		}
+	}
+
+	# Curses
+	option = {
+		name = ek_lifestyles.0112.a
+
+		hidden_effect = {
+			random_list = { 
+				50 = {
+					trigger_event = {
+						id = ek_lifestyles.0113
+						days = { 31 62 }
+					}
+				}
+				30 = {
+					trigger_event = {
+						id = ek_lifestyles.0115
+						days = { 31 62 }
+					}
+				}
+				20 = {
+					trigger_event = {
+						id = ek_lifestyles.0114
+						days = { 31 62 }
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			diligent = minor_stress_impact_gain		
+		}
+	}
+}
+
+# Young hero slays monster
+ek_lifestyles.0113 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0113.t
+	desc = ek_lifestyles.0113.desc
+
+	theme = intrigue
+
+	left_portrait = {
+		character = scope:young_hero
+		animation = celebrate_sword
+	}
+
+	override_background = {
+		reference = terrain
+	}
+
+	# Don't care
+	option = {
+		name = ek_lifestyles.0113.a
+
+		scope:heroes_county = {
+			add_county_modifier = {
+				modifier = slain_monster_modifier
+				years = 3
+			}
+		}
+
+		hidden_effect = {
+			random_list = { 
+				80 = {
+					trigger_event = {
+						id = ek_lifestyles.0115
+						days = { 31 62 }
+					}
+				}
+				20 = {
+					trigger_event = {
+						id = ek_lifestyles.0114
+						days = { 31 62 }
+					}
+				}
+			}
+		}
+	}
+}
+
+# Someone else killed the hero
+ek_lifestyles.0114 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0114.t
+	desc = ek_lifestyles.0114.desc
+
+	theme = intrigue
+
+	left_portrait = {
+		character = scope:young_hero
+	}
+
+	override_background = {
+		reference = alley_night 
+	}
+
+	immediate = {
+		scope:young_hero = {
+			death = {
+				death_reason = death_murder
+			}
+		}
+	}
+
+	# What a relief
+	option = {
+		name = ek_lifestyles.0114.a
+
+		add_stress = medium_stress_loss
+		if = {
+			limit = { has_character_modifier = disrupted_business }
+			remove_character_modifier = disrupted_business
+		}
+	}
+}
+
+# The hero confronts you
+ek_lifestyles.0115 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0115.t
+	desc = ek_lifestyles.0115.desc
+
+	theme = intrigue
+
+	left_portrait = {
+		character = scope:young_hero
+		animation = aggressive_sword 
+	}
+
+	right_portrait = {
+		character = root
+		animation = shock
+	}
+
+	override_background = {
+		reference = throne_room
+	}
+
+	# Duel them
+	option = {
+		name = ek_lifestyles.0115.a
+		custom_tooltip = ek_lifestyles.0115.a.t
+
+		configure_start_single_combat_effect = {
+            SC_INITIATOR = root
+            SC_ATTACKER = root
+            SC_DEFENDER = scope:young_hero
+            FATALITY = always
+            FIXED = no
+            LOCALE = courtyard
+            OUTPUT_EVENT = ek_lifestyles.0116
+            INVALIDATION_EVENT = single_combat.1006
+        }
+
+		stress_impact = {
+			brave = medium_stress_impact_loss
+			craven = major_stress_impact_gain		
+		}
+	}
+
+	# Call your guards
+	option = {
+		name = ek_lifestyles.0115.b
+
+		scope:young_hero = {
+			death = {
+				death_reason = death_fight
+			}
+		}
+
+		add_prestige = minor_prestige_loss
+
+		trigger_event = ek_lifestyles.0116
+
+		stress_impact = {
+			craven = medium_stress_impact_loss
+			brave = major_stress_impact_gain		
+		}
+	}
+
+	# Convince them to join you
+	option = {
+		name = ek_lifestyles.0115.c
+
+		duel = {
+           	skills = { diplomacy intrigue }
+            value = extremely_high_skill_rating
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                }
+				custom_tooltip = ek_lifestyles.0115.c.success            
+                send_interface_toast = {
+                    type = event_toast_effect_good
+                    title = ek_lifestyles.0115.c.success
+                    left_icon = scope:root
+                    trigger_event = ek_lifestyles.0117
+                }
+            }
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                    multiplier = -1
+                } 
+				custom_tooltip = ek_lifestyles.0115.c.failure             
+                send_interface_toast = {
+                    type =  event_toast_effect_bad
+                    title = ek_lifestyles.0115.c.failure
+                    left_icon = scope:root
+                    configure_start_single_combat_effect = {
+						SC_INITIATOR = scope:young_hero
+						SC_ATTACKER = scope:young_hero
+						SC_DEFENDER = root
+						FATALITY = always
+						FIXED = no
+						LOCALE = courtyard
+						OUTPUT_EVENT = ek_lifestyles.0116
+						INVALIDATION_EVENT = single_combat.1006
+					}
+                }
+            }
+        }
+	}
+}
+
+# Gain the heros weapon
+ek_lifestyles.0116 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0116.t
+	desc = ek_lifestyles.0116.desc
+
+	theme = intrigue
+
+	left_portrait = {
+		character = root
+		animation = admiration 
+	}
+
+	right_portrait = {
+		character = scope:young_hero
+	}
+	
+	override_background = {
+		reference = throne_room
+	}
+
+	immediate = {
+		if = {
+			limit = { has_character_modifier = disrupted_business }
+			remove_character_modifier = disrupted_business
+		}
+		hidden_effect = {
+			scope:young_hero = {
+				create_artifact = {
+					name = artifact_heros_blade_name
+					description = artifact_heros_blade_description
+					type = sword
+					visuals = sword
+					creator = scope:young_hero
+					modifier = artifact_monthly_prestige_3_modifier
+					modifier = artifact_prowess_8_modifier
+					modifier = heros_blade_modifier
+					wealth = 70
+					quality = 70
+					save_scope_as = heros_blade
+				}			
+			}
+		}
+	}
+							
+	# At least a reward
+	option = {
+		name = ek_lifestyles.0116.a
+
+		scope:heros_blade = {
+			set_owner = {
+				target = root
+				history = {
+					location = root.capital_province
+					actor = scope:young_hero
+					recipient = root
+					type = won_in_duel
+				}
+			}
+		}
+
+		add_stress = medium_stress_loss
+	}
+}
+
+# A Hero Turned
+ek_lifestyles.0117 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0117.t
+	desc = ek_lifestyles.0117.desc
+
+	theme = intrigue
+
+	left_portrait = {
+		character = scope:young_hero
+		animation = war_over_loss 
+	}
+
+	right_portrait = {
+		character = root
+	}
+	
+	override_background = {
+		reference = throne_room
+	}
+
+	immediate = {
+		if = {
+			limit = { has_character_modifier = disrupted_business }
+			remove_character_modifier = disrupted_business
+		}
+	}
+							
+	# Join the dark side
+	option = {
+		name = ek_lifestyles.0117.a
+
+		add_courtier = scope:young_hero
+	}
+}
+
+# A master thief joins your court
+ek_lifestyles.0118 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0118.t
+	desc = ek_lifestyles.0118.desc
+
+	theme = intrigue
+
+	cooldown = { years = 100 }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:master_thief
+		animation = scheme
+	}
+
+	override_background = {
+		reference = throne_room
+	}
+
+	trigger = {
+		is_landed = yes
+	}
+
+	immediate = {
+		create_character = {
+			template = master_thief
+			location = root.capital_province
+			age = { 20 40 }
+			save_scope_as = master_thief
+		}
+	}
+
+	# Be welcome
+	option = {
+		name = ek_lifestyles.0118.a
+
+		add_courtier = scope:master_thief
+
+		hidden_effect = {
+			random_list = {
+				50 = {}
+				50 = {
+					trigger_event = {
+						id = ek_lifestyles.0119
+						days = { 31 93 }
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			paranoid = medium_stress_impact_gain
+		}
+	}
+
+	# I don't trust you
+	option = {
+		name = ek_lifestyles.0118.b		
+
+		stress_impact = {
+			paranoid = minor_stress_impact_gain
+		}
+	}
+}
+
+# The master thief steals your gold...
+ek_lifestyles.0119 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0119.t
+	desc = ek_lifestyles.0119.desc
+
+	theme = intrigue
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+
+	override_background = {
+		reference = council_chamber 
+	}
+
+	trigger = {
+		is_landed = yes
+		gold >= 1000
+	}
+
+	immediate = {
+		random_courtier = {
+            limit = {
+                is_available_ai_adult = yes
+                is_knight = yes
+            }
+        	save_scope_as = random_knight
+		}
+		scope:master_thief = {
+            move_to_pool = yes
+        }
+		if = {
+			limit = { gold >= 10000 }
+			remove_short_term_gold = 10000
+			add_character_flag = lost_10000_gold
+		}
+		else_if = {
+			limit = { gold >= 5000 }
+			remove_short_term_gold = 5000
+			add_character_flag = lost_5000_gold
+		}
+		else_if = {
+			limit = { gold >= 1000 }
+			remove_short_term_gold = 1000
+			add_character_flag = lost_1000_gold
+		}
+		add_opinion = { 
+			target = scope:master_thief
+			modifier = robbed_me_opinion
+		}	
+	}
+
+	# Follow their tracks
+	option = {
+		name = ek_lifestyles.0119.a
+
+		duel = {
+        	skills = { intrigue }
+         	value = very_high_skill_rating
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                }               
+                send_interface_toast = {
+                    type = event_toast_effect_good
+                    title = ek_lifestyles.0119.a.success
+					trigger_event = ek_lifestyles.0120
+					add_intrigue_lifestyle_xp = major_lifestyle_xp
+                }
+            }
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                    multiplier = -1
+                }                    
+                send_interface_toast = {
+                    type =  event_toast_effect_bad
+                    title = ek_lifestyles.0119.a.failure
+                    left_icon = root
+					add_stress = major_stress_gain
+                }
+            }
+        }
+
+		stress_impact = {
+			vengeful = medium_stress_impact_loss
+			lazy = minor_stress_impact_gain
+			forgiving = minor_stress_impact_gain
+		}
+	}
+
+	# Send out one of your knigths
+	option = {
+		name = ek_lifestyles.0119.b
+
+        hidden_effect = {
+		    random_list = {
+                # The knight succeds
+				20 = {
+                    send_interface_toast = {
+                        type = event_toast_effect_good
+                        left_icon = scope:random_knight
+						right_icon = scope:master_thief
+			            title = ek_lifestyles.0119.b.success
+						trigger_event = ek_lifestyles.0120
+                    }
+                }
+				# The knight fails
+			    60 = {
+                    send_interface_toast = {
+                        type = event_toast_effect_bad
+			            left_icon = scope:random_knight
+						right_icon = scope:master_thief
+			            title = ek_lifestyles.0119.b.failure
+			        }
+					if = {
+						limit = { has_character_flag = lost_10000_gold }
+						remove_character_flag = lost_10000_gold
+					}
+					else_if = {
+						limit = { has_character_flag = lost_5000_gold }
+						remove_character_flag = lost_5000_gold
+					}
+					else_if = {
+						limit = { has_character_flag = lost_1000_gold }
+						remove_character_flag = lost_1000_gold
+					}					
+		        }			        
+                # The knight dies
+				20 = {
+                    send_interface_toast = {
+                        type = event_toast_effect_bad
+                        left_icon = scope:random_knight
+						right_icon = scope:master_thief
+			            title = ek_lifestyles.0119.b.critical_failure
+						scope:random_knight = {
+							death = {
+								death_reason = death_murder
+								killer = scope:master_thief
+							}
+						}
+                    }
+					if = {
+						limit = { has_character_flag = lost_10000_gold }
+						remove_character_flag = lost_10000_gold
+					}
+					else_if = {
+						limit = { has_character_flag = lost_5000_gold }
+						remove_character_flag = lost_5000_gold
+					}
+					else_if = {
+						limit = { has_character_flag = lost_1000_gold }
+						remove_character_flag = lost_1000_gold
+					}
+                }			    
+			}
+		}
+	}
+
+	# Well, its gone
+	option = {
+		name = ek_lifestyles.0119.c
+
+		add_intrigue_lifestyle_xp = minor_lifestyle_xp
+
+		stress_impact = {
+			vengeful = medium_stress_impact_gain
+			lazy = minor_stress_impact_loss
+			forgiving = minor_stress_impact_loss
+		}
+
+		if = {
+			limit = { has_character_flag = lost_10000_gold }
+			remove_character_flag = lost_10000_gold
+		}
+		else_if = {
+			limit = { has_character_flag = lost_5000_gold }
+			remove_character_flag = lost_5000_gold
+		}
+		else_if = {
+			limit = { has_character_flag = lost_1000_gold }
+			remove_character_flag = lost_1000_gold
+		}
+	}
+}
+
+# You catch the thief
+ek_lifestyles.0120 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0118.t
+	desc = ek_lifestyles.0118.desc
+
+	theme = intrigue
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:master_thief
+		animation = prisondungeon 
+	}
+
+	override_background = {
+		reference = throne_room
+	}
+
+	trigger = {
+		is_landed = yes
+	}
+
+	immediate = {
+		if = {
+			limit = { has_character_flag = lost_10000_gold }
+			add_gold = 7500
+			remove_character_flag = lost_10000_gold
+		}
+		else_if = {
+			limit = { has_character_flag = lost_5000_gold }
+			add_gold = 4000
+			remove_character_flag = lost_5000_gold
+		}
+		else_if = {
+			limit = { has_character_flag = lost_1000_gold }
+			add_gold = 750
+			remove_character_flag = lost_1000_gold
+		}
+	}
+
+	# Imprison them
+	option = {
+		name = ek_lifestyles.0120.a
+
+		imprison = {
+			target = scope:master_thief
+			type = dungeon
+		}
+
+		stress_impact = {
+			vengeful = medium_stress_impact_loss
+			wrathful = medium_stress_impact_loss
+			forgiving = minor_stress_impact_gain
+			compassionate = minor_stress_impact_gain
+		}
+	}
+
+	# Kill them
+	option = {
+		name = ek_lifestyles.0120.b
+
+		scope:master_thief = {
+			death = {
+				death_reason = death_execution
+				killer = root
+			}
+		}
+
+		stress_impact = {
+			vengeful = major_stress_impact_loss
+			wrathful = major_stress_impact_loss
+			forgiving = medium_stress_impact_gain
+			compassionate = medium_stress_impact_gain
+		}
+	}
+
+	# Forgive them
+	option = {
+		name = ek_lifestyles.0120.c
+
+		add_courtier = scope:master_thief
+
+		scope:master_thief = {
+			add_opinion = {
+				modifier = thankful_opinion
+				target = root
+				opinion = 50
+			}
+		}
+
+		consume_all_criminal_reasons_effect = {
+			LIEGE = root
+			CRIMINAL = scope:master_thief
+		}
+
+		stress_impact = {
+			vengeful = major_stress_impact_gain
+			paranoid = medium_stress_impact_gain
+			forgiving = major_stress_impact_loss
+			compassionate = medium_stress_impact_loss
+		}
+	}
+}
+
+#Plan a big heist against a wealthy neighbor
+ek_lifestyles.0121 = {
+	type = character_event
+	title = ek_lifestyles.0121.t
+	desc = ek_lifestyles.0121.desc
+
+	left_portrait = {
+		character = root
+	}
+	
+	right_portrait = { 
+		character = scope:eager_thief
+		animation = scheme
+	}
+
+	theme = intrigue
+
+	cooldown = { years = 25 }
+
+	override_background = {
+		reference = study
+	}
+
+	trigger = {
+		is_landed = yes
+		NOT = { has_character_flag = had_event_ek_lifestyles.0121 }
+		has_perk = call_henchmen_perk
+		any_courtier = {
+			is_available_ai_adult = yes
+			intrigue >= very_high_skill_rating
+			is_councillor = no
+		}
+		any_neighboring_and_across_water_top_liege_realm_owner = {
+			gold >= 1000
+			is_ai = yes #EK TODO: add possible counterplay for a player instead
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			add_character_flag = had_event_ek_lifestyles.0121
+			add_character_flag = {
+				flag = is_in_intrigue_special_event
+				days = 200
+			}
+
+			random_courtier = {
+				limit = {
+					is_available_ai_adult = yes
+					intrigue >= very_high_skill_rating
+					is_councillor = no
+				}
+				save_scope_as = eager_thief
+			}
+
+			random_neighboring_and_across_water_top_liege_realm_owner = {
+				limit = { 
+					gold >= 1000
+					is_ai = yes
+				}
+				save_scope_as = heist_target
+			}				
+		}
+	}
+
+	#let's go
+	option = {
+		name = ek_lifestyles.0121.a
+
+		trigger_event = {
+			id = ek_lifestyles.0122
+			days = { 3 7 }
+		}
+		reverse_add_opinion = {
+			target = scope:eager_thief
+			modifier = pleased_opinion
+			opinion = 10
+		}
+		custom_tooltip = intrigue_lifestyle_perk_indication
+	}
+
+	#nah thanks
+	option = {
+		name = ek_lifestyles.0121.b
+
+		reverse_add_opinion = {
+			target = scope:eager_thief
+			modifier = disappointed_opinion
+			opinion = -10
+		}
+	}
+}
+
+#Should the heist take place during the night or broad daylight?
+ek_lifestyles.0122 = {
+	type = character_event
+	title = ek_lifestyles.0122.t
+	desc = ek_lifestyles.0122.desc
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+	right_portrait = {
+		character = scope:eager_thief
+		animation = personality_dishonorable 
+	}
+	theme = intrigue
+
+	override_background = {
+		reference = study
+	}
+
+	immediate = {
+		set_variable = {
+			name = plan_heist_points #to keep track of how you're doing
+			value = 0
+			days = 800
+		}
+	}
+
+	option = { #Special option! Why not at dawn?
+		trigger = {
+			has_trait = eccentric
+		}
+		trait = eccentric
+		name = ek_lifestyles.0122.a
+		custom_tooltip = ek_lifestyles.intrigue.plan_heist.very_well
+		
+		change_variable = {
+			name = plan_heist_points
+			add = 2
+		}
+
+		ai_chance = {
+			base = 1000
+		}
+	}
+
+	option = { #Day is riskier but may give a higher reward
+		name = ek_lifestyles.0122.b
+
+		add_intrigue_lifestyle_xp = minor_lifestyle_experience
+
+		duel = {
+			skill = intrigue
+			value = average_skill_level
+			60 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 2.5
+					min = -59
+				}
+				desc = ek_lifestyles.0122.b.success
+
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lifestyles.0122.b.success
+					left_icon = root
+					custom_tooltip = ek_lifestyles.intrigue.plan_heist.very_well
+					change_variable = {
+						name = plan_heist_points
+						add = 2
+					}
+				}
+			}
+			40 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -2.5
+					min = -39
+				}
+				desc = ek_lifestyles.0122.b.failure
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_lifestyles.0122.b.failure
+					left_icon = root
+					custom_tooltip = ek_lifestyles.intrigue.plan_heist.poorly
+					change_variable = {
+						name = plan_heist_points
+						add = -1
+					}
+				}
+			}
+		}
+		stress_impact = {
+			patient = minor_stress_impact_gain
+		}
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 50
+				OR = {
+					has_trait = brave
+					has_trait = impatient
+				}
+			}
+		}
+	}
+
+	option = { #Night is the safer option that doesn't pay off as well
+		name = ek_lifestyles.0122.c
+
+		custom_tooltip = ek_lifestyles.intrigue.plan_heist.well
+		change_variable = {
+			name = plan_heist_points
+			add = 1
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 50
+				has_trait = patient
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = ek_lifestyles.0123
+			days = { 3 7 }
+		}
+	}
+}
+
+# Through the sewers or in disguise?
+ek_lifestyles.0123 = {
+	type = character_event
+	title = ek_lifestyles.0123.t
+	desc = ek_lifestyles.0123.desc
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:eager_thief
+		animation = personality_bold
+	}
+	theme = intrigue
+
+	override_background = {
+		reference = study
+	}
+
+	trigger = {
+		exists = var:plan_heist_points #If it runs out in MP, kill the event
+	}
+
+	option = { #Special option! Levitation potion
+		trigger = {
+			has_trait = lifestyle_herbalist
+		}
+		trait = lifestyle_herbalist
+		name = ek_lifestyles.0123.a
+
+		custom_tooltip = ek_lifestyles.intrigue.plan_heist.very_well
+
+		change_variable = {
+			name = plan_heist_points
+			add = 2
+		}
+
+		ai_chance = {
+			base = 1000
+		}
+	}
+
+	option = { #In Disguise
+		name = ek_lifestyles.0123.b
+		add_martial_lifestyle_xp = minor_lifestyle_experience
+		duel = {
+			skills = { intrigue diplomacy }
+			value = average_skill_level
+
+			60 = {
+				desc = ek_lifestyles.0123.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 2.5
+					min = -59
+				}
+
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lifestyles.0123.b.success
+					left_icon = root
+					custom_tooltip = ek_lifestyles.intrigue.plan_heist.well
+					change_variable = {
+						name = plan_heist_points
+						add = 1
+					}
+				}
+			}
+			40 = {
+				desc = ek_lifestyles.0123.b.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -2.5
+					min = -39
+				}
+
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_lifestyles.0123.b.failure
+					left_icon = root
+					custom_tooltip = ek_lifestyles.intrigue.plan_heist.poorly
+					change_variable = {
+						name = plan_heist_points
+						add = -1
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 50
+				OR = {
+					has_trait = brave
+					has_trait = impatient
+					has_trait = aggressive_attacker
+					has_trait = reckless
+				}
+			}
+		}
+	}
+
+	option = { # Fight through the sewers
+		name = ek_lifestyles.0123.c
+
+		duel = {
+			skills = { intrigue martial }
+			value = average_skill_level
+
+			60 = {
+				desc = ek_lifestyles.0123.c.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 2.5
+					min = -59
+				}
+
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lifestyles.0123.c.success
+					left_icon = root
+					custom_tooltip = ek_lifestyles.intrigue.plan_heist.well
+					change_variable = {
+						name = plan_heist_points
+						add = 1
+					}
+				}
+			}
+			40 = {
+				desc = ek_lifestyles.0123.c.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -2.5
+					min = -39
+				}
+
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_lifestyles.0123.c.failure
+					left_icon = root
+					custom_tooltip = ek_lifestyles.intrigue.plan_heist.poorly
+					change_variable = {
+						name = plan_heist_points
+						add = -1
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 50
+				OR = {
+					has_trait = diligent
+					has_trait = patient
+					has_trait = flexible_leader
+				}
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = ek_lifestyles.0124
+			days = { 3 7 }
+		}
+	}
+}
+
+#Open the Vault
+ek_lifestyles.0124 = {
+	type = character_event
+	title = ek_lifestyles.0124.t
+	desc = ek_lifestyles.0124.desc
+
+	left_portrait = {
+		character = root
+		animation = scheme
+	}
+
+	right_portrait = {
+		character = scope:eager_thief
+		animation = personality_cynical
+	}
+
+	theme = intrigue
+
+	override_background = {
+		reference = study
+	}
+
+	trigger = {
+		exists = var:plan_heist_points #If it runs out in MP, kill the event
+	}
+
+	option = { #Special option! Charm your way into it
+		trigger = {
+			has_perk = illusion_apprentice_perk
+		}
+		name = ek_lifestyles.0124.a
+
+		custom_tooltip = ek_lifestyles.intrigue.plan_heist.very_well
+		change_variable = {
+			name = plan_heist_points
+			add = 2
+		}
+
+		ai_chance = {
+			base = 1000
+		}
+	}
+
+	option = { # Take hostage
+		name = ek_lifestyles.0124.b
+
+		add_intrigue_lifestyle_xp = minor_lifestyle_experience
+
+		duel = {
+			skills = { prowess intrigue }
+			value = average_skill_level
+
+			60 = {
+				desc = ek_lifestyles.0124.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 2.5
+					min = -59
+				}
+
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lifestyles.0124.b.success
+					left_icon = root
+					custom_tooltip = ek_lifestyles.intrigue.plan_heist.very_well
+					change_variable = {
+						name = plan_heist_points
+						add = 2
+					}
+				}
+			}
+			40 = {
+				desc = ek_lifestyles.0124.b.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -2.5
+					min = -39
+				}
+
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_lifestyles.0124.b.failure
+					left_icon = root
+					custom_tooltip = ek_lifestyles.intrigue.plan_heist.poorly
+					change_variable = {
+						name = plan_heist_points
+						add = -1
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			patient = minor_stress_impact_gain
+			craven = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 50
+				OR = {
+					has_trait = brave
+					has_trait = impatient
+					has_trait = aggressive_attacker
+					has_trait = reckless
+				}
+			}
+		}
+	}
+
+	option = { # Pick the lock
+		name = ek_lifestyles.0124.c
+
+		random_list = {
+			80 = {
+				desc = ek_lifestyles.0124.c.success
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lifestyles.0124.c.success
+					left_icon = root
+					custom_tooltip = ek_lifestyles.intrigue.plan_heist.well
+					change_variable = {
+						name = plan_heist_points
+						add = 1
+					}
+				}
+			}
+			20 = {
+				modifier = {
+					add = 20
+					has_trait = impatient
+				}
+				desc = ek_lifestyles.0124.c.failure
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_lifestyles.0124.c.failure
+					left_icon = root
+					custom_tooltip = ek_lifestyles.intrigue.plan_heist.poorly
+					change_variable = {
+						name = plan_heist_points
+						add = -1
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 50
+				OR = {
+					has_trait = patient
+					has_trait = diligent
+					has_trait = unyielding_defender
+				}
+			}
+		}
+	}
+
+	after = {
+		trigger_event = {
+			id = ek_lifestyles.0125
+			days = { 7 14 }
+		}
+	}
+}
+
+#END
+ek_lifestyles.0125 = {
+	type = character_event
+	title = ek_lifestyles.0125.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					var:plan_heist_points >= 3
+				}
+				desc = ek_lifestyles.0125.desc_win
+			}
+			desc = ek_lifestyles.0125.desc_loose
+		}
+	}
+	left_portrait = {
+		character = root
+		triggered_animation = {
+			trigger = { var:plan_heist_points >= 3 }
+  			animation = happiness
+		}
+		animation = dismissal 
+	}
+	right_portrait = {
+		character = scope:eager_thief
+		triggered_animation = {
+			trigger = { root = { var:plan_heist_points >= 3 } }
+  			animation = ecstasy 
+		}
+		animation = prisondungeon
+	}
+
+	theme = intrigue
+
+	override_background = {
+		reference = throne_room
+	}
+
+	trigger = {
+		exists = var:plan_heist_points #If it runs out in MP, kill the event
+	}
+
+	immediate = {
+		if = { 
+			limit = { var:plan_heist_points >= 3}
+			scope:heist_target = {
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_lifestyles.0125.a.t
+					left_icon = scope:heist_target
+					remove_short_term_gold = 1000
+				}
+			}
+		}
+		else = {
+			scope:heist_target = {
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lifestyles.0125.b.t
+					left_icon = scope:eager_thief
+
+					imprison = {
+						target = scope:eager_thief
+						type = dungeon
+					}
+
+					add_opinion = { 
+						target = scope:eager_thief
+						modifier = robbed_me_opinion
+					}
+				}
+			}
+		}
+	}
+
+	# the heist was a success
+	option = {
+		name = ek_lifestyles.0125.a
+		trigger = {
+			var:plan_heist_points >= 3
+		}
+		add_intrigue_lifestyle_perk_points = 1
+
+		add_gold = 500
+
+		scope:eager_thief = {
+			add_gold = 500
+		}		
+	}
+
+	# The heist failed
+	option = {
+		name = ek_lifestyles.0125.b
+		trigger = {
+			var:plan_heist_points < 3
+		}		
+	}
+
+	after = {
+		remove_character_flag = is_in_intrigue_special_event
+		remove_variable = plan_heist_points
+	}
+}
+
+# A lowly mayor confronts you
+ek_lifestyles.0126 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0126.t
+	desc = ek_lifestyles.0126.desc
+
+	theme = intrigue
+
+	override_background = {
+		reference = throne_room
+	}
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+		animation = personality_vengeful 
+	}
+
+	right_portrait = {
+		character = scope:mayor
+		animation = anger
+	}
+
+	lower_center_portrait = { 
+		character = scope:enforcer
+	}
+
+	trigger = {
+		is_landed = yes
+		any_court_position_holder = {
+			type = enforcer_court_position
+		}
+		any_vassal = { 
+			is_available_ai_adult = yes
+			primary_title = {
+				tier = tier_barony
+			}
+			government_has_flag = government_is_republic
+			NOT = { is_close_or_extended_family_of = root }
+		}
+	}
+
+	immediate = {
+		random_court_position_holder = {
+			type = enforcer_court_position
+			limit = { 				
+				has_court_event_flag = no
+			}
+			save_scope_as = enforcer
+		}
+		random_vassal = {
+			limit = {
+				is_available_ai_adult = yes
+				primary_title = {
+					tier = tier_barony
+				}
+				government_has_flag = government_is_republic
+				NOT = { is_close_or_extended_family_of = root }
+			}
+			save_scope_as = mayor
+		}
+	}
+
+	# Give in
+	option = {
+		name = ek_lifestyles.0126.a
+
+		add_character_modifier = {
+			modifier = loosened_grip
+			years = 5
+		}
+
+		scope:mayor = {
+			add_opinion = {
+				target = root
+				modifier = thankful_opinion
+				opinion = 50
+			}
+		}
+
+		add_dread = minor_dread_loss
+
+		stress_impact = {
+			compassionate = medium_stress_impact_loss
+			wrathful = medium_stress_impact_gain
+			greedy = medium_stress_impact_gain
+		}
+	}
+
+	# Threathen them
+	option = {
+		name = ek_lifestyles.0126.b
+
+		duel = {
+        	skills = { diplomacy intrigue }
+         	value = high_skill_rating
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                }               
+                send_interface_toast = {
+                    type = event_toast_effect_good
+                    title = ek_lifestyles.0126.b.success
+                    left_icon = scope:mayor
+					scope:mayor = {
+						add_opinion = {
+							target = root
+							modifier = threatened_opinion
+							opinion = 30
+						}
+					}
+
+                }
+            }
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                    multiplier = -1
+                }                    
+                send_interface_toast = {
+                    type =  event_toast_effect_bad
+                    title = ek_lifestyles.0126.b.failure
+                    left_icon = scope:mayor
+					add_dread = medium_dread_loss
+                }
+            }
+        }
+
+		stress_impact = {
+			deceitful = medium_stress_impact_loss
+			wrathful = minor_stress_impact_gain
+		}
+	}
+
+
+	# Kill them
+	option = {
+		name = ek_lifestyles.0126.c
+		trigger = { prowess >= high_skill_rating }
+
+		scope:mayor = {
+			death = {
+				death_reason = death_beaten_into_pulp
+				killer = root
+			}
+		}
+
+		add_dread = major_dread_gain
+		add_tyranny = major_tyranny_gain
+
+		stress_impact = {
+			compassionate = major_stress_impact_gain
+			wrathful = major_stress_impact_loss
+			sadistic = medium_stress_impact_loss
+			vengeful = medium_stress_impact_loss
+		}
+	}
+
+	# Imprison them
+	option = {
+		name = ek_lifestyles.0126.d
+
+		imprison = {
+			target = scope:mayor
+			type = dungeon
+		}
+
+		add_dread = medium_dread_gain
+		add_tyranny = medium_tyranny_gain
+
+		stress_impact = {
+			compassionate = minor_stress_impact_gain
+		}
+	}
+}
+
+# Establish a smuggling network
+ek_lifestyles.0127 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0127.t
+	desc = ek_lifestyles.0127.desc
+
+	theme = intrigue
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	lower_left_portrait = {
+		character = scope:neighboring_ruler
+	}
+
+	override_background = {
+		reference = study 
+	}
+
+	trigger = {
+		is_landed = yes
+		any_neighboring_and_across_water_top_liege_realm_owner = {
+			is_ai = yes
+		}
+	}
+
+	immediate = {
+		random_neighboring_and_across_water_top_liege_realm_owner = {
+			limit = { is_ai = yes }
+			save_scope_as = neighboring_ruler			
+		}
+	}
+
+	# Give it a try
+	option = {
+		name = ek_lifestyles.0127.a
+
+		duel = {
+        	skills = { stewardship intrigue }
+         	value = high_skill_rating
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                }               
+                send_interface_toast = {
+                    type = event_toast_effect_good
+                    title = ek_lifestyles.0127.a.success
+                    left_icon = scope:mayor
+					scope:neighboring_ruler = {
+						add_character_modifier = {
+							modifier = bad_smuggle
+							years = 5
+						}
+					}
+					add_character_modifier = {
+						modifier = good_smuggle
+						years = 5
+					}
+					add_intrigue_lifestyle_xp = minor_lifestyle_xp
+                }
+            }
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                    multiplier = -1
+                }                    
+                send_interface_toast = {
+                    type =  event_toast_effect_bad
+                    title = ek_lifestyles.0127.a.failure
+                    left_icon = root
+					remove_short_term_gold = 50
+                }
+            }
+        }
+
+		stress_impact = {
+			diligent = minor_stress_impact_loss
+			deceitful = minor_stress_impact_loss
+			honest = medium_stress_impact_gain
+		}
+	}
+
+	# Nah
+	option = {
+		name = ek_lifestyles.0127.b		
+
+		stress_impact = {
+			diligent = minor_stress_impact_gain
+			deceitful = minor_stress_impact_gain
+			honest = medium_stress_impact_loss
+		}
+	}
+}
+
+# Your enforcer wants to beat more people up
+ek_lifestyles.0128 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0128.t
+	desc = ek_lifestyles.0128.desc
+
+	theme = intrigue
+
+	override_background = {
+		reference = throne_room
+	}
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:enforcer
+		animation = personality_vengeful 
+	}
+
+	trigger = {
+		is_landed = yes
+		any_court_position_holder = {
+			type = enforcer_court_position
+			is_available = yes
+		}
+	}
+
+	immediate = {
+		random_court_position_holder = {
+			type = enforcer_court_position
+			limit = { 				
+				has_court_event_flag = no
+				is_available = yes
+			}
+			save_scope_as = enforcer
+		}
+		random_held_county = {
+			save_scope_as = enforcer_county
+		}
+	}
+
+	# Use every force neccesary
+	option = {
+		name = ek_lifestyles.0128.a
+
+		scope:enforcer_county = {
+			change_county_control = -25
+		}
+
+		scope:enforcer = {
+			add_opinion = {
+				target = root
+				modifier = thankful_opinion
+				opinion = 20
+			}
+			random_list = {
+				50 = { add_prowess_skill = 1 }
+				30 = { add_prowess_skill = 2 }
+				20 = { add_prowess_skill = 3 }
+			}
+		}
+
+		stress_impact = {
+			compassionate = medium_stress_impact_gain
+			sadistic = medium_stress_impact_loss
+			callous = minor_stress_impact_loss
+		}
+	}
+
+	# Hold yourself back
+	option = {
+		name = ek_lifestyles.0128.b
+
+		scope:enforcer = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -20
+			}
+		}
+
+		stress_impact = {
+			compassionate = medium_stress_impact_loss
+			sadistic = medium_stress_impact_gain
+		}
+	}
+}
+
+# A band of criminals offers cooperation
+ek_lifestyles.0129 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0129.t
+	desc = ek_lifestyles.0129.desc
+
+	theme = intrigue
+
+	override_background = {
+		reference = council_chamber 
+	}
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:enforcer
+		animation = scheme
+	}
+
+	trigger = {
+		is_landed = yes
+		any_court_position_holder = {
+			type = enforcer_court_position
+			is_available = yes
+		}
+	}
+
+	immediate = {
+		random_court_position_holder = {
+			type = enforcer_court_position
+			limit = { 				
+				has_court_event_flag = no
+				is_available = yes
+			}
+			save_scope_as = enforcer
+		}
+		random_held_county = {
+			save_scope_as = enforcer_county
+		}
+	}
+
+	# Take the deal
+	option = {
+		name = ek_lifestyles.0129.a
+
+		scope:enforcer_county = {
+			change_county_control = -25
+		}
+
+		add_gold = medium_gold_value
+
+		stress_impact = {
+			compassionate = minor_stress_impact_gain
+			callous = minor_stress_impact_loss
+			greedy = medium_stress_impact_loss
+		}
+	}
+
+	# Reject the deal
+	option = {
+		name = ek_lifestyles.0129.b
+
+		stress_impact = {
+			compassionate = minor_stress_impact_loss
+			greedy = medium_stress_impact_gain
+		}
+	}
+}
+
+# Offer your enforcers "services" to a mayor
+ek_lifestyles.0130 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0130.t
+	desc = ek_lifestyles.0130.desc
+
+	theme = intrigue
+
+	override_background = {
+		reference = throne_room
+	}
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:mayor
+		animation = scheme
+	}
+
+	lower_left_portrait = {
+		character = scope:enforcer
+	}
+
+	trigger = {
+		is_landed = yes
+		any_court_position_holder = {
+			type = enforcer_court_position
+			is_available_ai_adult = yes
+		}
+		any_vassal = { 
+			is_available_ai_adult = yes
+			primary_title = {
+				tier = tier_barony
+			}
+			government_has_flag = government_is_republic
+			NOT = { is_close_or_extended_family_of = root }
+		}
+	}
+
+	immediate = {
+		random_court_position_holder = {
+			type = enforcer_court_position
+			limit = { 				
+				has_court_event_flag = no
+				is_available_ai_adult = yes
+			}
+			save_scope_as = enforcer
+		}
+		random_vassal = {
+			limit = {
+				is_available_ai_adult = yes
+				primary_title = {
+					tier = tier_barony
+				}
+				government_has_flag = government_is_republic
+				NOT = { is_close_or_extended_family_of = root }
+			}
+			save_scope_as = mayor
+			random_held_county = {
+				save_scope_as = enforcer_county
+			}
+		}		
+	}
+
+	# Demand hook
+	option = {
+		name = ek_lifestyles.0130.a
+
+		scope:enforcer_county = {
+			change_county_control = -25
+		}
+
+		add_hook = {
+			target = scope:mayor
+			type = favor_hook
+		}
+
+		scope:enforcer = {
+			random_list = {
+				90 = {}
+				10 = { increase_wounds_effect = { REASON = fight } }
+			}
+		}
+
+		stress_impact = {
+			compassionate = minor_stress_impact_gain
+			callous = minor_stress_impact_loss
+			greedy = medium_stress_impact_loss
+		}
+	}
+
+	# Demand gold
+	option = {
+		name = ek_lifestyles.0130.b
+
+		scope:enforcer_county = {
+			change_county_control = -25
+		}
+
+		scope:mayor = {
+			pay_short_term_gold = {
+				target = root
+				gold = minor_gold_value
+			}
+		}
+
+		scope:enforcer = {
+			random_list = {
+				90 = {}
+				10 = { increase_wounds_effect = { REASON = fight } }
+			}
+		}
+
+		stress_impact = {
+			compassionate = minor_stress_impact_gain
+			callous = minor_stress_impact_loss
+			greedy = medium_stress_impact_loss
+		}
+	}
+
+	# Hire your own guys
+	option = {
+		name = ek_lifestyles.0130.c
+
+		scope:mayor = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -25
+			}
+		}
+
+		stress_impact = {
+			compassionate = minor_stress_impact_loss
+			greedy = medium_stress_impact_gain
+		}
+	}
+}
+
+# Your enforcer has ambitions
+ek_lifestyles.0131 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_lifestyles.0131.t
+	desc = ek_lifestyles.0131.desc
+
+	theme = intrigue
+
+	override_background = {
+		reference = throne_room
+	}
+
+	cooldown = { years = 10 }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:enforcer
+		animation = personality_greedy
+	}
+
+	trigger = {
+		is_landed = yes
+		any_court_position_holder = {
+			type = enforcer_court_position
+			is_available_ai_adult = yes
+		}
+	}
+
+	immediate = {
+		random_court_position_holder = {
+			type = enforcer_court_position
+			limit = { 				
+				has_court_event_flag = no
+				is_available_ai_adult = yes
+			}
+			save_scope_as = enforcer
+		}	
+	}
+
+	# Lets do this
+	option = {
+		name = ek_lifestyles.0131.a
+
+		scope:enforcer = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 25
+			}
+		}
+
+		add_character_modifier = {
+			modifier = squeezing_out_realm
+			years = 5
+		}
+
+		add_tyranny = medium_tyranny_gain
+
+		stress_impact = {
+			compassionate = medium_stress_impact_gain
+			greedy = medium_stress_impact_loss
+			diligent = minor_stress_impact_loss
+			lazy = minor_stress_impact_gain
+		}
+	}
+
+	# Lets not get carried away
+	option = {
+		name = ek_lifestyles.0131.b
+
+		scope:enforcer = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = -25
+			}
+		}
+	}
+}

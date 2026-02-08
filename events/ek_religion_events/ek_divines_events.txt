@@ -1,0 +1,614 @@
+﻿namespace = divines
+
+###Sibyl of Dibella### 
+
+#Sibyl dies
+divines.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	hidden = yes
+
+	trigger = {
+		OR = {
+			has_trait = sibyl
+			has_character_flag = potential_sibyl_of_dibella
+		}
+	}
+	
+	immediate = {
+		
+		#Saving her scope for later use
+		save_scope_as = dead_sibyl_of_dibella
+		
+		#Warns potentially interested players
+		if = {
+			limit = { has_trait = sibyl }
+			
+			every_ruler = {
+				limit = {
+					OR = {
+						is_liege_or_above_of = scope:dead_sibyl_of_dibella
+						is_in_the_same_court_as = scope:dead_sibyl_of_dibella
+						has_trait = p_dv_dibella
+					}
+				}
+				
+				trigger_event = divines.0002
+			}
+		}
+			
+		#Chooses a new sibyl
+		random_living_character = {
+			limit = {
+				#Not already a Sibyl or previously chosen but refused
+				NOR = { 
+					has_trait = sibyl
+					has_character_flag = potential_sibyl_of_dibella
+					has_character_modifier = refused_sibyl_of_dibella_modifier
+				}
+				#Is female
+				is_female = yes
+				#Is not a ruler
+				is_ruler = no
+				#Is not married
+				is_married = no
+				#Is not a concubine
+				is_concubine = no
+				#Is not betrothed
+				is_betrothed = no
+				#Is young
+				age < 20
+				#Follows a Dibellan religion
+				faith = { patron_dv_dibella_valid = yes }
+				#Is not ugly, deformed or incapable
+				NOR = {
+					has_trait = leper
+					has_trait = maimed
+					has_trait = incapable
+					has_trait = eunuch
+					has_trait = lisping
+					has_trait = one_eyed
+					has_trait = scaly
+					has_trait = one_legged
+					has_trait = disfigured
+					has_trait = wounded_3
+					has_trait = lovers_pox
+					#has_trait = knahaten_flu
+					has_trait = clubfooted
+					has_trait = hunchbacked
+					has_trait = inbred
+					has_trait = beauty_bad
+					has_trait = dwarf
+					has_trait = infirm
+					has_trait = celibate
+				}
+			}
+			#Making the random choice more interesting
+			weight = {
+				base = 1 
+				
+				modifier = {
+					add = 30
+					has_trait = beauty_good
+				}
+				modifier = {
+					add = 25
+					has_trait = p_dv_dibella
+				}
+				modifier = {
+					add = 20
+					has_trait = lustful
+				}
+				modifier = {
+					add = -20
+					has_trait = chaste
+				}
+				modifier = {
+					add = 20
+					age < 16
+				}
+				modifier = {
+					add = 10
+					NOT = { culture = scope:dead_sibyl_of_dibella.culture }
+				}
+				modifier = {
+					add = 10
+					government_has_flag = government_is_theocracy
+				}
+				modifier = {
+					add = -30
+					is_lowborn = yes
+				}
+				modifier = {
+					add = -25
+					has_trait = cynical
+				}
+				modifier = {
+					add = -40
+					is_lowborn = yes
+					NOT = { government_has_flag = government_is_theocracy }
+				}
+			}	
+			
+			#Saving her scope for later use
+			save_scope_as = new_sibyl_of_dibella
+			
+			#Mark her as potential sibyl
+			add_character_flag = potential_sibyl_of_dibella
+
+			trigger_event = {
+				id = divines.0003
+				months = { 12 36 }
+			}
+		}
+	}
+}
+
+#Warns players of sibyl's death
+divines.0002 = {
+	type = character_event
+	content_source = dlc_ek
+	title = divines.0002.t
+	desc = divines.0002.desc
+	theme = death
+
+	left_portrait = { 	
+		character = scope:dead_sibyl_of_dibella
+		animation = personality_zealous
+	}
+	
+	option = {
+		name = divines.0002.a
+	}
+}
+
+#New sibyl chosen
+divines.0003 = {
+	type = character_event
+	hidden = yes
+	
+	immediate = {
+		#Make sure she follows Dibella
+		patron_clear_traits_effect = yes
+		add_trait = p_dv_dibella 
+
+		# if the new Sibyl is a relative to any player, delay applying the following effects until the followup event
+		if = {
+			limit = {
+				NOT = {
+					any_player = {
+						is_close_family_of = scope:new_sibyl_of_dibella
+					}
+				}
+			}
+			#Reveal her as Sibyl
+			add_trait = sibyl
+
+			#In case their status changed since the flag was added
+			if = {
+				limit = { is_ruler = yes }
+				depose = yes
+			}
+			if = {
+				limit = {
+					is_married = yes
+				}
+				every_spouse = {
+					divorce = scope:new_sibyl_of_dibella
+				}
+			}
+			if = {
+				limit = {
+					exists = betrothed
+				}
+				break_betrothal = betrothed
+			}
+			if = {
+				limit = {
+					is_concubine = yes
+				}
+				this.concubinist = {
+					remove_concubine = scope:new_sibyl_of_dibella
+				}
+			}
+		}
+
+		#Warns interested players
+		every_ruler = {
+			limit = {
+				OR = {
+					is_liege_or_above_of = scope:new_sibyl_of_dibella
+					is_in_the_same_court_as = scope:new_sibyl_of_dibella
+					is_close_family_of = scope:new_sibyl_of_dibella
+					has_trait = p_dv_dibella
+				}
+			}
+			
+			trigger_event = divines.0004 
+		}
+	}
+}
+
+#Warns interested players that a new sibyl was found
+divines.0004 = {
+	type = character_event
+	content_source = dlc_ek
+	title = divines.0004.t
+	theme = faith
+
+	desc = {
+		#opening text
+		first_valid = {
+			triggered_desc = { #Sibyl is... me?
+				trigger = {
+					scope:new_sibyl_of_dibella = {
+						this = root
+					}
+				}
+				desc = divines.0004a.desc
+			}
+			desc = divines.0004.desc #Sibyl isn't me
+		}
+		#additional paragraph if Sybil is relative
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:new_sibyl_of_dibella = {
+						is_close_family_of = root
+					}
+					NOT = {
+						scope:new_sibyl_of_dibella = {
+							this = root
+						}
+					}
+				}
+				desc = divines.0004b.desc
+			}
+		}
+	}
+	left_portrait = { 	
+		character = scope:new_sibyl_of_dibella
+		animation = personality_zealous
+	}
+
+	# if they aren't a relative of yours (or you), just say ok and carry on. traits etc have already been applied
+	option = {
+		name = divines.0004.a
+		trigger = {
+			NOT = {
+				scope:new_sibyl_of_dibella = {
+					is_close_family_of = root
+				}
+			}
+			NOT = {
+				scope:new_sibyl_of_dibella = {
+					this = root
+				}
+			}
+		}
+	}
+	# If the Sibyl is a player relative, we handle the application of the trait and change of her statuses here instead of in the prev hidden event
+	# First option is to accept it - this applies the stuff
+	option = {
+		name = divines.0004.b
+
+		trigger = {
+			root = { is_ai = no }
+			scope:new_sibyl_of_dibella = {
+				is_close_family_of = root
+			}
+			NOT = {
+				scope:new_sibyl_of_dibella = {
+					this = root
+				}
+			}
+		}
+		scope:new_sibyl_of_dibella = {
+			#Reveal her as Sibyl
+			add_trait = sibyl
+
+			#In case their status changed since the flag was added
+			if = {
+				limit = { is_ruler = yes }
+				depose = yes
+			}
+			if = {
+				limit = {
+					is_married = yes
+				}
+				every_spouse = {
+					divorce = scope:new_sibyl_of_dibella
+				}
+			}
+			if = {
+				limit = {
+					exists = betrothed
+				}
+				break_betrothal = betrothed
+			}
+			if = {
+				limit = {
+					is_concubine = yes
+				}
+				this.concubinist = {
+					remove_concubine = scope:new_sibyl_of_dibella
+				}
+			}
+		}
+
+		root.dynasty = { add_dynasty_prestige = medium_dynasty_prestige_gain }
+	}	
+
+	# Second option is to refuse it - this doesn't apply the stuff but instead gives them the Refused Sibylage modifier 
+	option = {
+		name = divines.0004.c
+
+		trigger = {
+			root = { is_ai = no }
+			scope:new_sibyl_of_dibella = {
+				is_close_family_of = root
+			}
+			NOT = {
+				scope:new_sibyl_of_dibella = {
+					this = root
+				}
+			}
+		}
+		scope:new_sibyl_of_dibella = {
+			add_character_modifier = {
+				modifier = refused_sibyl_of_dibella_modifier
+			}
+		}
+
+		add_piety = major_piety_loss
+
+		stress_impact = {
+			zealous = medium_stress_impact_gain
+			humble = medium_stress_impact_gain
+			cynical = medium_stress_impact_loss
+		}	
+	}
+
+	# In the incredibly niche case that the player is chosen Sibyl - which could in theory happen if one of their heirs are flagged and then inherits by the time the event triggers
+	# accept your role and abdicate
+	option = {
+		name = divines.0004.d
+
+		trigger = {
+			root = { is_ai = no }
+			scope:new_sibyl_of_dibella = {
+				this = root
+			}
+		}
+		scope:new_sibyl_of_dibella = {
+			#Reveal her as Sibyl
+			add_trait = sibyl
+
+			#In case their status changed since the flag was added
+			if = {
+				limit = { is_ruler = yes }
+				depose = yes
+			}
+			if = {
+				limit = {
+					is_married = yes
+				}
+				every_spouse = {
+					divorce = scope:new_sibyl_of_dibella
+				}
+			}
+			if = {
+				limit = {
+					exists = betrothed
+				}
+				break_betrothal = betrothed
+			}
+			if = {
+				limit = {
+					is_concubine = yes
+				}
+				this.concubinist = {
+					remove_concubine = scope:new_sibyl_of_dibella
+				}
+			}
+		}
+
+		root.dynasty = { add_dynasty_prestige = major_dynasty_prestige_gain } #increased bonus due to forced abdication
+	}
+
+	# In the incredibly niche case that the player is chosen Sibyl - which could in theory happen if one of their heirs are flagged and then inherits by the time the event triggers
+	# refuse your role, don't abdicate
+	option = {
+		name = divines.0004.e
+
+		trigger = {
+			root = { is_ai = no }
+			scope:new_sibyl_of_dibella = {
+				this = root
+			}
+		}
+		scope:new_sibyl_of_dibella = {
+			add_character_modifier = {
+				modifier = refused_sibyl_of_dibella_modifier
+			}
+		}
+
+		add_piety = medium_piety_loss #reduced penalty to not be too punishing
+
+		stress_impact = {
+			zealous = medium_stress_impact_gain
+			humble = medium_stress_impact_gain
+			cynical = medium_stress_impact_loss
+		}	
+	}
+}
+
+# notifying characters that a Sibyl has arrived at their court
+divines.0005 = {
+	type = character_event
+	content_source = dlc_ek
+	title = divines.0005.t
+	theme = faith
+
+
+
+	trigger = {
+		# guest gotta be Sibyl
+		scope:guest = {
+			has_trait = sibyl
+		}
+		# you gotta care about Sibyls
+		faith = { patron_dv_dibella_valid = yes }
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = { #Sibyl is relative - welcome them home!
+				trigger = {
+					scope:guest = {
+						is_close_family_of = root
+					}
+				}
+				desc = divines.0005a.desc
+			}
+		}
+		desc = divines.0005b.desc
+	}
+
+	right_portrait = { 	
+		character = scope:guest
+		animation = personality_zealous
+	}
+	
+	# they are a relative - welcome them warmly
+	option = {
+		name = divines.0005.a
+		trigger = {
+			scope:guest = {
+				is_close_family_of = root
+			}
+		}
+		add_character_modifier = {
+			modifier = hosted_sibyl_modifier
+			years = 2
+		}
+
+		add_courtier = scope:guest
+
+		stress_impact = {
+			zealous = major_stress_impact_loss
+			generous = medium_stress_impact_loss
+			cynical = minor_stress_gain
+			greedy = minor_stress_gain
+		}
+
+		ai_chance = {
+			base = 70
+			modifier = {
+				has_trait = zealous
+				add = 30
+			}
+			modifier = {
+				has_trait = cynical
+				add = -30
+			}
+			modifier = {
+				has_trait = generous
+				add = 25
+			}
+			modifier = {
+				has_trait = greedy
+				add = -25
+			}
+		}	
+	}	
+
+	# welcome them warmly
+	option = {
+		name = divines.0005.b
+		trigger = {
+			NOT = {
+				scope:guest = {
+					is_close_family_of = root
+				}
+			}
+		}
+		add_character_modifier = {
+			modifier = hosted_sibyl_modifier
+			years = 2
+		}
+
+		add_courtier = scope:guest
+
+		stress_impact = {
+			zealous = major_stress_impact_loss
+			generous = medium_stress_impact_loss
+			cynical = medium_stress_gain
+			greedy = medium_stress_gain
+		}
+
+		ai_chance = {
+			base = 70
+			modifier = {
+				has_trait = zealous
+				add = 30
+			}
+			modifier = {
+				has_trait = cynical
+				add = -30
+			}
+			modifier = {
+				has_trait = generous
+				add = 25
+			}
+			modifier = {
+				has_trait = greedy
+				add = -25
+			}
+		}	
+	}
+
+	# refuse them access
+	option = {
+		name = divines.0005.c
+
+		# add them back to the pool
+		scope:guest = {
+			select_and_move_to_pool_effect = yes
+
+			add_opinion = {
+				modifier = kicked_me_from_court
+				target = root
+			}
+		}
+
+		add_piety = medium_piety_loss
+
+		stress_impact = {
+			zealous = major_stress_impact_gain
+			generous = medium_stress_impact_gain
+			cynical = medium_stress_loss
+			greedy = medium_stress_loss
+		}
+
+		ai_chance = {
+			base = 30
+			modifier = {
+				has_trait = cynical
+				add = 30
+			}
+			modifier = {
+				has_trait = zealous
+				add = -30
+			}
+			modifier = {
+				has_trait = greedy
+				add = 25
+			}
+			modifier = {
+				has_trait = generous
+				add = -25
+			}
+		}	
+	}	
+}

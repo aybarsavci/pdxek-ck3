@@ -1,0 +1,211 @@
+﻿ek_on_game_start_laws_scripted_effect = {
+	##################
+	# LAWS AND STUFF #
+	##################
+	
+	### First we make sure everyone has the right gov
+	every_ruler = {
+		limit = {
+			is_landed = yes
+			should_use_feudal_government = yes
+		}
+		change_government = feudal_government
+	}
+	every_ruler = {
+		limit = {
+			is_landed = yes
+			should_use_hierocracy_government = yes
+		}
+		change_government = hierocracy_government
+	}
+	every_ruler = {
+		limit = {
+			is_landed = yes
+			OR = {
+				has_primary_title = title:d_dawnguard
+				has_primary_title = title:d_pale_watch
+			}
+		}
+		change_government = landed_order_government
+	}
+	every_ruler = {
+		limit = {
+			any_liege_or_above = {
+				uses_praxis_mechanics = yes
+			}
+		}
+		set_starting_praxis = yes
+		refresh_praxis_traits = yes
+		every_courtier_or_guest = {
+			limit = {
+				any_liege_or_above = {
+					has_variable = state_praxis
+				}
+			}
+			set_starting_praxis = yes
+			refresh_praxis_traits = yes
+		}
+	}
+	every_ruler = {
+		limit = {
+			is_landed = yes
+			should_use_landed_order_government = yes
+		}
+		change_government = landed_order_government
+	}
+	every_ruler = {
+		limit = {
+			is_landed = yes
+			is_independent_ruler = yes #to not trigger this for every tier of ruler, checking top liege is sufficient
+			any_realm_province = {
+				has_holding_type = hist_holding # identify any hist holders among their vassals
+			}
+		}
+		every_vassal_or_below = {
+			limit = { 
+				highest_held_title_tier = tier_barony #don't wanna turn playable characters into theocracies
+				any_held_title = {
+				 	title_province = { has_holding_type = hist_holding } #only affect vassals who themselves hold hist
+				}
+			}
+			change_government = theocracy_government #this is appropriate for rulers who uniquely hold hist
+		}
+	}
+	
+	### Vassal obligations
+	# The 'on opinion' obligations are set as the default, which isn't optimal as the game will always try to get back to it when the obligations invalidate, which can throw you into an inescapable loop of doom and despair (just like real life lol)
+	# One fix is to set them at game start and whenever necessary (faith change, culture change, government change rn)
+	every_ruler = {
+		limit = { 
+			any_vassal = { # You obviously need a vassal to set their obligations, duh
+				government_uses_obligations = yes 
+				vassal_contract_has_modifiable_obligations = yes
+			} 
+		}
+		save_scope_as = liege
+		
+		every_vassal = {
+			limit = {
+				government_uses_obligations = yes 
+				government_has_vassal_contract = yes
+				NOT = { 
+					OR = {
+						government_has_flag = government_is_feudal 
+						government_has_flag = government_is_administrative
+					}
+				}
+			}
+			
+			save_scope_as = vassal
+			
+			vassal_update_obligations_type = yes
+		}
+	}
+	
+	### Pirates
+	# If you're a pirate gov and are at least a duke, every duchy has an election
+	every_ruler = {
+		limit = { government_has_flag = government_is_pirate highest_held_title_tier >= tier_duchy }
+		every_held_title = {
+			limit = { tier >= tier_duchy }
+			add_title_law = pirate_elective_succession_law
+		}
+	}
+
+	### Tribes
+	every_ruler = {
+		limit = { government_has_flag = government_is_tribal }
+		update_tribal_ruler_prestige_level = yes
+	}
+	
+	### Tribal holdings get their Free Holding modifiers refreshed
+	every_ruler = {
+		limit = {
+			any_held_title = {
+				OR = {
+					tier = tier_barony
+					tier = tier_county
+				}
+				county = {
+					any_county_province = {
+						has_holding_type = tribal_holding
+					}
+				}
+			}
+		}
+		every_held_title = {
+			limit = {
+				OR = {
+					tier = tier_barony
+					tier = tier_county
+				}
+				county = {
+					any_county_province = {
+						has_holding_type = tribal_holding
+					}
+				}
+			}
+			county = { tribal_holding_get_free_holding_modifier = yes }
+		}
+	}
+
+	### Moot Elective SETUP ###
+	if = {
+		limit = { exists = title:e_western_skyrim.holder }
+		# title:e_western_skyrim.holder = { ###Not needed, makes them too weak
+		# 	every_vassal = {
+		# 		limit = {
+		# 			vassal_contract_has_modifiable_obligations = yes
+		# 		}
+		# 		vassal_contract_set_obligation_level = { type = vassal_contribution_group level = 0 }
+		# 		set_subject_contract_modification_blocked = no
+		# 	}
+		# }
+		# title:e_eastern_skyrim.holder = {
+		# 	every_vassal = {
+		# 		limit = {
+		# 			vassal_contract_has_modifiable_obligations = yes
+		# 		}
+		# 		vassal_contract_set_obligation_level = { type = vassal_contribution_group level = 0 }
+		# 		set_subject_contract_modification_blocked = no
+		# 	}
+		# }
+		add_to_global_variable_list = {
+			name = skyrim_elector_list
+			target = title:k_whiterun
+		}
+		add_to_global_variable_list = {
+			name = skyrim_elector_list
+			target = title:k_markarth
+		}
+		add_to_global_variable_list = {
+			name = skyrim_elector_list
+			target = title:k_solitude
+		}
+		add_to_global_variable_list = {
+			name = skyrim_elector_list
+			target = title:k_morthal
+		}
+		add_to_global_variable_list = {
+			name = skyrim_elector_list
+			target = title:k_falkreath
+		}
+		add_to_global_variable_list = {
+			name = skyrim_elector_list
+			target = title:k_winterhold
+		}
+		add_to_global_variable_list = {
+			name = skyrim_elector_list
+			target = title:k_riften
+		}
+		add_to_global_variable_list = {
+			name = skyrim_elector_list
+			target = title:k_windhelm
+		}
+		add_to_global_variable_list = {
+			name = skyrim_elector_list
+			target = title:k_dawnstar
+		}
+		skyrim_elector_list_save_effect = yes
+	}
+}

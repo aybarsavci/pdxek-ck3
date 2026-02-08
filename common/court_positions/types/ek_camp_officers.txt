@@ -1,0 +1,472 @@
+﻿@minspec_skill_rating = decent_skill_rating
+@basic_will_do = 500
+
+# Have a look at _court_positions.info for documentation
+
+
+# Retainer
+# Arcanist Captain
+
+retainer_camp_officer = {
+	sort_order = 50 #above all the vanilla ones. when you have the relevant perk we want this new officer to be very visible
+	max_available_positions = 1
+	skill = intrigue
+
+	court_position_asset = {
+		animation = hunting_knife_start
+		background = "gfx/interface/illustrations/event_scenes/ep3_campfire.dds"
+	}
+
+
+	opinion = {
+		value = regular_court_position_opinion
+	}
+	
+	# How high the aptitude has to be to reach the 5 different modifier levels
+	aptitude_level_breakpoints = { 20 40 60 80 }
+
+	# How good is this character in this position? root scope is the holder of the court position
+	aptitude = {
+		value = 1
+		add = {
+			value = intrigue
+			multiply = 2
+			max = 50
+			desc = court_position_skill_intrigue
+		}
+		add = {
+			value = stewardship
+			multiply = 1.5
+			max = 50
+			desc = court_position_skill_stewardship
+		}
+		add = {
+			value = prowess
+			multiply = 2
+			max = 50
+			desc = court_position_skill_prowess
+		}
+		if = {
+			limit = {
+				has_trait = torturer
+			}
+			add = {
+				value = 25
+				desc = court_position_torturer_trait
+			}
+		}
+		if = {
+			limit = {
+				has_trait = sadistic
+			}
+			add = {
+				value = 20
+				desc = court_position_sadistic_trait
+			}
+		}
+		add = court_position_aptitude_family_business_value
+		add = court_position_aptitude_high_penalty_value
+	}
+
+	is_shown = {
+		has_ep3_dlc_trigger = yes
+		custom_tooltip = {
+			text = landless_government_tt
+			government_has_flag = government_is_landless_adventurer
+		}
+	}
+
+	valid_position = {
+		custom_tooltip = {
+			text = landless_government_tt
+			government_has_flag = government_is_landless_adventurer
+		}
+		has_perk = establish_enforcer_perk
+	}
+
+	is_shown_character = {
+		scope:employee = {
+			is_incapable = no
+			is_mindless_character = no
+		}
+	}
+
+	valid_character = {
+		valid_camp_officer_trigger = {
+			OFFICER = retainer
+		}
+	}
+
+	revoke_cost = {
+		prestige =  {
+			value = minor_court_position_prestige_revoke_cost
+
+			# Set to 0 with Dynasty Perk Inner Circle
+			if = {
+				limit = {
+					exists = dynasty
+					dynasty = { has_dynasty_perk = fp2_coterie_legacy_1 }
+
+					employs_court_position = retainer_camp_officer
+					any_court_position_holder = {
+				        type = retainer_camp_officer
+						exists = dynasty
+						house = prev.house
+					}
+				}
+				multiply = 0
+			}
+		}
+	}
+
+	salary = {
+		#officers have no salary
+	}
+
+	# These modifiers are employed based on what level the aptitude reaches (levels are defined as breakpoints) 
+	scaling_employer_modifiers = {
+		terrible = {
+			domicile_monthly_gold_add = 0.2
+			dread_baseline_add = 2
+		}
+		poor = {
+			domicile_monthly_gold_add = 0.4
+			dread_baseline_add = 4
+		}
+		average = {
+			domicile_monthly_gold_add = 0.6
+			dread_baseline_add = 6
+		}
+		good = {
+			domicile_monthly_gold_add = 0.8
+			dread_baseline_add = 8
+		}
+		excellent = {
+			domicile_monthly_gold_add = 1
+			dread_baseline_add = 10
+		}
+	}
+
+	modifier = {
+		monthly_prestige = 0.1
+	}
+
+	on_court_position_received = {
+		# Consume hook if that is what is being used to assign them as Enforcer
+		scope:liege = {
+			if = {
+				limit = {
+					NOR = {
+						has_imprisonment_reason = scope:employee
+						scope:employee = { is_imprisoned_by = scope:liege }
+					}
+					has_usable_hook = scope:employee
+				}
+				use_hook = scope:employee
+			}
+		}
+		executioner_title_accepted_effect = yes
+	}
+	on_court_position_revoked = { 
+		executioner_title_revoked_effect = yes
+	}
+	on_court_position_invalidated = {
+		executioner_title_invalidated_effect = yes
+	}
+	on_court_position_vacated = {
+		court_position_vacated_event_effect = {
+			COURT_POSITION_TYPE = retainer_camp_officer
+		}
+	}
+	# Scripted value to determine whether an AI will hire/fire a position or not. Hires over 0, fires under -50. Look in _court_positions.info for more extensive documentation!
+	candidate_score = {
+		value = 50
+		add = scope:base_value
+		add = court_position_candidate_score_base_value
+		add = court_position_candidate_aptitude_value
+		scope:liege = {
+			# More likely to hire one if you have high dread
+			if = {
+				limit = {
+					dread > medium_dread
+				}
+				add = 25
+			}
+			# More likely if you have dread-traits
+			if = {
+				limit = {
+					OR = {
+						has_trait = sadistic
+						has_trait = callous
+						has_trait = arbitrary
+					}
+				}
+				add = 25
+			}
+			# Or if you're greedy
+			if = {
+				limit = {
+					has_trait = greedy
+				}
+				add = 25
+			}
+		}
+		add = court_position_debt_considerations_value
+	}
+}
+
+arcanist_captain_camp_officer = {
+	sort_order = 31 #same as vanilla elephantry captain, but since we don't use that i repurposed the sorting
+	max_available_positions = 1
+	skill = martial
+
+	court_position_asset = {
+		animation = writing
+		background = "gfx/interface/illustrations/event_scenes/ep3_military_tent.dds"
+	}
+
+	opinion = {
+		value = regular_camp_officer_opinion
+	}
+	
+	# How high the aptitude has to be to reach the 5 different modifier levels
+	aptitude_level_breakpoints = { 20 40 60 80 }
+
+	# How good is this character in this position? root scope is the holder of the court position
+	aptitude = {
+		value = 0
+		if = {
+			limit = {
+				employer ?= { has_perk = soon_forgiven_perk }
+			}
+			add = {
+				value = 10
+				desc = court_position_soon_forgiven_perk
+			}
+		}
+		if = {
+			limit = {
+				employer ?= {
+					is_landless_adventurer = yes
+					has_perk = positions_of_power_perk
+				}
+				num_of_relation_friend > 0
+			}
+			add = {
+				value = 5
+				desc = court_position_positions_of_power_perk_friend
+			}
+		}
+		if = {
+			limit = {
+				employer ?= {
+					is_landless_adventurer = yes
+					has_perk = positions_of_power_perk
+				}
+				num_of_relation_lover > 0
+			}
+			add = {
+				value = 5
+				desc = court_position_positions_of_power_perk_lover
+			}
+		}
+		if = {
+			limit = {
+				employer ?= {
+					is_landless_adventurer = yes
+					has_perk = positions_of_power_perk
+				}
+				is_married = yes
+			}
+			add = {
+				value = 10
+				desc = court_position_positions_of_power_perk_marriage
+			}
+		}
+		if = {
+			limit = {
+				employer ?= {
+					has_perk = likable_perk
+					has_relation_best_friend = prev
+				}
+			}
+			add = {
+				value = 30
+				desc = court_position_best_friend
+			}
+		}
+		else_if = {
+			limit = {
+				employer ?= {
+					has_perk = likable_perk
+					has_relation_friend = prev
+				}
+			}
+			add = {
+				value = 15
+				desc = court_position_friend
+			}
+		}
+		add = {
+			value = arcana
+			multiply = 2
+			max = 60
+			desc = court_position_skill_arcana
+		}
+		add = {
+			value = martial
+			max = 60
+			desc = court_position_skill_martial
+		}
+		if = {
+			limit = {
+				has_trait = battlemage
+			}
+			add = {
+				value = 40
+				desc = court_position_battlemage_trait
+			}
+		}
+		if = {
+			limit = {
+				has_trait = strategist
+			}
+			add = {
+				value = 20
+				desc = court_position_strategist_trait
+			}
+		}
+		if = {
+			limit = {
+				any_character_trait = {
+					has_trait_category = commander
+				}
+			}
+			add = {
+				value = 10
+				desc = court_position_commander_traits
+			}
+		}
+		add = court_position_aptitude_high_penalty_value
+	}
+
+	is_shown = {
+		has_ep3_dlc_trigger = yes
+		custom_tooltip = {
+			text = landless_government_tt
+			government_has_flag = government_is_landless_adventurer
+		}
+	}
+
+	valid_position = {
+		custom_tooltip = {
+			text = landless_government_tt
+			government_has_flag = government_is_landless_adventurer
+		}
+		custom_tooltip = {
+			text = arcanist_captain_camp_officer_parameter_tt
+			domicile ?= { has_domicile_parameter = camp_unlocks_arcanist_captain_officer }
+		}
+	}
+
+	is_shown_character = {
+		scope:employee = {
+			is_incapable = no
+			can_be_combatant_based_on_gender_trigger = {
+				ARMY_OWNER = this
+			}
+			has_magic_perk_trigger = yes
+			is_mindless_character = no
+		}		
+	}
+
+	valid_character = {
+		valid_camp_officer_trigger = {
+			OFFICER = arcanist_captain
+		}
+	}
+
+	revoke_cost = {
+		prestige =  {
+			value = minor_court_position_prestige_revoke_cost
+
+			# Set to 0 with Dynasty Perk Inner Circle
+			if = {
+				limit = {
+					exists = dynasty
+					dynasty = { has_dynasty_perk = fp2_coterie_legacy_1 }
+
+					employs_court_position = arcanist_captain_camp_officer
+					any_court_position_holder = {
+				        type = arcanist_captain_camp_officer
+						exists = dynasty
+						house = prev.house
+					}
+				}
+				multiply = 0
+			}
+		}
+	}
+
+	salary = {
+		#officers have no salary
+	}
+
+	# These modifiers are employed based on what level the aptitude reaches (levels are defined as breakpoints) 
+	scaling_employer_modifiers = {
+		terrible = {
+			mages_damage_mult = 0.05
+			spellblades_damage_mult = 0.05
+			spellblades_screen_mult = 0.05
+		}
+		poor = {
+			mages_damage_mult = 0.1
+			spellblades_damage_mult = 0.1
+			spellblades_screen_mult = 0.1
+			
+		}
+		average = {
+			mages_damage_mult = 0.3
+			spellblades_damage_mult = 0.3
+			spellblades_screen_mult = 0.3
+			
+		}
+		good = {
+			mages_damage_mult = 0.4
+			spellblades_damage_mult = 0.4
+			spellblades_screen_mult = 0.4
+			
+		}
+		excellent = {
+			mages_damage_mult = 0.5
+			spellblades_damage_mult = 0.5
+			spellblades_screen_mult = 0.5
+		}
+	}
+
+	modifier = {
+		monthly_prestige = 0.1
+	}
+	
+	on_court_position_received = {
+		basic_gained_camp_officer_effect = yes
+	}
+	on_court_position_revoked = { 
+		basic_revoked_camp_officer_effect = yes
+	}
+	on_court_position_invalidated = {
+		basic_invalidated_camp_officer_effect = yes
+	}
+	on_court_position_vacated = {
+		court_position_vacated_event_effect = {
+			COURT_POSITION_TYPE = arcanist_captain_camp_officer
+		}
+	}
+	# Scripted value to determine whether an AI will hire/fire a position or not. Hires over 0, fires under -50. Look in _court_positions.info for more extensive documentation!
+	candidate_score = {
+		value = @basic_will_do
+
+		add = court_position_candidate_score_base_value 
+		add = court_position_candidate_aptitude_value
+	}
+}

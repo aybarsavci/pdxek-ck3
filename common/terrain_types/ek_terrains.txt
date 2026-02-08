@@ -1,0 +1,138 @@
+﻿#these need to be synced with the local values in 00_terrains.txt!
+@provisions_cost_minimal = 25
+@provisions_cost_light = 50
+@provisions_cost_medium = 80
+@provisions_cost_high = 100
+@provisions_cost_extreme = 150
+###############
+# ELDER KINGS #
+###############
+# Ashlands for Morrowind: Stonefalls & Blacklight Regions and some parts of Vvardenfell
+ashlands = {
+	color = { 50 20 25 }
+	travel_danger_color = { 50 20 25 }
+	travel_danger_score = ashlands_danger_value
+	provision_cost = @provisions_cost_extreme
+	county_fertility = 20 #Same as desert
+
+	province_modifier = {
+		supply_limit_mult = -0.2
+		travel_danger = ashlands_danger_value
+		county_fertility_growth_add = ashlands_county_fertility_value
+	}
+	
+	county_capital_modifier = {
+		development_growth_factor = 0.05
+	}
+
+	defender_combat_effects = {
+		name = combat_ashlands
+		image = defender_ashlands
+		advantage = 1
+	}
+
+	movement_speed = 0.8
+	combat_width = 0.8
+
+	audio_parameter = 1.0
+}
+
+# Valenwood for Valenwood
+valenwood = {
+	color = { 15 180 15 }
+	travel_danger_color = { 15 180 15 }
+	travel_danger_score = valenwood_danger_value
+	provision_cost = @provisions_cost_high
+	county_fertility = 10 #Same as jungle
+	
+	province_modifier = {
+		supply_limit_mult = -0.35
+		travel_danger = valenwood_danger_value
+		county_fertility_growth_add = valenwood_county_fertility_value
+	}
+	
+	county_capital_modifier = {
+		development_growth_factor = -0.4
+	}
+	
+	defender_combat_effects = {
+		name = combat_valenwood
+		image = defender_valenwood
+		advantage = 6
+	}
+	
+	movement_speed = 0.45
+	combat_width = 0.6
+	
+	audio_parameter = 8.0
+}
+
+# Arctic Tundra
+tundra = {
+	color = { 170 230 230 }
+	travel_danger_color = { 170 230 230 }
+	travel_danger_score = tundra_danger_value
+	provision_cost = @provisions_cost_high
+	county_fertility = 10 #Taiga - 5
+	
+	province_modifier = {
+		supply_limit_mult = -0.4
+		travel_danger = tundra_danger_value
+		county_fertility_growth_add = tundra_county_fertility_value
+	}
+	
+	county_capital_modifier = {
+		development_growth_factor = -0.4
+	}
+
+	defender_combat_effects = {
+		name = combat_tundra
+		image = defender_tundra
+	}
+	
+	movement_speed = 0.8
+	
+	audio_parameter = 2.0
+}
+
+# Black Marsh Marsh
+black_marsh = {
+	color = { 10 35 10 }
+	travel_danger_color = { 10 35 10 }
+	travel_danger_score = black_marsh_danger_value
+	provision_cost = @provisions_cost_extreme
+	county_fertility = 15 #Wetlands - 5
+
+	province_modifier = {
+		supply_limit_mult = -0.3
+		levy_size = -0.5
+		tax_mult = -0.5
+		travel_danger = black_marsh_danger_value
+		county_fertility_growth_add = black_marsh_county_fertility_value
+	}
+	
+	county_capital_modifier = {
+		development_growth_factor = -0.5
+	}
+	
+	attacker_modifier = {
+		hard_casualty_modifier = 0.25
+		retreat_losses = 0.3
+	}
+	
+	defender_modifier = {
+		hard_casualty_modifier = 0.25
+		retreat_losses = 0.3
+	}
+	
+	defender_combat_effects = {
+		name = combat_black_marsh
+		image = defender_black_marsh
+		advantage = 5
+	}
+	
+	movement_speed = 0.4
+	combat_width = 0.5
+	
+	audio_parameter = 3.0
+}

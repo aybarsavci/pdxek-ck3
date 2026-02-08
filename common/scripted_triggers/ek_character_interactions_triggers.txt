@@ -1,0 +1,166 @@
+﻿### Tsaesence
+tsaesence_learn_language_trigger = {
+	num_of_known_languages < language_soft_cap
+	NOT = { knows_language_of_culture = scope:victim.culture }
+}
+
+# Can get a new personality trait if there are less then 4 or if one of the old is going to be replaced
+tsaesence_change_personality_trigger = {
+    OR = {
+        number_of_personality_traits < personality_trait_limit
+        AND = {
+            scope:victim = { has_trait = brave }
+            has_trait = craven
+        }
+        AND = {
+            scope:victim = { has_trait = calm }
+            has_trait = wrathful
+        }
+        AND = {
+            scope:victim = { has_trait = chaste }
+            has_trait = lustful
+        }
+        AND = {
+            scope:victim = { has_trait = content }
+            has_trait = ambitious
+        }
+        AND = {
+            scope:victim = { has_trait = diligent }
+            has_trait = lazy
+        }
+        AND = {
+            scope:victim = { has_trait = forgiving }
+            has_trait = vengeful
+        }
+        AND = {
+            scope:victim = { has_trait = generous }
+            has_trait = greedy
+        }
+        AND = {
+            scope:victim = { has_trait = gregarious }
+            has_trait = shy
+        }
+        AND = {
+            scope:victim = { has_trait = honest }
+            has_trait = deceitful
+        }
+        AND = {
+            scope:victim = { has_trait = humble }
+            has_trait = arrogant
+        }
+        AND = {
+            scope:victim = { has_trait = just }
+            has_trait = arbitrary
+        }
+        AND = {
+            scope:victim = { has_trait = patient }
+            has_trait = impatient
+        }
+        AND = {
+            scope:victim = { has_trait = temperate }
+            has_trait = gluttonous
+        }
+        AND = {
+            scope:victim = { has_trait = trusting }
+            has_trait = paranoid
+        }
+        AND = {
+            scope:victim = { has_trait = zealous }
+            has_trait = cynical
+        }
+        AND = {
+            scope:victim = { has_trait = compassionate }
+            OR = {
+                has_trait = callous
+                has_trait = sadistic
+            }
+        }
+        AND = {
+            scope:victim = { has_trait = sadistic }
+            OR = {
+                has_trait = callous
+                has_trait = compassionate
+            }
+        }
+        AND = {
+            scope:victim = { has_trait = callous }
+            OR = {
+                has_trait = sadistic
+                has_trait = compassionate
+            }
+        }
+        AND = {
+            scope:victim = { has_trait = paranoid }
+            has_trait = trusting
+        }
+        AND = {
+            scope:victim = { has_trait = impatient }
+                has_trait = patient
+        }
+        AND = {
+            scope:victim = { has_trait = arbitrary }
+            has_trait = just
+        }
+        AND = {
+            scope:victim = { has_trait = arrogant }
+            has_trait = humble
+        }
+        AND = {
+            scope:victim = { has_trait = deceitful }
+            has_trait = honest
+        }
+        AND = {
+            scope:victim = { has_trait = shy }
+            has_trait = gregarious
+        }
+        AND = {
+            scope:victim = { has_trait = greedy }
+            has_trait = generous
+        }
+        AND = {
+            scope:victim = { has_trait = vengeful }
+            has_trait = forgiving
+        }
+        AND = {
+            scope:victim = { has_trait = stubborn }
+            OR = {
+                has_trait = fickle
+                has_trait = eccentric
+            }
+        }
+        AND = {
+            scope:victim = { has_trait = eccentric }
+            OR = {
+                has_trait = fickle
+                has_trait = stubborn
+            }
+        }
+        AND = {
+            scope:victim = { has_trait = fickle }
+            OR = {
+                has_trait = stubborn
+                has_trait = eccentric
+            }
+        }
+        AND = {
+            scope:victim = { has_trait = lazy }
+            has_trait = diligent
+        }
+        AND = {
+            scope:victim = { has_trait = ambitious }
+            has_trait = content
+        }
+        AND = {
+            scope:victim = { has_trait = lustful }
+            has_trait = chaste
+        }
+        AND = {
+            scope:victim = { has_trait = wrathful }
+            has_trait = calm
+        }
+        AND = {
+            scope:victim = { has_trait = craven }
+            has_trait = brave
+        }
+    }
+}

@@ -1,0 +1,97 @@
+﻿vampire = {
+	usage = game
+
+	sanguinare_vampiris = {
+		dna_modifiers = {
+			morph = {
+				mode = modify
+				gene = eye_overlay
+				value = 1.0
+				template = bloodshot
+			}
+			color = {
+				gene = skin_color
+				mode = modify
+				
+				x = 0.0
+				y = {
+					value = stress.negate
+					multiply = 0.001
+					subtract = 0.1
+				}
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 500
+				portrait_has_trait_trigger = { TRAIT = sanguinare_vampiris }
+				NOT = { has_character_modifier = modifier_ritual_conceal }
+			}
+		}
+	}
+
+	vampire = {		#Vampirism, eye color changes and introduction of eye glow
+	   dna_modifiers = {
+			morph = {
+				mode = modify
+				gene = gene_bs_body_type
+				value = {
+					value = stress.negate
+					multiply = 0.001
+				}
+				# template = bs_gaunt_1
+			}
+			morph = {
+				mode = add			
+				gene = vampire_teeth
+				template = vampire_teeth
+				value = 1.0
+			}
+			color = {
+				gene = skin_color
+				mode = modify
+				
+				x = 0.0
+				y = {
+					value = stress.negate
+					multiply = 0.001
+					subtract = 0.1
+				}
+			}
+			color = {
+				gene = eye_color
+				mode = replace
+					
+				x = 0.009
+				y = 0.25
+				
+			}
+			
+			morph = {
+				mode = modify		
+				gene = eye_sclera
+				template = black_sclera
+				value = 0.0
+			}
+
+			morph = { #Add some eye glow.
+				mode = modify
+				gene = eye_pupil
+				value = 0.56
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 540
+				is_vampire = yes
+				OR = {
+					portrait_has_trait_trigger = { TRAIT = vampire_character }
+					portrait_has_trait_trigger = { TRAIT = reclusive_vampire }
+				}
+				NOT = { has_character_modifier = modifier_ritual_conceal }
+			}
+		}
+	}
+}

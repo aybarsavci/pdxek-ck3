@@ -1,0 +1,380 @@
+﻿#Hammerfell
+form_crown_republic_decision = { #Decision to form e_crown
+	picture = { reference ="gfx/interface/illustrations/decisions/hegathe.dds" }
+
+	desc = form_crown_republic_decision_desc
+	selection_tooltip = form_crown_republic_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		NOT = { exists = title:e_crown.holder } #Crown doesn't exist
+		#Has Crown tradition
+		culture = { has_cultural_tradition = tradition_crown_core }
+		#Only kings
+		highest_held_title_tier = tier_kingdom
+	}
+
+	is_valid = {
+		is_independent_ruler = yes
+		prestige_level >= 3
+		piety_level >= 3 
+		calc_true_if = {
+			amount >= 2
+			completely_controls_region = ek_region_crownlands
+			completely_controls_region = ek_region_northern_crownlands
+			completely_controls = title:d_sentinel
+			completely_controls = title:d_taneth
+			completely_controls = title:d_rihad
+			completely_controls = title:d_ojwambu
+        }
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+	}
+
+	cost = {
+		prestige = 500
+		gold = 500
+	}
+
+	effect = {
+		form_crown_republic_scripted_effect = yes
+		#No global flag, can happen several times
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+form_hammerfell_crown_decision = { #Decision to form Hammerfell for Crowns
+	picture = { reference ="gfx/interface/illustrations/decisions/hegathe.dds" }
+
+	desc = form_hammerfell_crown_decision_desc
+	selection_tooltip = form_hammerfell_crown_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		has_title = title:e_crown
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_formed_high_kingdom_hammerfell
+			}
+		}
+	}
+
+	is_valid = {
+		has_title = title:e_crown
+		completely_controls_region = ek_region_crownlands
+		prestige_level >= 3
+		piety_level >= 3 
+		calc_true_if = {
+			amount >= 3
+			completely_controls_region = ek_region_northern_crownlands
+			completely_controls = title:d_sentinel
+			completely_controls = title:d_taneth
+			completely_controls = title:d_rihad
+			completely_controls = title:d_ojwambu
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+	}
+
+	cost = {
+		prestige = 1000
+		piety = 500
+	}
+
+	effect = {
+		form_high_kingdom_hammerfell_scripted_effect = yes
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+form_forebear_union_decision = { #Decision to form e_forebear
+	picture = { reference ="gfx/interface/illustrations/decisions/hegathe.dds" }
+
+	desc = form_forebear_union_decision_desc
+	selection_tooltip = form_forebear_union_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		NOT = { exists = title:e_forebear.holder } #Crown doesn't exist
+		#Has Crown tradition
+		culture = { has_cultural_tradition = tradition_forebear_core }
+		#Only kings
+		highest_held_title_tier = tier_kingdom
+	}
+
+	is_valid = {
+		is_independent_ruler = yes
+		prestige_level >= 4
+		OR = {
+			completely_controls_region = ek_region_southern_forebears
+			completely_controls_region = ek_region_northern_forebears
+		}
+		calc_true_if = {
+			amount >= 2
+			completely_controls = title:d_elinhir
+			completely_controls = title:d_skaven
+			completely_controls = title:d_hegathe
+			completely_controls = title:d_gilane
+			completely_controls = title:d_stros_mkai
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+	}
+
+	cost = {
+		prestige = 1000
+		gold = 500
+	}
+
+	effect = {
+		form_forebear_union_scripted_effect = yes
+		#No global flag, can happen several times
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+form_hammerfell_forebear_decision = { #Decision to form Hammerfell for Forebear
+	picture = { reference ="gfx/interface/illustrations/decisions/hegathe.dds" }
+
+	desc = form_hammerfell_forebear_decision_desc
+	selection_tooltip = form_hammerfell_forebear_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		has_title = title:e_forebear
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_formed_high_kingdom_hammerfell
+			}
+		}
+	}
+
+	is_valid = {
+		has_title = title:e_forebear
+		#Completely control Forebear territories
+		completely_controls_region = ek_region_southern_forebears
+		completely_controls_region = ek_region_northern_forebears
+		prestige_level >= 4
+		piety_level >= 4
+		#Completely control at least half of Crown territory
+		OR = {
+			completely_controls_region = ek_region_crownlands
+			completely_controls_region = ek_region_northern_crownlands
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+	}
+
+	cost = {
+		prestige = 1000
+		piety = 500
+	}
+
+	effect = {
+		form_high_kingdom_hammerfell_scripted_effect = yes
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+form_pirate_confederacy_the_isles_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+	
+	desc = form_pirate_confederacy_the_isles_decision_desc
+	selection_tooltip = form_pirate_confederacy_the_isles_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		always = no ### EK TODO: When fleshing out Pirates, do this
+		government_has_flag = government_is_pirate
+		NOT = { exists = title:k_the_isles.holder }
+		
+		OR = {
+			highest_held_title_tier = tier_duchy
+			has_primary_title = title:k_hew_bane
+			has_primary_title = title:k_abecean
+			has_primary_title = title:k_systres
+		}
+		
+		any_realm_province = { geographical_region = mundus_tamriel_pirate_conf_the_isles }
+
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_abecean_confederacy
+			}
+		}
+	}
+
+	is_valid = {
+		#Gotta be independent
+		is_independent_ruler =  yes
+		#Needs to control all Abecean Isles and Peninsulas
+		completely_controls_region = mundus_tamriel_pirate_conf_the_isles
+		#Pirates need to raid instead of be famous
+		custom_description = {
+			text = has_raided_for_a_thousand_gold_ct
+			var:total_loot >= 1000
+		}
+		#Needs to be at least a duke or have Hew's Bane or the Abecean as the primary title
+		OR = {
+			highest_held_title_tier = tier_duchy
+			has_primary_title = title:k_hew_bane
+			has_primary_title = title:k_abecean
+			has_primary_title = title:k_systres
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+	}
+
+	effect = {
+		abecean_confederacy_decision_effect = yes
+	}
+	cost = {
+		prestige = 2000
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+form_normal_confederacy_the_isles_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+	
+	desc = form_normal_confederacy_the_isles_decision_desc
+	selection_tooltip = form_normal_confederacy_the_isles_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		# NOT = { government_has_flag = government_is_pirate } ### EK TODO: When fleshing out Pirates, reactivate that
+		NOT = { exists = title:k_the_isles.holder }
+		
+		OR = {
+			highest_held_title_tier = tier_duchy
+			has_primary_title = title:k_hew_bane
+			has_primary_title = title:k_abecean
+			has_primary_title = title:k_systres
+		}
+		
+		any_realm_province = { geographical_region = mundus_tamriel_pirate_conf_the_isles }
+
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_abecean_confederacy
+			}
+		}
+	}
+
+	is_valid = {
+		#Gotta be independent
+		is_independent_ruler =  yes
+		#Needs to control all Abecean Isles and Peninsulas
+		completely_controls_region = mundus_tamriel_pirate_conf_the_isles
+		#FAME LEVEL
+		prestige_level >= 4
+		#Needs to be at least a duke or have Hew's Bane or the Abecean as the primary title
+		OR = {
+			highest_held_title_tier = tier_duchy
+			has_primary_title = title:k_hew_bane
+			has_primary_title = title:k_abecean
+			has_primary_title = title:k_systres
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+	}
+
+	effect = {
+		abecean_confederacy_decision_effect = yes
+	}
+
+	cost = {
+		prestige = 2000
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}

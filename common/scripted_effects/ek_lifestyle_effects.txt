@@ -1,0 +1,62 @@
+﻿# Chance to imprison a random lowlife
+missing_persons_perk_prisoner_effect = {
+    if = {
+        limit = {
+            is_ruler = yes
+            has_perk = missing_persons_perk
+        }
+        random_list = {
+            50 = {}        
+            40 = { # imprison a random wanderer
+                trigger = {
+                    exists = root.location
+                    any_pool_character = {
+                        province = root.location
+                        is_available_ai_adult = yes
+                        has_dynasty = no
+                    }
+                }
+                random_pool_character = {
+                    province = root.location
+                    limit = {
+                        exists = root.location
+                        any_pool_character = {
+                            province = root.location
+                            is_available_ai_adult = yes
+                            has_dynasty = no
+                        }
+                    }
+                    save_scope_as = new_prisoner
+                }
+            } 
+            10 = { # Create a random character
+                random_held_county = {
+                    save_scope_as = random_held_county
+                }
+                create_character = {
+                    location = root.location
+                    template = lowlife_prisoner_template
+                    faith = scope:random_held_county.faith
+                    culture = scope:random_held_county.culture
+                    dynasty = none
+                    gender_female_chance = 50
+                        
+                    save_scope_as = new_prisoner
+                }
+            }   
+        } 
+        if = {
+            limit = { exists = scope:new_prisoner }
+            send_interface_message = { 
+                type = event_generic_good
+				title = imprison_random_lowborn_01
+
+                left_icon = scope:new_prisoner
+                imprison = {
+					target = scope:new_prisoner
+					type = dungeon
+				}
+            }
+        }
+    }
+}

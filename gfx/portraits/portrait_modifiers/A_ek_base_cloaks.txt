@@ -1,0 +1,1512 @@
+﻿ # EK EDIT: REWORKED
+cloaks = {
+
+	usage = game
+
+	no_cloak = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 500
+				portrait_ek_dremora_clothing_trigger = yes	
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 500
+				has_trait = line_of_x
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 500
+				NOT = { has_primary_title = title:e_tribunal_temple }
+				OR = {
+					#government_has_flag = government_is_republic
+					government_has_flag = government_is_theocracy
+					has_character_modifier = vow_of_poverty_modifier
+					has_trait = devoted
+					faith = {
+						has_doctrine_parameter = vows_of_poverty_active
+					}
+				}
+			}
+		}
+	}
+	
+	no_cloak = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}
+		}	
+        outfit_tags = { no_clothes nightgown }
+		weight = {
+			base = 0
+			#modifier = {
+			#	add = 30
+			#	has_ep2_dlc_trigger = yes
+			#	portrait_western_clothing_trigger = yes
+			#	highest_held_title_tier < tier_kingdom
+			#}	
+			modifier = {
+				add = 60
+				has_fp1_dlc_trigger = yes
+				portrait_ek_nordic_group_trigger = yes
+			}	
+			modifier = {
+				add = -30
+				has_fp1_dlc_trigger = yes
+				portrait_ek_nordic_group_trigger = yes
+				highest_held_title_tier >= tier_county
+			}	
+			modifier = {
+				add = -15
+				has_fp1_dlc_trigger = yes
+				portrait_ek_nordic_group_trigger = yes
+				exists = primary_spouse
+				OR = {
+					is_ruler = no
+					highest_held_title_tier = tier_barony
+				}
+				primary_spouse = {
+					highest_held_title_tier >= tier_county
+				}
+			}	
+			modifier = {
+				add = -30
+				has_fp1_dlc_trigger = yes
+				portrait_ek_nordic_group_trigger = yes
+				highest_held_title_tier >= tier_duchy
+			}	
+			modifier = {
+				add = -15
+				has_fp1_dlc_trigger = yes
+				portrait_ek_nordic_group_trigger = yes
+				exists = primary_spouse
+				OR = {
+					is_ruler = no
+					highest_held_title_tier = tier_barony
+				}
+				primary_spouse = {
+					highest_held_title_tier >= tier_duchy
+				}
+			}	
+			modifier = {
+				add = -60
+				has_fp1_dlc_trigger = yes
+				portrait_ek_nordic_group_trigger = yes
+				OR = {
+					portrait_wear_armor_trigger = yes
+					portrait_has_trait_trigger = { TRAIT = berserker }
+				}
+			}
+			modifier = {
+				add = 200
+				OR = {
+					portrait_wear_armor_trigger = yes
+					activity_tournament_shirtless_trigger = yes
+				}
+			}
+			modifier = {
+				add = 200
+				OR = {
+					government_has_flag = government_is_academy
+				}
+			}
+		}
+	}
+
+	ep2_western_travel_cloak = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ep2_cloak_western_travel
+				range = { 0 1 }
+			}
+		}
+		outfit_tags = { travel_cloak }
+		weight = {
+			base = 0
+			modifier = {
+				add = 500
+				has_ep2_dlc_trigger = yes
+				OR = {
+					portrait_ep2_western_travel_cloak_trigger = yes
+					portrait_ep2_western_cloak_duel_trigger = yes
+				}
+			}
+			#modifier = {
+			#	factor = 0 
+			#	portrait_wear_armor_trigger = yes
+			#}
+		}
+	}
+
+	ep2_mena_travel_cloak = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ep2_cloak_mena_travel
+				range = { 0 1 }
+			}
+		}
+		outfit_tags = { travel_cloak }
+		weight = {
+			base = 0
+			modifier = {
+				add = 500
+				has_ep2_dlc_trigger = yes
+				OR = {
+					portrait_ep2_mena_travel_cloak_trigger = yes
+					portrait_ep2_mena_cloak_duel_trigger = yes
+				}
+			}
+			#modifier = {
+			#	factor = 0 
+			#	portrait_wear_armor_trigger = yes
+			#}		
+		}
+	}
+
+	ek_ayleid_mantle_low = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ek_ayleid_mantle_low
+				range = { 0.0 0.74 }
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 40
+				OR = {
+					portrait_ek_ayleid_clothing_trigger = yes
+					portrait_ek_yespest_clothing_trigger = yes
+				}
+				NOT = {
+					faith = {
+						has_doctrine_parameter = vows_of_poverty_active
+					}
+				}
+				OR = {
+					AND = {
+						is_ruler = yes
+						highest_held_title_tier >= tier_county
+					}
+					AND = {
+						exists = primary_spouse
+						OR = {
+							is_ruler = no
+							highest_held_title_tier >= tier_barony
+						}
+						primary_spouse = {
+							OR = {
+								highest_held_title_tier >= tier_duchy
+								AND = {
+									government_has_flag = government_is_republic
+									primary_title.tier > 1
+								}
+								AND = { is_ruler = yes government_has_flag = government_is_theocracy }
+							}
+							OR = {
+								portrait_ek_ayleid_clothing_spouse_trigger = yes
+								portrait_ek_yespest_clothing_spouse_trigger = yes
+							}
+						}
+					}
+					
+				}
+			}
+		}
+	}
+
+	ek_ayleid_mantle_high = {
+		dna_modifiers = {
+			accessory = {
+				mode = add	
+				gene = cloaks
+				template = ek_ayleid_mantle
+				range = { 0.0 0.74 }
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 40
+				exists = court_owner
+				court_owner = {
+					has_royal_court = yes
+					amenity_level = { type = court_fashion value = 5 }
+				}
+				OR = {
+					portrait_ek_ayleid_clothing_trigger = yes
+					portrait_ek_yespest_clothing_trigger = yes
+				}
+			}
+			modifier = {
+				add = 50
+				trigger_if = {
+					limit = { exists = this }
+					OR = {
+						AND = {
+							OR = {
+								highest_held_title_tier >= tier_duchy
+								AND = {
+									government_has_flag = government_is_republic
+									primary_title.tier > 1
+								}
+								AND = { is_ruler = yes government_has_flag = government_is_theocracy }
+							}
+							NOT = { AND = { is_ruler = yes government_has_flag = government_is_mercenary  } } # Blocked for mercenaries
+							portrait_ek_ayleid_clothing_trigger = yes
+						}
+						AND = {
+							exists = primary_spouse
+							OR = {
+								is_ruler = no
+								highest_held_title_tier >= tier_barony
+							}
+							primary_spouse = {
+								OR = {
+									highest_held_title_tier >= tier_duchy
+									AND = {
+										government_has_flag = government_is_republic
+										primary_title.tier > 1
+									}
+									AND = { is_ruler = yes government_has_flag = government_is_theocracy }
+								}
+									OR = {
+										portrait_ek_ayleid_clothing_spouse_trigger = yes
+										portrait_ek_yespest_clothing_spouse_trigger = yes
+									}
+							}
+						}
+					}
+				}
+				trigger_else = {
+					scope:highest_held_title_tier >= tier_duchy
+					OR = {
+					portrait_ek_ayleid_clothing_trigger = yes
+					portrait_ek_yespest_clothing_trigger = yes
+					}
+				}
+			}
+		}
+	}
+
+	afr_commoners = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = cloaks
+                template = afr_cloaks
+                range = { 0 0.32 }
+            }
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+				has_afr_dlc_trigger = yes
+                portrait_commoner_no_mayors_trigger = {
+                    CULTURE_INPUT = ek_yokudan
+                }
+				NAND = {
+					is_ruler = yes
+					has_government = theocracy_government
+				}
+            }
+            modifier = {
+                factor = 0
+                OR = {
+                	is_adult = no
+					is_male = yes
+					AND = {
+						is_ruler = yes
+						has_government = theocracy_government
+					}  
+                }  
+            }
+        }
+    }
+	
+	afr_low_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = cloaks
+                template = afr_cloaks
+                range = { 0.34 0.65 }
+            }
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+				has_afr_dlc_trigger = yes
+				OR = {
+					portrait_low_nobles_clothing_trigger = {
+						CULTURE_INPUT = ek_yokudan
+					}
+					portrait_mayor_trigger = {
+						CULTURE_INPUT = ek_yokudan
+					}
+				}
+            }
+            modifier = {
+                factor = 0
+                OR = {
+                	is_adult = no
+					is_male = yes
+					AND = {
+						is_ruler = yes
+						has_government = theocracy_government
+					}  
+                }  
+            }
+        }
+    }
+	
+	afr_high_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = cloaks
+                template = afr_cloaks
+                range = { 0.66 1.0 }
+            }
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+				has_afr_dlc_trigger = yes
+                portrait_high_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_yokudan
+                }
+            }
+            modifier = {
+                factor = 0
+                OR = {
+                	is_adult = no
+					is_male = yes
+					AND = {
+						is_ruler = yes
+						has_government = theocracy_government
+					}  
+                }  
+            }
+        }
+    }
+
+	sp3_western_royalty = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = cloaks
+                template = sp3_cloak
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 500
+                is_adult = yes
+                has_dlc_feature = couture_of_the_capets     
+                portrait_imperial_trigger = {
+                    CULTURE_INPUT = ek_breton
+                }           
+            }
+        }
+    }	
+
+
+	ek_dunmer_war_helmet_headwrap_ep2 = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ep2_cloak_mena_travel
+				range = { 0 1 }
+			}
+		}
+		outfit_tags = { travel_cloak }
+		weight = {
+			base = 0
+			modifier = {
+				add = 500
+				has_ep2_dlc_trigger = yes
+				OR = {
+					portrait_ek_dunmer_travel_cloak_trigger = yes
+				}
+			}
+	        modifier = {
+				add = 101
+				AND = {
+					OR = {
+						portrait_ek_gah_julan_clothing_trigger = yes
+						portrait_ek_ashlander_clothing_trigger = yes
+						portrait_ek_dwemeri_clothing_trigger = yes
+					}
+					portrait_wear_armor_trigger = yes
+				}
+				
+			}
+			modifier = {
+				add = 5
+				exists = character:bagarn_1000 # Yagrum Bagarn
+				this = character:bagarn_1000
+			}		
+		}
+	}
+
+    ep2_western_era2_low_nobles_cloaks = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = cloaks
+                template = ep2_cloak_western_era1_low_nobility
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                OR = {  
+                	portrait_high_nobles_headgear_trigger = { 
+	                    CULTURE_INPUT = ek_colovian
+	                }  
+                	portrait_high_nobles_headgear_trigger = { 
+	                    CULTURE_INPUT = ek_strident
+	                } 					
+                }
+				NAND = {
+					is_ruler = yes
+					government_has_flag = government_is_theocracy
+				}
+                has_ep2_dlc_trigger = yes   
+            }
+        }
+    }
+    
+    ep2_western_era2_high_nobles_cloaks = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = cloaks
+                template = ep2_cloak_western_era1_high_nobility
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                OR = {   
+                	portrait_royalty_trigger = {
+	                    CULTURE_INPUT = ek_colovian
+	                }
+                	portrait_royalty_trigger = {
+	                    CULTURE_INPUT = ek_strident
+	                }
+					portrait_imperial_trigger = { 
+						CULTURE_INPUT = ek_colovian
+					}
+					portrait_imperial_trigger = { 
+						CULTURE_INPUT = ek_strident
+					}					
+                }
+				NAND = {
+					is_ruler = yes
+					has_government = theocracy_government
+				}
+                has_ep2_dlc_trigger = yes   
+            }
+        }
+    }
+    ep2_western_era2_high_nobles_cloaks_war = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = cloaks
+                template = ep2_cloak_western_era1_high_nobility
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 200
+				portrait_wear_armor_trigger = yes
+                OR = {   
+                	portrait_royalty_trigger = {
+	                    CULTURE_INPUT = ek_colovian
+	                }
+                	portrait_royalty_trigger = {
+	                    CULTURE_INPUT = ek_strident
+	                }
+					portrait_imperial_trigger = { 
+						CULTURE_INPUT = ek_colovian
+					}
+					portrait_imperial_trigger = { 
+						CULTURE_INPUT = ek_strident
+					}					
+                }
+				NAND = {
+					is_ruler = yes
+					has_government = theocracy_government
+				}
+                has_ep2_dlc_trigger = yes   
+            }
+        }
+    }
+
+	western_kings = {
+		# outfit_tags = { rank_headgear } 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				
+				gene = cloaks
+				template = western_royalty
+				range = { 0 1 }
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				AND = {
+					highest_held_title_tier >= tier_kingdom
+					NOT = { has_government = tribal_government }
+					OR = {
+						portrait_ek_breton_clothing_trigger = yes
+						portrait_ek_northmen_clothing_trigger = yes
+						portrait_ek_nedic_north_clothing_trigger = yes
+					}
+				}
+			}
+			modifier = {
+				add = 101
+				AND = {
+					is_independent_ruler = yes
+					highest_held_title_tier >= tier_kingdom
+					NOT = { has_government = tribal_government }
+					OR = {
+						portrait_ek_nordic_clothing_trigger = yes
+						portrait_ek_cyro_nordic_clothing_trigger = yes
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				exists = this
+				OR = {
+					is_adult = no
+					highest_held_title_tier < tier_kingdom
+					government_has_flag = government_is_theocracy
+					government_has_flag = government_is_republic
+					has_character_modifier = vow_of_poverty_modifier
+					# Deliberately not the "fully naked" one since dropping your cloak's intended even if nudity is disabled
+					should_be_naked_trigger = yes
+					portrait_wear_armor_trigger = yes
+					is_travelling = yes
+					involved_activity ?= { has_activity_type = activity_hunt }
+				}
+			}
+            modifier = {
+                add = 50
+				 has_ep2_dlc_trigger = no   
+                OR = {   
+                	portrait_royalty_trigger = {
+	                    CULTURE_INPUT = ek_colovian
+	                }
+                	portrait_royalty_trigger = {
+	                    CULTURE_INPUT = ek_strident
+	                }
+					portrait_imperial_trigger = { 
+						CULTURE_INPUT = ek_colovian
+					}
+					portrait_imperial_trigger = { 
+						CULTURE_INPUT = ek_strident
+					}
+                	portrait_royalty_trigger = { 
+	                    CULTURE_INPUT = ek_nibenese
+	                } 
+                	portrait_royalty_trigger = { 
+	                    CULTURE_INPUT = ek_heartlander
+	                }
+                	portrait_royalty_trigger = { 
+	                    CULTURE_INPUT = ek_nedic_old
+	                }
+                	portrait_imperial_trigger = { 
+	                    CULTURE_INPUT = ek_nibenese
+	                } 
+                	portrait_imperial_trigger = { 
+	                    CULTURE_INPUT = ek_heartlander
+	                }
+                	portrait_imperial_trigger = { 
+	                    CULTURE_INPUT = ek_nedic_old
+	                }					
+                }
+				NAND = {
+					is_ruler = yes
+					has_government = theocracy_government
+				}
+            }			
+		}
+	}
+	
+    ek_nibenese_high_nobles_cloaks = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = cloaks
+                template = ek_nibenese_cloak_high
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                OR = {
+                	portrait_high_nobles_trigger = { 
+	                    CULTURE_INPUT = ek_nibenese
+	                } 
+                	portrait_high_nobles_trigger = { 
+	                    CULTURE_INPUT = ek_heartlander
+	                }
+                	portrait_high_nobles_trigger = { 
+	                    CULTURE_INPUT = ek_nedic_old
+	                }					
+                }
+				highest_held_title_tier >= tier_duchy
+				NAND = {
+					is_ruler = yes
+					has_government = theocracy_government
+				}		
+            }
+			modifier = {
+				add = 100
+				exists = this
+				AND = {
+					portrait_high_nobles_trigger = {
+						CULTURE_INPUT = ek_akaviri
+					}		
+				}
+			}
+			modifier = {
+				add = 200
+				exists = character:chorak_101
+				this = character:chorak_101
+			}			
+        }
+    }
+
+	fp1_norse = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				
+				gene = cloaks
+				template = fp1_cloak
+				range = { 0 1 }
+			}
+			morph = {
+				mode = add
+				
+				gene = gene_bs_cloak
+				template = cloak
+				value = 1.0
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				has_fp1_dlc_trigger = yes
+				OR = {
+					portrait_ek_nordic_group_trigger = yes
+					portrait_ek_orc_clothing_trigger = yes
+					portrait_ek_nedic_reach_clothing_trigger = yes
+				}
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_adult = no
+					government_has_flag = government_is_theocracy
+					is_theocratic_lessee = yes
+					has_character_modifier = vow_of_poverty_modifier
+					# Deliberately not the "fully naked" one since dropping your cloak's intended even if nudity is disabled
+					should_be_naked_trigger = yes
+					portrait_wear_armor_trigger = yes
+				}
+			}			
+		}
+	}
+
+	fp1_norse_berserker = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				
+				gene = cloaks
+				template = fp1_cloak_berserker
+				range = { 0 1 }
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				has_fp1_dlc_trigger = yes
+				portrait_has_trait_trigger = { TRAIT = berserker }
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_adult = no
+					government_has_flag = government_is_theocracy
+					is_theocratic_lessee = yes
+					has_character_modifier = vow_of_poverty_modifier
+					# Deliberately not the "fully naked" one since dropping your cloak's intended even if nudity is disabled
+					should_be_naked_trigger = yes
+				}
+			}			
+		}
+	}
+	
+	fp1_bosmer_cloak = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = fp1_cloak
+				range = { 0.5 1 }
+			}
+			morph = {
+				mode = add	
+				gene = gene_bs_cloak
+				template = cloak
+				value = 1.0
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 40
+				has_fp1_dlc_trigger = yes
+				OR = {
+					portrait_ek_bosmeri_clothing_trigger = yes
+					portrait_ek_riekling_clothing_trigger = yes					
+				}
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_adult = no
+					has_government = theocracy_government
+					is_theocratic_lessee = yes
+					has_character_modifier = vow_of_poverty_modifier
+					# Deliberately not the "fully naked" one since dropping your cloak's intended even if nudity is disabled
+					should_be_naked_trigger = yes
+					portrait_wear_armor_trigger = yes
+				}
+			}			
+		}
+	}	
+
+	ep1_adventurer_cloak = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				
+				gene = cloaks
+				template = ep1_cloak_adventurer
+				range = { 0 1 }
+			}
+		}
+		outfit_tags = { ep1_adventurer_cloak }
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				has_ep1_dlc_trigger = yes
+				OR = {
+					AND = {
+						NOT =  {
+							has_fp1_dlc_trigger = yes
+							portrait_ek_nordic_group_trigger = yes
+						}
+						portrait_has_trait_trigger = { TRAIT = adventurer }
+					}
+					AND = {
+						exists = inspiration
+						inspiration = {
+							has_inspiration_type = adventure_inspiration
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_adult = no
+					government_has_flag = government_is_theocracy
+					is_theocratic_lessee = yes
+					has_character_modifier = vow_of_poverty_modifier
+					# Deliberately not the "fully naked" one since dropping your cloak's intended even if nudity is disabled
+					should_be_naked_trigger = yes
+					portrait_wear_armor_trigger = yes
+				}
+			}			
+		}
+	}
+	
+	sp2_western_imperial_cloak = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = sp2_cloak_imperial
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 150
+				OR = {
+					AND = {
+						OR = {
+							AND = {
+								OR = {
+									primary_title = title:e_cyrodiil
+									primary_title = title:e_tamriel
+								}
+								OR = {
+									portrait_imperial_trigger = { 
+										CULTURE_INPUT = ek_colovian
+									}
+									portrait_imperial_trigger = { 
+										CULTURE_INPUT = ek_strident
+									}
+									portrait_imperial_trigger = { 
+										CULTURE_INPUT = ek_nibenese
+									}
+									portrait_imperial_trigger = { 
+										CULTURE_INPUT = ek_heartlander
+									}
+									portrait_imperial_trigger = { 
+										CULTURE_INPUT = ek_nedic_old
+									}									
+								}
+								has_dlc_feature = elegance_of_the_empire
+							}
+						}
+						NOR = {
+							has_government = theocracy_government
+							has_government = republic_government
+						}
+					}
+				}
+			}
+		}
+	}
+
+	balfieri_cloak_high_nobles = { # altmer cloak but for balfieri
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ek_altmer_cloak_low
+				range = { 0.7 1 }
+			}
+			morph = {
+				mode = add	
+				gene = gene_bs_cloak
+				template = cloak
+				value = 1.0
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 70
+				is_independent_ruler = yes
+				portrait_high_nobles_trigger = {
+					CULTURE_INPUT = ek_balfieri
+				}
+			}
+		}
+	}
+
+	#EK:EDIT: Old method
+	altmer_low_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ek_altmer_cloak_low
+				range = { 0 1 } # For the randomness to work correctly
+			}	
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 15
+				NOR = {
+					portrait_wear_armor_trigger = yes
+				}
+				OR = {
+					AND = {
+						highest_held_title_tier = tier_county
+						NOR = {
+							AND = {
+								has_government = republic_government
+								primary_title.tier > 1
+							}
+						}
+						portrait_ek_aldmeri_clothing_trigger = yes
+					}
+					AND = {
+						exists = primary_spouse
+						OR = {
+							is_ruler = no
+							highest_held_title_tier = tier_barony
+						}
+						primary_spouse = {
+							highest_held_title_tier = tier_county
+							NOR = {
+								AND = {
+									has_government = republic_government
+									primary_title.tier > 1
+								}
+							}
+							portrait_ek_aldmeri_clothing_spouse_trigger = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	altmer_high_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ek_altmer_cloak_high
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}		
+		weight = {
+			base = 0
+			modifier = {
+				add = 30
+				NOR = {
+					portrait_wear_armor_trigger = yes
+				}
+				OR = {
+					AND = {
+						OR = {
+							highest_held_title_tier >= tier_duchy
+							AND = {
+								has_government = republic_government
+								primary_title.tier > 1
+							}
+						}
+						NOT = { AND = { is_ruler = yes has_government = mercenary_government  } } # Blocked for mercenaries
+						portrait_ek_aldmeri_clothing_trigger = yes
+					}
+					AND = {
+						exists = primary_spouse
+						OR = {
+							is_ruler = no
+							highest_held_title_tier >= tier_barony
+						}
+						primary_spouse = {
+							OR = {
+								highest_held_title_tier >= tier_duchy
+								AND = {
+									has_government = republic_government
+									primary_title.tier > 1
+								}
+							}
+							portrait_ek_aldmeri_clothing_spouse_trigger = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	altmer_high_chancellor = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ek_altmer_cloak_chancellor
+				value = 0 # For the randomness to work correctly
+			}
+		}		
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				NOR = {
+					portrait_wear_armor_trigger = yes
+				}
+				OR = {
+					is_ruler = no
+					highest_held_title_tier < tier_kingdom
+				}
+				portrait_ek_aldmeri_clothing_trigger = yes
+				AND = {
+					exists = liege
+					liege = {
+						highest_held_title_tier >= tier_kingdom
+						NOT = { has_government = theocracy_government }
+					}
+				}
+				NOT = { has_character_flag = need_priest_outfit }
+				is_theocratic_lessee = no
+				NOT = { has_council_position = councillor_court_chaplain }
+				OR = {
+					has_council_position = councillor_chancellor
+					has_council_position = councillor_steward
+					has_council_position = councillor_spymaster
+				}
+			}
+			modifier = {
+				add = -100
+				 exists = this
+				 OR = {
+					 has_character_flag = need_priest_outfit
+					 is_theocratic_lessee = yes
+					 has_council_position = councillor_court_chaplain
+					 AND = { is_ruler = yes has_government = theocracy_government }
+					 has_trait = devoted
+				 }
+			}
+		}
+	}
+
+	aran_el_cloak = { # this should be changed to be based on a flag or something, or have a flag that disables it temporarily, so that they only start wearing it once they've been coronated (once the eighty eight day coronation liturgy event is made)
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ek_altmer_cloak_aran_el
+				range = { 0 1 }
+			}
+			morph = {
+				mode = add	
+				gene = gene_bs_cloak
+				template = cloak
+				value = 1.0
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 200
+				NOR = {
+					portrait_wear_armor_trigger = yes
+				}
+				OR = {
+					primary_title = title:e_summerset
+					primary_title = title:e_aldmeri_dominion
+				}
+				highest_held_title_tier > tier_kingdom
+				#is_independent_ruler = yes
+				portrait_ek_aldmeri_clothing_trigger = yes
+			}
+		}
+	}	
+	
+	mannimarco = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ek_altmer_cloak_mannimarco
+				range = { 0 1 }
+			}
+			morph = {
+				mode = add	
+				gene = gene_bs_cloak
+				template = cloak
+				value = 1.0
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 500
+				exists = character:mannimarco_1000
+				this = character:mannimarco_1000
+
+			}
+		}
+	}
+
+	ashlander_low_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ek_ashlander_scarf_low
+				range = { 0 1 } # For the randomness to work correctly
+			}	
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 15
+				OR = {
+					AND = {
+						highest_held_title_tier = tier_county
+						NOR = {
+							AND = {
+								has_government = republic_government
+								primary_title.tier > 1
+							}
+						}
+					OR = {
+						portrait_ek_ashlander_clothing_trigger = yes
+						portrait_ek_cantemiric_clothing_trigger = yes
+						portrait_ek_chimeri_quey_clothing_trigger = yes
+						portrait_ek_dwemeri_clothing_trigger = yes						
+					}
+					}
+					AND = {
+						exists = primary_spouse
+						OR = {
+							is_ruler = no
+							highest_held_title_tier = tier_barony
+						}
+						primary_spouse = {
+							highest_held_title_tier = tier_county
+							NOR = {
+								AND = {
+									has_government = republic_government
+									primary_title.tier > 1
+								}
+							}
+								OR = {
+									portrait_ek_ashlander_clothing_spouse_trigger = yes
+									portrait_ek_cantemiric_clothing_spouse_trigger = yes
+									portrait_ek_chimeri_quey_clothing_spouse_trigger = yes
+									portrait_ek_dwemeri_clothing_spouse_trigger = yes
+								}
+						}
+					}
+				}
+			}
+		}
+	}
+	ashlander_high_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ek_ashlander_scarf_high
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}		
+		weight = {
+			base = 0
+			modifier = {
+				add = 30
+				OR = {
+					AND = {
+						OR = {
+							highest_held_title_tier >= tier_duchy
+							AND = {
+								has_government = republic_government
+								primary_title.tier > 1
+							}
+						}
+						NOT = { AND = { is_ruler = yes has_government = mercenary_government  } } # Blocked for mercenaries
+						OR = {
+							portrait_ek_ashlander_clothing_trigger = yes
+							portrait_ek_cantemiric_clothing_trigger = yes
+							portrait_ek_chimeri_quey_clothing_trigger = yes
+							portrait_ek_dwemeri_clothing_trigger = yes						
+						}
+					}
+					AND = {
+						exists = primary_spouse
+						OR = {
+							is_ruler = no
+							highest_held_title_tier >= tier_barony
+						}
+						primary_spouse = {
+							OR = {
+								highest_held_title_tier >= tier_duchy
+								AND = {
+									has_government = republic_government
+									primary_title.tier > 1
+								}
+							}
+								OR = {
+									portrait_ek_ashlander_clothing_spouse_trigger = yes
+									portrait_ek_cantemiric_clothing_spouse_trigger = yes
+									portrait_ek_chimeri_quey_clothing_spouse_trigger = yes
+									portrait_ek_dwemeri_clothing_spouse_trigger = yes
+								}
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+	dunmer_low_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ek_dunmer_collar_high
+				range = { 0 0.7 } # For the randomness to work correctly
+			}	
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 15
+				OR = {
+					AND = {
+						highest_held_title_tier = tier_county
+						NOR = {
+							AND = {
+								has_government = republic_government
+								primary_title.tier > 1
+							}
+						}
+						portrait_ek_dunmer_clothing_trigger = yes
+					}
+					AND = {
+						exists = primary_spouse
+						OR = {
+							is_ruler = no
+							highest_held_title_tier = tier_barony
+						}
+						primary_spouse = {
+							highest_held_title_tier = tier_county
+							NOR = {
+								AND = {
+									has_government = republic_government
+									primary_title.tier > 1
+								}
+							}
+							portrait_ek_dunmer_clothing_spouse_trigger = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	dunmer_high_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ek_dunmer_collar_high
+				range = { 0.25 1 } # For the randomness to work correctly
+			}
+		}		
+		weight = {
+			base = 0
+			modifier = {
+				add = 30
+				OR = {
+					AND = {
+						OR = {
+							highest_held_title_tier >= tier_duchy
+							AND = {
+								has_government = republic_government
+								primary_title.tier > 1
+							}
+						}
+						NOT = { AND = { is_ruler = yes has_government = mercenary_government  } } # Blocked for mercenaries
+						portrait_ek_dunmer_clothing_trigger = yes
+					}
+					AND = {
+						exists = primary_spouse
+						OR = {
+							is_ruler = no
+							highest_held_title_tier >= tier_barony
+						}
+						primary_spouse = {
+							OR = {
+								highest_held_title_tier >= tier_duchy
+								AND = {
+									has_government = republic_government
+									primary_title.tier > 1
+								}
+							}
+							portrait_ek_dunmer_clothing_spouse_trigger = yes
+						}
+					}
+				}
+			}
+			modifier = {
+				add = 5
+				exists = character:mora_nerevar #Indoril Nerevar
+				this = character:mora_nerevar
+			}
+		}
+	}
+	
+	gah_julan_low_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ek_gahjulan_scarf_low
+				range = { 0 1 } # For the randomness to work correctly
+			}	
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 15
+				OR = {
+					AND = {
+						highest_held_title_tier = tier_county
+						NOR = {
+							AND = {
+								has_government = republic_government
+								primary_title.tier > 1
+							}
+						}
+						portrait_ek_gah_julan_clothing_trigger = yes
+					}
+					AND = {
+						exists = primary_spouse
+						OR = {
+							is_ruler = no
+							highest_held_title_tier = tier_barony
+						}
+						primary_spouse = {
+							highest_held_title_tier = tier_county
+							NOR = {
+								AND = {
+									has_government = republic_government
+									primary_title.tier > 1
+								}
+							}
+							portrait_ek_gah_julan_clothing_spouse_trigger = yes
+						}
+					}
+				}
+			}
+		}
+	}
+	gah_julan_high_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ek_gahjulan_scarf_high
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}		
+		weight = {
+			base = 0
+			modifier = {
+				add = 30
+				OR = {
+					AND = {
+						OR = {
+							highest_held_title_tier >= tier_duchy
+							AND = {
+								has_government = republic_government
+								primary_title.tier > 1
+							}
+						}
+						NOT = { AND = { is_ruler = yes has_government = mercenary_government  } } # Blocked for mercenaries
+						portrait_ek_gah_julan_clothing_trigger = yes
+					}
+					AND = {
+						exists = primary_spouse
+						OR = {
+							is_ruler = no
+							highest_held_title_tier >= tier_barony
+						}
+						primary_spouse = {
+							OR = {
+								highest_held_title_tier >= tier_duchy
+								AND = {
+									has_government = republic_government
+									primary_title.tier > 1
+								}
+							}
+							portrait_ek_gah_julan_clothing_spouse_trigger = yes
+						}
+					}
+				}
+			}
+			modifier = {
+				add = 5
+				exists = character:mora_nerevar #Indoril Nerevar
+				this = character:mora_nerevar
+			}
+		}
+	}
+
+	ek_dunmer_war_helmet_headwrap = {
+	    dna_modifiers = {
+	        accessory = {
+				mode = add				
+				gene = cloaks
+				template = ek_dunmer_war_headwrap
+				range = { 0.0 1.0 }
+	        }
+	    }
+	    weight = {
+	        base = 0
+	        modifier = {
+				add = 101
+				AND = {
+					OR = {
+						portrait_ek_gah_julan_clothing_trigger = yes
+						portrait_ek_ashlander_clothing_trigger = yes
+						portrait_ek_dwemeri_clothing_trigger = yes
+					}
+					portrait_wear_armor_trigger = yes
+				}
+				
+			}
+			modifier = {
+				add = 5
+				exists = character:bagarn_1000 # Yagrum Bagarn
+				this = character:bagarn_1000
+			}
+	    }
+	}
+}

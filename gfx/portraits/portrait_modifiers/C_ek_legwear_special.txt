@@ -1,0 +1,39 @@
+﻿#EK TODO I dont think this is working
+
+legwear_special = {
+
+	usage = game
+	selection_behavior = max
+	priority = 10
+
+
+	no_legwear_race = {
+		usage = game 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				value = 0
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 2000
+				AND = {
+					portrait_ek_must_wear_pants_clothing_trigger = no
+					OR = {
+						has_character_flag = race_argonian
+						has_character_flag = race_lilmothiit
+						has_trait = furstock_tojay_raht
+						has_trait = furstock_tojay
+						has_trait = furstock_suthay_raht
+						has_trait = furstock_suthay
+					}
+				}	
+			}
+		}
+	}
+
+}

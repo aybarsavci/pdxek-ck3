@@ -1,0 +1,715 @@
+# EK NOTE: complete replacement, sans the first few lines
+color_lists = {
+	all_color_list = { # PM : basically the average of medieval frequencies in roll of arms (strong bias towards 13th c), with values cut in half
+		30 = "red"
+		12 = "blue"
+		1 = "green"
+		14 = "black"
+		0 = "purple"
+		24 = "yellow" 
+		26 = "white"
+	}	
+	
+	normal_colors = {
+		30 = "red"
+		12 = "blue"
+		1 = "green"
+		14 = "black"
+		0 = "purple"
+
+
+		### Argonian
+		special_selection = {
+			trigger = {
+				coa_argonian_culture_trigger = yes				
+			}	
+			3000 = "skyrim_dblue"
+			3000 = "brown_dark"
+			3000 = "red_medium"
+			3000 = "orange_dark"
+			3000 = "argonian_green_light"
+			3000 = "argonian_green_medium"
+			3000 = "argonian_green_dark"
+			3000 = "argonian_black"
+			3000 = "argonian_cyan"
+			3000 = "argonian_orange"
+		}	
+
+		### Aldmeris
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = aldmeris_group_coa_gfx }
+			}	
+			3000 = "skyrim_purple"
+			3000 = "pyandonea_mteal"
+			3000 = "pyandonea_mcyan"
+			3000 = "skyrim_red"
+			3000 = "pyandonea_mburgundy"
+			3000 = "pyandonea_dburgundy"
+			3000 = "cyrodiil_green"
+			3000 = "ayleid_dgreen"
+			3000 = "black"
+			3000 = "pyandonea_mmagenta"
+		}		
+
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = balfiera_group_coa_gfx }					
+			}	
+			3000 = "skyrim_purple"
+			3000 = "skyrim_mpurple"
+			3000 = "skyrim_mblue"
+			3000 = "red_medium"
+			3000 = "cyrodiil_green"
+			3000 = "black"
+			3000 = "red"
+			3000 = "blue"
+		}		
+
+		### Ayleids
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = ayleid_group_coa_gfx }
+			}	
+			3000 = "skyrim_purple"
+			3000 = "pyandonea_mburgundy"
+			3000 = "cyrodiil_green"
+			3000 = "pyandonea_mteal"
+			3000 = "pyandonea_mcyan"
+			3000 = "ayleid_green"
+			3000 = "ayleid_dgreen"
+			3000 = "black"
+		}	
+
+		### Bosmer
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = bosmer_group_coa_gfx }					
+			}
+			3000 = "valenwood_dgreen"
+			3000 = "valenwood_mgreen"
+			3000 = "valenwood_lgreen"
+			3000 = "valenwood_brown"
+			3000 = "brown_dark"
+			3000 = "valenwood_red"
+			3000 = "valenwood_blue"
+			3000 = "valenwood_purple"
+		}
+
+		### Breton
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = ek_breton_group_coa_gfx }					
+			}	
+			30 = "skyrim_mpurple"
+			20 = "green"
+		}
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = ek_old_breton_group_coa_gfx }					
+			}	
+			3000 = "black"
+			4000 = "green"
+			4000 = "green_light"
+			4000 = "green_dark"
+			3000 = "skyrim_mpurple"
+			3000 = "blue"
+		}
+		### Dunmeris
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = dunmeris_group_coa_gfx }
+			}	
+			3000 = "skyrim_mgreen"
+			3000 = "brown_medium"
+			3000 = "ashlander_purple"
+			3000 = "skyrim_dblue"
+			3000 = "red_dark"
+			3000 = "skyrim_dpurple"
+			3000 = "ashlander_green"
+			3000 = "gold_dark"
+			3000 = "ashlander_red"
+			3000 = "argonian_cyan"
+			3000 = "brown"
+		}
+
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = ashlander_group_coa_gfx }					
+			}
+			3000 = "ashlander_green"
+			3000 = "skyrim_dgreen"
+			3000 = "gold_dark"
+			3000 = "skyrim_dblue"
+			3000 = "red"
+			3000 = "argonian_cyan"
+			3000 = "orange_dark"
+			3000 = "brown"
+			3000 = "ashlander_red"
+			3000 = "ashlander_purple"
+		}
+
+		### Dwemeris
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = dwemeris_group_coa_gfx }
+			}	
+			3000 = "brown_medium"
+			3000 = "brown_dark"
+			3000 = "leather_red"
+			3000 = "leather_orange"
+			3000 = "leather_blue"
+			3000 = "black"
+			3000 = "leather_dark_brown"
+			3000 = "leather_offblack"
+			3000 = "leather_burgundy"
+		}
+
+		### Cyrodiilic
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = cyrodiilic_group_coa_gfx }
+			}	
+			25 = "skyrim_purple"
+			25 = "skyrim_mpurple"
+			20 = "cyrodiil_green"
+			20 = "green"
+			20 = "blue"
+			15 = "red_medium"
+			15 = "brown_medium"
+			10 = "black"
+			20 = "blue"
+			20 = "cyrodiil_blue_dark"
+			10 = "cyrodiil_green_dark"
+			30 = "cyrodiil_red"
+		}
+
+		### Falmeris
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = falmeris_group_coa_gfx }
+			}	
+			3000 = "skyrim_purple"
+			3000 = "skyrim_mpurple"
+			3000 = "skyrim_dpurple"
+			3000 = "skyrim_mblue"
+			3000 = "skyrim_mgreen"
+			3000 = "skyrim_mmauve"
+			3000 = "blue"
+		}
+
+		### Goblin
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = goblin_group_coa_gfx }
+			}
+			3000 = "skyrim_dblue"
+			3000 = "skyrim_dpurple"
+			3000 = "brown_dark"
+			3000 = "brown_medium"
+			3000 = "brown_light"
+			3000 = "gold_dark"
+			3000 = "skyrim_dgreen"
+			30000 = "cave_1"
+			30000 = "cave_2"
+			30000 = "cave_3"
+			30000 = "cave_4"
+			30000 = "cave_5"
+		}
+
+		### Imga
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = imga_group_coa_gfx }
+			}
+			3000 = "valenwood_dgreen"
+			3000 = "valenwood_mgreen"
+			3000 = "valenwood_lgreen"
+			3000 = "valenwood_brown"
+			3000 = "brown_dark"
+			3000 = "valenwood_red"
+			3000 = "valenwood_blue"
+		}
+
+		### Maormer
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = maormeris_group_coa_gfx }
+			}
+			3000 = "pyandonea_mcyan"
+			3000 = "pyandonea_dcyan"
+			3000 = "pyandonea_mteal"
+			3000 = "pyandonea_dteal"
+			3000 = "pyandonea_mblue"
+			3000 = "pyandonea_dblue"
+			3000 = "pyandonea_mpurple"
+			3000 = "pyandonea_dpurple"
+			3000 = "pyandonea_mgrey"
+			3000 = "pyandonea_dgrey"
+			3000 = "pyandonea_morange"
+			3000 = "pyandonea_dorange"
+			3000 = "pyandonea_mgreen"
+			3000 = "pyandonea_dgreen"
+			3000 = "pyandonea_mmagenta"
+			3000 = "pyandonea_dmagenta"
+			3000 = "pyandonea_mburgundy"
+			3000 = "pyandonea_dburgundy"
+		}
+
+		### Lilmothiit
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = lilmothiit_group_coa_gfx }					
+			}		
+			3000 = "orange"
+			3000 = "purple"
+			3000 = "black"
+			3000 = "pyandonea_dgrey"
+			3000 = "pyandonea_mteal"
+			3000 = "pyandonea_mmagenta"
+			3000 = "red"
+			3000 = "pyandonea_dburgundy"
+			3000 = "argonian_black"
+			3000 = "argonian_cyan"
+			3000 = "argonian_orange"
+		}
+
+		### Nedic
+		special_selection = {
+			trigger = {
+				coa_reachfolk_culture_trigger = yes				
+			}
+			300000 = "hide_1"
+			300000 = "hide_2"
+			300000 = "hide_3"
+			300000 = "hide_4"
+			300000 = "hide_5"
+		}
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = reachfolk_coa_gfx }					
+			}	
+			3000 = "black"
+			3000 = "red"
+			3000 = "green"
+			3000 = "red_medium"
+			3000 = "orange_dark"
+			3000 = "green_light"
+			3000 = "green_dark"
+		}
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = nedic_coa_gfx }
+			}
+			3000 = "ashlander_green"
+			3000 = "skyrim_dgreen"
+			3000 = "gold_dark"
+			3000 = "skyrim_dblue"
+			3000 = "red"
+			3000 = "argonian_cyan"
+			3000 = "orange_dark"
+			3000 = "brown"
+			3000 = "ashlander_red"
+		}
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = kothringi_coa_gfx }
+			}
+			3000 = "argonian_orange"
+			3000 = "green"
+			3000 = "pyandonea_dmagenta"
+			3000 = "orange_dark"
+			3000 = "pyandonea_dteal"
+			3000 = "red_medium"
+			3000 = "green_dark"
+		}
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = horwalli_coa_gfx }
+			}	
+			3000 = "argonian_orange"
+			3000 = "green"
+			3000 = "orange_dark"
+			3000 = "pyandonea_dteal"
+			3000 = "red_medium"
+			3000 = "green_dark"
+			3000 = "red"
+			3000 = "black"
+		}
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = yespest_coa_gfx }					
+			}	
+			3000 = "argonian_orange"
+			3000 = "valenwood_purple"
+			3000 = "pyandonea_dmagenta"
+			3000 = "orange_dark"
+			3000 = "pyandonea_mteal"
+			3000 = "pyandonea_dteal"
+			3000 = "pyandonea_dburgundy"
+		}
+
+		### Nord
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = nord_group_coa_gfx }					
+			}	
+			3000 = "skyrim_purple"
+			3000 = "skyrim_mpurple"
+			3000 = "skyrim_dpurple"
+			3000 = "skyrim_mblue"
+			3000 = "skyrim_dblue"
+			3000 = "skyrim_mgreen"
+			3000 = "skyrim_dgreen"
+			3000 = "skyrim_mmauve"
+			3000 = "skyrim_dmauve"
+			5000 = "nordic_blue"
+			5000 = "nordic_blue_dark"
+			3000 = "nordic_brown"
+			3000 = "nordic_gray"
+			3000 = "nordic_green"
+			3000 = "nordic_green_dark"
+			3000 = "nordic_gold"
+			2000 = "nordic_mauve"
+			2000 = "nordic_orange"
+			3000 = "nordic_purple"
+			5000 = "nordic_red"
+			5000 = "nordic_red_dark"
+			3000 = "nordic_silver"
+		}
+
+		### Orcish
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = orc_group_coa_gfx }
+			}
+			3000 = "black_red"
+			3000 = "black_green"
+			3000 = "black_blue"
+			3000 = "red_dark"
+			3000 = "skyrim_dblue"
+			3000 = "orange_dark"
+			3000 = "skyrim_dpurple"
+			3000 = "skyrim_dmauve"
+		}
+
+		### Khajiit
+		special_selection = {
+			trigger = {
+				coa_khajiit_culture_trigger = yes
+			}	
+			3000 = "red"
+			3000 = "orange"
+			3000 = "purple"
+			3000 = "blue"
+		}
+
+		### Tsaesci
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = tsaesci_group_coa_gfx }					
+			}	
+			2500 = akaviri_blue
+			2500 = akaviri_jade
+			2500 = akaviri_grey
+			2500 = akaviri_orange
+			2500 = akaviri_red
+			2500 = akaviri_red_dark
+		}
+
+	}
+	
+	metal_colors = {
+		24 = "yellow"
+		26 = "white"
+
+
+		### Argonian
+		special_selection = {
+			trigger = {
+				coa_argonian_culture_trigger = yes
+			}
+			3000 = "skyrim_lgold"
+			3000 = "skyrim_gold"
+			3000 = "gold_medium"
+			3000 = "argonian_grey_light"
+			3000 = "argonian_grey_medium"
+		}
+
+		### Aldmeris
+		special_selection = {
+			trigger = {
+				OR = {
+					scope:culture = { has_coa_gfx = aldmeris_group_coa_gfx }
+					coa_imga_altmer_trigger = yes
+				}
+			}	
+			3000 = "white"
+			3000 = "ayleid_yellow"
+			4500 = "ayleid_white"
+		}	
+
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = balfiera_group_coa_gfx }					
+			}	
+			3000 = "gold_light"
+			3000 = "alinor_pattern"
+			3000 = "dusk_yellow"
+			6000 = "white"
+		}	
+
+		### Ayleids
+		special_selection = {
+			trigger = {
+				OR = {
+					scope:culture = { has_coa_gfx = ayleid_group_coa_gfx }
+					coa_imga_altmer_trigger = yes
+				}
+			}	
+			3000 = "white"
+			3000 = "ayleid_yellow"
+			4500 = "ayleid_white"
+		}	
+
+		### Bosmer
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = bosmer_group_coa_gfx }					
+			}
+			3000 = "valenwood_grey"
+			3000 = "valenwood_gold"
+			3000 = "valenwood_lgrey"
+		}
+
+		### Breton
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = ek_old_breton_group_coa_gfx }					
+			}	
+			3000 = "white"
+			3000 = "grey_light"
+			3000 = "gold_light"
+		}
+
+		### Cyrodiilic
+		special_selection = {
+			trigger = {
+				OR = {
+					scope:culture = { has_coa_gfx = cyrodiilic_group_coa_gfx }
+					coa_marukhati_trigger = yes
+				}
+			}
+			15 = "tamriel_gold"
+			15 = "grey_light"
+			15 = "skyrim_gold"
+			15 = "white"
+		}
+
+		### Daedric
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = daedric_group_coa_gfx }					
+				NOT = {
+					coa_pirate_trigger = yes
+				}
+			}	
+			9000 = "daedra_red"
+			3000 = "daedra_blue"
+			3000 = "green_light_ek"
+			3000 = "orange_light"
+			3000 = "yellow_light"
+			3000 = "daedra_silver"
+			3000 = "daedra_purple"
+		}
+
+		### Dunmeris
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = dunmeris_group_coa_gfx }
+			}
+			3000 = "ashlander_lgold"
+			3000 = "grey_light"
+		}
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = ashlander_group_coa_gfx }
+			}
+			3000 = "ashlander_lgold"
+			3000 = "ashlander_gold"
+			3000 = "grey_light"
+			3000 = "ashlander_brown"
+			3000 = "ashlander_grey"
+		}
+
+		### Dwemeris
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = dwemeris_group_coa_gfx }
+			}	
+			3000 = "skyrim_lgold"
+			3000 = "skyrim_gold"
+			3000 = "ashlander_gold"
+			3000 = "gold_medium"
+		}
+
+		### Falmeris
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = falmeris_group_coa_gfx }
+			}
+			3000 = "white"
+			3000 = "grey_light"
+			3000 = "alinor_pattern"
+			3000 = "alinor_silver_light"
+		}
+
+		### Goblin
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = goblin_group_coa_gfx }
+			}
+			3000 = "skyrim_lgold"
+			3000 = "skyrim_gold"
+			3000 = "gold_medium"
+			3000 = "dusk_yellow"
+			3000 = "white"
+			3000 = "troll_fat"
+			3000 = "goblin_orange"
+			3000 = "spriggain_sap"
+			3000 = "bright_blood"
+			3000 = "ice_wraith_essence"
+		}
+
+		### Imga
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = imga_group_coa_gfx }
+				NOR = {
+					coa_imga_altmer_trigger = yes
+					coa_marukhati_trigger = yes
+				}				
+			}
+			3000 = "valenwood_grey"
+			3000 = "valenwood_lgrey"
+			3000 = "skyrim_lgold"
+			3000 = "argonian_grey_light"
+		}
+
+		### Maormer
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = maormeris_group_coa_gfx }
+			}
+			6000 = "white"
+		}
+
+		### Lilmothiit
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = lilmothiit_group_coa_gfx }
+			}
+			24 = "yellow"
+			26 = "white"
+			15 = "gold_light"
+		}
+
+		### Nedic
+		special_selection = {
+			trigger = {
+				OR = {
+					scope:culture = { has_coa_gfx = reachfolk_coa_gfx }
+					scope:culture = { has_coa_gfx = nedic_coa_gfx }
+					scope:culture = { has_coa_gfx = kothringi_coa_gfx }
+					scope:culture = { has_coa_gfx = orma_coa_gfx }
+					scope:culture = { has_coa_gfx = yespest_coa_gfx }
+				}
+			}
+			3000 = "white"
+			3000 = "grey_light"
+			3000 = "gold_light"
+		}
+		special_selection = {
+			trigger = {
+				coa_reachfolk_culture_trigger = yes				
+			}
+			50000 = "white"
+			50000 = "black"
+			50000 = "troll_fat"
+			50000 = "mud"
+			50000 = "juniper_berry"
+			50000 = "blood"
+			50000 = "frostspider_venom"
+			25000 = "floater_jelly"
+		}
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = horwalli_coa_gfx }					
+			}
+			3000 = "skyrim_lgold"
+			3000 = "gold_light"
+			3000 = "argonian_grey_light"
+			3000 = "valenwood_grey"
+			3000 = "valenwood_lgrey"
+		}
+
+		### Nord
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = nord_group_coa_gfx }					
+			}
+			3000 = "skyrim_lgold"
+			4000 = "nordic_white"
+			3000 = "nordic_ivory"
+			2000 = "nordic_tan"
+		}
+
+		### Orcish
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = orc_group_coa_gfx }
+			}
+			3000 = "skyrim_lgold"
+			3000 = "skyrim_gold"
+			3000 = "skyrim_silver"
+		}
+
+		### Pirates
+		special_selection = {
+			trigger = {
+				coa_pirate_trigger = yes
+				NOT = {
+					scope:culture = { has_coa_gfx = maormeris_group_coa_gfx }
+				}
+			}
+			300000 = "yellow"
+			1000000 = "white"
+		}
+
+		### Tsaesci
+		special_selection = {
+			trigger = {
+				scope:culture = { has_coa_gfx = tsaesci_group_coa_gfx }					
+			}	
+			3000 = "akaviri_gold"
+			3000 = "akaviri_gold_pale"
+			3000 = "akaviri_white"
+			3000 = "akaviri_silver"
+		}
+	}
+
+	leather_colors = {
+		3000 = "leather_burgundy"
+		3000 = "leather_red"
+		3000 = "leather_blue"
+		3000 = "leather_green"
+		3000 = "leather_orange"
+		3000 = "leather_brown"
+		3000 = "leather_dark_brown"
+		3000 = "leather_sand"
+		3000 = "leather_offblack"
+		3000 = "brown"
+	}
+	
+
+}

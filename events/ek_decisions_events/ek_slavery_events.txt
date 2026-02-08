@@ -1,0 +1,232 @@
+﻿namespace = ek_slavery_events
+
+# Ban Slavery in Realm decision event
+ek_slavery_events.0001 = {
+	type = character_event
+	title = ek_slavery_events.0001.t
+	theme = realm
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { 
+					culture = { has_cultural_parameter = keeps_slaves } # for when you ban it within your own culture
+				}	
+				desc = ek_slavery_events.0001a.desc
+			}	
+			desc = ek_slavery_events.0001b.desc # for when you ban it for vassals
+		}
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	immediate = {
+		save_scope_as = banner #for loc
+	}
+	
+	option = { # Ban it! - own culture version
+		name = ek_slavery_events.0001.option.1
+		trigger = { culture = { has_cultural_parameter = keeps_slaves }}
+
+		add_tyranny = major_tyranny_gain
+		every_vassal_or_below = {
+			limit = { 
+				has_vassal_stance = glory_hound 
+				culture = { has_cultural_parameter = keeps_slaves }
+			}
+			custom = every_glory_hound_vassal_slaver
+			add_opinion = {
+				modifier = banned_slavery
+				target = root
+				opinion = -20
+			}
+		}
+		every_vassal_or_below = {
+			limit = { 
+				has_vassal_stance = parochial
+				culture = { has_cultural_parameter = keeps_slaves }
+			}
+			custom = every_parochial_vassal_slaver
+			add_opinion = {
+				modifier = banned_slavery
+				target = root
+				opinion = -20
+			}
+		}
+		every_vassal_or_below = {
+			limit = { NOT = { culture = { has_cultural_parameter = keeps_slaves }}}
+			custom = every_non_slaver_vassal
+			add_opinion = {
+				modifier = banned_slavery
+				target = root
+				opinion = 40
+			}
+		}
+		custom_tooltip = {
+			text = ban_slavery_in_realm_decision_effect
+			primary_title = {
+				set_variable = slavery_banned_in_realm_flag
+			}
+		}
+
+		#Notify player vassals
+		every_vassal_or_below = {
+			limit = {
+				is_ai = no
+			}
+			trigger_event = ek_slavery_events.0002
+		}
+	}
+
+	option = { # Ban it! - vassal culture version
+		name = ek_slavery_events.0001.option.2
+		trigger = { NOT = { culture = { has_cultural_parameter = keeps_slaves }}}
+
+		every_vassal_or_below = {
+			limit = { culture = { has_cultural_parameter = keeps_slaves }}
+			custom = every_slaver_vassal
+			add_opinion = {
+				modifier = banned_slavery
+				target = root
+				opinion = -40
+			}
+			culture = {
+				save_scope_as = slaver_culture
+			}
+		}
+		every_vassal_or_below = {
+			limit = { NOT = { culture = { has_cultural_parameter = keeps_slaves }}}
+			custom = every_non_slaver_vassal
+			add_opinion = {
+				modifier = banned_slavery
+				target = root
+				opinion = 20
+			}
+		}
+		if = { #let's limit it to the culture head to not risk the numbers going bonkers
+			limit = { culture.culture_head = root } 
+			root.culture = {
+				change_cultural_acceptance = {
+					target = scope:slaver_culture
+					value = low_negative_culture_acceptance
+					desc = ek_slavery_events.0001.cultural_acceptance_loss
+				}
+			}	
+		}	
+		custom_tooltip = {
+			text = ban_slavery_in_realm_decision_effect
+			primary_title = {
+				set_variable = slavery_banned_in_realm_flag
+			}
+		}
+
+		#Notify player vassals
+		every_vassal_or_below = {
+			limit = {
+				is_ai = no
+			}
+			trigger_event = ek_slavery_events.0002
+		}
+	}
+
+	option = { # Oh wow people got pissed, let's back out
+		name = ek_slavery_events.0001.option.3
+
+		add_prestige = { # refund prestige here, though without giving experience (aka level of fame)
+			if = {
+				limit = {
+					highest_held_title_tier = tier_county
+				}
+				add = 250
+			}
+			else_if = {
+				limit = {
+					highest_held_title_tier = tier_duchy
+				}
+				add = 500
+			}
+			else_if = {
+				limit = {
+					highest_held_title_tier = tier_kingdom
+				}
+				add = 1000
+			}
+			else_if = {
+				limit = {
+					highest_held_title_tier = tier_empire
+				}
+				add = 2000
+			}
+		}
+	}
+}
+
+ek_slavery_events.0002 = {
+	type = character_event
+	title = ek_slavery_events.0002.t
+	theme = realm
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { 
+					culture = { has_cultural_parameter = keeps_slaves } # for when your liege bans it and you're of a slaver culture
+				}	
+				desc = ek_slavery_events.0002a.desc
+			}	
+			desc = ek_slavery_events.0002b.desc # for when your liege bans it and you aren't of a slaver culture
+		}
+	}
+
+	left_portrait = {
+		character = scope:banner
+		animation = personality_bold
+	}
+	
+	option = { # Hurrah (when of a non-slaver culture)
+		name = ek_slavery_events.0002.option.1
+		trigger = { NOT = { culture = { has_cultural_parameter = keeps_slaves }}}
+
+		# Explain the effect of this clearly
+		custom_tooltip = {
+			text = ban_slavery_in_realm_decision_effect_vassal
+		}
+	}
+
+	option = { # neutral response (when of a slaver culture)
+		name = ek_slavery_events.0002.option.2
+		trigger = { culture = { has_cultural_parameter = keeps_slaves }}
+
+		# Explain the effect of this clearly
+		custom_tooltip = {
+			text = ban_slavery_in_realm_decision_effect_vassal
+		}
+	}
+
+	option = { # yo this isn't cool (when of a slaver culture)
+		name = ek_slavery_events.0002.option.3
+		trigger = { culture = { has_cultural_parameter = keeps_slaves }}
+
+		# Explain the effect of this clearly
+		custom_tooltip = {
+			text = ban_slavery_in_realm_decision_effect_vassal
+		}
+		
+		# Mutual opinion loss with liege
+		add_opinion = {
+			modifier = banned_slavery
+			target = scope:banner
+			opinion = -20
+		}
+		scope:banner = {
+			add_opinion = {
+				modifier = banned_slavery
+				target = root
+				opinion = -20
+			}
+		}
+	}
+}

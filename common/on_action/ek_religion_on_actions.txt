@@ -1,0 +1,140 @@
+﻿# Code on-action: character creates a faith
+# Root is the creator
+# scope:old_faith is the faith they used to have
+ek_on_faith_created = {
+	effect = {
+		scope:old_faith = {
+			#Updates the fervor equilibrium of the previous faith (nb of counties held might have changed)
+			faith_update_fervor_equilibrium = yes
+		}
+
+		###  Initializes some of the faith settings
+		root.faith = {
+			faith_give_proper_cultural_identity_doctrine = yes # Swaps the _creating_faith cultural identity doctrines for their real version
+			faith_update_fervor_equilibrium = yes
+			faith_clean_unused_doctrines = yes # Some doctrines are only relevant during the faith creation, so let's remove them
+
+			### Let's calculate hostility poggers
+			# First we need to give an id
+			faith_give_faith_id = yes
+
+			## Then we create the hostility story
+			if = {
+				limit = { exists = global_var:should_use_dynamic_hostility }
+				every_religion_global = {
+					every_faith = {
+						save_scope_as = curr_faith
+
+						root = {
+							create_story = {
+								type = story_cycle_faith_hostility
+								save_scope_as = new_story
+							}
+						}
+						root.faith = { add_to_variable_list = { name = list_faith_hostility target = scope:new_story } }
+						scope:new_story = {
+							set_variable = {
+								name = other_faith
+								value = scope:curr_faith
+							}
+						}
+ 
+						root = {
+							create_story = {
+								type = story_cycle_faith_hostility
+								save_scope_as = new_story_2
+							}
+						}
+						scope:curr_faith = { add_to_variable_list = { name = list_faith_hostility target = scope:new_story_2 } }
+						scope:new_story_2 = {
+							set_variable = {
+								name = other_faith
+								value = root.faith
+							}
+						}
+					}
+				}
+
+				faith_update_base_hostility_with_everyone_else = { FAITH = root.faith }
+			}
+		}
+
+		update_liturgical_language_modifier = yes # Just in case
+		# In case the new faith has a scaling devotion effect
+		update_religions_piety_level = yes
+	}
+}
+
+# Code on-action: character changes faith. Not called when a character gets a faith on birth, creation, and similar
+# Root is the character
+# scope:old_faith is the faith they used to have
+ek_on_character_faith_change = {
+	effect = {
+		if = {
+			limit = { has_character_flag = mystical_birthright_next_hof }
+			save_scope_as = last_mbhof_potential
+			
+			remove_character_flag = mystical_birthright_next_hof
+			
+			# We get back to our former House
+			if = {
+				limit = { has_variable = mbhof_potential_successor_former_house_head }
+				set_house = var:mbhof_potential_successor_former_house_head.house
+			}
+			else = { set_to_lowborn = yes } # If they don't have a former house then they were lowborn
+			
+			# We tell the HoF that they need a new successor
+			scope:old_faith.religious_head = {
+				add_character_flag = { flag = last_mbhof_potential_converted days = 3 }
+				trigger_event = { id = ek_mbhof.0001 days = 1 }
+			}
+		}
+		
+		#For Dagoth dynasties
+		if = {
+			limit = {
+				dynasty ?= { has_dynasty_modifier = scarab_blood_dynasty_modifier }
+			}
+			save_scope_as = last_dagoth
+			trigger_event = { #Personal event, not losing scarab blood
+				id = ek_tenets.0061
+				days = 1
+			}
+			dynasty.dynast = { #Dynasty event, possibly losing scarab blood
+				trigger_event = {
+					id = ek_tenets.0063
+					days = 1
+				}
+			}
+		}
+
+		#GCM catalyst
+		if = {
+			limit = {
+				any_character_situation = {
+					any_situation_sub_region = {
+						any_situation_sub_region_participant_group = {
+							participant_group_type = grand_council_members
+							participant_group_has_character = root
+						}
+					}
+					situation_top_has_catalyst = catalyst_situation_converted_to_non_tribunal
+				}
+				highest_held_title_tier >= tier_duchy
+				scope:old_faith = { has_doctrine = doctrine_pantheon_tribunal }
+				faith = { NOT = { has_doctrine = doctrine_pantheon_tribunal } }
+			}
+			situation:grand_council ?= {
+				trigger_situation_catalyst = catalyst_situation_converted_to_non_tribunal
+			}
+		}
+		
+		# Might be a good time to check our liturgical language
+		update_liturgical_language_modifier = yes
+		# In case the new faith has a scaling devotion effect
+		update_religions_piety_level = yes
+	}
+	events = {
+		ek_tenets.0051 # New Saint
+	}
+}

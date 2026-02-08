@@ -1,0 +1,182 @@
+﻿ek_bosmeri_headgear = {
+
+	usage = game
+	selection_behavior = weighted_random
+	priority = 1
+
+##############################
+#							 #	
+#			BOSMER		 	 #
+#							 #
+##############################
+
+	ek_bosmeri_commoners = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 80
+                portrait_commoner_headgear_fallback_trigger = {
+                    CULTURE_INPUT = ek_bosmeri
+                }
+			}
+			modifier = {
+				add = 20
+                portrait_commoner_clothing_trigger = {  
+                    CULTURE_INPUT = ek_bosmeri 
+                }
+			}
+		}
+	}
+
+	ek_bosmeri_low_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			court_fashion_level_4_headgear_modifier = { INPUT_PARAMETER = ek_bosmeri } 
+			modifier = {
+				add = 50
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_bosmeri
+                }
+			}
+		}
+	}
+
+	ek_bosmeri_high_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_high_nobles_headgear_trigger = {
+                    CULTURE_INPUT = ek_bosmeri
+                }   
+			}
+		}
+	}
+
+	ek_bosmeri_royalty = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = religious_northern_high
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+				OR = {  
+					portrait_royalty_trigger = {
+						CULTURE_INPUT = ek_bosmeri
+					}   
+				}
+			}
+		}
+	}
+
+	ek_bosmeri_imperial = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ep1_sub_saharan_royalty
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+            modifier = {
+                add = 100
+				has_ep1_dlc_trigger = yes
+                portrait_imperial_trigger = {
+                    CULTURE_INPUT = ek_bosmeri
+                }
+            }
+		}
+	}
+}
+
+ek_bosmeri_war_headgear = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 4
+
+    ek_bosmeri_war_low_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = no_headgear
+				range = { 0 1 } # The Error log gets angry if this isnt added
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_bosmeri
+                }
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_bosmeri
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_bosmeri
+                    }
+                }
+            }
+        }
+    }
+
+    ek_bosmeri_war_high_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = no_headgear
+				range = { 0 1 } # The Error log gets angry if this isnt added
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_bosmeri
+                }
+                portrait_high_nobles_armor_trigger = {
+                    CULTURE_INPUT = ek_bosmeri
+                }
+            }
+        }
+    }
+}

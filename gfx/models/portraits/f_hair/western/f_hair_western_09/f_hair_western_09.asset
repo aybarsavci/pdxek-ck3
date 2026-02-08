@@ -1,0 +1,60 @@
+pdxmesh = {
+	name = "female_hair_western_09_mesh"
+	file = "f_hair_western_09.mesh"
+
+#	blend_shape = { id = "female_hair_western_09_bs_fat"				type = "f_hair_western_09_bs_fat.mesh" }
+	blend_shape = { id = "female_hair_western_09_bs_crown"				type = "f_hair_western_09_bs_crown.mesh" }
+	blend_shape = { id = "female_hair_western_09_bs_hat"				type = "f_hair_western_09_bs_hat.mesh" }
+	blend_shape = { id = "female_hair_western_09_bs_cap"				type = "f_hair_western_09_bs_cap.mesh" }
+	blend_shape = { id = "female_hair_western_09_bs_helmet"				type = "f_hair_western_09_bs_helmet.mesh" }	
+	blend_shape = { id = "female_hair_western_09_bs_hood"				type = "f_hair_western_09_bs_hood.mesh" }
+	blend_shape = { id = "female_hair_western_09_bs_chinstrap"			type = "f_hair_western_09_bs_chinstrap.mesh" }
+#	blend_shape = { id = "female_hair_western_09_bs_breast_size_max"	type = "f_hair_western_09_bs_breast_size_max.mesh" }
+
+	
+	#EK2
+	blend_shape = { id = "female_bs_hair_receding"						type = "f_hair_western_09_bs_receding.mesh"  }
+	blend_shape = { id = "female_bs_hair_wp"								type = "f_hair_western_09_bs_wp.mesh"  }
+	blend_shape = { id = "female_bs_hair_khajiit"							type = "f_hair_western_09_bs_khajiit.mesh"  }
+	#EK2
+	
+	meshsettings = {
+		name = "female_hair_western_09Shape"
+		index = 0
+		texture_diffuse = "f_hair_western_09_diffuse.dds"
+		texture_normal = "f_hair_western_09_normal.dds"
+		texture_specular = "f_hair_western_09_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+
+entity = {
+	name = "female_hair_western_09_entity"
+	pdxmesh = "female_hair_western_09_mesh"
+
+	
+	#EK2
+	attribute = { name = "bs_hair_receding"						blend_shape = "female_bs_hair_receding" }
+	attribute = { name = "bs_hair_wp"							blend_shape = "female_bs_hair_wp" }
+	attribute = { name = "bs_hair_khajiit"						blend_shape = "female_bs_hair_khajiit" }
+	#EK2
+	
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 1.0}
+			}
+		}
+	}
+
+#	attribute = { name = "bs_fat_1_body"						blend_shape = "female_hair_western_09_bs_fat" }
+	attribute = { name = "bs_crown"								blend_shape = "female_hair_western_09_bs_crown" }
+	attribute = { name = "bs_hat"								blend_shape = "female_hair_western_09_bs_hat" }
+	attribute = { name = "bs_cap"								blend_shape = "female_hair_western_09_bs_cap" }
+	attribute = { name = "bs_helmet"							blend_shape = "female_hair_western_09_bs_helmet" }
+	attribute = { name = "bs_hood"								blend_shape = "female_hair_western_09_bs_hood" }
+	attribute = { name = "bs_chinstrap"							blend_shape = "female_hair_western_09_bs_chinstrap" }
+#	attribute = { name = "bs_breast_size_max"					blend_shape = "female_hair_western_09_bs_breast_size_max" }
+}

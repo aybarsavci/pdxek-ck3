@@ -1,0 +1,618 @@
+﻿NGame = {
+	END_DATE = "3816.1.1"
+	BENCHMARK_OBSERVE_CHARACTER = k_daggerfall		# Which character should be observed?	### EK EDIT
+}
+
+NSetup = {
+	GENERATED_POOL_CHARACTER_TEMPLATES = {
+		"pool_repopulate_spouse"
+		"pool_repopulate_prowess"
+		"pool_repopulate_arcana"	### EK ADDITION
+		"pool_repopulate_arch_mages" ### EK ADDITION
+		"pool_repopulate_diplomacy"
+		"pool_repopulate_martial"
+		"pool_repopulate_stewardship"
+		"pool_repopulate_intrigue"
+		"pool_repopulate_learning"
+		"pool_repopulate_local_flavor"
+	}
+	GENERATED_POOL_CHARACTER_TEMPLATE_WEIGHTS = {
+		2
+		5
+		1	### EK EDIT
+		1	### EK EDIT
+		2
+		2
+		2
+		2
+		2
+		1
+	}
+}
+
+NJominiMap = {
+    WORLD_EXTENTS_X = 8255
+    WORLD_EXTENTS_Y = 51
+    WORLD_EXTENTS_Z = 5503
+    WATERLEVEL = 3.8
+}
+
+NCharacter = {
+	MAXIMUM_DIPLOMATIC_RANGE = 950	### EK EDIT
+	MAXIMUM_DIPLOMATIC_RANGE_RESTRICTED = 700	# Used if a game rule with the restricted_diplomatic_range flag is used ### EK EDIT
+
+	#EK EDIT Vanilla originally had 5, now 100. testing 10 for us
+	FORCED_SUCCESSION_ELECTION_YEARS = 10	# For how long someone is forced to vote with another elector when using the force_vote_in_succession_election interaction
+
+	# How many concubines does a ruler of a given tier desire if their faith allows concubines
+	DESIRED_CONCUBINES_PER_TIER = { 0 0 1 1 2 3 }
+}
+
+NOldAge = { ### EK EDIT: now handled by ek_check_age scrip values, see ek_aging_on_actions.txt, ek_check_age.txt, and ek_aging_modifiers.txt
+	LOWER_HEALTH_START_AGE = 999 # At this age characters start getting the chance to lose health each year
+	LOWER_HEALTH_BASE_CHANCE = 0 # This is the base chance of losing health at the START_AGE
+	LOWER_HEALTH_YEARLY_INCREASE = 0 # This is the yearly increase of the chance to lose health
+	LOWER_HEALTH_AMOUNT = 0 # This is the health change on each failed yearly health roll
+	HEALTH_PENALTY_PER_YEAR_IN_POOL = 0 # For each year in the pool, your effective health is this much lower. This disappears entirely when you leave the pool
+
+	LOWER_PROWESS_START_AGE = 999 # At this age characters start getting the chance to lose prowess each year
+	LOWER_PROWESS_BASE_CHANCE = 0 # This is the base chance of losing prowess at the START_AGE
+	LOWER_PROWESS_YEARLY_INCREASE = 0 # This is the yearly increase of the chance to lose prowess
+	LOWER_PROWESS_MAX_CHANCE = 0 # This is the maximum chance to lose prowess
+	LOWER_PROWESS_FACTOR = 0 # This is the prowess change mutliplier on each failed yearly roll
+}
+
+NMarriage = {
+	SPOUSE_FINDER_RELEVANCE_INFERTILE_MODIFIER_FEMALE_AGE = 150 # At this age females will be considered old enough for the infertile modifier even if they are younger than the actual too old for children define, so we sort out those close to that define earlier
+	SPOUSE_FINDER_RELEVANCE_AGE_DIFFERENCE_MULTIPLIER = -5 # Multiplier on age difference applied to relevance sorting of a marriage if the age difference is greater than or equal to the below
+	SPOUSE_FINDER_RELEVANCE_AGE_DIFFERENCE_CUTOFF = 10 # The age difference between the two parties for the above modifier to be applied per year of difference
+}
+
+NReligion = {
+	### EK EDIT: Hostility now comes in a range of 0-100
+	## 0: Righteous
+	## 1-33: Astray
+	## 34-66: Hostile
+	## 67-100: Evil
+	# Hostility levels start at 0 (same faith or equivalent to same faith)
+	HOSTILITY_OPINION_EFFECTS = {	# The opinion effects of each hostility level
+		0
+		-01
+		-01
+		-02
+		-02
+		-03
+		-03
+		-04
+		-04
+		-05
+		-05
+		-06
+		-06
+		-07
+		-07
+		-08
+		-08
+		-09
+		-09
+		-10
+		-10
+		-11
+		-11
+		-12
+		-12
+		-13
+		-13
+		-14
+		-14
+		-15
+		-15
+		-16
+		-16
+		-17
+		-17
+		-18
+		-18
+		-19
+		-19
+		-20
+		-20
+		-21
+		-21
+		-22
+		-22
+		-23
+		-23
+		-24
+		-24
+		-25
+		-25
+		-26
+		-26
+		-27
+		-27
+		-28
+		-28
+		-29
+		-29
+		-30
+		-30
+		-31
+		-31
+		-32
+		-32
+		-33
+		-33
+		-34
+		-34
+		-35
+		-35
+		-36
+		-36
+		-37
+		-37
+		-38
+		-38
+		-39
+		-39
+		-40
+		-40
+		-41
+		-41
+		-42
+		-42
+		-43
+		-43
+		-44
+		-44
+		-45
+		-45
+		-46
+		-46
+		-47
+		-47
+		-48
+		-48
+		-49
+		-49
+		-50
+		-50
+	}
+
+	### EK EDIT: Dynamic hostility + Fervor Equilibrium change
+	# In vanilla HOSTILITY_COUNTY_OPINION_EFFECTS = HOSTILITY_OPINION_EFFECTS * 1.5 ; in EK we make it *2 (due to Fervor changes)
+	HOSTILITY_COUNTY_OPINION_EFFECTS = {	# The opinion effects of each hostility level on counties. Modified by fervor of the county's faith divided by 100
+		0
+		-01
+		-02
+		-03
+		-04
+		-05
+		-06
+		-07
+		-08
+		-09
+		-10
+		-11
+		-12
+		-13
+		-14
+		-15
+		-16
+		-17
+		-18
+		-19
+		-20
+		-21
+		-22
+		-23
+		-24
+		-25
+		-26
+		-27
+		-28
+		-29
+		-30
+		-31
+		-32
+		-33
+		-34
+		-35
+		-36
+		-37
+		-38
+		-39
+		-40
+		-41
+		-42
+		-43
+		-44
+		-45
+		-46
+		-47
+		-48
+		-49
+		-50
+		-51
+		-52
+		-53
+		-54
+		-55
+		-56
+		-57
+		-58
+		-59
+		-60
+		-61
+		-62
+		-63
+		-64
+		-65
+		-66
+		-67
+		-68
+		-69
+		-70
+		-71
+		-72
+		-73
+		-74
+		-75
+		-76
+		-77
+		-78
+		-79
+		-80
+		-81
+		-82
+		-83
+		-84
+		-85
+		-86
+		-87
+		-88
+		-89
+		-90
+		-91
+		-92
+		-93
+		-94
+		-95
+		-96
+		-97
+		-98
+		-99
+		-100
+	}
+	
+	HOSTILITY_COMBAT_MOD_MULT = {	# Multiplier to how big of an effect tolerance_advantage_mod has. The higher it is, the greater the effect
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.005
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+		0.01
+	}
+	
+	HOSTILITY_LEVEL_NAMES = {	# Localization for each hostility level. See _doctrines.info for more info
+		"FAITH_HOSTILITY_00"
+		"FAITH_HOSTILITY_01"
+		"FAITH_HOSTILITY_02"
+		"FAITH_HOSTILITY_03"
+		"FAITH_HOSTILITY_04"
+		"FAITH_HOSTILITY_05"
+		"FAITH_HOSTILITY_06"
+		"FAITH_HOSTILITY_07"
+		"FAITH_HOSTILITY_08"
+		"FAITH_HOSTILITY_09"
+		"FAITH_HOSTILITY_10"
+		"FAITH_HOSTILITY_11"
+		"FAITH_HOSTILITY_12"
+		"FAITH_HOSTILITY_13"
+		"FAITH_HOSTILITY_14"
+		"FAITH_HOSTILITY_15"
+		"FAITH_HOSTILITY_16"
+		"FAITH_HOSTILITY_17"
+		"FAITH_HOSTILITY_18"
+		"FAITH_HOSTILITY_19"
+		"FAITH_HOSTILITY_20"
+		"FAITH_HOSTILITY_21"
+		"FAITH_HOSTILITY_22"
+		"FAITH_HOSTILITY_23"
+		"FAITH_HOSTILITY_24"
+		"FAITH_HOSTILITY_25"
+		"FAITH_HOSTILITY_26"
+		"FAITH_HOSTILITY_27"
+		"FAITH_HOSTILITY_28"
+		"FAITH_HOSTILITY_29"
+		"FAITH_HOSTILITY_30"
+		"FAITH_HOSTILITY_31"
+		"FAITH_HOSTILITY_32"
+		"FAITH_HOSTILITY_33"
+		"FAITH_HOSTILITY_34"
+		"FAITH_HOSTILITY_35"
+		"FAITH_HOSTILITY_36"
+		"FAITH_HOSTILITY_37"
+		"FAITH_HOSTILITY_38"
+		"FAITH_HOSTILITY_39"
+		"FAITH_HOSTILITY_40"
+		"FAITH_HOSTILITY_41"
+		"FAITH_HOSTILITY_42"
+		"FAITH_HOSTILITY_43"
+		"FAITH_HOSTILITY_44"
+		"FAITH_HOSTILITY_45"
+		"FAITH_HOSTILITY_46"
+		"FAITH_HOSTILITY_47"
+		"FAITH_HOSTILITY_48"
+		"FAITH_HOSTILITY_49"
+		"FAITH_HOSTILITY_50"
+		"FAITH_HOSTILITY_51"
+		"FAITH_HOSTILITY_52"
+		"FAITH_HOSTILITY_53"
+		"FAITH_HOSTILITY_54"
+		"FAITH_HOSTILITY_55"
+		"FAITH_HOSTILITY_56"
+		"FAITH_HOSTILITY_57"
+		"FAITH_HOSTILITY_58"
+		"FAITH_HOSTILITY_59"
+		"FAITH_HOSTILITY_60"
+		"FAITH_HOSTILITY_61"
+		"FAITH_HOSTILITY_62"
+		"FAITH_HOSTILITY_63"
+		"FAITH_HOSTILITY_64"
+		"FAITH_HOSTILITY_65"
+		"FAITH_HOSTILITY_66"
+		"FAITH_HOSTILITY_67"
+		"FAITH_HOSTILITY_68"
+		"FAITH_HOSTILITY_69"
+		"FAITH_HOSTILITY_70"
+		"FAITH_HOSTILITY_71"
+		"FAITH_HOSTILITY_72"
+		"FAITH_HOSTILITY_73"
+		"FAITH_HOSTILITY_74"
+		"FAITH_HOSTILITY_75"
+		"FAITH_HOSTILITY_76"
+		"FAITH_HOSTILITY_77"
+		"FAITH_HOSTILITY_78"
+		"FAITH_HOSTILITY_79"
+		"FAITH_HOSTILITY_80"
+		"FAITH_HOSTILITY_81"
+		"FAITH_HOSTILITY_82"
+		"FAITH_HOSTILITY_83"
+		"FAITH_HOSTILITY_84"
+		"FAITH_HOSTILITY_85"
+		"FAITH_HOSTILITY_86"
+		"FAITH_HOSTILITY_87"
+		"FAITH_HOSTILITY_88"
+		"FAITH_HOSTILITY_89"
+		"FAITH_HOSTILITY_90"
+		"FAITH_HOSTILITY_91"
+		"FAITH_HOSTILITY_92"
+		"FAITH_HOSTILITY_93"
+		"FAITH_HOSTILITY_94"
+		"FAITH_HOSTILITY_95"
+		"FAITH_HOSTILITY_96"
+		"FAITH_HOSTILITY_97"
+		"FAITH_HOSTILITY_98"
+		"FAITH_HOSTILITY_99"
+		"FAITH_HOSTILITY_100"
+	}
+	
+	### EK EDIT: Fervor changes
+	MINIMUM_FAITH_SIZE_FERVOR_MODIFIER = 9999 # Adjusts the size modifier for monthly fervor gain for a faith according to the following formula: 1/squareroot(max(define_value, faith_size)/define_value) where define value is the value of MINIMUM_FAITH_SIZE_FERVOR_MODIFIER and faith_size is the current amount of provinces that follows the faith.
+}
+
+NCulture = {
+	FIRST_ERA_START_YEAR = -2500											# When did the first era start?
+}
+
+NHolyOrder = {
+	### EK EDIT: Dynamic religious hostility
+	# Must be at war with someone with at least this hostility level to be able to hire holy orders. Once hired hey can be used against all enemies, though.
+	ENEMY_MIN_HOSTILITY_LEVEL = 34 # Was 2
+}
+
+NChildbirth = {
+	MIN_REPRODUCTION_AGE_IN_HISTORY_DB = 12 # If a historical parent is younger than this when their child is born, we log an error
+	MIN_FEMALE_REPRODUCTION_AGE = 16
+	MAX_FEMALE_REPRODUCTION_AGE = 45
+	MIN_MALE_REPRODUCTION_AGE = 16
+	BASE_NR_OF_CHILDREN_PER_COUPLE = { 1 1 2 2 3 4 } # Based on tier of character or parents; whichever is higher Unlanded, Baron, Count, ..., Emperor
+	CHANCE_OF_LOWERED_CHILD_LIMIT = 0.5	# Chance that the child limit is lowered by 1
+	EXTRA_CHILDREN_FOR_RULERS = 1 # If either character is a ruler, they get extra children
+	CHARACTER_IN_POOL_CHILD_LIMIT = -1	# If in the pool, child limit is modified by this
+	CHILD_BIRTH_TO_PREGNANCY_WAIT = 3
+	MALE_FERTILITY_MULTIPLIER_LIMITS = { 70 60 50 40 35 } # Ages where fertility multiplier is applied 25 means up to 25, needs to be sorted in descending order
+	MALE_FERTILITY_MULTIPLIER = { 0.2 0.3 0.5 0.7 0.9 1.0 } # Multiplier values based on age limits from FERTILITY_MULTIPLIER_LIMITS should have an extra value at the beginning for characters older than first limit
+	FEMALE_FERTILITY_MULTIPLIER_LIMITS = { 45 40 35 30 25 } # Ages where fertility multiplier is applied 25 means up to 25, needs to be sorted in descending order
+	FEMALE_FERTILITY_MULTIPLIER = { 0.1 0.33 0.5 0.7 0.9 1.0 } # Multiplier values based on age limits from FERTILITY_MULTIPLIER_LIMITS should have an extra value at the beginning for characters older than first limit
+	MOTHER_FERTILITY_REDUCTION_PER_PREVIOUS_CHILD = 0.1
+	LOW_FERTILITY = 0.1
+	PRIMARY_SPOUSE_FERTILITY_MULTIPLIER = 1
+	SECONDARY_SPOUSE_FERTILITY_MULTIPLIER = 0.5
+	CONCUBINE_FERTILITY_MULTIPLIER = 0.5
+	NOT_SPOUSE_FERTILITY_MULTIPLIER = 1
+	NON_RULER_FERTILITY_MULTIPLIER = 0.85	# If neither parent is a ruler, resulting fertility gets multiplied by this
+	FERTILITY_CHANCE_MULTIPLIER = 4.75 # Fertility is an average between the father and the mother (if the mother has 0.3 and the father 0.5, the average is 0.4), this number is then multiplied by this multiplier to produce the percentage chance of impregnation. Impregnation is checked every month.
+	MIN_FERTILITY_CHANCE = 1
+	MAX_FERTILITY_CHANCE = 25
+	TWIN_BASE_CHANCE = 0.02
+	TWIN_BONUS_MAX_AGE = 35
+	TWIN_BONUS_MIN_AGE = 25
+	TWIN_BONUS_CHANCE = 0.02
+	TWIN_MOTHER_HAD_TWINS_BONUS = 0.05
+	TWIN_GRANDMOTHER_HAD_TWINS_BONUS = 0.03
+	IDENTICAL_TWIN_CHANCE = 0.013
+	PREGNANCY_DAYS = 280
+	DAYS_TO_PREGNANCY_REVEAL = 60
+	FEMALE_CHANCE = 49
+	NEWBORN_HEALTH_BASE = 4.5
+	NEWBORN_HEALTH_SPAN = 0.5
+	NEWBORN_HEALTH_FEMALE_BONUS = 0.5
+	INHERIT_RECESSIVE_GENE_CHANCE = 0.25	# Probability of a recessive gene being picked as a child's dominant/recessive gene. Only used for portraits
+
+	# Note that the recessive chance is checked only if inheriting it outright fails
+	# Chances are in %. Values above 100% work and can make sense if there's modifiers that might reduce the chance
+	ACTIVE_TRAIT_CHANCE_ACTIVE_ACTIVE = 80			# Chance of outright inheriting a genetic trait if both parents have it
+	ACTIVE_TRAIT_CHANCE_ACTIVE_INACTIVE = 50		# Chance of outright inheriting a genetic trait if one parent has it, and one is carrying it recessively
+	ACTIVE_TRAIT_CHANCE_ACTIVE_NONE = 25			# Chance of outright inheriting a genetic trait if one parent has it
+	ACTIVE_TRAIT_CHANCE_INACTIVE_INACTIVE = 10		# Chance of outright inheriting a genetic trait if both parents are carrying it
+	ACTIVE_TRAIT_CHANCE_INACTIVE_NONE = 2			# Chance of outright inheriting a genetic trait if one parent is carrying it
+	INACTIVE_TRAIT_CHANCE_ACTIVE_ACTIVE = 150		# Chance of recessively inheriting a genetic trait if both parents have it. Deliberately over 100% so even if it is a bad trait, the modifiers to inheritance won't let you avoid it
+	INACTIVE_TRAIT_CHANCE_ACTIVE_INACTIVE = 100		# Chance of recessively inheriting a genetic trait if one parent has it, and one is carrying it recessively
+	INACTIVE_TRAIT_CHANCE_ACTIVE_NONE = 75				# Chance of recessively inheriting a genetic trait if one parent has it
+	INACTIVE_TRAIT_CHANCE_INACTIVE_INACTIVE = 50	# Chance of recessively inheriting a genetic trait if both parents are carrying it
+	INACTIVE_TRAIT_CHANCE_INACTIVE_NONE = 25		# Chance of recessively inheriting a genetic trait if one parent is carrying it
+
+	# General logic for tiered trait inheritance:
+	# 1. Start from highest trait
+	# 2. Calc active chance. Lower tiers ( including inactive ) count as inactive of the tier. Each level down beyond the first multiplies chance by a define
+	# 3. If active, use it; DONE
+	# 4. Otherwise, go down a tier, if inactive pretend 1 more parent has that tier active, otherwise 1 more parent has it inactive.GOTO 2
+	MATCHED_TRAIT_DIFFERENCE_MULT = 0.2				# When trying to inherit a tiered genetic trait, and the other person has one of lower tier, we pretend that means they've  got the higher tier one recessively, and reduce the chance of inheritance by this much per tier further down than 1 the other parent's trait is
+	TIER_TRAIT_REDUCTION_MULT = 0.4					# When going down a tier, add this chance
+	
+	FERTILITY_LEVELS = {
+		0.0
+		0.2
+		0.6
+		0.8 }	# The thresholds for each fertility level
+		
+	INBREEDING_ANCESTOR_GENERATIONS = 4						# How many generations are checked for common ancestors of the both parents (including the parents) for the purposes of getting the inbreeding trait and the pure-blooded trait
+	INBRED_CHANCE_ANCESTOR_COUNT_LEVELS = { 15 17 20 22 }	# Numbers of common ancestors defining different level of inbreeding chance (one extra level above the max value)
+	INBRED_CHANCE_FACTOR_LEVELS = { 0.33 0.75 1 2 3 }		# Inbreeding chance factors for different level. The final chance in percent is given by the number of common ancestors X corresponding level factor X inbreeding chance modifier
+	PUREBLOODED_CHANCE_ANCESTOR_COUNT_LEVELS = { 20 22 }	# Same as INBRED_CHANCE_ANCESTOR_COUNT_LEVELS, but for the "pure-blooded" trait.
+	PUREBLOODED_CHANCE_FACTOR_LEVELS = { 0 0.15 0.3 }		# Same as INBRED_CHANCE_FACTOR_LEVELS, but for the "pure-blooded" trait.
+	TRAIT_REINFORCEMENT_CHANCE = 0.5						# The chance that a trait that gets inherited from both parents will get reinforced to a higher level.
+
+	EXTRA_CHILDREN_FOR_PLAYERS = 2 # Num of extra children players can have before reaching living child limit
+	EXTRA_CHILDREN_PER_EXTRA_SPOUSE = 2 # Num of extra children per spouse above one before reaching living child limit
+	EXTRA_CHILDREN_PER_EXTRA_CONCUBINE = 2 # Num of extra children per concubine above one before reaching living child limit
+	EXTRA_FERTILITY_FOR_FIRST_CHILD = 0.0 # Extra fertility if the couple are primary spouses and have no children together
+	EXTRA_FERTILITY_FOR_FIRST_RULER_CHILD = 0.3 # Extra fertility if the couple are primary spouses and have no children together, and at least one of them is a ruler
+	DIVINE_MARRIAGE_FERTILITY_MULTIPLIER = 1 # Multiplier if the couple is close or extended family and their faith allows divine marriage
+	CLOSE_FAMILY_FERTILITY_MULTIPLIER = 0.9 # Multiplier if the couple is close family and their faith does not allow divine marriage
+	EXTENDED_FAMILY_FERTILITY_MULTIPLIER = 1 # Multiplier if the couple is extended family and their faith does not allow divine marriage
+	FERTILITY_IN_POOL_MULTIPLIER = 0.25	# Characters in the pool will have their fertility multiplied by this
+}
+
+NTitle = {
+	DRIFT_MONTHLY_PROGRESS_INCREASE = 1
+	DRIFT_MONTHLY_PROGRESS_DECREASE = 0.5
+	DRIFT_PROGRESS_LIMIT = 3600 #EK EDIT: Default de jure drift increased by 3 times
+	USURP_FAITH_HOSTILITY = 34 #EK EDIT: hostility now scale from 0 (Righteous) to 100 (Evil), not 0 to 3. Vanilla value for this is 2, meaning you can't usurp titles from faiths that are hostile to yours. EK equivalent would then be 34 (34-66)
+}
+
+NDynasty = {
+    NAMING_CHANCE_CULTURE = 100
+    NAMING_CHANCE_TITLE = 0
+}	
+
+NTravel = {
+	TRAVEL_SPEED_BASE = 0 # Travel speed base score value
+	TRAVEL_SPEED_BASE_LEADERLESS = 15 # Travel speed base score for characters that cannot have a travel leader
+
+	TRAVEL_SAFETY_BASE = 0
+	TRAVEL_SAFETY_BASE_LEADERLESS = 30 # Travel safety base score for characters that cannot have a travel leader (usually not needed because they don't get events)
+
+	BASE_TRAVEL_SPEED_LAND = 6 # The base speed used when traveling from a land province # EK EDIT vanilla is 5
+	BASE_TRAVEL_SPEED_WATER = 12 # The base speed used when traveling from a water province # EK EDIT vanilla is 7
+
+	TRAVEL_EMBARK_COST = 15 # The cost in days added to traveling from a land province to a water province
+	TRAVEL_DISEMBARK_COST = 5 # The cost in days added to traveling from a water province to a land province
+}

@@ -1,0 +1,179 @@
+﻿ek_argonian_clothes = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 1
+
+##############################
+#							 #	
+#			ARGONIAN		 #
+#							 #
+##############################
+
+    argonian_clothing_lowborn = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = ek_bosmer_commoner_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = no_legwear
+	            range = { 0 1 }
+	        }	
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 20
+                portrait_commoner_clothing_trigger = {
+                    CULTURE_INPUT = ek_argonian
+                }
+            }
+        }
+    }
+
+    argonian_clothing_low_nobles = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = ek_bosmer_commoner_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = no_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_argonian
+                }
+            }
+        }
+    }
+
+    argonian_clothing_high_nobles = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = ek_reachman_shaman_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = no_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                portrait_high_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_argonian
+                }
+            }
+        }
+    }
+	
+    argonian_clothing_royalty = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = ek_reachman_shaman_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = no_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                portrait_royalty_trigger = {
+                    CULTURE_INPUT = ek_argonian
+                }
+            }
+        }
+    }	
+
+}
+
+ek_argonian_armor = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 4
+
+    ek_argonian_war = {
+        dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = ek_bosmer_commoner_clothes
+				range = { 0.9 1 }
+			}
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = no_legwear
+	            range = { 0 1 }
+	        }
+	        accessory = {
+				mode = add				
+				gene = cloaks
+				template = ek_south_nedic_cloak_war
+				value = 0.0
+	        }		
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+				add = 60
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_argonian
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_argonian
+                    }
+                    portrait_high_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_argonian
+                    }
+                }
+            }
+            modifier = {
+                add = 21        # So priests who are actively serving in a raised army as a commander or knight wear armor instead of priest robes
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_argonian
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_argonian
+                    }
+                    portrait_high_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_argonian
+                    }
+                }
+            }
+        }
+    }
+}

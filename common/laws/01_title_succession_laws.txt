@@ -1,0 +1,568 @@
+﻿### EK NOTE: Removed references to vanilla cultures and titles
+### EK NOTE: Repurposed Scandinavian Elective, did not find a use case for Gaelic and Saxon so far
+### EK NOTE: Added Pirate, Moot, Aldmeri, Sorcerous & Magelord Elective
+title_succession_laws = {
+	# Default Feudal Elective
+	feudal_elective_succession_law = {
+		can_have = {
+			government_has_flag = government_is_feudal
+			highest_held_title_tier >= tier_duchy
+			NOR = { #Cultures have their special flavor.
+				culture = { has_cultural_parameter = witenagemot_succession_enabled } #EK EDIT: could(?) be repurposed for (some) Bretons?
+				culture = { has_cultural_parameter = scandinavian_elective_enabled } #EK EDIT: repurposed for Ashlanders as Popular Elective
+				culture = { has_cultural_parameter = tribal_elective_enabled } #FP3 addition
+				culture = { has_cultural_parameter = moot_elective_enabled } #Moot Elective
+				culture = { has_cultural_parameter = magic_elective_enabled } #Sorcerer & Magelord Elective
+				culture = { has_cultural_parameter = sorcerer_kings_tradition }
+				culture = { has_cultural_parameter = dunmeri_elective_enabled } #Great House Succession
+			}
+		}
+		can_pass = {
+			can_change_title_law_trigger = yes
+		}
+		can_title_have = {
+			can_title_have_law_general_trigger = yes
+		}
+		succession = {
+			order_of_succession = election
+			election_type = feudal_elective
+		}
+		flag = elective_succession_law
+		title_allegiance_opinion = 10
+		revoke_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+		pass_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+	}
+
+	# HRE Succession
+	princely_elective_succession_law = {
+		can_have = {
+			### EK EDIT: Not just Feudal gov
+			has_feudal_like_government = yes
+			highest_held_title_tier = tier_empire
+		}
+		can_pass = {
+			can_change_title_law_trigger = yes
+		}
+		can_title_have = {
+			always = no
+			#EK DISABLED
+			# this = title:e_hre
+			can_title_have_law_general_trigger = yes
+		}
+		succession = {
+			order_of_succession = election
+			election_type = princely_elective
+		}
+		flag = elective_succession_law
+		title_allegiance_opinion = 10
+		modifier = {
+			vassal_limit = 20
+			minority_opinion = -15
+		}
+		revoke_cost = {
+			prestige = change_hre_title_succession_law_prestige_cost
+		}
+		pass_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+	}
+
+	### EK EDIT: Culture specific laws now require the tradition to be seen
+	#Witenagemot
+	saxon_elective_succession_law = {
+		can_have = {
+			culture = { has_cultural_parameter = witenagemot_succession_enabled }
+			### EK EDIT: Not just Feudal gov
+			OR = {
+				has_feudal_like_government = yes
+				government_has_flag = government_is_tribal
+			}
+			highest_held_title_tier >= tier_kingdom
+		}
+		can_pass = {
+			can_change_title_law_trigger = yes
+			culture = { has_cultural_parameter = witenagemot_succession_enabled }
+		}
+		can_title_have = {
+			can_title_have_law_general_trigger = yes
+		}
+		succession = {
+			order_of_succession = election
+			election_type = saxon_elective
+		}
+		flag = elective_succession_law
+		title_allegiance_opinion = 5
+		revoke_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+		pass_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+	}
+
+	# Thing
+	scandinavian_elective_succession_law = {
+		can_have = { 
+			### EK EDIT: Not just Feudal gov
+			OR = {
+				has_feudal_like_government = yes
+				government_has_flag = government_is_tribal
+			}
+			highest_held_title_tier >= tier_duchy
+		}
+		can_pass = {
+			can_change_title_law_trigger = yes
+			culture = { has_cultural_parameter = scandinavian_elective_enabled }
+		}
+		can_keep = { #EK EDIT: non-Ashlanders inheriting will lose this one
+			culture = { has_cultural_parameter = scandinavian_elective_enabled }
+		}
+		can_title_have = {
+			can_title_have_law_general_trigger = yes
+		}
+		succession = {
+			order_of_succession = election
+			election_type = scandinavian_elective
+		}
+		flag = elective_succession_law
+		title_allegiance_opinion = 5
+		revoke_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+		pass_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+	}
+
+	# Tanistry
+	gaelic_elective_succession_law = {
+		can_have = {
+			always = no
+			### EK EDIT: Not just Feudal gov
+			OR = {
+				has_feudal_like_government = yes
+				government_has_flag = government_is_tribal
+			}
+			highest_held_title_tier >= tier_duchy
+		}
+		can_pass = {
+			can_change_title_law_trigger = yes
+			custom_description = {
+				### EK EDIT: Removed references to vanilla heritages
+				always = no
+				# OR = {
+					# culture = { has_cultural_pillar = heritage_brythonic }
+					# culture = { has_cultural_pillar = heritage_goidelic }
+				# }
+				text = succession_laws_must_have_valid_tanistry_culture
+			}
+		}
+		can_title_have = {
+			can_title_have_law_general_trigger = yes
+		}
+		succession = {
+			order_of_succession = election
+			election_type = gaelic_elective
+		}
+		flag = elective_succession_law
+		title_allegiance_opinion = 5
+		revoke_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+		pass_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+	}
+
+	# Jirga elective
+	tribal_elective_succession_law = { #FOR FP3
+		can_have = {
+			OR = {
+				government_has_flag = government_is_feudal
+				government_has_flag = government_is_clan
+				government_has_flag = government_is_tribal
+			}
+			highest_held_title_tier >= tier_kingdom
+		}
+		can_pass = {
+			can_change_title_law_trigger = yes
+			culture = { has_cultural_parameter = tribal_elective_enabled }
+		}
+		can_title_have = {
+			can_title_have_law_general_trigger = yes
+		}
+		succession = {
+			order_of_succession = election
+			election_type = tribal_elective
+		}
+		flag = elective_succession_law
+		title_allegiance_opinion = 5
+		revoke_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+		pass_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+	}
+
+	# Player Heir
+	temporal_head_of_faith_succession_law = {
+		can_title_have = {
+			is_temporal_head_of_faith_trigger = yes
+		}
+		should_show_for_title = { # Never show this in the UI, just apply it through script
+			always = no
+		}
+		can_remove_from_title = {
+			custom_description = {
+				text = succession_laws_must_not_be_temporal
+				is_temporal_head_of_faith_trigger = no
+			}
+		}
+		succession = {
+			order_of_succession = player_heir
+		}
+	}
+
+	#Noble Family Succession
+	noble_family_succession_law = {
+		can_title_have = {
+			is_noble_family_title = yes
+		}
+		should_show_for_title = { # Never show this in the UI, just apply it through script
+			always = no
+		}
+		can_remove_from_title = {
+			always = no
+		}
+		succession = {
+			order_of_succession = noble_family
+		}
+		flag = can_designate_heirs
+	}
+	
+	# Law of the Land Title Succession
+	# Applied in on_title_gain when a county title's capital province has required heir government types defined and the new holder does not meet the requirement. 
+	law_of_the_land_succession_law = {
+		can_title_have = {
+			tier = tier_county
+			title_province = {
+				holding_type = {
+					has_required_heir_governments = yes
+					NOT = {
+						any_required_heir_government_type = {
+							this = root.holder.government_type
+						}
+					}
+				}
+			}
+		}
+		# Never show this in the UI, just apply it through script
+		should_show_for_title = { always = no }
+		can_remove_from_title = { always = no }
+		succession = {
+			order_of_succession = generate_from_template
+		}
+	}
+	#Confederation elective
+	confederation_elective_succession_law = {
+		can_title_have = {
+			tier >= tier_kingdom
+		}
+		should_show_for_title = {
+			has_variable = confederation_culture
+		}
+		succession = {
+			order_of_succession = election
+			election_type = confederation_elective
+		}
+		flag = elective_succession_law
+		title_allegiance_opinion = 10
+		revoke_cost = {
+			prestige = {
+				value = change_title_succession_law_prestige_cost
+				multiply = 8
+				if = {
+					limit = {
+						NOR = {
+							government_has_flag = government_is_tribal
+							government_has_flag = government_is_nomadic
+						}
+					}
+					multiply = 0.1
+				}
+			}
+		}
+		pass_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+	}
+	
+	### EK ADDITION
+	# Pirate election
+	pirate_elective_succession_law = {
+		can_keep = {
+			government_has_flag = government_is_pirate
+			highest_held_title_tier >= tier_duchy
+		}
+		can_have = {
+			government_has_flag = government_is_pirate
+			highest_held_title_tier >= tier_duchy
+		}
+		can_pass = {
+			can_change_title_law_trigger = yes
+		}
+		can_title_have = {
+			can_title_have_law_general_trigger = yes
+		}
+		# Handled in on_game_start
+		# should_start_with = {
+			# government_has_flag = government_is_pirate
+			# highest_held_title_tier >= tier_duchy
+		# }
+		succession = {
+			order_of_succession = election
+			election_type = pirate_elective
+		}
+		flag = elective_succession_law
+		title_allegiance_opinion = 5
+		revoke_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+		pass_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+	}
+
+	#Skyrim Succession
+	moot_elective_succession_law = {
+		can_have = {
+			### EK EDIT: Not just Feudal gov
+			has_feudal_like_government = yes
+			highest_held_title_tier >= tier_kingdom #Only suitable for electing Kings
+		}
+		can_pass = {
+			can_change_title_law_trigger = yes
+			culture = { has_cultural_parameter = moot_elective_enabled }
+		}
+		can_keep = {
+			culture = { has_cultural_parameter = moot_elective_enabled }
+		}
+		can_title_have = {
+			# always = no
+			# # this = title:e_skyrim
+			can_title_have_law_general_trigger = yes
+		}
+		succession = {
+			order_of_succession = election
+			election_type = moot_elective
+		}
+		flag = elective_succession_law
+		title_allegiance_opinion = 10
+		modifier = {
+			vassal_limit = 5
+		}
+		revoke_cost = {
+			prestige = change_hre_title_succession_law_prestige_cost
+		}
+		pass_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+	}
+
+	#Sorcerous Succession
+	sorcerous_elective_succession_law = { #Dynastic version, restricts candidates to the ruling dynasty
+		can_have = {
+			### EK EDIT: Not just Feudal gov
+			has_feudal_like_government = yes
+			highest_held_title_tier >= tier_duchy
+		}
+		can_pass = {
+			can_change_title_law_trigger = yes
+			OR = {
+				AND = {
+					exists = dynasty
+					dynasty = { has_dynasty_perk = magicka_legacy_4 }
+				}
+				culture = {
+					OR = {
+						has_cultural_parameter = magic_elective_enabled 
+						has_cultural_parameter = sorcerer_kings_tradition
+					}
+				} 
+			}
+		}
+		can_keep = {
+			OR = {
+				AND = {
+					exists = dynasty
+					dynasty = { has_dynasty_perk = magicka_legacy_4 }
+				}
+				culture = {
+					OR = {
+						has_cultural_parameter = magic_elective_enabled 
+						has_cultural_parameter = sorcerer_kings_tradition
+					}
+				}
+			}
+		}
+		can_title_have = {
+			can_title_have_law_general_trigger = yes
+		}
+		succession = {
+			order_of_succession = election
+			election_type = sorcerous_elective
+		}
+		flag = elective_succession_law
+		title_allegiance_opinion = 10
+		revoke_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+		pass_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+	}
+
+	# Xarxean Succession
+	altmeri_elective_succession_law = { # unique succession type for Ceremonarchies which restricts inheritance to within same dynasty, but scoring is based on adherence to Praxis. For king tier
+
+		can_have = {
+			NOT = { has_dlc_feature = admin_gov } 
+			should_use_praxis_mechanics = yes
+			highest_held_title_tier = tier_kingdom
+		}
+		can_keep = { 
+			NOT = { has_dlc_feature = admin_gov }
+			should_use_praxis_mechanics = yes
+			has_variable = state_praxis
+		}
+		can_pass = { 
+			can_change_title_law_trigger = yes
+		}
+
+		can_title_have = {
+			OR = {
+				tier >= tier_duchy
+				tier >= tier_kingdom
+			}
+		}
+		
+
+		succession = {
+			order_of_succession = election
+			election_type = altmeri_elective
+		}
+
+		flag = elective_succession_law
+
+		modifier = {
+			dynasty_house_opinion = 5
+			zealot_opinion = 10
+		}
+
+		revoke_cost = {
+			prestige = change_hre_title_succession_law_prestige_cost
+		}
+		pass_cost = {
+			prestige = change_succession_law_prestige_cost
+		}
+	}
+
+	#Magelord Succession
+	magelord_elective_succession_law = { #Meritocratic version, like Feudal Elective but much more emphasis placed on arcane power
+		can_have = {
+			### EK EDIT: Not just Feudal gov
+			has_feudal_like_government = yes
+			highest_held_title_tier >= tier_duchy
+		}
+		can_pass = {
+			can_change_title_law_trigger = yes
+			OR = {
+				AND = {
+					exists = dynasty
+					dynasty = { has_dynasty_perk = magicka_legacy_4 }
+				}
+				culture = { 
+					OR = {
+						has_cultural_parameter = magic_elective_enabled 
+						has_cultural_parameter = sorcerer_kings_tradition
+					}
+				} 
+			}
+		}
+		can_keep = {
+			OR = {
+				AND = {
+					exists = dynasty
+					dynasty = { has_dynasty_perk = magicka_legacy_4 }
+				}
+				culture = { 
+					OR = {
+						has_cultural_parameter = magic_elective_enabled 
+						has_cultural_parameter = sorcerer_kings_tradition
+					}
+				} 
+				has_title = title:d_first_legion
+				has_title = title:d_blackcaster
+			}
+		}
+		can_title_have = {
+			can_title_have_law_general_trigger = yes
+		}
+		succession = {
+			order_of_succession = election
+			election_type = magelord_elective #Delta will do this version this should be `magelord_elective` here
+		}
+		flag = elective_succession_law
+		title_allegiance_opinion = 10
+		modifier = {
+			vassal_limit = 5
+		}
+		revoke_cost = {
+			prestige = change_hre_title_succession_law_prestige_cost
+		}
+		pass_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+	}
+
+	#Dunmer Great House Succession
+	dunmeri_elective_succession_law = { #similar to Feudal Elective but with a Dunmeri twist for the Great Houses
+		can_have = {
+			### EK EDIT: Not just Feudal gov
+			has_feudal_like_government = yes
+			highest_held_title_tier = tier_kingdom
+			culture = { has_cultural_parameter = dunmeri_elective_enabled } 
+		}
+		can_pass = {
+			can_change_title_law_trigger = yes
+		}
+	
+		can_title_have = {
+			OR = { #GCM TODO: change to a general is_great_house trigger
+				this = title:k_hlaalu
+				this = title:k_dres
+				this = title:k_redoran
+				this = title:k_indoril
+				this = title:k_telvanni
+			}	
+		}
+		
+		succession = {
+			order_of_succession = election
+			election_type = dunmeri_elective
+		}
+		flag = elective_succession_law
+		revoke_cost = {
+			prestige = change_hre_title_succession_law_prestige_cost
+		}
+		pass_cost = {
+			prestige = change_title_succession_law_prestige_cost
+		}
+	}
+	
+}

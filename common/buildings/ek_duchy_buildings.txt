@@ -1,0 +1,194 @@
+﻿mage_academy_01 = {
+	construction_time = slow_construction_time
+	effect_desc = {
+		triggered_desc = {
+			trigger = { has_dlc_feature = tours_and_tournaments }
+			desc = tournament_arcane_clash_cost_discount_effect_toto_desc
+		}
+	}
+	can_construct_potential = {
+		building_requirement_castle_city_church = { LEVEL = 01 }
+		building_requirement_tribal = no
+	}
+	
+	can_construct_showing_failures_only = {
+		
+		culture = {
+			has_innovation = innovation_burhs
+		}
+	}
+	
+	is_enabled = {
+		county.holder = { has_title = prev.duchy }
+	}
+	show_disabled = yes
+	
+	cost_gold = expensive_building_tier_3_cost
+	
+	character_modifier = {
+		men_at_arms_maintenance = -0.06
+	}
+	
+	province_modifier = {
+		stationed_mages_damage_mult = very_high_maa_damage_tier_1
+		stationed_mages_toughness_mult = low_maa_toughness_tier_1
+		
+		stationed_spellblades_screen_mult = high_maa_screen_tier_1
+		stationed_spellblades_damage_mult = very_high_maa_damage_tier_1
+		stationed_spellblades_toughness_mult = high_maa_toughness_tier_1
+		stationed_spellblades_pursuit_mult = high_maa_pursuit_tier_1
+	}
+	
+	next_building = mage_academy_02
+
+	type_icon = "icon_building_battlemage_school.dds"
+	
+	type = duchy_capital
+	
+	ai_value = {
+		base = 20
+		ai_anti_synergy_cavalry_modifier = yes
+		ai_anti_synergy_armored_infantry_modifier = yes
+		ai_anti_synergy_light_infantry_modifier = yes
+		modifier = {
+			factor = 2
+			OR = {
+				culture_has_mage_maa = yes
+				culture_has_spellblades_maa = yes
+			}
+		}
+		modifier = {
+			factor = 2
+			scope:holder.capital_province = this
+		}
+		modifier = { # Don't build unsuitable MaA-boosting duchy buildings
+			factor = 0
+			scope:holder = {
+				NOR = {
+					number_maa_regiments_of_base_type = {
+						type = spellblades
+						value > 0
+					}
+					number_maa_regiments_of_base_type = {
+						type = mages
+						value > 0
+					}
+				}
+			}
+		}
+		modifier = { # Fill all building slots before going for duchy buildings
+			factor = 0
+			free_building_slots > 0
+		}
+		modifier = { # Less likely when the AI should build regular buildings first
+			factor = 0.1
+			scope:holder = { ai_should_focus_on_building_in_their_capital = yes }
+		}
+	}
+}
+
+mage_academy_02 = {
+	construction_time = slow_construction_time
+	effect_desc = {
+		triggered_desc = {
+			trigger = { has_dlc_feature = tours_and_tournaments }
+			desc = tournament_arcane_clash_cost_discount_effect_toto_desc
+		}
+	}
+	can_construct_potential = {
+		building_requirement_castle_city_church = { LEVEL = 01 }
+		building_requirement_tribal = no
+	}
+	
+	can_construct_showing_failures_only = {
+		
+		culture = {
+			has_innovation = innovation_castle_baileys
+		}
+	}
+	
+	is_enabled = {
+		county.holder = { has_title = prev.duchy }
+	}
+	show_disabled = yes
+	
+	cost_gold = expensive_building_tier_4_cost
+	
+	character_modifier = {
+		men_at_arms_maintenance = -0.08
+	}
+	
+	province_modifier = {
+		stationed_mages_damage_mult = very_high_maa_damage_tier_2
+		stationed_mages_toughness_mult = low_maa_toughness_tier_2
+		stationed_spellblades_screen_mult = high_maa_screen_tier_2
+		stationed_spellblades_damage_mult = very_high_maa_damage_tier_2
+		stationed_spellblades_toughness_mult = high_maa_toughness_tier_2
+		stationed_spellblades_pursuit_mult = high_maa_pursuit_tier_2
+	}
+	
+	next_building = mage_academy_03
+	
+	type = duchy_capital
+	
+	ai_value = {
+		base = 20
+		modifier = {
+			factor = 2
+			scope:holder.capital_province = this
+		}
+	}
+}
+
+mage_academy_03 = {
+	construction_time = slow_construction_time
+	effect_desc = {
+		triggered_desc = {
+			trigger = { has_dlc_feature = tours_and_tournaments }
+			desc = tournament_arcane_clash_cost_discount_effect_toto_desc
+		}
+	}
+	can_construct_potential = {
+		building_requirement_castle_city_church = { LEVEL = 01 }
+		building_requirement_tribal = no
+	}
+	
+	can_construct_showing_failures_only = {
+		
+		culture = {
+			has_innovation = innovation_royal_armory
+		}
+	}
+	
+	is_enabled = {
+		county.holder = { has_title = prev.duchy }
+	}
+	show_disabled = yes
+	
+	cost_gold = expensive_building_tier_5_cost
+	
+	character_modifier = {
+		men_at_arms_maintenance = -0.1
+	}
+	
+	province_modifier = {
+		stationed_mages_damage_mult = very_high_maa_damage_tier_3
+		stationed_mages_toughness_mult = low_maa_toughness_tier_3
+		stationed_spellblades_screen_mult = high_maa_screen_tier_3
+		stationed_spellblades_damage_mult = very_high_maa_damage_tier_3
+		stationed_spellblades_toughness_mult = high_maa_toughness_tier_3
+		stationed_spellblades_pursuit_mult = high_maa_pursuit_tier_3
+	}
+	
+	type = duchy_capital
+	
+	flag = fully_upgraded_duchy_capital_building
+	
+	ai_value = {
+		base = 20
+		modifier = {
+			factor = 2
+			scope:holder.capital_province = this
+		}
+	}
+}

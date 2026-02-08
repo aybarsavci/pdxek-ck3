@@ -1,0 +1,333 @@
+﻿#Modifiers for voting in favor of proposal
+#EK TODO Morrowind_Activity add more stuff
+grand_council_meeting_stance_in_favor_modifier = {
+	#Positive opinion
+	modifier = {
+		add = 10
+		opinion = {
+			target = scope:host
+			value > 0
+		}
+	}
+	#House opinions
+	#Ashlanders
+	modifier = { #Telvanni, cynical/ambitious Indoril support assimilation
+		OR = {
+			has_primary_title = title:k_telvanni
+			AND = {
+				has_primary_title = title:k_indoril
+				OR = {
+					has_trait = cynical
+					has_trait = ambitious
+				}
+			}
+		}
+		add = 25
+	}
+	modifier = { #Compassionate/content Redoran support tolerance
+		OR = {
+			AND = {
+				has_primary_title = title:k_redoran
+				OR = {
+					has_trait = content
+					has_trait = compassionate
+				}
+			}
+		}
+		add = 25
+	}
+	modifier = { #Temple, Redoran, Indoril, zealous support temple reserve
+		OR = {
+			is_temple_faction = yes
+			has_primary_title = title:k_redoran
+			has_primary_title = title:k_indoril
+			has_primary_title = title:k_dres
+			has_trait = zealous
+		}
+		add = 50
+	}
+	#Slavery
+	modifier = { #Dres, Telvanni, Indoril, Temple support slavery allowed
+		OR = {
+			has_primary_title = title:k_dres
+			has_primary_title = title:k_telvanni
+			is_temple_faction = yes
+			has_primary_title = title:k_indoril
+		}
+		add = 50
+	}
+	#War
+	modifier = { #Indoril, Temple support war outlawed
+		
+		OR = {
+			has_primary_title = title:k_indoril
+			is_temple_faction = yes
+		}
+		add = 50
+	}
+	modifier = { #Redoran, Dres support external war
+		
+		OR = {
+			has_primary_title = title:k_redoran
+			has_primary_title = title:k_dres
+		}
+		add = 50
+	}
+	modifier = { #Telvanni, ambitious+cynical Redoran support internal war
+		OR = {
+			has_primary_title = title:k_telvanni
+			AND = {
+				has_primary_title = title:k_redoran
+				has_trait = cynical
+				has_trait = ambitious
+			}
+		}
+		add = 50
+	}
+	#Outlanders
+	modifier = { #Hlaalu support open borders
+		has_primary_title = title:k_hlaalu
+		add = 50
+	}
+	modifier = { #Everyone except Hlaalu supports xenophobia
+		OR = {
+			has_primary_title = title:k_dres
+			has_primary_title = title:k_telvanni
+			has_primary_title = title:k_redoran
+			has_primary_title = title:k_indoril
+			is_temple_faction = yes
+		}
+		add = 50
+	}
+	#Assassins
+	modifier = { #Temple, Indoril, Hlaalu are support Morag Tong allowed
+		
+		OR = {
+			is_temple_faction = yes
+			has_primary_title = title:k_indoril
+			has_primary_title = title:k_hlaalu
+		}
+		add = 50
+	}
+	modifier = { #Ambitious/cynical Redoran support assassins outlawed
+		has_primary_title = title:k_redoran
+		OR = {
+			has_trait = cynical
+			has_trait = ambitious
+		}
+		add = 25
+	}
+	#Personality modifiers
+	modifier = { #Compassionate people are for treating other people as people
+		has_trait = compassionate
+		add = 25
+	}
+}
+#Modifiers for voting against proposal
+#EK TODO Morrowind_Activity add more stuff
+grand_council_meeting_stance_against_modifier = {
+	#Negative opinion
+	modifier = {
+		add = 10
+		opinion = {
+			target = scope:host
+			value <= 0
+		}
+	}
+	modifier = {
+		has_relation_rival = scope:host
+        NOT = { has_relation_nemesis = scope:host }
+        add = 50
+	}
+	modifier = {
+        has_relation_nemesis = scope:host
+        add = 100
+    }
+	#Slavery
+	modifier = { #Most of GCM are strongly against slavery outlawed
+		OR = {
+			has_primary_title = title:k_dres
+			has_primary_title = title:k_telvanni
+			is_temple_faction = yes
+			has_primary_title = title:k_indoril
+		}
+		add = 50
+	}
+	modifier = { #Dres and Telvanni are strongly against slavery outlawed
+		has_trait = compassionate
+		add = 25
+	}
+	#Ashlanders
+	modifier = { #Temple, Redoran, Indoril, zealots is against ashlanders stances that take away influence from Temple
+		OR = {
+			is_temple_faction = yes
+			AND = {
+				has_primary_title = title:k_redoran
+				NOR = {
+					has_trait = content
+					has_trait = compassionate					
+				}
+			}
+			AND = {
+				has_primary_title = title:k_indoril
+				NOR = {
+					has_trait = cynical
+					has_trait = ambitious				
+				}				
+			}
+			has_trait = zealous
+		}
+		add = 50
+	}
+	modifier = { #Non-zealous Telvanni, Dres are against temple reserve
+		
+		OR = {
+			has_title = title:k_dres
+			has_title = title:k_telvanni
+		}
+		NOT = {
+			has_trait = zealous
+		}
+		add = 50
+	}
+	#War
+	modifier = { #Temple, Indoril are VERY strongly against internal war
+		
+		OR = {
+			has_primary_title = title:k_indoril
+			is_temple_faction = yes
+		}
+		add = 100
+	}
+	modifier = { #Temple, Indoril are against external war
+		
+		OR = {
+			has_primary_title = title:k_indoril
+			is_temple_faction = yes
+		}
+		add = 50
+	}
+	modifier = {
+		OR = {
+			has_primary_title = title:k_redoran
+			has_primary_title = title:k_dres
+		}
+		NOT = {
+			has_trait = zealous
+		}
+		add = 50
+	}
+	#Outlanders
+	modifier = { #Hlaalu are against xenophobia
+		
+		has_primary_title = title:k_hlaalu
+		add = 50
+	}
+	modifier = { #Everyone except Hlaalu is against open borders
+		
+		OR = {
+			has_primary_title = title:k_dres
+			has_primary_title = title:k_telvanni
+			has_primary_title = title:k_redoran
+			has_primary_title = title:k_indoril
+			is_temple_faction = yes
+		}
+		add = 50
+	}
+	#Morag Tong
+	modifier = { #Temple, Indoril, Hlaalu are against limiting Morag Tong
+		OR = {
+			is_temple_faction = yes
+			has_primary_title = title:k_indoril
+			has_primary_title = title:k_hlaalu
+		}
+		add = 50
+	}
+	modifier = { #Redoran are against allowing Morag Tong
+		
+		has_primary_title = title:k_redoran
+		add = 50
+	}
+}
+vvardenfell_vote_temple_reserve_modifier = {
+	modifier = { #Dres, Indoril, Redoran, Temple, zealous people want Temple Reserve
+		OR = {
+			is_temple_faction = yes
+			has_primary_title = title:k_indoril
+			has_primary_title = title:k_dres
+			has_primary_title = title:k_redoran
+			has_trait = zealous
+		}
+		add = 50
+	}
+	modifier = { #Humble, temperate people don't want to open Vvardenfell
+		OR = {
+			has_trait = humble
+			has_trait = temperate
+		}
+		add = 25
+	}
+	#Negative opinion
+	modifier = {
+		add = 10
+		opinion = {
+			target = scope:vv_initiator
+			value <= 0
+		}
+	}
+	modifier = {
+		add = 25
+		opinion = {
+			target = scope:vv_initiator
+			value <= -50
+		}
+	}
+	modifier = {
+		add = 10
+		has_relation_rival = scope:vv_initiator
+	}
+	modifier = {
+		add = 25
+		has_relation_nemesis = scope:vv_initiator
+	}
+}
+vvardenfell_vote_open_modifier = {
+	modifier = { #Hlaalu, Telvanni want open Vvardenfell
+		OR = {
+			has_primary_title = title:k_hlaalu
+			has_primary_title = title:k_telvanni
+		}
+		add = 50
+	}
+	modifier = { #Cynical, ambitious, greedy people want to colonise Vvardenfell
+		OR = {
+			has_trait = cynical
+			has_trait = ambitious
+			has_trait = greedy
+		}
+		add = 25
+	}
+	#Positive opinion
+	modifier = {
+		add = 10
+		opinion = {
+			target = scope:vv_initiator
+			value > 50
+		}
+	}
+	modifier = {
+		add = 25
+		opinion = {
+			target = scope:vv_initiator
+			value > 80
+		}
+	}
+	modifier = {
+		add = 10
+		has_relation_friend = scope:vv_initiator
+	}
+	modifier = {
+		add = 25
+		has_relation_best_friend = scope:vv_initiator
+	}
+}

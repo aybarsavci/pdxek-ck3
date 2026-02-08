@@ -1,0 +1,2267 @@
+﻿###Note: Around 3475.11-3476.3, big blizzard that kills several members of the dynasties.
+##Deathbrand Dynasty (340000)
+
+deathbrand_1000 = {
+	name = "Haknir" #Lore
+	dna = deathbrand_1000_dna_entry
+	dynasty = 340000
+	culture = skaal
+	religion = mehrunes_cult
+	father = heartfang_998
+
+	trait = greedy
+	trait = sadistic
+	trait = wrathful
+	trait = scarred
+	trait = pirate
+	trait = education_martial_3
+	trait = reaver
+	trait = sign_atronach
+	trait = bastard_founder
+
+	3270.11.20 = { birth = yes } #Summoning day of Mehrunes Dagon
+	3330.1.1 = { 
+		effect = {
+			add_trait = lifespan_magic_1
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_0
+		}
+	}
+	3379.11.20 = { death = yes  
+	death = { 
+			death_reason = death_mysterious 
+		}
+	}
+}
+
+## Heart-Fang Dynasty #Survives to the Third Era
+
+heartfang_100 = {
+	name = "Aevar" #Lore - from the book "The Story of Aevar Stone-Singer"
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+	disallow_random_traits = yes
+
+	trait = sign_lover
+	
+	45.2.1 = { birth = yes }
+	61.2.1 = { 
+		give_nickname = nick_stone_singer
+		trait = diligent
+		trait = brave
+		trait = humble
+		trait = shrewd
+		trait = arcana_good_1
+		trait = strong
+	}
+	101.7.12 = { death = { death_reason = death_old_age } }
+}
+
+heartfang_101 = {
+	name = "Aevar" 
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+
+	father = heartfang_100
+
+	trait = line_of_x
+	disallow_random_traits = yes
+	diplomacy = 0
+	martial = 0
+	stewardship = 0
+	intrigue = 0
+	learning = 0
+	prowess = 0
+	
+	65.1.1 = { 
+		birth = yes
+		give_nickname = nick_line_of
+	}
+	3294.1.1 = { death = yes }
+}
+heartfang_998 = {
+	name = "Haakundr"
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+	father = heartfang_101
+
+	trait = sign_mage
+	#trait = fornicator
+
+	3251.4.9 = { birth = yes }
+	3273.10.4 = { add_spouse = heartfang_998_wife }
+	3296.2.5 = { death = { death_reason = death_battle } }
+}
+heartfang_998_wife = {
+	name = "Ingordis"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_apprentice
+
+	3251.7.13 = { birth = yes }
+	3313.11.12 = { death = { death_reason = death_old_age } }
+}
+heartfang_999_brother = {
+	name = "Anduard"
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+	father = heartfang_998
+	mother = heartfang_998_wife
+
+	trait = sign_mage
+
+	3277.4.1 = { birth = yes }
+	3295.6.17 = { add_spouse = heartfang_999_brother_wife }
+	3303.3.8 = { death = { death_reason = death_hunting_accident } }
+}
+heartfang_999_brother_wife = {
+	name = "Hjotgird"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_thief
+
+	3277.12.8 = { birth = yes }
+	3323.7.2 = { death = { death_reason = death_froze } }
+}
+heartfang_999_dead_nephew = {
+	name = "Ysgrurd"
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+	father = heartfang_999_brother
+	mother = heartfang_999_brother_wife
+
+	trait = sign_atronach
+
+	3298.11.25 = { birth = yes }
+	3298.12.28 = { death = { death_reason = death_froze } } #Solstheim is dangerous
+}
+heartfang_999_nephew = {
+	name = "Aevar"
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+	father = heartfang_999_brother
+	mother = heartfang_999_brother_wife
+
+	trait = shy
+	trait = craven
+	trait = patient
+	trait = sign_lover
+
+	3296.2.11 = { birth = yes }
+	3327.2.1 = { add_spouse = heartfang_999_nephew_wife } #Moved down below the rest of the Hearfangs
+	3361.3.8 = { death = { death_reason = death_old_age } }
+}
+heartfang_999 = {
+	name = "Sverja"
+	female = yes
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+	father = heartfang_998
+	mother = heartfang_998_wife
+
+	trait = sign_apprentice
+
+	3274.7.22 = { birth = yes }
+	3295.2.11 = { add_spouse = heartfang_999_husband }
+	3329.11.8 = { death = { death_reason = death_old_age } }
+}
+heartfang_999_husband = {
+	name = "Onmualdr"
+	culture = skaal
+	religion = anuic_skaal
+
+	trait = sign_lord
+
+	3273.3.7 = { birth = yes }
+	3331.7.5 = { death = { death_reason = death_old_age } }
+}
+heartfang_1000 = {
+	name = "Brynjolfr"
+	dna = heartfang_1000_dna_entry
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+
+	mother = heartfang_999
+	father = heartfang_999_husband
+
+	trait = humble
+	trait = gregarious
+	trait = wrathful
+	trait = sign_thief
+	trait = education_intrigue_3
+	
+	3295.12.27 = { birth = yes }
+	3324.2.13 = { add_spouse = heartfang_1000_wife }
+	3350.1.1 = {
+		effect = {		
+			if = {
+				limit = { character:iceclaw_1000 = { is_alive = yes } }
+				set_relation_rival = { reason = rival_historical target = character:iceclaw_1000 } 
+			}
+		}
+	}
+	3355.12.7 = {
+		effect = {		
+			if = {
+				limit = { character:woodbiter_1000 = { is_alive = yes } }
+				set_relation_rival = { reason = rival_historical target = character:woodbiter_1000 } 
+			}
+		}
+	}
+	3359.1.1 = { 
+		effect = { #Brynjolfr loathes the Rieklings and wants to push them off Solstheim
+			if = {
+				limit = { character:wolftongue_1000 = { is_alive = yes } }
+				set_relation_rival = { reason = rival_historical target = character:wolftongue_1000 }
+			}
+		}
+	}
+	3359.2.7 = {
+		effect = {
+			create_alliance = {
+				target = character:icemane_1000
+				allied_through_owner = character:heartfang_1002_sister
+				allied_through_target = character:icemane_1001
+			}
+		}
+	}
+	3364.1.23 = { death = { death_reason = death_old_age } }
+}
+
+heartfang_1000_wife = {
+	name = "Hartilde"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = greedy
+	trait = craven
+	trait = content
+	trait = sign_lover
+	
+	3293.2.12 = { birth = yes }
+	3361.8.21 = { death = { death_reason = death_old_age } }
+}
+
+heartfang_1001 = {
+	name = "Svana"
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	father = heartfang_1000
+	mother = heartfang_1000_wife
+	
+	trait = brave
+	trait = calm
+	trait = honest
+	trait = education_martial_3
+	trait = shieldmaiden
+	trait = sign_ritual
+
+	3325.1.5 = { birth = yes }
+	3344.3.11 = { add_spouse = heartfang_1001_husband }
+	3355.11.22 = { 
+		effect = {		
+			if = {
+				limit = { character:redspear_1000 = { is_alive = yes } }
+				set_relation_friend = { reason = friend_generic_history target = character:redspear_1000 }
+			}
+		}
+	}
+	3387.12.28 = { death = { death_reason = death_old_age } }
+}
+
+heartfang_1001_husband = {
+	name = "Vidallod"
+	culture = skaal
+	religion = anuic_skaal
+
+	trait = fickle
+	trait = deceitful
+	trait = compassionate
+	trait = sign_shadow
+	
+	3322.5.7 = { birth = yes }
+	3386.3.28 = { death = { death_reason = death_old_age } }
+}
+
+heartfang_1002_sister = { #marries icemane_1001
+	name = "Lydrior"
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = heartfang_1001_husband
+	mother = heartfang_1001
+
+	trait = humble
+	trait = pensive
+	trait = sign_lord
+
+	disallow_random_traits = yes
+	
+	3349.3.8 = { birth = yes }
+	3365.3.18 = {
+		remove_trait = pensive
+		trait = brave
+		trait = stubborn
+	}
+	3401.5.18 = { death = { death_reason = death_old_age } }
+}
+
+heartfang_1002 = {
+	name = "Bjordan"
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+
+	father = heartfang_1001_husband
+	mother = heartfang_1001
+
+	trait = forgiving
+	trait = lazy
+	trait = content
+	trait = sign_apprentice
+	trait = curious
+
+	disallow_random_traits = yes
+	
+	3345.7.21 = { birth = yes }
+	3357.6.17 = {
+		effect = {
+			if = {
+				limit = { is_married = no }
+				create_betrothal = character:heartfang_1002_wife
+			}
+		}
+	}
+	3361.3.13 = {
+		remove_trait = curious
+		add_trait = education_stewardship_1
+	}
+	3363.6.17 = { add_spouse = heartfang_1002_wife }
+	3399.3.19 = { death = { death_reason = death_old_age } }
+}
+
+heartfang_1002_wife = {
+	name = "Svugyld"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = wrathful
+	trait = compassionate
+	trait = honest
+	trait = rowdy
+	trait = sign_lord
+
+	disallow_random_traits = yes
+	
+	3345.3.13 = { birth = yes }
+	3361.3.13 = {
+		remove_trait = rowdy
+		add_trait = education_diplomacy_2
+	}
+	3402.8.21 = { death = { death_reason = death_old_age } }
+}
+
+heartfang_1003 = {
+	name = "Kjavur"
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+	father = heartfang_1002
+	mother = heartfang_1002_wife
+
+	trait = sign_warrior
+	
+	3369.8.27 = { birth = yes }
+	3402.6.17 = { add_spouse = heartfang_1003_wife }
+	3447.2.21 = { death = { death_reason = death_old_age } }
+}
+
+heartfang_1003_wife = {
+	name = "Ulriki"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_thief
+	
+	3377.12.30 = { birth = yes }
+	3444.4.6 = { death = { death_reason = death_old_age } }
+}
+
+heartfang_1004 = {
+	name = "Rhilgaralg"
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+	father = heartfang_1003
+	mother = heartfang_1003_wife
+
+	trait = sign_lord
+	
+	3406.3.31 = { birth = yes }
+	3426.2.8 = { add_spouse = heartfang_1004_wife }
+	3478.4.12 = { death = { death_reason = death_old_age } }
+}
+
+heartfang_1004_wife = {
+	name = "Hrianhif"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_apprentice
+	
+	3406.7.23 = { birth = yes }
+	3478.8.30 = { death = { death_reason = death_old_age } }
+}
+
+heartfang_1005 = { #First 'queen' of Solstheim
+	name = "Rhilgaralg"
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = heartfang_1004
+	mother = heartfang_1004_wife
+
+	trait = sign_lord
+	
+	3433.3.3 = { birth = yes }
+	3469.7.13 = { add_spouse = heartfang_1005_husband }
+	3489.1.31 = { death = { death_reason = death_old_age } }
+}
+
+heartfang_1005_husband = {
+	name = "Dunraskr"
+	culture = skaal
+	religion = anuic_skaal
+
+	trait = sign_ritual
+	
+	3433.1.19 = { birth = yes }
+	3490.9.15 = { death = yes }
+}
+
+heartfang_1006 = { #First 'king' of Solstheim #Alliance war
+	name = "Hoeksoll"
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+
+	father = heartfang_1005_husband
+	mother = heartfang_1005
+
+	trait = brave
+	trait = ambitious
+	trait = just
+	trait = education_martial_3
+	trait = sign_lover
+	
+	3470.2.6 = { birth = yes }
+	3489.1.8 = { add_spouse = bloodskal_1006 }
+	3489.1.9 = {
+		effect = {		
+			if = {
+				limit = { character:bloodskal_1006 = { is_alive = yes } }
+				set_relation_soulmate = { reason = lover_history target = character:bloodskal_1006 }
+			}
+		}
+	}
+	3538.6.18 = { death = yes }
+}
+
+heartfang_999_nephew_wife = {
+	name = "Yrsith"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = patient
+	trait = zealous
+	trait = callous
+	trait = sign_thief
+
+	3296.12.4 = { birth = yes }
+	3360.11.23 = { death = { death_reason = death_old_age } }
+}
+heartfang_2000_sister = { #heartfang_999_nephew line- married into Red-Spear
+	name = "Svarfa"
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = heartfang_999_nephew
+	mother = heartfang_999_nephew_wife
+
+	trait = forgiving
+	trait = stubborn
+	trait = patient
+	trait = sign_shadow
+	
+	3330.5.4 = { birth = yes }
+	3367.6.18 = { death = { death_reason = death_hunting_accident } }
+}
+heartfang_2000 = { #heartfang_999_nephew line
+	name = "Hoeksoll"
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+	father = heartfang_999_nephew
+	mother = heartfang_999_nephew_wife
+
+	trait = chaste
+	trait = sadistic
+	trait = zealous
+	trait = sign_tower
+
+	3328.10.16 = { birth = yes }
+	3351.4.7 = { add_spouse = heartfang_2000_wife }
+	3367.6.18 = { death = { death_reason = death_hunting_accident } }
+}
+heartfang_2000_wife = {
+	name = "Sofsif"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = greedy
+	trait = ambitious
+	trait = impatient
+	trait = sign_apprentice
+
+	3329.7.2 = { birth = yes }
+	3392.4.14 = { death = { death_reason = death_old_age } }
+}
+heartfang_2001 = { #Marries into Ice-Mane
+	name = "Katrfigr"
+	dynasty = 340001
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = heartfang_2000
+	mother = heartfang_2000_wife
+
+	trait = sign_lord
+
+	3352.3.12 = { birth = yes }
+	3421.7.4 = { death = { death_reason = death_old_age } }
+}
+
+## Bloodskal Dynasty #Dynasty and house 'dies out' eventually but will intermarry with Heart-Fangs, uniting most of the island
+## Oldest clan on the island, descendants of Zahkriisos (name translates as sword blood, therefore he's most likely an ancestor)
+bloodskal_ancestors = { #Zahkriisos in the Merethic Era
+	name = ""
+	dynasty = 340003
+	culture = atmoran
+	religion = dragon_cult
+
+	trait = line_of_x
+	disallow_random_traits = yes
+	diplomacy = 0
+	martial = 0
+	stewardship = 0
+	intrigue = 0
+	learning = 0
+	prowess = 0
+
+	2.1.1 = { birth = yes } #History ToDo: can be merethic
+	3.1.1 = { give_nickname = nick_ancestors_of_house }
+	501.1.1 = { death = yes }
+}
+bloodskal_150 = {
+	name = "Yngotr"
+	dynasty = 340003
+	culture = skaal
+	religion = anuic_skaal
+	father = bloodskal_ancestors
+
+	trait = sign_thief
+
+	500.12.8 = { birth = yes }
+	519.1.2 = { add_spouse = bloodskal_150_wife }
+	587.7.22 = { death = { death_reason = death_old_age } }
+}
+bloodskal_150_wife = {
+	name = "Ignanhild"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_atronach
+
+	500.11.27 = { birth = yes }
+	583.3.21 = { death = { death_reason = death_old_age } }
+}
+bloodskal_line = {
+	name = "Yngotr"
+	dynasty = 340003
+	culture = skaal
+	religion = anuic_skaal
+
+	father = bloodskal_150
+	mother = bloodskal_150_wife
+
+	trait = line_of_x
+	disallow_random_traits = yes
+	diplomacy = 0
+	martial = 0
+	stewardship = 0
+	intrigue = 0
+	learning = 0
+	prowess = 0
+
+	520.1.1 = { birth = yes }
+	521.1.1 = { give_nickname = nick_line_of }
+	3000.1.1 = { death = yes }
+}
+bloodskal_998 = {
+	name = "Svalkmar"
+	dynasty = 340003
+	culture = skaal
+	religion = anuic_skaal
+	father = bloodskal_line
+
+	trait = sign_warrior
+	trait = scarred
+
+	3211.8.22 = { birth = yes }
+	3270.1.1 = { add_spouse = bloodskal_998_wife }
+	3305.4.18 = { death = { death_reason = death_old_age } }
+}
+bloodskal_998_wife = {
+	name = "Anka"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_tower
+
+	3240.1.2 = { birth = yes }
+	3310.10.8 = { death = { death_reason = death_old_age } }
+}
+bloodskal_999 = {
+	name = "Maevssa"
+	dynasty = 340003
+	culture = skaal
+	religion = anuic_skaal
+	father = bloodskal_998
+	mother = bloodskal_998_wife
+	female = yes
+
+	trait = sign_lover
+
+	3276.2.10 = { birth = yes }
+	3304.4.15 = { add_spouse = bloodskal_999_husband }
+	3332.7.22 = { death = { death_reason = death_old_age } }
+}
+bloodskal_999_husband = {
+	name = "Holglki"
+	culture = skaal
+	religion = anuic_skaal
+
+	trait = sign_tower
+
+	3277.10.20 = { birth = yes }
+	3339.7.18 = { death = { death_reason = death_old_age } }
+}
+bloodskal_1000_sister = { #Wife to snowbourne_99
+	name = "Fralver"
+	dynasty = 340003
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = bloodskal_999_husband
+	mother = bloodskal_999
+
+	trait = content
+	trait = brave
+	trait = chaste
+	trait = sign_shadow
+
+	3312.5.22 = { birth = yes }
+	3313.1.1 = { effect = { learn_language = language_nordic } }
+	3378.9.14 = { death = { death_reason = death_old_age } }
+}
+bloodskal_1000 = {
+	name = "Einarr"
+	dynasty = 340003
+	culture = skaal
+	religion = anuic_skaal
+	father = bloodskal_999_husband
+	mother = bloodskal_999
+
+	trait = trusting #Let second son marry Hircine worshipping lover thinking nothing bad would come of it
+	trait = craven
+	trait = arbitrary
+	trait = sign_ritual
+	trait = education_stewardship_2
+	
+	3305.1.25 = { birth = yes }
+	3331.5.27 = { add_spouse = bloodskal_1000_wife }
+	3352.4.17 = {
+		effect = {
+			create_alliance = {
+				target = character:snowbourne_99
+				allied_through_owner = character:bloodskal_1000
+				allied_through_target = character:bloodskal_1000_sister
+			}
+		}
+	}
+	3362.12.9 = { death = yes 
+	death = { 
+			death_reason = death_hunting_accident
+		}
+	}
+}
+
+bloodskal_1000_wife = {
+	name = "Faset"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_tower
+
+	3302.10.7 = { birth = yes }
+	3334.1.1 = {
+		death = {
+			death_reason = death_childbirth
+		}
+	}
+}
+
+bloodskal_1001 = {
+	name = "Baldor" 
+	dynasty = 340003
+	culture = skaal
+	religion = anuic_skaal
+	father = bloodskal_1000
+	mother = bloodskal_1000_wife
+
+	trait = zealous
+	trait = patient
+	trait = calm
+	trait = sign_shadow
+	trait = education_martial_3
+
+	prowess = 15
+	martial = 6
+	
+	3328.5.12 = { birth = yes }
+	3345.6.21 = { add_spouse = snowsong_1000_sister }
+	3358.12.28 = { 
+		effect = { #Thinks she corrupted his brother
+			if = {
+				limit = { character:wildblood_1000_wife = { is_alive = yes } }
+				set_relation_rival = { reason = rival_historical target = character:wildblood_1000_wife }
+			}
+		}
+	}
+	3362.1.4 = { 
+		effect = { #Was patient with his brother but it ended when he declared his own dynasty
+			if = {
+				limit = { character:wildblood_1000 = { is_alive = yes } }
+				set_relation_rival = { reason = rival_historical target = character:wildblood_1000 }
+			}
+		}
+	}
+	3376.2.26 = {
+		add_trait = scarred
+		add_trait = one_eyed
+	}
+	3386.2.26 = { death = { death_reason = death_old_age } } #A decade after his battle with his brother and his wife
+}
+bloodskal_1002_murdered_brother = {
+	name = "Kunthjar"
+	dynasty = 340003
+	culture = skaal
+	religion = anuic_skaal
+	father = bloodskal_1001
+	mother = snowsong_1000_sister
+
+	trait = sign_lover
+	
+	3354.2.14 = { birth = yes }
+	3364.9.22 = { death = { death_reason = death_murder_known killer = wildblood_1000_wife } }
+}
+bloodskal_1002 = { #Long lived #History ToDo: maybe don't have them last so long?
+	name = "Hrunmund"
+	dynasty = 340003
+	culture = skaal
+	religion = anuic_skaal
+
+	father = bloodskal_1001
+	mother = snowsong_1000_sister
+
+	trait = physique_good_1
+	trait = whole_of_body
+	trait = temperate
+	trait = pensive
+	trait = sign_apprentice
+
+	disallow_random_traits = yes
+	
+	3349.7.7 = { birth = yes }
+	3367.6.21 = { add_spouse = bloodskal_1002_wife }
+	3366.7.7 = {
+		add_trait = patient
+		add_trait = calm
+		remove_trait = pensive
+		add_trait = education_martial_3
+	}
+	3428.3.11 = { death = { death_reason = death_old_age } }
+}
+
+bloodskal_1002_wife = { #Long lived #History ToDo: maybe don't have them last so long?
+	name = "Tharica"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = physique_good_1
+	trait = whole_of_body
+	trait = temperate
+	trait = sign_lover
+	disallow_random_traits = yes
+	
+	3348.2.17 = { birth = yes }
+	3364.2.17 = {
+		add_trait = impatient
+		add_trait = calm
+		remove_trait = pensive
+		add_trait = education_diplomacy_1
+	}
+	3433.12.19 = { death = { death_reason = death_old_age } }
+}
+
+bloodskal_1003 = {
+	name = "Thonwald"
+	dynasty = 340003
+	culture = skaal
+	religion = anuic_skaal
+	father = bloodskal_1002
+	mother = bloodskal_1002_wife
+
+	trait = callous
+	trait = physique_good_2
+	trait = arbitrary
+	trait = content
+	trait = sign_lord
+	trait = education_intrigue_2
+	
+	3376.3.13 = { birth = yes }
+	3394.6.21 = { add_spouse = bloodskal_1003_wife }
+	3438.6.19 = { death = yes }
+}
+
+bloodskal_1003_wife = {
+	name = "Kif"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_ritual
+	
+	3376.1.2 = { birth = yes }
+	3438.8.12 = { death = yes }
+}
+
+bloodskal_1004 = {
+	name = "Skondir"
+	dynasty = 340003
+	culture = skaal
+	religion = anuic_skaal
+	father = bloodskal_1003
+	mother = bloodskal_1003_wife
+
+	trait = sign_steed
+	
+	3409.6.19 = { birth = yes }
+	3439.3.19 = { add_spouse = bloodskal_1004_wife }
+	3471.2.17 = { death = yes }
+}
+
+bloodskal_1004_wife = {
+	name = "Sonhildr"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_mage
+	
+	3413.4.22 = { birth = yes }
+	3476.11.7 = { death = yes }
+}
+
+bloodskal_1005 = {
+	name = "Hlenhedr"
+	female = yes
+	dynasty = 340003
+	culture = skaal
+	religion = anuic_skaal
+	father = bloodskal_1004
+	mother = bloodskal_1004_wife
+
+	trait = sign_steed
+	
+	3447.6.19 = { birth = yes }
+	3464.1.8 = { add_spouse = bloodskal_1005_husband }
+	3496.2.16 = { death = yes }
+}
+
+bloodskal_1005_husband = {
+	name = "Fruksennom"
+	culture = skaal
+	religion = anuic_skaal
+
+	trait = sign_ritual
+	
+	3449.1.12 = { birth = yes }
+	3493.7.17 = { death = yes }
+}
+
+bloodskal_1006 = { #Marries Heartfang_1006 and joins the house #Alliance war #For future reference, Bloodskal are supposed to be much larger by this point but all are slain in battle or fall ill, forcing bloodskal_1005 to do this to try and save his house
+	name = "Karjidr"
+	dynasty = 340003
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = bloodskal_1005_husband
+	mother = bloodskal_1005
+
+	trait = sign_apprentice
+	
+	3471.7.11 = { birth = yes }
+	#Marries heartfang_1006
+	3538.6.18 = { death = yes }
+}
+
+# House Wild-Blood #Survives to the Fourth Era #I imagine them in a sort of Code of Malacath situation where the children fight one another for ownership. A family of kinslayers.
+
+wildblood_1000 = {
+	name = "Falki"
+	dynasty = 340003
+	culture = skaal
+	religion = anuic_skaal
+	sexuality = heterosexual
+
+	father = bloodskal_1000
+	mother = bloodskal_1000_wife
+
+	trait = lifestyle_hunter
+	trait = brave
+	trait = trusting
+	trait = temperate
+
+	prowess = 12
+
+	trait = sign_ritual
+	
+	3334.1.1 = { birth = yes } #intentional
+	3358.2.17 = {
+		effect = {
+			if = {
+				limit = { character:wildblood_1000_wife = { is_alive = yes } }
+				set_relation_lover = { reason = lover_history target = character:wildblood_1000_wife }
+			}
+		}
+	}
+	3359.1.1 = { trait = berserker }
+	3359.1.2 = { religion = hircine_cult }
+	3359.1.3 = { add_spouse = wildblood_1000_wife }
+	3362.1.2 = { trait = denounced }
+	3362.12.9 = { dynasty_house = bloodskal_wildblood }
+	3376.2.26 = {
+		death = {
+			death_reason = death_duel
+			killer = bloodskal_1001
+		}
+	}
+}
+
+wildblood_1000_wife = { #Should be from Frostmoon werewolf pack or ancestors to the pack
+	name = "Jagerin"
+	culture = skaal
+	religion = hircine_cult
+	female = yes
+	sexuality = heterosexual
+
+	trait = lifestyle_hunter
+	trait = lifestyle_mystic
+	trait = witch
+	trait = ambitious
+	trait = callous
+	trait = patient
+	trait = sign_shadow
+
+	disallow_random_traits = yes
+
+	prowess = 16
+	
+	3331.5.24 = { 
+		birth = yes 
+		effect = { give_lycan_secret_or_trait_effect = yes }
+	}
+	3364.9.22 = {
+		add_trait = murderer
+	}
+	3376.2.26 = {
+		death = {
+			death_reason = death_duel
+			killer = bloodskal_1001
+		}
+	}
+}
+wildblood_1001_sister = { #Left alive because she's young
+	name = "Alelaith"
+	dynasty_house = bloodskal_wildblood
+	culture = skaal
+	religion = hircine_cult
+	female = yes
+	father = wildblood_1000
+	mother = wildblood_1000_wife
+
+	trait = sign_lover
+	
+	3367.2.8 = { birth = yes }
+	3431.12.7 = { death = { death_reason = death_old_age } }
+}
+wildblood_1001_brother = { #Slain by bro for title of Kolbjorn
+	name = "Gogeir"
+	dynasty = 340003
+	culture = skaal
+	religion = hircine_cult
+	father = wildblood_1000
+	mother = wildblood_1000_wife
+
+	trait = legitimized_bastard #Grandpa (bloodskal_1000) legitimized him
+	trait = sign_mage
+	
+	3357.4.13 = { birth = yes }
+	3362.12.9 = {
+		dynasty_house = bloodskal_wildblood
+	}
+	3376.2.26 = {
+		death = {
+			death_reason = death_duel
+			killer = bloodskal_1001
+		}
+	}
+}
+wildblood_1001 = {
+	name = "Kuvagg"
+	dynasty = 340003
+	culture = skaal
+	religion = hircine_cult
+
+	trait = rowdy
+	trait = sign_atronach
+
+	father = wildblood_1000
+	mother = wildblood_1000_wife
+
+	disallow_random_traits = yes
+	
+	3359.11.22 = { birth = yes }
+	3362.12.9 = {
+		remove_trait = rowdy 
+		add_trait = ambitious
+		dynasty_house = bloodskal_wildblood
+	}
+	3368.4.6 = {
+		add_trait = patient
+	}
+	3375.11.22 = {
+		add_trait = lustful
+	}
+	3387.7.4 = { add_spouse = wildblood_1001_wife }
+	3416.11.4 = {
+		death = {
+			death_reason = death_duel
+			killer = wildblood_1002
+		}
+	}
+}
+
+wildblood_1001_wife = {
+	name = "Gadmildr"
+	culture = skaal
+	religion = hircine_cult
+	female = yes
+
+	trait = lifestyle_hunter
+	trait = patient
+	trait = sadistic
+	trait = sign_ritual
+	
+	3359.1.16 = {  birth = yes }
+	3416.7.13 = { death = yes }
+}
+
+wildblood_1002 = {
+	name = "Fradnin"
+	dynasty_house = bloodskal_wildblood
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = wildblood_1001
+	mother = wildblood_1001_wife
+
+	trait = legitimized_bastard
+	trait = lifestyle_hunter
+	trait = callous
+	trait = cynical
+	trait = stubborn
+	trait = sign_shadow
+	
+	3378.5.21 = { birth = yes }
+	3394.7.4 = { add_spouse = wildblood_1002_husband}
+	3445.12.19 = {
+		death = {
+			death_reason = death_duel
+			killer = wildblood_1003
+		}
+	}
+}
+
+wildblood_1002_husband = {
+	name = "Tharreskr"
+	culture = skaal
+	religion = hircine_cult
+
+	trait = sign_steed
+	
+	3378.6.26 = {  birth = yes }
+	3445.9.23 = { death = yes }
+}
+
+wildblood_1003 = {
+	name = "Hundehar"
+	dynasty_house = bloodskal_wildblood
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = wildblood_1002_husband
+	mother = wildblood_1002
+
+	trait = sign_warrior
+	
+	3397.8.27 = { birth = yes }
+	3423.7.4 = { add_spouse = wildblood_1003_husband}
+	3424.1.3 = { 
+		effect = {
+			if = {
+				limit = { character:wildblood_1003_husband = { is_alive = yes } }
+				set_relation_rival = { reason = rival_historical target = character:wildblood_1003_husband }
+			}
+		}
+	}
+	3454.5.13 = {
+		death = {
+			death_reason = death_duel
+			killer = wildblood_1004
+		}
+	}
+}
+
+wildblood_1003_husband = {
+	name = "Freknall"
+	culture = skaal
+	religion = hircine_cult
+
+	trait = lustful
+	trait = sign_lover
+	
+	3395.2.11 = {  birth = yes }
+	3424.1.3 = {
+		add_trait = adulterer
+	}
+	3454.6.15 = { death = yes }
+}
+
+wildblood_1003_husband_mistress = {
+	name = "Hjathif"
+	culture = skaal
+	religion = hircine_cult
+	female = yes
+
+	trait = sign_lord
+	
+	3395.3.8 = {  birth = yes }
+	#3424.1.3 = {
+	#	trait = fornicator
+	#}
+	3424.1.4 = {
+		death = {
+			death_reason = death_execution
+			killer = wildblood_1003
+		}
+	}
+}
+
+wildblood_1004 = {
+	name = "Kleknell"
+	dynasty_house = bloodskal_wildblood
+	culture = skaal
+	religion = anuic_skaal
+	father = wildblood_1003_husband
+	mother = wildblood_1003
+
+	trait = sign_warrior
+	
+	3428.8.27 = { birth = yes }
+	3463.7.4 = { add_spouse = wildblood_1004_wife}
+	3481.3.9 = { death = yes }
+}
+
+wildblood_1004_wife = {
+	name = "Vorvior"
+	culture = skaal
+	religion = hircine_cult
+	female = yes
+
+	trait = sign_lover
+	
+	3433.2.11 = {
+		birth = yes 
+		effect = { give_lycan_secret_or_trait_effect = yes }
+	}
+	3476.6.15 = { death = { death_reason = death_battle } }
+}
+
+wildblood_1005 = { #Alliance war
+	name = "Varg"
+	dynasty_house = bloodskal_wildblood
+	culture = skaal
+	religion = anuic_skaal
+	father = wildblood_1004
+	mother = wildblood_1004_wife
+
+	trait = sign_lord
+	
+	3468.3.5 = { 
+		birth = yes 
+		effect = { give_lycan_secret_or_trait_effect = yes }
+	}
+	3488.7.4 = { add_spouse = wildblood_1005_wife}
+	3526.7.31 = { death = yes }
+}
+
+wildblood_1005_wife = {
+	name = "Radhildur"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_ritual
+	
+	3487.1.24 = {  birth = yes }
+	3528.12.15 = { death = yes }
+}
+
+## Snow-Song Dynasty #Survives into Third Era
+snowsong_998 = {
+	name = "Uthgird"
+	dynasty = 340005
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_lover
+
+	3262.2.25 = { birth = yes }
+	3295.4.2 = { add_spouse = snowsong_998_husband }
+	3318.3.16 = { death = { death_reason = death_old_age } }
+}
+snowsong_998_husband = {
+	name = "Arnbheim"
+	culture = skaal
+	religion = anuic_skaal
+
+	trait = sign_shadow
+	
+	3261.5.21 = { birth = yes }
+	3323.6.8 = { death = { death_reason = death_old_age } }
+}
+snowsong_999_brother = { #Married to snowbourne_97
+	name = "Bolljolfr"
+	dynasty = 340005
+	culture = skaal
+	religion = anuic_skaal
+	father = snowsong_998_husband
+	mother = snowsong_998
+
+	trait = sign_thief
+	
+	3299.12.22 = { birth = yes }
+	3355.12.28 = { death = { death_reason = death_old_age } }
+}
+snowsong_999 = {
+	name = "Stigdlar"
+	dynasty = 340005
+	culture = skaal
+	religion = anuic_skaal
+	father = snowsong_998_husband
+	mother = snowsong_998
+	
+	trait = cynical
+	trait = trusting
+	trait = wrathful #His parenting led to his daughter discovering Herma-Mora
+	trait = sign_ritual
+	
+	3298.1.7 = { birth = yes }
+	3326.12.13 = { add_spouse = snowsong_999_wife }
+	3355.7.2 = {
+        death = { death_reason = death_plotting }
+    }
+}
+
+snowsong_999_wife = {
+	name = "Geidodrar"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_shadow
+	
+	3299.5.21 = { birth = yes }
+	3361.6.8 = { death = { death_reason = death_old_age } }
+}
+
+snowsong_1000 = {
+	name = "Yrsa"
+	dynasty = 340005
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	father = snowsong_999
+	mother = snowsong_999_wife
+	
+	trait = witch
+	trait = calm
+	trait = patient
+	trait = deceitful
+	trait = education_learning_3
+	trait = sign_lady
+
+	learning = 15
+	intrigue = 12
+
+	3328.9.27 = { birth = yes }
+	3357.6.8 = { add_spouse = snowsong_1000_husband }
+	3359.1.2 = { effect = { make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:woodland_man } } }
+	3400.11.16 = { death = { death_reason = death_old_age } }
+}
+
+snowsong_1000_husband = {
+	name = "Bruwellyn"
+	culture = skaal
+	religion = anuic_skaal
+
+	trait = gregarious
+	trait = ambitious
+	trait = wrathful
+	trait = sign_lover
+	
+	3326.2.2 = { birth = yes }
+	3359.4.18 = { effect = { make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:woodland_man } } }
+	3398.5.12 = { death = { death_reason = death_old_age } }
+}
+
+snowsong_1001 = {
+	name = "Tolfndar"
+	dynasty = 340005
+	culture = skaal
+	religion = anuic_skaal
+	father = snowsong_1000_husband
+	mother = snowsong_1000
+
+	trait = sign_mage
+	
+	3358.4.19 = { birth = yes }
+	3375.4.19 = { effect = { make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:woodland_man } } }
+	3375.6.11 = {
+		add_trait = witch
+		}
+	3379.2.27 = { add_spouse = snowsong_1001_wife }
+	3424.11.7 = { death = { death_reason = death_old_age } }
+}
+
+snowsong_1001_wife = {
+	name = "Rirjal"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_steed
+	
+	3357.6.17 = { birth = yes }
+	3379.2.28 = { effect = { make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:woodland_man } } }
+	3421.2.12 = { death = { death_reason = death_old_age } }
+}
+
+snowsong_1002 = {
+	name = "Fruk"
+	dynasty = 340005
+	culture = skaal
+	religion = anuic_skaal
+	father = snowsong_1001
+	mother = snowsong_1001_wife
+
+	trait = sign_steed
+	
+	3386.6.7 = { birth = yes }
+	3406.6.7 = { effect = { make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:woodland_man } } }
+	3406.6.8 = {
+		add_trait = witch
+		}
+	3411.5.16 = { add_spouse = snowsong_1002_wife }
+	3443.12.8 = { death = yes }
+}
+
+snowsong_1002_wife = {
+	name = "Daniella"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_lover
+	
+	3386.2.19 = { birth = yes }
+	3406.11.18 = { effect = { make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:woodland_man } } }
+	3449.2.12 = { death = yes }
+}
+
+snowsong_1003 = {
+	name = "Haflina"
+	dynasty = 340005
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = snowsong_1002
+	mother = snowsong_1002_wife
+
+	trait = sign_lord
+	
+	3417.3.14 = { birth = yes }
+	3433.3.15 = { effect = { make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:woodland_man } } }
+	3433.3.16 = {
+		add_trait = witch
+		}
+	3440.6.3 = { add_spouse = snowsong_1003_husband }
+	3484.6.8 = { death = yes }
+}
+
+snowsong_1003_husband = {
+	name = "Viglundur"
+	culture = skaal
+	religion = anuic_skaal
+
+	trait = sign_lord
+	
+	3417.3.23 = { birth = yes }
+	3440.6.4 = { effect = { make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:woodland_man } } }
+	3481.6.27 = { death = yes }
+}
+
+snowsong_1004 = {
+	name = "Astbjorn"
+	dynasty = 340005
+	culture = skaal
+	religion = anuic_skaal
+	father = snowsong_1003_husband
+	mother = snowsong_1003
+
+	trait = sign_shadow
+	
+	3443.5.18 = { birth = yes }
+	3459.5.19 = { effect = { make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:woodland_man } } }
+	3459.5.20 = {
+		add_trait = witch
+		}
+	3464.2.23 = { add_spouse = snowsong_1004_wife }
+	3494.8.12 = { death = yes }
+}
+
+snowsong_1004_wife = {
+	name = "Frysta"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_shadow
+	
+	3445.5.4 = { birth = yes }
+	3464.2.24 = { effect = { make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:woodland_man } } }
+	3475.11.17 = { death = { death_reason = death_froze } }
+}
+
+snowsong_1005 = { #Alliance War
+	name = "Rikhardur"
+	dynasty = 340005
+	culture = skaal
+	religion = anuic_skaal
+	father = snowsong_1004
+	mother = snowsong_1004_wife
+
+	trait = sign_lord
+	
+	3467.3.21 = { birth = yes }
+	3483.3.21 = { effect = { make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:woodland_man } } }
+	3483.3.23 = {
+		add_trait = witch
+		}
+	3492.2.27 = { add_spouse = snowsong_1005_wife }
+	3512.12.17 = { death = { death_reason = death_battle } } #House genuinly converts back to All-Maker after this
+}
+
+snowsong_1005_wife = {
+	name = "Magnfridur"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_lover
+	
+	3468.2.7 = { birth = yes }
+	3492.2.28 = { effect = { make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:woodland_man } } }
+	3512.12.18 = { death = { death_reason = death_battle } }
+}
+
+snowsong_1000_sister = { #Wife to Baldor Bloodskal (bloodskal_1001)
+	name = "Eisalaith"
+	dynasty = 340005
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	father = snowsong_999
+	mother = snowsong_999_wife
+	
+	trait = zealous
+	trait = calm
+	trait = temperate
+	trait = sign_steed
+	
+	3329.6.22 = { birth = yes }
+	3359.12.28 = { 
+		effect = { #I know what you are
+			if = {
+				limit = { character:snowsong_1000 = { is_alive = yes } }
+				set_relation_rival = { reason = rival_historical target = character:snowsong_1000 }
+			}
+		} 
+	}
+	3389.9.2 = { death = yes }
+}
+
+## Red-Spear Dynasty #One of them eventually marries cragstrider_100 descendant and brings the clan back Solstheim permanently #Also survives to the Third Era
+#Used to own Harstrad, later return home
+redspear_998 = {
+	name = "Ortigelf"
+	dynasty = 340004
+	culture = skaal
+	religion = anuic_skaal
+
+	trait = sign_steed
+
+	3273.6.8 = { birth = yes }
+	3298.10.2 = { add_spouse = redspear_998_wife }
+	3319.2.17 = {
+        death = { death_reason = death_raid }
+    }
+}
+redspear_998_wife = {
+	name = "Rigmteir"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_lover
+
+	3273.2.4 = { birth = yes }
+	3334.12.7 = { death = { death_reason = death_old_age } }
+}
+redspear_999_sister = {
+	name = "Isgedil"
+	dynasty = 340004
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = redspear_998
+	mother = redspear_998_wife
+
+	trait = zealous
+	trait = devoted
+	trait = celibate
+	trait = calm
+	trait = generous
+	trait = education_learning_4
+	trait = sign_shadow
+
+	prowess = 1 #To try and make her stop being a soldier
+	martial = 1 #To try and make her stop being a soldier
+
+	3302.5.4 = { birth = yes }
+	3362.7.21 = { death = { death_reason = death_old_age } }
+}
+redspear_999 = {
+	name = "Lokitar"
+	dynasty = 340004
+	culture = skaal
+	religion = anuic_skaal
+	father = redspear_998
+	mother = redspear_998_wife
+
+	trait = sign_lady
+	
+	3299.9.13 = { birth = yes }
+	3319.11.17 = { add_spouse = redspear_999_wife }
+	3355.11.22 = { death = { death_reason = death_froze } }
+}
+redspear_999_wife = {
+	name = "Aumljot"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_thief
+
+	3299.12.8 = { birth = yes }
+	3361.4.12 = { death = { death_reason = death_old_age } }
+}
+redspear_1000_brother = { #Heir for 440 because of how old redspear_1000 is at start and low fertility
+	name = "Gogvard"
+	dynasty = 340004
+	culture = skaal
+	religion = anuic_skaal
+	father = redspear_999
+	mother = redspear_999_wife
+
+	trait = sign_mage
+
+	3326.4.2 = { birth = yes }
+	3344.6.12 = { add_spouse = heartfang_2000_sister }
+	3367.6.18 = { death = { death_reason = death_hunting_accident } }
+}
+redspear_1000 = {
+	name = "Frea"
+	dynasty = 340004
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = redspear_999
+	mother = redspear_999_wife
+
+	trait = compassionate #Let Rieklings leave Himmelhost peacefully
+	trait = brave
+	trait = paranoid #And now regrets doing so out of fear the Rieklings want 'revenge' for something that never happened
+	trait = unyielding_defender
+	trait = sign_apprentice
+
+	3320.7.25 = { birth = yes }
+	3355.12.7 = { 
+		effect = {
+			if = {
+				limit = { character:redspear_999_sister = { is_alive = yes } }
+				set_relation_friend = { reason = friend_generic_history target = character:redspear_999_sister }
+			}
+		} 
+	}
+	3361.3.7 = { effect = { learn_language = language_nordic } } #Starts to talk to flamehair_1002 about faith
+	3361.3.8 = {
+		add_matrilineal_spouse = flamehair_1002
+		effect = {
+			if = {
+				limit = { character:flamehair_1000 = { is_alive = yes } }
+				create_alliance = {
+					target = character:flamehair_1000
+					allied_through_owner = character:redspear_1000
+					allied_through_target = character:flamehair_1002
+				}
+			}
+		}
+	}
+	3361.3.9 = { 
+		effect = {
+			if = {
+				limit = { character:flamehair_1002 = { is_alive = yes } }
+				set_relation_friend = { reason = friend_generic_history target = character:flamehair_1002 }
+			}
+		} 
+	}
+	3379.7.27 = { death = { death_reason = death_old_age } }
+}
+
+redspear_1001 = {
+	name = "Broild"
+	dynasty = 340004
+	culture = skaal
+	religion = anuic_skaal
+	mother = redspear_1000
+	father = flamehair_1002
+
+	trait = sign_ritual
+	
+	3362.1.12 = { birth = yes }
+	3378.1.12 = {
+		add_trait = zealous
+		add_trait = callous
+		add_trait = ambitious #Father is related to the former Queen of Skyrim you say...
+	}
+	3385.9.18 = { add_spouse = redspear_1001_wife }
+	3424.7.18 = { death = yes }
+}
+
+redspear_1001_wife = {
+	name = "Margareth"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_lord
+	
+	3364.3.2 = { birth = yes }
+	3427.7.14 = { death = yes }
+}
+
+redspear_1002 = {
+	name = "Bodhild"
+	dynasty = 340004
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	mother = redspear_1001_wife
+	father = redspear_1001
+
+	trait = sign_steed
+	
+	3387.6.25 = { birth = yes }
+	3408.9.18 = { add_spouse = redspear_1002_husband }
+	3443.7.13 = { death = yes }
+}
+
+
+redspear_1002_husband = {
+	name = "Oivind"
+	culture = skaal
+	religion = anuic_skaal
+
+	trait = sign_apprentice
+	
+	3386.7.12 = { birth = yes }
+	3441.8.21 = { death = yes }
+}
+
+redspear_1003 = {
+	name = "Hjordis"
+	dynasty = 340004
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	mother = redspear_1002
+	father = redspear_1002_husband
+
+	trait = sign_lover
+	
+	3413.2.15 = { birth = yes }
+	3433.9.20 = { add_spouse = redspear_1003_husband }
+	3467.12.12 = { death = yes }
+}
+
+
+redspear_1003_husband = {
+	name = "Sogard"
+	culture = skaal
+	religion = anuic_skaal
+
+	trait = sign_lord
+	
+	3416.3.6 = { birth = yes }
+	3468.4.17 = { death = yes }
+}
+
+redspear_1004 = {
+	name = "Mikkel"
+	dynasty = 340004
+	culture = skaal
+	religion = anuic_skaal
+	mother = redspear_1003
+	father = redspear_1003_husband
+
+	trait = sign_ritual
+	
+	3434.1.17 = { birth = yes }
+	3454.5.11 = { add_spouse = redspear_1004_wife }
+	3476.2.17 = { death = { death_reason = death_froze} }
+}
+
+redspear_1004_wife = {
+	name = "Brita"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_thief
+	
+	3434.12.13 = { birth = yes }
+	3476.2.18 = { death = { death_reason = death_froze} } #Went looking for husband in blizzard, also freezes
+}
+
+redspear_1005 = { #Alliance war
+	name = "Froydis"
+	dynasty = 340004
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	father = redspear_1004
+	mother = redspear_1004_wife
+	
+	3456.4.19 = { birth = yes }
+	3475.8.16 = { add_spouse = redspear_1005_husband }
+	3509.2.17 = { death = yes }
+}
+
+redspear_1005_husband = {
+	name = "Ingvar"
+	culture = skaal
+	religion = anuic_skaal
+
+	trait = sign_steed
+	
+	3454.6.8 = { birth = yes }
+	3509.9.13 = { death = yes }
+}
+
+redspear_2000 = { #redspear_1000_brother line #Marries highshoal_100? Too much interaction with the mainland?
+	name = "Yrsika"
+	dynasty = 340004
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = redspear_1000_brother
+	mother = heartfang_2000_sister
+
+	trait = sign_lover
+
+	3346.2.17 = { birth = yes }
+	#3366.6.12 = { add_spouse = ### }
+	3398.12.11 = { death = { death_reason = death_old_age } }
+}
+
+## Ice-Mane Dynasty #Also survives to the Third Era
+icemane_998 = {
+	name = "Hadraak"
+	dynasty = 340002
+	culture = skaal
+	religion = anuic_skaal
+
+	trait = sign_steed
+
+	3272.6.11 = { birth = yes }
+	3295.5.5 = { add_spouse = icemane_998_wife }
+	3331.9.7 = { death = { death_reason = death_old_age } }
+}
+icemane_998_wife = {
+	name = "Anista"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_lady
+
+	3272.9.21 = { birth = yes }
+	3335.12.8 = { death = { death_reason = death_old_age } }
+}
+icemane_999_brother = {
+	name = "Hakon"
+	dynasty = 340002
+	culture = skaal
+	religion = anuic_skaal
+	father = icemane_998
+	mother = icemane_998_wife
+
+	trait = sign_lover
+
+	3298.2.13 = { birth = yes }
+	3329.1.6 = { add_spouse = icemane_999_brother_wife }
+	3357.8.5 = { death = { death_reason = death_old_age } }
+}
+icemane_999_brother_wife = {
+	name = "Abelva"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_apprentice
+
+	3298.7.4 = { birth = yes }
+	3361.8.5 = { death = { death_reason = death_old_age } }
+}
+icemane_999_niece = { #Married to cruelsea_200
+	name = "Tormhilde"
+	dynasty = 340002
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = icemane_999_brother
+	mother = icemane_999_brother_wife
+
+	trait = patient
+	trait = fickle
+	trait = wrathful
+	trait = adventurer #Left the island and met her husband
+	trait = sign_atronach
+
+	3332.11.8 = { birth = yes }
+	3333.1.1 = { effect = { learn_language = language_nordic } }
+	3394.12.15 = { death = { death_reason = death_old_age } }
+}
+icemane_999 = {
+	name = "Unatte"
+	dynasty = 340002
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = icemane_998
+	mother = icemane_998_wife
+
+	trait = sign_steed
+
+	3296.6.11 = { birth = yes }
+	3327.8.26 = { add_spouse = snowbourne_97_brother }
+	3352.8.5 = { death = { death_reason = death_old_age } }
+}
+icemane_1000_sister = { #Wife to cragstrider_100
+	name = "Alfhnhild"
+	dynasty = 340002
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = snowbourne_97_brother
+	mother = icemane_999
+
+	trait = adventurer
+	trait = impatient
+	trait = scholar
+	trait = calm
+	trait = compassionate
+	trait = sign_warrior
+
+	3330.8.12 = { birth = yes }
+	3360.1.1 = { employer = gardner_1000 }
+	3369.1.1 = { move_to_pool = yes }
+	3387.9.5 = { death = { death_reason = death_old_age } }
+}
+icemane_1000 = {
+	name = "Halbarn"
+	dynasty = 340002
+	culture = skaal
+	religion = anuic_skaal
+	father = snowbourne_97_brother
+	mother = icemane_999
+
+	trait = wrathful
+	trait = callous
+	trait = zealous
+	trait = sign_lord
+	
+	3328.3.17 = { birth = yes }
+	3353.8.26 = { add_spouse = icemane_1000_wife }
+	3354.8.14 = { 
+		effect = {
+			if = {
+				limit = { character:heartfang_1000 = { is_alive = yes } }
+				set_relation_friend = { reason = friend_generic_history target = character:heartfang_1000 }
+			}
+		} 
+	}
+	3389.9.5 = { death = { death_reason = death_old_age } }
+}
+icemane_1000_wife = {
+	name = "Anislief"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = chaste
+	trait = patient
+	trait = vengeful
+	trait = sign_apprentice
+	
+	3331.7.9 = { birth = yes }
+	3378.6.16 = { death = { death_reason = death_old_age } }
+}
+icemane_1001 = {
+	name = "Adalvir"
+	dynasty = 340002
+	culture = skaal
+	religion = anuic_skaal
+
+	father = icemane_1000
+	mother = icemane_1000_wife
+
+	trait = craven
+	trait = rowdy
+	trait = sign_lover
+
+	disallow_random_traits = yes
+	
+	3353.2.7 = { birth = yes }
+	3359.2.7 = {
+		effect = {
+			if = {
+				limit = { is_married = no }
+				create_betrothal = character:heartfang_1002_sister
+			}
+		}
+	}
+	3369.2.7 = {
+		remove_trait = rowdy
+		add_trait = trusting
+		add_trait = forgiving
+	}
+	3369.2.8 = { add_spouse = heartfang_1002_sister }
+	3409.2.3 = { death = { death_reason = death_old_age } }
+}
+icemane_1002 = {
+	name = "Huskr"
+	dynasty = 340002
+	culture = skaal
+	religion = anuic_skaal
+	father = icemane_1001
+	mother = heartfang_1002_sister
+
+	trait = sign_steed
+	
+	3369.6.29 = { birth = yes }
+	3388.6.2 = { add_spouse = icemane_1002_wife }
+	3423.8.17 = { death = yes }
+}
+icemane_1002_sister = {
+	name = "Rigrier"
+	dynasty = 340002
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = icemane_1001
+	mother = heartfang_1002_sister
+
+	trait = sign_lover
+	
+	3373.2.25 = { birth = yes }
+	3388.2.17 = { add_spouse = icemane_1002_sister_husband }
+	3428.11.21 = { death = yes }
+}
+icemane_1002_wife = {
+	name = "Hjoranlund"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_lord
+	
+	3372.3.21 = { birth = yes }
+	3422.1.16 = { death = yes }
+}
+icemane_1003 = {
+	name = "Vutmirr"
+	dynasty = 340002
+	culture = skaal
+	religion = anuic_skaal
+	father = icemane_1002
+	mother = icemane_1002_wife
+
+	trait = sign_lord
+	
+	3393.3.14 = { birth = yes }
+	3423.2.17 = { add_spouse = icemane_1003_wife }
+	3446.6.13 = { death = yes }
+}
+
+icemane_1003_wife = {
+	name = "Gydridur"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_ritual
+	
+	3394.1.2 = { birth = yes }
+	3444.5.15 = { death = yes }
+}
+
+icemane_1004 = {
+	name = "Elvy"
+	dynasty = 340002
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = icemane_1003
+	mother = icemane_1003_wife
+
+	trait = sign_shadow
+	
+	3424.5.1 = { birth = yes }
+	3447.11.12 = { add_spouse = icemane_1004_husband }
+	3475.12.16 = { death = { death_reason = death_froze}}
+}
+
+icemane_1004_husband = {
+	name = "Brimthor"
+	culture = skaal
+	religion = anuic_skaal
+
+	trait = sign_steed
+	
+	3423.6.12 = { birth = yes }
+	3475.10.16 = { death = { death_reason = death_froze}}
+}
+
+icemane_1005 = { #Alliance War
+	name = "Rognvald"
+	dynasty = 340002
+	culture = skaal
+	religion = anuic_skaal
+	father = icemane_1004_husband
+	mother = icemane_1004
+
+	trait = sign_lover
+	
+	3456.2.21 = { birth = yes }
+	3479.9.16 = { add_spouse = icemane_1005_wife }
+	3518.8.7 = { death = yes }
+}
+
+icemane_1005_wife = {
+	name = "Brimthor"
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+
+	trait = sign_mage
+	
+	3456.4.17 = { birth = yes }
+	3521.7.19 = { death = yes }
+}
+
+#### Sister line
+icemane_1002_sister_husband = {
+	name = "Klismenl"
+	culture = skaal
+	religion = anuic_skaal
+
+	trait = sign_ritual
+	
+	3374.1.7 = { birth = yes }
+	3427.4.26 = { death = yes }
+}
+
+icemane_2000 = {
+	name = "Gondyldr"
+	dynasty = 340002
+	culture = skaal
+	religion = anuic_skaal
+	female = yes
+	father = icemane_1002_sister_husband
+	mother = icemane_1002_sister
+
+	trait = twin
+	trait = sign_lover
+	
+	3373.2.25 = { birth = yes }
+	3428.11.21 = { death = yes }
+}
+
+icemane_2001 = {
+	name = "Runwiskr"
+	dynasty = 340002
+	culture = skaal
+	religion = anuic_skaal
+	father = icemane_1002_sister_husband
+	mother = icemane_1002_sister
+
+	trait = twin
+	trait = sign_lover
+	
+	3373.2.25 = { birth = yes }
+	3429.7.17 = { death = yes }
+}
+## Crag-Strider
+cragstrider_100 = { #Ancestor of Storn Crag-Strider, bored with tribal life so went out to see the world
+	name = "Balfring"
+	culture = skaal
+	religion = anuic_skaal
+	dynasty = 340006
+
+	trait = education_learning_2
+	trait = arrogant #thinks Solstheim is too little for him 
+	trait = cynical #went away from the tribe and its simple ways
+	trait = just #he knows right from wrong though, skaal morals have been drilled into him
+	trait = adventurer
+	trait = lifestyle_blademaster
+	trait = sign_warrior
+
+	3330.8.19 = { birth = yes }
+	3354.1.1 = {
+		effect = { #made his mark and skaal are an oddity on the mainland, moreso outside of skyrim
+			add_prestige_level = 3
+		}
+	}
+	3357.4.22 = { add_spouse = icemane_1000_sister }
+	# 3358.1.1 = { give_nickname = nick_the_own_culture }
+
+	3360.1.1 = { employer = gardner_1000 }
+	3365.1.1 = { effect = { if = { limit = { has_dlc_feature = royal_court } create_inspiration = adventure_inspiration } } }
+	3369.1.1 = { move_to_pool = yes }
+	3400.10.16 = { death = { death_reason = death_old_age } }
+}
+cragstrider_101 = { #Maybe marries tamrith_1003 (in 00_breton.txt)?
+	name = "Korgvir"
+	culture = skaal
+	religion = anuic_skaal
+	dynasty = 340006
+	father = cragstrider_100
+	mother = icemane_1000_sister
+
+	trait = sign_lord
+
+	3358.3.4 = { birth = yes }
+	3360.1.1 = { employer = gardner_1000 }
+	3369.1.1 = { move_to_pool = yes }
+	#3378.4.22 = { add_spouse = cragstrider_101_wife OR tamrith_1003 }
+	3421.11.14 = { death = { death_reason = death_old_age } }
+}
+#cragstrider_101_wife = { #Stand in until checked about tamrith_1003
+#	name = "Dabirrie"
+#	culture = northmen
+#	religion = breton_cult
+#	dynasty = 340006
+#	father = cragstrider_100
+#	mother = icemane_1000_sister
+#
+#	trait = sign_ritual
+#
+#	3356.1.14 = { birth = yes }
+#	3422.5.8 = { death = { death_reason = death_old_age } }
+#}

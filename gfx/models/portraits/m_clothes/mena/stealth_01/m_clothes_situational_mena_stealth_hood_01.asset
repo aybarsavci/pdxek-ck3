@@ -1,0 +1,38 @@
+pdxmesh = {
+	name = "male_clothes_situational_mena_stealth_hood_01_mesh"
+	file = "m_clothes_situational_mena_stealth_hood_01.mesh"
+
+	#EK ADDITION
+	blend_shape = { id = "male_argonian_blendshape"		type = "m_clothes_situational_mena_stealth_hood_01_bs_argonian.mesh" }
+	blend_shape = { id = "male_khajiit_blendshape"		type = "m_clothes_situational_mena_stealth_hood_01_bs_khajiit.mesh" }
+	#EK ADDITION END
+
+	meshsettings = {
+		name = "male_clothes_situational_mena_stealth_hood_01Shape"
+		index = 0
+		texture_diffuse = "m_clothes_situational_mena_stealth_01_diffuse.dds"
+		texture_normal = "m_clothes_situational_mena_stealth_01_normal.dds"
+		texture_specular = "m_clothes_situational_mena_stealth_01_properties.dds"
+		shader = "portrait_attachment_pattern_alpha_to_coverage"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+
+entity = {
+	name = "male_clothes_situational_mena_stealth_hood_01_entity"
+	pdxmesh = "male_clothes_situational_mena_stealth_hood_01_mesh"
+
+	#EK ADDITION
+	attribute = { name = "argonian_head_bs"					blend_shape = "male_argonian_blendshape" }
+	attribute = { name = "khajiit_head_bs"					blend_shape = "male_khajiit_blendshape" }
+	#EK ADDITION END
+
+	game_data = {
+        portrait_entity_user_data = {
+			portrait_accessory = {
+				pattern_mask = "gfx/models/portraits/m_clothes/mena/stealth_01/m_clothes_situational_mena_stealth_01_masks.dds"	#Any 4-channel texture. Each channel will be used to mask a pattern from the variation object
+				variation = "mena_stealth"	#A "variation" object in gfx/portraits/accessory_variations/
+			}
+        }
+	}
+}

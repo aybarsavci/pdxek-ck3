@@ -1,0 +1,61 @@
+﻿# County changes faith.
+# Root is the county title
+# scope:old_faith is the faith it used to have
+ek_on_county_faith_change = {
+}
+
+# Root = County title
+# scope:old_culture = old culture
+ek_on_county_culture_change = {
+	effect = {
+		if = {
+			limit = { NOT = { any_province = { culture = scope:old_culture } } }
+			scope:old_culture = { culture_become_dead_effect = yes }
+		}
+		# Argonian/Non-Argonian Minority Plague Resistance/Vulnerability
+		# If a county gets culture converted away from Argonians (tradition_histskin), they get an argonian minority plague resistence, implying that there are still some argonians around.
+		if = {
+			limit = {
+				scope:old_culture = { has_cultural_tradition = tradition_histskin }
+				NOT = { culture = { has_cultural_tradition = tradition_histskin } }
+			}
+			add_county_modifier = {
+				modifier = argonian_minority_plague_resistance
+				years = 5
+			}
+		}
+		# If a county gets culture converted _to_ Argonian (tradition_histskin), they get a non-argonian minority plague resistence, implying that there are still some non-argonians around.
+		if = {
+			limit = {
+				NOT = { scope:old_culture = { has_cultural_tradition = tradition_histskin } }
+				culture = { has_cultural_tradition = tradition_histskin }
+			}
+			add_county_modifier = {
+				modifier = non_argonian_minority_plague_vulnerability
+				years = 5
+			}
+		}
+		# Likewise, if a province gets reconverted to argonian, but the argonian_minority_plague_resistance is still active, it gets removed.
+		if = {
+			limit = {
+				root.culture = { has_cultural_tradition = tradition_histskin }
+				has_county_modifier = argonian_minority_plague_resistance
+			}
+			remove_county_modifier = argonian_minority_plague_resistance
+		}
+		# Likewise, if a province gets reconverted to non-argonian, but the non_argonian_minority_plague_vulnerability is still active, it gets removed.
+		if = {
+			limit = {
+				NOT = { root.culture = { has_cultural_tradition = tradition_histskin } }
+				has_county_modifier = non_argonian_minority_plague_vulnerability
+			}
+			remove_county_modifier = non_argonian_minority_plague_vulnerability
+		}
+	}
+}
+
+visit_vineyard_cancel = {
+	effect = {
+		remove_decision_cooldown = visit_vineyard
+	}
+}

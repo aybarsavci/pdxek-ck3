@@ -1,0 +1,44 @@
+
+###### a #######
+pdxmesh = {
+	name = "male_arg_feathers_tail_1_mesh"
+	file = "male_arg_feathers_tail_1.mesh"
+
+	additive_animation = { id = "tail_length" type = "tail_length.anim" }
+	additive_animation = { id = "tail_height" 				type = "tail_height.anim" }
+	additive_animation = { id = "tail_infant_proportions"	type = "tail_child_proportions.anim" }
+
+	animation = { id = "tail_idle"		type = "tail_idle.anim" }
+	
+	meshsettings = {
+		name = "tail_feathers"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_tail_1_entity"
+	pdxmesh = "male_arg_feathers_tail_1_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+	attribute = { name = "tail_length" 						additive_animation = "tail_length" default = 1.0 }
+	attribute = { name = "body_height" 						additive_animation = "tail_height" default = 0.5 }
+	attribute = { name = "body_infant_proportions" 			additive_animation = "tail_infant_proportions" default = 0.5 }
+
+	default_state = "idle"
+	state = { 
+		name = "idle"
+		animation = "tail_idle"
+		looping = yes 
+	}
+}

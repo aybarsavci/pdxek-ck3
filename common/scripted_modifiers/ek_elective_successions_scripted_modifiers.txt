@@ -1,0 +1,1019 @@
+﻿elector_voting_pattern_circumstances_moot_elective_modifier = {
+	#Vassals will tend to pick heirs that are the current ruler's children/close relatives when under Moot.
+	modifier = { #Electors favour a "Nordic" personality
+		add = 15
+		desc = tooltip_feudal_elector_vote_moot 
+		this = scope:candidate
+		OR = {
+			# has_trait = calm
+			has_trait = brave
+			has_trait = honest
+			has_trait = just
+		}
+	}
+	modifier = { #Electors dislike someone who doesn't fit Nordic ideals
+		add = -20
+		desc = tooltip_feudal_elector_vote_moot_bad
+		this = scope:candidate
+		OR = {
+			has_trait = sadistic
+			has_trait = arbitrary
+			has_trait = craven
+		}
+	}
+	modifier = { #Vassals will tend to pick heirs that are the current ruler's children when under Moot.
+		add = 100
+		desc = tooltip_feudal_elector_vote_pact_of_chieftains
+		NOT = { this = scope:candidate }
+		scope:holder = {
+			NOT = { this = root }
+			is_parent_of = scope:candidate
+		}
+	}
+	modifier = { #Vassals will tend to pick heirs that are the current ruler's close relatives when under Moot.
+		add = 75
+		desc = tooltip_feudal_elector_vote_pact_of_chieftains
+		NOT = { this = scope:candidate }
+		scope:holder = {
+			is_close_family_of = scope:candidate
+			NOT = { this = root }
+			NOT = { is_parent_of = scope:candidate }
+		}
+	}
+	modifier = { #Vassals will tend to pick heirs that are the current ruler's spouses when under Moot.
+		add = 50
+		desc = tooltip_feudal_elector_vote_pact_of_chieftains
+		NOT = { this = scope:candidate }
+		scope:holder = {
+			NOT = { this = root }
+			is_spouse_of = scope:candidate
+		}
+	}
+	#Crown of Verity found worthy
+	modifier = {
+		add = 80
+		desc = tooltip_special_crown_verity_elector_vote_moot 	
+		scope:candidate = {
+			has_character_modifier = verity_worthy
+		}
+	}
+}
+
+elector_voting_pattern_circumstances_sorcerous_elective_modifier = {
+	##########################	Additional patterns for the Parliament of Bugs	##########################
+	modifier = { #Arcana score
+		desc = tooltip_sorcerous_elector_vote_arcana
+		NOR = {
+			this = scope:holder
+			this = scope:candidate
+		}
+		scope:candidate = { arcana >= 10 }
+		add = {
+			value = 5
+			if = {
+				limit = {
+					scope:candidate = { arcana > 12 }
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					scope:candidate = { arcana > 16 }
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					scope:candidate = { arcana > 18 }
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					scope:candidate = { arcana > 20 }
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					scope:candidate = { arcana > 25 }
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					scope:candidate = { arcana > 30 }
+				}
+				add = 5
+			}
+		}
+	}
+	###Electors like someone who did their homework
+	modifier = { #Electors dislike someone with lackluster magic studies
+		add = -20
+		desc = tooltip_sorcerous_elector_vote_arcana_education_bad
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = { has_trait = education_magic_1 }
+	}
+	modifier = { #Electors favour arcane knowledge
+		add = 15
+		desc = tooltip_sorcerous_elector_vote_arcana_education 
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = {
+			OR = {
+				has_trait = education_magic_2
+				has_trait = education_magic_3
+			}
+		}
+	}
+	modifier = { #Electors love someone with profund magic abilities
+		add = 25
+		desc = tooltip_sorcerous_elector_vote_arcana_education
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = { 
+			OR = {
+				has_trait = education_magic_4
+				has_trait = education_magic_5
+			}
+		}
+	}
+
+	###Since this is explicitly Dynastic, Vassals will tend to pick heirs with innate magic potential along with other lineage factors 
+	modifier = { #Electors favour arcane potential
+		add = 15
+		desc = tooltip_sorcerous_elector_vote_congenital_arcana 
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = {
+			OR = {
+				has_trait = arcana_good_1
+				has_trait = arcana_good_2
+			}
+		}
+	}
+	modifier = { #Electors love someone with a gift for magic
+		add = 30
+		desc = tooltip_sorcerous_elector_vote_congenital_arcana
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = { has_trait = arcana_good_3 }
+	}
+	modifier = { #Electors dislike someone who is magically lacking
+		add = -20
+		desc = tooltip_sorcerous_elector_vote_congenital_arcana_bad 
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = {
+			OR = {
+				has_trait = arcana_bad_1
+				has_trait = arcana_bad_2
+			}
+		}
+	}
+	modifier = { #Electors hate someone with a magic deficiency
+		add = -50
+		desc = tooltip_sorcerous_elector_vote_congenital_arcana_bad
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = { has_trait = arcana_bad_3 }
+	}
+	modifier = { #Electors like noble bloodlines
+		add = 30
+		desc = tooltip_feudal_elector_vote_purity
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = {
+			OR = {
+				has_trait = pure_blooded
+				has_trait = divine_blood
+				has_trait = consecrated_blood
+			}
+		}
+	}
+	modifier = { #Vassals will tend to pick heirs that are the current ruler's children when under Ceremoniarchy.
+		add = 50
+		desc = tooltip_feudal_elector_vote_ruling_dynasty
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:holder = {
+			NOT = { this = root }
+			is_parent_of = scope:candidate
+		}
+	}
+	modifier = { #Vassals will tend to pick heirs that are the current ruler's close relatives when under Ceremoniarchy.
+		add = 25
+		desc = tooltip_feudal_elector_vote_ruling_dynasty
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:holder = {
+			is_close_family_of = scope:candidate
+			NOT = { this = root }
+			NOT = { is_parent_of = scope:candidate }
+		}
+	}
+}
+
+elector_voting_pattern_circumstances_magelord_elective_modifier = {
+	##########################	Additional patterns for the Parliament of Bugs	##########################
+	modifier = { #Arcana score
+		desc = tooltip_sorcerous_elector_vote_arcana
+		NOR = {
+			this = scope:holder
+			this = scope:candidate
+		}
+		scope:candidate = { arcana >= 10 }
+		add = {
+			value = 5
+			if = {
+				limit = {
+					scope:candidate = { arcana > 12 }
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					scope:candidate = { arcana > 16 }
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					scope:candidate = { arcana > 18 }
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					scope:candidate = { arcana > 20 }
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					scope:candidate = { arcana > 25 }
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					scope:candidate = { arcana > 30 }
+				}
+				add = 5
+			}
+		}
+	}
+
+	###Electors still dislike Negative Affinity since it may have been a punishment
+	modifier = { #Electors dislike someone who is magically lacking
+		add = -10
+		desc = tooltip_sorcerous_elector_vote_congenital_arcana_bad 
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = {
+			OR = {
+				has_trait = arcana_bad_1
+				has_trait = arcana_bad_2
+			}
+		}
+	}
+	modifier = { #Electors hate someone with a magic deficiency
+		add = -25
+		desc = tooltip_sorcerous_elector_vote_congenital_arcana_bad
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = { has_trait = arcana_bad_3 }
+	}
+
+	###Electors like someone who did their homework
+	modifier = { #Electors despise someone with no clue about magic
+		add = -50
+		desc = tooltip_magelord_elector_vote_arcana_missing_education
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = {
+			NOR = {
+				has_trait = education_magic_1
+				has_trait = education_magic_2
+				has_trait = education_magic_3
+				has_trait = education_magic_4
+				has_trait = education_magic_5
+			}
+		}
+	}
+	modifier = { #Electors favour someone dabbling in magic
+		add = 10
+		desc = tooltip_sorcerous_elector_vote_arcana_education
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = { has_trait = education_magic_1 }
+	}
+	modifier = { #Electors favour arcane knowledge
+		add = 20
+		desc = tooltip_sorcerous_elector_vote_arcana_education
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = { has_trait = education_magic_2 }
+	}
+	modifier = { #Electors favour arcane knowledge
+		add = 30
+		desc = tooltip_sorcerous_elector_vote_arcana_education
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = { has_trait = education_magic_3 }
+	}
+	modifier = { #Electors love someone with profund magic abilities
+		add = 40
+		desc = tooltip_sorcerous_elector_vote_arcana_education
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = { has_trait = education_magic_4 }
+	}
+	modifier = { #Electors love someone with profund magic abilities
+		add = 50
+		desc = tooltip_sorcerous_elector_vote_arcana_education
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = { has_trait = education_magic_5 }
+	}
+
+	###Electors love Masters of a School of Magic, dislike someone with no mastery of at least a single one
+	modifier = { #Electors despise someone who is not a master of magic
+		add = -50
+		desc = tooltip_magelord_elector_vote_no_magic_mastery
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = {
+			NOR = {
+				has_perk = conjuration_journeyman_perk
+				has_perk = destruction_journeyman_perk
+				has_perk = alteration_journeyman_perk
+				has_perk = illusion_journeyman_perk
+				has_perk = restoration_journeyman_perk
+				has_perk = necromancy_journeyman_perk
+			}
+		}
+	}
+	modifier = { #Electors like someone with good skill at a School of Magic
+		add = 20
+		desc = tooltip_magelord_elector_vote_magic_adept
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = {
+			OR = {
+				has_perk = conjuration_journeyman_perk
+				has_perk = destruction_journeyman_perk
+				has_perk = alteration_journeyman_perk
+				has_perk = illusion_journeyman_perk
+				has_perk = restoration_journeyman_perk
+				has_perk = necromancy_journeyman_perk
+			}
+		}
+	}
+	modifier = { #Electors love someone who mastered a School of Magic
+		add = 40
+		desc = tooltip_magelord_elector_vote_magic_mastery
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:candidate = {
+			OR = {
+				has_perk = conjuration_master_perk
+				has_perk = destruction_master_perk
+				has_perk = alteration_master_perk
+				has_perk = illusion_master_perk
+				has_perk = restoration_master_perk
+				has_perk = necromancy_master_perk
+			}
+		}
+	}
+
+	###Since this is more meritocratic, Vassals only give a slight edge to the ruler's children, not even his entire close relatives
+	
+	modifier = { #Vassals will give a little edge to heirs that are the current ruler's children
+		add = 30
+		desc = tooltip_feudal_elector_vote_ruling_dynasty
+		NOT = { this = scope:candidate }
+		scope:holder = {
+			NOT = { this = root }
+			is_parent_of = scope:candidate
+		}
+	}
+}
+
+elector_voting_pattern_dunmeri_elective_modifier = {
+	##########################	Great House Elector voting patterns	##########################
+	
+	### GCM TODO: account for dynamic/formable houses
+	### GCM TODO: account for outlander stances
+
+	### House Values preferences
+	modifier = { # House Redoran prefers Warriors and Believers
+		add = 30
+		desc = tooltip_dunmeri_elector_vote_house_values_education_1
+		NOT = { this = scope:candidate }
+		scope:title = title:k_redoran 
+		#scope:title = { has_variable = flag:house_value_martial } #GCM TODO: unless GH status is dynamic, the variables are redundant
+		#scope:title = { has_variable = flag:house_value_learning }
+		scope:candidate = {
+			OR = {
+				martial >= 10
+				learning >= 10
+			}	
+			OR = {
+				has_trait = education_martial
+				has_trait = education_learning
+			}
+		}
+	}
+	modifier = { # Even better if they're good at both!
+		add = 20
+		desc = tooltip_dunmeri_elector_vote_house_values_education_2
+		NOT = { this = scope:candidate }
+		scope:title = title:k_redoran
+		#scope:title = { has_variable = flag:house_value_martial }
+		#scope:title = { has_variable = flag:house_value_learning }
+		scope:candidate = {
+			AND = {
+				martial >= 12
+				learning >= 12
+			}	
+			OR = {
+				has_trait = education_martial
+				has_trait = education_learning
+			}
+		}
+	}
+	modifier = { # House Hlaalu prefers Diplomats and Stewards
+		add = 30
+		desc = tooltip_dunmeri_elector_vote_house_values_education_1
+		NOT = { this = scope:candidate }
+		scope:title = title:k_hlaalu
+		#scope:title = { has_variable = flag:house_value_diplomacy }
+		#scope:title = { has_variable = flag:house_value_stewardship }
+		scope:candidate = {
+			OR = {
+				diplomacy >= 10
+				stewardship >= 10
+			}	
+			OR = {
+				has_trait = education_diplomacy
+				has_trait = education_stewardship
+			}
+		}
+	}
+	modifier = { # Even better if they're good at both!
+		add = 20
+		desc = tooltip_dunmeri_elector_vote_house_values_education_2
+		NOT = { this = scope:candidate }
+		scope:title = title:k_hlaalu
+		#scope:title = { has_variable = flag:house_value_diplomacy }
+		#scope:title = { has_variable = flag:house_value_stewardship }
+		scope:candidate = {
+			AND = {
+				diplomacy >= 12
+				stewardship >= 12
+			}	
+			OR = {
+				has_trait = education_diplomacy
+				has_trait = education_stewardship
+			}
+		}
+	}
+	modifier = { # House Indoril prefers Diplomats and Believers
+		add = 30
+		desc = tooltip_dunmeri_elector_vote_house_values_education_1
+		NOT = { this = scope:candidate }
+		scope:title = title:k_indoril
+		#scope:title = { has_variable = flag:house_value_diplomacy }
+		#scope:title = { has_variable = flag:house_value_learning }
+		scope:candidate = {
+			OR = {
+				diplomacy >= 10
+				learning >= 10
+			}	
+			OR = {
+				has_trait = education_diplomacy
+				has_trait = education_learning
+			}
+		}
+	}
+	modifier = { #  Even better if they're good at both!
+		add = 20
+		desc = tooltip_dunmeri_elector_vote_house_values_education_2
+		NOT = { this = scope:candidate }
+		scope:title = title:k_indoril
+		#scope:title = { has_variable = flag:house_value_diplomacy }
+		#scope:title = { has_variable = flag:house_value_learning }
+		scope:candidate = {
+			AND = {
+				diplomacy >= 12
+				learning >= 12
+			}	
+			OR = {
+				has_trait = education_diplomacy
+				has_trait = education_learning
+			}
+		}
+	}
+	modifier = { # House Dres prefers Schemers and Stewards
+		add = 30
+		desc = tooltip_dunmeri_elector_vote_house_values_education_1
+		NOT = { this = scope:candidate }
+		scope:title = title:k_dres
+		#scope:title = { has_variable = flag:house_value_martial }
+		#scope:title = { has_variable = flag:house_value_stewardship }
+		scope:candidate = {
+			OR = {
+				intrigue >= 10
+				stewardship >= 10
+			}	
+			OR = {
+				has_trait = education_intrigue
+				has_trait = education_stewardship
+			}
+		}
+	}
+	modifier = { #  Even better if they're good at both!
+		add = 20
+		desc = tooltip_dunmeri_elector_vote_house_values_education_2
+		NOT = { this = scope:candidate }
+		scope:title = title:k_dres
+		#scope:title = { has_variable = flag:house_value_martial }
+		#scope:title = { has_variable = flag:house_value_stewardship }
+		scope:candidate = {
+			AND = {
+				intrigue >= 12
+				stewardship >= 12
+			}	
+			OR = {
+				has_trait = education_intrigue
+				has_trait = education_stewardship
+			}
+		}
+	}
+	modifier = { # House Telvanni prefers Schemers and Sorcerers
+		add = 30
+		desc = tooltip_dunmeri_elector_vote_house_values_education_1
+		NOT = { this = scope:candidate }
+		scope:title = title:k_telvanni
+		#scope:title = { has_variable = flag:house_value_intrigue }
+		#scope:title = { has_variable = flag:house_value_arcana }
+		scope:candidate = {
+			OR = {
+				intrigue >= 10
+				has_arcana = { VALUE >= 10 }
+			}	
+			OR = {
+				has_trait = education_intrigue
+				has_trait = education_magic
+			}
+		}
+	}
+	modifier = { #  Even better if they're good at both!
+		add = 20
+		desc = tooltip_dunmeri_elector_vote_house_values_education_2
+		NOT = { this = scope:candidate }
+		scope:title = title:k_telvanni
+		#scope:title = { has_variable = flag:house_value_intrigue }
+		#scope:title = { has_variable = flag:house_value_arcana }
+		scope:candidate = {
+			AND = {
+				intrigue >= 12
+				has_arcana = { VALUE >= 12 }
+			}	
+			OR = {
+				has_trait = education_intrigue
+				has_trait = education_magic
+			}
+		}
+	}
+
+	#Founding Dynasty preferences
+
+	# Great House Redoran
+	modifier = {
+		add = 25
+		desc = tooltip_dunmeri_elector_vote_founding_dynasty
+		NOT = { this = scope:candidate }
+		scope:title = title:k_redoran
+		scope:candidate = {
+			dynasty = dynasty:dyn_redoran #redoran
+		}
+	}
+	# Great House Hlaalu
+	modifier = {
+		add = 25
+		desc = tooltip_dunmeri_elector_vote_founding_dynasty
+		NOT = { this = scope:candidate }
+		scope:title = title:k_hlaalu
+		scope:candidate = {
+			dynasty = dynasty:dyn_hlaalu #hlaalu
+		}
+	}
+	# Great House Indoril
+	modifier = {
+		add = 25
+		desc = tooltip_dunmeri_elector_vote_founding_dynasty
+		NOT = { this = scope:candidate }
+		scope:title = title:k_indoril
+		scope:candidate = {
+			dynasty = dynasty:dyn_indoril #indoril
+		}
+	}
+	#Note: Dres are decentralized and fact of Dres dynasty being founders hasn't been relevant for 3000 years
+	#Note: Telvanni don't care about dynasties, no modifier
+	#EK NOTE: disabled until support and undermine are fixed
+	# Support Scheme Modifier
+
+	# Undermine Scheme Modifier
+}
+
+elector_voting_pattern_altmeri_elective_modifier = {
+	##########################	Ceremoniarchy Elector voting patterns	##########################	
+
+	### Praxis Score = Voting Score
+	modifier = { 
+		desc = tooltip_altmeri_elector_vote_praxis
+		NOT = { this = scope:candidate }
+		scope:candidate = { has_variable = state_praxis } #otherwise it'll default to 100 before Praxis has calculated and been applied
+		add = {
+			value = 100
+			if = { #if I knew math I could probably do this in a more efficient way
+				limit = {
+					scope:candidate = { var:state_praxis = 0 }
+				}
+				multiply = 0
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 5 }
+				}
+				multiply = 0.05
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 10 }
+				}
+				multiply = 0.1
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 15 }
+				}
+				multiply = 0.15
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 20 }
+				}
+				multiply = 0.2
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 25 }
+				}
+				multiply = 0.25
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 30 }
+				}
+				multiply = 0.3
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 35 }
+				}
+				multiply = 0.35
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 40 }
+				}
+				multiply = 0.4
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 45 }
+				}
+				multiply = 0.45
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 50 }
+				}
+				multiply = 0.5
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 55 }
+				}
+				multiply = 0.55
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 60 }
+				}
+				multiply = 0.6
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 65 }
+				}
+				multiply = 0.65
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 70 }
+				}
+				multiply = 0.7
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 75 }
+				}
+				multiply = 0.75
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 80 }
+				}
+				multiply = 0.8
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 85 }
+				}
+				multiply = 0.85
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 90 }
+				}
+				multiply = 0.9
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 95 }
+				}
+				multiply = 0.95
+			}
+			else_if = {
+				limit = {
+					scope:candidate = { var:state_praxis <= 100 }
+				}
+				multiply = 1
+			}
+		}
+	}	
+
+	# These lacked from vanilla - Praxis really loves congenital traits
+	# Beauty positive
+	modifier = {
+		desc = tooltip_altmeri_elector_vote_beauty_good
+		NOT = { this = scope:candidate } #Do not judge yourself. 
+		scope:title = { has_title_law = altmeri_elective_succession_law }
+		scope:candidate = { has_trait = beauty_good }
+		add = {
+			value = 0
+			if = {
+				limit = {
+					scope:candidate = { has_trait = beauty_good_1 }
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = beauty_good_2 }
+				}
+				add = 20 
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = beauty_good_3 }
+				}
+				add = 30
+			}
+		}
+	}	
+	# Beauty negative
+	modifier = {
+		desc = tooltip_altmeri_elector_vote_beauty_bad
+		NOT = { this = scope:candidate } #Do not judge yourself. 
+		scope:title = { has_title_law = altmeri_elective_succession_law }
+		scope:candidate = { has_trait = beauty_bad }
+		add = {
+			value = 0
+			if = {
+				limit = {
+					scope:candidate = { has_trait = beauty_bad_1 }
+				}
+				add = -10
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = beauty_bad_2 }
+				}
+				add = -20 
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = beauty_bad_3 }
+				}
+				add = -30
+			}
+		}
+	}
+	# Physique negative (positive is already defined above)
+	modifier = {
+		desc = tooltip_altmeri_elector_vote_physique_bad
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:title = { has_title_law = altmeri_elective_succession_law }
+		scope:candidate = {
+			OR = {
+				has_trait = physique_bad
+				has_trait = weak
+			}
+		}
+		add = {
+			value = 0
+			if = {
+				limit = {
+					scope:candidate = { has_trait = physique_bad_1 }
+				}
+				add = -10
+			}
+			if = {
+				limit = {
+					scope:candidate = {
+						OR = {
+							has_trait = weak
+							has_trait = physique_bad_2
+						}
+					}
+				}
+				add = -20
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = physique_bad_3 }
+				}
+				add = -30
+			}
+		}
+	}	
+	# Impurity
+	modifier = {
+		desc = tooltip_altmeri_elector_vote_impurity
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:title = { has_title_law = altmeri_elective_succession_law }
+		scope:candidate = { has_trait = impure }
+		add = -30
+	}	
+	# Difference in Praxis traits
+	modifier = {
+		desc = tooltip_altmeri_elector_vote_dislikes_apraxic
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:title = { has_title_law = altmeri_elective_succession_law }
+		scope:candidate = {
+			has_trait = praxis_negative
+		}
+		root = {
+			has_trait = praxis_positive
+		}
+		add = {
+			value = 0
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_negative_3 }
+					root = { has_trait = praxis_positive_3 }
+				}
+				add = -70
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_negative_3 }
+					root = { has_trait = praxis_positive_2 }
+				}
+				add = -60
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_negative_3 }
+					root = { has_trait = praxis_positive_1 }
+				}
+				add = -50
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_negative_2 }
+					root = { has_trait = praxis_positive_3 }
+				}
+				add = -50
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_negative_2 }
+					root = { has_trait = praxis_positive_2 }
+				}
+				add = -40
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_negative_2 }
+					root = { has_trait = praxis_positive_1 }
+				}
+				add = -30
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_negative_1 }
+					root = { has_trait = praxis_positive_3 }
+				}
+				add = -30
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_negative_1 }
+					root = { has_trait = praxis_positive_2 }
+				}
+				add = -20
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_negative_1 }
+					root = { has_trait = praxis_positive_1 }
+				}
+				add = -10
+			}
+		}
+	}
+	modifier = {
+		desc = tooltip_altmeri_elector_vote_dislikes_praxic
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:title = { has_title_law = altmeri_elective_succession_law }
+		scope:candidate = {
+			has_trait = praxis_positive
+		}
+		root = {
+			has_trait = praxis_negative
+		}
+		add = {
+			value = 0
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_positive_3 }
+					root = { has_trait = praxis_negative_3 }
+				}
+				add = -70
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_positive_3 }
+					root = { has_trait = praxis_negative_2 }
+				}
+				add = -60
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_positive_3 }
+					root = { has_trait = praxis_negative_1 }
+				}
+				add = -50
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_positive_2 }
+					root = { has_trait = praxis_negative_3 }
+				}
+				add = -50
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_positive_2 }
+					root = { has_trait = praxis_negative_2 }
+				}
+				add = -40
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_positive_2 }
+					root = { has_trait = praxis_negative_1 }
+				}
+				add = -30
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_positive_1 }
+					root = { has_trait = praxis_negative_3 }
+				}
+				add = -30
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_positive_1 }
+					root = { has_trait = praxis_negative_2 }
+				}
+				add = -20
+			}
+			if = {
+				limit = {
+					scope:candidate = { has_trait = praxis_positive_1 }
+					root = { has_trait = praxis_negative_1 }
+				}
+				add = -10
+			}
+		}
+	}
+	# Prioritise children of ruler over other relatives
+	modifier = {
+		desc = tooltip_altmeri_elector_vote_prioritises_children
+		NOT = { this = scope:candidate } #Do not judge yourself.
+		scope:title = { has_title_law = altmeri_elective_succession_law }
+		scope:holder = {
+			is_parent_of = scope:candidate
+		}
+		add = 50
+	}
+}

@@ -1,0 +1,58 @@
+﻿# Remove tradition_cyrodiilic_subject
+ek_remove_cyrodiilic_subject = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	desc = ek_remove_cyrodiilic_subject_decision_desc
+
+	ai_check_interval = 120
+
+	is_shown = {
+		culture.culture_head = this
+		culture = { has_cultural_tradition = tradition_cyrodiilic_subject }
+	}
+
+	is_valid = {
+		OR = {
+			is_independent_ruler = yes
+			custom_tooltip = {
+				text = ek_remove_cyrodiilic_subject_requirement
+				NOT = { top_liege.culture = { has_cultural_tradition = tradition_imperial_legacy }}
+			}
+		}
+	}
+
+	cost = {
+		prestige = 500
+	}
+
+	effect = {
+		culture = { remove_culture_tradition = tradition_cyrodiilic_subject }
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	# AI should be relatively likely to do this
+	ai_will_do = {
+		base = 60
+		# Especially if they got something to prove
+		modifier = {
+			add = 20
+			has_trait = ambitious
+		}
+		modifier = {
+			add = 10
+			has_trait = arrogant
+		}
+		# Though some might not wanna do that
+		modifier = {
+			add = -20
+			has_trait = content
+		}
+		modifier = {
+			add = -10
+			has_trait = humble
+		}
+	}
+}

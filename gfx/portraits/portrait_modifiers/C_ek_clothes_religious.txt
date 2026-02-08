@@ -1,0 +1,875 @@
+﻿ek_clothes_religious = {
+
+    usage = game
+    selection_behavior = max
+	fallback = no_priest_clothing
+    priority = 3
+
+    no_priest_clothing = {
+        dna_modifiers = {          
+        }
+        weight = {
+            base = 10
+        }
+    }	
+	
+	## PRIEST / MONK CLOTHING FALLBACK ##
+	fallback_priest_clothing = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_generic_monk
+				range = { 0 1 }
+			}		
+			accessory = {
+				mode = add
+				gene = clothes
+				template = ek_generic_monk_clothes
+				range = { 0 1 }
+			}
+			
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }	
+		}
+		outfit_tags = { priest_outfit bishop_outfit }
+		weight = {
+			base = 0
+			modifier = {
+				add = 80
+				ek_portrait_religious_trigger_fallback = yes
+			}
+			modifier = {
+				add = 1000			
+				has_character_flag = dragon_cult_restoration_character_flag
+			}
+		}
+	}
+
+	## MOTH PRIEST ##	
+	moth_priest_clothing = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_moth_priest
+				range = { 0 1 }
+			}		
+			accessory = {
+				mode = add
+				gene = clothes
+				template = ek_moth_priest
+				range = { 0 1 }
+			}
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = western_common_legwear
+	            range = { 0 1 }
+	        }	
+		}
+		outfit_tags = { priest_outfit bishop_outfit }
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				OR = {
+					has_trait = p_tc_moth
+				}			
+				ek_portrait_religious_trigger_fallback = yes
+			}
+			#modifier = {	# dont think we need this anymore but dunno
+			#	add = 200			
+			#	has_trait = devoted
+			#	has_trait = p_tc_moth
+			#}
+		}
+	}
+	
+	## SHAMAN ##
+
+		ek_religious_reach_shaman_clothes = {
+			dna_modifiers = {
+				accessory = {
+					mode = add
+					gene = headgear
+					template = religious_steppe_high
+					range = { 0 1 }
+				}		
+				accessory = {
+					mode = add
+					gene = clothes
+					template = ek_reachman_shaman_clothes
+					range = { 0 1 }
+				}
+				accessory = {
+					mode = add
+					gene = legwear
+					template = mena_war_legwear
+					range = { 0 1 } # For the randomness to work correctly
+				}
+				accessory = {
+					mode = add
+					gene = cloaks
+					template = fp1_cloak_berserker
+					range = { 0 1 } # For the randomness to work correctly
+				}
+			}
+			outfit_tags = { priest_outfit }
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_cp4_dlc_trigger = no
+					OR = {
+						#Reach
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = old_gods
+						}
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = dwemer_idolatry
+						}
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = minotaur_cult
+						}
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = druadach_cult
+						}
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = hircine_coven
+						}	
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = malacath_coven
+						}	
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = namira_coven
+						}			
+					}
+				}
+			}
+		}
+
+		ek_religious_reach_shaman_clothes_ccp4 = {
+			dna_modifiers = {
+				accessory = {
+					mode = add
+					gene = headgear
+					template = religious_steppe_high
+					range = { 0 1 }
+				}		
+				accessory = {
+					mode = add
+					gene = clothes
+					template = ek_reachman_shaman_clothes
+					range = { 0 1 }
+				}
+				accessory = {
+					mode = add
+					gene = legwear
+					template = ccp4_sami_common_legwear
+					range = { 0 1 } # For the randomness to work correctly
+				}
+				accessory = {
+					mode = add
+					gene = cloaks
+					template = fp1_cloak_berserker
+					range = { 0 1 } # For the randomness to work correctly
+				}
+			}
+			outfit_tags = { priest_outfit }
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_cp4_dlc_trigger = yes
+					OR = {
+						#Reach
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = old_gods
+						}
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = dwemer_idolatry
+						}
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = minotaur_cult
+						}
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = druadach_cult
+						}
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = hircine_coven
+						}	
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = malacath_coven
+						}	
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = namira_coven
+						}			
+					}
+				}
+			}
+		}
+
+		ek_religious_generic_shaman_clothes = {
+			dna_modifiers = {
+				accessory = {
+					mode = add
+					gene = no_headgear
+					template = religious_steppe_high
+					range = { 0 1 }
+				}		
+				accessory = {
+					mode = add
+					gene = clothes
+					template = ek_reachman_shaman_clothes
+					range = { 0 1 }
+				}
+				accessory = {
+					mode = add
+					gene = legwear
+					template = no_legwear
+					range = { 0 1 } # For the randomness to work correctly
+				}
+			}
+			outfit_tags = { priest_outfit }
+			weight = {
+				base = 0
+				modifier = {
+					add = 100
+					has_cp4_dlc_trigger = yes
+					OR = {
+						#Hist
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = hist
+						}
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = lilmothiit_hist
+						}
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = ghostpeople
+						}
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = amberhist
+						}
+						ek_portrait_religious_trigger= {
+							FAITH_INPUT = sunhist
+						}				
+					}
+				}
+			}
+		}
+	
+	## NEDIC PRIEST ##
+	
+		ek_religious_nedic_priest_clothes = {
+	    dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				value = 0
+			}		
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = ek_south_nedic_low_nobility_clothes
+	            range = { 0 1 }
+	        }
+			accessory = {
+				mode = add
+				gene = legwear
+				template = ek_south_nedic_low_nobility_legwear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+	    }
+	    outfit_tags = { priest_outfit }
+	    weight = {
+	        base = 0
+	        modifier = {
+				add = 100
+				OR = {
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = nedic_cult
+					}
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = sanguine_mysteries
+					}					
+				}
+			}
+	    }
+	}
+	
+	## ORMA PRIEST ##
+	
+		ek_religious_orma_priest_clothes = {
+	    dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_south_nedic_orma_common
+				value = 0
+			}		
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = ek_south_nedic_low_nobility_clothes
+	            range = { 0 1 }
+	        }
+			accessory = {
+				mode = add
+				gene = legwear
+				template = ek_south_nedic_low_nobility_legwear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+	    }
+	    outfit_tags = { priest_outfit }
+	    weight = {
+	        base = 0
+	        modifier = {
+				add = 100
+				OR = {
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = orma_cult
+					}
+				}
+			}
+	    }
+	}
+
+	## BRIARHEART ##
+	ek_religious_reach_briarheart_clothes = {
+	    dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = ek_riekling_commoner_clothes
+	            value = 1
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = no_legwear
+	            value = 1
+	        }
+	        morph = {
+				mode = modify_multiply
+				gene = gene_bs_bust
+				value = 0.8
+				template = bust_clothes
+			}
+
+	    }
+	    weight = {
+	        base = 0
+	        modifier = {
+				add = 500
+				AND = {
+					has_trait = briarheart
+				}
+				
+			}
+	    }
+	}	
+	
+	## ORC PRIEST ##
+	
+		ek_religious_orc_shaman_clothes = {
+	    dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = religious_northern_high
+				value = 0
+			}		
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = religious_northern_high_clothes
+	            range = { 0 1 }
+	        }
+			accessory = {
+				mode = add
+				gene = legwear
+				template = mena_war_legwear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+	    }
+	    outfit_tags = { priest_outfit }
+	    weight = {
+	        base = 0
+	        modifier = {
+				add = 100
+				OR = {
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = code_of_malacath
+					}				
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = goblin_shamanism
+					}
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = malacath_brutal_breed
+					}
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = osh_ornim
+					}						
+				}
+			}
+	    }
+	}
+	
+	## GREEN PACT ##
+	
+		ek_religious_green_pact_clothes = {
+	    dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				value = 0
+			}		
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = ek_bosmer_commoner_clothes
+	            range = { 0 1 }
+	        }
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+	    }
+	    outfit_tags = { priest_outfit }
+	    weight = {
+	        base = 0
+	        modifier = {
+				add = 100
+				OR = {
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = greenpact
+					}
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = vineduskpact
+					}
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = blacksapmovement
+					}
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = wilderking
+					}					
+				}
+			}
+	    }
+	}
+	
+	## ASHLANDER PRIEST ##	
+	
+	ek_religious_ashlander_common = {
+	    dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				value = 0
+			}		
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = ek_religious_ashlander
+	            range = { 0 1 }
+	        }
+			accessory = {
+				mode = add
+				gene = legwear
+				template = mena_war_legwear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+	    }
+	    outfit_tags = { priest_outfit }
+	    weight = {
+	        base = 0
+	        modifier = {
+				add = 100
+				OR = {
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = old_velothi
+					}
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = coiled_path
+					}
+				}
+			}
+	    }
+	}
+
+	## TRIBUNAL PRIEST ##	
+	
+	ek_religious_tribunal_common = {
+	    dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				value = 0
+			}		
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = ek_religious_dunmer_temple
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = cloaks
+	            template = ek_religious_dunmer_pauldrons
+	            range = { 0 1 }
+	        }
+			accessory = {
+				mode = add
+				gene = legwear
+				template = mena_war_legwear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+	    }
+	    outfit_tags = { priest_outfit }
+	    weight = {
+	        base = 0
+	        modifier = {
+				add = 100
+				OR = {
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = tribunal_temple
+					}
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = tribunal_cult
+					}
+				}
+			}
+	    }
+	}
+		
+	## ALDMERI PRIEST ##	
+
+	ek_religious_aldmeri_robes_common = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_altmer_priest
+				value = 0.3
+			}		
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = ek_altmer_common_clothes
+	            value = 0
+	        }
+			accessory = {
+				mode = add
+				gene = legwear
+				template = ek_altmer_common_legwear
+	            value = 0
+			}
+	    }
+
+	    outfit_tags = { priest_outfit }
+	    weight = {
+	        base = 0
+	        modifier = {
+				add = 100
+				OR = {
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = auriel
+					}
+					AND = {					# for if we want the priest clothes to be determined by culture aesthetic as well, should do this for reachmen as well
+						ek_portrait_religious_trigger_fallback = yes	# religious clothing fallback trigger
+						portrait_ek_aldmeri_clothing_trigger = yes		# specific cultural clothing trigger
+					}
+				}
+			}
+	    }
+	}
+	ek_religious_aldmeri_robes_lowborn = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_altmer_priest
+				value = 0
+			}		
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = ek_generic_monk_clothes
+				value = 1
+	        }
+			accessory = {
+				mode = add
+				gene = legwear
+				template = mena_war_legwear
+	            value = 0
+			}
+	    }
+
+	    outfit_tags = { priest_outfit }
+	    weight = {
+	        base = 0
+	        modifier = {
+				add = 120
+				OR = {
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = auriel
+					}
+					AND = {					# for if we want the priest clothes to be determined by culture aesthetic as well, should do this for reachmen as well
+						ek_portrait_religious_trigger_fallback = yes	# religious clothing fallback trigger
+						portrait_ek_aldmeri_clothing_trigger = yes		# specific cultural clothing trigger
+					}
+				}
+				### custom setup for lowly altmer priests, ignore for other faiths/cultures vvv
+				is_lowborn = yes
+				OR = {
+					AND = {
+						is_ruler = yes
+						highest_held_title_tier = tier_barony
+						NOT = {has_council_position = councillor_court_chaplain}
+					}
+					AND = {
+						has_council_position = councillor_court_chaplain
+						exists = liege
+						liege = {
+							highest_held_title_tier = tier_county
+							NOT = { has_government = theocracy_government }
+						}
+					}
+				}
+			}
+	    }
+	}
+
+	ek_imga_anui_el_clothes_common = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_altmer_priest
+				value = 0.6
+			}		
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ek_altmer_cloak_low
+				value = 1.0
+			}		
+		}
+	    outfit_tags = { priest_outfit }
+	    weight = {
+	        base = 0
+	        modifier = {
+				add = 100
+				OR = {
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = anui_el
+					}
+					AND = {					# for if we want the priest clothes to be determined by culture aesthetic as well, should do this for reachmen as well
+						ek_portrait_religious_trigger_fallback = yes	# religious clothing fallback trigger
+						portrait_ek_imga_clothing_trigger = yes		# specific cultural clothing trigger
+					}
+				}
+			}
+	    }
+	}
+	ek_imga_anui_el_clothes_lowborn = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_altmer_priest
+				value = 0.3
+			}		
+		}
+	    outfit_tags = { priest_outfit }
+	    weight = {
+	        base = 0
+	        modifier = {
+				add = 100
+				OR = {
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = anui_el
+					}
+					AND = {					# for if we want the priest clothes to be determined by culture aesthetic as well, should do this for reachmen as well
+						ek_portrait_religious_trigger_fallback = yes	# religious clothing fallback trigger
+						portrait_ek_imga_clothing_trigger = yes		# specific cultural clothing trigger
+					}
+				}
+				### custom setup for lowly altmer priests, ignore for other faiths/cultures vvv
+				## same thing for imga to keep consistant ig
+				is_lowborn = yes
+				OR = {
+					AND = {
+						is_ruler = yes
+						highest_held_title_tier = tier_barony
+						NOT = {has_council_position = councillor_court_chaplain}
+					}
+					AND = {
+						has_council_position = councillor_court_chaplain
+						exists = liege
+						liege = {
+							highest_held_title_tier = tier_county
+							NOT = { has_government = theocracy_government }
+						}
+					}
+				}
+			}
+	    }
+	}
+	
+	## WORM CULT ##
+	ek_religious_worm_cult_clothes = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_generic_monk
+				range = { 0 1 }
+			}		
+			accessory = {
+				mode = add
+				gene = clothes
+				template = ek_generic_monk_clothes
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}			
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }
+			morph = {
+				mode = add
+				gene = attachment_colour_palette
+				template = colour_palette_selection
+				value = 0.5
+			}			
+		}
+	    weight = {
+	        base = 0
+	        modifier = {
+				add = 500
+					ek_portrait_religious_trigger= {
+						FAITH_INPUT = worm_cult
+					}
+				
+			}
+			modifier = {
+				add = 200	
+				faith = faith:worm_cult		
+			}			
+	    }
+	}
+
+}
+
+ek_clothes_mage = {
+
+    usage = game
+    selection_behavior = weighted_random
+    fallback = no_mage_clothing
+    priority = 6
+
+    no_mage_clothing = {
+        dna_modifiers = {          
+        }
+        weight = {
+            base = 10
+        }
+    }	
+	
+	## MAGE CLOTHING FALLBACK ##
+	fallback_mage_clothing = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_generic_monk
+				range = { 0 1 }
+			}		
+			accessory = {
+				mode = add
+				gene = clothes
+				template = ek_generic_monk_clothes
+				range = { 0 1 }
+			}
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = western_common_legwear
+	            range = { 0 1 }
+	        }	
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 40
+				ek_portrait_mage_low_trigger_fallback = yes
+				OR = {
+					government_has_flag = government_is_academy
+					highest_held_title_tier < tier_duchy
+					}
+			}
+			  modifier = {			##Divayth Fyr is to cool for Mage clothes
+					factor = 0
+					exists = character:fyr_100 # Divayth Fyr
+					this = character:fyr_100
+				}
+		}
+	}
+	fallback_mage_clothing_high = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_mage_generic_01
+				range = { 0 1 }
+			}		
+			accessory = {
+				mode = add
+				gene = clothes
+				template = ek_mage_generic_01
+				range = { 0 1 }
+			}
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }	
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				ek_portrait_mage_high_trigger_fallback = yes
+				OR = {
+					government_has_flag = government_is_academy
+					highest_held_title_tier < tier_duchy
+					}
+			}
+		  modifier = {			##Divayth Fyr is too cool for Mage clothes
+				factor = 0
+				exists = character:fyr_100 # Divayth Fyr
+				this = character:fyr_100
+			}
+		}
+	}
+}

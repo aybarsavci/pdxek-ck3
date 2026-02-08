@@ -1,0 +1,280 @@
+﻿### Aldmeri Dominion
+form_aldmeri_dominion_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = form_aldmeri_dominion_decision_desc
+	selection_tooltip = form_aldmeri_dominion_decision_desc
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		OR = {
+			culture = { has_cultural_pillar = heritage_aldmeri }
+			culture = { has_cultural_pillar = heritage_bosmeri }
+		}
+		OR = {
+			has_title = title:e_summerset
+			has_title = title:e_valenwood
+		}
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_formed_aldmeri_dominion
+			}
+		}
+		#Need at least something stable
+		NOR = { 
+			has_government = tribal_government
+			has_government = pirate_government 
+		}
+	}
+
+	is_valid = {
+		has_title = title:e_summerset
+		OR = {
+			culture = { has_cultural_pillar = heritage_aldmeri }
+			culture = culture:altmeribosmer
+			AND = {
+				custom_tooltip = {
+					text = altmeribosmer_descended_culture
+					root.culture = { any_parent_culture_or_above = { this = culture:altmeribosmer }}
+				}
+				culture = { has_cultural_pillar = heritage_bosmeri }
+			}
+		}
+		custom_tooltip = {
+			text = aedric_faith
+			faith.religion = { is_in_family = rf_aedra }
+		}
+		prestige_level >= 4
+		completely_controls_region = mundus_tamriel_summerset_isles
+		completely_controls_region = mundus_tamriel_valenwood
+		OR = {
+			completely_controls_region = mundus_tamriel_elsweyr
+			AND = {
+				exists = title:e_elsweyr.holder
+				NOT = { has_title = title:e_elsweyr }
+				is_allied_to = title:e_elsweyr.holder
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+	}
+
+	cost = {
+		prestige = 2000
+		piety = 1000
+	}
+
+	effect = {
+		form_aldmeri_dominion_scripted_effect = yes
+		if = {
+			limit = { has_dlc_feature = legends }
+			create_legend_seed = {
+				type = legitimizing
+				quality = illustrious
+				chronicle = new_title
+				properties = {
+					title = title:e_aldmeri_dominion
+					founder = root
+				}
+			}
+		}
+		custom_tooltip = { #Unlock Hegemon legacy
+            text = unlocks_hegemony_dynasty_legacy
+            dynasty = {
+                set_variable = {
+                    name = can_get_hegemon_legacy_track
+                    value = yes
+                }
+            }
+        }
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_formed_aldmeri_dominion
+			}
+			set_global_variable = {
+				name = flag_formed_aldmeri_dominion
+				value = root
+			}
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+end_alinor_isolationism_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = end_alinor_isolationism_decision_desc
+	selection_tooltip = end_alinor_isolationism_decision_desc
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		has_title = title:e_summerset
+		any_character_situation = {
+			any_participant_group = {
+				participant_group_type = ceremoniarchy_rulers
+			}
+			any_situation_sub_region = {
+				sub_region_current_phase = alinor_closed
+			}
+		}
+		NOT = { #Cooldown, can't open it right after closing it
+			is_target_in_global_variable_list = {
+				name = alinor_variables
+				target = flag:alinor_was_closed
+			}
+		}
+	}
+
+	is_valid = {
+		prestige_level >= 4
+		piety_level >= 4
+		completely_controls_region = mundus_tamriel_summerset_isles
+	}
+
+	
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = alinor_will_enter_open_phase
+			situation:alinor_isolationism ?= {
+				if = {
+					limit = { situation_top_has_catalyst = catalyst_situation_high_king_ended_isolation }
+					trigger_situation_catalyst = catalyst_situation_high_king_ended_isolation
+				}
+			}
+		}
+		#Adding a global flag so that ruler of Alinor doesn't immediately undo this
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = alinor_variables
+				target = flag:alinor_was_opened
+				years = 15
+			}
+		}
+	}
+
+	cost = {
+		prestige = 2000
+		piety = 1000
+		gold = 500
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 0 #Not a normal thing
+		modifier = { #Ambitious may want to expand outside Alinor
+			add = 50
+			has_trait = ambitious
+		}
+		modifier = { #Cynical doesn't particulary care about tradition
+			add = 50
+			has_trait = cynical
+		}
+	}
+}
+
+close_alinor_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = close_alinor_decision_desc
+	selection_tooltip = close_alinor_decision_desc
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		has_title = title:e_summerset
+		any_character_situation = {
+			any_participant_group = {
+				participant_group_type = ceremoniarchy_rulers
+			}
+			any_situation_sub_region = {
+				sub_region_current_phase = alinor_open
+			}
+		}
+		NOT = { #Cooldown, can't close it right after opening
+			is_target_in_global_variable_list = {
+				name = alinor_variables
+				target = flag:alinor_was_opened
+			}
+		}
+	}
+
+	is_valid = {
+		prestige_level >= 4
+		piety_level >= 4
+		completely_controls_region = mundus_tamriel_summerset_isles
+	}
+
+	
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = alinor_will_enter_closed_phase
+			situation:alinor_isolationism ?= {
+				if = {
+					limit = { situation_top_has_catalyst = catalyst_situation_high_king_closed_alinor }
+					trigger_situation_catalyst = catalyst_situation_high_king_closed_alinor
+				}
+			}
+		}
+		#Adding a global flag so that ruler of Alinor doesn't immediately undo this
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = alinor_variables
+				target = flag:alinor_was_closed
+				years = 30
+			}
+		}
+	}
+
+	cost = {
+		prestige = 2000
+		piety = 1000
+		gold = 500
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 50
+	}
+}

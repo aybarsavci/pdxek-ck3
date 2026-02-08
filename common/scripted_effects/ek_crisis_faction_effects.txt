@@ -1,0 +1,718 @@
+﻿ek_faction_set_crisis_type_var = {
+	scope:founding_county = {
+		switch = {
+			trigger = has_county_modifier
+			county_corruption_bandits_rampant_modifier = { prev = { set_variable = { name = crisis_type value = flag:bandits_flag } } }
+			county_corruption_goblinken_rampant_modifier = { prev = { set_variable = { name = crisis_type value = flag:goblinken_flag } } }
+			county_corruption_imga_rampant_modifier = { prev = { set_variable = { name = crisis_type value = flag:imga_flag } } }
+			county_corruption_vampires_rampant_modifier = { prev = { set_variable = { name = crisis_type value = flag:vampires_flag } } }
+			county_corruption_werewolves_rampant_modifier = { prev = { set_variable = { name = crisis_type value = flag:werewolves_flag } } }
+			county_corruption_necromancers_rampant_modifier = { prev = { set_variable = { name = crisis_type value = flag:necromancers_flag } } }
+			county_corruption_peryite_rampant_modifier = { prev = { set_variable = { name = crisis_type value = flag:peryite_flag } } }
+			county_corruption_falmer_rampant_modifier = { prev = { set_variable = { name = crisis_type value = flag:falmer_flag } } }
+			county_corruption_daedra_rampant_modifier = { prev = { set_variable = { name = crisis_type value = flag:daedra_flag } } }
+			county_corruption_ashlanders_rampant_modifier = { prev = { set_variable = { name = crisis_type value = flag:ashlanders_flag } } }
+			county_corruption_slaves_rampant_modifier = { prev = { set_variable = { name = crisis_type value = flag:slaves_flag } } }
+		}
+	}
+}
+
+ek_county_remove_single_crisis_faction_modifier = {
+	switch = {
+		trigger = has_county_modifier
+		county_corruption_bandits_rampant_modifier = { remove_rampant_modifier_effect = { TYPE = bandits } }
+		county_corruption_goblinken_rampant_modifier = { remove_rampant_modifier_effect = { TYPE = goblinken } }
+		county_corruption_imga_rampant_modifier = { remove_rampant_modifier_effect = { TYPE = imga } }
+		county_corruption_vampires_rampant_modifier = { remove_rampant_modifier_effect = { TYPE = vampires } }
+		county_corruption_werewolves_rampant_modifier = { remove_rampant_modifier_effect = { TYPE = werewolves } }
+		county_corruption_necromancers_rampant_modifier = { remove_rampant_modifier_effect = { TYPE = necromancers } }
+		county_corruption_peryite_rampant_modifier = { remove_rampant_modifier_effect = { TYPE = peryite } }
+		county_corruption_falmer_rampant_modifier = { remove_rampant_modifier_effect = { TYPE = falmer } }
+		county_corruption_daedra_rampant_modifier = { remove_rampant_modifier_effect = { TYPE = daedra } }
+		county_corruption_ashlanders_rampant_modifier = { remove_rampant_modifier_effect = { TYPE = ashlanders } }
+		county_corruption_slaves_rampant_modifier = { remove_rampant_modifier_effect = { TYPE = slaves } }
+	}
+}
+
+setup_ek_crisis_leader_effect = {
+	save_scope_as = faction
+
+	random_faction_county_member = {
+		save_scope_as = peasant_county
+	}
+
+	# Runs the scripted effect to find the best title to target for the rebellion.
+	get_popular_revolt_target_effect = { FACTION = this }
+	
+	# Generate a new peasant character to be the populist leader of the revolt.
+	create_character = {
+		location = scope:peasant_county.title_province
+		template = crisis_faction_leader_template
+		faith = scope:faction.var:faction_faith
+		culture = scope:faction.var:faction_culture
+		gender_female_chance = {
+			if = {
+				limit = { scope:faction.var:faction_faith = { has_doctrine = doctrine_gender_male_dominated } }
+				add = 0
+			}
+			else_if = {
+				limit = { scope:faction.var:faction_faith = { has_doctrine = doctrine_gender_female_dominated } }
+				add = 100
+			}
+			else = {
+				add = 50
+			}
+		}
+		save_scope_as = peasant_leader
+	}
+	scope:peasant_leader = {
+		add_character_flag = peasant_faction_random_peasant
+		#EK SETUP EFFECT
+		if = { 
+			limit = { scope:faction.var:crisis_type = flag:vampires_flag } 
+			add_trait = vampire_character 
+			random_list = {
+				10 = { add_trait = education_magic_3 }
+				10 = { add_trait = education_magic_4 }
+			}
+		}
+		else_if = { 
+			limit = { scope:faction.var:crisis_type = flag:werewolves_flag } 
+			add_trait = lycan_character 
+		}
+		else_if = { 
+			limit = { scope:faction.var:crisis_type = flag:necromancers_flag } 
+			add_trait = necromancer
+			random_list = {
+				10 = { add_trait = education_magic_3 }
+				10 = { add_trait = education_magic_4 }
+			}
+			random = {
+				chance = 25
+				give_lich_trait_effect = yes
+			}
+		}
+		else_if = {
+			limit = { scope:faction.var:crisis_type = flag:bandits_flag }
+			add_trait = gallowsbait
+			add_trait_xp = {
+				trait = gallowsbait
+				track = bandit
+				value = { 70 100 }
+			}
+			random_list = {
+				70 = {
+					add_trait_xp = {
+						trait = gallowsbait
+						track = poacher
+						value = { 20 80 }
+					}
+				}
+				30 = {
+					add_trait_xp = {
+						trait = gallowsbait
+						track = trickster
+						value = { 00 60 }
+					}
+				}
+			}
+			random_list = {
+				70 = {
+					add_trait_xp = {
+						trait = gallowsbait
+						track = marauder
+						value = { 20 80 }
+					}
+				}
+				30 = {
+					add_trait_xp = {
+						trait = gallowsbait
+						track = thief
+						value = { 00 60 }
+					}
+				}
+			}
+			random_list = {
+				10 = {
+					add_trait = plunderer
+					modifier = {
+						add = martial
+					}
+				}
+				10 = {
+					add_trait = crimeboss
+					modifier = {
+						add = intrigue
+					}
+				}
+				10 = { }
+			}
+			if = { # Bandit God patron if valid
+				limit = { 
+					faith = { patron_kj_baandar_valid = yes }
+				}
+				patron_clear_traits_effect = yes
+				add_trait = p_kj_baandar 
+			}
+		}
+	}
+
+	# Create a new title for the peasant.
+	create_dynamic_title = {
+		tier = duchy
+		name = FACTION_EK_CRISIS_REVOLT_TITLE_NAME
+	}
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	scope:new_title = {
+		set_capital_county = scope:peasant_county
+		set_landless_title = yes
+		set_destroy_on_succession = yes
+		set_delete_on_destroy = yes
+		set_no_automatic_claims = yes
+		set_definitive_form = yes
+		set_can_be_named_after_dynasty = no
+		change_title_holder = {
+			holder = scope:peasant_leader
+			change = scope:change
+		}
+		set_variable = {
+			name = faction
+			value = scope:faction
+		}
+	}
+	resolve_title_and_vassal_change = scope:change
+	scope:peasant_leader = {
+		set_variable = {
+			name = peasant_title
+			value = scope:new_title
+		}
+	}
+	scope:new_title = { generate_coa = factions }
+
+	# Set the peasant leader as the head of the faction.
+	scope:peasant_leader = {
+		set_variable = {
+			name = rebel_leader_peasants
+			value = scope:faction
+		}
+		join_faction_skip_check = scope:faction
+	}
+	set_special_character = scope:peasant_leader
+}
+
+ek_crisis_faction_spawn_reinforcements_effect = {
+	joined_faction = {
+		switch = {
+			trigger = var:crisis_type
+			flag:bandits_flag = { 
+				root = { 
+					if = {
+						limit = { scope:barony.title_province = { is_coastal = yes } }
+						ek_faction_spawn_reinforcement_army = { MAA = abecean_pirates QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ }
+					}
+					else = { ek_faction_spawn_reinforcement_army = { MAA = light_footmen QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }					
+				}
+			}
+			flag:goblinken_flag = { 
+				root = { 
+					if = {
+						limit = { culture = { has_innovation = innovation_scavenging } }
+						random_list = {
+							10 = { ek_faction_spawn_reinforcement_army = { MAA = riekling_skirmishers QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }
+							10 = { ek_faction_spawn_reinforcement_army = { MAA = riekling_archers QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }
+							10 = { ek_faction_spawn_reinforcement_army = { MAA = riekling_pike_infantry QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }
+						}
+					}
+					else_if = {
+						limit = { culture = { has_innovation = innovation_power_symbols } }
+						random_list = {
+							10 = { ek_faction_spawn_reinforcement_army = { MAA = riekr_skirmishers QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }
+							10 = { ek_faction_spawn_reinforcement_army = { MAA = riekr_archers QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }
+							10 = { ek_faction_spawn_reinforcement_army = { MAA = riekr_pike_infantry QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }
+						}
+					}
+					else = {
+						random_list = {
+							10 = { ek_faction_spawn_reinforcement_army = { MAA = goblin_skirmisher QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }
+							10 = { ek_faction_spawn_reinforcement_army = { MAA = goblin_archers QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }
+							10 = { ek_faction_spawn_reinforcement_army = { MAA = goblin_pike_infantry QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }
+						}
+					}
+					
+				}	
+			}
+			flag:necromancers_flag = { root = { ek_faction_spawn_reinforcement_army = { MAA = maa_undead_soldiers QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } } } 
+			flag:vampires_flag = { root = { ek_faction_spawn_reinforcement_army = { MAA = war_mages QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } } } 
+			flag:peryite_flag = { root = { ek_faction_spawn_reinforcement_army = { MAA = cultists QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } } } 
+			flag:werewolves_flag = { root = { ek_faction_spawn_reinforcement_army = { MAA = armored_footmen QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } } }
+			flag:imga_flag = { 
+				root = {
+					random_list = {
+						10 = { ek_faction_spawn_reinforcement_army = { MAA = imga_skirmishers QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }
+						10 = { ek_faction_spawn_reinforcement_army = { MAA = imga_archers QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }
+						10 = { ek_faction_spawn_reinforcement_army = { MAA = imga_pike_infantry QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }
+						10 = { ek_faction_spawn_reinforcement_army = { MAA = imga_frenzied QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }
+					}
+				}
+			}
+			flag:falmer_flag = { 
+				root = { 
+					random_list = {
+						10 = { ek_faction_spawn_reinforcement_army = { MAA = falmer_stalkers QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }
+						10 = { ek_faction_spawn_reinforcement_army = { MAA = falmer_gloomlurkers QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }
+						10 = { ek_faction_spawn_reinforcement_army = { MAA = falmer_battleragers QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }
+					}
+				} 
+			}
+			flag:daedra_flag = { root = { ek_faction_spawn_reinforcement_army = { MAA = daedra QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } } } 
+			flag:ashlanders_flag = { root = { ek_faction_spawn_reinforcement_army = { MAA = ashlander_champions QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } } }
+			fallback = { ek_faction_spawn_reinforcement_army = { MAA = light_footmen QUANTITY = $QUANTITY$ LOCATION = $LOCATION$ } }
+		}
+	}	
+}
+
+ek_faction_spawn_reinforcement_army = {
+	spawn_army = {
+		name = event_troop_default_name
+		men_at_arms = { # optional, multiple can be specified. Need either levies or MAA
+			type = $MAA$
+			men = $QUANTITY$ 
+		}
+		location = $LOCATION$ 
+		war = scope:war
+	}
+}
+##############################################################################
+# General Effect - please add new modifiers to the relevant sub-effects
+
+ek_add_crisis_modifier_effect = {
+	random_list = {		
+		### Bandit crisis modifier
+		25 = { 
+			trigger = { 
+				can_have_bandits_crisis_modifier_trigger = { TARGET = holder } 
+				NOT = { has_county_modifier = county_corruption_bandits_rampant_modifier }
+			}
+			ek_county_crisis_modifier_common_score = { TYPE = bandits }	
+			add_rampant_modifier_effect = { TYPE = bandits }
+		}
+		### Goblin crisis modifier
+		25 = {
+			trigger = { 
+				can_have_goblinken_crisis_modifier_trigger = { TARGET = holder }  
+				NOT = { has_county_modifier = county_corruption_goblinken_rampant_modifier }
+			}
+			ek_county_crisis_modifier_common_score = { TYPE = goblinken }
+			add_rampant_modifier_effect = { TYPE = goblinken }				
+		}
+		### Werewolves crisis modifier
+		25 = {
+			trigger = { 
+				can_have_werewolves_crisis_modifier_trigger = { TARGET = holder }  
+				NOT = { has_county_modifier = county_corruption_werewolves_rampant_modifier }
+			}
+			ek_county_crisis_modifier_common_score = { TYPE = werewolves }
+			add_rampant_modifier_effect = { TYPE = werewolves }				
+		}	
+		### Vampires crisis modifier
+		25 = {
+			trigger = { 
+				can_have_vampires_crisis_modifier_trigger = { TARGET = holder } 
+				NOT = { has_county_modifier = county_corruption_vampires_rampant_modifier }
+			}
+			ek_county_crisis_modifier_common_score = { TYPE = vampires }
+			add_rampant_modifier_effect = { TYPE = vampires }				
+		}
+		### Imga crisis modifier
+		25 = {
+			trigger = { 
+				can_have_imga_crisis_modifier_trigger = { TARGET = holder } 
+				NOT = { has_county_modifier = county_corruption_imga_rampant_modifier }
+			}
+			ek_county_crisis_modifier_common_score = { TYPE = imga }
+			add_rampant_modifier_effect = { TYPE = imga }
+		}
+		### Falmer crisis modifier
+		1 = {
+			trigger = { 
+				can_have_falmer_crisis_modifier_trigger = { TARGET = holder } 
+				NOT = { has_county_modifier = county_corruption_falmer_rampant_modifier }
+			}
+			ek_county_crisis_modifier_common_score = { TYPE = falmer }
+			add_rampant_modifier_effect = { TYPE = falmer }
+		}
+		### Necromancers crisis modifier
+		10 = {
+			trigger = { 
+				can_have_necromancers_crisis_modifier_trigger = { TARGET = holder } 
+				NOT = { has_county_modifier = county_corruption_necromancers_rampant_modifier }
+			}
+			ek_county_crisis_modifier_common_score = { TYPE = necromancers }
+			add_rampant_modifier_effect = { TYPE = necromancers }
+		}
+		### Peryite crisis modifier
+		1 = {
+			trigger = { 
+				can_have_peryite_crisis_modifier_trigger = { TARGET = holder } 
+				NOT = { has_county_modifier = county_corruption_peryite_rampant_modifier }
+			}
+			ek_county_crisis_modifier_common_score = { TYPE = peryite }
+			add_rampant_modifier_effect = { TYPE = peryite }
+		}
+		### Daedra crisis modifier
+		# Should be rare outside of events and spells
+		3 = {
+			trigger = { 
+				can_have_daedra_crisis_modifier_trigger = { TARGET = holder } 
+				NOT = { has_county_modifier = county_corruption_daedra_rampant_modifier }
+			}
+			ek_county_crisis_modifier_common_score = { TYPE = daedra }
+			add_rampant_modifier_effect = { TYPE = daedra }
+		}
+		### Ashlanders crisis modifier
+		10 = {
+			trigger = { 
+				can_have_ashlanders_crisis_modifier_trigger = { TARGET = holder } 
+				NOT = { has_county_modifier = county_corruption_ashlanders_rampant_modifier }
+			}
+			ek_county_crisis_modifier_common_score = { TYPE = ashlanders }
+			add_rampant_modifier_effect = { TYPE = ashlanders }
+		}
+		### Slaves crisis modifier
+		10 = {
+			trigger = { 
+				can_have_slaves_crisis_modifier_trigger = { TARGET = holder } 
+				NOT = { has_county_modifier = county_corruption_slaves_rampant_modifier }
+			}
+			ek_county_crisis_modifier_common_score = { TYPE = slaves }
+			add_rampant_modifier_effect = { TYPE = slaves }
+		}
+	}
+}
+
+ek_on_province_infected_peryite_corruption_add = {
+	county = {
+		if = {
+			limit = { ek_county_can_have_additional_crisis_modifier = yes }
+			random = {
+				chance = ek_county_corruption_spread_chance_from_disease
+				add_rampant_modifier_effect = { TYPE = peryite }
+			}
+		}
+	}
+}
+
+ek_faction_leader_victory_effect = {	
+	if = {
+		limit = {
+			is_alive = yes
+			is_ruler = yes
+		}
+		add_character_modifier = { modifier = lauded_faction_leader years = 10 }
+	}
+	# if they're Betrayed, notify the world about this
+	if = {
+		limit = { 
+			culture = {
+				this = culture:falmer_betrayed
+				culture_is_alive = no #makes little sense if betrayed are already alive, such as if a player used RD
+			}
+		}
+		every_player = {
+			trigger_event = {
+				id = ek_crisis_event.0001
+				days = 3
+			}
+		}
+	}
+	# if the faction culture is dead, such as rieklings who have been made extinct, reverse that
+	if = {
+		limit = {
+			culture = { NOT = { culture_is_alive = yes } }
+		}
+		joined_faction ?= {
+			if = { 
+				limit = { 
+					has_variable = faction_culture
+					has_variable = faction_faith
+					NOT = { var:faction_culture = { has_innovation = innovation_daedric_race } } # not #these guys though
+				} 
+				random_faction_county_member = {
+					set_county_culture = prev.var:faction_culture
+					set_county_faith = prev.var:faction_faith
+				}
+			}
+		}
+		culture = {
+			culture_become_alive_effect = yes
+		}
+	}
+	# flip culture/faith of affected counties if necessary, clean up modifiers
+	joined_faction ?= {
+		every_faction_county_member = {
+			save_scope_as = county_member
+			ek_crisis_faction_add_remove_relevant_modifier_to_county = { INPUT = prev.var:crisis_type OUTPUT = scope:county_member ACTION = remove }
+			add_county_modifier = { modifier = recent_crisis_revolt years = 25 }
+		}
+	}
+}
+
+ek_county_corruption_spread_all_subtypes = {
+	ek_county_corruption_spread = { TYPE = bandits }
+	ek_county_corruption_spread = { TYPE = goblinken }
+	ek_county_corruption_spread = { TYPE = imga }
+	ek_county_corruption_spread = { TYPE = vampires }
+	ek_county_corruption_spread = { TYPE = werewolves }
+	ek_county_corruption_spread = { TYPE = necromancers }
+	ek_county_corruption_spread = { TYPE = peryite }
+	ek_county_corruption_spread = { TYPE = falmer }
+	ek_county_corruption_spread = { TYPE = daedra }
+	ek_county_corruption_spread = { TYPE = ashlanders }
+	ek_county_corruption_spread = { TYPE = slaves }
+}
+
+ek_county_corruption_spread = {
+	if = {
+		limit = { 
+			any_neighboring_county = { has_county_modifier = county_corruption_$TYPE$_rampant_modifier }
+			ek_county_can_have_additional_crisis_modifier = yes
+			can_have_$TYPE$_crisis_modifier_trigger = { TARGET = holder } 			
+		}
+		random = {
+			chance = ek_county_corruption_spread_chance
+			save_scope_value_as = { name = neighboring_corruption value = yes } # for loc
+			add_rampant_modifier_effect = { TYPE = $TYPE$ } 
+			set_variable = { name = ek_block_further_county_corruption_spread years = 10 }
+		}	
+	}
+}
+
+ek_crisis_faction_add_remove_relevant_modifier_to_county = {
+	switch = {
+		trigger = $INPUT$
+		flag:bandits_flag = { $OUTPUT$ = { $ACTION$_rampant_modifier_effect = { TYPE = bandits } } }
+		flag:goblinken_flag = { $OUTPUT$ = { $ACTION$_rampant_modifier_effect = { TYPE = goblinken } } }
+		flag:necromancers_flag = { $OUTPUT$ = { $ACTION$_rampant_modifier_effect = { TYPE = necromancers } } }
+		flag:vampires_flag = { $OUTPUT$ = { $ACTION$_rampant_modifier_effect = { TYPE = vampires } } }
+		flag:werewolves_flag = { $OUTPUT$ = { $ACTION$_rampant_modifier_effect = { TYPE = werewolves } } }
+		flag:falmer_flag = { $OUTPUT$ = { $ACTION$_rampant_modifier_effect = { TYPE = falmer } } }
+		flag:imga_flag = { $OUTPUT$ = { $ACTION$_rampant_modifier_effect = { TYPE = imga } } }
+		flag:peryite_flag = { $OUTPUT$ = { $ACTION$_rampant_modifier_effect = { TYPE = peryite } } }
+		flag:daedra_flag = { $OUTPUT$ = { $ACTION$_rampant_modifier_effect = { TYPE = daedra } } }
+		flag:ashlanders_flag = { $OUTPUT$ = { $ACTION$_rampant_modifier_effect = { TYPE = ashlanders } } }
+		flag:slaves_flag = { $OUTPUT$ = { $ACTION$_rampant_modifier_effect = { TYPE = slaves } } }
+	}
+}
+
+########################################################
+# Set Faction Culture/Faith Effects
+########################################################
+# Effects have been modularized so they can be used in different contexts if needed
+
+ek_crisis_faction_get_faction_culture_and_faith = {
+	switch = {
+		trigger = var:crisis_type
+		flag:bandits_flag = { ek_set_bandits_faction_culture_faith = { LOCATION = scope:founding_county.title_province OUTPUT = faction } }
+		flag:goblinken_flag = { ek_set_goblinken_faction_culture_faith = { LOCATION = scope:founding_county.title_province OUTPUT = faction } }
+		flag:necromancers_flag = { ek_set_necromancers_faction_culture_faith = { LOCATION = scope:founding_county.title_province OUTPUT = faction } }
+		flag:vampires_flag = { ek_set_vampires_faction_culture_faith = { LOCATION = scope:founding_county.title_province OUTPUT = faction } }
+		flag:werewolves_flag = { ek_set_werewolves_faction_culture_faith = { LOCATION = scope:founding_county.title_province OUTPUT = faction } }
+		flag:falmer_flag = { ek_set_falmer_faction_culture_faith = { LOCATION = scope:founding_county.title_province OUTPUT = faction } }
+		flag:imga_flag = { ek_set_imga_faction_culture_faith = { LOCATION = scope:founding_county.title_province OUTPUT = faction } }
+		flag:peryite_flag = { ek_set_peryite_faction_culture_faith = { LOCATION = scope:founding_county.title_province OUTPUT = faction } }
+		flag:daedra_flag = { ek_set_daedra_faction_culture_faith = { LOCATION = scope:founding_county.title_province OUTPUT = faction } }
+		flag:ashlanders_flag = { ek_set_ashlanders_faction_culture_faith = { LOCATION = scope:founding_county.title_province OUTPUT = faction } }
+		flag:slaves_flag = { ek_set_slaves_faction_culture_faith = { LOCATION = scope:founding_county.title_province OUTPUT = faction } }
+	}
+}
+
+ek_set_bandits_faction_culture_faith = {
+	set_variable = { name = $OUTPUT$_culture value = $LOCATION$.culture }
+	set_variable = { name = $OUTPUT$_faith value = $LOCATION$.faith }	
+}
+
+ek_set_goblinken_faction_culture_faith = {
+	random_list = {
+		10 = {
+			trigger = { $LOCATION$ = { geographical_region = ek_riekr_crisis_region } }
+			set_variable = { name = $OUTPUT$_culture value = culture:riekr }
+			set_variable = { name = $OUTPUT$_faith value = faith:goblin_shamanism }
+		}
+		10 = {
+			trigger = { $LOCATION$ = { geographical_region = ek_riekling_crisis_region } }
+			set_variable = { name = $OUTPUT$_culture value = culture:riekling }
+			set_variable = { name = $OUTPUT$_faith value = faith:goblin_shamanism }
+		}
+		10 = {
+			trigger = { $LOCATION$ = { geographical_region = ek_goblins_crisis_region } } 							
+			set_variable = { name = $OUTPUT$_culture value = culture:goblin }
+			set_variable = { name = $OUTPUT$_faith value = faith:goblin_shamanism }
+		}
+	}
+}
+
+ek_set_necromancers_faction_culture_faith = {
+	save_scope_as = root_scope
+	
+	set_variable = { name = $OUTPUT$_culture value = $LOCATION$.culture }
+	random_list = {
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:worm_cult } }
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:idealmasters } }
+		40 = {
+			trigger = { var:$OUTPUT$_culture = { has_cultural_pillar = heritage_argonian } }
+			random_religion_global = {
+				limit = { any_faith = { has_doctrine = tenet_ghosthist } }
+				random_faith = {
+					limit = { has_doctrine = tenet_ghosthist }
+					scope:root_scope = { set_variable = { name = $OUTPUT$_faith value = prev } }
+				}
+			}
+		}
+		10 = {
+			random_religion_global = {
+				limit = { any_faith = { has_doctrine = tenet_necromancy_worship } }
+				random_faith = {
+					limit = { has_doctrine = tenet_necromancy_worship }
+					scope:root_scope = { set_variable = { name = $OUTPUT$_faith value = prev } }
+				}
+			}
+		}
+	}
+}
+
+ek_set_vampires_faction_culture_faith = {
+	save_scope_as = root_scope
+	
+	set_variable = { name = $OUTPUT$_culture value = $LOCATION$.culture }
+	random_list = {
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:molag_cult } }
+		10 = { 
+			trigger = { var:$OUTPUT$_culture = { has_cultural_pillar = heritage_khajiiti } }
+			set_variable = { name = $OUTPUT$_faith value = faith:blood_cat }
+		}
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:scions_faith } }
+		10 = {
+			random_religion_global = {
+				limit = { 
+					any_faith = { 
+						has_doctrine = doctrine_vampirism_virtuous 
+						ek_crisis_faith_cultural_identity_matches = { TARGET_CULTURE = $LOCATION$.culture }
+					} 
+				}
+				random_faith = {
+					limit = { 
+						has_doctrine = doctrine_vampirism_virtuous 
+						ek_crisis_faith_cultural_identity_matches = { TARGET_CULTURE = $LOCATION$.culture }
+					}
+					scope:root_scope = { set_variable = { name = $OUTPUT$_faith value = prev } }
+				}
+			}
+		}
+	}
+}
+
+ek_set_werewolves_faction_culture_faith = {
+	save_scope_as = root_scope
+	
+	set_variable = { name = $OUTPUT$_culture value = $LOCATION$.culture }
+	random_list = {
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:hircine_cult } }
+		40 = {
+			trigger = { var:$OUTPUT$_culture = { has_cultural_tradition = tradition_reach_core } }
+			set_variable = { name = $OUTPUT$_faith value = faith:hircine_coven }
+		}
+		40 = {
+			trigger = { var:$OUTPUT$_culture = { has_cultural_pillar = heritage_breton } }
+			set_variable = { name = $OUTPUT$_faith value = faith:glenmoril_wyrd }
+		}
+		10 = {
+			random_religion_global = {
+				limit = { 
+					any_faith = { 
+						has_doctrine = doctrine_lycanthropy_virtuous 
+						ek_crisis_faith_cultural_identity_matches = { TARGET_CULTURE = $LOCATION$.culture }
+					} 
+				}
+				random_faith = {
+					limit = { 
+						has_doctrine = doctrine_lycanthropy_virtuous
+						ek_crisis_faith_cultural_identity_matches = { TARGET_CULTURE = $LOCATION$.culture }
+					}
+					scope:root_scope = { set_variable = { name = $OUTPUT$_faith value = prev } }
+				}
+			}
+		}
+	}
+}
+
+ek_set_falmer_faction_culture_faith = {
+	if = { # For avoiding errors
+		limit = { $LOCATION$ = { geographical_region = ek_falmer_crisis_region } }
+	}
+	set_variable = { name = $OUTPUT$_culture value = culture:falmer_betrayed }
+	set_variable = { name = $OUTPUT$_faith value = faith:xrib }
+}
+
+ek_set_imga_faction_culture_faith = {
+	if = { # For avoiding errors
+		limit = { $LOCATION$ = { geographical_region = ek_imga_crisis_region } }
+	}
+	set_variable = { name = $OUTPUT$_culture value = culture:imga }
+	random_list = {
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:ius_cult } }
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:anui_el } }
+	}
+}
+
+ek_set_peryite_faction_culture_faith = {
+	set_variable = { name = $OUTPUT$_culture value = $LOCATION$.culture }
+	set_variable = { name = $OUTPUT$_faith value = faith:peryite_cult }
+}
+
+ek_set_daedra_faction_culture_faith = {
+	if = { # For avoiding errors
+		limit = { $LOCATION$ = { always = yes } }
+	}
+	set_variable = { name = $OUTPUT$_culture value = culture:dremora }
+	random_list = {
+		80 = { set_variable = { name = $OUTPUT$_faith value = faith:mehrunes_cult } } # Mostly Mehrunes
+		20 = { set_variable = { name = $OUTPUT$_faith value = faith:molag_cult } } # Sometimes Molag
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:peryite_cult } } # Rarely others
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:malacath_cult } } 
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:vaermina_cult } } 
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:mephala_cult } } 
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:nocturnal_cult } } 				
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:clavicus_cult } } 				
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:boethiah_cult } }
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:hermaeus_cult } } 
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:sheogorath_cult } } 
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:azura_cult } } 
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:meridia_cult } }								
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:namira_cult } } 
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:sanguine_cult } } 
+		10 = { set_variable = { name = $OUTPUT$_faith value = faith:hircine_cult } }
+		
+	}
+}
+
+ek_set_ashlanders_faction_culture_faith = {
+	if = { # For avoiding errors
+		limit = { $LOCATION$ = { always = yes } }
+	}
+	set_variable = { name = $OUTPUT$_culture value = culture:ashlander }
+	set_variable = { name = $OUTPUT$_faith value = faith:old_velothi }
+}
+
+ek_set_slaves_faction_culture_faith = {
+	set_variable = { name = $OUTPUT$_culture value = $LOCATION$.culture }
+	set_variable = { name = $OUTPUT$_faith value = $LOCATION$.faith }
+	
+	# EK TODO for AnarchAz: uncomment the below on MW branch and delete the above two rows
+	# slave_character_culture_faith_effect = { LOCATION = $LOCATION$ }
+	# set_variable = { name = $OUTPUT$_culture value = scope:slave_culture }
+	# set_variable = { name = $OUTPUT$_faith value = scope:slave_faith }
+}

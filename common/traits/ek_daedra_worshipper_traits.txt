@@ -1,0 +1,1508 @@
+﻿# Standard Values
+@pos_compat_high = 30
+@pos_compat_medium = 15
+@pos_compat_low = 5
+
+@neg_compat_high = -30
+@neg_compat_medium = -15
+@neg_compat_low = -5
+
+### Secret Daedric Worship
+azura_worshipper = {
+	category = fame
+
+	# to prevent stacking these in RD
+	opposites = {
+		boethiah_worshipper
+		clavicus_worshipper
+		hermaeus_worshipper
+		hircine_worshipper
+		malacath_worshipper
+		mehrunes_worshipper
+		mephala_worshipper
+		meridia_worshipper
+		molag_worshipper
+		namira_worshipper
+		nocturnal_worshipper
+		peryite_worshipper
+		sanguine_worshipper
+		sheogorath_worshipper
+		vaermina_worshipper
+	}
+	
+	triggered_opinion = {
+		parameter = worship_azura_criminal_active
+		opinion_modifier = azura_worship_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = worship_azura_shunned_active
+		opinion_modifier = azura_worship_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	faith_modifier = {
+		parameter = worship_azura_criminal_active
+		zealot_opinion = -10
+	}
+
+	faith_modifier = {
+		parameter = worship_azura_shunned_active
+		zealot_opinion = -5
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_azura_worshipper_desc
+			}
+			desc = trait_azura_worshipper_character_desc
+		}
+	}
+}
+
+champion_azura = {
+	category = fame
+	
+	shown_in_ruler_designer = no
+	ai_zeal = very_high_positive_ai_value
+
+	triggered_opinion = {
+		parameter = worship_azura_criminal_active
+		opinion_modifier = azura_worship_crime
+	}
+	triggered_opinion = {
+		parameter = worship_azura_shunned_active
+		opinion_modifier = azura_worship_shunned
+	}
+
+	faith_modifier = {
+		parameter = worship_azura_criminal_active
+		zealot_opinion = -20
+	}
+
+	faith_modifier = {
+		parameter = worship_azura_shunned_active
+		zealot_opinion = -10
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_champion_azura_desc
+			}
+			desc = trait_champion_azura_character_desc
+		}
+	}
+}
+
+boethiah_worshipper = {
+	category = fame
+	
+	# to prevent stacking these in RD
+	opposites = {
+		azura_worshipper
+		clavicus_worshipper
+		hermaeus_worshipper
+		hircine_worshipper
+		malacath_worshipper
+		mehrunes_worshipper
+		mephala_worshipper
+		meridia_worshipper
+		molag_worshipper
+		namira_worshipper
+		nocturnal_worshipper
+		peryite_worshipper
+		sanguine_worshipper
+		sheogorath_worshipper
+		vaermina_worshipper
+	}
+
+	triggered_opinion = {
+		parameter = worship_boethiah_criminal_active
+		opinion_modifier = boethiah_worship_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = worship_boethiah_shunned_active
+		opinion_modifier = boethiah_worship_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	faith_modifier = {
+		parameter = worship_boethiah_criminal_active
+		zealot_opinion = -10
+	}
+
+	faith_modifier = {
+		parameter = worship_boethiah_shunned_active
+		zealot_opinion = -5
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_boethiah_worshipper_desc
+			}
+			desc = trait_boethiah_worshipper_character_desc
+		}
+	}
+}
+
+champion_boethiah = {
+	category = fame
+
+	ai_zeal = very_high_positive_ai_value
+	
+	shown_in_ruler_designer = no
+
+	triggered_opinion = {
+		parameter = worship_boethiah_criminal_active
+		opinion_modifier = boethiah_worship_crime
+	}
+
+	faith_modifier = {
+		parameter = worship_boethiah_criminal_active
+		zealot_opinion = -20
+	}
+
+	faith_modifier = {
+		parameter = worship_boethiah_shunned_active
+		zealot_opinion = -10
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_champion_boethiah_desc
+			}
+			desc = trait_champion_boethiah_character_desc
+		}
+	}
+}
+
+clavicus_worshipper = {
+	category = fame
+	
+	# to prevent stacking these in RD
+	opposites = {
+		azura_worshipper
+		boethiah_worshipper
+		hermaeus_worshipper
+		hircine_worshipper
+		malacath_worshipper
+		mehrunes_worshipper
+		mephala_worshipper
+		meridia_worshipper
+		molag_worshipper
+		namira_worshipper
+		nocturnal_worshipper
+		peryite_worshipper
+		sanguine_worshipper
+		sheogorath_worshipper
+		vaermina_worshipper
+	}
+
+	triggered_opinion = {
+		parameter = worship_clavicus_criminal_active
+		opinion_modifier = clavicus_worship_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = worship_clavicus_shunned_active
+		opinion_modifier = clavicus_worship_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	faith_modifier = {
+		parameter = worship_clavicus_criminal_active
+		zealot_opinion = -10
+	}
+
+	faith_modifier = {
+		parameter = worship_clavicus_shunned_active
+		zealot_opinion = -5
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_clavicus_worshipper_desc
+			}
+			desc = trait_clavicus_worshipper_character_desc
+		}
+	}
+}
+
+champion_clavicus = {
+	category = fame
+	
+	shown_in_ruler_designer = no
+	ai_zeal = very_high_positive_ai_value
+
+	triggered_opinion = {
+		parameter = worship_clavicus_criminal_active
+		opinion_modifier = clavicus_worship_crime
+	}
+	triggered_opinion = {
+		parameter = worship_clavicus_shunned_active
+		opinion_modifier = clavicus_worship_shunned
+	}
+
+	faith_modifier = {
+		parameter = worship_clavicus_criminal_active
+		zealot_opinion = -20
+	}
+
+	faith_modifier = {
+		parameter = worship_clavicus_shunned_active
+		zealot_opinion = -10
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_champion_clavicus_desc
+			}
+			desc = trait_champion_clavicus_character_desc
+		}
+	}
+}
+hermaeus_worshipper = {
+	category = fame
+	
+	# to prevent stacking these in RD
+	opposites = {
+		azura_worshipper
+		boethiah_worshipper
+		clavicus_worshipper
+		hircine_worshipper
+		malacath_worshipper
+		mehrunes_worshipper
+		mephala_worshipper
+		meridia_worshipper
+		molag_worshipper
+		namira_worshipper
+		nocturnal_worshipper
+		peryite_worshipper
+		sanguine_worshipper
+		sheogorath_worshipper
+		vaermina_worshipper
+	}
+
+	triggered_opinion = {
+		parameter = worship_hermaeus_criminal_active
+		opinion_modifier = hermaeus_worship_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = worship_hermaeus_shunned_active
+		opinion_modifier = hermaeus_worship_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	faith_modifier = {
+		parameter = worship_hermaeus_criminal_active
+		zealot_opinion = -10
+	}
+
+	faith_modifier = {
+		parameter = worship_hermaeus_shunned_active
+		zealot_opinion = -5
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_hermaeus_worshipper_desc
+			}
+			desc = trait_hermaeus_worshipper_character_desc
+		}
+	}
+}
+
+champion_hermaeus = {
+	category = fame
+	
+	shown_in_ruler_designer = no
+	ai_zeal = very_high_positive_ai_value
+
+	triggered_opinion = {
+		parameter = worship_hermaeus_criminal_active
+		opinion_modifier = hermaeus_worship_crime
+	}
+	triggered_opinion = {
+		parameter = worship_hermaeus_shunned_active
+		opinion_modifier = hermaeus_worship_shunned
+	}
+
+	faith_modifier = {
+		parameter = worship_hermaeus_criminal_active
+		zealot_opinion = -20
+	}
+
+	faith_modifier = {
+		parameter = worship_hermaeus_shunned_active
+		zealot_opinion = -10
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_champion_hermaeus_desc
+			}
+			desc = trait_champion_hermaeus_character_desc
+		}
+	}
+}
+
+hircine_worshipper = {
+	category = fame
+	
+	# to prevent stacking these in RD
+	opposites = {
+		azura_worshipper
+		boethiah_worshipper
+		clavicus_worshipper
+		hermaeus_worshipper
+		malacath_worshipper
+		mehrunes_worshipper
+		mephala_worshipper
+		meridia_worshipper
+		molag_worshipper
+		namira_worshipper
+		nocturnal_worshipper
+		peryite_worshipper
+		sanguine_worshipper
+		sheogorath_worshipper
+		vaermina_worshipper
+	}
+
+	triggered_opinion = {
+		parameter = worship_hircine_criminal_active
+		opinion_modifier = hircine_worship_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = worship_hircine_shunned_active
+		opinion_modifier = hircine_worship_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	faith_modifier = {
+		parameter = worship_hircine_criminal_active
+		zealot_opinion = -10
+	}
+
+	faith_modifier = {
+		parameter = worship_hircine_shunned_active
+		zealot_opinion = -5
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_hircine_worshipper_desc
+			}
+			desc = trait_hircine_worshipper_character_desc
+		}
+	}
+}
+
+champion_hircine = {
+	category = fame
+	
+	shown_in_ruler_designer = no
+	ai_zeal = very_high_positive_ai_value
+
+	triggered_opinion = {
+		parameter = worship_hircine_criminal_active
+		opinion_modifier = hircine_worship_crime
+	}
+	triggered_opinion = {
+		parameter = worship_hircine_shunned_active
+		opinion_modifier = hircine_worship_shunned
+	}
+
+	faith_modifier = {
+		parameter = worship_hircine_criminal_active
+		zealot_opinion = -20
+	}
+
+	faith_modifier = {
+		parameter = worship_hircine_shunned_active
+		zealot_opinion = -10
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_champion_hircine_desc
+			}
+			desc = trait_champion_hircine_character_desc
+		}
+	}
+}
+
+malacath_worshipper = {
+	category = fame	
+	
+	# to prevent stacking these in RD
+	opposites = {
+		azura_worshipper
+		boethiah_worshipper
+		clavicus_worshipper
+		hermaeus_worshipper
+		hircine_worshipper
+		mehrunes_worshipper
+		mephala_worshipper
+		meridia_worshipper
+		molag_worshipper
+		namira_worshipper
+		nocturnal_worshipper
+		peryite_worshipper
+		sanguine_worshipper
+		sheogorath_worshipper
+		vaermina_worshipper
+	}
+
+	triggered_opinion = {
+		parameter = worship_malacath_criminal_active
+		opinion_modifier = malacath_worship_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = worship_malacath_shunned_active
+		opinion_modifier = malacath_worship_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	faith_modifier = {
+		parameter = worship_malacath_criminal_active
+		zealot_opinion = -10
+	}
+
+	faith_modifier = {
+		parameter = worship_malacath_shunned_active
+		zealot_opinion = -5
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_malacath_worshipper_desc
+			}
+			desc = trait_malacath_worshipper_character_desc
+		}
+	}
+}
+
+champion_malacath = {
+	category = fame
+
+	ai_zeal = very_high_positive_ai_value
+	
+	shown_in_ruler_designer = no
+
+	triggered_opinion = {
+		parameter = worship_malacath_criminal_active
+		opinion_modifier = malacath_worship_crime
+	}
+	triggered_opinion = {
+		parameter = worship_malacath_shunned_active
+		opinion_modifier = malacath_worship_shunned
+	}
+
+	faith_modifier = {
+		parameter = worship_malacath_criminal_active
+		zealot_opinion = -20
+	}
+
+	faith_modifier = {
+		parameter = worship_malacath_shunned_active
+		zealot_opinion = -10
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_champion_malacath_desc
+			}
+			desc = trait_champion_malacath_character_desc
+		}
+	}
+}
+
+mehrunes_worshipper = {
+	category = fame	
+	
+	# to prevent stacking these in RD
+	opposites = {
+		azura_worshipper
+		boethiah_worshipper
+		clavicus_worshipper
+		hermaeus_worshipper
+		hircine_worshipper
+		malacath_worshipper
+		mephala_worshipper
+		meridia_worshipper
+		molag_worshipper
+		namira_worshipper
+		nocturnal_worshipper
+		peryite_worshipper
+		sanguine_worshipper
+		sheogorath_worshipper
+		vaermina_worshipper
+	}
+
+	triggered_opinion = {
+		parameter = worship_mehrunes_criminal_active
+		opinion_modifier = mehrunes_worship_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = worship_mehrunes_shunned_active
+		opinion_modifier = mehrunes_worship_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	faith_modifier = {
+		parameter = worship_mehrunes_criminal_active
+		zealot_opinion = -10
+	}
+
+	faith_modifier = {
+		parameter = worship_mehrunes_shunned_active
+		zealot_opinion = -5
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_mehrunes_worshipper_desc
+			}
+			desc = trait_mehrunes_worshipper_character_desc
+		}
+	}
+}
+champion_mehrunes = {
+	category = fame
+	
+	shown_in_ruler_designer = no
+	ai_zeal = very_high_positive_ai_value
+
+	triggered_opinion = {
+		parameter = worship_mehrunes_criminal_active
+		opinion_modifier = mehrunes_worship_crime
+	}
+	triggered_opinion = {
+		parameter = worship_mehrunes_shunned_active
+		opinion_modifier = mehrunes_worship_shunned
+	}
+
+	faith_modifier = {
+		parameter = worship_mehrunes_criminal_active
+		zealot_opinion = -20
+	}
+
+	faith_modifier = {
+		parameter = worship_mehrunes_shunned_active
+		zealot_opinion = -10
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_champion_mehrunes_desc
+			}
+			desc = trait_champion_mehrunes_character_desc
+		}
+	}
+}
+mephala_worshipper = {
+	category = fame
+	
+	# to prevent stacking these in RD
+	opposites = {
+		azura_worshipper
+		boethiah_worshipper
+		clavicus_worshipper
+		hermaeus_worshipper
+		hircine_worshipper
+		malacath_worshipper
+		mehrunes_worshipper
+		meridia_worshipper
+		molag_worshipper
+		namira_worshipper
+		nocturnal_worshipper
+		peryite_worshipper
+		sanguine_worshipper
+		sheogorath_worshipper
+		vaermina_worshipper
+	}
+
+	triggered_opinion = {
+		parameter = worship_mephala_criminal_active
+		opinion_modifier = mephala_worship_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = worship_mephala_shunned_active
+		opinion_modifier = mephala_worship_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	faith_modifier = {
+		parameter = worship_mephala_criminal_active
+		zealot_opinion = -10
+	}
+
+	faith_modifier = {
+		parameter = worship_mephala_shunned_active
+		zealot_opinion = -5
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_mephala_worshipper_desc
+			}
+			desc = trait_mephala_worshipper_character_desc
+		}
+	}
+}
+
+champion_mephala = {
+	category = fame
+	
+	shown_in_ruler_designer = no
+	ai_zeal = very_high_positive_ai_value
+
+	triggered_opinion = {
+		parameter = worship_mephala_criminal_active
+		opinion_modifier = mephala_worship_crime
+	}
+	triggered_opinion = {
+		parameter = worship_mephala_shunned_active
+		opinion_modifier = mephala_worship_shunned
+	}
+
+	faith_modifier = {
+		parameter = worship_mephala_criminal_active
+		zealot_opinion = -20
+	}
+
+	faith_modifier = {
+		parameter = worship_mephala_shunned_active
+		zealot_opinion = -10
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_champion_mephala_desc
+			}
+			desc = trait_champion_mephala_character_desc
+		}
+	}
+}
+meridia_worshipper = {
+	category = fame
+	
+	# to prevent stacking these in RD
+	opposites = {
+		azura_worshipper
+		boethiah_worshipper
+		clavicus_worshipper
+		hermaeus_worshipper
+		hircine_worshipper
+		malacath_worshipper
+		mehrunes_worshipper
+		mephala_worshipper
+		molag_worshipper
+		namira_worshipper
+		nocturnal_worshipper
+		peryite_worshipper
+		sanguine_worshipper
+		sheogorath_worshipper
+		vaermina_worshipper
+	}
+
+	triggered_opinion = {
+		parameter = worship_meridia_criminal_active
+		opinion_modifier = meridia_worship_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = worship_meridia_shunned_active
+		opinion_modifier = meridia_worship_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	faith_modifier = {
+		parameter = worship_meridia_criminal_active
+		zealot_opinion = -10
+	}
+
+	faith_modifier = {
+		parameter = worship_meridia_shunned_active
+		zealot_opinion = -5
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_meridia_worshipper_desc
+			}
+			desc = trait_meridia_worshipper_character_desc
+		}
+	}
+}
+
+champion_meridia = {
+	category = fame
+	
+	shown_in_ruler_designer = no
+
+	ai_zeal = very_high_positive_ai_value
+
+	triggered_opinion = {
+		parameter = worship_meridia_criminal_active
+		opinion_modifier = meridia_worship_crime
+	}
+	triggered_opinion = {
+		parameter = worship_meridia_shunned_active
+		opinion_modifier = meridia_worship_shunned
+	}
+
+	faith_modifier = {
+		parameter = worship_meridia_criminal_active
+		zealot_opinion = -20
+	}
+
+	faith_modifier = {
+		parameter = worship_meridia_shunned_active
+		zealot_opinion = -10
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_champion_meridia_desc
+			}
+			desc = trait_champion_meridia_character_desc
+		}
+	}
+}
+
+molag_worshipper = {
+	category = fame
+	
+	# to prevent stacking these in RD
+	opposites = {
+		azura_worshipper
+		boethiah_worshipper
+		clavicus_worshipper
+		hermaeus_worshipper
+		hircine_worshipper
+		malacath_worshipper
+		mehrunes_worshipper
+		mephala_worshipper
+		meridia_worshipper
+		namira_worshipper
+		nocturnal_worshipper
+		peryite_worshipper
+		sanguine_worshipper
+		sheogorath_worshipper
+		vaermina_worshipper
+	}
+
+	triggered_opinion = {
+		parameter = worship_molag_criminal_active
+		opinion_modifier = molag_worship_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = worship_molag_shunned_active
+		opinion_modifier = molag_worship_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	faith_modifier = {
+		parameter = worship_molag_criminal_active
+		zealot_opinion = -10
+	}
+
+	faith_modifier = {
+		parameter = worship_molag_shunned_active
+		zealot_opinion = -5
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_molag_worshipper_desc
+			}
+			desc = trait_molag_worshipper_character_desc
+		}
+	}
+}
+champion_molag = {
+	category = fame
+
+	ai_zeal = very_high_positive_ai_value
+	
+	shown_in_ruler_designer = no
+
+	triggered_opinion = {
+		parameter = worship_molag_criminal_active
+		opinion_modifier = molag_worship_crime
+	}
+	triggered_opinion = {
+		parameter = worship_molag_shunned_active
+		opinion_modifier = molag_worship_shunned
+	}
+
+	faith_modifier = {
+		parameter = worship_molag_criminal_active
+		zealot_opinion = -20
+	}
+
+	faith_modifier = {
+		parameter = worship_molag_shunned_active
+		zealot_opinion = -10
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_champion_molag_desc
+			}
+			desc = trait_champion_molag_character_desc
+		}
+	}
+}
+namira_worshipper = {
+	category = fame	
+	
+	# to prevent stacking these in RD
+	opposites = {
+		azura_worshipper
+		boethiah_worshipper
+		clavicus_worshipper
+		hermaeus_worshipper
+		hircine_worshipper
+		malacath_worshipper
+		mehrunes_worshipper
+		mephala_worshipper
+		meridia_worshipper
+		molag_worshipper
+		nocturnal_worshipper
+		peryite_worshipper
+		sanguine_worshipper
+		sheogorath_worshipper
+		vaermina_worshipper
+	}
+
+	triggered_opinion = {
+		parameter = worship_namira_criminal_active
+		opinion_modifier = namira_worship_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = worship_namira_shunned_active
+		opinion_modifier = namira_worship_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	faith_modifier = {
+		parameter = worship_namira_criminal_active
+		zealot_opinion = -10
+	}
+
+	faith_modifier = {
+		parameter = worship_namira_shunned_active
+		zealot_opinion = -5
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_namira_worshipper_desc
+			}
+			desc = trait_namira_worshipper_character_desc
+		}
+	}
+}
+
+champion_namira = {
+	category = fame
+
+	ai_zeal = very_high_positive_ai_value
+	
+	shown_in_ruler_designer = no
+
+	triggered_opinion = {
+		parameter = worship_namira_criminal_active
+		opinion_modifier = namira_worship_crime
+	}
+	triggered_opinion = {
+		parameter = worship_namira_shunned_active
+		opinion_modifier = namira_worship_shunned
+	}
+
+	faith_modifier = {
+		parameter = worship_namira_criminal_active
+		zealot_opinion = -20
+	}
+
+	faith_modifier = {
+		parameter = worship_namira_shunned_active
+		zealot_opinion = -10
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_champion_namira_desc
+			}
+			desc = trait_champion_namira_character_desc
+		}
+	}
+}
+nocturnal_worshipper = {
+	category = fame
+	
+	# to prevent stacking these in RD
+	opposites = {
+		azura_worshipper
+		boethiah_worshipper
+		clavicus_worshipper
+		hermaeus_worshipper
+		hircine_worshipper
+		malacath_worshipper
+		mehrunes_worshipper
+		mephala_worshipper
+		meridia_worshipper
+		molag_worshipper
+		namira_worshipper
+		peryite_worshipper
+		sanguine_worshipper
+		sheogorath_worshipper
+		vaermina_worshipper
+	}
+
+	triggered_opinion = {
+		parameter = worship_nocturnal_criminal_active
+		opinion_modifier = nocturnal_worship_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = worship_nocturnal_shunned_active
+		opinion_modifier = nocturnal_worship_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	faith_modifier = {
+		parameter = worship_nocturnal_criminal_active
+		zealot_opinion = -10
+	}
+
+	faith_modifier = {
+		parameter = worship_nocturnal_shunned_active
+		zealot_opinion = -5
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_nocturnal_worshipper_desc
+			}
+			desc = trait_nocturnal_worshipper_character_desc
+		}
+	}
+}
+champion_nocturnal = {
+	category = fame
+
+	ai_zeal = very_high_positive_ai_value
+	
+	shown_in_ruler_designer = no
+
+	triggered_opinion = {
+		parameter = worship_nocturnal_criminal_active
+		opinion_modifier = nocturnal_worship_crime
+	}
+	triggered_opinion = {
+		parameter = worship_nocturnal_shunned_active
+		opinion_modifier = nocturnal_worship_shunned
+	}
+
+	faith_modifier = {
+		parameter = worship_nocturnal_criminal_active
+		zealot_opinion = -20
+	}
+
+	faith_modifier = {
+		parameter = worship_nocturnal_shunned_active
+		zealot_opinion = -10
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_champion_nocturnal_desc
+			}
+			desc = trait_champion_nocturnal_character_desc
+		}
+	}
+}
+peryite_worshipper = {
+	category = fame	
+	
+	# to prevent stacking these in RD
+	opposites = {
+		azura_worshipper
+		boethiah_worshipper
+		clavicus_worshipper
+		hermaeus_worshipper
+		hircine_worshipper
+		malacath_worshipper
+		mehrunes_worshipper
+		mephala_worshipper
+		meridia_worshipper
+		molag_worshipper
+		namira_worshipper
+		nocturnal_worshipper
+		sanguine_worshipper
+		sheogorath_worshipper
+		vaermina_worshipper
+	}
+
+	triggered_opinion = {
+		parameter = worship_peryite_criminal_active
+		opinion_modifier = peryite_worship_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = worship_peryite_shunned_active
+		opinion_modifier = peryite_worship_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	faith_modifier = {
+		parameter = worship_peryite_criminal_active
+		zealot_opinion = -10
+	}
+
+	faith_modifier = {
+		parameter = worship_peryite_shunned_active
+		zealot_opinion = -5
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_peryite_worshipper_desc
+			}
+			desc = trait_peryite_worshipper_character_desc
+		}
+	}
+}
+champion_peryite = {
+	category = fame
+
+	ai_zeal = very_high_positive_ai_value
+	
+	shown_in_ruler_designer = no
+
+	triggered_opinion = {
+		parameter = worship_peryite_criminal_active
+		opinion_modifier = peryite_worship_crime
+	}
+	triggered_opinion = {
+		parameter = worship_peryite_shunned_active
+		opinion_modifier = peryite_worship_shunned
+	}
+
+	faith_modifier = {
+		parameter = worship_peryite_criminal_active
+		zealot_opinion = -20
+	}
+
+	faith_modifier = {
+		parameter = worship_peryite_shunned_active
+		zealot_opinion = -10
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_champion_peryite_desc
+			}
+			desc = trait_champion_peryite_character_desc
+		}
+	}
+}
+sanguine_worshipper = {
+	category = fame
+	
+	# to prevent stacking these in RD
+	opposites = {
+		azura_worshipper
+		boethiah_worshipper
+		clavicus_worshipper
+		hermaeus_worshipper
+		hircine_worshipper
+		malacath_worshipper
+		mehrunes_worshipper
+		mephala_worshipper
+		meridia_worshipper
+		molag_worshipper
+		namira_worshipper
+		nocturnal_worshipper
+		peryite_worshipper
+		sheogorath_worshipper
+		vaermina_worshipper
+	}
+
+	triggered_opinion = {
+		parameter = worship_sanguine_criminal_active
+		opinion_modifier = sanguine_worship_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = worship_sanguine_shunned_active
+		opinion_modifier = sanguine_worship_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	faith_modifier = {
+		parameter = worship_sanguine_criminal_active
+		zealot_opinion = -10
+	}
+
+	faith_modifier = {
+		parameter = worship_sanguine_shunned_active
+		zealot_opinion = -5
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_sanguine_worshipper_desc
+			}
+			desc = trait_sanguine_worshipper_character_desc
+		}
+	}
+}
+
+champion_sanguine = {
+	category = fame
+
+	ai_zeal = very_high_positive_ai_value
+	
+	shown_in_ruler_designer = no
+
+	triggered_opinion = {
+		parameter = worship_sanguine_criminal_active
+		opinion_modifier = sanguine_worship_crime
+	}
+	triggered_opinion = {
+		parameter = worship_sanguine_shunned_active
+		opinion_modifier = sanguine_worship_shunned
+	}
+
+	faith_modifier = {
+		parameter = worship_sanguine_criminal_active
+		zealot_opinion = -20
+	}
+
+	faith_modifier = {
+		parameter = worship_sanguine_shunned_active
+		zealot_opinion = -10
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_champion_sanguine_desc
+			}
+			desc = trait_champion_sanguine_character_desc
+		}
+	}
+}
+
+sheogorath_worshipper = {
+	category = fame	
+	
+	# to prevent stacking these in RD
+	opposites = {
+		azura_worshipper
+		boethiah_worshipper
+		clavicus_worshipper
+		hermaeus_worshipper
+		hircine_worshipper
+		malacath_worshipper
+		mehrunes_worshipper
+		mephala_worshipper
+		meridia_worshipper
+		molag_worshipper
+		namira_worshipper
+		nocturnal_worshipper
+		peryite_worshipper
+		sanguine_worshipper
+		vaermina_worshipper
+	}
+
+	triggered_opinion = {
+		parameter = worship_sheogorath_criminal_active
+		opinion_modifier = sheogorath_worship_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = worship_sheogorath_shunned_active
+		opinion_modifier = sheogorath_worship_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	faith_modifier = {
+		parameter = worship_sheogorath_criminal_active
+		zealot_opinion = -10
+	}
+
+	faith_modifier = {
+		parameter = worship_sheogorath_shunned_active
+		zealot_opinion = -5
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_sheogorath_worshipper_desc
+			}
+			desc = trait_sheogorath_worshipper_character_desc
+		}
+	}
+}
+
+champion_sheogorath = {
+	category = fame
+
+	ai_zeal = very_high_positive_ai_value
+	
+	shown_in_ruler_designer = no
+
+	triggered_opinion = {
+		parameter = worship_sheogorath_criminal_active
+		opinion_modifier = sheogorath_worship_crime
+	}
+	triggered_opinion = {
+		parameter = worship_sheogorath_shunned_active
+		opinion_modifier = sheogorath_worship_shunned
+	}
+
+	faith_modifier = {
+		parameter = worship_sheogorath_criminal_active
+		zealot_opinion = -20
+	}
+
+	faith_modifier = {
+		parameter = worship_sheogorath_shunned_active
+		zealot_opinion = -10
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_champion_sheogorath_desc
+			}
+			desc = trait_champion_sheogorath_character_desc
+		}
+	}
+}
+
+vaermina_worshipper = {
+	category = fame
+	
+	# to prevent stacking these in RD
+	opposites = {
+		azura_worshipper
+		boethiah_worshipper
+		clavicus_worshipper
+		hermaeus_worshipper
+		hircine_worshipper
+		malacath_worshipper
+		mehrunes_worshipper
+		mephala_worshipper
+		meridia_worshipper
+		molag_worshipper
+		namira_worshipper
+		nocturnal_worshipper
+		peryite_worshipper
+		sanguine_worshipper
+		sheogorath_worshipper
+	}
+
+	triggered_opinion = {
+		parameter = worship_vaermina_criminal_active
+		opinion_modifier = vaermina_worship_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = worship_vaermina_shunned_active
+		opinion_modifier = vaermina_worship_shunned
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	faith_modifier = {
+		parameter = worship_vaermina_criminal_active
+		zealot_opinion = -10
+	}
+
+	faith_modifier = {
+		parameter = worship_vaermina_shunned_active
+		zealot_opinion = -5
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_vaermina_worshipper_desc
+			}
+			desc = trait_vaermina_worshipper_character_desc
+		}
+	}
+}
+
+champion_vaermina = {
+	category = fame
+
+	ai_zeal = very_high_positive_ai_value
+	
+	shown_in_ruler_designer = no
+	
+	triggered_opinion = {
+		parameter = worship_vaermina_criminal_active
+		opinion_modifier = vaermina_worship_crime
+	}
+	triggered_opinion = {
+		parameter = worship_vaermina_shunned_active
+		opinion_modifier = vaermina_worship_shunned
+	}
+
+	faith_modifier = {
+		parameter = worship_vaermina_criminal_active
+		zealot_opinion = -20
+	}
+
+	faith_modifier = {
+		parameter = worship_vaermina_shunned_active
+		zealot_opinion = -10
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_champion_vaermina_desc
+			}
+			desc = trait_champion_vaermina_character_desc
+		}
+	}
+}

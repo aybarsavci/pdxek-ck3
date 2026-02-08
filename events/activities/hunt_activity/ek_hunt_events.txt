@@ -1,0 +1,640 @@
+﻿# Elder Kings events for handling the Hunt activity
+
+namespace = ek_hunt
+
+#######################
+#	You find a secluded shrine to Hircine...
+#######################
+### EK TODO: When Ardor is in, give a small Ardor bump if you usher a small prayer to Hircine
+ek_hunt.1001 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_hunt.1001.t
+	desc = ek_hunt.1001.desc
+	theme = hunt_activity
+	right_portrait = root
+
+	cooldown = { years = yearly_cooldown }
+
+
+	option = { # Destroy it!
+		trigger = { # Hircine shunned/criminal in your faith
+			faith = {
+				OR = {
+					has_doctrine_parameter = worship_hircine_shunned_active
+					has_doctrine_parameter = worship_hircine_criminal_active
+				}
+			}
+		}
+
+		name = ek_hunt.1001.a
+		add_piety = medium_piety_gain
+		hunt_activity_success_change_effect = { CHANGE = decrease_major }
+		stress_impact = {
+			zealous = minor_stress_impact_loss
+			cynical = minor_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_zeal = 0.5
+			}
+		}
+	}
+
+	option = { # Do not disturb it
+		name = ek_hunt.1001.b
+		
+		custom_tooltip = ek_hunt.1001.b.tt
+		stress_impact = {
+			compassionate = minor_stress_impact_loss
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_compassion = 0.5
+			}
+		}
+	}
+
+	option = { # Issue a small prayer to Hircine, for a good hunt (Hircine disallowed)
+		trigger = { # Hircine shunned/criminal in your faith
+			faith = {
+				OR = {
+					has_doctrine_parameter = worship_hircine_shunned_active
+					has_doctrine_parameter = worship_hircine_criminal_active
+				}
+			}
+		}
+		
+		name = ek_hunt.1001.c1
+		
+		hunt_activity_success_change_effect = { CHANGE = increase_minor }
+		stress_impact = {
+			zealous = minor_stress_impact_gain
+		}
+		add_piety = minor_piety_loss
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_zeal = -0.5
+			}
+		}
+	}
+
+	option = { # Issue a small prayer to Hircine, for a good hunt (Hircine ok)
+		trigger = { # Hircine is okay but not worshipped
+			faith = { has_doctrine_parameter = worship_hircine_allowed_active }
+			NOT = { faith = { has_doctrine_parameter = adds_hircine_pantheon_active } }
+		}
+		name = ek_hunt.1001.c2
+		
+		hunt_activity_success_change_effect = { CHANGE = increase_minor }
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # Issue a small prayer to Hircine, for a good hunt (Hircine worshipped)
+		trigger = { # Hircine shunned/criminal in your faith
+			faith = { has_doctrine_parameter = adds_hircine_pantheon_active }
+		}
+		name = ek_hunt.1001.c3
+		
+		hunt_activity_success_change_effect = { CHANGE = increase_minor }
+		stress_impact = {
+			zealous = minor_stress_impact_loss
+			cynical = minor_stress_impact_gain
+		}
+		add_piety = minor_piety_gain
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_zeal = 0.5
+			}
+		}
+	}
+
+	option = { # Take not of where the shrine is, to come back later... (gives you the Worshipper of Hircine secret)
+		trigger = {
+			# You can't be allowed to openly worship Hircine
+			can_secretly_worship_hircine = yes
+		}
+		name = ek_hunt.1001.d
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:hircine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		
+		add_stress = medium_stress_gain
+		stress_impact = {
+			zealous = minor_stress_impact_gain
+			cynical = minor_stress_impact_loss
+		}
+		
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_zeal = -1
+			}
+		}
+	}
+}
+# Aspect of Hircine shows up after killing mystical white animal
+ek_hunt.1002 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_hunt.1002.t
+	desc = ek_hunt.1002.desc
+	theme = hunt_activity
+	right_portrait = {
+		character = root
+		animation = shock
+	}
+
+	option = { # Kill it! Kill it with fire!
+		trigger = {
+		}
+
+		name = ek_hunt.1002.a
+		add_piety = medium_piety_gain
+		add_character_modifier = hircines_wrath
+		add_character_flag = make_suicide_available		
+		custom_tooltip = ek_hunt.1002.a.tt
+
+		stress_impact = {
+			zealous = minor_stress_impact_loss
+			brave = minor_stress_impact_loss
+			cynical = minor_stress_impact_gain
+			craven = minor_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_zeal = 0.5
+			}
+		}
+	}
+
+	option = { # Run as fast as you can
+		name = ek_hunt.1002.b
+		trigger = {
+		}
+		add_character_modifier = hircines_wrath
+		add_character_flag = make_suicide_available		
+		custom_tooltip = ek_hunt.1002.b.tt
+		stress_impact = {
+			craven = minor_stress_impact_loss
+			brave = minor_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_boldness = -0.5
+			}
+		}
+	}
+
+	option = { # Praise Hircine!
+		trigger = { # Hircine allowed in your faith
+			faith = { has_doctrine_parameter = adds_hircine_pantheon_active }
+			is_daedric_champion = no
+		}
+		name = ek_hunt.1002.c
+		if = {
+			limit = { 
+				any_artifact = {
+					count < 1
+					has_artifact_modifier = saviors_hide_modifier
+				}	
+			}
+			create_artifact_saviors_hide_effect = { OWNER = ROOT }
+			add_trait = champion_hircine
+			save_scope_as = hircines_champion
+			every_player = {
+				limit = {
+					is_of_major_or_minor_interest_trigger = { CHARACTER = scope:hircines_champion }
+				}
+				trigger_event = ek_daedric_artifacts.0049 # Someone has become Hircine's Champion
+			}
+		}
+		
+		custom_tooltip = ek_hunt.1002.c.tt
+		stress_impact = {
+			zealous = minor_stress_impact_loss
+			cynical = minor_stress_impact_gain
+		}
+		add_piety = minor_piety_gain
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_zeal = 0.5
+			}
+		}
+	}
+
+	option = { # accept (gives you the Worshipper of Hircine secret)
+		trigger = {
+			can_secretly_worship_hircine = yes
+			is_daedric_champion = no
+		}
+		name = ek_hunt.1002.d
+		
+		custom_tooltip = ek_hunt.1002.d.tt
+		stress_impact = { zealous = major_stress_impact_gain }
+		if = {
+			limit = { 
+				any_artifact = {
+					count < 1
+					has_artifact_modifier = saviors_hide_modifier
+				}	
+			}
+			create_artifact_saviors_hide_effect = { OWNER = ROOT }
+			add_trait = champion_hircine
+			save_scope_as = hircines_champion
+			every_player = {
+				limit = {
+					is_of_major_or_minor_interest_trigger = { CHARACTER = scope:hircines_champion }
+				}
+				trigger_event = ek_daedric_artifacts.0049 # Someone has become Hircine's Champion
+			}
+			add_character_flag = hircine_conversion
+		}
+		
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_zeal = -1
+			}
+		}
+	}
+}
+
+# Spriggans gets pissed at your hunting
+ek_hunt.1003 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_hunt.1003.t
+	desc = ek_hunt.1003.desc
+	theme = hunt_activity
+	right_portrait = {
+		character = root
+		scripted_animation = bow_closed
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	trigger = {
+		this = scope:host
+	}
+
+	immediate = {
+		select_local_animal_effect = { TYPE = any }
+		play_music_cue = "mx_cue_combat_2"
+	}
+
+	option = { # Kill it! Kill it with fire!
+		name = ek_hunt.1003.a
+		duel = {
+			skill = prowess
+			value = decent_skill_rating
+			10 = {
+				desc = ek_hunt.1003.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = tooltip.ek_hunt.1003.a.success
+					add_piety = medium_piety_loss
+					add_prestige = medium_prestige_gain
+					hunt_activity_success_change_effect = { CHANGE = decrease_major }
+				}
+			}
+			
+			5 = {
+				desc = ek_hunt.1003.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = tooltip.ek_hunt.1003.a.failure
+					add_prestige = medium_prestige_loss
+					random_list = {
+						10 = {
+							death = { death_reason = death_hunting_accident }
+							send_interface_toast = {
+								title = ek_hunt.1003.a.failure.death.tt
+								left_icon = root
+							}
+						}
+						25 = { 
+							increase_wounds_effect = { REASON = battle }
+						} 
+					} 
+				}
+			}
+		}
+
+		stress_impact = {
+			zealous = minor_stress_impact_gain
+			brave = minor_stress_impact_loss
+			cynical = minor_stress_impact_loss
+			craven = minor_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_zeal = -0.5
+			}
+		}
+	}
+
+	option = { # Run as fast as you can
+		name = ek_hunt.1003.b
+		custom_tooltip = ek_hunt.1002.b.tt
+		hunt_activity_success_change_effect = { CHANGE = increase_minor }
+		stress_impact = {
+			craven = minor_stress_impact_loss
+			brave = minor_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_boldness = -0.5
+			}
+		}
+	}
+}
+
+# Werewolf Encounter
+ek_hunt.1004 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_hunt.1004.t
+	desc = ek_hunt.1004.desc
+	theme = hunt_activity
+	right_portrait = {
+		character = root
+		scripted_animation = bow_closed
+	}
+
+	trigger = {
+		scope:activity = {
+			scope:activity.var:animal_type = flag:wolf
+		}
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	immediate = {
+		play_music_cue = "mx_cue_combat_2"
+	}
+
+	option = { # Kill it! Kill it with fire!
+		name = ek_hunt.1004.a
+		duel = {
+			skill = prowess
+			value = high_skill_rating
+			10 = {
+				desc = ek_hunt.1004.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = tooltip.ek_hunt.1003.a.success
+					add_prestige = medium_prestige_gain
+					hidden_effect = {
+						random = {
+							chance = 30
+							contract_sanies_lupinus = yes
+						}
+					}
+				}
+			}
+			
+			5 = {
+				desc = ek_hunt.1004.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = tooltip.ek_hunt.1003.a.failure
+					add_prestige = medium_prestige_loss
+					hunt_activity_success_change_effect = { CHANGE = decrease_major }
+					random_list = {
+						10 = {
+							death = { death_reason = death_hunting_accident }
+							send_interface_toast = {
+								title = ek_hunt.1003.a.failure.death.tt
+								left_icon = root
+							}
+						}
+						25 = { 
+							increase_wounds_effect = { REASON = battle }
+							contract_sanies_lupinus = yes
+						} 
+					} 
+				}
+			}
+		}
+
+		stress_impact = {
+			brave = minor_stress_impact_loss
+			craven = minor_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_zeal = -0.5
+			}
+		}
+	}
+
+	option = { # Run as fast as you can
+		name = ek_hunt.1003.b
+		custom_tooltip = ek_hunt.1002.b.tt
+		stress_impact = {
+			craven = minor_stress_impact_loss
+			brave = minor_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_boldness = -0.5
+			}
+		}
+	}
+}
+
+# Cliffracer Encounter
+ek_hunt.1006 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_hunt.1006.t
+	desc = ek_hunt.1006.desc
+	theme = hunt_activity
+	right_portrait = {
+		character = root
+		scripted_animation = bow_closed
+	}
+
+	cooldown = { years = 5 }
+
+	trigger = {
+		location = {
+			geographical_region = mundus_tamriel_morrowind
+		}
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_combat_2"
+	}
+
+	option = { # Kill it! Kill it with fire!
+		name = ek_hunt.1006.a
+		duel = {
+			skill = prowess
+			value = high_skill_rating
+			10 = {
+				desc = ek_hunt.1006.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = tooltip.ek_hunt.1003.a.success
+					add_prestige = medium_prestige_gain
+				}
+			}
+			
+			5 = {
+				desc = ek_hunt.1006.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = tooltip.ek_hunt.1003.a.failure
+					add_prestige = medium_prestige_loss
+					random_list = {
+						10 = {
+							death = { death_reason = death_cliff_racer }
+							send_interface_toast = {
+								title = ek_hunt.1003.a.failure.death.tt
+								left_icon = root
+							}
+						}
+						25 = { 
+							increase_wounds_effect = { REASON = cliff_racer }
+						} 
+					} 
+				}
+			}
+		}
+
+		stress_impact = {
+			brave = minor_stress_impact_loss
+			craven = minor_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_zeal = -0.5
+			}
+		}
+	}
+
+	option = { # Run as fast as you can
+		name = ek_hunt.1003.b
+		custom_tooltip = ek_hunt.1002.b.tt
+		stress_impact = {
+			craven = minor_stress_impact_loss
+			brave = minor_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_boldness = -0.5
+			}
+		}
+	}
+}
+
+# The Source of the Bone
+ek_hunt.1007 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_hunt.1007.t
+	desc = ek_hunt.1007.desc
+	theme = hunt_activity
+	right_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	cooldown = { years = 5 }
+
+	trigger = {
+		culture = {
+			has_cultural_pillar = heritage_bosmeri
+		}
+	}
+
+	option = { # Use new bones
+		name = ek_hunt.1007.a
+		
+		random = {
+			chance = 30
+			hunt_activity_success_change_effect = { CHANGE = increase_medium }
+		}
+	}
+
+	option = { # use the bones you already have
+		name = ek_hunt.1007.b
+		hunt_activity_success_change_effect = { CHANGE = increase_minor }
+	}
+
+	option = { # focus on the stories in the bones
+		name = ek_hunt.1007.c
+		skill = learning
+		trigger = {
+			learning > 10
+		}
+		add_learning_lifestyle_xp = medium_lifestyle_xp
+		hunt_activity_success_change_effect = { CHANGE = increase_minor }
+	}
+
+	option = { # use a human bone
+		name = ek_hunt.1007.d
+		trait = sadistic
+		trigger = {
+			OR = {
+				has_trait = sadistic
+				dread > 50
+			}
+		}
+		add_dread = medium_dread_gain
+		hunt_activity_success_change_effect = { CHANGE = increase_medium }
+	}
+
+}

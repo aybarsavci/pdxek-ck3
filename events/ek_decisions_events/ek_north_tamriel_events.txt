@@ -1,0 +1,564 @@
+﻿namespace = north_tamriel
+
+### Skyrim
+# north_tamriel.0001 - 0010: West & East Skyrim divide
+# north_tamriel.0011 - 0020: West, East Skyrim and Solstheim (??) claim territory
+# north_tamriel.0021 - 0030: The Reach becomes a proper Nord hold
+# north_tamriel.0101 - xxxx: Reinstating dragon cult ### Very WIP
+### High Rock
+# north_tamriel.1001 - 1010: Reforging the Direnni Hegemony
+
+# west_skyrim and east_skyrim united
+# Did Eastern Skyrim inherit the other part, or the opposite?
+# Was it by war, inheritance, or other?
+north_tamriel.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = north_tamriel.0001.t
+	
+	desc = {
+		desc = north_tamriel.0001.desc.intro
+		first_valid = {
+			# Doing it through war
+			triggered_desc = {
+				trigger = {
+					OR = {
+						AND = {
+							scope:title = title:e_western_skyrim
+							title:e_western_skyrim = {
+								recent_history = {
+									type = conquest_claim
+									years = 1
+								}
+							}
+						}
+						AND = {
+							scope:title = title:e_eastern_skyrim
+							title:e_eastern_skyrim = {
+								recent_history = {
+									type = conquest_claim
+									years = 1
+								}
+							}
+						}
+					}
+				}
+				desc = north_tamriel.0001.desc.war
+			}
+			# Doing it in an other way
+			triggered_desc = {
+				trigger = {
+					NOR = {
+						AND = {
+							scope:title = title:e_western_skyrim
+							title:e_western_skyrim = {
+								recent_history = {
+									type = conquest_claim
+									years = 1
+								}
+							}
+						}
+						AND = {
+							scope:title = title:e_eastern_skyrim
+							title:e_eastern_skyrim = {
+								recent_history = {
+									type = conquest_claim
+									years = 1
+								}
+							}
+						}
+					}
+				}
+				desc = north_tamriel.0001.desc.other
+			}
+		}
+		first_valid = {
+			# Doing it as Western Skyrim
+			triggered_desc = {
+				trigger = {
+					OR = {
+						culture = culture:westmarcher
+						culture = { any_parent_culture_or_above = { this = culture:westmarcher } }
+					}
+				}
+				desc = north_tamriel.0001.desc.western
+			}
+			# Doing it as Eastern Skyrim
+			triggered_desc = {
+				trigger = {
+					OR = {
+						culture = culture:eastmarcher
+						culture = { any_parent_culture_or_above = { this = culture:eastmarcher } }
+					}
+				}
+				desc = north_tamriel.0001.desc.eastern
+			}
+			#Cyro-Nord
+			triggered_desc = {
+				trigger = {
+					OR = {
+						culture = culture:cyro_nord
+						culture = { any_parent_culture_or_above = { this = culture:cyro_nord } }
+					}
+				}
+				desc = north_tamriel.0001.desc.cyro_nord
+			}
+			#Reachfolk
+			triggered_desc = {
+				trigger = {
+					OR = {
+						culture = culture:reachfolk
+						culture = { any_parent_culture_or_above = { this = culture:reachfolk } }
+					}
+				}
+				desc = north_tamriel.0001.desc.reachfolk
+			}
+			#Dwemer
+			triggered_desc = {
+				trigger = {
+					culture = { has_cultural_pillar = heritage_dwemeri }
+				}
+				desc = north_tamriel.0001.desc.dwemer
+			}
+			#Falmer
+			triggered_desc = {
+				trigger = {
+					OR = {
+						culture = culture:falmer
+						culture = { any_parent_culture_or_above = { this = culture:falmer } }
+					}
+				}
+				desc = north_tamriel.0001.desc.falmer
+			}
+			#Skaal
+			triggered_desc = {
+				trigger = {
+					OR = {
+						culture = culture:skaal
+						culture = { any_parent_culture_or_above = { this = culture:skaal } }
+					}
+				}
+				desc = north_tamriel.0001.desc.skaal
+			}
+			#Orc
+			triggered_desc = {
+				trigger = {
+					OR = {
+						culture = culture:mountain_orc
+						culture = { any_parent_culture_or_above = { this = culture:mountain_orc } }
+					}
+				}
+				desc = north_tamriel.0001.desc.mountain_orc
+			}
+			#Atmoran
+			triggered_desc = {
+				trigger = {
+					culture = culture:atmoran
+				}
+				desc = north_tamriel.0001.desc.atmoran
+			}
+			desc = north_tamriel.0001.desc.other_culture
+		}
+	}
+	
+	theme = war
+	
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	
+	immediate = {
+		root = { save_scope_as = winner }
+		scope:previous_holder = { save_scope_as = loser }
+		
+		### Get the HK of Skyrim
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		title:e_skyrim = {
+			change_title_holder = {
+				holder = root
+				change = scope:change
+			}
+			if = {
+    		    limit = {
+    		        root = {
+    		            primary_title = title:e_eastern_skyrim
+    		        }
+    		    }
+    		    copy_title_history = title:e_eastern_skyrim
+    		}
+    		if = {
+    		    limit = {
+    		        root = {
+    		            primary_title = title:e_western_skyrim
+    		        }
+    		    }
+    		    copy_title_history = title:e_western_skyrim
+    		}
+		}
+		resolve_title_and_vassal_change = scope:change
+		hidden_effect = {
+			if = { #If one of Skyrims is primary title then we apply all Skyrim things to new title and make it primary
+				limit = {
+					OR = {
+						primary_title = title:e_western_skyrim
+						primary_title = title:e_eastern_skyrim
+					}
+				}
+				set_primary_title_to = title:e_skyrim
+				title:e_skyrim = { add_title_law = moot_elective_succession_law }
+			}
+			# to be safe, let's make sure the kingdoms are actually part of Skyrim still and not, say, e_reach or e_orsinium
+			reunite_skyrim_scripted_effect = yes
+			if = {
+				limit = { #If capital is in de jure Skyrim, then make it de jure capital of Skyrim
+					title:e_skyrim = { is_de_jure_liege_or_above_target = root.capital_county }
+				}
+				title:e_skyrim = {
+					set_capital_county = root.capital_county
+				}
+			}
+		}
+	}
+	
+	trigger = {
+		OR = {
+			AND = {
+				scope:title = title:e_western_skyrim
+				has_title = title:e_eastern_skyrim
+			}
+			AND = {
+				scope:title = title:e_eastern_skyrim
+				has_title = title:e_western_skyrim
+			}
+		}
+	}
+
+	option = {
+		name = north_tamriel.0001.a
+		
+		### Destroy Western Skyrim and Eastern Skyrim
+		destroy_title = title:e_western_skyrim
+		destroy_title = title:e_eastern_skyrim
+	}
+}
+
+# East vs West
+north_tamriel.0005 = {
+	type = character_event
+	content_source = dlc_ek
+	title = north_tamriel.0005.t
+	
+	desc = north_tamriel.0005.desc
+	
+	theme = diplomacy_foreign_affairs_focus
+	
+	left_portrait = {
+		character = title:e_western_skyrim.holder
+		animation = personality_rational
+	}
+	
+	right_portrait = {
+		character = title:e_eastern_skyrim.holder
+		animation = personality_rational
+	}
+	
+	immediate = {
+		title:e_western_skyrim.holder = { save_scope_as = wk_holder }
+		title:e_eastern_skyrim.holder = { save_scope_as = ek_holder }
+	}
+
+	option = {
+		name = north_tamriel.0005.a
+		
+		custom_tooltip = accept_western_eastern_skyrim_divide_decision.western_skyrim_vassals.tt
+		custom_tooltip = accept_western_eastern_skyrim_divide_decision.eastern_skyrim_vassals.tt
+		custom_tooltip = accept_western_eastern_skyrim_divide_decision.create_de_jure_empires.tt
+		custom_tooltip = accept_western_eastern_skyrim_divide_decision.reunite_skyrim.tt
+	}
+}
+
+#Choose de jure capital of Skyrim
+north_tamriel.0010 = {
+	type = character_event
+	content_source = dlc_ek
+	title = north_tamriel.0010.t
+	
+	desc = north_tamriel.0010.desc
+	
+	theme = diplomacy_majesty_focus
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	option = { #Windhelm
+		name = north_tamriel.0010.a
+		if = { #Usurp if not held personally.
+			limit = {
+				NOT = { title:c_windhelm.holder = { this = root } }
+			}
+			create_title_and_vassal_change = {
+				type = returned
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			title:c_windhelm = {
+				change_title_holder = {
+					holder = root
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+		}
+		title:e_skyrim = {
+			set_capital_county = title:c_windhelm
+			set_coa = e_windhelm
+		}
+		set_realm_capital = title:c_windhelm
+	}
+	option = { #Solitude
+		name = north_tamriel.0010.b
+		if = { #Usurp if not held personally.
+			limit = {
+				NOT = { title:c_solitude.holder = { this = root } }
+			}
+			create_title_and_vassal_change = {
+				type = returned
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			title:c_solitude = {
+				change_title_holder = {
+					holder = root
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+		}
+		title:e_skyrim = {
+			set_capital_county = title:c_solitude
+			set_coa = e_solitude
+		}
+		set_realm_capital = title:c_solitude
+	}
+	option = { #Your own
+		name = north_tamriel.0010.c
+		add_prestige = 1000
+	}
+}
+
+# k_solstheim gets c_bleakrock and c_japhet_folly
+north_tamriel.0011 = {
+	type = character_event
+	content_source = dlc_ek
+	title = north_tamriel.0011.t
+	desc = north_tamriel.0011.desc
+	theme = war
+	
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	
+	trigger = {
+		has_character_flag = flag_solstheim_claim_coast
+		OR = {
+			AND = {
+				scope:title = title:c_bleakrock
+				has_title = title:c_japhet_folly
+			}
+			AND = {
+				scope:title = title:c_japhet_folly
+				has_title = title:c_bleakrock
+			}
+		}
+	}
+
+	option = {
+		name = north_tamriel.0011.a
+		
+		title:c_bleakrock = { set_de_jure_liege_title = title:d_raven_rock }
+		title:c_japhet_folly = { set_de_jure_liege_title = title:d_northshore }
+	}
+}
+
+# From turn_reach_nord_hold_decision
+north_tamriel.0021 = {
+	type = character_event
+	content_source = dlc_ek
+	title = north_tamriel.0021.t
+	desc = north_tamriel.0021.desc
+	theme = war
+	
+	immediate = {
+		root = { save_scope_as = reach_pacifier }
+		title:c_markarth = { save_scope_as = markarth }
+	}
+	
+	left_portrait = {
+		character = scope:reach_pacifier
+		animation = personality_rational
+	}
+
+	option = {
+		name = north_tamriel.0021.a
+		
+		turn_reach_nord_hold_decision_effect = yes
+	}
+	
+	after = {
+		every_player = {
+			limit = { NOT = { this = root } }
+			trigger_event = north_tamriel.0022
+		}
+	}
+}
+
+### TODO: Give a Reachfolk specific description
+north_tamriel.0022 = {
+	type = character_event
+	content_source = dlc_ek
+	title = north_tamriel.0021.t
+	desc = north_tamriel.0022.desc
+	theme = war
+	
+	left_portrait = {
+		character = scope:reach_pacifier
+		animation = personality_rational
+	}
+
+	option = {
+		name = north_tamriel.0022.a
+		
+		show_as_tooltip = {
+			scope:reach_pacifier = { turn_reach_nord_hold_decision_effect = yes }
+		}
+	}
+}
+
+##### HIGH ROCK
+# From direnni_hegemony_pt_1_decision
+north_tamriel.1001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = north_tamriel.1001.t
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { dynasty = dynasty:dyn_direnni }
+				desc = north_tamriel.1001.desc_direnni
+			}
+			desc = north_tamriel.1001.desc
+		}
+	}
+	
+	theme = war
+	
+	immediate = {
+		root = { save_scope_as = direnni_hegemony_claimant }
+		capital_county = { save_scope_as = capital_county }
+	}
+	
+	left_portrait = {
+		character = scope:direnni_hegemony_claimant
+		animation = personality_bold
+	}
+
+	option = {
+		name = north_tamriel.1001.a
+		
+		direnni_hegemony_pt_1_decision_effect = yes
+	}
+	
+	# after = {
+		# every_player = {
+			# limit = { NOT = { this = root } }
+			# trigger_event = north_tamriel.1002
+		# }
+	# }
+}
+
+# north_tamriel.1002 = {
+	# type = character_event
+	# title = north_tamriel.1001.t
+	# desc = north_tamriel.1002.desc
+	# theme = war
+	
+	# left_portrait = {
+		# character = scope:direnni_hegemony_claimant
+		# animation = personality_bold
+	# }
+
+	# option = {
+		# name = north_tamriel.1002.a
+		
+		# show_as_tooltip = { scope:direnni_hegemony_claimant = { direnni_hegemony_pt_1_decision_effect = yes } }
+	# }
+# }
+
+# From direnni_hegemony_pt_2_decision
+north_tamriel.1011 = {
+	type = character_event
+	content_source = dlc_ek
+	title = north_tamriel.1011.t
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { dynasty = dynasty:dyn_direnni }
+				desc = north_tamriel.1011.desc_direnni
+			}
+			desc = north_tamriel.1011.desc
+		}
+	}
+	
+	theme = war
+	
+	immediate = {
+		root = { save_scope_as = direnni_hegemony_reformer }
+		capital_county = { save_scope_as = capital_county }
+	}
+	
+	left_portrait = {
+		character = scope:direnni_hegemony_reformer
+		animation = personality_bold
+	}
+
+	option = {
+		name = north_tamriel.1011.a
+		
+		direnni_hegemony_pt_2_decision_effect = yes
+	}
+	
+	# after = {
+		# every_player = {
+			# limit = { NOT = { this = root } }
+			# trigger_event = north_tamriel.1012
+		# }
+	# }
+}
+
+# north_tamriel.1012 = {
+	# type = character_event
+	# title = north_tamriel.1011.t
+	# desc = north_tamriel.1012.desc
+	# theme = war
+	
+	# left_portrait = {
+		# character = scope:direnni_hegemony_reformer
+		# animation = personality_bold
+	# }
+
+	# option = {
+		# name = north_tamriel.1012.a
+		
+		# show_as_tooltip = { scope:direnni_hegemony_reformer = { direnni_hegemony_pt_2_decision_effect = yes } }
+	# }
+# }

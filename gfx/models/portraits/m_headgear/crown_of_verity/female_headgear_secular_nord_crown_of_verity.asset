@@ -1,0 +1,36 @@
+pdxmesh = {
+	name = "female_headgear_secular_nord_crown_of_verity_mesh"
+	file = "female_headgear_secular_nord_crown_of_verity.mesh"
+
+	
+	#EK2
+	blend_shape = { id = "female_argonian_blendshape"		type = "female_headgear_secular_nord_crown_of_verity_bs_argonian.mesh" }
+	blend_shape = { id = "female_khajiit_blendshape"		type = "female_headgear_secular_nord_crown_of_verity_bs_khajiit.mesh" }
+	#EK2
+	
+	meshsettings = {
+		name = "female_headgear_secular_nord_crown_01Shape"
+		index = 0
+		texture_diffuse = "headgear_secular_nord_crown_of_verity_diffuse.dds"
+		texture_normal = "headgear_secular_nord_crown_of_verity_normal.dds"
+		texture_specular = "headgear_secular_nord_crown_of_verity_properties.dds"
+		texture = { file = "headgear_secular_nord_crown_of_verity_glass_mask.dds" index = 5}
+		texture = { file = "glass_inner.dds" index = 6}
+		shader = "portrait_attachment_glass"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+
+entity = {
+	name = "female_headgear_secular_nord_crown_of_verity_entity"
+	pdxmesh = "female_headgear_secular_nord_crown_of_verity_mesh"
+
+	#EK2
+	attribute = { name = "argonian_head_bs"					blend_shape = "female_argonian_blendshape" }
+	attribute = { name = "khajiit_head_bs"					blend_shape = "female_khajiit_blendshape" }
+	#EK2
+	
+	game_data = {
+		portrait_entity_user_data = {}
+	}	
+}

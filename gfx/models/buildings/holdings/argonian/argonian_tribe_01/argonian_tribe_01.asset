@@ -1,0 +1,53 @@
+pdxmesh = {
+	name = "argonian_tribe_01_mesh"
+	file = "argonian_tribe_01.mesh"
+	
+	lod_percentages = {
+		lod = { index = 1 percent = 10.0 }
+	}
+	meshsettings = {
+		name = "argonian_tribe_01_LOD0"
+		index = 0
+		texture_diffuse = "argonian_atlas_diffuse.dds"
+		texture_normal = "argonian_atlas_normal.dds"
+		texture_specular = "argonian_atlas_properties.dds"
+		texture = { file = "argonian_tribe_01_unique.dds" index = 5 }
+		shader = "snap_to_terrain_atlas"
+		shader_file = "gfx/FX/pdxmesh.shader"
+	}
+	meshsettings = {
+		name = "decal_plane_LOD0"
+		index = 0
+		texture_diffuse = "argonian_village_decal_diffuse.dds"
+		texture_normal = "argonian_village_decal_normal.dds"
+		texture_specular = "argonian_village_decal_properties.dds"
+		shader = "decal_local"
+		shader_file = "gfx/FX/pdxmesh_decal.shader"
+		subpass = "LocalDecals"
+	}
+	meshsettings = {
+		name = "argonian_tribe_01_LOD1"
+		index = 0
+		texture_diffuse = "argonian_atlas_diffuse.dds"
+		texture_normal = "argonian_atlas_normal.dds"
+		texture_specular = "argonian_atlas_properties.dds"
+		texture = { file = "argonian_tribe_01_unique.dds" index = 5 }
+		shader = "snap_to_terrain_atlas"
+		shader_file = "gfx/FX/pdxmesh.shader"
+	}
+	meshsettings = {
+		name = "decal_plane_LOD1"
+		index = 0
+		texture_diffuse = "argonian_village_decal_diffuse.dds"
+		texture_normal = "argonian_village_decal_normal.dds"
+		texture_specular = "argonian_village_decal_properties.dds"
+		shader = "decal_local"
+		shader_file = "gfx/FX/pdxmesh_decal.shader"
+		subpass = "LocalDecals"
+	}
+}
+
+entity = {
+	name = "argonian_tribe_01_entity"
+	pdxmesh = "argonian_tribe_01_mesh"
+}

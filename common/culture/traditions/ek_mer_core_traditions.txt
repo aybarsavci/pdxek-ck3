@@ -1,0 +1,2607 @@
+﻿### EK EDIT: Repository for EK Mer Core Traditions
+#EK TODO: Change modifiers to more relevant ones like culture_pillar:ethos_spiritual = { is_in_list = traits } Opinion, chance of having a Stance and so on...
+
+##############################
+# CORE CULTURAL TRADITIONS #
+##############################
+
+
+### Altmer Traditions
+
+tradition_ceremoniarchy = { #Aedric Lineages
+	category = core
+
+	layers = {
+		0 = diplo
+		1 = western
+		4 = crown.dds
+	}
+	
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_ceremoniarchy_trigger_desc
+			NOR = { 
+				has_cultural_tradition = tradition_kings_in_exile
+				has_cultural_tradition = tradition_remnant_kings
+				has_cultural_tradition = tradition_direnni_sorcerer_kings
+				has_cultural_tradition = tradition_hereditary_hierarchy
+				has_cultural_tradition = tradition_heartland_high_elves
+			}	
+			OR = {
+				has_cultural_pillar = heritage_aldmeri
+				has_cultural_pillar = heritage_ayleid
+			}
+			scope:character.faith = {
+				has_doctrine = tenet_legalism
+				has_doctrine = doctrine_pantheon_aedra
+			}
+		}
+	}
+	
+	parameters = {
+		is_isolationist_tradition = yes
+		unlock_maa_summerset_justiciars = yes
+		poorly_educated_leaders_greatly_distrusted_ceremoniarchy = yes
+		uses_praxis_mechanics = yes
+		can_adopt_administrative_government_as_kingdom_tier = yes
+		unlocks_feudal_government = yes
+		renown_from_temple_construction = yes
+		physical_disfigurement_blocks_inheritance = yes
+		#Disinherit/Denounce renown cost scales based on their "purity", aka congenital traits, Impure, sins/virtues. AI more likely do disinherit/denounce "impure" relatives
+		dynastic_interactions_purity = yes
+		dynastic_interactions_more_likely = yes
+		#Disinherited relatives don't wanna stick around
+		disinherited_wanderers = yes
+		#can_appoint_court_chirurgeon = yes #not made yet
+	}
+	character_modifier = {
+		tyranny_loss_mult = -0.75
+		piety_level_impact_mult = 0.5
+		prestige_level_impact_mult = -0.5
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_courtly = { is_in_list = traits }
+						culture_pillar:ethos_spiritual = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_courtly_or_spiritual_desc
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						scope:character = {
+							primary_title.tier >= tier_kingdom
+							any_vassal = {
+								count >= 10
+								primary_title.tier >= tier_county
+								### EK NOTE: Again, we check if you have a Feudal or Autocratic gov
+								OR = {
+									government_has_flag = government_is_feudal
+									government_has_flag = government_is_autocracy
+								}
+							}
+						}
+					}
+				}
+				add = {
+					value = tradition_unfulfilled_criteria_penalty
+					desc = king_with_vassals_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_ceremoniarchy }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOT = {
+					scope:character.primary_title.tier >= tier_kingdom
+				}
+			}
+			multiply = 0
+		}
+	}
+}
+
+tradition_prescriptivism = {
+	category = core
+
+	layers = {
+		0 = learning
+		1 = western
+		4 = ceremony.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_prescriptivism_trigger_desc
+			NOR = { #otherwise they stack in a bad way
+				has_cultural_tradition = tradition_ruling_caste 
+				has_cultural_tradition = tradition_direnni_sorcerer_kings
+			}
+			has_cultural_pillar = heritage_aldmeri
+		}
+	}	
+
+	parameters = {
+		diplomacy_valued = yes
+		learned_diplomats = yes
+		learning_education_worse_outcomes = yes
+		better_arcane_education = yes
+		dont_want_foreign_languages = yes
+		expensive_convert_to_local_culture = yes
+		peasant_and_populist_factions_less_common = yes
+	
+	}
+	culture_modifier = {
+		cultural_acceptance_gain_mult = -0.25
+	}
+	character_modifier = {
+		stress_gain_mult = -0.1
+		cultural_head_fascination_mult = -0.1
+		dread_decay_mult = -0.3
+	}
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_courtly = { is_in_list = traits }
+						culture_pillar:ethos_spiritual = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_courtly_or_spiritual_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_prescriptivism }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOR = {
+					culture_pillar:ethos_courtly = { is_in_list = traits }
+					culture_pillar:ethos_spiritual = { is_in_list = traits }
+				}
+			}
+			multiply = 0
+		}
+	}
+}
+
+tradition_direnni_sorcerer_kings = {
+	category = core
+
+	layers = {
+		0 = diplo
+		1 = western
+		4 = crown.dds
+	}
+	
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_direnni_sorcerer_kings_trigger_desc
+			NOR = { 
+				has_cultural_tradition = tradition_ceremoniarchy
+				has_cultural_tradition = tradition_prescriptivism
+				has_cultural_tradition = tradition_sorcerer_kings
+				has_cultural_tradition = tradition_astute_diplomats
+			}
+			OR = {
+				this = culture:balfiera
+				any_parent_culture_or_above = {
+					this = culture:balfiera
+				}
+			}
+			has_cultural_pillar = heritage_aldmeri
+		}
+	}
+	
+	parameters = {
+		unlock_maa_direnni_sorcerers = yes
+		sorcerer_kings_tradition = yes
+		diplomacy_from_magic_education = yes
+		#Astute diplomats
+		cannot_attack_allies = yes
+		cannot_attack_truces = yes
+		facilitate_alliance_acceptance = yes
+		facilitate_white_peace = yes
+		extra_language_cap_2 = yes
+		astute_diplomat_bonus = yes
+		unlocks_purchase_truce = yes
+		cultrad_unlocks_t4_bounties_for_whispers = yes
+		magic_preference = yes
+	}
+
+	character_modifier = {
+		learn_language_scheme_phase_duration_add = medium_scheme_phase_duration_bonus_value
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					always = no
+					# Not enough other rulers with some magical ability
+				}
+				add = {
+					value = tradition_unfulfilled_criteria_penalty
+					desc = king_with_vassals_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_direnni_sorcerer_kings }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 25
+		if = {
+			limit = {
+				always = no
+				# Not enough other rulers with some magical ability
+			}
+			multiply = 0
+		}
+	}
+}
+
+### Ayleid Traditions
+
+tradition_remnant_kings = {
+	category = core
+
+	layers = {
+		0 = martial
+		1 = western
+		4 = crown.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_remnant_kings_trigger_desc
+			NOR = { 
+				has_cultural_tradition = tradition_kings_in_exile
+				has_cultural_tradition = tradition_ceremoniarchy
+				has_cultural_tradition = tradition_heartland_high_elves
+			}	
+			has_cultural_pillar = heritage_ayleid
+		}
+	}
+	
+	parameters = {
+		unlock_maa_ayleid_sorcerers = yes
+		#callous prestige
+		callousness_valued = yes
+		vengeful_trait_more_common = yes
+		killing_rivals_is_pog = yes
+		holy_warrior_trait_more_common = yes
+		#holy warrior trait gives piety
+		holy_warrior_piety = yes
+		keeps_slaves = yes
+	}
+	culture_modifier = {
+		cultural_acceptance_gain_mult = -0.25
+	}
+	character_modifier = {
+		intrigue_per_prestige_level = 1
+		monthly_prestige_gain_mult = -0.2
+		same_culture_opinion = 5
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_bellicose = { is_in_list = traits }
+						culture_pillar:ethos_spiritual = { is_in_list = traits }
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_bellicose_spiritual_or_stoic_desc
+				}
+			}
+
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_remnant_kings }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOR = {
+					culture_pillar:ethos_spiritual = { is_in_list = traits }
+					culture_pillar:ethos_bellicose = { is_in_list = traits }
+					culture_pillar:ethos_stoic = { is_in_list = traits }
+				}
+			}
+			multiply = 0.5
+		}
+	}
+}
+
+tradition_kings_in_exile = {
+	category = core
+
+	layers = {
+		0 = martial
+		1 = western
+		4 = crown.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_kings_in_exile_trigger_desc
+			NOR = { 
+				has_cultural_tradition = tradition_heartland_high_elves
+				has_cultural_tradition = tradition_remnant_kings
+				has_cultural_tradition = tradition_ceremoniarchy
+			}	
+			has_cultural_pillar = heritage_ayleid
+		}
+	}	
+
+	parameters = {
+		is_isolationist_tradition = yes
+		unlock_maa_ayleid_sorcerers = yes
+		weak_rulers_contest_rule = yes
+		martial_education_better_outcomes = yes
+		intrigue_education_worse_outcomes = yes
+		poorly_educated_leaders_distrusted = yes
+		humble_trait_more_common = yes
+		#zealous gives +1 learning
+		zealous_bonuses = yes
+		godliness_valued = yes
+		keeps_slaves = yes
+	}
+	culture_modifier = {
+		cultural_acceptance_gain_mult = 0.10
+	}
+
+	character_modifier = {
+		martial_per_prestige_level = 1
+		same_culture_opinion = 5
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_bellicose = { is_in_list = traits }
+						culture_pillar:ethos_spiritual = { is_in_list = traits }
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_bellicose_spiritual_or_stoic_desc
+				}
+			}
+
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_kings_in_exile }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOR = {
+					culture_pillar:ethos_spiritual = { is_in_list = traits }
+					culture_pillar:ethos_bellicose = { is_in_list = traits }
+					culture_pillar:ethos_stoic = { is_in_list = traits }
+				}
+			}
+			multiply = 0.5
+		}
+	}
+}
+
+tradition_heartland_high_elves = {
+	category = core
+
+	layers = {
+		0 = martial
+		1 = western
+		4 = crown.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_heartland_high_elves_trigger_desc
+			NOR = { 
+				has_cultural_tradition = tradition_kings_in_exile
+				has_cultural_tradition = tradition_remnant_kings
+				has_cultural_tradition = tradition_ceremoniarchy
+			}	
+			has_cultural_pillar = heritage_ayleid
+		}
+	}	
+
+	parameters = {
+		is_isolationist_tradition = yes
+		unlock_maa_ayleid_sorcerers = yes
+		weak_rulers_contest_rule = yes
+		poorly_educated_leaders_distrusted = yes
+		#heresies started by characters of this culture are stronger
+		vulnerable_to_heresies = yes
+		peasant_and_populist_factions_less_common = yes
+		keeps_slaves = yes
+	}
+	culture_modifier = {
+		cultural_acceptance_gain_mult = -0.25
+	}
+
+	character_modifier = {
+		vassal_opinion = -10
+		dread_per_tyranny_add = 0.3
+		dread_decay_mult = -0.3
+		revolting_siege_morale_loss_mult = 0.25
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_bellicose = { is_in_list = traits }
+						culture_pillar:ethos_courtly = { is_in_list = traits }
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_bellicose_stoic_or_courtly_desc
+				}
+			}
+
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_heartland_high_elves }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOR = {
+					culture_pillar:ethos_courtly = { is_in_list = traits }
+					culture_pillar:ethos_bellicose = { is_in_list = traits }
+					culture_pillar:ethos_stoic = { is_in_list = traits }
+				}
+			}
+			multiply = 0.5
+		}
+	}
+
+}
+
+### Bosmer Traditions
+
+tradition_bosmer_core = {
+	category = core
+
+	layers = {
+		0 = martial
+		1 = mena
+		4 = bow.dds
+	}
+	
+	#Replaces Jungle Warriors
+	is_shown = {
+		always = yes
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_bosmer_core_trigger_desc
+			NOT = { has_cultural_tradition = tradition_jungle_warriors }
+			has_cultural_pillar = heritage_bosmeri
+		}
+
+		culture_not_pacifistic_trigger = yes
+		custom_tooltip = {
+			text = cannot_have_tradition_vegetarianism
+			NOT = { any_in_list = { list = traits this = flag:tradition_vegetarianism } }
+		}
+	}
+	
+	parameters = {
+		unlock_maa_bosmer_stalkers = yes
+		cannibalism_is_pog = yes
+		more_frequent_hunts = yes
+		hunting_traits_more_common = yes #this vanilla parameter quickens Hunt XP gain in the background
+		can_recruit_prisoners_easily = yes
+		jungle_trait_bonuses = yes
+		jungle_stalker_trait_more_common = yes
+		hardwork_valued = yes
+		tolerant_of_orc_pariahs = yes
+	}
+
+	province_modifier = {
+		valenwood_tax_mult = 0.15
+		valenwood_levy_size = 0.10 #EK EDIT: added a small bonus for regular Valenwood terrain but not hills
+		valenwood_supply_limit_mult = 0.2
+	}
+
+
+	character_modifier = {
+		archers_max_size_add = 3
+		heavy_infantry_max_size_add = -2
+		pikemen_max_size_add = -2
+		valenwood_travel_danger = valenwood_low_danger_reduction
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_communal = { is_in_list = traits }
+						culture_pillar:ethos_egalitarian = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_communal_or_egalitarian_desc
+				}
+			}
+			if = {
+				limit = {
+					NOT = {
+						any_culture_county = {
+							percent >= 0.3
+							any_county_province = {
+								terrain = jungle
+							}
+						}
+					}
+				}
+				add = {
+					value = tradition_unfulfilled_criteria_penalty
+					desc = jungle_percentage_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_bosmer_core }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOT = {
+					scope:character = {
+						any_sub_realm_county = {
+							culture = scope:character.culture
+							any_county_province = {
+								terrain = jungle
+							}
+						}
+					}
+				}
+			}
+			multiply = 0
+		}
+	}
+}
+
+tradition_etarani_core = { #Children of the King
+	category = core
+
+	layers = {
+		0 = martial
+		1 = mena
+		4 = king.dds
+	}
+	
+	is_shown = {
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_etarani_core_trigger_desc
+			has_cultural_pillar = heritage_bosmeri
+			OR = {
+				this = culture:grahtwood
+				any_parent_culture_or_above = {
+					this = culture:grahtwood
+				}
+			}
+		}
+	}
+	
+	parameters = {
+		poorly_educated_leaders_distrusted = yes
+		vassals_more_likely_accept_punishments = yes
+		bonuses_from_patriarch_matriarch_trait = yes
+		cultural_house_personal_scheme_success_chance = yes
+		landing_house_members_give_prestige = yes
+		penalty_for_revoking_titles_from_house_members = yes
+		loyal_trait_more_common = yes
+	}
+
+	character_modifier = {
+		dynasty_house_opinion = 15
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_communal = { is_in_list = traits }
+						culture_pillar:ethos_courtly = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_communal_or_courtly_desc
+				}
+			}		
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_etarani_core }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+				
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOR = {
+					culture_pillar:ethos_communal = { is_in_list = traits }
+					culture_pillar:ethos_courtly = { is_in_list = traits }
+				}
+			}
+			multiply = 0.5
+		}
+	}
+}
+
+### Chimer Traditions
+
+tradition_velothi_exodus = {
+	category = core
+
+	layers = {
+		0 = learning
+		1 = mediterranean
+		4 = speech.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_chimeri_trigger_desc
+			has_cultural_pillar = heritage_chimeri
+		}
+		NOT = { has_cultural_tradition = tradition_mendicant_mystics }
+	}
+
+	parameters = {
+		can_recruit_organization_specialist = yes
+		organizer_trait_better = yes
+		bonuses_from_theologian_trait = yes
+		zealous_trait_more_common = yes
+		mystic_trait_gives_bonuses = yes
+		mystic_trait_more_common = yes
+		mendicant_mystics_may_appear = yes
+		peasant_mystic_revolts_more_common = yes
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_communal = { is_in_list = traits }
+						culture_pillar:ethos_egalitarian = { is_in_list = traits }
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_communal_egalitarian_or_stoic_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_velothi_exodus }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOR = {
+					culture_pillar:ethos_communal = { is_in_list = traits }
+					culture_pillar:ethos_egalitarian = { is_in_list = traits }
+					culture_pillar:ethos_stoic = { is_in_list = traits }
+				}
+			}
+			multiply = 0.5
+		}
+	}
+}
+
+### Dunmer Traditions
+
+tradition_great_houses = { #Common to all Great House cultures
+	category = core
+
+	layers = {
+		0 = diplo
+		1 = mediterranean
+		4 = king.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_great_houses_trigger_desc
+			NOT = { has_cultural_tradition = tradition_red_mountain_might }
+			has_cultural_pillar = heritage_dunmeri
+		}
+	}
+	parameters = {
+		is_isolationist_tradition = yes
+		### EK EDIT: Unlocks the Duel for a Title interaction
+		unlock_duel_for_title = yes
+		#from tribal unity
+		bonuses_from_patriarch_matriarch_trait = yes
+		landing_house_members_give_prestige = yes
+		penalty_for_revoking_titles_from_house_members = yes
+		unlock_maa_dunmer_oathmen = yes
+		dunmeri_elective_enabled = yes
+	}
+
+	character_modifier = {
+		ai_war_chance = -0.25 #to hold us over until this can be handled by GHC
+	}
+
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_great_houses }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+tradition_bulwark_of_the_west = { #Gah-Julani/Redoran
+	category = core
+
+	layers = {
+		0 = martial
+		1 = mediterranean
+		4 = shield.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_bulwark_of_the_west_trigger_desc
+			has_cultural_pillar = heritage_dunmeri
+			OR = {
+				this = culture:gah_julan
+				any_parent_culture_or_above = {
+					this = culture:gah_julan
+				}
+			}
+		}
+	}
+	
+	parameters = {
+		poorly_educated_martial_leaders_distrusted = yes
+		bossy_trait_more_common = yes
+		curious_trait_less_common = yes
+		courage_valued = yes
+		greedy_trait_looked_down_upon = yes
+		can_end_defensive_wars_earlier = yes
+		gives_knigtly_education = yes
+	}
+
+	character_modifier = {
+		heavy_infantry_max_size_add = 2
+		heavy_infantry_toughness_add = 10
+		martial_per_piety_level = 1
+		controlled_province_advantage = 5
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_stoic_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_bulwark_of_the_west }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+tradition_ordination_of_war = { #Chuzei/Indoril
+	category = core
+
+	layers = {
+		0 = martial
+		1 = mediterranean
+		4 = fight.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_ordination_of_war_trigger_desc
+			has_cultural_pillar = heritage_dunmeri
+			OR = {
+				this = culture:chuzei
+				any_parent_culture_or_above = {
+					this = culture:chuzei
+				}
+			}
+		}
+	}
+	
+	parameters = {
+		culture_clergy_can_fight = yes
+		zealous_trait_more_common = yes
+		more_likely_to_join_holy_order = yes
+		#prestige bonus to zealous, prestige malus to cynical
+		ordination_of_war_trait_values = yes
+		holy_warrior_trait_more_common = yes
+		can_commit_responsible_suicide = yes
+	}
+
+	character_modifier = {
+		prowess_per_piety_level = 2
+		tolerance_advantage_mod = 5 #EK TODO: make pilgrim provide Martial/Prowess
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_spiritual = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_spiritual_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_ordination_of_war }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+tradition_garden_of_veloth = {
+	category = core
+
+	layers = {
+		0 = steward
+		1 = mediterranean
+		4 = temple.dds
+	}
+
+	parameters = {
+		#From gardening tradition
+		enable_garden_duchy_building = yes
+		can_appoint_court_gardener = yes
+		can_recruit_gardeners = yes
+		cheaper_restoration_spells = yes #Tribunal Temple and by extension Indoril are known for restoration magic
+		generous_trait_more_common = yes
+		just_trait_more_common = yes
+		greedy_trait_looked_down_upon = yes
+		prestige_from_temple_construction = yes #Moved from Ordination of war, more appropriate for peaceful tradition
+		monastic_expectations = yes #Moved from Ordination of war, more appropriate for peaceful tradition
+		#Gift stuff
+		gives_more_gifts = yes
+		gifts_give_piety = yes
+		#Admin
+		can_adopt_administrative_government_as_kingdom_tier = yes
+	}
+	character_modifier = {
+		general_opinion = 5
+		monthly_income_mult = -0.05
+		piety_level_impact_mult = 0.2
+		ai_greed = -25
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_ordination_of_war_trigger_desc
+			has_cultural_pillar = heritage_dunmeri
+			OR = {
+				this = culture:chuzei
+				any_parent_culture_or_above = {
+					this = culture:chuzei
+				}
+			}
+		}
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_spiritual = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_spiritual_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_garden_of_veloth }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+tradition_parliament_of_bugs = { #Chi-Adduni/Telvanni
+	category = core
+
+	layers = {
+		0 = steward
+		1 = mediterranean
+		4 = ai_tradition_mushroom_01.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_parliament_of_bugs_trigger_desc
+			has_cultural_pillar = heritage_dunmeri
+			OR = {
+				this = culture:chi_addun
+				any_parent_culture_or_above = {
+					this = culture:chi_addun
+				}
+			}
+		}
+	}
+	
+	parameters = {
+		paranoid_bonuses = yes
+		paranoid_trait_more_common = yes
+		hostile_action_vs_rival_bonuses = yes
+		#rival_murder_decriminalized = yes  #smoking on that chi adduni pack
+		content_trait_looked_down_upon = yes
+		#prestige bonus to ambitious, prestige malus to lazy, big prestige malus to content
+		ambition_valued = yes
+	}
+
+	character_modifier = {
+        diplomacy = -1
+		levy_size = -0.3
+	}
+
+	culture_modifier = {
+		cultural_acceptance_gain_mult = -0.25
+		mercenary_count_mult = 1
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_stoic_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_parliament_of_bugs }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+tradition_cynical_believers = { #Chi-Adduni/Telvanni
+	category = core
+
+	layers = {
+		0 = learning
+		1 = mediterranean
+		4 = speech.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_parliament_of_bugs_trigger_desc
+			has_cultural_pillar = heritage_dunmeri
+			OR = {
+				this = culture:chi_addun
+				any_parent_culture_or_above = {
+					this = culture:chi_addun
+				}
+			}
+		}
+	}
+	
+	parameters = {
+		cynical_trait_more_common = yes
+		arrogant_trait_more_common = yes
+		#bonuses to cynical and arrogant, opinion malus to theologian
+		cynical_believers_bonus = yes
+		keeps_slaves = yes
+	}
+
+	character_modifier = {
+        religious_vassal_opinion = -20
+		religious_head_opinion = -20
+		learning_per_prestige_level = 1
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_stoic_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_cynical_believers }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+tradition_pursuit_of_wealth = { #Armun-Ani/Hlaalu
+	category = core
+
+	layers = {
+		0 = steward
+		1 = mediterranean
+		4 = state_ransoming.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_pursuit_of_wealth_trigger_desc
+			has_cultural_pillar = heritage_dunmeri
+			OR = {
+				this = culture:armun_an
+				any_parent_culture_or_above = {
+					this = culture:armun_an
+				}
+			}
+		}
+	}
+	
+	parameters = {
+		charming_trait_more_common = yes
+		rowdy_trait_less_common = yes
+		city_buildings_more_powerful = yes
+		better_tax_assessor_buildings = yes
+		allows_noble_family_adoption = yes
+		can_travel_along_rivers = yes
+	}
+
+	character_modifier = {
+		diplomatic_range_mult = 0.2
+		stewardship_per_prestige_level = 1
+		city_holding_build_gold_cost = -0.1
+        city_holding_holding_build_gold_cost = -0.1
+        tax_mult = 0.1
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_courtly = { is_in_list = traits }
+						culture_pillar:ethos_communal = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_communal_or_courtly_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_pursuit_of_wealth }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+tradition_deshaan_agronomy = { #Marduhn-Oad/Dres
+	category = core
+
+	layers = {
+		0 = steward
+		1 = mediterranean
+		4 = farmland.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_deshaan_agronomy_trigger_desc
+			has_cultural_pillar = heritage_dunmeri
+			OR = {
+				this = culture:marduhn_oad
+				any_parent_culture_or_above = {
+					this = culture:marduhn_oad
+				}
+			}
+		}
+	}
+	
+	parameters = {
+		poorly_educated_stewards_distrusted = yes
+		bossy_trait_more_common = yes
+		curious_trait_less_common = yes
+		can_travel_along_rivers = yes
+		deshaan_agronomy_trait_values = yes
+		keeps_slaves = yes
+	}
+
+	character_modifier = {
+		stewardship_per_piety_level = 1
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_communal = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_communal_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_deshaan_agronomy }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+tradition_cunning_contempt = { #Marduhn-Oad/Dres
+	category = core
+
+	layers = {
+		0 = intrigue
+		1 = mediterranean
+		4 = noble.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_deshaan_agronomy_trigger_desc
+			has_cultural_pillar = heritage_dunmeri
+			OR = {
+				this = culture:marduhn_oad
+				any_parent_culture_or_above = {
+					this = culture:marduhn_oad
+				}
+			}
+		}
+	}
+	
+	parameters = {
+		deceitful_trait_more_common = yes
+		loyal_trait_more_valued = yes #"If you owe your life to a Dres, when he falls to the gutter, you still owe him your life."
+		laws_scale_with_intrigue = yes #The better you are at intrigue, the cheaper are the laws and the opposite
+		cheaper_writs_of_execution = yes #Discount from Morag Tong to their favorite clients
+		house_hostility_more_common = yes
+		rivalries_more_common = yes #Dres clans really hate each other
+		hostile_action_vs_rival_bonuses = yes
+		can_duel_rivals = yes #Dres like dueling even more than other dunmers
+	}
+
+	character_modifier = {
+		#intrigue_per_prestige_level = 1
+		opinion_of_liege = 10 #Respectful of their betters
+		#fellow_vassal_opinion = 5 #Respectful of their equals
+		opinion_of_vassal = -10 #Dismissive of their lessers
+		different_culture_opinion = -10 #Everyone of a different culture is a lesser
+		#hostile_scheme_phase_duration_add = medium_scheme_phase_duration_bonus_value
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_communal = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_communal_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_cunning_contempt }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+tradition_red_mountain_might = { #Ashlander core
+	category = core
+
+	layers = {
+		0 = steward
+		1 = mediterranean
+		4 = mountain.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_red_mountain_might_trigger_desc
+			has_cultural_pillar = heritage_dunmeri
+			OR = {
+				this = culture:ashlander
+				any_parent_culture_or_above = {
+					this = culture:ashlander
+				}
+			}
+		}
+	}
+	
+	parameters = {
+		is_isolationist_tradition = yes
+		stubborn_trait_more_common = yes
+		martial_education_better_outcomes = yes
+		diplomacy_education_worse_outcomes = yes
+		poorly_educated_leaders_distrusted = yes
+		scandinavian_elective_enabled = yes #rebranded as Popular Elective
+		unlock_maa_ashlander_champions = yes
+		ashlands_trait_bonuses = yes
+	}
+
+	character_modifier = {
+        controlled_province_advantage = 5
+		cultural_head_fascination_mult = -0.1
+		ashlands_advantage = 3
+		ashlands_travel_danger = ashlands_low_danger_reduction
+	}
+
+	county_modifier = {
+		ashlands_levy_size = 0.2
+		ashlands_supply_limit_mult = 0.25
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_bellicose = { is_in_list = traits }
+						culture_pillar:ethos_spiritual = { is_in_list = traits }
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_bellicose_spiritual_or_stoic_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_red_mountain_might }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+### Dwemer Traditions
+
+tradition_deep_lore = {
+	category = core
+
+    layers = {
+		0 = steward
+		1 = indian
+		4 = philosopher.dds
+	}
+
+    is_shown = {
+		always = yes
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_dwemer_trigger_desc
+			has_cultural_pillar = heritage_dwemeri
+		}
+	}
+    parameters = {
+		is_isolationist_tradition = yes
+		unlock_maa_dwemer_arbalesters = yes
+		scholar_xp_rebate = yes
+		scholars_respected = yes
+		pensive_trait_more_common = yes
+		charming_trait_less_common = yes
+		#can_appoint_tonal_architect = yes #not made yet
+		courtiers_less_likely_to_leave_same_culture_court = yes
+		keeps_slaves = yes
+    }
+
+	character_modifier = {
+		learning_per_piety_level = 1
+	}
+
+	culture_modifier = {
+		cultural_acceptance_gain_mult = -0.3
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_courtly = { is_in_list = traits }
+						culture_pillar:ethos_communal = { is_in_list = traits }
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_courtly_communal_or_stoic_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_deep_lore }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOR = {
+					culture_pillar:ethos_courtly = { is_in_list = traits }
+					culture_pillar:ethos_communal = { is_in_list = traits }
+					culture_pillar:ethos_stoic = { is_in_list = traits }
+				}
+			}
+			multiply = 0.25
+		}
+	}
+}
+
+tradition_inoxidizable_metallurgy = {
+	category = core
+
+    layers = {
+		0 = steward
+		1 = indian
+		4 = tools.dds
+	}
+
+    is_shown = {
+		always = yes
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_dwemer_trigger_desc
+			has_cultural_pillar = heritage_dwemeri
+		}
+	}
+    parameters = {
+		unlock_maa_dwemer_animunculi = yes
+		better_armory_buildings = yes #EK TODO maybe do next_level_workshops to enable earlier Workshops
+		better_blacksmith_buildings = yes
+		next_level_guild_halls = yes
+		characters_are_better_court_antiquarians = yes
+		characters_are_better_court_architects = yes
+    }
+
+	character_modifier = {
+		skirmishers_max_size_add = -2
+		heavy_cavalry_max_size_add = -2
+	}	
+
+	province_modifier = {
+		stationed_heavy_infantry_toughness_mult = 0.15
+		stationed_archers_damage_mult = 0.15
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_courtly = { is_in_list = traits }
+						culture_pillar:ethos_communal = { is_in_list = traits }
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_courtly_communal_or_stoic_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_inoxidizable_metallurgy }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOR = {
+					culture_pillar:ethos_courtly = { is_in_list = traits }
+					culture_pillar:ethos_communal = { is_in_list = traits }
+					culture_pillar:ethos_stoic = { is_in_list = traits }
+				}
+			}
+			multiply = 0.25
+		}
+	}
+}
+
+### Falmer Traditions
+
+tradition_knight_paladins = {
+	category = core
+
+    layers = {
+		0 = martial
+		1 = indian
+		4 = soldiers.dds
+	}
+
+    is_shown = {
+		always = yes
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_falmer_trigger_desc
+			has_cultural_pillar = heritage_falmeri
+			NOR = {
+				has_cultural_tradition = tradition_chaurus_husbandry
+				has_cultural_tradition = tradition_pale_shamans
+			}
+			OR = {
+				this = culture:falmer
+				any_parent_culture_or_above = {
+					this = culture:falmer
+				}
+			}
+		}
+	}
+    parameters = {
+		unlock_maa_knight_paladins = yes
+		monastic_expectations = yes
+		holy_warrior_trait_more_common = yes
+		holy_warrior_piety = yes
+		rank_gives_bonus_to_mage_maa = yes
+		better_arcane_education = yes
+		keeps_slaves = yes
+		unlocks_arcana_education = yes
+    }
+
+	character_modifier = {
+		prowess_per_piety_level = 2
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_bellicose = { is_in_list = traits }
+						culture_pillar:ethos_spiritual = { is_in_list = traits }
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_bellicose_spiritual_or_stoic_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_knight_paladins }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOR = {
+					culture_pillar:ethos_bellicose = { is_in_list = traits }
+					culture_pillar:ethos_spiritual = { is_in_list = traits }
+					culture_pillar:ethos_stoic = { is_in_list = traits }
+				}
+			}
+			multiply = 0.25
+		}
+	}
+}
+
+tradition_chaurus_husbandry = {
+	category = core
+
+    layers = {
+		0 = steward
+		1 = indian
+		4 = rider.dds
+	}
+
+    is_shown = {
+		always = yes
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_falmer_betrayed_trigger_desc
+			has_cultural_pillar = heritage_falmeri
+			NOT = { has_cultural_tradition = tradition_knight_paladins }
+			OR = {
+				this = culture:falmer_betrayed
+				any_parent_culture_or_above = {
+					this = culture:falmer_betrayed
+				}
+			}
+		}
+	}
+    parameters = {
+		unlock_maa_chaurus_riders = yes
+		pastures_building_bonuses = yes
+    }
+
+	county_modifier = {
+		hills_tax_mult = 0.1
+		hills_development_growth_factor = 0.1
+		mountains_tax_mult = 0.1
+		mountains_development_growth_factor = 0.1
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_bellicose = { is_in_list = traits }
+						culture_pillar:ethos_spiritual = { is_in_list = traits }
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_bellicose_spiritual_or_stoic_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_chaurus_husbandry }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOR = {
+					culture_pillar:ethos_bellicose = { is_in_list = traits }
+					culture_pillar:ethos_spiritual = { is_in_list = traits }
+					culture_pillar:ethos_stoic = { is_in_list = traits }
+				}
+			}
+			multiply = 0.25
+		}
+	}
+}
+
+tradition_pale_shamans = {
+	category = core
+
+    layers = {
+		0 = learning
+		1 = indian
+		4 = core_tenet_unreformed_syncretism.dds
+	}
+
+    is_shown = {
+		always = yes
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_falmer_betrayed_trigger_desc
+			has_cultural_pillar = heritage_falmeri
+			NOT = { has_cultural_tradition = tradition_knight_paladins }
+			OR = {
+				this = culture:falmer_betrayed
+				any_parent_culture_or_above = {
+					this = culture:falmer_betrayed
+				}
+			}
+		}
+	}
+    parameters = {
+		unlock_maa_nightprowlers = yes
+		arcane_affinity_birth = yes
+		wanderers_gain_extra_magic_education = yes
+		send_mage_to_wander = yes
+		witch_piety = yes
+		sneaky_mages = yes
+		keeps_slaves = yes
+    }
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_bellicose = { is_in_list = traits }
+						culture_pillar:ethos_spiritual = { is_in_list = traits }
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_bellicose_spiritual_or_stoic_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_pale_shamans }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOR = {
+					culture_pillar:ethos_bellicose = { is_in_list = traits }
+					culture_pillar:ethos_spiritual = { is_in_list = traits }
+					culture_pillar:ethos_stoic = { is_in_list = traits }
+				}
+			}
+			multiply = 0.25
+		}
+	}
+}
+
+### Orcish Traditions
+
+tradition_orc_core = {
+    category = core
+
+    layers = {
+		0 = martial
+		1 = indian
+		4 = city.dds
+	}
+
+    is_shown = {
+		always = yes
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_orc_core_trigger_desc
+			has_cultural_pillar = heritage_orcish
+		}
+	}
+    parameters = {
+		is_isolationist_tradition = yes
+        unlock_maa_orc_marauders = yes
+		wounds_and_scars_give_bonuses = yes
+		can_appoint_court_wives = yes
+		number_of_spouses = 3
+        overseer_xp_rebate = yes
+        revenge_valued = yes
+		can_join_legion = yes
+    }
+
+	province_modifier = {
+		levy_reinforcement_rate = -0.3
+	}
+
+	culture_modifier = {
+		cultural_acceptance_gain_mult = -0.5
+		mercenary_count_mult = 1
+	}
+
+    character_modifier = {
+		negate_health_penalty_add = 0.2
+		negate_prowess_penalty_add = 5
+		same_culture_mercenary_hire_cost_mult = -0.15
+	}
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_bellicose = { is_in_list = traits }
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+						culture_pillar:ethos_communal = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_bellicose_stoic_or_communal_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_orc_core }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOR = {
+					culture_pillar:ethos_bellicose = { is_in_list = traits }
+					culture_pillar:ethos_stoic = { is_in_list = traits }
+					culture_pillar:ethos_communal = { is_in_list = traits }
+					scope:character = {
+						sub_realm_size <= medium_realm_size
+					}
+				}
+			}
+			multiply = 0.25
+		}
+	}
+}
+
+tradition_forlorn_peace = {
+    category = core
+
+    layers = {
+		0 = intrigue
+		1 = indian
+		4 = tools.dds
+	}
+
+    is_shown = {
+		always = yes
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_iron_orc_core_trigger_desc
+			has_cultural_pillar = heritage_orcish
+			OR = {
+				this = culture:iron_orc
+				any_parent_culture_or_above = {
+					this = culture:iron_orc
+				}
+			}
+		}
+	}
+	
+    parameters = {
+		is_isolationist_tradition = yes
+        charming_trait_less_common = yes
+        torturer_xp_rebate = yes
+        cruelty_valued = yes
+		courtiers_less_likely_to_leave_same_culture_court = yes
+    }
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_bellicose = { is_in_list = traits }
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+						culture_pillar:ethos_communal = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_bellicose_stoic_or_communal_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_forlorn_peace }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOR = {
+					culture_pillar:ethos_bellicose = { is_in_list = traits }
+					culture_pillar:ethos_stoic = { is_in_list = traits }
+					culture_pillar:ethos_communal = { is_in_list = traits }
+					scope:character = {
+						sub_realm_size <= medium_realm_size
+					}
+				}
+			}
+			multiply = 0.25
+		}
+	}
+}
+
+tradition_arsenal = { #for people who like strong defenses
+    category = core
+
+    layers = {
+		0 = steward
+		1 = indian
+		4 = tools.dds
+	}
+
+    is_shown = {
+		always = yes
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_arsenal_trigger_desc
+			NOT = { has_cultural_tradition = tradition_castle_keepers }
+			NOT = { has_cultural_tradition = tradition_metal_craftsmanship }
+			has_cultural_pillar = heritage_orcish
+		}
+	}
+    parameters = {
+        castle_fortifications_increase = yes
+		castle_grant_prestige = yes
+		ai_more_likely_to_castle = yes
+		ai_more_likely_to_fortify = yes
+		better_armory_buildings = yes
+		better_blacksmith_buildings = yes
+    }
+	character_modifier = {
+		castle_holding_build_gold_cost = 0.2
+		castle_holding_build_speed = 0.2
+		character_travel_safety_mult = 0.10
+	}
+	province_modifier = {
+		stationed_maa_toughness_mult = 0.15 #aiyaaa, press F for Falkreath
+	}
+
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_bellicose = { is_in_list = traits }
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+						culture_pillar:ethos_communal = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_bellicose_stoic_or_communal_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_arsenal }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOR = {
+					culture_pillar:ethos_bellicose = { is_in_list = traits }
+					culture_pillar:ethos_stoic = { is_in_list = traits }
+					culture_pillar:ethos_communal = { is_in_list = traits }
+					scope:character = {
+						sub_realm_size <= medium_realm_size
+					}
+				}
+			}
+			multiply = 0.25
+		}
+	}
+}
+
+tradition_denizens_lost_orsinium = { #Initially for Mountain Orcs, but other Orcs may take the tradition as well
+    category = core
+
+    layers = {
+		0 = diplo
+		1 = indian
+		4 = swords.dds
+	}
+
+    is_shown = {
+		always = yes
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_orc_heritage_trigger
+			has_cultural_pillar = heritage_orcish
+		}
+	}
+    parameters = {
+		# Orsinium related
+		can_found_orsinium = yes
+		orsinium_defensive_bonuses = yes
+		orsinium_culture_conversion = yes
+		# From Staunch Traditionalists
+		stubborn_trait_more_common = yes
+		expensive_convert_to_local_culture = yes
+		harder_to_hybridize = yes
+    }
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_bellicose = { is_in_list = traits }
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+						culture_pillar:ethos_communal = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_bellicose_stoic_or_communal_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_denizens_lost_orsinium }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOR = {
+					culture_pillar:ethos_bellicose = { is_in_list = traits }
+					culture_pillar:ethos_stoic = { is_in_list = traits }
+					culture_pillar:ethos_communal = { is_in_list = traits }
+				}
+			}
+			multiply = 0.25
+		}
+	}
+}
+
+tradition_wood_axes = {
+	category = core
+
+	layers = {
+		0 = steward
+		1 = indian
+		4 = tools.dds
+	}
+
+    is_shown = {
+		always = yes
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_orc_heritage_trigger
+			has_cultural_pillar = heritage_orcish
+			OR = {
+				this = culture:wood_orc
+				any_parent_culture_or_above = {
+					this = culture:wood_orc
+				}
+			}			
+		}
+	}
+    parameters = {
+		stewardship_from_martial_education = yes
+		logging_camps_building_bonuses = yes
+		jungle_trait_bonuses = yes
+		improved_artisan_inspiration = yes
+		unlock_maa_orc_wood_skirmishers = yes
+    }
+	
+	county_modifier = {
+		build_gold_cost = -0.15
+	}
+	
+	culture_modifier = {
+		cultural_acceptance_gain_mult = 0.1
+	}
+		
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_bellicose = { is_in_list = traits }
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+						culture_pillar:ethos_communal = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_bellicose_stoic_or_communal_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_wood_axes }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOR = {
+					culture_pillar:ethos_bellicose = { is_in_list = traits }
+					culture_pillar:ethos_stoic = { is_in_list = traits }
+					culture_pillar:ethos_communal = { is_in_list = traits }
+				}
+			}
+			multiply = 0.25
+		}
+	}
+}
+
+tradition_blooded_peaks = { #For Malahk Orcs
+    category = core
+
+    layers = {
+		0 = intrigue
+		1 = western
+		4 = fight.dds
+	}
+
+    is_shown = {
+		always = yes
+	}
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_malahk_orc_core_trigger_desc
+			has_cultural_pillar = heritage_orcish
+			OR = {
+				this = culture:malahk_orc
+				any_parent_culture_or_above = {
+					this = culture:malahk_orc
+				 }
+			}
+		}
+	}
+
+	parameters = {
+		is_isolationist_tradition = yes
+		unlock_maa_orc_berserkers = yes
+		aggressive_attacker_trait_more_common = yes
+		aggressive_traits_bonuses = yes	
+		poorly_educated_martial_leaders_distrusted = yes
+		indecision_scorned = yes	
+		diplomacy_education_worse_outcomes = yes	
+		rebellious_vassals = yes	
+		culture_can_raid_at_sea_even_if_feudal = yes
+		bonuses_from_plunderer_trait = yes
+		unlock_pillage_legacy = yes
+			
+		#Orsimer bonuses copied from "Stronghold culture"
+		wounds_and_scars_give_bonuses = yes
+		revenge_valued = yes	
+	}
+
+	culture_modifier = {
+		#Orsimer bonuses copied from "Stronghold culture"
+		cultural_acceptance_gain_mult = -0.5	
+	}
+	
+	province_modifier = {
+		levy_reinforcement_rate = -0.3
+	}	
+	
+	character_modifier = {	
+		raid_speed = 0.25
+		enemy_hard_casualty_modifier = 0.2			
+		hard_casualty_modifier = 0.1
+		
+		#Orsimer bonuses copied from "Stronghold culture"
+		negate_health_penalty_add = 0.2
+		negate_prowess_penalty_add = 5		
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_bellicose = { is_in_list = traits }
+						culture_pillar:ethos_stoic = { is_in_list = traits }
+						culture_pillar:ethos_communal = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_bellicose_stoic_or_communal_desc
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_blooded_peaks }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+			
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				NOR = {
+					culture_pillar:ethos_bellicose = { is_in_list = traits }
+					culture_pillar:ethos_stoic = { is_in_list = traits }
+					culture_pillar:ethos_communal = { is_in_list = traits }
+				}
+			}
+			multiply = 0.25
+		}
+	}
+}

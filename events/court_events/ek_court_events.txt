@@ -1,0 +1,1008 @@
+﻿namespace = ek_court
+
+# Animal Waste Policy
+ek_court.0001 = {
+	type = court_event
+	content_source = dlc_ek
+	title = ek_court.0001.t
+	desc = ek_court.0001.desc
+	theme = court
+	court_scene = {
+		button_position_character = scope:gardener
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:gardener = {
+				group = petitioners_group
+				animation = rage
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+
+	cooldown = { years = yearly_cooldown }
+	
+	trigger = {
+		employs_court_position = court_gardener_court_position
+		any_court_position_holder = {
+			type = court_gardener_court_position
+			is_available_healthy_ai_adult = yes
+			has_court_event_flag = no
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		# Court weightings.
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_administrative }
+	}
+
+	immediate = {
+		random_court_position_holder = {
+			type = court_gardener_court_position
+			limit = { is_available_healthy_ai_adult = yes }
+			save_scope_as = gardener
+			court_event_character_flag_effect = yes
+		}
+		# Trigger next event in chain.
+		hold_court_queue_next_event_effect = yes
+	}
+
+	option = { # Ban animals from gardens
+		name = ek_court.0001.a
+		scope:gardener = {
+			add_opinion = {
+				modifier = grateful_opinion
+				target = root
+				opinion = 15
+			}
+		}
+		every_courtier = {
+			limit = {
+				any_owned_story = {
+					OR = {
+						story_type = story_cycle_pet_cat
+						story_type = story_cycle_pet_dog
+					}
+				}
+			}
+			add_opinion = {
+				modifier = disappointed_opinion
+				target = root
+				opinion = -10
+			}
+		}
+		stress_impact = {
+			gregarious = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = gregarious
+			}
+		}
+	}
+
+	option = { # Fire gardener
+		name = ek_court.0001.b
+		scope:gardener = {
+			add_opinion = {
+				modifier = disappointed_opinion
+				target = root
+				opinion = -20
+			}
+		}
+		revoke_court_position = {
+			court_position = court_gardener_court_position
+			recipient = scope:gardener
+		}
+		every_courtier = {
+			limit = {
+				any_owned_story = {
+					OR = {
+						story_type = story_cycle_pet_cat
+						story_type = story_cycle_pet_dog
+					}
+				}
+			}
+			add_opinion = {
+				modifier = grateful_opinion
+				target = root
+				opinion = 15
+			}
+		}
+		stress_impact = {
+			compassionate = medium_stress_impact_gain
+			forgiving = medium_stress_impact_gain
+			lifestyle_gardener = minor_stress_impact_gain
+			lifestyle_herbalist = minor_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_compassion = -1
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = compassionate
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = forgiving
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = lifestyle_gardener
+			}
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = lifestyle_herbalist
+			}
+		}
+	}
+
+	option = { # Use manure
+		name = ek_court.0001.c
+		trigger = { learning > 10 }
+		add_prestige = medium_prestige_gain
+		scope:gardener = {
+			add_opinion = {
+				modifier = grateful_opinion
+				target = root
+				opinion = 15
+			}
+		}
+		every_courtier = {
+			limit = {
+				any_owned_story = {
+					OR = {
+						story_type = story_cycle_pet_cat
+						story_type = story_cycle_pet_dog
+					}
+				}
+			}
+			add_opinion = {
+				modifier = grateful_opinion
+				target = root
+				opinion = 15
+			}
+		}
+		stress_impact = {
+			compassionate = medium_stress_impact_loss
+			lifestyle_gardener = minor_stress_impact_loss
+			lifestyle_herbalist = minor_stress_impact_loss
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+		scope:gardener = {
+			clear_court_event_participation = yes
+		}
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+	}
+}
+
+#Legionary's Ball
+ek_court.0002 = {
+	type = court_event
+	content_source = dlc_ek
+	title = ek_court.0002.t
+	desc = ek_court.0002.desc
+	theme = court
+	court_scene = {
+		button_position_character = scope:ball_courtier
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:ball_courtier = {
+				group = petitioners_group
+				animation = beg
+			}
+		}
+	}
+
+	cooldown = { years = yearly_cooldown }
+	
+	trigger = {
+		amenity_level = { type = court_fashion value <= medium_amenity_level }
+		any_courtier = {
+			is_available_healthy_ai_adult = yes
+			has_court_event_flag = no
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+
+	weight_multiplier = {
+		base = 1
+		# Court weightings.
+		ep1_weight_up_for_court_type_modifier = { COURT_TYPE = court_diplomatic }
+	}
+
+	immediate = {
+		random_courtier = {
+			limit = {
+				is_available_healthy_ai_adult = yes
+				has_court_event_flag = no
+			}
+			save_scope_as = ball_courtier
+		}
+		random_county = {
+				limit = {
+					NOT = { culture = prev.culture }
+				}
+				save_scope_as = silk_county
+		}
+		# Trigger next event in chain.
+		hold_court_queue_next_event_effect = yes
+	}
+
+	option = { # Maintain Date
+		name = ek_court.0002.a
+		scope:ball_courtier = {
+			add_opinion = {
+				modifier = disappointed_opinion
+				target = root
+				opinion = -10
+			}
+		}
+		stress_impact = {
+			gregarious = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			modifier = {	#Weight down for stress.
+				add = -15
+				has_trait = gregarious
+			}
+		}
+	}
+
+	option = { # Change Date
+		name = ek_court.0002.b
+		remove_short_term_gold = medium_gold_value
+		scope:ball_courtier = {
+			add_opinion = {
+				modifier = grateful_opinion
+				target = root
+				opinion = 15
+			}
+		}
+		stress_impact = {
+			compassionate = medium_stress_impact_loss
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_compassion = 1
+			}
+			modifier = {	#Weight up
+				add = 15
+				has_trait = compassionate
+			}
+		}
+	}
+
+	option = { # Finance dresses for everyone
+		name = ek_court.0002.c
+		set_amenity_level = { type = court_fashion value = high_amenity_level }
+		add_prestige = medium_prestige_gain
+		scope:ball_courtier = {
+			add_opinion = {
+				modifier = grateful_opinion
+				target = root
+				opinion = 15
+			}
+		}
+		stress_impact = {
+			compassionate = medium_stress_impact_loss
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+		scope:ball_courtier = {
+			clear_court_event_participation = yes
+		}
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+	}
+}
+
+#Finally M'aiq Event
+ek_court.0003 = {
+	type = court_event
+	content_source = dlc_ek
+	title = ek_court.0003.t
+	desc = {
+		desc = ek_court.0003.intro
+		random_valid = {
+			desc = ek_court.0003.desc1
+			desc = ek_court.0003.desc2
+			desc = ek_court.0003.desc3
+			desc = ek_court.0003.desc4
+			desc = ek_court.0003.desc5
+			desc = ek_court.0003.desc6
+			desc = ek_court.0003.desc7
+			desc = ek_court.0003.desc8
+			desc = ek_court.0003.desc9
+			desc = ek_court.0003.desc10
+			desc = ek_court.0003.desc11
+			desc = ek_court.0003.desc12
+			desc = ek_court.0003.desc13
+			desc = ek_court.0003.desc14
+			desc = ek_court.0003.desc15
+			desc = ek_court.0003.desc16
+			desc = ek_court.0003.desc17
+			desc = ek_court.0003.desc18
+			desc = ek_court.0003.desc19
+			desc = ek_court.0003.desc20
+			desc = ek_court.0003.desc21
+			desc = ek_court.0003.desc22
+			desc = ek_court.0003.desc23
+			desc = ek_court.0003.desc24
+			desc = ek_court.0003.desc25
+			desc = ek_court.0003.desc26
+			desc = ek_court.0003.desc27
+			desc = ek_court.0003.desc28
+			desc = ek_court.0003.desc29
+			desc = ek_court.0003.desc30
+			desc = ek_court.0003.desc31
+			desc = ek_court.0003.desc32
+			desc = ek_court.0003.desc33
+			desc = ek_court.0003.desc34
+			desc = ek_court.0003.desc35
+			desc = ek_court.0003.desc36
+			desc = ek_court.0003.desc37
+			desc = ek_court.0003.desc38
+			desc = ek_court.0003.desc39
+			desc = ek_court.0003.desc40
+			desc = ek_court.0003.desc41
+			desc = ek_court.0003.desc42
+			desc = ek_court.0003.desc43
+			desc = ek_court.0003.desc44
+			desc = ek_court.0003.desc45
+			desc = ek_court.0003.desc46
+			desc = ek_court.0003.desc47
+			desc = ek_court.0003.desc48
+			desc = ek_court.0003.desc49
+			desc = ek_court.0003.desc50
+			desc = ek_court.0003.desc51
+			desc = ek_court.0003.desc52
+			desc = ek_court.0003.desc53
+			desc = ek_court.0003.desc54
+		}
+		desc = ek_court.0003.end
+	}
+	theme = court
+	court_scene = {
+		button_position_character = scope:maiq
+		roles = {
+			scope:maiq = {
+				group = event_group
+				animation = personality_cynical
+			}
+			root = {
+				group = event_group
+				animation = disbelief
+			}
+		}
+	}
+	
+	trigger = {
+		has_court_event_flag = no
+		NOT = { has_character_modifier = maiq_modifier }
+	}
+
+	weight_multiplier = {
+		base = 1
+	}
+
+	immediate = {
+		court_event_character_flag_effect = yes
+		create_character = {
+			location = root.capital_province
+			template = maiq_template
+			dynasty = none
+			save_scope_as = maiq
+		}
+
+		scope:maiq = {
+			add_character_flag = {
+				flag = colovian_fur_hat
+			}
+			court_event_character_flag_effect = yes
+		}
+	}
+
+	option = { # ok then
+		name = ek_court.0003.a
+		add_character_modifier = {
+				modifier = maiq_modifier
+			}
+	}
+
+	after = {
+		clear_court_event_participation = yes
+		scope:maiq = {
+			clear_court_event_participation = yes
+			silent_disappearance_effect = yes
+		}
+	}
+}
+
+#Yagrum Bagarn Event
+ek_court.0004 = {
+	type = court_event
+	content_source = dlc_ek
+	title = ek_court.0004.t
+	desc = ek_court.0004.desc
+	theme = court
+	court_scene = {
+		button_position_character = scope:yagrum
+		court_event_force_open = yes
+		show_timeout_info = no
+		should_pause_time = yes
+		roles = {
+			scope:finder = {
+				group = petitioners_group
+				animation = personality_bold
+			}
+			scope:yagrum = {
+				group = petitioners_group
+				animation = personality_rational
+			}
+		}
+	}
+
+	widget = {
+		gui = "event_window_widget_event_chain_progress"
+		container = "custom_widgets_container"
+		controller = event_chain_progress
+	}
+
+	cooldown = { years = yearly_cooldown }
+	
+	trigger = {
+		NOT = {
+			any_character_artifact = {
+				has_artifact_modifier = dwemer_puzzle_box_modifier
+			}
+		}
+		# he probably wouldn't want to visit these guys
+		culture = { NOT = { has_cultural_pillar = heritage_falmeri } }
+		has_dwemer_ruins = yes
+		any_courtier = {
+			is_available_healthy_ai_adult = yes
+			has_court_event_flag = no
+		}
+		any_living_character = {
+			has_trait = bagarn
+			NOT = { is_courtier_of = root }
+		}
+		# doesn't make too much sense if the Dwemer are around and well
+		NOT = {
+			any_culture_global = {
+				has_cultural_pillar = heritage_dwemeri
+				culture_is_alive = yes
+			}
+		}
+	}
+
+	immediate = {
+		random_courtier = {
+			limit = {
+				is_available_healthy_ai_adult = yes
+				has_court_event_flag = no
+			}
+			save_scope_as = finder
+		}
+		random_living_character = {
+			limit = {
+				has_trait = bagarn
+			}
+			save_scope_as = yagrum
+		}
+		scope:yagrum = {
+			if = {
+				limit = {
+					NOT = { location = root.capital_province }
+				}
+				#hidden_effect = {
+				#	move_to_pool_at = root.capital_province
+				#}
+
+			}
+		}
+		hold_court_queue_next_event_effect = yes
+	}
+
+	option = { # ok then
+		name = ek_court.0004.a
+		trigger = {
+			trigger_if = {
+				limit = {
+					is_ai = yes
+				}
+				short_term_gold >= major_gold_value
+			}
+		}
+		pay_short_term_gold = {
+			target = scope:yagrum
+			gold = medium_gold_value
+		}
+		scope:yagrum = {
+			add_opinion = {
+				target = root
+				opinion = 40
+				modifier = grateful_opinion
+			}
+		}
+		trigger_event = {
+			id = ek_court.0005
+			days = { 30 360 }
+		}
+	}
+
+	option = { #no
+		name = ek_court.0004.b
+		scope:finder = {
+			add_opinion = {
+				modifier = refusal_opinion
+				target = root
+				opinion = -15
+			}
+		}
+		scope:yagrum = {
+			add_opinion = {
+				modifier = refusal_opinion
+				target = root
+				opinion = -15
+			}
+		}
+	}
+
+	after = {
+		scope:yagrum = {
+			clear_court_event_participation = yes
+		}
+		scope:finder = {
+			clear_court_event_participation = yes
+		}
+		# Finish up the chain if relevant.
+		hold_court_queue_post_event_effect = yes
+	}
+}
+
+ek_court.0005 = {
+	type = letter_event
+	opening = { desc = ek_court.0005.t }
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:yagrum_outcome = flag:puzzle_box }
+				desc = ek_court.0005.puzzle.desc
+			}
+			triggered_desc = {
+				trigger = { scope:yagrum_outcome = flag:ponzi }
+				desc = ek_court.0005.ponzi.desc
+			}
+			triggered_desc = {
+				trigger = { scope:yagrum_outcome = flag:falmer }
+				desc = ek_court.0005.falmer.desc
+			}
+			triggered_desc = {
+				trigger = { scope:yagrum_outcome = flag:automata }
+				desc = ek_court.0005.automata.desc
+			}
+			triggered_desc = {
+				trigger = { scope:yagrum_outcome = flag:arms }
+				desc = ek_court.0005.arms.desc
+			}
+		}
+	}
+	sender = scope:yagrum
+
+
+	immediate = {
+		save_scope_as = owner #for loc
+		random_list = {
+			10 = {
+				save_scope_value_as = {
+					name = yagrum_outcome
+					value = flag:puzzle_box
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = yagrum_outcome
+					value = flag:ponzi
+				}
+			}
+			10 = {
+				trigger = { location = { geographical_region = mundus_tamriel_skyrim } }
+				save_scope_value_as = {
+					name = yagrum_outcome
+					value = flag:falmer
+				}
+				random_directly_owned_province = {
+					save_scope_as = falmer_province
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = yagrum_outcome
+					value = flag:automata
+				}
+				random_directly_owned_province = {
+					save_scope_as = automata_province
+				}
+			}
+			10 = {
+				save_scope_value_as = {
+					name = yagrum_outcome
+					value = flag:arms
+				}
+			}
+		}
+	}
+
+	#Keep the puzzle box for yourself
+	option = {
+		trigger = { scope:yagrum_outcome = flag:puzzle_box }
+		name = ek_court.0005.a
+		create_artifact_dwemer_puzzle_box_effect = { OWNER = this }	
+		ai_chance = {
+			base = 50
+		}
+	}
+
+	#ok, I'll fund you further
+	option = {
+		name = ek_court.0005.b
+		trigger = {
+				AND = {
+					scope:yagrum_outcome = flag:ponzi
+				}
+			}
+		pay_short_term_gold = {
+			target = scope:yagrum
+			gold = medium_gold_value
+		}
+		scope:yagrum = {
+			add_opinion = {
+				target = root
+				opinion = 40
+				modifier = grateful_opinion
+			}
+		}
+		trigger_event = {
+			id = ek_court.0005
+			days = { 30 360 }
+		}
+		ai_chance = {
+			base = 50
+		}
+	}
+
+	#you schemer
+	option = {
+		name = ek_court.0005.c
+		trigger = {
+				AND = {
+					scope:yagrum_outcome = flag:ponzi
+				}
+			}
+		scope:yagrum = {
+			add_opinion = {
+				modifier = refusal_opinion
+				target = root
+				opinion = -15
+			}
+		}
+	}
+
+	#handle falmer
+	option = {
+		name = ek_court.0005.d
+		trigger = {
+				AND = {
+					scope:yagrum_outcome = flag:falmer
+				}
+			}
+		random_list = {
+			5 = { create_artifact_dwemer_puzzle_box_effect = { OWNER = this } }
+			10 = { add_gold = minor_gold_value }
+		}		
+		scope:falmer_province.county = {
+			add_rampant_modifier_effect = { TYPE = falmer }
+			title_create_faction = {
+				type = ek_crisis_faction
+				target = root
+			}
+		}
+	}
+	#handle automata
+	option = {
+		name = ek_court.0005.d
+		trigger = {
+				AND = {
+					scope:yagrum_outcome = flag:automata
+				}
+			}
+		random_list = {
+			5 = { create_artifact_dwemer_puzzle_box_effect = { OWNER = this } }
+			10 = { add_gold = minor_gold_value }
+		}
+		scope:automata_province.county = {
+			add_county_modifier = {
+				modifier = automata_modifier
+				years = 5
+			}
+		}
+	}
+	#arms and armor
+	option = {
+		name = ek_court.0005.e
+		trigger = {
+				AND = {
+					scope:yagrum_outcome = flag:arms
+				}
+			}
+		add_character_modifier = {
+			modifier = dwemer_arms
+		}
+	}
+}
+
+#A Rat Infestation
+ek_court.0006 = {
+	type = court_event
+	content_source = dlc_ek
+	title = ek_court.0006.t
+	desc = ek_court.0006.desc
+	theme = court
+
+	court_scene = {
+		button_position_character = scope:courtier
+		roles = {
+			scope:courtier = {
+				group = event_group
+				animation = disbelief
+			}
+		}
+	}
+	
+	cooldown = { years = 10 }
+	
+	trigger = {
+		any_courtier = {
+			is_available_ai_adult = yes
+			has_court_event_flag = no
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+	}
+
+	immediate = {
+		random_courtier = {
+			limit = {
+				is_available_ai_adult = yes
+			}
+			save_scope_as = courtier
+			court_event_character_flag_effect = yes
+		}
+	}
+
+	# call a fighters guild apprentice
+	option = { 
+		name = ek_court.0006.a
+		trigger = { 
+			capital_province = {
+				OR = {
+					geographical_region = mundus_tamriel_cyrodiil
+					geographical_region = mundus_tamriel_elsweyr
+					geographical_region = mundus_tamriel_high_rock
+					geographical_region = mundus_tamriel_skyrim
+					geographical_region = mundus_tamriel_valenwood
+				}
+			}	
+		}
+		pay_short_term_gold = {
+			target = scope:courtier
+			gold = minor_gold_value
+		}
+		random_list = {
+			10 = {
+				send_interface_toast = {
+					left_icon = scope:courtier
+					title = tooltip.ek_court.0006.a.success
+				}
+			}
+			10 = {
+				send_interface_toast = {
+					left_icon = scope:courtier
+					title = tooltip.ek_court.0006.a.failure
+					change_current_court_grandeur = medium_court_grandeur_loss
+				}
+			}
+		}
+	}
+
+	# call the ratcatcher's guild
+	option = { 
+		name = ek_court.0006.b
+		trigger = { 
+			capital_province = {
+				OR = {
+					geographical_region = mundus_tamriel_cyrodiil
+					geographical_region = mundus_tamriel_elsweyr
+					geographical_region = mundus_tamriel_high_rock
+					geographical_region = mundus_tamriel_skyrim
+					geographical_region = mundus_tamriel_valenwood
+				}
+			}	
+		}
+		pay_short_term_gold = {
+			target = scope:courtier
+			gold = medium_gold_value
+		}
+		random_list = {
+			10 = {
+				send_interface_toast = {
+					left_icon = scope:courtier
+					title = tooltip.ek_court.0006.b.success
+				}
+			}
+			5 = {
+				send_interface_toast = {
+					left_icon = scope:courtier
+					title = tooltip.ek_court.0006.b.failure
+					change_current_court_grandeur = medium_court_grandeur_loss
+				}
+			}
+		}
+	}
+
+	# adopt a cat
+	option = { 
+		name = ek_court.0006.c
+		trigger = {
+			NOR = {
+				any_owned_story = { story_type = story_cycle_pet_cat }
+				has_character_modifier = cat_story_modifier
+			}
+		}
+		start_cat_story_cycle_effect = yes
+
+		random_list = {
+			10 = {
+				send_interface_toast = {
+					left_icon = scope:courtier
+					title = tooltip.ek_court.0006.c.success
+					add_character_modifier = rat_hunting_cat_modifier
+				}
+			}
+			5 = {
+				send_interface_toast = {
+					left_icon = scope:courtier
+					title = tooltip.ek_court.0006.c.failure
+					change_current_court_grandeur = medium_court_grandeur_loss
+				}
+			}
+		}
+	}
+
+	after = {
+		scope:courtier = {
+			clear_court_event_participation = yes
+		}
+	}
+}
+
+# Galerion is in your court
+ek_court.0007 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_court.0007.t
+    desc = ek_court.0007.desc
+    theme = court
+    left_portrait = {
+        character = root
+        animation = shock
+    }
+
+	right_portrait = {
+		character = character:galerion_100
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	trigger = {
+		any_courtier_or_guest = {
+			this = character:galerion_100
+		}
+	}
+
+    # Get some learning xp
+    option = {
+        name = ek_court.0007.a
+		add_prestige = medium_prestige_gain
+		add_learning_lifestyle_xp = major_lifestyle_xp
+    }
+
+	# Get some magic xp
+    option = {
+        name = ek_court.0007.b
+		add_prestige = medium_prestige_gain
+		add_magic_lifestyle_xp = major_lifestyle_xp
+    }
+
+	# hire galerion       
+	option = {
+        name = ek_court.0007.c
+		remove_short_term_gold = 500
+		add_courtier = character:galerion_100
+		add_prestige = major_prestige_gain
+		add_magic_lifestyle_xp = medium_lifestyle_xp
+		add_learning_lifestyle_xp = medium_lifestyle_xp
+		character:galerion_100 = {
+			add_character_flag = {
+				flag = blocked_from_leaving
+				years = 10
+			}
+		}
+		if = {
+			limit = {
+				can_employ_court_position_type = court_mage_court_position
+			}
+			appoint_court_position = {
+				recipient = character:galerion_100
+				court_position = court_mage_court_position
+			}
+		}
+    }
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					is_ai = yes
+					character:galerion_100 = {
+						NOT = {
+							is_courtier_of = root
+						}
+					}
+				}
+				character:galerion_100 = {
+					if = {
+						limit = {
+							root = { is_ai = yes }
+						}
+						move_to_pool = yes
+					}
+				}
+			}
+		}
+	}
+}

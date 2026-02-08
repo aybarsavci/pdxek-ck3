@@ -1,0 +1,784 @@
+﻿create_artifact_varla_stone_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_varla_stone_name
+		description = artifact_varla_stone_description
+		type = pedestal
+		visuals = varla_stone
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = varla_stone_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = miscellaneous
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_dwemer_puzzle_box_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_dwemer_puzzle_box_name
+		description = artifact_dwemer_puzzle_box_description
+		type = pedestal
+		visuals = dwemer_puzzle_box
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+				type = discovered
+				actor = scope:owner
+				recipient = root
+				location = scope:owner.location
+		}
+		modifier = dwemer_puzzle_box_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = miscellaneous
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_mnemonic_star_sphere_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_mnemonic_star_sphere_name
+		description = artifact_mnemonic_star_sphere_description
+		type = pedestal
+		visuals = mnemonic_star_sphere
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+				type = discovered
+				actor = scope:owner
+				recipient = root
+				location = scope:owner.location
+		}
+		modifier = mnemonic_star_sphere_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = miscellaneous
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_book_master_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_book_master_name
+		description = artifact_book_master_description
+		type = miscellaneous
+		visuals = book_master
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = book_master_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = book
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.1 }
+	}
+}
+
+create_artifact_indoril_death_mask_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_indoril_death_mask_name
+		description = artifact_indoril_death_mask_description
+		type = pedestal
+		visuals = indoril_death_mask
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+				type = discovered
+				actor = scope:inspiration_owner
+				recipient = root
+				location = scope:inspiration_owner.location
+		}
+		modifier = indoril_death_mask_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = miscellaneous
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_necrom_chronicle_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_masterwork = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_necrom_chronicle_name
+		description = artifact_necrom_chronicle_description
+		type = book
+		visuals = necrom_chronicle
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+				type = discovered
+				actor = scope:inspiration_owner
+				recipient = root
+				location = scope:inspiration_owner.location
+		}
+		modifier = necrom_chronicle_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = miscellaneous
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_kwama_queen_egg_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_masterwork = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_kwama_queen_egg_name
+		description = artifact_kwama_queen_egg_description
+		type = pedestal
+		visuals = kwama_queen_egg
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+				type = discovered
+				actor = scope:inspiration_owner
+				recipient = root
+				location = scope:inspiration_owner.location
+		}
+		modifier = kwama_queen_egg_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = miscellaneous
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_antique_map_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_masterwork = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_antique_map_name
+		description = artifact_antique_map_description
+		type = pedestal
+		visuals = antique_map
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+				type = discovered
+				actor = scope:inspiration_owner
+				recipient = root
+				location = scope:inspiration_owner.location
+		}
+		modifier = antique_map_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = miscellaneous
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_nordic_urn_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_masterwork = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_nordic_urn_name
+		description = artifact_nordic_urn_description
+		type = pedestal
+		visuals = nordic_urn
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+				type = discovered
+				actor = scope:inspiration_owner
+				recipient = root
+				location = scope:inspiration_owner.location
+		}
+		modifier = nordic_urn_modifier
+		save_scope_as = nordic_urn
+		decaying = no
+	}
+
+	scope:nordic_urn = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = miscellaneous
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_old_sword_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_masterwork = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_old_sword_name
+		description = artifact_old_sword_description
+		type = pedestal
+		visuals = old_sword
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+				type = discovered
+				actor = scope:inspiration_owner
+				recipient = root
+				location = scope:inspiration_owner.location
+		}
+		modifier = old_sword_modifier
+		save_scope_as = old_sword
+		decaying = no
+	}
+
+	scope:old_sword = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = miscellaneous
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_redguard_flag_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_masterwork = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_redguard_flag_name
+		description = artifact_redguard_flag_description
+		type = wall_big
+		visuals = redguard_flag
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+				type = discovered
+				actor = scope:inspiration_owner
+				recipient = root
+				location = scope:inspiration_owner.location
+		}
+		modifier = redguard_flag_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = miscellaneous
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_argonian_statuette_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_masterwork = yes
+
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_argonian_statuette_name
+		description = artifact_argonian_statuette_description
+		type = miscellaneous
+		visuals = argonian_statuette
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+				type = discovered
+				actor = scope:inspiration_owner
+				recipient = root
+				location = scope:inspiration_owner.location
+		}
+		modifier = argonian_statuette_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = miscellaneous
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_dragonguard_katana_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_masterwork = yes
+
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_dragonguard_katana_name
+		description = artifact_dragonguard_katana_description
+		type = sword
+		visuals = dragonguard_katana
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+				type = discovered
+				actor = scope:inspiration_owner
+				recipient = root
+				location = scope:inspiration_owner.location
+		}
+		modifier = dragonguard_katana_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = sword
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_armor_dragonguard_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_masterwork = yes
+
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_armor_dragonguard_name
+		description = artifact_armor_dragonguard_description
+		type = armor_plate
+		visuals = armor_dragonguard
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+				type = discovered
+				actor = scope:inspiration_owner
+				recipient = root
+				location = scope:inspiration_owner.location
+		}
+		modifier = armor_dragonguard_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = armor
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_alchemy_set_core_effect = {
+	create_artifact = {	
+		name = alchemy_set
+		# Description will be regenerated in the post-creation effects, since we need to nab materials.
+		description = placeholder 
+		creator = scope:maker
+		type = $TYPE$
+		visuals = alchemy_set
+		wealth = scope:wealth
+		quality = scope:quality
+		modifier = artifact_placeholder_modifier
+		save_scope_as = newly_created_artifact
+	}
+}
+
+create_artifact_alchemy_set_effect = {
+	# Set up general scopes.
+	$OWNER$ = { save_scope_as = owner }
+	$MAKER$ = { save_scope_as = maker }
+	# Begin creating.
+	hidden_effect_new_object = {
+		# Get artifact quality, wealth, and materials.
+		get_artifact_quality_effect = yes
+		get_artifact_wealth_effect = yes
+		# Create the artifact.
+		scope:owner = {
+			if = {
+				limit = { has_royal_court = yes }
+				create_artifact_alchemy_set_core_effect = { TYPE = scientific_apparatus }
+			}
+			else = {
+				create_artifact_alchemy_set_core_effect = { TYPE = miscellaneous_when_not_court }
+			}
+		}
+		scope:newly_created_artifact = {
+			# Flag this as something that can be reforged for free, if relevant.
+			if = {
+				limit = {
+					$OWNER$ = { has_royal_court = no }
+				}
+				set_variable = {
+					name = dlc_potential_court_artefact
+					value = yes
+				}
+			}
+			set_artifact_feature_group = generic_material_wood
+			set_artifact_feature_group = decoration_material_inlay
+			set_artifact_description = alchemy_set_desc
+			# Let's add modifiers!
+			add_scaled_artifact_modifier_learning_lifestyle_xp_effect = yes
+			if = {
+				limit = {
+					OR = {
+						rarity = famed
+						rarity = illustrious
+					}
+				}
+				add_artifact_modifier = artifact_learning_per_prestige_level_modifier
+			}
+			add_scaled_artifact_modifier_grandeur_big_effect = yes
+			# Remove the placeholder.
+			remove_artifact_modifier = artifact_placeholder_modifier
+		}
+	}
+}
+
+create_artifact_dremora_armor_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+	if = {
+		limit = {
+			NOT = {exists = scope:inspiration_owner}
+		}
+		scope:owner = {save_scope_as = inspiration_owner}
+	}
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_dremora_armor_name
+		description = artifact_dremora_armor_description
+		type = armor_plate
+		visuals = dremora_armor
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = discovered
+			actor = scope:inspiration_owner
+			recipient = scope:owner
+			location = scope:inspiration_owner.location
+		}
+		modifier = dremora_armor_modifier
+		save_scope_as = dremora_armor
+		decaying = no
+	}
+
+	scope:dremora_armor = {
+		save_scope_as = epic
+		set_variable = { name = daedric_artifact value = yes }
+		set_variable = {
+			name = dremora_armor
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_bow_alessian_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	set_bow_artifact_type_effect = {
+		BASE_SCOPE = scope:owner
+		NO_TYPE = no
+	}
+	save_temporary_scope_value_as = {
+		name = bow_type_is_set
+		value = $SET_BOW_TYPE$
+	}
+	scope:owner = {
+		var:artifact_bow_type = { save_scope_as = bow_type }
+		remove_variable = artifact_bow_type
+	}
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_bow_alessian_name
+		description = artifact_bow_alessian_description
+		type = bow
+		visuals = bow_alessian
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = discovered
+			actor = scope:inspiration_owner
+			recipient = root
+			location = scope:inspiration_owner.location
+		}
+		modifier = bow_alessian_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = sword
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_sword_alessian_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_sword_alessian_name
+		description = artifact_sword_alessian_description
+		type = sword
+		visuals = sword_alessian
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = discovered
+			actor = scope:inspiration_owner
+			recipient = root
+			location = scope:inspiration_owner.location
+		}
+		modifier = sword_alessian_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = sword
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_dreugh_cuirass_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_masterwork = yes
+
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_dreugh_cuirass_name
+		description = artifact_dreugh_cuirass_description
+		type = armor_plate
+		visuals = dreugh_cuirass
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+				type = discovered
+				actor = scope:inspiration_owner
+				recipient = root
+				location = scope:inspiration_owner.location
+		}
+		modifier = dreugh_cuirass_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = armor
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_tear_anurraame_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_tear_anurraame_name
+		description = artifact_tear_anurraame_description
+		type = pedestal
+		visuals = tear_anurraame
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = tear_anurraame_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = miscellaneous
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		set_variable = { name = magicka_modifier_flat value = 0.5 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}

@@ -1,0 +1,161 @@
+﻿add_quarterly_magicka = {
+	effect = {
+		add_quarterly_magicka_effect = yes
+		add_character_flag = {
+			flag = gains_magicka
+			months = 3
+		}
+	}
+}
+
+add_monthly_magicka = {
+	effect = {
+		add_monthly_magicka_effect = yes
+	}
+}
+
+add_yearly_magicka = {
+	trigger = {
+		NOT = { has_character_flag = gains_magicka }
+	}
+	effect = {
+		add_yearly_magicka_effect = yes
+	}
+}
+
+on_start_arcana = {
+	effect = {
+		if = {
+			limit = { 
+				NOT = { exists = var:arcana_base } 
+			}
+			save_scope_value_as = {
+				name = base
+				value = {
+					if = {
+						limit = { is_from_ruler_designer = no }
+						value = { 0 10 }
+					}	
+					if = {
+						limit = { has_trait = base_arcana_1 }
+						value = 1
+					}
+					if = {
+						limit = { has_trait = base_arcana_2 }
+						value = 2	
+					}
+					if = {
+						limit = { has_trait = base_arcana_3 }
+						value = 3
+					}
+					if = {
+						limit = { has_trait = base_arcana_4 }
+						value = 4	
+					}
+					if = {
+						limit = { has_trait = base_arcana_5 }
+						value = 5
+					}
+					if = {
+						limit = { has_trait = base_arcana_6 }
+						value = 6	
+					}
+					if = {
+						limit = { has_trait = base_arcana_7 }
+						value = 7	
+					}
+					if = {
+						limit = { has_trait = base_arcana_8 }
+						value = 8	
+					}
+					if = {
+						limit = { has_trait = base_arcana_9 }
+						value = 9
+					}
+					if = {
+						limit = { has_trait = base_arcana_10 }
+						value = 10	
+					}
+					if = {
+						limit = { has_trait = base_arcana_11 }
+						value = 11	
+					}
+					if = {
+						limit = { has_trait = base_arcana_12 }
+						value = 12	
+					}	
+					if = {
+						limit = { #reduce proportional to age if child
+							is_adult = no
+							is_from_ruler_designer = no
+						} 
+						multiply = age
+						divide = 16
+					}
+					floor = yes
+				}
+				
+	
+			}
+			if = {
+				limit = { scope:base >= 1 } #only add if non-zero. save some save size
+				add_arcana_skill = { VALUE = scope:base }
+				remove_trait = base_arcana_1
+				remove_trait = base_arcana_2
+				remove_trait = base_arcana_3
+				remove_trait = base_arcana_4
+				remove_trait = base_arcana_5
+				remove_trait = base_arcana_6
+				remove_trait = base_arcana_7
+				remove_trait = base_arcana_8
+				remove_trait = base_arcana_9
+				remove_trait = base_arcana_10
+				remove_trait = base_arcana_11
+				remove_trait = base_arcana_12
+			}
+		}
+		if = {
+			limit = { can_magic_trigger = yes }
+			set_variable = { name = magicka value = half_maximum_magicka }
+		}
+	}
+}
+
+summon_timer = {
+	effect = {
+		if = {
+			limit = {
+				any_courtier = {
+					has_character_flag = summoned_daedra
+				}
+			}
+			every_courtier = {
+				limit = {
+					has_character_flag = summoned_daedra
+				}
+				death = {
+					death_reason = death_returned_oblivion
+				}
+			}
+		}
+	}
+}
+
+# initalize_spell_lists = {
+#     effect = {
+#         init_spell_lists = yes
+#     }
+# }
+
+# clear_spell_vars = {
+#     effect = {
+#         spell_cleanup = yes
+#     }
+# }
+
+# ek_on_save_load = {
+#     on_actions = {
+#         initalize_spell_lists
+#         clear_spell_vars
+#     }
+# }

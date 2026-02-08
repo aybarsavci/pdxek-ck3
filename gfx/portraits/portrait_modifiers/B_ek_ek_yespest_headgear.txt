@@ -1,0 +1,177 @@
+﻿ek_yespest_headgear = {
+
+	usage = game
+	selection_behavior = weighted_random
+	priority = 1
+
+##############################
+#							 #	
+#			YESPEST    		 #
+#							 #
+##############################
+
+	ek_yespest_commoners = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 80
+                portrait_commoner_headgear_fallback_trigger = {
+                    CULTURE_INPUT = ek_yespest
+                }
+			}
+			modifier = {
+				add = 20
+                portrait_commoner_clothing_trigger = {  
+                    CULTURE_INPUT = ek_yespest 
+                }
+			}
+		}
+	}
+
+	ek_yespest_low_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_ayleid_crown
+				value = 0
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_yespest
+                }
+			}
+		}
+	}
+	
+	ek_yespest_high_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_ayleid_crown
+				value = 0
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_high_nobles_headgear_trigger = {
+                    CULTURE_INPUT = ek_yespest
+                }   
+			}
+		}
+	}
+
+	ek_yespest_royalty = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_ayleid_crown
+				value = 0.9
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+				OR = {   
+					portrait_royalty_trigger = {
+						CULTURE_INPUT = ek_yespest
+					}
+					portrait_imperial_trigger = {
+						CULTURE_INPUT = ek_yespest
+					}					
+				}
+			}
+		}
+	}
+}
+
+
+ek_yespest_war_headgear = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 4
+
+    ek_yespest_war_low_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = ek_south_nedic_war
+                accessory = headgear_south_nedic_male_war_02_low
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+				is_lowborn = yes
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_yespest
+                }
+				OR = {
+						portrait_commoner_armor_trigger = { 
+							CULTURE_INPUT = ek_yespest
+						}
+						portrait_low_nobles_armor_trigger = { 
+							CULTURE_INPUT = ek_yespest
+						}
+						portrait_high_nobles_armor_trigger = { 
+							CULTURE_INPUT = ek_yespest
+						}						
+					}				
+            }
+        }
+    }
+
+    ek_yespest_war_high_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = ek_south_nedic_war
+                accessory = headgear_south_nedic_male_war_01_high
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+				is_lowborn = no
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_yespest
+                }
+				OR = {
+						portrait_commoner_armor_trigger = { 
+							CULTURE_INPUT = ek_yespest
+						}
+						portrait_low_nobles_armor_trigger = { 
+							CULTURE_INPUT = ek_yespest
+						}
+						portrait_high_nobles_armor_trigger = { 
+							CULTURE_INPUT = ek_yespest
+						}						
+					}				
+            }
+        }
+    }
+}

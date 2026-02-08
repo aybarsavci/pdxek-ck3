@@ -1,0 +1,1487 @@
+﻿##################
+# Elsweyr Special Buildings
+##################
+# Palace of the Mane
+# Dragonguard Sanctum
+# Anequina Moon Gate
+# Rimmen Palace
+# Tonenaka Shrine
+# Two Moons Path Temple
+# Rimmen Necropolis
+# Sunspire Temple
+# Hidden Moon Crypts (Hidden Moon Temple)
+# Corinthe Archive
+# Pridehome Temple
+# Hall of Colossus
+# Halls of the Highmane
+# Senchal Palace
+# Lucky Cat's Port
+# Potentate's Retreat
+# Zazaradi's Quarry and Mine
+# White Walls of Alabaster
+# Predator Mesa
+# Moonmirth Plantations
+# Orchaj Bazaar
+# Rithana-di-Renada
+##################
+
+##########
+# Palace of the Mane - the seat of the highest Khajiit hierarch, in Torval
+# Palace Buidling
+##########
+mane_palace_01 = {
+	asset = {
+        type = pdxmesh
+        name = "fp3_building_special_soltaniyeh_01_a_mesh"
+    }
+    
+    type_icon = "icon_structure_soltaniyeh.dds" 
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}  
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time	  
+			
+	character_modifier = {
+		monthly_piety = 1
+		diplomacy_per_piety_level = 1
+		learning_per_piety_level = 1
+		zealot_opinion = 10
+	}
+	
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.3
+		development_growth = 0.2
+	}
+	
+	province_modifier = {
+		stationed_maa_damage_mult = normal_maa_damage_tier_1
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Dragonguard Sanctum - Dragonguard sanctuary on the island of Tideholm
+##########
+dragonguard_sanctum_01 = { #Pirate version
+	type_icon = "icon_structure_cathedral_indian.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	can_construct = {
+		custom_tooltip = {
+			text = has_pirate_government
+			scope:holder = { has_government = pirate_government }
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = has_pirate_government
+			scope:holder = { has_government = pirate_government }
+		}
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time	
+
+	character_modifier = {
+		raid_speed = 0.2
+		max_loot_mult = 0.2
+		men_at_arms_maintenance = -0.1
+		naval_movement_speed_mult = 0.1		
+	}
+
+	province_modifier = {
+		fort_level = 1
+		defender_holding_advantage = 5
+		stationed_maa_damage_mult = normal_maa_damage_tier_1
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+	}
+
+	next_building = dragonguard_sanctum_02
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+dragonguard_sanctum_02 = { #Normal defensive dragonguard sanctuary
+	type_icon = "icon_structure_cathedral_indian.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	can_construct = {
+		custom_tooltip = {
+			text = not_has_pirate_government
+			NOT = { scope:holder = { has_government = pirate_government } }
+		}	
+	}
+	
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time	
+	
+	character_modifier = {
+		monthly_prestige_gain_per_knight_add = 0.1
+		men_at_arms_maintenance = -0.1
+	}
+
+	county_modifier = {
+		hostile_raid_time = 0.1
+	}
+
+	province_modifier = {
+		fort_level = 2
+		defender_holding_advantage = 10
+		stationed_maa_damage_mult = normal_maa_damage_tier_1
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+#########
+# Anequina Moon Gate - a ancient portal towards the Plane of Jode, it safeguards the power of Jode's Core
+#########
+anequina_moon_gate_01 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"building_special_moon_gate_mesh"
+		}
+	}
+
+	type_icon = "icon_structure_golden_gate_of_kiev.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	can_construct = {
+		custom_tooltip = {
+			text = holy_site_or_moon_worship
+			OR = {
+				scope:holder = { faith = { has_doctrine = tenet_moon_worship } }
+				barony = {
+					is_holy_site_of = scope:holder.faith
+				}
+			}
+		}
+	}
+		
+	is_enabled = {
+		custom_tooltip = {
+			text = holy_site_or_moon_worship
+			OR = {
+				scope:holder = { faith = { has_doctrine = tenet_moon_worship } }
+				barony = {
+					is_holy_site_of = scope:holder.faith
+				}
+			}
+		}
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time	
+	
+	character_modifier = {
+		monthly_piety = 0.5
+		monthly_learning_lifestyle_xp_gain_mult = 0.1
+		learning_per_piety_level = 1
+	}
+
+	county_modifier = {
+		development_growth_factor = 0.1
+		development_growth = 0.1
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+
+#########
+# Rimmen Palace
+# Palace Building
+#########
+rimmen_palace_01 = {
+	asset = {
+        type = pdxmesh
+        name = "fp2_building_special_basilica_santiago_mesh"
+    }
+
+    type_icon = "compostela.dds"
+
+	effect_desc = feast_cost_discount_max_desc
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+		
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time    
+
+	county_modifier = {
+        tax_mult = 0.1
+        development_growth_factor = 0.2
+        development_growth = 0.1
+    }
+    
+    max_garrison = 300
+
+    province_modifier = {
+        defender_holding_advantage = 2
+        fort_level = 2
+        stationed_maa_damage_mult = normal_maa_damage_tier_1
+        stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+    }
+
+    character_modifier = {
+		powerful_vassal_opinion = 10
+		monthly_prestige_gain_mult = 0.05
+		monthly_prestige_gain_per_happy_powerful_vassal_add = 0.1
+		monthly_dynasty_prestige_mult = 0.05
+	}
+   
+    type = special
+
+    flag = travel_point_of_interest_wonder
+}
+
+##########
+# Tonenaka Shrine - a mortuary shrine constructed—and sealed— by fleeing Ilniviri notables using syncretic architecture
+##########
+tonenaka_shrine_01 = {
+	type_icon = "icon_structure_buddhas_of_bamiyan.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	can_construct = {
+		custom_description = {
+			text = holy_site_building_trigger
+			barony = {
+				is_holy_site_of = scope:holder.faith
+			}
+		}
+	}
+
+	is_enabled = {
+		custom_description = {
+			text = holy_site_building_trigger
+			barony = {
+				is_holy_site_of = scope:holder.faith
+			}
+		}
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = {
+		monthly_prestige_gain_mult = 0.1
+		diplomacy_per_piety_level = 1
+		different_culture_opinion = 10
+	}
+
+	province_modifier = {
+		monthly_income = 0.5
+	}
+
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth = 0.1
+		development_growth_factor = 0.25
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Rimmen Necropolis
+# Graveyard Building
+##########
+rimmen_necropolis_01 = {
+	type_icon = "icon_structure_khajuraho_temples.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	is_enabled = {
+		custom_tooltip = {
+			text = must_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = yes }
+		}
+	}
+
+	effect_desc = {
+		desc = ek_graveyard_effect_desc
+	}
+
+	cost_gold = 1000
+	construction_time = very_slow_construction_time
+
+	character_modifier = {
+		monthly_dark_arts_lifestyle_xp_gain_mult = 0.1
+		monthly_learning_lifestyle_xp_gain_mult = 0.05
+		dread_gain_mult = 0.1
+		men_at_arms_maintenance_per_dread_mult = -0.001
+	}
+
+	county_modifier = {
+		county_opinion_add = -10
+	}
+
+	province_modifier = {
+		defender_holding_advantage = 2
+		epidemic_resistance = -10
+		travel_danger = 10
+		stationed_mages_damage_mult = normal_maa_damage_tier_1
+		stationed_mages_toughness_mult = normal_maa_toughness_tier_1
+	}
+
+	next_building = rimmen_necropolis_02
+	
+	type = special
+
+	flag = travel_point_of_interest_dark_arts
+}
+
+rimmen_necropolis_02 = {
+	type_icon = "icon_structure_khajuraho_temples.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	effect_desc = {
+		triggered_desc = {
+			trigger = { has_dlc_feature = legends_of_the_dead }
+			desc = ek_funeral_cost_discount_max_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = legends_of_the_dead }
+			desc = ek_funeral_piety_outcome_effect_desc
+		}
+	}
+
+	can_construct = {
+		custom_tooltip = {
+			text = must_not_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = no }
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = burial_funeral_building_trigger_desc
+			scope:holder.faith = { building_requirement_funeral_doctrine = yes }
+		}
+	}
+
+	cost_gold = 500
+	construction_time = slow_construction_time
+	
+	character_modifier = {
+		monthly_piety = 0.25
+		monthly_dynasty_prestige_mult = 0.1
+		legitimacy_gain_mult = 0.1
+		same_culture_opinion = 5
+	}
+
+	county_modifier = {
+		county_opinion_add = 5
+	}
+
+	province_modifier = {
+		epidemic_resistance = 20
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Orcrest Bazaar
+# Tradehub Building
+##########
+# Original
+orcrest_bazaar_01 = {
+	type_icon = "icon_building_market_villages.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	province_modifier = {
+		monthly_income = 1.5
+		epidemic_resistance = -15
+	}
+
+	county_modifier = {
+		tax_mult = 0.15
+		development_growth = 0.1
+		development_growth_factor = 0.2
+		supply_limit_mult = 0.1
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+# Devastatetd by the Knahaten
+orcrest_bazaar_02 = { 
+	type_icon = "icon_building_market_villages.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	province_modifier = {
+		epidemic_resistance = -30
+		travel_danger = 50
+	}
+
+	county_modifier = {
+		tax_mult = -0.1
+		development_growth = -0.2
+		development_growth_factor = -0.3
+		monthly_county_control_growth_add = -0.1
+	}
+	
+	type = special
+
+	next_building = orcrest_bazaar_03
+}
+
+# Restored
+orcrest_bazaar_03 = {
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+	province_modifier = {
+		monthly_income = 1.
+		epidemic_resistance = -10
+	}
+
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth = 0.1
+		development_growth_factor = 0.2
+		supply_limit_mult = 0.05
+	}	
+
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+##########
+# Sunspire Temple - an ancient temple where Alkosh saved the Khajiit from extinction at the hands of Pelinal
+##########
+# Neglected Version
+sunspire_temple_01 = {
+	type_icon = "icon_structure_shwedagon_pagoda.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	can_construct = {
+		custom_tooltip = {
+			text = holy_site_or_alkosh
+			OR = {
+				barony = {
+					is_holy_site_of = scope:holder.faith
+				}
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_khajiiti } }
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_riddlethar } }
+			}	
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = holy_site_or_alkosh
+			OR = {
+				barony = {
+					is_holy_site_of = scope:holder.faith
+				}
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_khajiiti } }
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_riddlethar } }
+			}	
+		}
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = {
+		piety_level_impact_mult = 0.1
+		monthly_piety_gain_mult = 0.05
+	}
+
+	county_modifier = {
+		development_growth_factor = 0.05
+	}
+
+	next_building = sunspire_temple_02
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+# Gold hungry version
+sunspire_temple_02 = {
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	can_construct = {
+		custom_tooltip = {
+			text = holy_site_or_alkosh
+			OR = {
+				barony = {
+					is_holy_site_of = scope:holder.faith
+				}
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_khajiiti } }
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_riddlethar } }
+			}	
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = holy_site_or_alkosh
+			OR = {
+				barony = {
+					is_holy_site_of = scope:holder.faith
+				}
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_khajiiti } }
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_riddlethar } }
+			}	
+		}
+	}
+
+	cost_gold = 1500
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = {
+		piety_level_impact_mult = 0.5
+		monthly_piety_gain_mult = 0.1
+	}
+
+	province_modifier = {
+		monthly_income = -2
+	}
+
+	county_modifier = {
+		county_opinion_add = 10
+		development_growth_factor = 0.1
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Hidden Moon Crypts - the crypts that in times of yore were the headquarters of the Order of the Hidden Moon
+##########
+hidden_moon_crypts_01 = {
+	type_icon = "icon_structure_mahabodhi_temple.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	is_enabled = {
+		custom_tooltip = {
+			text = must_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = yes }
+		}
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+	effect_desc = hidden_moon_crypts_effect_desc
+	
+	character_modifier = {
+		monthly_dark_arts_lifestyle_xp_gain_mult = 0.15
+		knight_effectiveness_per_dread = 0.005
+		monthly_piety_gain_per_knight_add = 0.1
+		dread_gain_mult = 0.1
+	}
+
+	county_modifier = {
+		county_opinion_add = -10		
+	}
+
+	province_modifier = {
+		defender_holding_advantage = 2
+		epidemic_resistance = -10
+		travel_danger = -10
+		stationed_mages_damage_mult = normal_maa_damage_tier_1
+		stationed_mages_toughness_mult = normal_maa_toughness_tier_1
+	}
+
+	next_building = hidden_moon_crypts_02
+	
+	type = special
+
+	flag = travel_point_of_interest_dark_arts
+}
+
+hidden_moon_crypts_02 = {
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	can_construct = {
+		custom_tooltip = {
+			text = must_not_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = no }
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = must_not_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = no }
+		}
+		faith = { has_doctrine = doctrine_azura_pantheon }
+	}
+
+	cost_gold = 500
+
+	construction_time = slow_construction_time
+
+	character_modifier = {
+		monthly_dark_arts_lifestyle_xp_gain_mult = 0.1
+		learning_per_piety_level = 1
+		monthly_piety_gain_per_knight_add = 0.1
+		different_faith_opinion = 5
+		different_faith_county_opinion_mult = -0.1
+	}
+
+	county_modifier = {
+		development_growth_factor = 0.1
+		development_growth = 0.2
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Corinthe Archive - 
+##########
+corinthe_archive_01 = { 
+	type_icon = "icon_structure_al-azhar_university.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	effect_desc = {
+		desc = unlocks_building_desc
+		triggered_desc = {
+			trigger = { has_dlc_feature = wards_and_wardens }
+			desc = ek_university_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = tours_and_tournaments }
+			desc = university_toto_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = royal_court }
+			desc = university_roco_effect_desc
+		}
+		desc = university_effect_desc
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = {
+		learning_per_prestige_level = 1
+		diplomacy_per_prestige_level = 1
+		monthly_lifestyle_xp_gain_mult = 0.1
+		cultural_head_fascination_mult = 0.05
+		monthly_dynasty_prestige = 0.25
+	}
+	
+	county_modifier = {
+		development_growth_factor = 0.2
+		development_growth = 0.3
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_learning
+	flag = arcane_education_location
+}
+
+##########
+# Pridehome Temple
+##########
+pridehome_temple_01 = {
+	type_icon = "icon_structure_the_friday_mosque.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	effect_desc = pridehome_temple_effect_desc
+
+	can_construct = {
+		scope:holder.culture = { has_cultural_pillar = heritage_khajiiti }
+		OR = {
+			barony = {
+				is_holy_site_of = scope:holder.faith
+			}
+			scope:holder.faith = { has_doctrine = doctrine_pantheon_riddlethar }
+		}
+	}
+	
+	is_enabled = {
+		scope:holder.culture = { has_cultural_pillar = heritage_khajiiti }
+		OR = {
+			barony = {
+				is_holy_site_of = scope:holder.faith
+			}
+			scope:holder.faith = { has_doctrine = doctrine_pantheon_riddlethar }
+		}
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = {
+		monthly_county_control_growth_factor = 0.05
+		levy_reinforcement_rate_same_faith = 0.1
+	}
+
+	county_modifier = {
+		levy_size = 0.2
+	}
+
+	province_modifier = {
+		fort_level = 1
+		defender_holding_advantage = 2
+		stationed_skirmishers_damage_mult = very_high_maa_damage_tier_1
+		stationed_skirmishers_toughness_mult = very_high_maa_toughness_tier_1
+		stationed_skirmishers_pursuit_mult = very_high_maa_pursuit_tier_1
+		stationed_skirmishers_screen_mult = very_high_maa_pursuit_tier_1
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+##########
+# Moonmirth  Plantations
+# Plantation Building
+##########
+moonmirth_plantations_01 = {
+	type_icon = "icon_structure_moonsugar.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}	
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = {
+		stress_loss_mult = 0.1
+		court_grandeur_baseline_add = 10
+	}
+
+	province_modifier = {
+		monthly_income = 2
+	}
+
+	county_modifier = {
+		development_growth = 0.1
+		development_growth_factor = 0.2
+		supply_limit = 100
+		county_opinion_add = 10
+	}
+		
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+##########
+# Hall of Colossus - 
+##########
+hall_of_colossus_01 = {
+	type_icon = "icon_structure_alamut_castle.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = {
+		monthly_dynasty_prestige_mult = 0.05
+		diplomacy_per_prestige_level = 1
+		learning_per_piety_level = 1
+		stress_loss_mult = -0.1
+	}
+
+	province_modifier = {
+		travel_danger = 10
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+##########
+# Halls of the Highmane
+##########
+halls_of_highmane_01 = { 
+	type_icon = "icon_structure_cathedral_pagan.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	is_enabled = {
+		custom_description = {
+			text = holy_site_building_trigger
+			barony = {
+				is_holy_site_of = scope:holder.faith
+			}
+		}
+	}
+
+	effect_desc = halls_of_highmane_effect_desc
+	
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = {
+		monthly_piety_gain_per_knight_add = 0.1
+		knight_effectiveness_mult = 0.2
+		knight_limit = 1
+	}
+
+	county_modifier = {
+		tax_mult = 0.1
+		levy_size = 0.1
+		county_opinion_add = 10
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Senchal Palace
+# Palace Building
+##########
+senchal_palace_01 = { #Normal
+	type_icon = "icon_structure_doges_palace.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+    effect_desc = feast_cost_discount_max_desc    
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+    
+    county_modifier = {
+        tax_mult = 0.05
+        development_growth_factor = 0.2
+        development_growth = 0.1
+    }
+    
+    max_garrison = 300
+
+    province_modifier = {
+        defender_holding_advantage = 2
+        fort_level = 1
+        stationed_maa_damage_mult = normal_maa_damage_tier_1
+        stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+    }
+
+    character_modifier = {
+        courtier_and_guest_opinion = 20
+		court_grandeur_baseline_add = 20
+    }   
+
+    type = special
+
+    flag = travel_point_of_interest_wonder
+}
+
+senchal_palace_02 = { #Scorched - used after Knahaten Flu
+	type_icon = "icon_structure_doges_palace.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	effect_desc = feast_cost_discount_max_desc	
+
+	cost_gold = 2000
+
+	construction_time = very_slow_construction_time	
+
+	province_modifier = {
+		garrison_size = 0.1
+		defender_holding_advantage = 1
+	}
+
+	character_modifier = {
+		legitimacy_gain_mult = 0.05
+	}
+	
+	type = special
+
+	next_building = senchal_palace_03
+}
+
+senchal_palace_03 = { #Rebuilt
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	effect_desc = feast_cost_discount_max_desc
+
+	cost_gold = 2000
+
+	construction_time = very_slow_construction_time
+
+	on_complete = {
+		county.holder = {
+			trigger_event = ek_special_buildings_events.0041
+		}
+	}
+	
+	county_modifier = {
+        tax_mult = 0.05
+        development_growth_factor = 0.2
+        development_growth = 0.1
+    }
+    
+    max_garrison = 300
+
+    province_modifier = {
+        defender_holding_advantage = 2
+        fort_level = 2
+        stationed_maa_damage_mult = normal_maa_damage_tier_1
+        stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+    }
+
+    character_modifier = {
+        courtier_and_guest_opinion = 15
+		court_grandeur_baseline_add = 15
+    }   
+
+    type = special
+
+    flag = travel_point_of_interest_wonder
+}
+
+##########
+# Lucky Cat's Port
+##########
+lucky_cat_port_01 = {
+	type_icon = "icon_structure_special_port.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}    
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = {
+		monthly_intrigue_lifestyle_xp_gain_mult = 0.1
+	}
+	
+	province_modifier = {
+		monthly_income = 2
+		epidemic_resistance = -20
+	}
+
+	county_modifier = {
+		tax_mult = 0.1		
+		development_growth = 0.1
+		development_growth_factor = 0.2
+		monthly_county_control_decline_factor = 0.1
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+lucky_cat_port_02 = { # fallen into chaos during Knahaten Flu
+	type_icon = "icon_structure_special_port.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}    
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = {
+		monthly_intrigue_lifestyle_xp_gain_mult = 0.2
+	}
+	
+	province_modifier = {
+		monthly_income = 1
+		epidemic_resistance = -10
+	}
+
+	county_modifier = {
+		tax_mult = -0.1
+		monthly_county_control_decline_add = 0.1
+		monthly_county_control_decline_factor = 0.2
+	}
+	
+	type = special
+
+	next_building = lucky_cat_port_03
+
+	flag = travel_point_of_interest_economic
+}
+
+lucky_cat_port_03 = {
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = {
+		monthly_intrigue_lifestyle_xp_gain_mult = 0.1
+	}
+	
+	province_modifier = {
+		monthly_income = 1.5
+		epidemic_resistance = -15
+	}
+
+	county_modifier = {
+		tax_mult = 0.1		
+		development_growth = 0.1
+		development_growth_factor = 0.2
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+##########
+# Potentate's Retreat
+# Hunting Lodge Building
+##########
+potentate_retreat_01 = {
+	type_icon = "icon_structure_palace_of_achen.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time	
+
+	effect_desc = {
+		desc = hunting_grounds_desc
+	}
+	
+	character_modifier = {
+		lifestyle_hunter_xp_gain_mult = 0.1
+		glory_hound_opinion = 10
+		glory_hound_levy_contribution_mult = 0.1
+	}
+
+	province_modifier = {
+		fort_level = 1
+		defender_holding_advantage = 2
+		stationed_maa_damage_mult = normal_maa_damage_tier_1
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+		stationed_maa_pursuit_mult = normal_maa_pursuit_tier_1
+	}
+
+	county_modifier = {
+		tax_mult = 0.1
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+##########
+# Two Moons Path Temple
+##########
+two_moon_path_01 = {
+	asset = {
+		type = pdxmesh
+		name = "fp3_building_special_minaret_and_remains_of_jam_01_a_mesh"
+		soundeffect = { soundeffect = "event:/DLC/FP3/SFX/Ambience/3DMapEmitters/Holdings/fp3_ambience_3D_holdings_minaret" }	
+	}
+	
+	type_icon = "icon_structure_minaret_and_remains_of_jam.dds" 
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}	
+
+	can_construct = {
+		custom_description = {
+			text = holy_site_building_trigger
+			barony = {
+				is_holy_site_of = scope:holder.faith
+			}
+		}
+	}
+	
+	is_enabled = {
+		custom_description = {
+			text = holy_site_building_trigger
+			barony = {
+				is_holy_site_of = scope:holder.faith
+			}
+		}
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = {
+		monthly_piety_gain_mult = 0.1
+		learning_per_piety_level = 1
+		zealot_opinion = 10
+		zealot_tax_contribution_mult = 0.1
+		zealot_levy_contribution_mult = 0.1
+	}
+
+	county_modifier = {
+		development_growth = 0.3
+		development_growth_factor = 0.2
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# White Walls of Alabaster
+##########
+alabaster_white_walls_01 = {
+	type_icon = "icon_structure_visby_ringmur.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	effect_desc = {
+		desc = magical_protection_desc
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time	
+		
+	max_garrison = 150
+	
+	county_modifier = {
+		hostile_raid_time = 0.1
+		development_growth_factor = 0.1
+		county_opinion_add = 10
+	}
+
+	province_modifier = {
+		fort_level = 1
+		garrison_size = 0.1
+		defender_holding_advantage = 2
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+
+#########
+# Rithana-di-Renada
+# Restorable in three stages
+#########
+kingdoms_song_01 = {
+	type_icon = "icon_structure_walls_of_benin.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}	
+
+	can_construct = {
+		custom_tooltip = {
+			text = is_khajiiti
+			scope:holder.culture = { has_cultural_pillar = heritage_khajiiti }
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = is_khajiiti
+			scope:holder.culture = { has_cultural_pillar = heritage_khajiiti }
+		}
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = { 
+		monthly_dynasty_prestige = 0.05
+		stress_gain_mult = 0.1
+	}
+
+	county_modifier = {
+		development_growth = 0.05
+		development_growth_factor = 0.1
+	}
+	
+	type = special
+
+	next_building = kingdoms_song_02
+
+	flag = travel_point_of_interest_wonder
+}
+
+kingdoms_song_02 = {
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	can_construct = {
+		custom_tooltip = {
+			text = is_khajiiti
+			scope:holder.culture = { has_cultural_pillar = heritage_khajiiti }
+		}
+	}
+
+	is_enabled = {
+		custom_tooltip = {
+			text = is_khajiiti
+			scope:holder.culture = { has_cultural_pillar = heritage_khajiiti }
+		}
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = { 
+		monthly_dynasty_prestige = 0.1
+		legitimacy_gain_mult = 0.1
+	}
+
+	county_modifier = {
+		development_growth = 0.1
+		development_growth_factor = 0.2
+	}
+	
+	type = special
+
+	next_building = kingdoms_song_03
+
+	flag = travel_point_of_interest_wonder
+}
+
+kingdoms_song_03 = { # Only buildable once the singing stone was recovered
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	can_construct = {
+		custom_tooltip = {
+			text = has_singing_crystal
+			scope:holder.culture = { has_cultural_pillar = heritage_khajiiti }
+			scope:holder = { any_character_artifact = { has_artifact_modifier = singing_crystal_modifier } }
+		}
+	}
+
+	is_enabled = {
+		custom_tooltip = {
+			text = is_khajiiti
+			scope:holder.culture = { has_cultural_pillar = heritage_khajiiti }
+		}
+	}
+
+	on_complete = {
+		county.holder = {
+			trigger_event = ek_special_buildings_events.0082
+		}
+	}
+
+	cost_gold = 100
+
+	construction_time = 30
+	
+	character_modifier = { 
+		monthly_dynasty_prestige = 0.2
+		legitimacy_gain_mult = 0.2
+		stress_gain_mult = -0.1
+	}
+
+	county_modifier = {
+		development_growth = 0.2
+		development_growth_factor = 0.3
+		county_opinion_add = 25
+	}
+
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+##########
+# Predator Mesa - hunting grounds dedicated to Hircine
+##########
+predator_mesa_01 = {
+	asset = {
+		type = pdxmesh
+		name = "fp3_building_special_rainbow_mountains_01_a_mesh"
+	}
+	
+	type_icon = "icon_structure_ala_daghlar_mountains.dds" 
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	effect_desc = hunting_grounds_desc	
+
+	cost_gold = 1000
+	
+	construction_time = very_slow_construction_time
+
+	character_modifier = { 
+		prowess_per_piety_level = 2
+		martial_per_piety_level = 1
+		monthly_piety = 0.2
+	}
+
+	county_modifier = {
+		build_speed = 0.1
+		build_gold_cost = 0.2
+	}
+
+	province_modifier = {
+		travel_danger = 25
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_natural_feature # mountain
+}

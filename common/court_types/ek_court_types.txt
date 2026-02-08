@@ -1,0 +1,120 @@
+﻿### Replaces the Magocracy government form
+# Scales with Arcana, and boosts your Arcanic abilities
+court_magical = {
+	background = "gfx/interface/icons/culture_pillars/ethos_stoic.dds"
+
+	is_shown = {
+		OR = {
+			AND = {
+				exists = dynasty
+				dynasty = { has_dynasty_perk = magicka_legacy_4 }
+			}
+			culture = {
+				OR = {
+					has_cultural_parameter = unlocks_court_magical 
+					has_cultural_parameter = sorcerer_kings_tradition
+				}
+			}
+		}
+	}
+	
+	is_valid = {
+		OR = {
+			AND = {
+				exists = dynasty
+				dynasty = { has_dynasty_perk = magicka_legacy_4 }
+			}
+			culture = {
+				OR = {
+					has_cultural_parameter = unlocks_court_magical 
+					has_cultural_parameter = sorcerer_kings_tradition
+				}
+			}
+		}
+	}
+	
+	cost = {
+		prestige = {
+			add = 500
+		}
+	}
+	# time_perk = {
+		# required_months_in_court = 12
+		# # courtier_guest_modifier = { prowess_no_portrait = 1 }
+	# }
+	# time_perk = {
+		# required_months_in_court = 24
+		# # courtier_guest_modifier = { prowess_no_portrait = 1 }
+	# }
+	# time_perk = {
+		# required_months_in_court = 36
+		# # courtier_guest_modifier = { prowess_no_portrait = 1 }
+	# }
+	level_perk = {
+		court_grandeur = 1
+		owner_modifier_description = arcane_court_more_max_magicka_magicka_regen_desc
+	}
+	level_perk = {
+		court_grandeur = 4
+		owner_modifier_description = arcane_court_magic_education_desc
+	}
+	level_perk = {
+		court_grandeur = 7
+		owner_modifier = {
+			monthly_magic_lifestyle_xp_gain_mult = 0.25
+		}
+	}
+	level_perk = {
+		court_grandeur = 10
+		owner_modifier_description = arcane_court_more_ritual_desc
+	}
+
+	ai_will_do = {
+		value = 0
+		
+		add = {
+			add = arcana
+			
+			if = {
+				limit = { has_trait = education_magic }
+				add = 25
+			}
+			if = {
+				limit = {
+					has_lifestyle = magic_lifestyle
+				}
+				add = 50
+			}
+			if = {
+				limit = { has_trait = arcana_good }
+				add = 25
+			}
+			if = {
+				limit = { has_trait = arcana_bad }
+				subtract = 25
+			}			
+			if = {
+				limit = { 
+					culture = {
+						OR = {
+							has_cultural_parameter = unlocks_court_magical 
+							has_cultural_parameter = sorcerer_kings_tradition
+						}
+					}
+				}
+				add = 25
+			}
+			if = {
+				limit = { culture = { has_cultural_parameter = magic_preference } }
+				add = 25
+			}
+			if = {
+				limit = { 
+					exists = dynasty
+					dynasty = { has_dynasty_perk = magicka_legacy_4 } 					
+				}
+				add = 25
+			}
+		}
+	}
+}

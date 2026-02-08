@@ -1,0 +1,60 @@
+﻿has_normal_education_type_trigger = {
+	involved_activity ?= {
+		has_activity_type = activity_adult_education
+		has_activity_option = {
+			category = special_type
+			option = adult_education_option_mundane
+		}
+	}
+}
+
+has_magic_education_type_trigger = {
+	involved_activity ?= {
+		has_activity_type = activity_adult_education
+		has_activity_option = {
+			category = special_type
+			option = adult_education_option_arcane
+		}
+	}
+}
+
+activity_has_mundane_education_type_trigger = {
+	has_activity_type = activity_adult_education
+	has_activity_option = {
+		category = special_type
+		option = adult_education_option_mundane
+	}
+}
+
+activity_has_arcane_education_type_trigger = {
+	has_activity_type = activity_adult_education
+	has_activity_option = {
+		category = special_type
+		option = adult_education_option_arcane
+	}
+}
+
+is_available_arcane_adult_education_teacher = {
+	is_available_healthy_ai_adult = yes
+	age > 35
+	OR = {
+		has_trait = education_magic_4
+		has_trait = education_magic_5
+	}
+	arcana >= 12
+	trigger_if = {
+		limit = {
+			scope:location.county.faith = { has_doctrine = doctrine_gender_female_dominated }
+		}
+		is_female = yes
+	}
+	trigger_else_if = {
+		limit = {
+			scope:location.county.faith = { has_doctrine = doctrine_gender_male_dominated }
+		}
+		is_female = no
+	}
+	trigger_else = {
+		always = yes
+	}
+}

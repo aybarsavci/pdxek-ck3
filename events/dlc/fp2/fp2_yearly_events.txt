@@ -1,0 +1,914 @@
+﻿### EK NOTE: Removed references to vanilla religions
+
+namespace = fp2_yearly
+
+### EVENT LIST ####################################################################
+## XXXX	- XXXX	YYY by ZZZ
+## 1001	- 1001	Chess Two by Daniel Moore
+## 1002	- 1002	Compromising Position by Daniel Moore
+## 1003	- 1003	Tilting at Giants by Daniel Moore
+## 1004	- 1004	The Hawk of Quarysh by Daniel Moore
+## 1005	- 1005	Lost Viking by Daniel Moore
+## 1006	- 1007	Viking Cheese by Daniel Moore
+## 1008	- 1008	Consuming the Cheese by Daniel Moore
+## 2020	- 2020	Açò es or, xata! by Hugo Cortell
+## 2025	- 2025	Suffering From Success by Hugo Cortell
+## 3000 - 3000	Neighboring Muslims are growing rice by Alexander Oltner
+## 3001	- 3001	You commission your epitaph by Veronica Pazos
+## 3002	- 3002	Oh my god they were roommates by Veronica Pazos
+## 3003	- 3003	Best friend throws a terrible party by Veronica Pazos
+## 4001	- 4001	You fancy a little siesta by Nick Meredith
+## 4002	- 4002	County is increasingly religiously intertwined by Nick Meredith
+## 4003	- 4003	The road to Santiago is under threat from bandits by Nick Meredith
+## 4004	- 4004	Talented Mozarab offers their services by Nick Meredith
+## 4005	- 4005	Mozarabs in a city ask for their own quarter by Nick Meredith
+## 4006	- 4006	Mozarabs ask for permission to build churches by Nick Meredith
+## 4007	- 4007	Finding a shell on the road to Santiago by Nick Meredith
+## 4008	- 4008	Folk stories around the fireside by Nick Meredith
+## 4009	- 4009	Visiting the Malato Tree by Nick Meredith
+## 4010	- 4010	Finding a Verraco by Nick Meredith
+## 8000 - 8000	Destroying the Vineyards by Ola Jentzsch
+## 8001	- 8001	Assembling the Cortes by Ola Jentzsch
+## 8002	- 8002	Dietary Dilemma By Ola Jentzsch
+## 8003	- 8003	Flight of Fancy By Ola Jentzsch
+## 8004	- 8004	Trasnlation Schools By Ola Jentzsch
+## 8005 - 8005	Under the Stone Pine by Ola Jentzsch
+## 8006	- 8006	Saqaliba Settlers by Ola Jentzsch
+## 9000 - 9002	Conversos and Jewish events By James Beaumont
+## 9005 - 9005	Toledan Nights By James Beaumont
+## 9006 - 9006	Local bishop mad his church faces the wrong way By James Beaumont
+###################################################################################
+# A lot of effort went into the readability of these lists and headers			  #
+# In fact, now there have been two whole passes of file organization			  #
+###################################################################################
+### EK EDIT: If you want to use the vanilla event as reference go find the vanilla file. I'm cleaning this file up, it was a missing comment hazard - He9
+
+
+### EK EDIT: No West Iberia fp2_yearly.1001
+
+###################################
+# Compromising Position
+# By Daniel Moore
+###################################
+# EK EDIT: actually commented it out so it doesn't go boohoo i'm an orphan in the error log
+#fp2_yearly.1002 = {
+#	type = character_event
+#	title = fp2_yearly.1002.t
+#	desc = fp2_yearly.1002.desc
+#	theme = seduction
+#	left_portrait = {
+#		character = root
+#		animation = shock
+#
+#	}
+#
+#	right_portrait = {
+#		character = scope:deviant_courtier
+#		animation = prisondungeon
+#	}
+#
+#	trigger = {
+#		has_fp2_dlc_trigger = yes
+#		is_adult = yes
+#		any_courtier = { is_available_healthy_ai_adult = yes }
+#
+#		NOT = {
+#			has_character_flag = fp2_yearly.1002
+#		}
+#		# EK EDIT: no more stupid event thanks
+#		always = no
+#	}
+#
+#	immediate = {
+#		add_character_flag = fp2_yearly.1002
+#
+#		random_courtier = {
+#			limit = {
+#				is_available_healthy_ai_adult = yes
+#				OR = {
+#					has_trait = deviant
+#					any_secret = {
+#						secret_type = secret_deviant
+#					}
+#				}
+#			}
+#
+#			save_scope_as = deviant_courtier
+#		}
+#
+#
+#		if = {
+#			limit = {
+#				NOT = { exists = scope:deviant_courtier}
+#			}
+#			hidden_effect = {
+#				random_courtier = {
+#					limit = {
+#						is_available_healthy_ai_adult = yes
+#					}
+#
+#					give_deviant_secret_or_trait_effect = yes
+#					save_scope_as = deviant_courtier
+#				}
+#			}
+#		}
+#
+#		scope:deviant_courtier = {
+#
+#			add_character_flag = {
+#				flag = is_naked
+#				days = 1
+#			}
+#
+#			add_character_flag = {
+#				flag = temporarily_blinded
+#				days = 1
+#			}
+#		}
+#	}
+#
+#
+#	option = {
+#		name = fp2_yearly.1002.b
+#		scope:deviant_courtier = {
+#			random_secret = {
+#				limit = { secret_type = secret_deviant}
+#				reveal_to = root
+#			}
+#		}
+#		ai_chance = {
+#			base = 100
+#			ai_value_modifier = {
+#				ai_vengefulness = 1
+#				ai_honor = -1
+#			}
+#		}
+#
+#		stress_impact = {
+#			deviant = medium_stress_gain
+#		}
+#
+#	}
+#
+#	option = {
+#		name = fp2_yearly.1002.c
+#		stress_impact = {
+#			deviant = medium_stress_loss
+#		}
+#
+#		if = {
+#			limit = {
+#				NOT = {
+#					any_secret = {
+#						secret_type = secret_deviant
+#					}
+#				}
+#			}
+#			give_deviant_secret_or_trait_effect = yes
+#		}
+#
+#		ai_chance = {
+#			base = 100
+#			ai_value_modifier = {
+#				ai_sociability = 1
+#				ai_energy = 1
+#				ai_zeal = -1
+#			}
+#		}
+#	}
+#
+#	option = {
+#		name = fp2_yearly.1002.a
+#		ai_chance = {
+#			base = 100
+#			ai_value_modifier = {
+#				ai_honor = 1
+#			}
+#		}
+#
+#		stress_impact = {
+#			deviant = medium_stress_gain
+#
+#		}
+#	}
+#   after = {
+#		scope:deviant_courtier = {
+#			remove_character_flag = is_naked
+#		}
+#	}
+#
+#}
+
+### EK EDIT: No West IBeria fp2_yearly.1003
+### EK EDIT: No Hawks or Muslims or Abbasids fp2_yearly.1004
+### EK EDIT: No Vikings fp2_yearly.1005
+### EK EDIT: No Viking Cheese fp2_yearly.1006 fp2_yearly.1007
+
+###################################
+# Consuming the Cheese
+# By Daniel Moore
+###################################
+fp2_yearly.1008 = {
+	type = character_event
+	title = fp2_yearly.1008.t
+	desc = fp2_yearly.1008.desc
+	theme = realm
+	override_background = { reference = bp1_wine_cellar }
+	left_portrait = {
+		character = root
+		animation = ecstasy
+
+	}
+
+	trigger = {
+		any_artifact = {
+			has_variable = has_cheese_artifact
+		}
+
+	}
+
+	immediate = {
+
+		random_artifact = {
+			limit = {
+				has_variable = has_cheese_artifact
+			}
+			save_scope_as = cheese_artifact
+		}
+
+	}
+
+	option = {
+		name = fp2_yearly.1008.a
+		add_stress = scope:cheese_artifact.cheese_artifact_strength
+
+		destroy_artifact = scope:cheese_artifact
+
+	}
+
+	option = {
+		name = fp2_yearly.1008.b
+	}
+
+}
+
+
+### EK EDIT: No Valencia in TES fp2_yearly.2020 
+### EK EDIT: No West Iberia fp2_yearly.2025
+### EK EDIT: No Muslims in TES rice_field_potential fp2_yearly.3000
+### EK EDIT: No Abrahamic religion in TES fp2_yearly.3001
+
+##################################################
+# And They Were Roommates
+# (oh my god they were roommates)
+# by Veronica Pazos
+# (idea by Baudelaire Welch)
+# 3002 - 3002
+##################################################
+fp2_yearly.3002 = {
+	type = character_event
+	title = fp2_flavor.3011.t
+	desc = fp2_flavor.3011.desc
+
+	theme = seduction
+	left_portrait = {
+		character = ROOT
+		animation = ecstasy
+	}
+	right_portrait = {
+		character = scope:fp2_flavor_3011_best_friend
+		animation = flirtation
+	}
+	override_background = { reference = bedchamber }
+
+	trigger = {
+		has_fp2_dlc_trigger = yes
+		is_playable_character = yes
+		is_available_even_at_war_adult = yes
+		any_relation = { #you have a best friend!
+			type = best_friend
+			is_available_healthy_ai_adult = yes
+			can_set_relation_lover_trigger = { CHARACTER = ROOT } #you're attracted to each other's genre
+			NOT = { has_trait = celibate }
+			NOT = { is_consort_of = root }
+			might_cheat_on_every_partner_trigger = yes
+			trigger_if = {
+				limit = { relation_with_character_is_incestuous_in_my_faith_trigger = { CHARACTER = root } }
+				OR = {
+					has_perk = subtle_desire_perk
+					accepts_incest_with_trigger = { CHARACTER = root }
+				}
+			}
+		}
+	}
+
+	weight_multiplier  = {
+		modifier = {
+			add = 0.5
+			has_trait = lustful
+		}
+	}
+
+	immediate = {
+		random_relation = {
+			type = best_friend
+			limit = {
+				is_available_healthy_ai_adult = yes
+				can_set_relation_lover_trigger = { CHARACTER = ROOT }
+				NOT = { has_trait = celibate }
+				NOT = { is_consort_of = root }
+				might_cheat_on_every_partner_trigger = yes
+				trigger_if = {
+					limit = { relation_with_character_is_incestuous_in_my_faith_trigger = { CHARACTER = root } }
+					OR = {
+						has_perk = subtle_desire_perk
+						accepts_incest_with_trigger = { CHARACTER = root }
+					}
+				}
+			}
+			save_scope_as = fp2_flavor_3011_best_friend
+		}
+	}
+
+	option = { #become their lover
+		name = fp2_flavor.3011.a
+
+		trigger = {
+			NOT = { has_trait = celibate }
+			OR = {
+				has_perk = unshackled_lust_perk
+				is_attracted_to_gender_of = root
+			}
+			trigger_if = {
+				limit = { relation_with_character_is_incestuous_in_my_faith_trigger = { CHARACTER = scope:fp2_flavor_3011_best_friend } }
+				OR = {
+					has_perk = subtle_desire_perk
+					accepts_incest_with_trigger = { CHARACTER = scope:fp2_flavor_3011_best_friend }
+				}
+			}
+		}
+
+		set_relation_lover = scope:fp2_flavor_3011_best_friend
+		if = { #if you're in a homosexual relationship and your faith disapproves this stresses you
+			limit = {
+				OR = {
+					AND = {
+						is_female = yes
+						scope:fp2_flavor_3011_best_friend = {
+							is_female = yes
+						}
+						NOT = { faith = { has_doctrine = doctrine_homosexuality_accepted } }
+					}
+					AND = {
+						is_male = yes
+						scope:fp2_flavor_3011_best_friend = {
+							is_male = yes
+						}
+						NOT = { faith = { has_doctrine = doctrine_homosexuality_accepted } }
+					}
+				}
+			}
+			stress_impact = {
+				base = medium_stress_impact_gain
+				zealous = medium_stress_impact_gain #some extra stress
+			}
+		}
+		if = { #your spouse finds this weird
+			limit = {
+				exists = primary_spouse
+			}
+			primary_spouse = {
+				add_opinion = {
+					target = ROOT
+					modifier = suspicion_opinion
+					opinion = -25
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 10
+				has_trait = lustful
+			}
+			modifier = {
+				add = -5
+				has_trait = chaste
+			}
+			modifier = {
+				add = -5
+				exists = primary_spouse
+			}
+			ai_value_modifier = {
+				ai_zeal = -1
+			}
+		}
+	}
+
+	option = { #allowe them to move in but stay as friends
+		name = fp2_flavor.3011.b
+		stress_impact = {
+			base = medium_stress_loss
+			lustful = medium_stress_impact_gain
+		}
+		if = {
+			limit = {
+				exists = primary_spouse
+			}
+			primary_spouse = {
+				add_opinion = {
+					target = ROOT
+					modifier = suspicion_opinion
+					opinion = -20
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = -5
+				has_trait = lustful
+			}
+			modifier = {
+				add = -2
+				has_trait = chaste
+			}
+			modifier = {
+				add = 5
+				has_trait = compassionate
+			}
+			modifier = {
+				add = -5
+				exists = primary_spouse
+			}
+			ai_value_modifier = {
+				ai_compassion = 0.25
+			}
+		}
+	}
+
+	option = { #nah im good
+		name = {
+			trigger = {
+				exists = primary_spouse
+			}
+			text = fp2_flavor.3011.c_spouse
+		}
+		name = {
+			trigger = {
+				NOT = { exists = primary_spouse }
+			}
+			text = fp2_flavor.3011.c
+		}
+		stress_impact = {
+			base = medium_stress_impact_gain #you get stressed at losing your bff
+			lustful = minor_stress_impact_gain
+			callous = minor_stress_loss
+			chaste = minor_stress_loss
+		}
+		scope:fp2_flavor_3011_best_friend = {
+			add_opinion = {
+				target = ROOT
+				modifier = rejected_opinion
+			}
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = -5
+				has_trait = lustful
+			}
+			modifier = {
+				add = 10
+				has_trait = chaste
+			}
+			modifier = {
+				add = -5
+				has_trait = compassionate
+			}
+			modifier = {
+				add = 5
+				exists = primary_spouse
+			}
+			ai_value_modifier = {
+				ai_compassion = -0.5
+			}
+		}
+	}
+}
+
+##################################################
+# A Flavorful Evening
+# by Veronica Pazos
+# (idea by Ewan Cowhig Croft)
+# 3003 - 3003
+##################################################
+fp2_yearly.3003 = {
+	type = character_event
+	title = fp2_flavor.3021.t
+	desc = fp2_flavor.3021.desc
+
+	theme = feast_activity
+	left_portrait = {
+		character = scope:fp2_flavor_3021_best_friend
+		animation = ecstasy
+	}
+	right_portrait = {
+		character = ROOT
+		animation = stress
+	}
+	override_background = { reference = feast }
+
+	trigger = {
+		has_fp2_dlc_trigger = yes
+		is_available_for_activity_trigger = yes
+		any_relation = { #you have a best friend!
+			type = best_friend
+			is_available_healthy_ai_adult = yes
+		}
+	}
+
+	weight_multiplier  = {
+		modifier = {
+			add = 0.5
+			trigger_if = {
+				limit = { exists = scope:fp2_flavor_3021_best_friend }
+				scope:fp2_flavor_3021_best_friend = {
+					OR = {
+						has_trait = gregarious
+						has_trait = gluttonous
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_relation = {
+			type = best_friend
+			limit = {
+				is_available_healthy_ai_adult = yes
+			}
+			save_scope_as = fp2_flavor_3021_best_friend
+		}
+	}
+
+	option = { #pretend nothing's wrong
+		name = fp2_flavor.3021.a
+		stress_impact = {
+			base = medium_stress_impact_gain
+			compassionate = minor_stress_impact_gain
+			honest = minor_stress_impact_gain
+			eccentric = minor_stress_impact_gain
+			deceitful = minor_stress_loss
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 10
+				has_trait = deceitful
+			}
+			modifier = {
+				add = -10
+				has_trait = honest
+			}
+			modifier = {
+				add = -5
+				has_trait = brave
+			}
+			ai_value_modifier = {
+				ai_boldness = -1
+				ai_rationality = -0.5
+				ai_compassion = 0.5
+			}
+		}
+	}
+
+	option = { #try to gently tell them
+		name = fp2_flavor.3021.b
+		duel = {
+			skill = diplomacy
+			value = 5
+			50 = {
+				desc = fp2_flavor.3021.b.success_tt
+				compare_modifier = {
+					value = {
+						value = scope:duel_value
+						if = {
+							limit = { has_trait = deceitful }
+							add = 5
+						}
+						if = {
+							limit = { intrigue >= medium_skill_rating }
+							add = 5
+						}
+						if = {
+							limit = { scope:fp2_flavor_3021_best_friend = { has_trait = forgiving } }
+							add = 5
+						}
+						if = {
+							limit = { scope:fp2_flavor_3021_best_friend = { has_trait = trusting } }
+							add = 5
+						}
+						if = {
+							limit = { scope:fp2_flavor_3021_best_friend = { opinion = { target = ROOT value >= high_positive_opinion } } }
+							add = 5
+						}
+					}
+				}
+				send_interface_toast = {
+					title = fp2_flavor.3021.b.success
+					left_icon = ROOT
+					stress_impact = {
+						base = minor_stress_impact_gain
+						compassionate = minor_stress_impact_gain
+						honest = minor_stress_impact_gain
+						deceitful = minor_stress_loss
+					}
+				}
+			}
+			50 = { #they don't
+				send_interface_toast = {
+					title = fp2_flavor.3021.b.fail
+					left_icon = ROOT
+					scope:fp2_flavor_3021_best_friend = {
+						add_opinion = {
+							target = ROOT
+							modifier = insult_opinion
+							opinion = -20
+						}
+					}
+					stress_impact = {
+						base = medium_stress_impact_gain
+						compassionate = minor_stress_impact_gain
+						honest = minor_stress_impact_gain
+						deceitful = minor_stress_loss
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 10
+				has_trait = compassionate
+			}
+			modifier = {
+				add = -5
+				has_trait = deceitful
+			}
+			ai_value_modifier = {
+				ai_boldness = -1
+				ai_rationality = 0.5
+				ai_compassion = 1
+			}
+		}
+	}
+
+	option = { #directly tell them
+		name = fp2_flavor.3021.c
+		random_list = {
+			25 = { #they take it well
+				modifier = {
+					add = 5
+					has_trait = honest
+				}
+				modifier = {
+					add = 5
+					diplomacy >= medium_skill_rating
+				}
+				modifier = {
+					add = 5
+					scope:fp2_flavor_3021_best_friend = {
+						has_trait = honest
+					}
+				}
+			}
+			75 = { #they dont (and they think you're being rude
+				scope:fp2_flavor_3021_best_friend = {
+					add_opinion = {
+						target = ROOT
+						modifier = insult_opinion
+						opinion = -30
+					}
+				}
+				stress_impact = {
+					base = medium_stress_impact_gain
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 10
+				has_trait = brave
+			}
+			modifier = {
+				add = -5
+				has_trait = deceitful
+			}
+			ai_value_modifier = {
+				ai_boldness = 1
+				ai_rationality = 0.5
+				ai_compassion = -1
+			}
+		}
+	}
+
+	option = { #ghost them
+		name = fp2_flavor.3021.d
+		scope:fp2_flavor_3021_best_friend = { #they REALLY dislike you
+			add_opinion = {
+				target = ROOT
+				modifier = insult_opinion
+				opinion = -50
+			}
+		}
+		stress_impact = {
+			base = minor_stress_loss
+			brave = minor_stress_impact_gain
+			honest = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = -10
+				has_trait = brave
+			}
+			modifier = {
+				add = -5
+				has_trait = honest
+			}
+			ai_value_modifier = {
+				ai_boldness = -1
+				ai_rationality = -0.5
+				ai_compassion = -1
+			}
+		}
+	}
+}
+
+#EK DISABLED: No naptime (unfortunately) fp2_yearly.4001
+#EK DISABLED: No Iberians fp2_yearly.4002
+#EK DISABLED: No Santiago fp2_yearly.4003
+#EK DISABLED: No Mozarab fp2_yearly.4004
+#EK DISABLED: No Mozarabs fp2_yearly.4005
+#EK DISABLED: No Mozarabs fp2_yearly.4006
+#EK DISABLED: No Santiago fp2_yearly.4007
+#EK DISABLED: No Iberian in Iberia fp2_yearly.4008
+#EK DISABLED: No Basque fp2_yearly.4009
+#EK DISABLED: No Vettones fp2_yearly.4010
+#EK DISABLED: No Islam in TES fp2_yearly.8000
+#EK DISABLED: No Cortes as no Iberia or Iberian people_loving_councillor_trigger fp2_yearly.8001
+#EK DISABLED: No Islam or Judaism in TES fp2_yearly.8002
+#EK DISABLED: No such thing in TES fp2_yearly.8003
+#EK DISABLED: No Italy in TES fp2_yearly.8004_court_chaplain_traits fp2_yearly.8004
+#EK DISABLED: No Iberia fp2_yearly.8005
+#EK DISABLED: Disabled this event fp2_yearly.8006_province_trigger fp2_yearly.8006_ruler_trigger fp2_yearly.8006
+#EK DISABLED: No West Iberia or RL religions valid_grantable_county_barony fp2_yearly.9000
+#EK DISABLED: No Israelite heritage fp2_polish_should_heritage_israelite_get_upset_effect
+#EK DISABLED: No Christianity or Conversos in TES fp2_yearly.9001
+#EK DISABLED: No Judaism in TES fp2_yearly.9002
+
+###################################
+# Toledan Nights
+# By James Beaumont
+###################################
+fp2_yearly.9005 = {
+	type = character_event
+	title = fp2_james.0004.t
+	desc = fp2_james.0004.desc
+	theme = secret
+	left_portrait = {
+		character = root
+		animation = paranoia
+	}
+	right_portrait = {
+		character = scope:fp2_james_0004_murder_baron
+		animation = scheme
+	}
+
+	trigger = {
+		any_sub_realm_county = { # Are any of my realm's counties a hostile faith that is not governed by someone with protected religious rights?
+			is_unprotected_hostile_faith = yes
+			is_landless_type_title = no
+		}
+		OR = { # You have to be a bit of a monster to even consider this
+			has_trait = zealous
+			has_trait = sadistic
+			has_trait = callous
+			dread >= medium_dread
+		}
+	}
+
+	immediate = {
+		create_character = {
+			template = toledan_night_character
+			location = root.capital_province
+			save_scope_as = fp2_james_0004_murder_baron
+		}
+		random_sub_realm_county = {
+			limit = {
+				is_unprotected_hostile_faith = yes
+				is_landless_type_title = no
+			}
+			save_scope_as = fp2_james_0004_place_of_murder
+			# If the holder is of that same hostile faith, murder them!
+			if = {
+				limit = {
+					faith = holder.faith
+					holder = {
+						is_ai = yes
+					}
+				}
+				holder = { save_scope_as = fp2_james_0004_murder_victim }
+			}
+		}
+	}
+
+	option = { # Go ahead and have some people murdered
+		name = fp2_james.0004.a
+		create_title_and_vassal_change = {
+			type = granted
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:fp2_james_0004_place_of_murder = {
+			change_title_holder = {
+				holder = scope:fp2_james_0004_murder_baron
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+		hidden_effect = {
+			add_opinion = {
+				target = scope:fp2_james_0004_murder_baron
+				modifier = received_title_county
+			}
+		}
+		scope:fp2_james_0004_place_of_murder = {
+			change_county_control = major_county_control_gain
+			set_county_faith = root.faith # TODO, the modifier should really increase conversion speed
+			add_county_modifier = {
+				modifier = fp2_toledo_nights_modifier
+				years = 10
+			}
+		}
+		every_sub_realm_county = {
+			limit = {
+				faith = scope:fp2_james_0004_place_of_murder.faith
+			}
+			add_county_modifier = fp2_toledo_nights_fallout_modifier
+		}
+		add_hook = {
+			type = favor_hook
+			target = scope:fp2_james_0004_murder_baron
+		}
+
+		stress_impact = {
+			just = massive_stress_impact_gain
+			compassionate = major_stress_impact_gain
+			forgiving = major_stress_impact_gain
+			sadistic = minor_stress_impact_loss
+			callous = minor_stress_impact_loss
+			paranoid = minor_stress_impact_loss
+			zealous = minor_stress_impact_loss
+		}
+		ai_chance = {
+			base = 10
+			modifier = {
+				factor = 0
+				NOR = {
+					has_trait = zealous
+					has_trait = sadistic
+					has_trait = callous
+				}
+			}
+		}
+	}
+
+	option = {
+		name = fp2_james.0004.b
+		scope:fp2_james_0004_murder_baron = { silent_disappearance_effect = yes }
+		ai_chance = {
+			base = 10
+			modifier = {
+				factor = 0.5
+				OR = {
+					has_trait = zealous
+					has_trait = sadistic
+					has_trait = callous
+				}
+			}
+		}
+	}
+}
+
+#EK DISABLED: Disabled the event as it references Christianity and Islam fp2_yearly.9006

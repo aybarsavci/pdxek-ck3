@@ -1,0 +1,420 @@
+﻿namespace = ek_scmc
+
+#Bandit stole socks
+ek_scmc.1001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_scmc.1001.t
+	desc = ek_scmc.1001.desc
+	
+	theme = corruption
+	override_background = {
+		reference = bedchamber
+	}
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+	
+
+	trigger = {
+		NOT = { has_character_flag = had_event_ek_scmc_1001 }
+		any_targeting_faction = {
+			exists = yes
+			NOT = { exists = faction_war }
+			faction_is_type = ek_crisis_faction
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_event_ek_scmc_1001
+			years = 10
+		}
+		
+		play_music_cue = "mx_cue_negative"
+	}
+
+	option = { #pray
+		name = ek_scmc.1001.a
+		trigger = {
+			has_trait = zealous
+		}
+		trait = zealous
+		add_piety = minor_piety_gain
+	}
+
+	option = { #Limit the movement of everyone with access to the court
+		name = ek_scmc.1001.b
+		custom_tooltip = ek_scmc.1001.b.tt
+		trigger = {
+			has_trait = paranoid
+		}
+		trait = paranoid
+		if = {
+			limit = {
+				any_courtier = {
+					has_trait = craven
+				}
+			}
+			every_courtier = {
+				limit = {
+					has_trait = craven
+				}
+				custom = murder_at_court_movement_restricted_courtiers_craven
+				add_opinion = {
+					target = root
+					modifier = grateful_opinion
+					opinion = 20
+				}
+			}
+			every_courtier = {
+				limit = {
+					NOT = { has_trait = craven }
+				}
+				custom = murder_at_court_movement_restricted_courtiers_other
+				add_opinion = {
+					target = root
+					modifier = respect_opinion
+					opinion = -20
+				}
+			}
+		}
+		else = {
+			every_courtier = {
+				custom = murder_at_court_movement_restricted_courtiers
+				add_opinion = {
+					target = root
+					modifier = respect_opinion
+					opinion = -20
+				}
+			}
+		}
+		add_character_modifier = {
+			modifier = restricted_movement_vassal_opinion
+			years = 5
+		}
+		add_stress = medium_stress_gain
+	}
+
+	option = { #Double the guards
+		name = ek_scmc.1001.c
+		custom_tooltip = ek_scmc.1001.c.tt
+		trigger = {
+			has_trait = craven
+		}
+		trait = craven
+		remove_short_term_gold = medium_gold_value
+	}
+
+	option = { #Plead for clues and help
+		name = ek_scmc.1001.d
+		custom_tooltip = ek_scmc.1001.d.tt
+		add_prestige = medium_prestige_loss
+	}
+
+	option = { #Investigate it yourself!
+		name = ek_scmc.1001.e
+		custom_tooltip = ek_scmc.1001.e.tt
+		trigger = {
+			intrigue >= high_skill_rating
+		}
+		skill = intrigue
+		duel = {
+			skill = intrigue
+			value = decent_skill_rating
+			10 = { # success
+				desc = ek_scmc.1001.e.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = tooltip.ek_scmc.1001.e.success
+					add_prestige = minor_prestige_gain	}
+		}
+
+		10 = { #failure
+				desc = ek_scmc.1001.e.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = tooltip.ek_scmc.1001.e.failure
+					
+					add_prestige = minor_prestige_loss	}
+			}
+		}
+	}
+}
+
+# Unrefusable Offer
+ek_scmc.1002 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_scmc.1002.t
+	desc = ek_scmc.1002.desc
+	theme = corruption
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:crisis_bandit_leader
+	}
+	
+
+	trigger = {
+		NOT = { has_character_flag = had_event_ek_scmc_1002 }
+		any_targeting_faction = {
+			exists = yes
+			NOT = { exists = faction_war }
+			faction_is_type = ek_crisis_faction
+			exists = faction_leader
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_event_ek_scmc_1002
+			years = 10
+		}
+		random_targeting_faction = {
+			limit = {
+				NOT = { exists = faction_war }
+				faction_is_type = ek_crisis_faction
+				exists = faction_leader
+			}
+			save_scope_as = bandit_faction
+		}
+
+		scope:bandit_faction.faction_leader = {
+			save_scope_as = crisis_bandit_leader
+		}
+	}
+
+	option = { # how much is your profit?
+		name = ek_scmc.1002.a
+		trigger = {
+			OR = { 
+				has_trait = arbitrary
+				has_trait = greedy
+			} 
+		}
+		trait = arbitrary
+		trait = greedy
+		stress_impact = {
+			just = minor_stress_impact_gain
+		}
+		add_gold = medium_gold_value
+		scope:bandit_faction = {
+			add_faction_discontent = -15
+		}
+	}
+
+	option = { # how much to leave?
+		name = ek_scmc.1002.b
+		trigger = {
+			short_term_gold >= medium_gold_value
+		}
+		show_as_unavailable = {
+			short_term_gold < medium_gold_value
+		}
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+		}
+		pay_short_term_gold = {
+			gold = medium_gold_value
+			target = scope:crisis_bandit_leader
+			yearly_income = no
+		}
+		scope:bandit_faction = {
+			add_faction_discontent = -15
+		}
+	}
+
+	option = { # i don't have any money
+		name = ek_scmc.1002.d
+		
+		stress_impact = {
+			diligent = medium_stress_impact_gain
+		}
+		
+		scope:bandit_faction = {
+			add_faction_discontent = 15
+		}
+	}
+
+	option = { # oh no f u
+		name = ek_scmc.1002.c
+		custom_tooltip = ek_scmc.1002.c.tt
+		trigger = {
+			martial >= high_skill_rating
+		}
+		skill = martial
+		stress_impact = {
+			greedy = minor_stress_impact_gain
+		}
+		root = {
+			imprison = {
+				target = scope:crisis_bandit_leader
+				type = dungeon 
+			}    
+		}
+		add_prestige = minor_prestige_gain
+		scope:bandit_faction = {
+			destroy_faction = yes
+		}
+	}	
+}
+
+# Bounty Decree
+ek_scmc.1003 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_scmc.1003.t
+	desc = ek_scmc.1003.desc
+	theme = corruption
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = cp:councillor_steward
+	}
+
+	lower_right_portrait = {
+		trigger = {
+			exists = scope:faction_leader
+		}
+		character = scope:faction_leader
+	}
+	
+
+	trigger = {
+		NOT = { has_character_flag = had_event_ek_scmc_1003 }
+		any_targeting_faction = {
+			exists = yes
+			NOT = { exists = faction_war }
+			faction_is_type = ek_crisis_faction
+			exists = faction_leader
+		}
+	}
+
+	immediate = {
+		add_character_flag = {
+			flag = had_event_ek_scmc_1003
+			years = 10
+		}
+		cp:councillor_steward = {
+			save_scope_as = steward
+		}
+		random_targeting_faction = {
+			limit = {
+				NOT = { exists = faction_war }
+				faction_is_type = ek_crisis_faction
+				exists = faction_leader
+			}
+			save_scope_as = crisis_faction
+		}
+
+		scope:crisis_faction.faction_leader = {
+			save_scope_as = faction_leader
+		}
+	}
+
+	option = { # set up that bounty
+		name = ek_scmc.1003.a
+		trigger = {
+			short_term_gold >= major_gold_value
+		}
+		show_as_unavailable = {
+			short_term_gold < major_gold_value
+		}
+		stress_impact = {
+			greedy = major_stress_impact_gain
+			diligent = major_stress_impact_loss
+		}
+		remove_short_term_gold = major_gold_value
+
+		scope:crisis_faction = {
+			add_faction_discontent = -15
+		}
+	}
+
+	option = { # nope
+		name = ek_scmc.1003.b
+		stress_impact = {
+			greedy = medium_stress_impact_loss
+			diligent = major_stress_impact_gain
+		}
+	}
+}
+
+ek_scmc.0010 = { # End Story
+	title = ek_scmc.0001.t
+	theme = martial_strategy_focus
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { exists = scope:crisis_bandit_leader }
+				desc = ek_scmc.0001.bandit
+			}
+		}
+	}
+	
+	right_portrait = {
+		character = root
+		animation = war_over_win
+	}
+	
+	option = {
+		name = ek_scmc.0010.optA # rejoice
+		custom_tooltip = ek_scmc.0010.optA_bandits_defeated_tt
+	}
+}
+
+# Land of Outlaws
+ek_scmc.8001 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_scmc.8001.t
+	desc = ek_scmc.8001.desc
+	theme = corruption
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:bandit_leader
+	}
+	
+
+	option = { # oh no
+		name = ek_scmc.0001.a
+		create_faction = {
+			type = ek_crisis_faction
+			target = root
+		}
+	}	
+}
+
+
+
+# The last owner died - congratulations you inherited the uprising!
+ek_scmc.8003 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_scmc.8003.t
+	desc = ek_scmc.8003.desc
+	theme = death
+	left_portrait = scope:predecessor
+
+	option = {
+		name = ek_scmc.8003.a
+	}
+}

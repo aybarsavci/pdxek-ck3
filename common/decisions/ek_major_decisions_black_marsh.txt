@@ -1,0 +1,256 @@
+﻿###############
+# BLACK MARSH #
+###############
+#Restore Arnesia
+recreate_lost_kingdom_arnesia_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = recreate_lost_kingdom_arnesia_decision_desc
+	selection_tooltip = recreate_lost_kingdom_arnesia_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		exists = dynasty # Everyone should have a dynasty, but in case they don't...
+
+		capital_province = { geographical_region = mundus_tamriel_black_marsh_arnesia } #if you live within Arnesia
+
+		culture = {
+			OR = { #this is kinda a Cantemiric thing
+				this = culture:cantemiric
+				any_parent_culture_or_above = { this = culture:cantemiric }
+			}
+		}
+
+		NOT = {	#You can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:recreate_lost_kingdom_arnesia_decision
+			}
+		}
+		highest_held_title_tier <= tier_duchy
+	}
+	
+	is_valid = {
+		is_independent_ruler = yes
+		
+		prestige_level >= high_prestige_level
+		has_title = title:d_arnesia
+		completely_controls_region = mundus_tamriel_black_marsh_arnesia
+		
+		title:c_arnesia = { development_level >= 10 }
+		has_feudal_or_admin_government = yes
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+	}
+
+	cost = {
+		gold = 500
+	}
+
+	effect = {
+		show_as_tooltip = {
+			recreate_arnesia_decision_scripted_effect = yes
+		}
+		save_scope_as = founder
+		trigger_event = {
+			id = south_tamriel.0001
+		}
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:recreate_lost_kingdom_arnesia_decision
+			}
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Form Cantemiris
+form_cantemiris_empire_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = form_cantemiris_empire_decision_desc
+
+	selection_tooltip = form_cantemiris_empire_decision_tooltip
+
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		highest_held_title_tier = tier_kingdom
+		exists = capital_province
+		unify_kingdom_government_trigger = yes
+		capital_province = { geographical_region = mundus_tamriel_black_marsh_padomaic_marshes }
+		
+		culture = {
+			OR = { #this is kinda a Cantemiric thing
+				this = culture:cantemiric
+				any_parent_culture_or_above = { this = culture:cantemiric }
+			}
+		}
+		
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_created_cantemiris_empire
+			}
+		}
+	}
+
+	is_valid = {
+		completely_controls_region = mundus_tamriel_black_marsh_padomaic_marshes #we check for padomaic_marshes, as it covers Thorn + Archon (and therefore also Arnesia)
+		unify_kingdom_law_trigger = yes
+		prestige_level >= 3
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		# Based on Revive Greater Armenia
+		prestige = 2000
+		piety = 1000
+	}
+
+	effect = {
+		show_as_tooltip = {
+			form_cantemiris_empire_scripted_effect = yes
+		}
+
+		if = {
+			limit = { has_dlc_feature = legends }
+			create_legend_seed = {
+				type = legitimizing
+				quality = illustrious
+				chronicle = new_title
+				properties = {
+					title = title:e_cantemiris
+					founder = root
+				}
+			}
+		}
+		
+		trigger_event = {
+			id = ektitulartitle.1301
+		}
+		#Notify other players.
+		every_player = {
+			limit = {
+				NOT = { this = root }
+				is_within_diplo_range = { CHARACTER = root }
+			}
+			trigger_event = ektitulartitle.1302
+		}
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_created_cantemiris_empire
+			}
+		}
+	}
+
+	confirm_text = form_cantemiris_empire_decision_confirm
+	
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+#Form Barsaebia
+form_barsaebic_empire_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = form_barsaebic_empire_decision_desc
+
+	selection_tooltip = form_barsaebic_empire_decision_tooltip
+
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+        is_landed = yes
+        highest_held_title_tier >= tier_duchy
+		highest_held_title_tier <= tier_empire
+		has_feudal_or_admin_government = yes
+        capital_province = { geographical_region = mundus_tamriel_black_marsh } #Capital is in Black Marsh
+		
+		culture = {
+			OR = { #this is kinda a Barsaebic thing
+				this = culture:barsaebic
+				any_parent_culture_or_above = { this = culture:barsaebic }
+			}
+		}
+		
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_created_barsaebic_empire
+			}
+		}
+	}
+
+	is_valid = {
+		completely_controls_region = mundus_tamriel_black_marsh_barsaebica
+		is_independent_ruler =  yes
+		unify_kingdom_law_trigger = yes
+		prestige_level >= 3
+	}
+
+    is_valid_showing_failures_only = {
+        is_capable_adult = yes
+        is_available = yes
+        is_at_war = no
+        is_imprisoned = no
+	}
+
+	cost = {
+        prestige = 1000 
+        gold = 700
+	}
+
+	effect = {
+		show_as_tooltip = {
+			form_barsaebic_empire_scripted_effect = yes	
+		}
+		trigger_event = ektitulartitle.1401
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_created_barsaebic_empire
+			}
+		}
+	}	
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}

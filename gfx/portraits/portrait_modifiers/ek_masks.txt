@@ -1,0 +1,95 @@
+﻿ek_masks = {
+
+	usage = game
+	selection_behavior = weighted_random
+	
+	artifact_dragon_priest_mask = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = ek_masks
+				template = ek_dragon_priest_mask
+				value = 1.0
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				exists = this
+				any_equipped_character_artifact = {
+					has_variable = mask_dragon_priest_var
+				}				
+			}
+			modifier = {
+				add = 1000
+				exists = character:rahgot_100
+				this = character:rahgot_100
+			}
+			modifier = {
+				add = 1000
+				exists = character:Zaan_100
+				this = character:Zaan_100
+			}
+		}
+	}
+
+}
+
+ek_korihoon_face_mask = {   #for the Korihoon vampires, adapted from Project Tamriel
+	usage = game
+	face_mask = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = special_headgear_face_mask
+				template = face_mask
+				value = 0.5
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				has_fp3_dlc_trigger = no
+				exists = character:korihoon_100
+				this = character:korihoon_100
+			}
+			modifier = {
+				add = 999
+				has_fp3_dlc_trigger = no
+				exists = character:korihoon_101
+				this = character:korihoon_101
+			}
+		}
+	}
+}
+
+ek_fp3_korihoon_face_mask = {   #for the Korihoon vampires, adapted from Project Tamriel
+	usage = game
+	face_mask = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = special_headgear_face_mask
+				template = fp3_iranian_face_mask
+				value = 0.5
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				has_fp3_dlc_trigger = yes
+				exists = character:korihoon_100
+				this = character:korihoon_100
+			}
+			modifier = {
+				add = 999
+				has_fp3_dlc_trigger = yes
+				exists = character:korihoon_101
+				this = character:korihoon_101
+			}
+		}
+	}
+}

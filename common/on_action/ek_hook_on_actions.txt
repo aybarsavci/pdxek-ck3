@@ -1,0 +1,28 @@
+﻿on_hook_used = {
+	effect = {
+		# GCM Catalysts. Based on the same vanilla file
+		if = {
+			limit = {
+				is_landless_adventurer = no
+				scope:target = {
+					any_character_situation = {
+						any_situation_sub_region = {
+							any_situation_sub_region_participant_group = {
+								participant_group_type = grand_council_members
+								participant_group_has_character = scope:target
+							}
+						}
+						situation_top_has_catalyst = catalyst_situation_hc_hook_on_gcm
+					}
+					is_allowed_to_vote = yes
+				}
+			}
+			situation:grand_council ?= {
+				if = {
+					limit = { situation_top_has_catalyst = catalyst_situation_hc_hook_on_gcm }
+					trigger_situation_catalyst = catalyst_situation_hc_hook_on_gcm
+				}
+			}
+		}
+	}
+}

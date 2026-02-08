@@ -1,0 +1,564 @@
+﻿namespace = ek_court_position
+
+#Ruler picking court mage
+ek_court_position.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_court_position.0001.t
+	desc = ek_court_position.0001.desc
+	theme = learning
+	left_portrait = scope:high_skill_option
+	lower_left_portrait = scope:necromancer_option
+	right_portrait = scope:low_skill_option
+	lower_right_portrait = scope:excellent_skill_option
+
+	trigger = { exists = capital_province } #If I lost it before I got this event, I shouldn't get a mage
+	
+
+	immediate = {
+		hidden_effect = {
+			#Find some appropriate options
+
+			if = { #Performance heavy option finding is only for players
+				limit = { is_ai = no }
+
+				#EXCELLENT SKILL CHARACTER
+				if = {
+					limit = {
+						OR = {
+							has_trait = education_magic	# Is a mage
+							any_sub_realm_barony = { title_province = { is_magic_studies_location = yes } } # has magic academy in subrealm to recruit from
+						}
+					}
+					random_pool_character = {
+						province = capital_province
+						limit = {
+							is_adult = yes
+							is_imprisoned = no
+							is_alive = yes # Because apparently there can be dead characters in the pool (remove when fixed)
+							is_claimant = no # We don't want recruiting mages to be a cheap way of getting claimants
+							arcana >= extremely_high_skill_rating
+							can_magic_trigger = yes
+							has_magic_perk_trigger = yes
+							OR = {
+								has_trait = arcana_good
+								has_trait = education_magic
+							}
+						}
+						alternative_limit = {
+							is_adult = yes
+							is_imprisoned = no
+							is_alive = yes # Because apparently there can be dead characters in the pool (remove when fixed)
+							is_claimant = no # We don't want recruiting mages to be a cheap way of getting claimants
+							arcana >= extremely_high_skill_rating
+							can_magic_trigger = yes
+							has_magic_perk_trigger = yes
+						}
+						weight = {
+							base = 1
+							modifier = {
+								faith = root.faith
+								factor = 10
+							}
+						}
+
+						save_scope_as = excellent_skill_option
+						if = {
+							limit = { 
+								NOR = { 
+									has_trait = arcana_good
+									has_trait = education_magic
+								}
+							}
+							random_list = { 
+								5 = { add_trait = education_magic_4 }
+								10 = { add_trait = education_magic_3 }
+								5 = { add_trait = education_magic_2 }
+							}
+						}
+
+						#Backup generation
+						if = {
+							limit = { NOT = { exists = scope:excellent_skill_option } }
+
+							create_character = {
+								location = root.capital_province
+								template = court_mage_template
+								dynasty = none
+								save_scope_as = excellent_skill_option
+								after_creation = {
+									add_arcana_skill = { VALUE = "{ 3 6 }" }
+								}
+							}
+							scope:excellent_skill_option = {
+								random_list = { 
+									5 = { add_trait = education_magic_4 }
+									10 = { add_trait = education_magic_3 }
+									5 = { add_trait = education_magic_2 }
+								}
+								if = {
+									limit = { has_magic_perk_trigger = no }
+									ek_magic_perks_effect = yes
+								}
+							}
+						}
+					}				
+				}
+
+				#HIGH-SKILL CHARACTER
+				random_pool_character = {
+					province = capital_province
+					limit = {
+						is_adult = yes
+						is_imprisoned = no
+						is_alive = yes # Because apparently there can be dead characters in the pool (remove when fixed)
+						is_claimant = no # We don't want recruiting mages to be a cheap way of getting claimants
+						can_magic_trigger = yes
+						has_magic_perk_trigger = yes
+						arcana >= high_skill_rating
+						trigger_if = {
+							limit = {
+								exists = scope:excellent_skill_option
+							}
+							NOT = { this = scope:excellent_skill_option }
+						}
+					}
+					weight = {
+						base = 1
+						modifier = {
+							faith = root.faith
+							factor = 10
+						}
+					}
+					save_scope_as = high_skill_option
+				}
+
+				#Backup generation
+				if = {
+					limit = { NOT = { exists = scope:high_skill_option } }
+
+					create_character = {
+						location = root.capital_province
+						template = court_mage_template
+						dynasty = none
+						save_scope_as = high_skill_option
+						after_creation = {
+							add_arcana_skill = { VALUE = "{ 1 4 }" }
+						}
+					}
+					scope:high_skill_option = {
+						random_list = { 
+							5 = { add_trait = education_magic_3 }
+							10 = { add_trait = education_magic_2 }
+							5 = { add_trait = education_magic_1 }
+						}
+						if = {
+							limit = { has_magic_perk_trigger = no }
+							ek_magic_perks_effect = yes
+						}
+					}
+				}
+
+				#NECROMANCER CHARACTER (optional, only if available in pool)
+				random_pool_character = {
+					province = root.capital_province
+					limit = { 
+						is_adult = yes
+						is_imprisoned = no
+						is_alive = yes # Because apparently there can be dead characters in the pool (remove when fixed)
+						is_claimant = no # We don't want recruiting mages to be a cheap way of getting claimants
+						can_magic_trigger = yes
+						has_magic_perk_trigger = yes
+						# Is Necromancer
+						has_trait = necromancer
+						trigger_if = {
+							limit = {
+								exists = scope:excellent_skill_option
+							}
+							NOT = { this = scope:excellent_skill_option }
+						}
+						trigger_if = {
+							limit = {
+								exists = scope:high_skill_option
+							}
+							NOT = { this = scope:high_skill_option }
+						}
+					}
+					weight = {
+						base = 1
+						modifier = {
+							has_trait = necromancer
+							factor = 100
+						}
+						modifier = {
+							faith = root.faith
+							factor = 10
+						}
+					}
+					save_scope_as = necromancer_option
+				}
+
+				#Low-medium skill character
+				random_pool_character = {
+					province = root.capital_province
+					limit = { 
+						is_adult = yes
+						is_imprisoned = no
+						is_alive = yes # Because apparently there can be dead characters in the pool (remove when fixed)
+						is_claimant = no # We don't want recruiting mages to be a cheap way of getting claimants
+						can_magic_trigger = yes
+						has_magic_perk_trigger = yes
+						arcana > medium_skill_rating
+						NOR = {
+							has_magic_lifestyle_mastery_trigger = yes
+							has_trait = education_magic
+						}
+						trigger_if = {
+							limit = {
+								exists = scope:excellent_skill_option
+							}
+							NOT = { this = scope:excellent_skill_option }
+						}
+						trigger_if = {
+							limit = {
+								exists = scope:high_skill_option
+							}
+							NOT = { this = scope:high_skill_option }
+						}
+						trigger_if = {
+							limit = {
+								exists = scope:necromancer_option
+							}
+							NOT = { this = scope:necromancer_option }
+						}
+					}
+					weight = {
+						base = 1
+						modifier = {
+							faith = root.faith
+							factor = 10
+						}
+					}
+					save_scope_as = low_skill_option
+				}
+			}
+			else = { #Ai get someone simple
+				random_pool_character = {
+					province = root.capital_province
+					limit = { 
+						is_adult = yes
+						is_imprisoned = no
+						is_alive = yes # Because apparently there can be dead characters in the pool (remove when fixed)
+						is_claimant = no # We don't want recruiting physicians to be a cheap way of getting claimants
+						arcana > medium_skill_rating
+					}
+					weight = {
+						base = 1
+						modifier = {
+							faith = root.faith
+							factor = 10
+						}
+					}
+					save_scope_as = low_skill_option
+				}
+			}
+			
+			#Backup generation
+			if = {
+				limit = { NOT = { exists = scope:low_skill_option } }
+
+				create_character = {
+					location = root.capital_province
+					template = low_court_mage_template
+					dynasty = none
+					save_scope_as = low_skill_option
+				}
+				scope:low_skill_option = {
+					if = {
+						limit = { has_magic_perk_trigger = no }
+						ek_magic_perks_effect = yes
+					}
+				}
+			}
+		}
+	}
+
+	#Excellent skill
+	option = {
+		trigger = {
+			exists = scope:excellent_skill_option
+			is_landed = yes #extra check to make sure they haven't lost their status
+		}
+		name = health.3001.e
+		
+		pay_short_term_gold = {
+			target = scope:excellent_skill_option
+			gold = high_skill_court_physician_cost
+		}
+
+		set_court_mage_effect = {
+			EMPLOYER = root
+			MAGE = scope:excellent_skill_option
+		}
+
+		ai_chance = {
+			factor = 500
+			modifier = {
+				short_term_gold < medium_gold_value
+				factor = 0
+			}
+		}
+	}
+
+	#High skill
+	option = {
+		trigger = {
+			is_landed = yes #extra check to make sure they haven't lost their status
+			exists = scope:high_skill_option #Doesn't exists for AI
+		}
+		name = health.3001.a
+		
+		pay_short_term_gold = {
+			target = scope:high_skill_option
+			gold = high_skill_court_physician_cost
+		}
+
+		set_court_mage_effect = {
+			EMPLOYER = root
+			MAGE = scope:high_skill_option
+		}
+
+		ai_chance = {
+			factor = 100
+			modifier = {
+				short_term_gold < medium_gold_value
+				factor = 0
+			}
+		}
+	}
+
+	#Low skill
+	option = {
+		trigger = {
+			is_landed = yes #extra check to make sure they haven't lost their status
+		}
+		name = health.3001.b
+		
+		if = {
+			limit = {
+				OR = {
+					is_ai = no
+					short_term_gold >= low_skill_court_physician_cost #Because AI would never have enough money and everyone would die
+				}
+			}
+			pay_short_term_gold = {
+				target = scope:low_skill_option
+				gold = low_skill_court_physician_cost
+			}
+		}
+
+		set_court_mage_effect = {
+			EMPLOYER = root
+			MAGE = scope:low_skill_option
+		}
+
+		ai_chance = {
+			factor = 100
+		}
+	}
+
+	# Necromancer
+	option = {
+		trigger = {
+			exists = scope:necromancer_option
+			is_landed = yes #extra check to make sure they haven't lost their status
+		}
+		name = health.3001.c
+		
+		pay_short_term_gold = {
+			target = scope:necromancer_option
+			gold = medium_gold_value
+		}		
+
+		set_court_mage_effect = {
+			EMPLOYER = root
+			MAGE = scope:necromancer_option
+		}
+
+		if = {
+			limit = {
+				faith = { has_doctrine = doctrine_necromancy_shunned }
+			}
+			add_piety = medium_piety_loss
+			stress_impact = {
+				zealous = minor_stress_impact_gain
+			}
+		}	
+		else_if = {
+			limit = { 
+				faith = { has_doctrine = doctrine_necromancy_crime }
+			}
+			add_piety = major_piety_loss
+			stress_impact = {
+				zealous = medium_stress_impact_gain
+			}
+		}
+
+		ai_chance = {
+			factor = 30
+			modifier = {
+				short_term_gold < minor_gold_value
+				factor = 0
+			}
+			ai_value_modifier = {
+				ai_zeal = tiny_chance_impact_negative_ai_value
+				max = 20
+			}	
+		}
+	}
+
+	#None...
+	option = {
+		name = {
+			trigger = {
+				NOR = {
+					exists = scope:necromancer_option
+					exists = scope:excellent_skill_option
+				}
+			}
+			text = health.3001.d.two
+		}
+		name = {
+			trigger = {
+				OR = {
+					exists = scope:necromancer_option
+					exists = scope:excellent_skill_option
+				}
+			}
+			text = health.3001.d.more
+		}
+
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+ek_court_position.0005 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_court_position.0005.t
+	desc = ek_court_position.0005.desc
+	theme = intrigue
+	left_portrait = scope:first_option
+	right_portrait = scope:second_option
+
+	trigger = { exists = capital_province }
+	
+
+	immediate = {
+		hidden_effect = {
+			#Find some appropriate options
+			# First option
+			if = {
+				limit = {
+					intrigue >= very_high_skill_rating	
+				}
+				random_pool_character = {
+					province = capital_province
+					limit = {
+						is_adult = yes
+						is_imprisoned = no
+						is_alive = yes # Because apparently there can be dead characters in the pool (remove when fixed)						
+						has_high_skill_trigger = yes
+						OR = {
+							has_infamous_trait_trigger = yes
+							is_daedra_cultist = yes
+						}
+					}
+					save_scope_as = first_option
+				}
+			}
+			#Backup generation
+			if = {
+				limit = { NOT = { exists = scope:first_option } }
+				create_character = {
+					location = root.capital_province
+					template = skilled_criminal_template
+					dynasty = none
+					save_scope_as = first_option
+				}
+			}
+			# Second option
+			random_pool_character = {
+				province = capital_province
+				limit = {
+					is_adult = yes
+					is_imprisoned = no
+					is_alive = yes # Because apparently there can be dead characters in the pool (remove when fixed)
+					OR = {
+						has_infamous_trait_trigger = yes
+						is_daedra_cultist = yes
+					}
+					NOT = { this = scope:first_option }
+				}
+				save_scope_as = second_option
+			}
+		}
+	}
+			
+	#Recruit first option
+	option = {
+		trigger = {
+			is_landed = yes #extra check to make sure they haven't lost their status
+		}
+		name = ek_court_position.0005.a
+
+		add_courtier = scope:first_option
+
+		ai_chance = {
+			factor = 100
+		}		
+	}
+
+	#Recruit second option
+	option = {
+		trigger = {
+			is_landed = yes #extra check to make sure they haven't lost their status
+			exists = scope:second_option
+		}
+		name = ek_court_position.0005.b
+
+		add_courtier = scope:second_option
+		
+		ai_chance = {
+			factor = 25
+		}
+	}
+
+	#Recruit both options
+	option = {
+		trigger = {
+			is_landed = yes #extra check to make sure they haven't lost their status
+			exists = scope:first_option
+			exists = scope:second_option
+		}
+		name = ek_court_position.0005.c
+
+		add_courtier = scope:first_option
+		add_courtier = scope:second_option
+		
+		ai_chance = {
+			factor = 50
+		}
+	}
+
+	# Recruit none
+	option = {
+		name = ek_court_position.0005.d
+
+		ai_chance = {
+			factor = 10
+		}
+	}
+}

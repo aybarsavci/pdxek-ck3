@@ -1,0 +1,463 @@
+﻿clothes_situational = { # All clothes triggers are found in 00_clothing_triggers.txt
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 10
+
+
+    poverty_robes_western = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = western_sickness
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            # Boring clothes for characters with an active Vow of Poverty
+            modifier = {
+                add = 100
+                portrait_poverty_robes_trigger = yes
+            }
+            modifier = {
+                add = 1000
+                has_court_position = cave_hermit_court_position
+            }
+        }
+    }
+
+    poverty_robes_mena = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = mena_sickness
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        weight = {
+            base = 0
+            # Boring clothes for characters with an active Vow of Poverty
+            modifier = {
+                add = 100
+                portrait_poverty_robes_trigger = yes
+            }
+            modifier = {
+                add = 1000
+                has_court_position = cave_hermit_court_position
+            }
+            modifier = {
+                add = -50
+                portrait_mena_clothing_trigger = no
+                portrait_indian_clothing_trigger = no
+                portrait_steppe_clothing_trigger = no
+                #portrait_african_clothing_trigger = no
+            }
+        }
+    }
+	
+	ep1_jester = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ep1_jester
+				range = { 0 1 }
+			}		
+			accessory = {
+				mode = add
+				gene = clothes
+				template = ep1_jester_clothes
+				range = { 0 1 } # For the randomness to work correctly
+			}
+				
+			accessory = {
+				mode = add
+				gene = legwear
+				template = ep1_jester_legwear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+
+		}	
+		weight = {
+			base = -100
+			modifier = {
+				add = 1000
+				has_fp1_dlc_trigger = yes
+				has_court_position = court_jester_court_position
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_adult = no
+					should_be_naked_trigger = yes
+				}
+			}		
+			modifier = {	### sheogorath tickles
+				add = 1000
+				has_fp1_dlc_trigger = yes
+				has_character_flag = tickles
+			}
+		}
+	}
+	
+	ek_religious_ordinator = {
+	    dna_modifiers = {
+	        accessory = {
+				mode = add				
+				gene = headgear
+				template = ek_ordinator
+				value = 0.5
+	        }		
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = ek_religious_dunmer_temple_ordinator
+	            range = { 0 1 }
+	        }
+			accessory = {
+				mode = add
+				gene = legwear
+				template = mena_war_legwear
+				range = { 0 1 } # For the randomness to work correctly
+			}		
+	        accessory = {
+	            mode = add
+	            gene = cloaks
+	            template = ek_reliigous_dunmer_ordinator
+	            range = { 0 1 }
+	        }
+	        #accessory = {
+			#    mode = add
+	        #    gene = special_headgear_face_mask
+	        #   template = no_face_mask
+	        #    range = { 0 1 }
+	        #}			
+			morph = {
+				mode = modify_multiply				
+				gene = face_detail_cheek_def
+				value = 0.0
+			}
+			morph = {
+				mode = modify_multiply				
+				gene = gene_bs_nose_size
+				value = 0.0
+			}
+			morph = {
+				mode = modify				
+				gene = gene_bs_forehead_brow_forward
+				template = forehead_brow_forward_neg
+				value = 1.0
+			}
+			morph = {
+				mode = replace		
+				gene = gene_bs_cheek_width
+				template = cheek_width_neg
+				value = 1.0
+			}
+			morph = {
+				mode = modify				
+				gene = gene_forehead_brow_height
+				template = forehead_brow_height_neg
+				value = 1.0
+			}
+			morph = {
+				mode = add				
+				gene = gene_eye_angle
+				template = eye_angle_pos
+				value = 0.1
+			}
+			morph = {
+				mode = add				
+				gene = gene_eye_depth
+				template = eye_depth_neg
+				value = 0.2
+			}
+			morph = {
+				mode = modify				
+				gene = eye_pupil
+				value = 0.5
+			}
+			morph = {
+				mode = modify				
+				gene = eye_sclera
+				value = 0.5
+			}			
+	    }
+		
+		outfit_tags = { military_outfit }
+		weight = {
+			base = 0
+			modifier = {
+				add = 300
+				OR = {
+				    AND = {
+						is_knight = yes
+				        faith = faith:tribunal_temple
+				        has_government = holy_order_government
+				    }
+				    AND = {
+				        faith = faith:tribunal_temple
+				        has_trait = order_member					
+				    }
+				    AND = {
+				        faith = faith:tribunal_temple
+						is_knight = yes
+						is_ruler = no
+				        any_liege_or_above = { has_title = title:e_tribunal_temple }					
+				    }					
+				    AND = {
+				        faith = faith:tribunal_cult
+				        has_government = holy_order_government
+				    }
+				    AND = {
+				        faith = faith:tribunal_cult
+				        has_trait = order_member					
+				    }
+				    AND = {
+				        faith = faith:tribunal_cult
+						is_knight = yes
+						is_ruler = no
+				        any_liege_or_above = { has_title = title:e_tribunal_temple }					
+				    }
+				    AND = {
+				      	exists = character:mora_nerevar
+						this = character:mora_nerevar    					
+				    }					
+				}
+			}
+		}		
+	}
+	
+	ek_religious_almarula_robes = {
+	    dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = ek_religious_dunmer_temple_almarula
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = cloaks
+	            template = ek_reliigous_dunmer_almarula
+	            range = { 0 1 }
+	        }			
+			accessory = {
+				mode = add
+				gene = legwear
+				template = mena_war_legwear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+	        morph = {
+				mode = modify_multiply
+				gene = gene_bs_bust
+				value = 0.8
+				template = bust_clothes
+			}
+	    }
+		outfit_tags = { military_outfit }
+	    weight = {
+	        base = 0
+	        modifier = {
+	            add = 300
+				has_primary_title = title:e_tribunal_temple
+	        }
+	    }
+	}
+	
+	ek_religious_almarula_helmet = {
+	    dna_modifiers = {
+	        accessory = {
+				mode = add				
+				gene = headgear
+				template = ek_almarula
+				value = 0.5
+	        }
+			morph = {
+				mode = modify_multiply				
+				gene = face_detail_cheek_def
+				value = 0.0
+			}
+			morph = {
+				mode = modify_multiply				
+				gene = gene_bs_nose_size
+				value = 0.0
+			}
+			morph = {
+				mode = replace		
+				gene = gene_bs_cheek_width
+				template = cheek_width_neg
+				value = 1.0
+			}
+			morph = {
+				mode = modify				
+				gene = gene_bs_forehead_brow_forward
+				template = forehead_brow_forward_neg
+				value = 1.0
+			}
+			morph = {
+				mode = modify				
+				gene = gene_forehead_brow_height
+				template = forehead_brow_height_neg
+				value = 1.0
+			}
+			morph = {
+				mode = add				
+				gene = gene_eye_angle
+				template = eye_angle_pos
+				value = 0.1
+			}
+			morph = {
+				mode = add				
+				gene = gene_eye_depth
+				template = eye_depth_neg
+				value = 0.2
+			}
+			morph = {
+				mode = modify				
+				gene = eye_pupil
+				value = 0.5
+			}
+			morph = {
+				mode = modify				
+				gene = eye_sclera
+				value = 0.5
+			}
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = ek_religious_dunmer_temple_almarula
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = cloaks
+	            template = ek_reliigous_dunmer_almarula
+	            range = { 0 1 }
+	        }			
+			accessory = {
+				mode = add
+				gene = legwear
+				template = mena_war_legwear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+	        morph = {
+				mode = modify_multiply
+				gene = gene_bs_bust
+				value = 0.8
+				template = bust_clothes
+			}
+	    }
+	    weight = {
+	        base = 0
+	        modifier = {
+	            add = 310
+				has_primary_title = title:e_tribunal_temple
+				is_commanding_army = yes
+
+	        }
+	    }
+	}
+		
+	ek_religious_crusader = {
+	    dna_modifiers = {
+	        accessory = {
+				mode = add				
+				gene = headgear
+                template = western_war
+				value = 0.5
+	        }		
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = western_crusades
+	            range = { 0 1 }
+	        }
+			accessory = {
+				mode = add
+				gene = legwear
+				template = western_war_legwear
+				range = { 0 1 } # For the randomness to work correctly
+			}		
+	    }
+		
+		outfit_tags = { military_outfit }
+		weight = {
+			base = 0
+			modifier = {
+				add = 300
+				OR = {
+				    AND = {
+						is_knight = yes
+				        faith = faith:imperial_cult
+				        has_government = holy_order_government
+				    }
+				    AND = {
+				        faith = faith:imperial_cult
+				        has_trait = order_member					
+				    }
+				}
+			}		
+		}
+	}
+
+    # Court Physician
+    court_physician = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = fp4_western_physician_01
+                range = { 0 1 }
+            }
+            accessory = {
+                mode = add
+                gene = headgear
+                template = western_common
+                value = 0
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 1000
+				OR = {
+				portrait_ek_aldmeri_clothing_trigger = yes
+				portrait_ek_breton_clothing_trigger = yes
+				portrait_ek_northmen_clothing_trigger = yes
+				portrait_ek_balfieri_clothing_trigger = yes
+                portrait_ek_nibenese_clothing_trigger = yes
+				portrait_ek_heartlander_clothing_trigger = yes
+				portrait_ek_colovian_clothing_trigger = yes
+				portrait_ek_strident_clothing_trigger = yes
+				portrait_ek_redguard_clothing_trigger = yes
+				portrait_ek_alikr_clothing_trigger = yes	
+				portrait_ek_dwemeri_clothing_trigger = yes
+				portrait_ek_nedic_north_clothing_trigger = yes
+				portrait_ek_nedic_reach_clothing_trigger = yes
+				portrait_ek_nedic_keptu_clothing_trigger = yes
+				portrait_ek_skaal_clothing_trigger = yes
+				portrait_ek_nordic_clothing_trigger = yes
+				portrait_ek_cyro_nordic_clothing_trigger = yes
+				portrait_ek_dunmer_clothing_trigger = yes	
+				portrait_ek_gah_julan_clothing_trigger  = yes
+				}
+                has_court_position = court_physician_court_position
+				NOT = { is_court_mage_trigger = yes }
+                has_ce1_dlc_trigger = yes
+                
+            }
+            modifier = {
+                factor = 0
+                OR = {
+                    is_adult = no
+                    should_be_naked_trigger = yes
+                }
+            } 
+        } 
+    }
+
+}	

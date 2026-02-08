@@ -1,0 +1,1029 @@
+﻿namespace = ek_health
+
+## Added this here to stop the error log freaking out about unknown triggers
+#Wounded 2
+scripted_trigger ek_health_event_is_worried_trigger = {
+	OR = {
+		ai_compassion >= medium_positive_ai_value
+		dread_modified_ai_boldness = {
+			dreaded_character = $CHARACTER$
+			value <= medium_negative_ai_value
+		}
+		has_relation_friend = $CHARACTER$
+		has_relation_lover = $CHARACTER$
+		opinion = {
+			target = $CHARACTER$
+			value >= high_positive_opinion
+		}
+	}
+	$CHARACTER$.health < fine_health
+}
+
+#Recover from sanies_lupinus
+ek_health.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_health.0001.t
+	desc = ek_health.0001.desc
+	theme = recovery
+	override_background = { reference = bedchamber }
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+
+	trigger = {
+		has_trait = sanies_lupinus
+	}
+
+
+	immediate = {
+		play_music_cue = "mx_cue_peace_ensues"
+		recover_from_disease_effect = { DISEASE = sanies_lupinus } #Removes the trait, sends event "health.2202" to those who care
+		remove_disease_treatment_effect = yes
+	}
+
+	option = {
+		name = ek_health.0002.a
+		show_as_tooltip = { #show the trait actually shows up in the tooltip
+			remove_trait_force_tooltip = sanies_lupinus
+		}		
+	}
+}
+
+#Recover from sanguinare_vampiris
+ek_health.0002 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_health.0002.t
+	desc = ek_health.0002.desc
+	theme = recovery
+	override_background = { reference = bedchamber }
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+
+	trigger = {
+		has_trait = sanguinare_vampiris
+	}
+
+
+	immediate = {
+		play_music_cue = "mx_cue_peace_ensues"
+		recover_from_disease_effect = { DISEASE = sanguinare_vampiris } #Removes the trait, sends event "health.2202" to those who care
+		remove_disease_treatment_effect = yes
+	}
+
+	option = {
+		name = ek_health.0002.a
+		show_as_tooltip = { #show the trait actually shows up in the tooltip
+			remove_trait_force_tooltip = sanguinare_vampiris
+		}		
+	}
+}
+
+#Recover from chrondiasis
+ek_health.0003 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_health.0003.t
+	desc = ek_health.0003.desc
+	theme = recovery
+	override_background = { reference = bedchamber }
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+
+	trigger = {
+		has_trait = chrondiasis
+	}
+
+
+	immediate = {
+		play_music_cue = "mx_cue_peace_ensues"
+		recover_from_disease_effect = { DISEASE = chrondiasis } #Removes the trait, sends event "health.2202" to those who care
+		remove_disease_treatment_effect = yes
+	}
+
+	option = {
+		name = {
+			trigger = {
+				NOT = { faith = { has_doctrine = tenet_veneration_of_diseases } }
+			}
+			text = ek_health.0003.a
+		}
+		name = {
+			trigger = {
+				faith = { has_doctrine = tenet_veneration_of_diseases }
+			}
+			text = ek_health_recovery_veneration_of_diseases
+		}
+		show_as_tooltip = { #show the trait actually shows up in the tooltip
+			remove_trait_force_tooltip = chrondiasis
+		}
+	}
+}
+
+#Recover from peryite_affliction
+ek_health.0004 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_health.0004.t
+	desc = ek_health.0004.desc
+	theme = recovery
+	override_background = { reference = bedchamber }
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+
+	trigger = {
+		has_trait = peryite_affliction
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_peace_ensues"
+		recover_from_disease_effect = { DISEASE = peryite_affliction } #Removes the trait, sends event "health.2202" to those who care
+		remove_disease_treatment_effect = yes
+	}
+
+	option = {
+		name = {
+			trigger = {
+				NOT = { faith = { has_doctrine = tenet_veneration_of_diseases } }
+			}
+			text = ek_health.0004.a
+		}
+		name = {
+			trigger = {
+				faith = { has_doctrine = tenet_veneration_of_diseases }
+			}
+			text = ek_health_recovery_veneration_of_diseases
+		}
+		show_as_tooltip = { #show the trait actually shows up in the tooltip
+			remove_trait_force_tooltip = peryite_affliction
+		}
+	}
+}
+
+#You contract sanies_lupinus
+ek_health.1001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_health.1001.t
+	desc = {
+		desc = ek_health.1001.desc
+		triggered_desc = {
+			trigger = {
+				court_physician_available_trigger = yes
+				liege_picks_treatment_trigger = no
+			}
+			desc = ek_health.1001.court_physician.desc
+		}
+	}
+	theme = healthcare
+	left_portrait = {
+		character = root
+		animation = sick
+	}
+	right_portrait = {
+		character = scope:physician
+		triggered_animation = {
+			trigger = { scope:physician = { ek_health_event_is_worried_trigger = { CHARACTER = root } } }
+			animation = worry
+		}
+		triggered_animation = {
+			trigger = { scope:physician = { ai_rationality >= 0 } } #Don't look rational if you're not
+			animation = personality_rational
+		}
+		animation = idle
+	}
+
+	trigger = {
+		NOT = {
+			culture = {
+				has_cultural_pillar = heritage_dremora
+			}
+		}
+		can_contract_disease_trigger = { DISEASE = sanies_lupinus }
+	}
+	
+
+	immediate = {
+		play_music_cue = "mx_cue_illness"
+		save_court_physician_as_effect = { SCOPE_NAME = physician }
+		contract_disease_effect = { DISEASE = sanies_lupinus TREATMENT_EVENT = no } #Adds the trait, sends event "health.2201" to those who care if health is brought too low
+		random_courtier = {
+			limit = {
+				is_available_ai_adult = yes
+				learning > 10		
+			}
+			save_scope_as = ek_new_physician
+		}	
+	}
+
+	###NO COURT PHYSICIAN OPTIONS###
+	#Find physician
+	option = {
+		trigger = {
+			NOT = { exists = scope:physician }
+			is_landed = yes
+		}
+		name = health.3101.e
+		find_court_physician_effect = yes
+		ai_chance = { base = 5 }
+	}
+
+	#(EK) Hire in-court physician
+	option = {
+		trigger = {
+			NOT = { exists = scope:physician }
+			is_landed = yes
+			exists = scope:ek_new_physician
+		}
+		name = health.2201.b
+
+		pay_short_term_gold = {
+			target = scope:ek_new_physician
+			gold = 10
+		}
+
+		set_court_physician_effect = {
+			EMPLOYER = root
+			PHYSICIAN = scope:ek_new_physician
+		}
+
+		hidden_effect = {
+			reverse_add_opinion = {
+				target = scope:ek_new_physician
+				modifier = hired_me_opinion
+			}
+		}
+
+		ai_chance = {
+			factor = 500
+			modifier = {
+				short_term_gold < medium_gold_value
+				factor = 0
+			}
+		}
+
+	}
+	#EK EDIT
+
+	#OK
+	option = {
+		trigger = {
+			trigger_if = {
+				limit = { exists = scope:physician }
+				liege_picks_treatment_trigger = yes
+			}
+			trigger_else = {
+				always = yes
+			}
+		}
+		name = ek_health.1001.a
+		ai_chance = { base = 1 }
+	}
+
+	### TRAVEL- GO HOME
+	option = {
+		name = health.travel.option.home
+		flavor = health.travel.option.home.flavor 
+		trigger = {
+			is_travelling = yes
+			current_travel_plan ={
+				travel_plan_owner = root
+				can_cancel = yes 
+			}
+			involved_activity ?= {
+				NOR = {
+					has_activity_type = activity_tour
+					is_required_special_guest = root
+				}
+			}
+		}
+		current_travel_plan = { cancel_travel_plan = yes }
+		ai_chance = { base = 1 }
+	}
+
+	###COURT PHYSICIAN OPTIONS###
+	#Safe treatment
+	option = {
+		trigger = {
+			exists = scope:physician
+			liege_picks_treatment_trigger = no
+		}
+		name = health.3101.a
+		safe_disease_treatment_effect = { PATIENT = root TREATMENT_PICKER = root }
+		ai_chance = { base = 10 }
+	}
+
+	#Risky treatment
+	option = {
+		trigger = {
+			exists = scope:physician
+			liege_picks_treatment_trigger = no
+		}
+		name = health.3101.b
+		risky_disease_treatment_effect = { PATIENT = root TREATMENT_PICKER = root }
+		ai_chance = { base = 1 }
+	}
+	
+	#Mystic treatment
+	option = {
+		trigger = {
+			court_physician_available_trigger = yes
+			liege_picks_treatment_trigger = no
+			scope:physician = { has_trait = lifestyle_mystic }
+		}
+		name = health.3101.c
+		mystic_disease_treatment_effect = { PATIENT = root TREATMENT_PICKER = root }
+		ai_chance = {
+			base = 0.5
+			modifier = {
+				add = -0.5
+				ai_zeal >= 0
+			}
+		}
+	}
+
+	#No treatment
+	option = {
+		trigger = {
+			exists = scope:physician
+			liege_picks_treatment_trigger = no
+		}
+		name = health.3101.d
+		no_disease_treatment_effect = yes
+		ai_chance = { base = 0 }
+	}
+
+}
+
+#You contract sanguinare_vampiris
+ek_health.1002 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_health.1002.t
+	desc = {
+		desc = ek_health.1002.desc
+		triggered_desc = {
+			trigger = {
+				court_physician_available_trigger = yes
+				liege_picks_treatment_trigger = no
+			}
+			desc = ek_health.1002.court_physician.desc
+		}
+	}
+	theme = healthcare
+	left_portrait = {
+		character = root
+		animation = sick
+	}
+	right_portrait = {
+		character = scope:physician
+		triggered_animation = {
+			trigger = { scope:physician = { ek_health_event_is_worried_trigger = { CHARACTER = root } } }
+			animation = worry
+		}
+		triggered_animation = {
+			trigger = { scope:physician = { ai_rationality >= 0 } } #Don't look rational if you're not
+			animation = personality_rational
+		}
+		animation = idle
+	}
+
+
+	trigger = {
+		NOT = {
+			culture = {
+				has_cultural_pillar = heritage_dremora
+			}
+		}
+		can_contract_disease_trigger = { DISEASE = sanguinare_vampiris }
+	}
+	
+
+	immediate = {
+		play_music_cue = "mx_cue_illness"
+		save_court_physician_as_effect = { SCOPE_NAME = physician }
+		contract_disease_effect = { DISEASE = sanguinare_vampiris TREATMENT_EVENT = no } #Adds the trait, sends event "health.2201" to those who care if health is brought too low
+		random_courtier = {
+			limit = {
+				is_available_ai_adult = yes
+				learning > 10		
+			}
+			save_scope_as = ek_new_physician
+		}	
+	}
+
+	###NO COURT PHYSICIAN OPTIONS###
+	#Find physician
+	option = {
+		trigger = {
+			NOT = { exists = scope:physician }
+			is_landed = yes
+		}
+		name = health.3101.e
+		find_court_physician_effect = yes
+		ai_chance = { base = 5 }
+	}
+
+	#(EK) Hire in-court physician
+	option = {
+		trigger = {
+			NOT = { exists = scope:physician }
+			is_landed = yes
+			exists = scope:ek_new_physician
+		}
+		name = health.2201.b
+
+		pay_short_term_gold = {
+			target = scope:ek_new_physician
+			gold = 10
+		}
+
+		set_court_physician_effect = {
+			EMPLOYER = root
+			PHYSICIAN = scope:ek_new_physician
+		}
+
+		hidden_effect = {
+			reverse_add_opinion = {
+				target = scope:ek_new_physician
+				modifier = hired_me_opinion
+			}
+		}
+
+		ai_chance = {
+			factor = 500
+			modifier = {
+				short_term_gold < medium_gold_value
+				factor = 0
+			}
+		}
+
+	}
+	#EK EDIT
+
+	#OK
+	option = {
+		trigger = {
+			trigger_if = {
+				limit = { exists = scope:physician }
+				liege_picks_treatment_trigger = yes
+			}
+			trigger_else = {
+				always = yes
+			}
+		}
+		name = ek_health.1002.a
+		ai_chance = { base = 1 }
+	}
+
+	### TRAVEL- GO HOME
+	option = {
+		name = health.travel.option.home
+		flavor = health.travel.option.home.flavor 
+		trigger = {
+			is_travelling = yes
+			current_travel_plan ={
+				travel_plan_owner = root
+				can_cancel = yes 
+			}
+			involved_activity ?= {
+				NOR = {
+					has_activity_type = activity_tour
+					is_required_special_guest = root
+				}
+			}
+		}
+		current_travel_plan = { cancel_travel_plan = yes }
+		ai_chance = { base = 1 }
+	}
+
+	###COURT PHYSICIAN OPTIONS###
+	#Safe treatment
+	option = {
+		trigger = {
+			exists = scope:physician
+			liege_picks_treatment_trigger = no
+		}
+		name = health.3101.a
+		safe_disease_treatment_effect = { PATIENT = root TREATMENT_PICKER = root }
+		ai_chance = { base = 10 }
+	}
+
+	#Risky treatment
+	option = {
+		trigger = {
+			exists = scope:physician
+			liege_picks_treatment_trigger = no
+		}
+		name = health.3101.b
+		risky_disease_treatment_effect = { PATIENT = root TREATMENT_PICKER = root }
+		ai_chance = { base = 1 }
+	}
+	
+	#Mystic treatment
+	option = {
+		trigger = {
+			court_physician_available_trigger = yes
+			liege_picks_treatment_trigger = no
+			scope:physician = { has_trait = lifestyle_mystic }
+		}
+		name = health.3101.c
+		mystic_disease_treatment_effect = { PATIENT = root TREATMENT_PICKER = root }
+		ai_chance = {
+			base = 0.5
+			modifier = {
+				add = -0.5
+				ai_zeal >= 0
+			}
+		}
+	}
+
+	#No treatment
+	option = {
+		trigger = {
+			exists = scope:physician
+			liege_picks_treatment_trigger = no
+		}
+		name = health.3101.d
+		no_disease_treatment_effect = yes
+		ai_chance = { base = 0 }
+	}
+
+}
+
+#You contract chrondiasis
+ek_health.1003 = {
+		type = character_event
+	content_source = dlc_ek
+	title = ek_health.1003.t
+	desc = {
+		desc = ek_health.1003.desc
+		triggered_desc = {
+			trigger = {
+				court_physician_available_trigger = yes
+				liege_picks_treatment_trigger = no
+			}
+			desc = ek_health.1003.court_physician.desc
+		}
+	}
+	theme = healthcare
+	left_portrait = {
+		character = root
+		animation = sick
+	}
+	right_portrait = {
+		character = scope:physician
+		triggered_animation = {
+			trigger = { scope:physician = { ek_health_event_is_worried_trigger = { CHARACTER = root } } }
+			animation = worry
+		}
+		triggered_animation = {
+			trigger = { scope:physician = { ai_rationality >= 0 } } #Don't look rational if you're not
+			animation = personality_rational
+		}
+		animation = idle
+	}
+
+
+	trigger = {
+		can_contract_disease_trigger = { DISEASE = chrondiasis }
+	}
+	
+	immediate = {
+		play_music_cue = "mx_cue_illness"
+		save_court_physician_as_effect = { SCOPE_NAME = physician }
+		contract_disease_effect = { DISEASE = chrondiasis TREATMENT_EVENT = no } #Adds the trait, sends event "health.2201" to those who care if health is brought too low
+		random_courtier = {
+			limit = {
+				is_available_ai_adult = yes
+				learning > 10		
+			}
+			save_scope_as = ek_new_physician
+		}	
+	}
+
+	###NO COURT PHYSICIAN OPTIONS###
+	#Find physician
+	option = {
+		trigger = {
+			NOT = { exists = scope:physician }
+			is_landed = yes
+		}
+		name = health.3101.e
+		find_court_physician_effect = yes
+		ai_chance = { base = 5 }
+	}
+
+	#(EK) Hire in-court physician
+	option = {
+		trigger = {
+			NOT = { exists = scope:physician }
+			is_landed = yes
+			exists = scope:ek_new_physician
+		}
+		name = health.2201.b
+
+		pay_short_term_gold = {
+			target = scope:ek_new_physician
+			gold = 10
+		}
+
+		set_court_physician_effect = {
+			EMPLOYER = root
+			PHYSICIAN = scope:ek_new_physician
+		}
+
+		hidden_effect = {
+			reverse_add_opinion = {
+				target = scope:ek_new_physician
+				modifier = hired_me_opinion
+			}
+		}
+
+		ai_chance = {
+			factor = 500
+			modifier = {
+				short_term_gold < medium_gold_value
+				factor = 0
+			}
+		}
+
+	}
+	#EK EDIT
+
+	#OK
+	option = {
+		trigger = {
+			trigger_if = {
+				limit = { exists = scope:physician }
+				liege_picks_treatment_trigger = yes
+			}
+			trigger_else = {
+				always = yes
+			}
+		}
+		name = ek_health.1003.a
+		ai_chance = { base = 1 }
+	}
+
+	option = { 
+		trigger = {
+			faith = { has_doctrine = tenet_veneration_of_diseases }
+		}
+		name = ek_health_contraction_veneration_of_diseases
+		add_piety = medium_piety_gain
+		ai_chance = 100
+	}
+
+	### TRAVEL- GO HOME
+	option = {
+		name = health.travel.option.home
+		flavor = health.travel.option.home.flavor 
+		trigger = {
+			is_travelling = yes
+			current_travel_plan ={
+				travel_plan_owner = root
+				can_cancel = yes 
+			}
+			involved_activity ?= {
+				NOR = {
+					has_activity_type = activity_tour
+					is_required_special_guest = root
+				}
+			}
+		}
+		current_travel_plan = { cancel_travel_plan = yes }
+		ai_chance = { base = 1 }
+	}
+
+	###COURT PHYSICIAN OPTIONS###
+	#Safe treatment
+	option = {
+		trigger = {
+			exists = scope:physician
+			liege_picks_treatment_trigger = no
+		}
+		name = health.3101.a
+		safe_disease_treatment_effect = { PATIENT = root TREATMENT_PICKER = root }
+		ai_chance = { base = 10 }
+	}
+
+	#Risky treatment
+	option = {
+		trigger = {
+			exists = scope:physician
+			liege_picks_treatment_trigger = no
+		}
+		name = health.3101.b
+		risky_disease_treatment_effect = { PATIENT = root TREATMENT_PICKER = root }
+		ai_chance = { base = 1 }
+	}
+	
+	#Mystic treatment
+	option = {
+		trigger = {
+			court_physician_available_trigger = yes
+			liege_picks_treatment_trigger = no
+			scope:physician = { has_trait = lifestyle_mystic }
+		}
+		name = health.3101.c
+		mystic_disease_treatment_effect = { PATIENT = root TREATMENT_PICKER = root }
+		ai_chance = {
+			base = 0.5
+			modifier = {
+				add = -0.5
+				ai_zeal >= 0
+			}
+		}
+	}
+
+	#No treatment
+	option = {
+		trigger = {
+			exists = scope:physician
+			liege_picks_treatment_trigger = no
+		}
+		name = health.3101.d
+		no_disease_treatment_effect = yes
+		ai_chance = { base = 0 }
+	}
+
+	#You're going to rot away in prison most likely
+	option = {
+		trigger = {
+			is_imprisoned = yes 
+		}
+		name = health.3101.f
+	}
+
+}
+
+#You contract peryite_affliction
+ek_health.1004 = {
+		type = character_event
+	content_source = dlc_ek
+	title = ek_health.1004.t
+	desc = {
+		desc = ek_health.1004.desc
+		triggered_desc = {
+			trigger = {
+				court_physician_available_trigger = yes
+				liege_picks_treatment_trigger = no
+			}
+			desc = ek_health.1004.court_physician.desc
+		}
+	}
+	theme = healthcare
+	left_portrait = {
+		character = root
+		animation = sick
+	}
+	right_portrait = {
+		character = scope:physician
+		triggered_animation = {
+			trigger = { scope:physician = { ek_health_event_is_worried_trigger = { CHARACTER = root } } }
+			animation = worry
+		}
+		triggered_animation = {
+			trigger = { scope:physician = { ai_rationality >= 0 } } #Don't look rational if you're not
+			animation = personality_rational
+		}
+		animation = idle
+	}
+
+
+	trigger = {
+		can_contract_disease_trigger = { DISEASE = peryite_affliction }
+	}
+	
+	immediate = {
+		play_music_cue = "mx_cue_illness"
+		save_court_physician_as_effect = { SCOPE_NAME = physician }
+		contract_disease_effect = { DISEASE = peryite_affliction TREATMENT_EVENT = no } #Adds the trait, sends event "health.2201" to those who care if health is brought too low
+		random_courtier = {
+			limit = {
+				is_available_ai_adult = yes
+				learning > 10		
+			}
+			save_scope_as = ek_new_physician
+		}	
+	}
+
+	###NO COURT PHYSICIAN OPTIONS###
+	#Find physician
+	option = {
+		trigger = {
+			NOT = { exists = scope:physician }
+			is_landed = yes
+		}
+		name = health.3101.e
+		find_court_physician_effect = yes
+		ai_chance = { base = 5 }
+	}
+
+	#(EK) Hire in-court physician
+	option = {
+		trigger = {
+			NOT = { exists = scope:physician }
+			is_landed = yes
+			exists = scope:ek_new_physician
+		}
+		name = health.2201.b
+
+		pay_short_term_gold = {
+			target = scope:ek_new_physician
+			gold = 10
+		}
+
+		set_court_physician_effect = {
+			EMPLOYER = root
+			PHYSICIAN = scope:ek_new_physician
+		}
+
+		hidden_effect = {
+			reverse_add_opinion = {
+				target = scope:ek_new_physician
+				modifier = hired_me_opinion
+			}
+		}
+
+		ai_chance = {
+			factor = 500
+			modifier = {
+				short_term_gold < medium_gold_value
+				factor = 0
+			}
+		}
+
+	}
+	#EK EDIT
+
+	#OK
+	option = {
+		trigger = {
+			trigger_if = {
+				limit = { exists = scope:physician }
+				liege_picks_treatment_trigger = yes
+			}
+			trigger_else = {
+				always = yes
+			}
+		}
+		name = ek_health.1004.a
+		ai_chance = { base = 1 }
+	}
+
+	option = { 
+		trigger = {
+			faith = { has_doctrine = tenet_veneration_of_diseases }
+		}
+		name = ek_health_contraction_veneration_of_diseases
+		add_piety = medium_piety_gain
+		ai_chance = 100
+	}
+
+	### TRAVEL- GO HOME
+	option = {
+		name = health.travel.option.home
+		flavor = health.travel.option.home.flavor 
+		trigger = {
+			is_travelling = yes
+			current_travel_plan ={
+				travel_plan_owner = root
+				can_cancel = yes 
+			}
+			involved_activity ?= {
+				NOR = {
+					has_activity_type = activity_tour
+					is_required_special_guest = root
+				}
+			}
+		}
+		current_travel_plan = { cancel_travel_plan = yes }
+		ai_chance = { base = 1 }
+	}
+
+	###COURT PHYSICIAN OPTIONS###
+	#Safe treatment
+	option = {
+		trigger = {
+			exists = scope:physician
+			liege_picks_treatment_trigger = no
+		}
+		name = health.3101.a
+		safe_disease_treatment_effect = { PATIENT = root TREATMENT_PICKER = root }
+		ai_chance = { base = 10 }
+	}
+
+	#Risky treatment
+	option = {
+		trigger = {
+			exists = scope:physician
+			liege_picks_treatment_trigger = no
+		}
+		name = health.3101.b
+		risky_disease_treatment_effect = { PATIENT = root TREATMENT_PICKER = root }
+		ai_chance = { base = 1 }
+	}
+	
+	#Mystic treatment
+	option = {
+		trigger = {
+			court_physician_available_trigger = yes
+			liege_picks_treatment_trigger = no
+			scope:physician = { has_trait = lifestyle_mystic }
+		}
+		name = health.3101.c
+		mystic_disease_treatment_effect = { PATIENT = root TREATMENT_PICKER = root }
+		ai_chance = {
+			base = 0.5
+			modifier = {
+				add = -0.5
+				ai_zeal >= 0
+			}
+		}
+	}
+
+	#No treatment
+	option = {
+		trigger = {
+			exists = scope:physician
+			liege_picks_treatment_trigger = no
+		}
+		name = health.3101.d
+		no_disease_treatment_effect = yes
+		ai_chance = { base = 0 }
+	}
+
+	#You're going to rot away in prison most likely
+	option = {
+		trigger = {
+			is_imprisoned = yes 
+		}
+		name = health.3101.f
+	}
+
+}
+
+# sanies_lupinus evolving to lycanthropy
+ek_health.2001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_health.2001.t
+	desc = ek_health.2001.desc
+	theme = healthcare
+	right_portrait = {
+		character = root
+		animation = sick
+	}
+
+	trigger = {
+		has_trait = sanies_lupinus
+	}
+
+	immediate = {
+		give_lycan_secret_or_trait_effect = yes
+		remove_trait = sanies_lupinus
+	}
+
+	option = { # oh well
+		trait = lycan_character
+		name = ek_health.2001.a
+	}
+}
+
+# sanguinare_vampiris evolving to vampirism
+ek_health.2002 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_health.2002.t
+	desc = ek_health.2002.desc
+	theme = healthcare
+	right_portrait = {
+		character = root
+		animation = sick
+	}
+
+	trigger = {
+		has_trait = sanguinare_vampiris
+	}
+
+	immediate = {
+		give_vampire_secret_or_trait_effect = yes
+		remove_trait = sanguinare_vampiris
+	}
+
+	option = { # oh well
+		trait = vampire_character
+		name = ek_health.2002.a
+	}
+}
+

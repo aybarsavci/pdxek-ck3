@@ -1,0 +1,181 @@
+﻿# Hooks into infection_duration min for the apocalyptic bubonic_plague
+ek_knahaten_infection_duration_min = {
+	value = 36 # months, vanilla default was 24
+	if = { # Elsweyr that is not the specific counties
+		limit = {
+			has_game_rule = bd_occurrence_historical
+			geographical_region = mundus_tamriel_elsweyr
+			NOT = { geographical_region = ek_elsweyr_knahaten_zone_orcrest }
+			NOT = { geographical_region = ek_elsweyr_knahaten_zone_orcrest_circle }
+			NOT = { geographical_region = mundus_tamriel_elsweyr_anequina }
+			NOT = { geographical_region = ek_elsweyr_knahaten_zone_senchal }
+			NOT = { geographical_region = ek_elsweyr_knahaten_zone_senchal_circle }
+		}
+		multiply = 1.4
+	}
+	if = { # Orcrest
+		limit = {
+			has_game_rule = bd_occurrence_historical
+			geographical_region = ek_elsweyr_knahaten_zone_orcrest
+		}
+		add = 234 # 2E 560 + 240 months/20 years = 2E 580 + x months it took the Knahaten to spread to Elsweyr dynamically
+	}
+	if = { #Surrounding area
+		limit = {
+			has_game_rule = bd_occurrence_historical
+			geographical_region = ek_elsweyr_knahaten_zone_orcrest_circle
+		}
+		multiply = 4.9
+	}
+	if = { #Northern Elsweyr
+		limit = {
+			has_game_rule = bd_occurrence_historical
+			geographical_region = mundus_tamriel_elsweyr_anequina
+			NOT = { geographical_region = ek_elsweyr_knahaten_zone_orcrest }
+			NOT = { geographical_region = ek_elsweyr_knahaten_zone_orcrest_circle }
+		}
+		multiply = 1.9
+	}
+	if = { # Senchal
+		limit = {
+			has_game_rule = bd_occurrence_historical
+			geographical_region = ek_elsweyr_knahaten_zone_senchal
+		}
+		multiply = 3.4
+	}
+	if = { #Surrounding area
+		limit = {
+			has_game_rule = bd_occurrence_historical
+			geographical_region = ek_elsweyr_knahaten_zone_senchal_circle
+		}
+		multiply = 1.9
+	}
+	if = { #Non-Argonian BM province
+		limit = {
+			has_game_rule = bd_occurrence_historical
+			geographical_region = mundus_tamriel_black_marsh
+			root.county = { culture = { NOT = { has_cultural_tradition = tradition_histskin } } }
+		}
+		multiply = 1.4
+	}
+	if = { #Argonian provinces next to non-argonian provinces (aproximation of a minority of th enearby non-argonian prov)
+		limit = {
+			has_game_rule = bd_occurrence_historical
+			geographical_region = mundus_tamriel_black_marsh
+			root.county = { culture = { NOT = { has_cultural_tradition = tradition_histskin } } }
+			root.county = {
+				any_neighboring_county = {
+					culture = { NOT = { has_cultural_tradition = tradition_histskin } }
+				}
+			}
+		}
+		multiply = 1.0
+	}
+	#less patchy
+	if = {
+		limit = {
+			county = {
+				any_county_province = {
+					any_province_epidemic = {
+						this.epidemic_type = scope:epidemic.epidemic_type
+					}
+				}
+			}
+		}
+		add = -6
+	}
+}
+
+# Hooks into infection_duration max for the apocalyptic bubonic_plague
+ek_knahaten_infection_duration_max = {
+	value = 72 # months, vanilla default was 48
+	if = { # Elsweyr that is not the specific counties
+		limit = {
+			has_game_rule = bd_occurrence_historical
+			geographical_region = mundus_tamriel_elsweyr
+			NOT = { geographical_region = ek_elsweyr_knahaten_zone_orcrest }
+			NOT = { geographical_region = ek_elsweyr_knahaten_zone_orcrest_circle }
+			NOT = { geographical_region = mundus_tamriel_elsweyr_anequina }
+			NOT = { geographical_region = ek_elsweyr_knahaten_zone_senchal }
+			NOT = { geographical_region = ek_elsweyr_knahaten_zone_senchal_circle }
+		}
+		multiply = 1.4
+	}
+	if = { # Orcrest
+		limit = {
+			has_game_rule = bd_occurrence_historical
+			geographical_region = ek_elsweyr_knahaten_zone_orcrest
+		}
+		add = 240 # 2E 560 + 252 months/21 years = 2E 581 + x months it took the Knahaten to spread to Elsweyr dynamically
+	}
+	if = { #Surrounding area
+		limit = {
+			has_game_rule = bd_occurrence_historical
+			geographical_region = ek_elsweyr_knahaten_zone_orcrest_circle
+		}
+		multiply = 3.4
+	}
+	if = { #Northern Elsweyr
+		limit = {
+			has_game_rule = bd_occurrence_historical
+			geographical_region = mundus_tamriel_elsweyr_anequina
+			NOT = { geographical_region = ek_elsweyr_knahaten_zone_orcrest }
+			NOT = { geographical_region = ek_elsweyr_knahaten_zone_orcrest_circle }
+		}
+		multiply = 2
+	}
+	if = { # Senchal
+		limit = {
+			has_game_rule = bd_occurrence_historical
+			geographical_region = ek_elsweyr_knahaten_zone_senchal
+		}
+		multiply = 3.4
+	}
+	if = { #Surrounding area
+		limit = {
+			has_game_rule = bd_occurrence_historical
+			geographical_region = ek_elsweyr_knahaten_zone_senchal_circle
+		}
+		multiply = 1.9
+	}
+	if = { #Non-Argonian BM province
+		limit = {
+			has_game_rule = bd_occurrence_historical
+			geographical_region = mundus_tamriel_black_marsh
+			root.county = { culture = { NOT = { has_cultural_tradition = tradition_histskin } } }
+		}
+		multiply = 1.4
+	}
+	if = { #Argonian provinces next to non-argonian provinces (aproximation of a minority of th enearby non-argonian prov)
+		limit = {
+			has_game_rule = bd_occurrence_historical
+			geographical_region = mundus_tamriel_black_marsh
+			root.county = { culture = { NOT = { has_cultural_tradition = tradition_histskin } } }
+			root.county = {
+				any_neighboring_county = {
+					culture = { NOT = { has_cultural_tradition = tradition_histskin } }
+				}
+			}
+		}
+		multiply = 1.0
+	}
+	if = { #:>
+		limit = {
+			root.county = title:c_bravil
+		}
+		multiply = 1.4
+	}
+	#less patchy
+	if = {
+		limit = {
+			county = {
+				any_county_province = {
+					any_province_epidemic = {
+						this.epidemic_type = scope:epidemic.epidemic_type
+					}
+				}
+			}
+		}
+		add = -12
+	}
+}

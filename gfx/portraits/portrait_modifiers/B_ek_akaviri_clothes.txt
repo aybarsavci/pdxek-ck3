@@ -1,0 +1,173 @@
+﻿ek_akaviri_clothes = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 1
+
+##############################
+#							 #	
+#			AKAVIRI			 #
+#							 #
+##############################
+
+    akaviri_clothing_lowborn = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = byzantine_commoner_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = western_common_legwear
+	            range = { 0 1 }
+	        }	
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 20
+                portrait_commoner_clothing_trigger = {
+                    CULTURE_INPUT = ek_akaviri
+                }
+            }
+        }
+    }
+
+    akaviri_clothing_low_nobles = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = shogunate_akaviri_low_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = shogunate_tabi_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_akaviri
+                }
+            }
+        }
+    }
+
+    akaviri_clothing_high_nobles = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = shogunate_akaviri_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = shogunate_tabi_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                portrait_high_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_akaviri
+                }
+            }
+        }
+    }
+	
+    akaviri_clothing_royalty = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = shogunate_akaviri_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = shogunate_tabi_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                portrait_royalty_trigger = {
+                    CULTURE_INPUT = ek_akaviri
+                }
+            }
+        }
+    }	
+
+}
+
+ek_akaviri_armor = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 4
+
+    ek_akaviri_war = {
+        dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = steppe_war_nobility_clothes
+				range = { 0 1 }
+			}
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }			
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+				add = 60
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_akaviri
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_akaviri
+                    }
+                    portrait_high_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_akaviri
+                    }
+                }
+            }
+            modifier = {
+                add = 21        # So priests who are actively serving in a raised army as a commander or knight wear armor instead of priest robes
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_akaviri
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_akaviri
+                    }
+                    portrait_high_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_akaviri
+                    }
+                }
+            }
+        }
+    }
+}

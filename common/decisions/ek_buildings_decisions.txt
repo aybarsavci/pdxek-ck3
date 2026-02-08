@@ -1,0 +1,1123 @@
+﻿## Destroy Bridges of Leyawiin
+destroy_bridges_leyawiin_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/decision_port.dds" }
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { has_title = title:c_leyawiin } }
+				desc = destroy_bridges_leyawiin_decision_desc_vassal
+			}
+			desc = destroy_bridges_leyawiin_decision_desc_direct
+		}
+	}
+	
+	selection_tooltip = destroy_bridges_leyawiin_decision_tooltip
+	decision_group_type = ek_sb
+
+	ai_check_interval = 120
+
+	is_shown = {
+		# It's in your realm and the bridges can't have already been disabled
+		completely_controls = title:c_leyawiin
+		
+		NOT = { capital_county = title:c_leyawiin }
+		
+		province:2525 = { has_building = bridges_leyawiin_02 }
+	}
+
+	is_valid = {
+		trigger_if = {
+			limit = { NOT = { has_title = title:c_leyawiin } } # A vassal holds it
+			
+			title:c_leyawiin.holder = {
+				OR = {
+					opinion = {
+						target = ROOT
+						value >= 75
+					}
+					root = { has_strong_hook = title:c_leyawiin.holder }
+				}
+			}
+		}
+		
+		trigger_if = {
+			limit = { has_title = title:c_leyawiin } # Hold it yourself
+
+			custom_tooltip = {
+				text = destroy_bridges_leyawiin_decision_control.tt
+				title:c_leyawiin.county_control >= 75
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+	}
+
+	effect = {
+		custom_tooltip = destroy_bridges_leyawiin_decision_enables_buildings_imperial_isle_ct
+		custom_tooltip = destroy_bridges_leyawiin_decision_enables_port_buildings_rumare_ct
+		
+		province:2525 = {
+			remove_building = bridges_leyawiin_02
+			add_special_building = bridges_leyawiin_01
+        }
+
+		if = {
+			limit = { NOT = { has_title = title:c_leyawiin } } # A vassal holds it
+			
+			title:c_leyawiin.holder = {
+				add_opinion = {
+					target = root
+					modifier = disappointed_opinion
+					opinion = -25
+				}
+			}
+		}
+
+		if = {
+			limit = { has_title = title:c_leyawiin } # Hold it yourself
+
+			title:c_leyawiin = {
+				change_county_control = -25
+			}
+		}
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Rise Thurvokun
+summon_thurvokun_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_dark_magic.dds" }
+	ai_check_interval = 12
+	
+	decision_group_type = ek_sb
+
+	desc = summon_thurvokun_decision_desc
+	selection_tooltip = summon_thurvokun_decision_tooltip
+	
+	cooldown = { months = 12 }
+
+	is_shown = {
+		is_ruler = yes		
+        is_necromancer = yes
+		NOT = { has_character_flag = summoned_thurvokun }
+		any_realm_county = {
+			any_county_province = {
+				has_building_or_higher = fang_lair_02
+			}
+		}	
+	}
+
+    is_valid = {
+		has_magicka >= { VALUE = 100 }
+		has_perk = necromancy_master_perk
+		custom_tooltip = {
+			text = cannot_summon_thurvokun
+			NOT = { faith = { has_doctrine_parameter = can_use_summon_dragons_active } }
+		}
+
+    }
+	
+	effect = {
+		custom_tooltip = {
+			text = summon_thurvokun_decision_effect
+			trigger_event = ek_special_buildings_events.0001
+		}
+	}
+
+	ai_potential = {
+		is_landed = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Summon Hollow
+summon_hollow_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_personal_religious.dds" }
+	ai_check_interval = 12
+	
+	desc = summon_hollow_decision_desc
+	selection_tooltip = summon_hollow_decision_tooltip
+
+	decision_group_type = ek_sb
+	
+	cooldown = { years = 5 }
+
+	is_shown = {
+		is_ruler = yes
+		any_realm_county = {
+			any_county_province = {
+				has_building_or_higher = wilderkings_throne_01
+			}
+		}		
+	}
+
+    is_valid = {
+        is_at_war = yes
+		faith = { has_doctrine = doctrine_pantheon_wilderking }
+    }
+	
+	cost = {
+		piety = 250
+	}
+
+	effect = {
+		trigger_event = ek_special_buildings_events.0011
+	}
+
+	ai_potential = {
+		is_landed = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Summon Bonewalker
+summon_bonewalker_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_personal_religious.dds" }
+	ai_check_interval = 12
+	
+	desc = summon_hollow_decision_desc
+	selection_tooltip = summon_hollow_decision_tooltip
+	
+	decision_group_type = ek_sb
+	
+	cooldown = { years = 5 }
+
+	is_shown = {
+		is_ruler = yes
+		any_sub_realm_county = {
+			any_county_province = {
+				has_building_or_higher = necrom_necropolis_01
+			}
+		}		
+	}
+
+    is_valid = {
+        is_at_war = yes
+		faith = { has_doctrine = tenet_ancestor_worship }
+    }
+	
+	cost = {
+		piety = 250
+	}
+
+	effect = {
+		trigger_event = ek_religious_decision.0304
+	}
+
+	ai_potential = {
+		is_landed = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Undertake Trials of Alkosh
+trials_of_alkosh_decision = {
+	picture = { 
+		reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" 
+	}
+	ai_check_interval = 12
+	
+	desc = trials_of_alkosh_decision_desc
+	selection_tooltip = trials_of_alkosh_decision_tooltip
+
+	decision_group_type = ek_sb
+	
+	cooldown = { years = 1 }
+
+	is_shown = {
+		is_ruler = yes
+		is_available = yes
+		any_realm_county = {
+			any_county_province = {
+				has_building_or_higher = halls_of_highmane_01
+			}
+		}
+		NOT = { has_character_flag = trials_of_alkosh_flag }	
+	}
+
+    is_valid = {
+		OR = {
+			faith = { has_doctrine = doctrine_pantheon_khajiiti }
+			faith = { has_doctrine = doctrine_pantheon_riddlethar }
+		}		
+    }
+	
+	cost = {
+		piety = 100
+	}
+
+	effect = {
+		trigger_event = ek_special_buildings_events.0021
+	}
+
+	ai_potential = {
+		is_landed = yes
+		is_available_adult = yes
+	}
+
+	ai_will_do = {
+		base = 0
+		modifier = {
+			prowess >= decent_skill_rating
+			add = 25
+		}
+		modifier = {
+			has_arcana >= { VALUE = decent_skill_rating }
+			add = 25
+		}
+		modifier = {
+			has_trait = zealous
+			add = 25
+		}
+		modifier = {
+			has_trait = brave
+			add = 25
+		}
+	}
+}
+
+### Cut Sunspire funding
+cut_sunspire_funding_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+	ai_check_interval = 12
+	
+	desc = cut_sunspire_funding_decision_desc
+	selection_tooltip = cut_sunspire_funding_decision_tooltip
+
+	decision_group_type = ek_sb
+	
+	is_shown = {
+		is_ruler = yes
+		is_available = yes
+		top_liege = this
+		any_realm_county = {
+			any_county_province = {
+				has_building_or_higher = sunspire_temple_02
+			}
+		}
+	}
+
+	cost = {
+		piety = 500
+	}
+
+	effect = {
+		province:3701 = {
+			remove_building = sunspire_temple_02
+			add_special_building = sunspire_temple_01
+			county.holder = {
+				if = {
+					limit = { NOT = { this = root } }
+					add_opinion = {
+						target = root
+						modifier = disappointed_opinion
+						opinion = -50
+					}
+				}
+			} 
+        }
+
+		trigger_event = ek_special_buildings_events.0031
+	}
+
+	ai_potential = {
+		is_landed = yes
+		is_available_adult = yes
+	}
+
+	ai_will_do = {
+		base = 0
+		modifier = {
+			gold <= 0
+			add = 25
+		}
+		modifier = {
+			has_trait = cynical
+			add = 25
+		}
+		modifier = {
+			NOR = {
+				title:b_sunspire = {
+					is_holy_site_of = root.faith
+				}
+				faith = { has_doctrine = doctrine_pantheon_khajiiti }
+				faith = { has_doctrine = doctrine_pantheon_riddlethar }
+			}
+			add = 50
+		}
+		modifier = {
+			has_trait = zealous
+			add = -25
+		}
+	}
+}
+
+### Turn Dragonguard Sanctuary into Pirate Hideout
+turn_dragonguard_pirate_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_port.dds" }
+	ai_check_interval = 12
+	
+	desc = turn_dragonguard_pirate_decision_desc
+	selection_tooltip = turn_dragonguard_pirate_decision_tooltip
+
+	decision_group_type = ek_sb
+	
+	is_shown = {
+		is_ruler = yes
+		is_available = yes
+		has_government = pirate_government
+		OR = {
+			AND = {
+				top_liege = this
+				any_realm_county = {
+					any_county_province = {
+						has_building_or_higher = dragonguard_sanctum_02
+					}
+				}
+			}
+			any_held_title = {
+				tier = tier_county
+				any_county_province = {
+					has_building_or_higher = dragonguard_sanctum_02
+				}
+			}
+		}
+	}
+
+	cost = {
+		prestige = 500
+		gold = 100
+	}
+
+	effect = {
+		province:3518 = {
+			remove_building = dragonguard_sanctum_02
+			add_special_building = dragonguard_sanctum_01
+        }
+
+		trigger_event = ek_special_buildings_events.0051
+	}
+
+	ai_potential = {
+		is_landed = yes
+		is_available_adult = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+
+}
+
+### Defile Hidden Moon Crypts
+defile_hidden_moon_crypts_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_dark_magic.dds" }
+	ai_check_interval = 12
+	
+	desc = defile_hidden_moon_crypts_decision_desc
+	selection_tooltip = defile_hidden_moon_crypts_decision_tooltip
+	
+	decision_group_type = ek_sb
+
+	is_shown = {
+		is_ruler = yes
+		is_available = yes
+		faith = { malevolent_necromantic_faith = yes }
+		OR = {
+			AND = {
+				top_liege = this
+				any_realm_county = {
+					any_county_province = {
+						has_building_or_higher = hidden_moon_crypts_02
+					}
+				}
+			}
+			any_held_title = {
+				tier = tier_county
+				any_county_province = {
+					has_building_or_higher = hidden_moon_crypts_02
+				}
+			}
+		}
+	}
+
+	is_valid = {
+		has_perk = necromancy_novice_perk
+	}
+
+	cost = {
+		piety = 300
+	}
+
+	effect = {
+		province:3711 = {
+			remove_building = hidden_moon_crypts_02
+			add_special_building = hidden_moon_crypts_01
+        }
+
+		custom_tooltip = {
+			text = defile_hidden_moon_crypts_decision_effect
+			trigger_event = ek_special_buildings_events.0061
+		}
+	}
+
+	ai_potential = {
+		is_landed = yes
+		is_available_adult = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Defile Rimmen Necropolis
+defile_rimmen_necropolis_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_dark_magic.dds" }
+	ai_check_interval = 12
+	
+	desc = defile_rimmen_necropolis_decision_desc
+	selection_tooltip = defile_rimmen_necropolis_decision_tooltip
+
+	decision_group_type = ek_sb
+	
+	is_shown = {
+		is_ruler = yes
+		is_available = yes
+		faith = { malevolent_necromantic_faith = yes }
+		OR = {
+			AND = {
+				top_liege = this
+				any_realm_county = {
+					any_county_province = {
+						has_building_or_higher = rimmen_necropolis_02
+					}
+				}
+			}
+			any_held_title = {
+				tier = tier_county
+				any_county_province = {
+					has_building_or_higher = rimmen_necropolis_02
+				}
+			}
+		}
+	}
+
+	is_valid = {
+		has_perk = necromancy_novice_perk
+	}
+
+	cost = {
+		piety = 300
+	}
+
+	effect = {
+		province:3789 = {
+			remove_building = rimmen_necropolis_02
+			add_special_building = rimmen_necropolis_01
+        }
+	}
+
+	ai_potential = {
+		is_landed = yes
+		is_available_adult = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Defile Deep Graves
+defile_deep_graves_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_dark_magic.dds" }
+	ai_check_interval = 12
+	
+	desc = defile_deep_graves_decision_desc
+	selection_tooltip = defile_deep_graves_decision_tooltip
+
+	decision_group_type = ek_sb
+	
+	is_shown = {
+		is_ruler = yes
+		is_available = yes
+		faith = { malevolent_necromantic_faith = yes }
+		OR = {
+			AND = {
+				top_liege = this
+				any_realm_county = {
+					any_county_province = {
+						has_building_or_higher = deep_graves_02
+					}
+				}
+			}
+			any_held_title = {
+				tier = tier_county
+				any_county_province = {
+					has_building_or_higher = deep_graves_02
+				}
+			}
+		}
+	}
+
+	is_valid = {
+		has_perk = necromancy_novice_perk
+	}
+
+	cost = {
+		piety = 300
+	}
+
+	effect = {
+		province:4719 = {
+			remove_building = deep_graves_02
+			add_special_building = deep_graves_01
+        }
+	}
+
+	ai_potential = {
+		is_landed = yes
+		is_available_adult = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+
+### Turn Zenithar Chapel into Two Moons temple
+turn_zenithar_ch_khajiit_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+	ai_check_interval = 12
+	
+	desc = turn_zenithar_ch_khajiit_decision_desc
+	selection_tooltip = turn_zenithar_ch_khajiit_decision_tooltip
+
+	decision_group_type = ek_sb
+	
+	is_shown = {
+		is_ruler = yes
+		is_available = yes
+		top_liege = this
+		OR = {
+			faith = { has_doctrine = doctrine_pantheon_khajiiti }
+			faith = { has_doctrine = doctrine_pantheon_riddlethar }
+		}
+		any_realm_county = {
+			any_county_province = {
+				has_building_or_higher = great_chapel_zenithar_02
+			}
+		}
+	}
+
+	cost = {
+		piety = 500
+		gold = 800
+	}
+
+	effect = {
+		province:2528 = {
+			remove_building = great_chapel_zenithar_02
+			add_special_building = great_chapel_zenithar_01
+        }
+	}
+
+	ai_potential = {
+		is_landed = yes
+		is_available_adult = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Defile Bone Orchard
+defile_bone_orchard_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_dark_magic.dds" }
+	ai_check_interval = 12
+	
+	desc = defile_bone_orchard_decision_desc
+	selection_tooltip = defile_bone_orchard_decision_tooltip
+
+	decision_group_type = ek_sb
+	
+	is_shown = {
+		is_ruler = yes
+		is_available = yes
+		faith = { malevolent_necromantic_faith = yes }
+		top_liege = this
+		any_realm_county = {
+			any_county_province = {
+				has_building_or_higher = bone_orchard_02
+			}
+		}
+	}
+
+	is_valid = {
+		has_perk = necromancy_novice_perk
+	}
+
+	cost = {
+		piety = 300
+	}
+
+	effect = {
+		province:3328 = {
+			remove_building = bone_orchard_02
+			add_special_building = bone_orchard_01
+        }
+	}
+
+	ai_potential = {
+		is_landed = yes
+		is_available_adult = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Rise an Earth Bone
+awake_earth_bone_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_dark_magic.dds" }
+	ai_check_interval = 12
+	
+	decision_group_type = major
+
+	desc = awake_earth_bone_decision_desc
+	selection_tooltip = awake_earth_bone_decision_tooltip
+
+	decision_group_type = ek_sb
+	
+	cooldown = { months = 12 }
+
+	is_shown = {
+		is_ruler = yes		
+        is_necromancer = yes
+		NOT = { has_character_flag = summoned_earth_bone }
+		any_realm_county = {
+			any_county_province = {
+				has_building_or_higher = bone_orchard_01
+			}
+		}	
+	}
+
+    is_valid = {
+		has_magicka >= { VALUE = 100 }
+		has_perk = necromancy_master_perk
+		custom_tooltip = {
+			text = cannot_summon_earth_bone
+			NOT = { faith = { has_doctrine = doctrine_pantheon_green_pact } }
+		}
+    }
+	
+	effect = {
+		custom_tooltip = {
+			text = defile_hidden_moon_crypts_decision_effect
+			trigger_event = ek_special_buildings_events.0091
+		}
+	}
+
+	ai_potential = {
+		is_landed = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Defile Heart of Valenwood
+defile_heart_of_valenwood_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_dark_magic.dds" }
+	ai_check_interval = 12
+	
+	desc = defile_heart_of_valenwood_decision_desc
+	selection_tooltip = defile_heart_of_valenwood_decision_tooltip
+
+	decision_group_type = ek_sb
+	
+	is_shown = {
+		is_ruler = yes
+		is_available = yes
+		faith = { malevolent_necromantic_faith = yes }
+		top_liege = this
+		any_realm_county = {
+			any_county_province = {
+				has_building_or_higher = heart_of_valenwood_03
+			}
+		}
+	}
+
+	is_valid = {
+		has_perk = necromancy_novice_perk
+	}
+
+	cost = {
+		piety = 300
+	}
+
+	effect = {
+		province:3229 = {
+			remove_building = heart_of_valenwood_03
+			add_special_building = heart_of_valenwood_01
+        }
+		custom_tooltip = {
+			text = defile_heart_of_valenwood_decision_effect
+			trigger_event = ek_special_buildings_events.0101
+		}
+		ek_give_nickname_effect = { NICKNAME = nick_blackheart }
+	}
+
+	ai_potential = {
+		is_landed = yes
+		is_available_adult = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Defile Treehenge Resting Place
+defile_treehenge_resting_place_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_dark_magic.dds" }
+	ai_check_interval = 12
+	
+	desc = defile_treehenge_resting_place_decision_desc
+	selection_tooltip = defile_treehenge_resting_place_decision_tooltip
+
+	decision_group_type = ek_sb
+	
+	is_shown = {
+		is_ruler = yes
+		is_available = yes
+		faith = { malevolent_necromantic_faith = yes }
+		top_liege = this
+		any_realm_county = {
+			any_county_province = {
+				has_building_or_higher = treehenge_resting_place_02
+			}
+		}
+	}
+
+	is_valid = {
+		has_perk = necromancy_novice_perk
+	}
+
+	cost = {
+		piety = 300
+	}
+
+	effect = {
+		province:3409 = {
+			remove_building = treehenge_resting_place_02
+			add_special_building = treehenge_resting_place_01
+        }
+	}
+
+	ai_potential = {
+		is_landed = yes
+		is_available_adult = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Turn Cathedral of the Golden Path into Bosmer temple
+turn_golden_path_cathedral_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+	ai_check_interval = 12
+	
+	desc = turn_golden_path_cathedral_decision_desc
+	selection_tooltip = turn_golden_path_cathedral_decision_tooltip
+
+	decision_group_type = ek_sb
+	
+	is_shown = {
+		is_ruler = yes
+		is_available = yes
+		top_liege = this
+		OR = {
+			faith = { has_doctrine = doctrine_pantheon_green_pact }
+			culture = { has_cultural_pillar = heritage_bosmeri }
+		}
+		any_realm_county = {
+			any_county_province = {
+				has_building_or_higher = cathedral_of_the_golden_path_02
+			}
+		}
+	}
+
+	cost = {
+		piety = 500
+	}
+
+	effect = {
+		province:3316 = {
+			remove_building = cathedral_of_the_golden_path_02
+			add_special_building = cathedral_of_the_golden_path_01
+        }
+	}
+
+	ai_potential = {
+		is_landed = yes
+		is_available_adult = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Turn Woodheart Sewers into Smuggle Hideout
+turn_woodheart_pirate_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_port.dds" }
+	ai_check_interval = 12
+	
+	desc = turn_woodheart_pirate_decision_desc
+	selection_tooltip = turn_woodheart_pirate_decision_tooltip
+
+	decision_group_type = ek_sb
+	
+	is_shown = {
+		is_ruler = yes
+		is_available = yes
+		has_government = pirate_government
+		OR = {
+			AND = {
+				top_liege = this
+				any_realm_county = {
+					any_county_province = {
+						has_building_or_higher = woodheart_sewers_02
+					}
+				}
+			}
+			any_held_title = {
+				tier = tier_county
+				any_county_province = {
+					has_building_or_higher = woodheart_sewers_02
+				}
+			}
+		}
+	}
+
+	cost = {
+		prestige = 500
+		gold = 100
+	}
+
+	effect = {
+		province:3201 = {
+			remove_building = woodheart_sewers_02
+			add_special_building = woodheart_sewers_01
+        }
+	}
+
+	ai_potential = {
+		is_landed = yes
+		is_available_adult = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+
+### Defile Sancre Tor
+defile_sancre_tor_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_dark_magic.dds" }
+	ai_check_interval = 12
+	
+	desc = defile_sancre_tor_decision_desc
+	selection_tooltip = defile_sancre_tor_decision_tooltip
+
+	decision_group_type = ek_sb
+	
+	is_shown = {
+		is_ruler = yes
+		is_available = yes
+		faith = { malevolent_necromantic_faith = yes }
+		OR = {
+			AND = {
+				top_liege = this
+				any_realm_county = {
+					any_county_province = {
+						has_building_or_higher = sancre_tor_02
+					}
+				}
+			}
+			any_held_title = {
+				tier = tier_county
+				any_county_province = {
+					has_building_or_higher = sancre_tor_02
+				}
+			}
+		}
+	}
+
+	is_valid = {
+		has_perk = necromancy_novice_perk
+	}
+
+	cost = {
+		piety = 300
+	}
+
+	effect = {
+		province:1863 = {
+			remove_building = sancre_tor_02
+			add_special_building = sancre_tor_01
+        }
+	}
+
+	ai_potential = {
+		is_landed = yes
+		is_available_adult = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Defile Great Chapel of Arkay
+defile_great_chapel_of_arkay_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_dark_magic.dds" }
+	ai_check_interval = 12
+	
+	desc = defile_great_chapel_of_arkay_decision_desc
+	selection_tooltip = defile_great_chapel_of_arkay_decision_tooltip
+
+	decision_group_type = ek_sb
+	
+	is_shown = {
+		is_ruler = yes
+		is_available = yes
+		faith = { malevolent_necromantic_faith = yes }
+		OR = {
+			AND = {
+				top_liege = this
+				any_realm_county = {
+					any_county_province = {
+						has_building_or_higher = great_chapel_arkay_02
+					}
+				}
+			}
+			any_held_title = {
+				tier = tier_county
+				any_county_province = {
+					has_building_or_higher = great_chapel_arkay_02
+				}
+			}
+		}
+	}
+
+	is_valid = {
+		has_perk = necromancy_novice_perk
+	}
+
+	cost = {
+		piety = 300
+	}
+
+	effect = {
+		province:2294 = {
+			remove_building = great_chapel_arkay_02
+			add_special_building = great_chapel_arkay_01
+        }
+	}
+
+	ai_potential = {
+		is_landed = yes
+		is_available_adult = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Sanctify Ontus Quarry
+sanctify_ontus_quarry_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_personal_religious.dds" }
+	ai_check_interval = 12
+	
+	desc = sanctify_ontus_quarry_decision_desc
+	selection_tooltip = sanctify_ontus_quarry_decision_tooltip
+
+	decision_group_type = ek_sb
+	
+	is_shown = {
+		is_ruler = yes
+		is_available = yes
+		faith = { has_doctrine = doctrine_pantheon_stones }
+		OR = {
+			AND = {
+				top_liege = this
+				any_realm_county = {
+					any_county_province = {
+						has_building_or_higher = ontus_quarry_02
+					}
+				}
+			}
+			any_held_title = {
+				tier = tier_county
+				any_county_province = {
+					has_building_or_higher = ontus_quarry_02
+				}
+			}
+		}
+	}
+
+	cost = {
+		piety = 300
+	}
+
+	effect = {
+		province:1819 = {
+			remove_building = ontus_quarry_02
+			add_special_building = ontus_quarry_01
+        }
+	}
+
+	ai_potential = {
+		is_landed = yes
+		is_available_adult = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}

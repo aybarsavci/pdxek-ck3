@@ -1,0 +1,712 @@
+﻿#HeadOfFaith = {
+#	type = character
+#
+#	#Arch-Primate
+#	text = {
+#		trigger = {
+#			OR = {
+#				faith = faith:imperial_cult
+#				faith = faith:redguard_cult
+#				faith = faith:breton_cult
+#				faith = faith:nord_cult
+#			}
+#			is_independent_ruler = yes 
+#		}
+#		localization_key = arch_primate
+#	}
+#
+#	#Arch-Prelate
+#	text = {
+#		trigger = {
+#			OR = {
+#				faith = faith:imperial_cult
+#				faith = faith:redguard_cult
+#				faith = faith:breton_cult
+#				faith = faith:nord_cult
+#			}
+#			is_independent_ruler = no 
+#		}
+#		localization_key = arch_prelate
+#	}
+#	
+#	#Default Female
+#	text = {
+#		trigger = {
+#			is_female = yes
+#		}
+#		localization_key = head_of_faith_female
+#	}
+#	
+#	#Default Male
+#	text = {
+#		fallback = yes
+#		localization_key = head_of_faith_male
+#	}
+#
+#}
+
+# full name for altmer - name 'len father grandfather 'ata mother grandmother 'cal house
+GetAltmerName = {
+	type = character
+
+	# share house with only mother - matri
+	# share house with only father - patri
+	# share house with both - patri (assumed, will be accurate at least 50% of the time)
+	# share house with neither (cadet)
+		#share dynasty with only mother - matri
+		#share dynasty with only father - patri
+		#share dynasty with both - patri (assumed, 50% accurate)
+		#share dynasty with neither - patri (fallback, how did ou even achieve that?)
+
+	text = {
+		trigger = { #only father, both house
+			ROOT.house = ROOT.father.house
+		}
+		localization_key = alt_name_patri
+	}
+
+	text = {
+		trigger = { #only mother house - implicitly not father from prev
+			ROOT.house = ROOT.mother.house
+		}
+		localization_key = alt_name_matri
+	}
+
+	text = {
+		trigger = { #only father, both dynasty
+			ROOT.dynasty = ROOT.father.dynasty
+		}
+		localization_key = alt_name_patri
+	}
+
+	text = {
+		trigger = { #only mother dynasty - implicitly not father from prev
+			ROOT.dynasty = ROOT.mother.dynasty
+		}
+		localization_key = alt_name_matri
+	}
+
+	text = {
+		trigger = { #fallback if they somehow dont share a dynasty with either parent - lowborn or some fuckery 
+			always = no
+		}
+		fallback = yes
+		localization_key = alt_name_patri
+	}
+}
+
+#Imperial Counts of Cyrodiil
+KingFeudalMaleCyrodiil = {
+	type = character
+	
+	#Imperial Count
+	text = {
+		trigger = {
+			any_liege_or_above = {
+				OR = {
+					primary_title = title:e_cyrodiil
+					primary_title = title:e_cyrodiilic_potentate
+					primary_title = title:e_tamriel
+				}
+			}
+		}
+		localization_key = king_feudal_male_cyrodiilic
+	}
+	
+	#Overlord
+	text = {
+		trigger = {
+			OR = {
+				culture = { has_name_list = name_list_nibenese }
+				culture = { has_name_list = name_list_rimmenese }
+				culture = { has_name_list = name_list_nibenu }
+			}
+		}
+		localization_key = king_feudal_male_nibenese
+	}
+	
+	#King
+	text = {
+		fallback = yes
+		localization_key = king
+	}
+}
+
+KingFeudalFemaleCyrodiil = {
+	type = character
+	
+	#Imperial Countess
+	text = {
+		trigger = {
+			any_liege_or_above = {
+				OR = {
+					primary_title = title:e_cyrodiil
+					primary_title = title:e_cyrodiilic_potentate
+					primary_title = title:e_tamriel
+				}
+			}
+		}
+		localization_key = king_feudal_female_cyrodiilic
+	}
+	
+	#Overlady
+	text = {
+		trigger = {
+			OR = {
+				culture = { has_name_list = name_list_nibenese }
+				culture = { has_name_list = name_list_rimmenese }
+				culture = { has_name_list = name_list_nibenu }
+			}
+		}
+		localization_key = king_feudal_female_nibenese
+	}
+	
+	#Queen
+	text = {
+		fallback = yes
+		localization_key = king_female
+	}
+}
+
+KingdomFeudalCyrodiil = {
+	type = character
+	
+	#Imperial County
+	text = {
+		trigger = {
+			any_liege_or_above = {
+				OR = {
+					primary_title = title:e_cyrodiil
+					primary_title = title:e_cyrodiilic_potentate
+					primary_title = title:e_tamriel
+				}
+			}
+		}
+		localization_key = kingdom_feudal_cyrodiilic
+	}
+	
+	#Kingdom
+	text = {
+		fallback = yes
+		localization_key = kingdom
+	}
+}
+
+KingAdminMaleHammerfell = {
+	type = character
+	
+	#Grand Prince
+	text = {
+		trigger = {
+			any_liege_or_above = {
+				OR = {
+					primary_title = title:e_hammerfell
+					primary_title = title:e_crown
+				}
+			}
+		}
+		localization_key = king_administrative_male_crown_vassal
+	}
+	
+	#Queen
+	text = {
+		fallback = yes
+		localization_key = king
+	}
+}
+
+KingAdminFemaleHammerfell = {
+	type = character
+	
+	#Grand Princess
+	text = {
+		trigger = {
+			any_liege_or_above = {
+				OR = {
+					primary_title = title:e_hammerfell
+					primary_title = title:e_crown
+				}
+			}
+		}
+		localization_key = king_administrative_female_crown_vassal
+	}
+	
+	#Queen
+	text = {
+		fallback = yes
+		localization_key = king_female
+	}
+}
+
+KingdomAdminHammerfell = {
+	type = character
+	
+	#Grand Princedom
+	text = {
+		trigger = {
+			any_liege_or_above = {
+				OR = {
+					has_title = title:e_hammerfell
+					has_title = title:e_crown
+				}
+			}
+		}
+		localization_key = kingdom_administrative_crown_vassal
+	}
+	
+	#Kingdom
+	text = {
+		fallback = yes
+		localization_key = kingdom
+	}
+}
+
+# Khajiit Clan Mother
+KhajiitClanMother = {
+	type = character
+	text = {
+		trigger = {
+			is_ruler = yes
+			has_trait = clan_parent
+			is_female = yes
+		}
+		localization_key = clan_mother
+	}
+	text = {
+		fallback = yes
+		localization_key = moon_bishop
+	}
+}
+
+# Great House Vassal
+VassalMaster = {
+	type = character
+	#Dres
+    text = {
+        trigger = {
+			exists = liege
+			is_female = no
+			liege = { primary_title = title:k_dres }
+		}
+        localization_key = dres_magnate_male
+    }
+    text = {
+        trigger = {
+			exists = liege
+			is_female = yes
+			liege = { primary_title = title:k_dres }
+		}
+
+        localization_key = dres_magnate_female
+    }
+	#Indoril
+    text = {
+        trigger = {
+			exists = liege
+			is_female = no
+			liege = { primary_title = title:k_indoril }
+		}
+        localization_key = indoril_ascendant_male
+    }
+    text = {
+        trigger = {
+			exists = liege
+			is_female = yes
+			liege = { primary_title = title:k_indoril }
+		}
+		localization_key = indoril_ascendant_female
+	}
+	#Telvanni
+	text = {
+        trigger = {
+			exists = liege
+			is_female = no
+			liege = { primary_title = title:k_telvanni }
+		}
+        localization_key = telvanni_magister_male
+    }
+    text = {
+        trigger = {
+			exists = liege
+			is_female = yes
+			liege = { primary_title = title:k_telvanni }
+		}
+        localization_key = telvanni_magister_female
+    }
+    text = {
+        trigger = {
+			exists = liege
+			is_female = no
+			OR = {
+				liege = { primary_title = title:k_redoran }
+				liege = { primary_title = title:k_dagoth }
+				liege = { primary_title = title:k_hlaalu }
+				liege = { primary_title = title:k_sadras }
+				liege = { primary_title = title:k_sul }
+				liege = { primary_title = title:k_veloth }			
+			}
+		}
+
+        localization_key = great_house_consort_master_male
+    }
+    text = {
+        trigger = {
+			exists = liege
+			is_female = yes
+			OR = {
+				liege = { primary_title = title:k_redoran }
+				liege = { primary_title = title:k_dagoth }
+				liege = { primary_title = title:k_hlaalu }
+				liege = { primary_title = title:k_sadras }
+				liege = { primary_title = title:k_sul }
+				liege = { primary_title = title:k_veloth }	
+			}
+		}
+
+        localization_key = great_house_consort_master_female
+    }
+	
+	text = {
+		fallback = yes
+        trigger = {
+			is_female = no
+		}
+
+        localization_key = great_house_consort_master_male
+    }
+    text = {
+		fallback = yes
+        trigger = {
+			is_female = yes
+		}
+
+        localization_key = great_house_consort_master_female
+    }
+}
+
+#Khans
+khan_chimeris = {
+	type = character
+    text = {
+        trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_velothis }
+				culture = { has_cultural_pillar = language_chimeris }
+			}
+			root.capital_province = { geographical_region = mundus_tamriel_morrowind }   
+			NOT = { culture = culture:shinathi } 
+        }
+        localization_key = ashkhan
+    }
+    text = {
+        trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_velothis }
+				culture = { has_cultural_pillar = language_chimeris }
+			}
+			root.capital_province = { geographical_region = mundus_tamriel_black_marsh }
+            
+        }
+        localization_key = marshkhan
+    }
+    text = {
+        trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_velothis }
+				culture = { has_cultural_pillar = language_chimeris }
+			}
+			root.capital_province = { geographical_region = mundus_tamriel_skyrim }
+				
+        }
+        localization_key = snowkhan
+    }
+	text = {
+        trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_velothis }
+				culture = { has_cultural_pillar = language_chimeris }
+			}
+			OR = {
+				root.capital_province = { geographical_region = mundus_tamriel_hammerfell }
+				root.capital_province = { geographical_region = mundus_tamriel_elsweyr }
+			}				
+        }
+        localization_key = sandkhan
+    }
+	text = {
+        trigger = {
+			culture = culture:shinathi
+			root.capital_province = { geographical_region = mundus_tamriel_morrowind }  			
+        }
+        localization_key = saharkhan
+    }
+	text = {
+		fallback = yes
+		localization_key = emperor_tribal_male_chimeris
+    }
+}
+
+ChimerKhanateCounty = {
+	type = character
+    text = {
+        trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_velothis }
+				culture = { has_cultural_pillar = language_chimeris }
+			}
+			root.capital_province = { geographical_region = mundus_tamriel_morrowind }	
+			NOT = { culture = culture:shinathi } 		
+			primary_title.tier = tier_county
+        }
+        localization_key = ashkhan
+    }
+    text = {
+        trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_velothis }
+				culture = { has_cultural_pillar = language_chimeris }
+			}
+			root.capital_province = { geographical_region = mundus_tamriel_black_marsh }
+			primary_title.tier = tier_county
+            
+        }
+        localization_key = marshkhan
+    }
+    text = {
+        trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_velothis }
+				culture = { has_cultural_pillar = language_chimeris }
+			}
+			root.capital_province = { geographical_region = mundus_tamriel_skyrim }
+			primary_title.tier = tier_county			
+				
+        }
+        localization_key = snowkhan
+    }
+	text = {
+        trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_velothis }
+				culture = { has_cultural_pillar = language_chimeris }
+			}
+			OR = {
+				root.capital_province = { geographical_region = mundus_tamriel_hammerfell }
+				root.capital_province = { geographical_region = mundus_tamriel_elsweyr }
+			}
+			primary_title.tier = tier_county			
+        }
+        localization_key = sandkhan
+    }
+	text = {
+        trigger = {
+			culture = culture:shinathi
+			root.capital_province = { geographical_region = mundus_tamriel_morrowind }  
+			primary_title.tier = tier_county			
+        }
+        localization_key = saharkhan
+    }
+	text = {
+		fallback = yes
+		localization_key = count_tribal_male_chimeris
+	}
+}
+
+ChimerKhanateDuchy = {
+	type = character
+    text = {
+        trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_velothis }
+				culture = { has_cultural_pillar = language_chimeris }
+			}
+			root.capital_province = { geographical_region = mundus_tamriel_morrowind }	
+			NOT = { culture = culture:shinathi } 		
+			primary_title.tier = tier_duchy
+        }
+        localization_key = ashkhan
+    }
+    text = {
+        trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_velothis }
+				culture = { has_cultural_pillar = language_chimeris }
+			}
+			root.capital_province = { geographical_region = mundus_tamriel_black_marsh }
+			primary_title.tier = tier_duchy
+            
+        }
+        localization_key = marshkhan
+    }
+    text = {
+        trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_velothis }
+				culture = { has_cultural_pillar = language_chimeris }
+			}
+			root.capital_province = { geographical_region = mundus_tamriel_skyrim }
+			primary_title.tier = tier_duchy			
+				
+        }
+        localization_key = snowkhan
+    }
+	text = {
+        trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_velothis }
+				culture = { has_cultural_pillar = language_chimeris }
+			}
+			OR = {
+				root.capital_province = { geographical_region = mundus_tamriel_hammerfell }
+				root.capital_province = { geographical_region = mundus_tamriel_elsweyr }
+			}
+			primary_title.tier = tier_duchy			
+        }
+        localization_key = sandkhan
+    }
+	text = {
+        trigger = {
+			culture = culture:shinathi
+			root.capital_province = { geographical_region = mundus_tamriel_morrowind }  
+			primary_title.tier = tier_duchy			
+        }
+        localization_key = saharkhan
+    }
+	text = {
+		fallback = yes
+		localization_key = duke_tribal_male_chimeris
+	}
+}
+
+ChimerKhanateKingdom = {
+	type = character
+    text = {
+        trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_velothis }
+				culture = { has_cultural_pillar = language_chimeris }
+			}
+			root.capital_province = { geographical_region = mundus_tamriel_morrowind }	
+			NOT = { culture = culture:shinathi } 		
+			primary_title.tier = tier_kingdom
+        }
+        localization_key = ashkhan
+    }
+    text = {
+        trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_velothis }
+				culture = { has_cultural_pillar = language_chimeris }
+			}
+			root.capital_province = { geographical_region = mundus_tamriel_black_marsh }
+			primary_title.tier = tier_kingdom
+            
+        }
+        localization_key = marshkhan
+    }
+    text = {
+        trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_velothis }
+				culture = { has_cultural_pillar = language_chimeris }
+			}
+			root.capital_province = { geographical_region = mundus_tamriel_skyrim }
+			primary_title.tier = tier_kingdom			
+				
+        }
+        localization_key = snowkhan
+    }
+	text = {
+        trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_velothis }
+				culture = { has_cultural_pillar = language_chimeris }
+			}
+			OR = {
+				root.capital_province = { geographical_region = mundus_tamriel_hammerfell }
+				root.capital_province = { geographical_region = mundus_tamriel_elsweyr }
+			}
+			primary_title.tier = tier_kingdom			
+        }
+        localization_key = sandkhan
+    }
+	text = {
+        trigger = {
+			culture = culture:shinathi
+			root.capital_province = { geographical_region = mundus_tamriel_morrowind }  
+			primary_title.tier = tier_kingdom			
+        }
+        localization_key = saharkhan
+    }
+	text = {
+		fallback = yes
+		localization_key = king_tribal_male_chimeris
+	}
+}
+
+#Petty Titles
+PettyKingdomDuchy = {
+	type = character
+	text = {
+		trigger = {
+			primary_title.tier = tier_duchy
+		}
+		localization_key = PettyKingdom
+	}
+	text = {
+		fallback = yes
+		localization_key = duchy
+	}
+}
+AyleidKingdomCounty = {
+	type = character
+	text = {
+		trigger = {
+			primary_title.tier = tier_county
+		}
+		localization_key = kingdom_feudal_ayleid
+	}
+	text = {
+		fallback = yes
+		localization_key = county_feudal_ayleid
+	}
+}
+AyleidKingdomDuchy = {
+	type = character
+	text = {
+		trigger = {
+			primary_title.tier = tier_duchy
+		}
+		localization_key = kingdom_feudal_ayleid
+	}
+	text = {
+		fallback = yes
+		localization_key = duchy_feudal_ayleid
+	}
+}
+RedguardPrinceCounty = {
+	type = character
+	text = {
+		trigger = {
+			primary_title.tier = tier_county
+		}
+		localization_key = Principality
+	}
+	text = {
+		fallback = yes
+		localization_key = county_administrative_crown
+	}
+}
+BretonPrinceCounty = {
+	type = character
+	text = {
+		trigger = {
+			primary_title.tier = tier_county
+		}
+		localization_key = Principality
+	}
+	text = {
+		fallback = yes
+		localization_key = county_feudal
+	}
+}

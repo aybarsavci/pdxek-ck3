@@ -1,0 +1,450 @@
+﻿namespace = ek_travel_events_summerset
+
+############################
+## Travel Summerset Flavor Events
+## 0001-3999
+############################
+
+# A Rose's Beauty
+ek_travel_events_summerset.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_summerset.0001.t
+	desc = ek_travel_events_summerset.0001.desc
+	theme = travel
+	
+	left_portrait = {
+		character = root
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		is_location_valid_for_travel_event_on_land = yes
+		NOT = { location.county.holder = root } #If I own it then it does not make sense to visit it.
+		location = {
+			geographical_region = mundus_tamriel_summerset_isles
+		}
+	}
+
+	immediate = {
+		play_music_cue = mx_cue_travel_arrival
+	}
+
+	option = { # get them for yourself
+		name = ek_travel_events_summerset.0001.a
+		skill = learning
+		add_learning_lifestyle_xp = medium_lifestyle_xp
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}
+
+	option = { # get them for the sapiarchs
+		name = ek_travel_events_summerset.0001.b
+		add_prestige = medium_prestige_gain
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}
+
+	option = { # just go
+		name = ek_travel_events_summerset.0001.c
+	}
+}
+
+# Ode to Auridon
+ek_travel_events_summerset.0005 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_summerset.0005.t
+	desc = ek_travel_events_summerset.0005.desc
+	theme = travel
+	
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = {
+			geographical_region = mundus_tamriel_summerset_isles_auridon
+		}
+	}
+
+	immediate = {
+		play_music_cue = mx_cue_travel_arrival
+	}
+
+	option = { # stewardship
+		name = ek_travel_events_summerset.0005.a
+		skill = stewardship
+		add_stewardship_lifestyle_xp = medium_lifestyle_xp
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}
+
+	option = { # learning
+		name = ek_travel_events_summerset.0005.b
+		skill = learning
+		add_learning_lifestyle_xp = medium_lifestyle_xp
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}
+
+	option = { # no thanks
+		name = ek_travel_events_summerset.0005.c
+	}
+}
+
+############################
+## Travel Summerset Danger Events
+## 4000-7999
+############################
+
+# Gryphon Grievance
+ek_travel_events_summerset.4000 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_summerset.4000.t
+	desc = ek_travel_events_summerset.4000.desc
+	theme = travel_danger
+	
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+
+	lower_right_portrait = {
+		character = scope:kidnapped_character
+	}
+
+	cooldown = { years = 2 }
+
+	trigger = {
+		 
+		exists = location.province_owner
+		is_location_valid_for_travel_event_on_land = yes
+		location = {
+			geographical_region = mundus_tamriel_summerset_isles
+		}
+		current_travel_plan ?= {
+			any_entourage_character = {
+				NOT = { this = root }
+				count > 1
+			}
+		}
+    }
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+	
+    immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		current_travel_plan = {
+			current_location = { save_scope_as = current_location }
+			ordered_entourage_character = {
+				limit = { NOT = { this = root } }
+				order_by = {
+					value = 0
+					subtract = prowess
+					if = {
+						limit = { is_knight_of = root }
+						add = -50
+					}
+					if = {
+						limit = {
+							root = { exists = cp:councillor_marshal }
+							this = root.cp:councillor_marshal
+						}
+						add = -50
+					}
+					if = {
+						limit = { has_court_position = bodyguard_court_position }
+						add = -50
+					}
+				}
+				save_scope_as = kidnapped_character
+			}
+		}
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+	}
+
+	option = { # Go before they get you!
+		name = ek_travel_events_summerset.4000.a
+		scope:kidnapped_character = {
+			death = { death_reason = death_gryphon }
+		}
+
+		stress_impact = {
+			arrogant = medium_stress_impact_gain
+			brave = medium_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				has_trait = arrogant
+			}
+			modifier = {
+				factor = 0
+				has_trait = brave
+			}
+		}
+	}
+
+	# Get them!
+    option = {
+        name = ek_travel_events_summerset.4000.b
+		duel = {
+			skill = prowess
+			value = high_skill_rating
+			50 = {
+				desc = ek_travel_events_summerset.4000.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+				}
+				root = {
+					send_interface_toast = {
+						title = ek_travel_events_summerset.4000.b.success
+						type = event_toast_effect_good
+						left_icon = scope:kidnapped_character
+						add_prestige = major_prestige_gain
+					}
+				}
+			}
+			50 = {
+				desc = ek_travel_events_summerset.4000.b.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+				}
+				send_interface_toast = {
+					title = ek_travel_events_summerset.4000.b.failure
+					type = event_toast_effect_bad
+					left_icon = root
+					increase_wounds_effect = { REASON = gryphon }
+					scope:kidnapped_character = {
+						death = { death_reason = death_gryphon }
+					}
+				}
+			}
+		}
+		stress_impact = {
+			craven = medium_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				has_trait = craven
+			}
+		}
+	}	
+}
+
+# Taming the Wild
+ek_travel_events_summerset.4005 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_summerset.4005.t
+	desc = ek_travel_events_summerset.4005.desc
+	theme = travel_danger
+	right_portrait = {
+		character = root
+		scripted_animation = duel_wield_weapon
+	}
+
+	trigger = {
+		is_available_travelling_adult = yes
+		is_location_valid_for_travel_event_on_land = yes
+		location = {
+			geographical_region = mundus_tamriel_summerset_isles
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	cooldown = { years = 2 }
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+		current_travel_plan = {
+			current_location = { save_scope_as = current_location }
+		}
+	}
+
+	option = { # Kill it! Kill it with fire!
+		name = ek_hunt.1004.a
+		add_piety = minor_piety_loss
+		duel = {
+			skill = prowess
+			value = extremely_high_skill_rating
+			10 = {
+				desc = ek_travel_events_summerset.4005.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = tooltip.ek_hunt.1003.a.success
+					add_prestige = medium_prestige_gain
+				}
+			}
+			
+			5 = {
+				desc = ek_travel_events_summerset.4005.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = tooltip.ek_hunt.1003.a.failure
+					add_prestige = medium_prestige_loss
+					random_list = {
+						10 = {
+							death = { death_reason = death_indrik }
+						}
+						25 = { 
+							increase_wounds_effect = { REASON = indrik }
+							current_travel_plan = {
+								delay_travel_plan = { days = 7 }
+							}
+						} 
+					} 
+				}
+			}
+		}
+
+		stress_impact = {
+			craven = minor_stress_impact_gain
+			zealous = minor_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = -0.5
+			}
+		}
+	}
+
+	option = { # Ward it away!
+		name = ek_travel_events_summerset.4005.c
+		trigger = {
+			can_magic_trigger = yes
+		}
+		add_piety = minor_piety_loss
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_travel_events_summerset.4005.a.success
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = tooltip.ek_hunt.1003.a.success
+					add_prestige = medium_prestige_gain
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events_summerset.4005.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = tooltip.ek_hunt.1003.a.failure
+					add_prestige = medium_prestige_loss
+					random_list = {
+						10 = {
+							death = { death_reason = death_indrik }
+						}
+						25 = { 
+							increase_wounds_effect = { REASON = indrik }
+							current_travel_plan = {
+								delay_travel_plan = { days = 7 }
+							}
+						} 
+					} 
+				}
+			}
+		}
+
+		stress_impact = {
+			craven = minor_stress_impact_gain
+			zealous = minor_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = -0.5
+			}
+		}
+	}
+	
+
+	option = { # Run as fast as you can
+		name = ek_hunt.1003.b
+		custom_tooltip = ek_hunt.1002.b.tt
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+		stress_impact = {
+			brave = minor_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_boldness = -0.5
+			}
+		}
+	}
+}
+
+############################
+## Travel Summerset Province Events
+## 8000-9999
+############################

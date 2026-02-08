@@ -1,0 +1,195 @@
+﻿extraodrinary_prestige_value = 3000
+extraodrinary_prestige_loss = {
+	value = 0
+	subtract = extraodrinary_prestige_value
+}
+extraodrinary_prestige_gain = extraodrinary_prestige_value
+
+sum_general_popularity_tally_value = {
+	value = root.capital_county.county_opinion
+	every_relation = {
+		type = friend
+		add = 10
+	}
+	every_relation = {
+		type = lover
+		add = 10
+	}
+	every_relation = {
+		type = rival
+		add = -10
+	}
+}
+
+yearly_cooldown = 50
+
+# How long do vassal contracts stay locked after a change? In years
+vassal_contract_lock_timer = 20
+
+# Befriend Scheme Success Chance if Allies on Cultural Paramater
+befriend_power_if_allies = 10
+
+# Counts every county in region, to check against
+anequina_decision_region_total_value = {
+	value = 0
+	every_county_in_region = {
+		region = mundus_tamriel_elsweyr_anequina
+		add = 1
+	}
+}
+
+pellitine_decision_region_total_value = {
+	value = 0
+	every_county_in_region = {
+		region = mundus_tamriel_elsweyr_pellitine
+		add = 1
+	}
+}
+
+cyrodiil_decision_region_total_value = {
+	value = 0
+	every_county_in_region = {
+		region = mundus_tamriel_cyrodiil
+		add = 1
+	}
+}
+
+elsweyr_decision_region_total_value = {
+	value = 0
+	every_county_in_region = {
+		region = mundus_tamriel_elsweyr
+		add = 1
+	}
+}
+
+skyrim_decision_region_total_value = {
+	value = 0
+	every_county_in_region = {
+		region = mundus_tamriel_skyrim
+		add = 1
+	}
+}
+
+# Counter for controlled counties in Anequina
+anequina_decision_region_owned_value = {
+	value = 0
+	every_county_in_region = {
+		region = mundus_tamriel_elsweyr_anequina
+		limit = { holder.top_liege = root }
+		add = 1
+	}
+}
+
+pellitine_decision_region_owned_value = {
+	value = 0
+	every_county_in_region = {
+		region = mundus_tamriel_elsweyr_pellitine
+		limit = { holder.top_liege = root }
+		add = 1
+	}
+}
+
+cyrodiil_decision_region_owned_value = {
+	value = 0
+	every_county_in_region = {
+		region = mundus_tamriel_cyrodiil
+		limit = { holder.top_liege = root }
+		add = 1
+	}
+}
+
+elsweyr_decision_region_owned_value = {
+	value = 0
+	every_county_in_region = {
+		region = mundus_tamriel_elsweyr
+		limit = { holder.top_liege = root }
+		add = 1
+	}
+}
+
+skyrim_decision_region_owned_value = {
+	value = 0
+	every_county_in_region = {
+		region = mundus_tamriel_skyrim
+		limit = { holder.top_liege = root }
+		add = 1
+	}
+}
+
+# Percentage of Iberian counties owned
+anequina_decision_region_owned_percent_value = {
+	value = anequina_decision_region_owned_value
+	divide = anequina_decision_region_total_value
+	multiply = 100
+}
+
+pellitine_decision_region_owned_percent_value = {
+	value = pellitine_decision_region_owned_value
+	divide = pellitine_decision_region_total_value
+	multiply = 100
+}
+
+cyrodiil_decision_region_owned_percent_value = {
+	value = cyrodiil_decision_region_owned_value
+	divide = cyrodiil_decision_region_total_value
+	multiply = 100
+}
+
+elsweyr_decision_region_owned_percent_value = {
+	value = elsweyr_decision_region_owned_value
+	divide = elsweyr_decision_region_total_value
+	multiply = 100
+}
+
+skyrim_decision_region_owned_percent_value = {
+	value = skyrim_decision_region_owned_value
+	divide = skyrim_decision_region_total_value
+	multiply = 100
+}
+
+accept_scarab_blood_member_count_value = {
+	value = 4
+}
+
+accept_scarab_blood_member_percent_value = {
+	value = 0.6
+}
+
+accept_scarab_blood_member_percent_display_value = {
+	value = accept_scarab_blood_member_percent_value
+	multiply = 100
+}
+
+restore_great_house_decision_region_total_value = {
+	value = 0
+	every_county_in_region = {
+		region = mundus_tamriel_morrowind
+		limit = {
+			culture = root.culture
+		}
+		add = 1
+	}
+}
+
+restore_great_house_decision_region_owned_value = {
+	value = 0
+	every_county_in_region = {
+		region = mundus_tamriel_morrowind
+		limit = { 
+			holder.top_liege = root 
+			culture = root.culture
+		}
+		add = 1
+	}
+}
+
+restore_great_house_culture_half_value = {
+	value = restore_great_house_decision_region_total_value
+	divide = 2
+}
+
+restore_great_house_decision_region_owned_percent_value = {
+	value = restore_great_house_decision_region_owned_value
+	divide = restore_great_house_decision_region_total_value
+	multiply = 100
+}

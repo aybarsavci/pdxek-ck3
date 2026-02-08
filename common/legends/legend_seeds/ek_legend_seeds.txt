@@ -1,0 +1,451 @@
+﻿#EK NOTE: EK legends
+olaf_one_eye = { #Legend for Whiterun
+	type = legitimizing
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = olaf_one_eye_legend
+		}
+		OR = {
+			AND = { #Nord holding Whiterun
+				culture = { has_cultural_pillar = heritage_atmoran }
+				has_title = title:k_whiterun
+			}
+			dynasty = dynasty:310006 #Yngvlar - dynasty of Whiterun
+		}
+	}
+	is_valid = {
+		custom_tooltip = {
+			text = must_whiterun_tt
+			OR = {
+				has_title = title:k_whiterun
+			}
+		}
+		prestige_level >= very_high_prestige_level
+	}
+
+	chronicle = ancestral_glory
+	chronicle_properties = {
+		ancestor = character:numinex_100
+		title = title:c_whiterun.empire
+	}
+}
+
+tharn = { #Legend for Tharns
+	type = legitimizing
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = tharn_legend
+		}
+		dynasty = dynasty:dyn_tharn #Tharn dynasty
+	}
+	is_valid = {
+		highest_held_title_tier >= tier_kingdom
+		prestige_level >= very_high_prestige_level
+	}
+
+	chronicle = ancestral_glory
+	chronicle_properties = {
+		ancestor = character:tharn_1
+		title = title:e_nibenay
+	}	
+}
+
+rislav_righteous = {
+	type = legitimizing
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = rislav_righteous_legend
+		}
+		dynasty = dynasty:dyn_larich #Larich dynasty
+	}
+	is_valid = {
+		highest_held_title_tier >= tier_kingdom
+		prestige_level >= very_high_prestige_level
+	}
+
+	chronicle = ancestral_glory
+	chronicle_properties = {
+		ancestor = character:larich_10
+		title = title:e_colovian_estates
+	}
+}
+
+drozira = {
+	type = legitimizing
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = drozira_legend
+		}
+		dynasty = dynasty:dyn_tardorn #Descendants of Drozira
+	}
+	is_valid = {
+		highest_held_title_tier >= tier_kingdom
+		prestige_level >= high_prestige_level
+	}
+
+	chronicle = ancestral_glory
+	chronicle_properties = {
+		ancestor = character:drozira_001
+		title = title:c_windhelm.empire
+	}
+}
+
+gulum_ei_reborn = { #Talen-jei (ruler of Helstrom) is reincarnation of king of Black Marsh
+	type = legitimizing
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = gulum_ei_legend
+		}
+		character:jassa_100 ?= { is_alive = yes } #Talen Jei
+		this = character:jassa_100
+	}
+	is_valid = {
+		highest_held_title_tier >= tier_kingdom
+		prestige_level >= high_prestige_level
+	}
+
+	chronicle = ancestral_glory
+	chronicle_properties = {
+		ancestor = character:rajtaee_1
+		title = title:e_black_marsh
+	}
+}
+
+king_edward = {
+	type = heroic
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = king_edward_legend
+		}
+		has_title = title:k_daggerfall
+	}
+	is_valid = {
+		is_landed = yes
+		highest_held_title_tier >= tier_kingdom
+		prestige_level >= high_prestige_level
+	}
+	chronicle = ancestral_glory
+	chronicle_properties = {
+		ancestor = character:daguer_2
+		title = title:k_daggerfall
+	}
+}
+
+iron_son = { #Legend for Rielle dynasty
+	type = legitimizing
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = iron_son_legend
+		}
+		dynasty = dynasty:dynn_Rielle
+	}
+	is_valid = {
+		is_playable_character = yes
+		highest_held_title_tier >= tier_kingdom
+		prestige_level >= high_prestige_level
+	}
+	chronicle = ancestral_glory
+	chronicle_properties = {
+		ancestor = character:rielle_100
+		title = title:k_camlorn
+	}
+}
+
+ivory_lord = { #Legend for Deleyn dynasty
+	type = legitimizing
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = ivory_lord_legend
+		}
+		dynasty = dynasty:dynn_Deleyn
+	}
+	is_valid = {
+		is_playable_character = yes
+		highest_held_title_tier >= tier_kingdom
+		prestige_level >= high_prestige_level
+	}
+	chronicle = ancestral_glory
+	chronicle_properties = {
+		ancestor = character:deleyn_100
+		title = title:k_daggerfall
+	}
+}
+
+saint_pelin = {
+	type = holy
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = saint_pelin_legend
+		}
+		faith = faith:breton_cult
+		capital_province = { geographical_region = mundus_tamriel_hammerfell_bangkorai }
+	}
+	is_valid = {
+		highest_held_title_tier >= tier_kingdom
+		piety_level >= high_piety_level
+	}
+	chronicle = saintly_descent
+	chronicle_properties = {
+		religion = religion:imperial_religion
+		ancestor_flag = flag:saint_pelin
+	}
+}
+
+yaghoub_seafarer = {
+	type = heroic
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = yaghoub_seafarer_legend
+		}
+		dynasty = dynasty:dyn_nisewan #al-Niswean
+	}
+	is_valid = {
+		highest_held_title_tier >= tier_kingdom
+		prestige_level >= high_prestige_level
+	}
+
+	chronicle = ancestral_glory
+	chronicle_properties = {
+		ancestor = character:nisewan_100
+		title = title:k_sentinel
+	}
+}
+
+poison_song = {
+	type = holy
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = poison_song_legend
+		}
+		faith = faith:sixth_house
+		dynasty = {
+			has_dynasty_modifier = scarab_blood_dynasty_modifier
+		}
+		capital_province = { geographical_region = mundus_tamriel_morrowind }
+	}
+	is_valid = {
+		highest_held_title_tier >= tier_kingdom
+		piety_level >= very_high_piety_level
+	}
+	chronicle = saintly_descent
+	chronicle_properties = {
+		ancestor_flag = flag:dagoth_legend_ancestor
+		religion = root.religion
+	}
+}
+
+golden_beast = {
+	type = legitimizing
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = golden_beast_legend
+		}
+		dynasty = dynasty:dyn_brae #Brae
+	}
+	is_valid = {
+		highest_held_title_tier >= tier_kingdom
+		prestige_level >= very_high_prestige_level
+	}
+	chronicle = ancestral_glory
+	chronicle_properties = {
+		ancestor = character:anequina_darloc_brae
+		title = title:c_rimmen.empire #Rimmen, cause that's where Brae are in 440/450
+	}
+}
+
+camorans = {
+	type = legitimizing
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = camorans_legend
+		}
+		dynasty = dynasty:dyn_camoran #Camorans
+	}
+	is_valid = {
+		highest_held_title_tier >= tier_kingdom
+		prestige_level >= very_high_prestige_level
+	}
+	chronicle = ancestral_glory
+	chronicle_properties = {
+		ancestor = character:camoran_1
+		title = title:e_valenwood
+	}
+}
+
+auriel = {
+	type = holy
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = auriel_legend
+		}
+		faith = faith:auriel
+		dynasty = dynasty:dyn_auriel
+	}
+	is_valid = {
+		highest_held_title_tier >= tier_kingdom
+		piety_level >= very_high_piety_level
+	}
+	chronicle = saintly_descent
+	chronicle_properties = {
+		ancestor_flag = flag:auriel_legend_ancestor
+		religion = root.religion
+	}
+}
+
+rilis = {
+	type = heroic
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = rilis_legend
+		}
+		dynasty = dynasty:auridon
+	}
+	is_valid = {
+		highest_held_title_tier >= tier_kingdom
+		prestige_level >= high_prestige_level
+	}
+	chronicle = ancestral_glory
+	chronicle_properties = {
+		ancestor = character:auridon_torinaan
+		title = title:k_firsthold
+	}
+}
+
+xarxes = {
+	type = holy
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = xarxes_legend
+		}
+		faith = faith:auriel
+		dynasty = dynasty:dyn_xarxesar
+	}
+	is_valid = {
+		highest_held_title_tier >= tier_kingdom
+		piety_level >= very_high_piety_level
+	}
+	chronicle = saintly_descent
+	chronicle_properties = {
+		ancestor_flag = flag:xarxes_legend_ancestor
+		religion = root.religion
+	}
+}
+
+phynaster = {
+	type = holy
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = phynaster_legend
+		}
+		faith = faith:auriel
+		dynasty = dynasty:dyn_phynastris
+	}
+	is_valid = {
+		highest_held_title_tier >= tier_kingdom
+		piety_level >= very_high_piety_level
+	}
+	chronicle = saintly_descent
+	chronicle_properties = {
+		ancestor_flag = flag:phynaster_legend_ancestor
+		religion = root.religion
+	}
+}
+
+syrabane = {
+	type = holy
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = syrabane_legend
+		}
+		faith = faith:auriel
+		dynasty = dynasty:syrabanis
+	}
+	is_valid = {
+		highest_held_title_tier >= tier_kingdom
+		piety_level >= very_high_piety_level
+	}
+	chronicle = saintly_descent
+	chronicle_properties = {
+		ancestor_flag = flag:syrabane_legend_ancestor
+		religion = root.religion
+	}
+}
+
+reman_cyrodiil = {
+	type = legitimizing
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = reman_cyrodiil_legend
+		}
+		house = character:reman_100.house #Part of main Cyrodiil house
+	}
+	is_valid = {
+		highest_held_title_tier >= tier_kingdom
+		piety_level >= high_piety_level
+		prestige_level >= high_prestige_level
+	}
+	chronicle = ancestral_glory
+	chronicle_properties = {
+		ancestor = character:reman_100
+		title = title:c_sancre_tor.empire
+	}
+}
+#Based on eso cut content for Northpoint which had breton Hillmen descended from giants
+hill_giants = {
+	type = heroic
+	quality = famed
+	is_shown = {
+		has_dlc_feature = legends
+		NOT = {
+			has_global_variable = hill_giants_legend
+		}
+		culture = culture:northmen
+	}
+	is_valid = {
+		is_playable_character = yes
+		highest_held_title_tier >= tier_kingdom
+		prestige_level >= high_prestige_level
+	}
+	chronicle = mythical_descent
+	chronicle_properties = {
+		beast = flag:hill_giant_ancestor
+	}
+}

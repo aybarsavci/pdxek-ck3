@@ -1,0 +1,541 @@
+﻿ek_nedic_reach_clothes = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 1
+
+##############################
+#							 #	
+#			NEDIC REACH		 #
+#							 #
+##############################
+
+    nedic_reach_clothing_lowborn = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = northern_commoner_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }	
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 20
+				has_pol_dlc_trigger = no
+                has_cp4_dlc_trigger = no
+                portrait_commoner_clothing_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+            }
+        }
+    }
+
+    nedic_reach_clothing_low_nobles = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = northern_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+				has_pol_dlc_trigger = no
+                has_cp4_dlc_trigger = no
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+            }
+        }
+    }
+
+    nedic_reach_clothing_high_nobles = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = northern_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+				has_pol_dlc_trigger = no
+                has_cp4_dlc_trigger = no
+                portrait_high_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+            }
+        }
+    }
+	
+    nedic_reach_clothing_royalty = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = northern_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+				has_pol_dlc_trigger = no
+                has_cp4_dlc_trigger = no
+                portrait_royalty_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+            }
+        }
+    }
+
+#POL
+
+    nedic_reach_clothing_lowborn_pol = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = pol_commoner_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = pol_common_legwear
+	            range = { 0 1 }
+	        }	
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 20
+				has_pol_dlc_trigger = yes
+                has_cp4_dlc_trigger = no
+                portrait_commoner_clothing_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+            }
+        }
+    }
+
+    nedic_reach_clothing_low_nobles_pol = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = pol_low_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = pol_common_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+				has_pol_dlc_trigger = yes
+                has_cp4_dlc_trigger = no
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+            }
+        }
+    }
+
+    nedic_reach_clothing_high_nobles_pol = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = pol_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = pol_common_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+				has_pol_dlc_trigger = yes
+                has_cp4_dlc_trigger = no
+                portrait_high_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+            }
+        }
+    }
+
+#CCP4 KHANTY (and 50/50 chance of FP1 legwear if you also have FP1)
+
+    nedic_reach_clothing_lowborn_ccp4 = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = ccp4_reach_commoner_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = ccp4_khanty_common_legwear
+	            range = { 0 1 }
+	        }	
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 40 #20 higher than pol, to ensure it gets prioritised
+				has_cp4_dlc_trigger = yes
+                portrait_commoner_clothing_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+            }
+        }
+    }
+    nedic_reach_clothing_lowborn_ccp4_fp1 = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = ccp4_reach_commoner_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = fp1_common_legwear
+	            range = { 0 1 }
+	        }	
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 40 #20 higher than pol, to ensure it gets prioritised
+                has_cp4_dlc_trigger = yes
+				has_fp1_dlc_trigger = yes
+                portrait_commoner_clothing_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+            }
+        }
+    }
+
+    nedic_reach_clothing_low_nobles_ccp4 = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = ccp4_reach_low_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = ccp4_khanty_common_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 70 #20 higher than pol, to ensure it gets prioritised
+				has_cp4_dlc_trigger = yes
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+            }
+        }
+    }
+    nedic_reach_clothing_low_nobles_ccp4_fp1 = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = ccp4_reach_low_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = fp1_common_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 70 #20 higher than pol, to ensure it gets prioritised
+                has_cp4_dlc_trigger = yes 
+				has_fp1_dlc_trigger = yes
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+            }
+        }
+    }
+
+    nedic_reach_clothing_high_nobles_ccp4 = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = ccp4_reach_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = ccp4_khanty_common_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 70 #20 higher than pol, to ensure it gets prioritised
+				has_cp4_dlc_trigger = yes
+                portrait_high_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+            }
+        }
+    }
+    nedic_reach_clothing_high_nobles_ccp4_fp1 = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = ccp4_reach_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = fp1_common_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 70 #20 higher than pol, to ensure it gets prioritised
+                has_cp4_dlc_trigger = yes
+				has_fp1_dlc_trigger = yes
+                portrait_high_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+            }
+        }
+    }
+	
+    # for this one we want pol clothing to be prioritised, to represent Imperial influence on Reachman dress which will hopefully suit Blackdrake scenario well
+
+    nedic_reach_clothing_royalty_ccp4 = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = ccp4_reach_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 70
+				has_cp4_dlc_trigger = yes
+                portrait_royalty_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+            }
+        }
+    }
+    nedic_reach_clothing_royalty_pol = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = pol_imperial_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = pol_common_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 90
+				has_pol_dlc_trigger = yes
+                portrait_royalty_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+            }
+        }
+    }
+
+
+}
+
+ek_nedic_reach_armor = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 4
+
+    ek_nedic_reach_war = {
+        dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = northern_war_nobility_clothes
+				range = { 0 1 }
+			}
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }			
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+				add = 60
+				has_pol_dlc_trigger = no
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_reach
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_reach
+                    }
+                    portrait_high_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_reach
+                    }
+                }
+            }
+            modifier = {
+                add = 21        # So priests who are actively serving in a raised army as a commander or knight wear armor instead of priest robes
+				has_pol_dlc_trigger = no
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_reach
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_reach
+                    }
+                    portrait_high_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_reach
+                    }
+                }
+            }
+        }
+    }
+	
+    ek_nedic_reach_war_pol = {
+        dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = pol_war_nobility_clothes
+				range = { 0 1 }
+			}
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = pol_common_legwear
+	            range = { 0 1 }
+	        }			
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+				add = 60
+				has_pol_dlc_trigger = yes
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_reach
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_reach
+                    }
+                    portrait_high_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_reach
+                    }
+                }
+            }
+            modifier = {
+                add = 21        # So priests who are actively serving in a raised army as a commander or knight wear armor instead of priest robes
+				has_pol_dlc_trigger = yes
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_reach
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_reach
+                    }
+                    portrait_high_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_reach
+                    }
+                }
+            }
+        }
+    }
+
+}

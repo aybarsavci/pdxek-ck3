@@ -1,0 +1,3003 @@
+﻿purchase_writ_of_war_decision = { #Decision to purchase writ of war for GCM members
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+
+	desc = purchase_writ_of_war_decision_desc
+	selection_tooltip = purchase_writ_of_war_decision_tooltip
+	
+	decision_group_type = major
+
+	cooldown = { years = 5 }
+
+	is_shown = {
+		OR = {		
+			any_character_situation = {
+				any_situation_sub_region = {
+					has_sub_region_phase_parameter = writ_of_war_purchased_independently
+					any_situation_sub_region_participant_group = {
+						participant_group_type = grand_council_members
+						participant_group_has_character = root
+					}
+				}
+			}
+			is_morrowind_high_councilor = { CHARACTER = this }
+		}
+		NOT = { has_character_flag = has_writ_of_war }
+	}
+	is_valid = {
+		custom_tooltip = {
+			text = is_hc_or_in_autonomous
+			OR = {		
+				any_character_situation = {
+					any_situation_sub_region = {
+						has_sub_region_phase_parameter = writ_of_war_purchased_independently
+						any_situation_sub_region_participant_group = {
+							participant_group_type = grand_council_members
+							participant_group_has_character = root
+						}
+					}
+				}
+				is_morrowind_high_councilor = { CHARACTER = this }
+			}
+		}
+		OR = {
+			AND = {
+				highest_held_title_tier = tier_county
+				gold >= 100
+			}
+			AND = {
+				highest_held_title_tier = tier_duchy
+				gold >= 200
+			}
+			AND = {
+				highest_held_title_tier = tier_kingdom
+				gold >= 300
+			}
+		}
+	}
+
+	effect = {
+		purchase_writ_of_war_effect = yes
+	}
+
+	ai_will_do = {
+		base = -25
+
+		ai_value_modifier = { # +50 to -50
+			who = scope:actor
+			ai_zeal = 0.5
+		}
+		modifier = {
+			add = 20
+			has_trait = ambitious
+		}
+		modifier = {
+			add = 20
+			has_trait = greedy
+		}
+		modifier = {
+			add = -5
+			has_trait = humble
+		}
+		modifier = {
+			add = -20
+			has_trait = craven
+		}
+		modifier = {
+			add = -20
+			has_trait = calm
+		}
+	}
+
+	ai_check_interval = 60 #lets have them check this semi-regularly
+}
+
+responsible_suicide_decision = { # Unlocked by the Chuzei core tradition
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_personal_religious.dds" }
+
+	desc = responsible_suicide_decision_desc
+
+	selection_tooltip = responsible_suicide_decision_tooltip
+
+	is_shown = {
+		culture  = {
+			has_cultural_parameter = can_commit_responsible_suicide
+		}
+	}
+
+	is_valid = {
+		OR = {
+			custom_tooltip = { # budshido honour stuff or something
+				text = has_crime_trait_trigger
+				has_crime_trait = yes
+			}
+			custom_tooltip = { #apparently these weren't defined in vanilla
+				text = prestige_level_0_trigger
+				prestige_level = 0
+			}
+			custom_tooltip = {
+				text = piety_level_0_trigger
+				piety_level = 0
+
+			}
+			custom_tooltip = { # this represents the Indoril mass suicide as protest to Morrowind joining the Empire
+				text = liege_rival_or_nemesis_trigger
+				liege = {
+					OR = {
+						has_relation_rival = root
+						has_relation_nemesis = root
+					}	
+				}
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		not = { exists = involved_activity }
+		is_imprisoned = no
+		is_commanding_army = no
+		is_adult = yes
+	}
+
+	effect = {
+		custom_tooltip = {
+			text = responsible_suicide_decision_effect
+			trigger_event = ek_responsible_suicide.0001
+		}
+	}
+
+	ai_check_interval = 60
+	
+	ai_potential = {		
+		exists = primary_heir
+		primary_heir = {
+			dynasty = root.dynasty
+		}
+		is_at_war = no
+	}
+
+	ai_will_do = {
+		base = 0
+
+		# 100% chance at 50 zeal
+		ai_value_modifier = {
+			ai_zeal = 2
+		}
+
+		modifier = {
+			add = 40
+			is_close_family_of = primary_heir
+		}
+	}
+}
+
+visit_vineyard = { #visit amayan vineyards
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+
+	desc = visit_vineyard_desc
+	selection_tooltip = visit_vineyard_tooltip
+	
+	decision_group_type = major
+
+	cooldown = { years = 5 }
+
+	is_shown = {
+		custom_tooltip = {
+			text = visit_vineyard_requirement
+			any_sub_realm_barony = {
+				title_province = {
+					has_building = amaya_vineyard_02
+				}
+			}
+		} 
+	}
+	is_valid = {
+		custom_tooltip = {
+			text = visit_vineyard_requirement
+			any_sub_realm_barony = {
+				title_province = {
+					has_building = amaya_vineyard_02
+				}
+			}
+		}
+	}			
+	effect = {
+		custom_tooltip = visit_vineyard_effect
+		trigger_event = ek_morrowind.0016
+	}
+
+	ai_will_do = 100
+	ai_check_interval = 120
+
+}
+
+restore_house_hlaalu_decision = { #Restore House Hlaalu if destroyed
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+
+	desc = restore_house_hlaalu_decision_desc
+	selection_tooltip = restore_house_hlaalu_decision_tooltip
+
+	decision_group_type = major
+	is_shown = {
+		NOT = { exists = title:k_hlaalu.holder }
+		culture = { has_cultural_tradition = tradition_pursuit_of_wealth }
+		is_in_morrowind_council = yes
+	}
+
+	is_valid = {
+		prestige_level >= 3 
+		custom_tooltip = {
+			text = restore_great_house_percentage
+			any_sub_realm_county = {
+				count > restore_great_house_culture_half_value
+				culture = root.culture
+			}
+		}
+	}
+	is_valid_showing_failures_only = {
+		custom_tooltip = {
+			text = not_great_house_leader
+			is_great_house_leader = no
+		}
+	}
+	effect = {
+		restore_hlaalu_scripted_effect = yes
+	}
+
+	cost = {
+		prestige = 1000
+		gold = 300
+	}
+
+	ai_will_do = 100
+	ai_check_interval = 120
+}
+
+restore_house_dres_decision = { #Restore House Dres if destroyed
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+
+	desc = restore_house_dres_decision_desc
+	selection_tooltip = restore_house_dres_decision_tooltip
+
+	decision_group_type = major
+	is_shown = {
+		NOT = { exists = title:k_dres.holder }
+		OR = {
+			culture = { has_cultural_tradition = tradition_deshaan_agronomy }
+			culture = { has_cultural_tradition = tradition_cunning_contempt }
+		}
+		is_in_morrowind_council = yes
+	}
+
+	is_valid = {
+		prestige_level >= 3 
+		custom_tooltip = {
+			text = restore_great_house_percentage
+			any_sub_realm_county = {
+				count > restore_great_house_culture_half_value
+				culture = root.culture
+			}
+		}
+	}
+	is_valid_showing_failures_only = {
+		custom_tooltip = {
+			text = not_great_house_leader
+			is_great_house_leader = no
+		}
+	}
+	effect = {
+		restore_dres_scripted_effect = yes
+	}
+
+	cost = {
+		prestige = 1000
+		gold = 300
+	}
+
+	ai_will_do = 100
+	ai_check_interval = 120
+}
+
+restore_house_telvanni_decision = { #Restore House Telvanni if destroyed
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+
+	desc = restore_house_telvanni_decision_desc
+	selection_tooltip = restore_house_telvanni_decision_tooltip
+
+	decision_group_type = major
+	is_shown = {
+		NOT = { exists = title:k_telvanni.holder }
+		OR = {
+			culture = { has_cultural_tradition = tradition_parliament_of_bugs }
+			culture = { has_cultural_tradition = tradition_cynical_believers }
+		}
+		is_in_morrowind_council = yes
+	}
+
+	is_valid = {
+		prestige_level >= 3 
+		custom_tooltip = {
+			text = restore_great_house_percentage
+			any_sub_realm_county = {
+				count > restore_great_house_culture_half_value
+				culture = root.culture
+			}
+		}
+	}
+	is_valid_showing_failures_only = {
+		custom_tooltip = {
+			text = not_great_house_leader
+			is_great_house_leader = no
+		}
+	}
+	effect = {
+		restore_telvanni_scripted_effect = yes
+	}
+
+	cost = {
+		prestige = 1000
+		gold = 300
+	}
+
+	ai_will_do = 100
+	ai_check_interval = 120
+}
+
+restore_house_indoril_decision = { #Restore House Indoril if destroyed
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+
+	desc = restore_house_indoril_decision_desc
+	selection_tooltip = restore_house_indoril_decision_tooltip
+
+	decision_group_type = major
+	is_shown = {
+		NOT = { exists = title:k_indoril.holder }
+		OR = {
+			culture = { has_cultural_tradition = tradition_ordination_of_war }
+			culture = { has_cultural_tradition = tradition_garden_of_veloth }
+		}
+		is_in_morrowind_council = yes
+	}
+
+	is_valid = {
+		piety_level >= 3 
+		custom_tooltip = {
+			text = restore_great_house_percentage
+			any_sub_realm_county = {
+				count > restore_great_house_culture_half_value
+				culture = root.culture
+			}
+		}
+	}
+	is_valid_showing_failures_only = {
+		custom_tooltip = {
+			text = not_great_house_leader
+			is_great_house_leader = no
+		}
+	}
+	effect = {
+		restore_indoril_scripted_effect = yes
+	}
+
+	cost = {
+		piety = 1000
+		gold = 300
+	}
+
+	ai_will_do = 100
+	ai_check_interval = 120
+}
+
+restore_house_redoran_decision = { #Restore House Redoran if destroyed
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+
+	desc = restore_house_redoran_decision_desc
+	selection_tooltip = restore_house_redoran_decision_tooltip
+
+	decision_group_type = major
+	is_shown = {
+		NOT = { exists = title:k_redoran.holder }
+		culture = { has_cultural_tradition = tradition_bulwark_of_the_west }
+		is_in_morrowind_council = yes
+	}
+
+	is_valid = {
+		prestige_level >= 3 
+		custom_tooltip = {
+			text = restore_great_house_percentage
+			any_sub_realm_county = {
+				count > restore_great_house_culture_half_value
+				culture = root.culture
+			}
+		}
+	}
+	is_valid_showing_failures_only = {
+		custom_tooltip = {
+			text = not_great_house_leader
+			is_great_house_leader = no
+		}
+	}
+	effect = {
+		restore_redoran_scripted_effect = yes
+	}
+
+	cost = {
+		prestige = 1000
+		gold = 300
+	}
+
+	ai_will_do = 100
+	ai_check_interval = 120
+}
+return_great_house_capital_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds"
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = {
+			    trigger = { primary_title = title:k_redoran }
+			    desc = return_great_house_capital_decision_desc_redoran
+			}
+			triggered_desc = {
+			    trigger = { primary_title = title:k_telvanni }
+			    desc = return_great_house_capital_decision_desc_telvanni
+			}
+			triggered_desc = {
+			    trigger = { primary_title = title:k_indoril }
+			    desc = return_great_house_capital_decision_desc_indoril
+			}
+			triggered_desc = {
+			    trigger = { primary_title = title:k_hlaalu }
+			    desc = return_great_house_capital_decision_desc_hlaalu
+			}
+			triggered_desc = {
+			    trigger = { primary_title = title:k_dres }
+			    desc = return_great_house_capital_decision_desc_dres
+			}
+		}
+		desc = return_great_house_capital_decision_desc_outro
+	}
+	selection_tooltip = return_great_house_capital_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 12
+
+	is_shown = {
+		is_ruler = yes
+		is_playable_character = yes
+		is_great_house_head = yes
+		NOT = { primary_title.tier >= tier_empire }
+		trigger_if = {
+			limit = { primary_title = title:k_redoran }
+			NOT = { capital_county = { this = title:c_blacklight } }
+			OR = {
+				title:c_blacklight.holder = { 	
+					any_liege_or_above = { this = root }
+				}
+				title:c_blacklight.holder = { this = root }
+			}
+		}
+		trigger_if = {
+			limit = { primary_title = title:k_telvanni }
+			NOT = { capital_county = { this = title:c_telvannis } }
+			OR = {
+				title:c_telvannis.holder = { 	
+					any_liege_or_above = { this = root }
+				}
+				title:c_telvannis.holder = { this = root }
+			}
+		}
+		trigger_if = {
+			limit = { primary_title = title:k_indoril }
+			NOT = { capital_county = { this = title:c_mournhold } }
+			OR = {
+				title:c_mournhold.holder = { 	
+					any_liege_or_above = { this = root }
+				}
+				title:c_mournhold.holder = { this = root }
+			}
+		}
+		trigger_if = {
+			limit = { primary_title = title:k_hlaalu }
+			NOT = { capital_county = { this = title:c_narsis } }
+			OR = {
+				title:c_narsis.holder = { 	
+					any_liege_or_above = { this = root }
+				}
+				title:c_narsis.holder = { this = root }
+			}
+		}
+		trigger_if = {
+			limit = { primary_title = title:k_dres }
+			NOT = { capital_county = { this = title:c_tear } }
+			OR = {
+				title:c_tear.holder = { 	
+					any_liege_or_above = { this = root }
+				}
+				title:c_tear.holder = { this = root }
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+	}
+
+	effect = {
+		if = {
+			limit = {
+				primary_title = title:k_redoran
+			}
+			if = { #Usurp if not held personally.
+				limit = {
+					NOT = { title:c_blacklight.holder = { this = root } }
+				}
+				create_title_and_vassal_change = {
+					type = returned
+					save_scope_as = change
+					add_claim_on_loss = no
+				}
+				title:c_blacklight = {
+					change_title_holder = {
+						holder = root
+						change = scope:change
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+
+			}
+			set_realm_capital = title:c_blacklight
+		}
+		if = {
+			limit = {
+				primary_title = title:k_telvanni
+			}
+			if = { #Usurp if not held personally.
+				limit = {
+					NOT = { title:c_telvannis.holder = { this = root } }
+				}
+				create_title_and_vassal_change = {
+					type = returned
+					save_scope_as = change
+					add_claim_on_loss = no
+				}
+				title:c_telvannis = {
+					change_title_holder = {
+						holder = root
+						change = scope:change
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+
+			}
+			set_realm_capital = title:c_telvannis
+		}
+		if = {
+			limit = {
+				primary_title = title:k_indoril
+			}
+			if = { #Usurp if not held personally.
+				limit = {
+					NOT = { title:c_mournhold.holder = { this = root } }
+				}
+				create_title_and_vassal_change = {
+					type = returned
+					save_scope_as = change
+					add_claim_on_loss = no
+				}
+				title:c_mournhold = {
+					change_title_holder = {
+						holder = root
+						change = scope:change
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+
+			}
+			set_realm_capital = title:c_mournhold
+		}
+		if = {
+			limit = {
+				primary_title = title:k_hlaalu
+			}
+			if = { #Usurp if not held personally.
+				limit = {
+					NOT = { title:c_narsis.holder = { this = root } }
+				}
+				create_title_and_vassal_change = {
+					type = returned
+					save_scope_as = change
+					add_claim_on_loss = no
+				}
+				title:c_narsis = {
+					change_title_holder = {
+						holder = root
+						change = scope:change
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+
+			}
+			set_realm_capital = title:c_narsis
+		}
+		if = {
+			limit = {
+				primary_title = title:k_dres
+			}
+			if = { #Usurp if not held personally.
+				limit = {
+					NOT = { title:c_tear.holder = { this = root } }
+				}
+				create_title_and_vassal_change = {
+					type = returned
+					save_scope_as = change
+					add_claim_on_loss = no
+				}
+				title:c_tear = {
+					change_title_holder = {
+						holder = root
+						change = scope:change
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+
+			}
+			set_realm_capital = title:c_tear
+		}
+	}
+	ai_potential = {
+		primary_title.tier = tier_kingdom
+		is_great_house_head = yes
+	}
+
+	ai_will_do = { #Do it always, for coherence.
+		base = 100
+	}
+}
+accept_scarab_blood_decision = { #Accept Scarab blood, based on witch decision
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_personal_religious.dds"
+	}
+	decision_group_type = major
+	ai_check_interval = 120
+	desc = accept_scarab_blood_decision_desc
+
+	is_shown = {
+		exists = dynasty
+		dynasty = { has_dynasty_modifier = unmourned_blood_dynasty_modifier }
+		NOT = { dynasty = { has_dynasty_modifier = scarab_blood_dynasty_modifier } }
+	}
+	is_valid = {
+		is_dynast = yes
+		OR = {
+			faith = faith:sixth_house
+			custom_tooltip = {
+				text = has_secret_sixth_house_faith
+				secret_faith ?= faith:sixth_house
+			}
+		}
+		trigger_if = {
+			limit = {
+				exists = player_heir
+				player_heir = {
+					is_child_of = root
+					dynasty = root.dynasty
+				}
+			}
+			player_heir = {
+				is_sixth_house_known_by_trigger = { CHARACTER = root }
+			}
+		}
+		#We want a certain % to be witches but also a minimum amount. So if the house is small, we use a minimum number, and if the house is larger we use %
+		trigger_if = {
+			limit = {
+				dynasty = {
+					any_dynasty_member = {
+						is_adult = yes
+						count <= 6
+					}
+				}
+			}
+			dynasty = {
+				custom_tooltip = {
+					text = accept_scarab_blood_house_member_count_tt
+					any_dynasty_member = {
+						is_adult = yes
+						count >= accept_scarab_blood_member_count_value
+						is_sixth_house_known_by_trigger = { CHARACTER = root }
+					}
+				}
+				any_dynasty_member = {
+					is_adult = yes
+					count >= accept_scarab_blood_member_count_value
+					is_sixth_house_known_by_trigger = { CHARACTER = root }
+				}
+			}
+		}
+		trigger_else = {
+			dynasty = {
+				custom_tooltip = {
+					text = accept_scarab_blood_house_member_percent_tt
+					any_dynasty_member = {
+						is_adult = yes
+						percent >= accept_scarab_blood_member_percent_value
+						is_sixth_house_known_by_trigger = { CHARACTER = root }
+					}
+				}
+				any_dynasty_member = {
+					is_adult = yes
+					percent >= accept_scarab_blood_member_percent_value
+					is_sixth_house_known_by_trigger = { CHARACTER = root }
+				}
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+	}
+
+	effect = {
+		accept_scarab_blood_decision_effects = yes
+	}
+	ai_will_do = { #Do it always, for coherence.
+		base = 100
+	}
+}
+
+# Hire the Morag Tong to help you deal with a Murder Scheme
+buy_writ_of_execution = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+	decision_group_type = major
+	
+	desc = buy_writ_of_execution_desc
+	selection_tooltip = buy_writ_of_execution_tooltip
+
+	cooldown = { years = 2 }
+	
+	is_shown = {
+		any_character_situation = {
+			any_participant_group = {
+				participant_group_type = grand_council_members
+				participant_group_has_character = root
+			}
+		}
+		any_scheme = {
+			scheme_type = murder			
+			NOT = { has_scheme_modifier = writ_of_execution_modifier }
+			NOT = { has_scheme_modifier = morag_tong_hired }
+		}
+	}
+
+	is_valid = {
+		custom_description = {
+			text = buy_writ_of_execution_trigger
+			any_scheme = {
+				scheme_type = murder
+			}
+		}
+		custom_description = {
+			text = buy_writ_of_execution_outlander_trigger
+			trigger_if = {
+				limit = {
+					any_scheme = {
+						scheme_type = murder
+						scheme_target_character = {
+							save_temporary_scope_as = target
+							NOT = {
+								any_character_situation = {
+									any_participant_group = {
+										participant_group_type = grand_council_members
+										participant_group_has_character = scope:target
+									}
+								}
+							}
+						}
+					}
+				}
+				any_character_situation = {
+					any_situation_sub_region = {
+						has_sub_region_phase_parameter = can_buy_writ_of_execution_against_anyone
+						any_situation_sub_region_participant_group = {
+							participant_group_type = grand_council_members
+							participant_group_has_character = root
+						}
+					}
+				}
+			}
+		}
+	}
+		
+	effect = {
+		custom_tooltip = buy_writ_of_execution_custom_desc
+		if = {
+			limit = {
+				any_scheme = {
+					scheme_type = murder
+					count = 1
+				}
+			}
+			random_scheme = {
+				limit = {
+					scheme_type = murder
+				}
+				hidden_effect = {
+					add_scheme_modifier = {
+						type = writ_of_execution_modifier
+					}
+				}
+			}
+			trigger_event = ek_major_decisions.0040
+		}
+		if = {
+			limit = {
+				any_scheme = {
+					scheme_type = murder
+					count > 1
+				}
+			}
+			trigger_event = ek_major_decisions.0050
+		}
+	}
+	
+	ai_potential = {
+		any_scheme = {
+			scheme_type = murder
+		}
+	}
+	ai_will_do = { base = 50 }
+	ai_check_interval = 120
+}
+
+#Open Vvardenfell for colonisation
+open_vvardenfell_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	desc = open_vvardenfell_decision_desc
+	selection_tooltip = open_vvardenfell_decision_tooltip
+	decision_group_type = major
+
+	cooldown = { years = 5 }
+
+	is_shown = {	
+		any_character_situation = {
+			any_situation_sub_region = {
+				has_sub_region_phase_parameter = high_councilor_can_open_vvardenfell
+				any_situation_sub_region_participant_group = {
+					participant_group_type = grand_council_members
+					participant_group_has_character = root
+				}
+			}
+		}
+		is_morrowind_high_councilor = { CHARACTER = this }
+		NOT = { has_realm_law = vvardenfell_open }
+	}
+
+	is_valid = {
+		prestige_level >= 4
+		piety_level >= 4
+		#At least half of the Great Houses are on you side
+		#Temple must support you
+		OR = {
+			root = { has_strong_hook = title:e_tribunal_temple.holder }
+			title:e_tribunal_temple.holder = {
+				opinion = {
+					target = root
+					value >= 70
+				}
+			}
+		}
+	}
+	effect = {
+		custom_tooltip = {
+			text = vvardenfell_open_law_effect
+			trigger_event = {
+				id = grand_council_vv.0001
+			}
+		}
+		custom_tooltip = {
+			text = strong_hooks_will_be_used
+		}	
+	}
+
+	cost = {
+		prestige = 1000
+		piety = 1000
+		gold = 500
+	}
+
+	ai_will_do = {
+		base = 50
+		modifier = { #Zealous people will keep the holy isle closed
+			has_trait = zealous
+			add = -50
+		}
+		modifier = { #Indoril are less interested in opening Vvardenfell due to temple connection
+			has_title = title:k_indoril
+			add = -25
+		}
+	}
+	ai_check_interval = 120
+}
+
+### Form Vvardenfell
+form_vvardenfell_empire_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { 
+					culture = { has_cultural_pillar = heritage_dwemeri } 
+				}	
+				desc = form_vvardenfell_empire_decision_dwemer
+			}	
+			desc = form_vvardenfell_empire_decision
+		}
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { 
+					OR = {
+						culture = culture:ashlander
+						root.culture = { any_parent_culture_or_above = { this = culture:ashlander }}
+					}	
+				}	
+				desc = form_vvardenfell_empire_decision_ashlander_desc
+			}
+			triggered_desc = {
+				trigger = { 
+					culture = { has_cultural_pillar = heritage_dwemeri } 
+				}	
+				desc = form_vvardenfell_empire_decision_dwemer_desc
+			}	
+			desc = form_vvardenfell_empire_decision_desc
+		}
+	}
+
+	selection_tooltip = form_vvardenfell_empire_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		highest_held_title_tier = tier_kingdom
+		exists = capital_province
+		unify_kingdom_government_trigger = yes
+		capital_province = { geographical_region = mundus_tamriel_morrowind_vvardenfell }
+		
+		AND = { #TODO: integrate GHC triggers here
+			OR = {
+				culture = { has_cultural_pillar = heritage_dunmeri }
+				culture = { has_cultural_pillar = heritage_dwemeri }
+			}	
+			NOT = { faith = { has_doctrine = doctrine_pantheon_tribunal }}	
+		}
+		
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_created_vvardenfell_empire
+			}
+		}
+	}
+
+	is_valid = {
+		has_title = title:k_azura_coast
+		has_title = title:k_ashlands
+		has_title = title:k_ascadia
+		unify_kingdom_law_trigger = yes
+		prestige_level >= 3
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		# Based on Revive Greater Armenia
+		prestige = 2000
+		piety = 1000
+	}
+
+	effect = {
+		show_as_tooltip = {
+			form_vvardenfell_empire_scripted_effect = yes
+		}
+		#Legend seed
+		if = {
+			limit = { has_dlc_feature = legends }
+			create_legend_seed = {
+				type = legitimizing
+				quality = illustrious
+				chronicle = new_title
+				properties = {
+					title = title:e_vvardenfell
+					founder = root
+				}
+			}
+		}
+		trigger_event = {
+			id = ektitulartitle.1101
+		}
+		#Notify other players.
+		every_player = {
+			limit = {
+				NOT = { this = root }
+				is_within_diplo_range = { CHARACTER = root }
+			}
+			trigger_event = ektitulartitle.1102
+		}
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_created_vvardenfell_empire
+			}
+		}
+	}
+
+	confirm_text = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { 
+					OR = {
+						culture = culture:ashlander
+						root.culture = { any_parent_culture_or_above = { this = culture:ashlander }}
+					}	
+				}	
+				desc = form_vvardenfell_empire_decision_ashlander_confirm
+			}	
+			triggered_desc = {
+				trigger = { 
+					culture = { has_cultural_pillar = heritage_dwemeri } 
+				}	
+				desc = form_vvardenfell_empire_decision_dwemer_confirm
+			}
+			desc = form_vvardenfell_empire_decision_confirm
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Reintegrate Vvardenfell
+reintegrate_vvardenfell_empire_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = reintegrate_vvardenfell_empire_decision_desc
+	selection_tooltip = reintegrate_vvardenfell_empire_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		exists = capital_province
+		
+		AND = { #TODO: integrate GHC triggers
+			culture = { has_cultural_pillar = heritage_dunmeri }
+			faith =  { has_doctrine = doctrine_pantheon_tribunal }
+		}
+
+		OR = { #visible if Vvardenfell is de jure liege of the relevant kingdoms
+			title:e_vvardenfell = { is_de_jure_liege_or_above_target = title:k_azura_coast }
+			title:e_vvardenfell = { is_de_jure_liege_or_above_target = title:k_ashlands }
+			title:e_vvardenfell = { is_de_jure_liege_or_above_target = title:k_ascadia }
+		}
+
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_reintegrated_vvardenfell_empire
+			}
+		}
+	}
+
+	is_valid = {
+		OR = {
+			completely_controls = title:k_azura_coast
+			completely_controls = title:k_ashlands
+			completely_controls = title:k_ascadia
+		}
+		custom_tooltip = {
+			text = vvardenfell_has_no_holder
+			NOT = {
+				exists = title:e_vvardenfell.holder	
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		# Based on Revive Greater Armenia
+		prestige = 2000
+		piety = 1000
+	}
+
+	effect = {
+		title:k_azura_coast = { set_de_jure_liege_title = title:e_morrowind }
+		title:k_ashlands = { set_de_jure_liege_title = title:e_morrowind }
+		title:k_ascadia = { set_de_jure_liege_title = title:e_morrowind }
+
+		save_scope_as = integrator
+		trigger_event = {
+			id = ektitulartitle.1201
+		}
+		#Notify other players.
+		every_player = {
+			limit = {
+				NOT = { this = root }
+				is_within_diplo_range = { CHARACTER = root }
+			}
+			trigger_event = { 
+				id = ektitulartitle.1202
+			}	
+		}
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_reintegrated_vvardenfell_empire
+			}
+		}
+	}
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Return Temple sites
+
+#Return d_necrom to Tribunal Temple
+restore_alma_rula_in_necrom_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+
+	desc = restore_alma_rula_in_necrom_decision_desc
+	selection_tooltip = restore_alma_rula_in_necrom_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 12
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		faith = { has_doctrine = doctrine_pantheon_tribunal }
+		NOT = { has_title = title:e_tribunal_temple }
+		NOT = { title:c_necrom.holder = { has_title = title:e_tribunal_temple } }
+		NOT = { capital_county = { this = title:c_necrom } }
+		exists = title:e_tribunal_temple.holder
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+		highest_held_title_tier >= tier_kingdom #Only Kings and Emperors
+		custom_tooltip = {
+			text = hof_exists_tt
+			faith = { exists = religious_head }
+		}
+		custom_tooltip = {
+			text = necrom_held_by_you_or_vassal_tt
+			OR = {
+				title:c_necrom.holder = { 	
+					any_liege_or_above = { this = root }
+				}
+				title:c_necrom.holder = { this = root }
+			}
+		}
+	}
+
+	effect = {
+		add_piety = 500
+		create_title_and_vassal_change = {
+			type = returned
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		title:c_necrom = {
+			change_title_holder = {
+				holder = title:e_tribunal_temple.holder
+				change = scope:change
+			}
+		}
+        title:d_necrom = {
+			change_title_holder = {
+				holder = title:e_tribunal_temple.holder
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+		title:e_tribunal_temple.holder = {
+			add_opinion = {
+				target = prev
+				modifier = returned_temple_land_opinion
+			}
+		}
+	}
+
+	ai_potential = {
+        always = yes
+	}
+
+	ai_will_do = { #Do it always, for coherence.
+		base = 100
+		modifier = {
+			factor = 0
+			title:c_necrom.holder = {
+				OR = {
+					is_ai = no
+					any_liege_or_above = { is_ai = no }  # AI will never take Torval province away from a player.
+				}
+			}
+		}
+		modifier = {
+			factor = 0
+			has_trait = cynical
+		}
+	}
+}
+
+# Return Almalexia
+restore_alma_rula_in_almalexia_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+
+	desc = restore_alma_rula_in_almalexia_decision_desc
+	selection_tooltip = restore_alma_rula_in_almalexia_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 12
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		faith = { has_doctrine = doctrine_pantheon_tribunal }
+		NOR = { 
+			has_title = title:e_tribunal_temple
+			has_title = title:k_archcanon_almalexia
+		}
+		NOR = { 
+			title:c_almalexia.holder = { has_title = title:e_tribunal_temple }
+			title:c_almalexia.holder = { has_title = title:k_archcanon_almalexia } 
+		}
+		NOT = { capital_county = { this = title:c_almalexia } }
+		OR = {
+			exists = title:e_tribunal_temple.holder
+			exists = title:k_archcanon_almalexia.holder
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+		highest_held_title_tier >= tier_kingdom #Only Kings and Emperors
+		custom_tooltip = {
+			text = hof_exists_tt
+			faith = { exists = religious_head }
+		}
+		custom_tooltip = {
+			text = almalexia_held_by_you_or_vassal_tt
+			OR = {
+				title:c_almalexia.holder = { 	
+					any_liege_or_above = { this = root }
+				}
+				title:c_almalexia.holder = { this = root }
+			}
+		}
+	}
+
+	effect = {
+		add_piety = 500
+		if = {
+			limit = {
+				exists = title:k_archcanon_almalexia.holder
+			}		
+			create_title_and_vassal_change = {
+				type = returned
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			title:c_almalexia = {
+				change_title_holder = {
+					holder = title:k_archcanon_almalexia.holder
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+			title:k_archcanon_almalexia.holder = {
+				add_opinion = {
+					target = prev
+					modifier = returned_temple_land_opinion
+				}
+			}
+		}
+		else = {
+			create_title_and_vassal_change = {
+				type = returned
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			title:c_almalexia = {
+				change_title_holder = {
+					holder = title:e_tribunal_temple.holder
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+			title:e_tribunal_temple.holder = {
+				add_opinion = {
+					target = prev
+					modifier = returned_temple_land_opinion
+				}
+			}
+		}
+	}
+
+	ai_potential = {
+        always = yes
+	}
+
+	ai_will_do = { #Do it always, for coherence.
+		base = 100
+		modifier = {
+			factor = 0
+			title:c_almalexia.holder = {
+				OR = {
+					is_ai = no
+					any_liege_or_above = { is_ai = no }  # AI will never take Torval province away from a player.
+				}
+			}
+		}
+		modifier = {
+			factor = 0
+			has_trait = cynical
+		}
+	}
+}
+
+# Return Sotha Sil
+restore_alma_rula_in_sotha_sil_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+
+	desc = restore_alma_rula_in_sotha_sil_decision_desc
+	selection_tooltip = restore_alma_rula_in_sotha_sil_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 12
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		faith = { has_doctrine = doctrine_pantheon_tribunal }
+		NOR = { 
+			has_title = title:e_tribunal_temple
+			has_title = title:k_archcanon_sotha_sil
+		}
+		NOR = { 
+			title:c_sotha_sil.holder = { has_title = title:e_tribunal_temple }
+			title:c_sotha_sil.holder = { has_title = title:k_archcanon_sotha_sil } 
+		}
+		NOT = { capital_county = { this = title:c_sotha_sil } }
+		OR = {
+			exists = title:e_tribunal_temple.holder
+			exists = title:k_archcanon_sotha_sil.holder
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+		highest_held_title_tier >= tier_kingdom #Only Kings and Emperors
+		custom_tooltip = {
+			text = hof_exists_tt
+			faith = { exists = religious_head }
+		}
+		custom_tooltip = {
+			text = sotha_sil_held_by_you_or_vassal_tt
+			OR = {
+				title:c_sotha_sil.holder = { 	
+					any_liege_or_above = { this = root }
+				}
+				title:c_sotha_sil.holder = { this = root }
+			}
+		}
+	}
+
+	effect = {
+		add_piety = 500
+		if = {
+			limit = {
+				exists = title:k_archcanon_sotha_sil.holder
+			}		
+			create_title_and_vassal_change = {
+				type = returned
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			title:c_sotha_sil = {
+				change_title_holder = {
+					holder = title:k_archcanon_sotha_sil.holder
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+			title:k_archcanon_sotha_sil.holder = {
+				add_opinion = {
+					target = prev
+					modifier = returned_temple_land_opinion
+				}
+			}
+		}
+		else = {
+			create_title_and_vassal_change = {
+				type = returned
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			title:c_sotha_sil = {
+				change_title_holder = {
+					holder = title:e_tribunal_temple.holder
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+			title:e_tribunal_temple.holder = {
+				add_opinion = {
+					target = prev
+					modifier = returned_temple_land_opinion
+				}
+			}
+		}
+	}
+
+	ai_potential = {
+        always = yes
+	}
+
+	ai_will_do = { #Do it always, for coherence.
+		base = 100
+		modifier = {
+			factor = 0
+			title:c_sotha_sil.holder = {
+				OR = {
+					is_ai = no
+					any_liege_or_above = { is_ai = no }  # AI will never take Torval province away from a player.
+				}
+			}
+		}
+		modifier = {
+			factor = 0
+			has_trait = cynical
+		}
+	}
+}
+
+# Return Vivec
+restore_alma_rula_in_vivec_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+
+	desc = restore_alma_rula_in_vivec_decision_desc
+	selection_tooltip = restore_alma_rula_in_vivec_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 12
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		faith = { has_doctrine = doctrine_pantheon_tribunal }
+		NOR = { 
+			has_title = title:e_tribunal_temple
+			has_title = title:k_archcanon_vivec
+		}
+		NOR = { 
+			title:c_vivec.holder = { has_title = title:e_tribunal_temple }
+			title:c_vivec.holder = { has_title = title:k_archcanon_vivec } 
+		}
+		NOT = { capital_county = { this = title:c_vivec } }
+		OR = {
+			exists = title:e_tribunal_temple.holder
+			exists = title:k_archcanon_vivec.holder
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+		highest_held_title_tier >= tier_kingdom #Only Kings and Emperors
+		custom_tooltip = {
+			text = hof_exists_tt
+			faith = { exists = religious_head }
+		}
+		custom_tooltip = {
+			text = vivec_held_by_you_or_vassal_tt
+			OR = {
+				title:c_vivec.holder = { 	
+					any_liege_or_above = { this = root }
+				}
+				title:c_vivec.holder = { this = root }
+			}
+		}
+	}
+
+	effect = {
+		add_piety = 500
+		if = {
+			limit = {
+				exists = title:k_archcanon_vivec.holder
+			}		
+			create_title_and_vassal_change = {
+				type = returned
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			title:c_vivec = {
+				change_title_holder = {
+					holder = title:k_archcanon_vivec.holder
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+			title:k_archcanon_vivec.holder = {
+				add_opinion = {
+					target = prev
+					modifier = returned_temple_land_opinion
+				}
+			}
+		}
+		else = {
+			create_title_and_vassal_change = {
+				type = returned
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			title:c_vivec = {
+				change_title_holder = {
+					holder = title:e_tribunal_temple.holder
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+			title:e_tribunal_temple.holder = {
+				add_opinion = {
+					target = prev
+					modifier = returned_temple_land_opinion
+				}
+			}
+		}
+	}
+
+	ai_potential = {
+        always = yes
+	}
+
+	ai_will_do = { #Do it always, for coherence.
+		base = 100
+		modifier = {
+			factor = 0
+			title:c_vivec.holder = {
+				OR = {
+					is_ai = no
+					any_liege_or_above = { is_ai = no }  # AI will never take Torval province away from a player.
+				}
+			}
+		}
+		modifier = {
+			factor = 0
+			has_trait = cynical
+		}
+	}
+}
+
+expand_gh_de_jure_decision = {
+	ai_check_interval = 120
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+	sort_order = -20
+	decision_group_type = major
+	
+	cooldown = { years = 5 }
+
+	is_shown = {
+		is_great_house_head = yes
+		NOT = { primary_title.tier >= tier_empire }
+	}
+	is_valid = {
+		is_great_house_head = yes
+	}
+
+	is_valid_showing_failures_only = {
+		is_imprisoned = no
+		is_available_adult = yes
+		is_at_war = no
+	}
+
+	widget = {
+		gui = "decision_view_widget_generic_multichoice_with_effects"
+		controller = decision_option_list_controller
+		decision_to_second_step_button = "expand_gh_de_jure"
+		item = {	# Fallback - Displayed if no others available
+			value = shift_gh_fallback
+			is_shown = { always = no }
+			is_valid = { always = no }
+			localization = shift_gh_fallback_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		### Julan Shar
+		item = {
+			value = shift_julan_shar
+			is_shown = {
+				julan_shar_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = ek_region_julan_shar
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = ek_region_julan_shar
+			}
+			current_description = shift_julan_shar_desc
+			localization = shift_julan_shar_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_roth_roryn
+			is_shown = {
+				roth_roryn_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = ek_region_roth_roryn
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = ek_region_roth_roryn
+			}
+			current_description = shift_roth_roryn_desc
+			localization = shift_roth_roryn_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_coronati
+			is_shown = {
+				coronati_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = ek_region_coronati
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = ek_region_coronati
+			}
+			current_description = shift_coronati_desc
+			localization = shift_coronati_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_narsis
+			is_shown = {
+				narsis_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = ek_region_narsis
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = ek_region_narsis
+			}
+			current_description = shift_narsis_desc
+			localization = shift_narsis_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_aanthirin
+			is_shown = {
+				aanthirin_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = ek_region_aanthirin
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = ek_region_aanthirin
+			}
+			current_description = shift_aanthirin_desc
+			localization = shift_aanthirin_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_bal_foyen
+			is_shown = {
+				bal_foyen_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = ek_region_bal_foyen
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = ek_region_bal_foyen
+			}
+			current_description = shift_bal_foyen_desc
+			localization = shift_bal_foyen_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_nanaav
+			is_shown = {
+				nanaav_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = ek_region_nanaav
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = ek_region_nanaav
+			}
+			current_description = shift_nanaav_desc
+			localization = shift_nanaav_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_orethan
+			is_shown = {
+				orethan_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = ek_region_orethan
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = ek_region_orethan
+			}
+			current_description = shift_orethan_desc
+			localization = shift_orethan_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_aamul
+			is_shown = {
+				aamul_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = ek_region_aamul
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = ek_region_aamul
+			}
+			current_description = shift_aamul_desc
+			localization = shift_aamul_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_necrom
+			is_shown = {
+				necrom_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = ek_region_necrom
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = ek_region_necrom
+			}
+			current_description = shift_necrom_desc
+			localization = shift_necrom_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_mournhold
+			is_shown = {
+				mournhold_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = ek_region_mournhold
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = ek_region_mournhold
+			}
+			current_description = shift_mournhold_desc
+			localization = shift_mournhold_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_telvannis
+			is_shown = {
+				telvannis_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_telvannis
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = mundus_tamriel_morrowind_telvannis
+			}
+			current_description = shift_telvannis_desc
+			localization = shift_telvannis_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_dagon_urul
+			is_shown = {
+				dagon_urul_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = ek_region_dagon_urul
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = ek_region_dagon_urul
+			}
+			current_description = shift_dagon_urul_desc
+			localization = shift_dagon_urul_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_molag_ruhn
+			is_shown = {
+				molag_ruhn_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = ek_region_molag_ruhn
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = ek_region_molag_ruhn
+			}
+			current_description = shift_molag_ruhn_desc
+			localization = shift_molag_ruhn_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_sunad_mora
+			is_shown = {
+				sunad_mora_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = ek_region_sunad_mora
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = ek_region_sunad_mora
+			}
+			current_description = shift_sunad_mora_desc
+			localization = shift_sunad_mora_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_bashipal
+			is_shown = {
+				bashipal_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = ek_region_bashipal
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = ek_region_bashipal
+			}
+			current_description = shift_bashipal_desc
+			localization = shift_bashipal_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_yengrith
+			is_shown = {
+				yengrith_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = ek_region_yengrith
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = ek_region_yengrith
+			}
+			current_description = shift_yengrith_desc
+			localization = shift_yengrith_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_tear
+			is_shown = {
+				tear_trigger = yes
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = ek_region_tear
+					}
+				}
+			}
+			is_valid = {
+				completely_controls_region = ek_region_tear
+			}
+			current_description = shift_tear_desc
+			localization = shift_tear_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		#Vvardenfell
+		item = {
+			value = shift_ascadia
+			is_shown = {
+				root.primary_title = { NOT = { is_de_jure_liege_or_above_target = title:d_ascadia } }
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_ascadia
+					}
+				}
+			}
+			is_valid = {
+				completely_controls = title:d_ascadia
+				has_realm_law = vvardenfell_open
+			}
+			current_description = shift_ascadia_desc
+			localization = shift_ascadia_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_amaya
+			is_shown = {
+				root.primary_title = { NOT = { is_de_jure_liege_or_above_target = title:d_amaya } }
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_ascadia
+					}
+				}
+			}
+			is_valid = {
+				completely_controls = title:d_amaya
+				has_realm_law = vvardenfell_open
+			}
+			current_description = shift_amaya_desc
+			localization = shift_amaya_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_balmora
+			is_shown = {
+				root.primary_title = { NOT = { is_de_jure_liege_or_above_target = title:d_balmora } }
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_ascadia
+					}
+				}
+			}
+			is_valid = {
+				completely_controls = title:d_balmora
+				has_realm_law = vvardenfell_open
+			}
+			current_description = shift_balmora_desc
+			localization = shift_balmora_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_bitter_coast
+			is_shown = {
+				root.primary_title = { NOT = { is_de_jure_liege_or_above_target = title:d_bitter_coast } }
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_ascadia
+					}
+				}
+			}
+			is_valid = {
+				completely_controls = title:d_bitter_coast
+				has_realm_law = vvardenfell_open
+			}
+			current_description = shift_bitter_coast_desc
+			localization = shift_bitter_coast_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_west_gash
+			is_shown = {
+				root.primary_title = { NOT = { is_de_jure_liege_or_above_target = title:d_west_gash } }
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_ascadia
+					}
+				}
+			}
+			is_valid = {
+				completely_controls = title:d_west_gash
+				has_realm_law = vvardenfell_open
+			}
+			current_description = shift_west_gash_desc
+			localization = shift_west_gash_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_molag_mar
+			is_shown = {
+				root.primary_title = { NOT = { is_de_jure_liege_or_above_target = title:d_molag_mar } }
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_ascadia
+					}
+				}
+			}
+			is_valid = {
+				completely_controls = title:d_molag_mar
+				has_realm_law = vvardenfell_open
+			}
+			current_description = shift_molag_mar_desc
+			localization = shift_molag_mar_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_aldruhn
+			is_shown = {
+				root.primary_title = { NOT = { is_de_jure_liege_or_above_target = title:d_aldruhn } }
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_ashlands
+					}
+				}
+			}
+			is_valid = {
+				completely_controls = title:d_aldruhn
+				has_realm_law = vvardenfell_open
+			}
+			current_description = shift_aldruhn_desc
+			localization = shift_aldruhn_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_valenvaryon
+			is_shown = {
+				root.primary_title = { NOT = { is_de_jure_liege_or_above_target = title:d_valenvaryon } }
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_ashlands
+					}
+				}
+			}
+			is_valid = {
+				completely_controls = title:d_valenvaryon
+				has_realm_law = vvardenfell_open
+			}
+			current_description = shift_valenvaryon_desc
+			localization = shift_valenvaryon_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_kogoruhn
+			is_shown = {
+				root.primary_title = { NOT = { is_de_jure_liege_or_above_target = title:d_kogoruhn } }
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_ashlands
+					}
+				}
+			}
+			is_valid = {
+				completely_controls = title:d_kogoruhn
+				has_realm_law = vvardenfell_open
+			}
+			current_description = shift_kogoruhn_desc
+			localization = shift_kogoruhn_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_marandus
+			is_shown = {
+				root.primary_title = { NOT = { is_de_jure_liege_or_above_target = title:d_marandus } }
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_ashlands
+					}
+				}
+			}
+			is_valid = {
+				completely_controls = title:d_marandus
+				has_realm_law = vvardenfell_open
+			}
+			current_description = shift_marandus_desc
+			localization = shift_marandus_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_molag_amur
+			is_shown = {
+				root.primary_title = { NOT = { is_de_jure_liege_or_above_target = title:d_molag_amur } }
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_ashlands
+					}
+				}
+			}
+			is_valid = {
+				completely_controls = title:d_molag_amur
+				has_realm_law = vvardenfell_open
+			}
+			current_description = shift_molag_amur_desc
+			localization = shift_molag_amur_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_sadrith_mora
+			is_shown = {
+				root.primary_title = { NOT = { is_de_jure_liege_or_above_target = title:d_sadrith_mora } }
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_azura_coast
+					}
+				}
+			}
+			is_valid = {
+				completely_controls = title:d_sadrith_mora
+				has_realm_law = vvardenfell_open
+			}
+			current_description = shift_sadrith_mora_desc
+			localization = shift_sadrith_mora_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_missir
+			is_shown = {
+				root.primary_title = { NOT = { is_de_jure_liege_or_above_target = title:d_missir } }
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_azura_coast
+					}
+				}
+			}
+			is_valid = {
+				completely_controls = title:d_missir
+				has_realm_law = vvardenfell_open
+			}
+			current_description = shift_missir_desc
+			localization = shift_missir_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_tel_branora
+			is_shown = {
+				root.primary_title = { NOT = { is_de_jure_liege_or_above_target = title:d_tel_branora } }
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_azura_coast
+					}
+				}
+			}
+			is_valid = {
+				completely_controls = title:d_tel_branora
+				has_realm_law = vvardenfell_open
+			}
+			current_description = shift_tel_branora_desc
+			localization = shift_tel_branora_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_southern_grazelands
+			is_shown = {
+				root.primary_title = { NOT = { is_de_jure_liege_or_above_target = title:d_southern_grazelands } }
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_azura_coast
+					}
+				}
+			}
+			is_valid = {
+				completely_controls = title:d_southern_grazelands
+				has_realm_law = vvardenfell_open
+			}
+			current_description = shift_southern_grazelands_desc
+			localization = shift_southern_grazelands_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_northern_grazelands
+			is_shown = {
+				root.primary_title = { NOT = { is_de_jure_liege_or_above_target = title:d_northern_grazelands } }
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_azura_coast
+					}
+				}
+			}
+			is_valid = {
+				completely_controls = title:d_northern_grazelands
+				has_realm_law = vvardenfell_open
+			}
+			current_description = shift_northern_grazelands_desc
+			localization = shift_northern_grazelands_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+		item = {
+			value = shift_sheogorad
+			is_shown = {
+				root.primary_title = { NOT = { is_de_jure_liege_or_above_target = title:d_sheogorad } }
+				any_realm_county = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_morrowind_azura_coast
+					}
+				}
+			}
+			is_valid = {
+				completely_controls = title:d_sheogorad
+				has_realm_law = vvardenfell_open
+			}
+			current_description = shift_sheogorad_desc
+			localization = shift_sheogorad_name
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+			ai_chance = {
+				value = 100
+			}
+		}
+	}
+
+	effect = {
+		if = {
+			limit = { scope:shift_julan_shar = yes }
+			title:d_blacklight = { set_de_jure_liege_title = root.primary_title }
+			title:d_cormaris = { set_de_jure_liege_title = root.primary_title }
+			title:d_selethis = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_roth_roryn = yes  }
+			title:d_roth_roryn = { set_de_jure_liege_title = root.primary_title }
+			title:d_veranis = { set_de_jure_liege_title = root.primary_title }
+			title:d_zabamat = { set_de_jure_liege_title = root.primary_title }
+			title:d_marahk_bazhul = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_coronati = yes  }
+			title:d_coronati = { set_de_jure_liege_title = root.primary_title }
+			title:d_kragenmoor = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_narsis = yes  }
+			title:d_narsis = { set_de_jure_liege_title = root.primary_title }
+			title:d_shipal_shin = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_aanthirin = yes  }
+			title:d_ebonheart = { set_de_jure_liege_title = root.primary_title }
+			title:d_roa_dyr = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_bal_foyen = yes  }
+			title:d_daen_seeth = { set_de_jure_liege_title = root.primary_title }
+			title:d_bal_foyen = { set_de_jure_liege_title = root.primary_title }
+			title:d_kemel = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_nanaav = yes  }
+			title:d_nanaav = { set_de_jure_liege_title = root.primary_title }
+			title:d_vhul = { set_de_jure_liege_title = root.primary_title }
+			title:d_eidolon = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_orethan = yes  }
+			title:d_amber_forest = { set_de_jure_liege_title = root.primary_title }
+			title:d_meralag = { set_de_jure_liege_title = root.primary_title }
+			title:d_nethril = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_aamul = yes  }
+			title:d_draloris = { set_de_jure_liege_title = root.primary_title }
+			title:d_aamul = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_necrom = yes  }
+			title:d_necrom = { set_de_jure_liege_title = root.primary_title }
+			title:d_gorne = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_mournhold = yes  }
+			title:d_mournhold = { set_de_jure_liege_title = root.primary_title }
+			title:d_taldeic = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_telvannis = yes  }
+			title:d_telvannis = { set_de_jure_liege_title = root.primary_title }
+			title:d_banor = { set_de_jure_liege_title = root.primary_title }
+			title:d_uradas = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_dagon_urul = yes  }
+			title:d_dagon_urul = { set_de_jure_liege_title = root.primary_title }
+			title:d_boethiah_spine = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_molag_ruhn = yes  }
+			title:d_molag_ruhn = { set_de_jure_liege_title = root.primary_title }
+			title:d_muthada = { set_de_jure_liege_title = root.primary_title }
+			title:d_scath_anud = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_sunad_mora = yes  }
+			title:d_sunad_mora = { set_de_jure_liege_title = root.primary_title }
+			title:d_mothrivra = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_bashipal = yes  }
+			title:d_bashipal = { set_de_jure_liege_title = root.primary_title }
+			title:d_silnion = { set_de_jure_liege_title = root.primary_title }
+			title:d_horak = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_yengrith = yes  }
+			title:d_yengrith = { set_de_jure_liege_title = root.primary_title }
+			title:d_felyon = { set_de_jure_liege_title = root.primary_title }
+			title:d_rithendis = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_tear = yes  }
+			title:d_tear = { set_de_jure_liege_title = root.primary_title }
+			title:d_karag = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_ascadia = yes  }
+			title:d_ascadia = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_amaya = yes  }
+			title:d_amaya = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_balmora = yes  }
+			title:d_balmora = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_bitter_coast = yes  }
+			title:d_bitter_coast = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_west_gash = yes  }
+			title:d_west_gash = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_molag_mar = yes  }
+			title:d_molag_mar = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_aldruhn = yes  }
+			title:d_aldruhn = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_valenvaryon = yes  }
+			title:d_valenvaryon = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_kogoruhn = yes  }
+			title:d_kogoruhn = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_marandus = yes  }
+			title:d_marandus = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_molag_amur = yes  }
+			title:d_molag_amur = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_sadrith_mora = yes  }
+			title:d_sadrith_mora = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_missir = yes  }
+			title:d_missir = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_tel_branora = yes  }
+			title:d_tel_branora = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_southern_grazelands = yes  }
+			title:d_southern_grazelands = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_northern_grazelands = yes  }
+			title:d_northern_grazelands = { set_de_jure_liege_title = root.primary_title }
+		}
+		else_if = {
+			limit = { scope:shift_sheogorad = yes  }
+			title:d_sheogorad = { set_de_jure_liege_title = root.primary_title }
+		}
+		hidden_effect = {			
+			if = {
+				limit = {
+					is_morrowind_high_councilor = { CHARACTER = root }
+					any_character_situation = {
+						situation_top_has_catalyst = catalyst_situation_hc_expanded_de_jure
+					}
+				}
+				situation:grand_council ?= {
+					trigger_situation_catalyst = catalyst_situation_hc_expanded_de_jure
+				}
+			}
+			if = {
+				limit = {
+					NOT = { is_morrowind_high_councilor = { CHARACTER = root } }
+					any_character_situation = {
+						situation_top_has_catalyst = catalyst_situation_gcm_member_expanded_de_jure
+					}
+				}
+				situation:grand_council ?= {
+					trigger_situation_catalyst = catalyst_situation_gcm_member_expanded_de_jure
+				}
+			}
+		}
+	}
+	
+	cost = {
+		prestige = major_prestige_value
+	}
+	
+	ai_potential = {
+		is_great_house_head = yes
+		is_at_war = no
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+form_velothis_kingdom_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+
+	desc = form_mw_kingdom_decision_desc
+	selection_tooltip = form_mw_kingdom_decision_tooltip
+
+	decision_group_type = major
+	is_shown = {
+		any_realm_county = {
+			any_county_province = {
+				geographical_region = mundus_tamriel_morrowind_velothis
+			}
+		}
+		NOT = { exists = title:k_velothis.holder }
+		NOT = { title:k_velothis = { any_in_de_jure_hierarchy = { tier = tier_county } } }
+		is_in_morrowind_council = no
+	}
+
+	is_valid = {
+		completely_controls_region = mundus_tamriel_morrowind_velothis
+		prestige_level >= 3
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+	}
+
+	effect = {
+		every_duchy = {
+			limit = {
+				is_titular = no
+				title_capital_county.title_province = {
+					geographical_region = mundus_tamriel_morrowind_velothis
+				}
+				target_is_de_jure_liege_or_above = title:e_morrowind
+			}
+			set_de_jure_liege_title = title:k_velothis
+		}
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		title:k_velothis = {
+			change_title_holder = {
+				holder = root
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+	}
+	ai_potential = {		
+		is_great_house_head = no
+		is_at_war = no
+	}
+	ai_will_do = { #Do it always, for coherence.
+		base = 100
+	}
+	ai_check_interval = 120
+}
+form_narsis_kingdom_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+
+	desc = form_mw_kingdom_decision_desc
+	selection_tooltip = form_mw_kingdom_decision_tooltip
+
+	decision_group_type = major
+	is_shown = {
+		any_realm_county = {
+			any_county_province = {
+				geographical_region = mundus_tamriel_morrowind_aanthirin
+			}
+		}
+		NOT = { exists = title:k_thir.holder }
+		NOT = { title:k_thir = { any_in_de_jure_hierarchy = { tier = tier_county } } }
+		is_in_morrowind_council = no
+	}
+
+	is_valid = {
+		completely_controls_region = mundus_tamriel_morrowind_aanthirin
+		prestige_level >= 3
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+	}
+
+	effect = {
+		every_duchy = {
+			limit = {
+				is_titular = no
+				title_capital_county.title_province = {
+					geographical_region = mundus_tamriel_morrowind_aanthirin
+				}
+			}
+			set_de_jure_liege_title = title:k_thir
+		}
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		title:k_thir = {
+			change_title_holder = {
+				holder = root
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+	}
+	ai_potential = {		
+		is_great_house_head = no
+		is_at_war = no
+	}
+	ai_will_do = { #Do it always, for coherence.
+		base = 100
+	}
+	ai_check_interval = 120
+}
+form_deshaan_kingdom_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+
+	desc = form_mw_kingdom_decision_desc
+	selection_tooltip = form_mw_kingdom_decision_tooltip
+
+	decision_group_type = major
+	is_shown = {
+		any_realm_county = {
+			any_county_province = {
+				geographical_region = mundus_tamriel_morrowind_deshaan
+			}
+		}
+		NOT = { exists = title:k_deshaan.holder }
+		NOT = { title:k_deshaan = { any_in_de_jure_hierarchy = { tier = tier_county } } }
+		is_in_morrowind_council = no
+	}
+
+	is_valid = {
+		completely_controls_region = mundus_tamriel_morrowind_deshaan
+		prestige_level >= 3
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+	}
+
+	effect = {
+		every_duchy = {
+			limit = {
+				is_titular = no
+				title_capital_county.title_province = {
+					geographical_region = mundus_tamriel_morrowind_deshaan
+				}
+			}
+			set_de_jure_liege_title = title:k_deshaan
+		}
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		title:k_deshaan = {
+			change_title_holder = {
+				holder = root
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+	}
+	ai_potential = {		
+		is_great_house_head = no
+		is_at_war = no
+	}
+	ai_will_do = { #Do it always, for coherence.
+		base = 100
+	}
+	ai_check_interval = 120
+}
+form_tearmarsh_kingdom_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+
+	desc = form_mw_kingdom_decision_desc
+	selection_tooltip = form_mw_kingdom_decision_tooltip
+
+	decision_group_type = major
+	is_shown = {
+		any_realm_county = {
+			any_county_province = {
+				geographical_region = mundus_tamriel_morrowind_tearmarsh
+			}
+		}
+		NOT = { exists = title:k_tearmarsh.holder }
+		NOT = { title:k_tearmarsh = { any_in_de_jure_hierarchy = { tier = tier_county } } }
+		is_in_morrowind_council = no
+	}
+
+	is_valid = {
+		completely_controls_region = mundus_tamriel_morrowind_tearmarsh
+		prestige_level >= 3
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+	}
+
+	effect = {
+		every_duchy = {
+			limit = {
+				is_titular = no
+				title_capital_county.title_province = {
+					geographical_region = mundus_tamriel_morrowind_tearmarsh
+				}
+			}
+			set_de_jure_liege_title = title:k_tearmarsh
+		}
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		title:k_tearmarsh = {
+			change_title_holder = {
+				holder = root
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+	}
+	ai_potential = {		
+		is_great_house_head = no
+		is_at_war = no
+	}
+	ai_will_do = { #Do it always, for coherence.
+		base = 100
+	}
+	ai_check_interval = 120
+}
+form_necrom_kingdom_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+
+	desc = form_mw_kingdom_decision_desc
+	selection_tooltip = form_mw_kingdom_decision_tooltip
+
+	decision_group_type = major
+	is_shown = {
+		any_realm_county = {
+			any_county_province = {
+				geographical_region = mundus_tamriel_morrowind_necrom
+			}
+		}
+		NOT = { exists = title:k_necrom.holder }
+		NOT = { title:k_necrom = { any_in_de_jure_hierarchy = { tier = tier_county } } }
+		is_in_morrowind_council = no
+	}
+
+	is_valid = {
+		completely_controls_region = mundus_tamriel_morrowind_necrom
+		prestige_level >= 3
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+	}
+
+	effect = {
+		every_duchy = {
+			limit = {
+				is_titular = no
+				title_capital_county.title_province = {
+					geographical_region = mundus_tamriel_morrowind_necrom
+				}
+			}
+			set_de_jure_liege_title = title:k_necrom
+		}
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		title:k_necrom = {
+			change_title_holder = {
+				holder = root
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+	}
+	ai_potential = {		
+		is_great_house_head = no
+		is_at_war = no
+	}
+	ai_will_do = { #Do it always, for coherence.
+		base = 100
+	}
+	ai_check_interval = 120
+}
+form_firewatch_kingdom_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+
+	desc = form_mw_kingdom_decision_desc
+	selection_tooltip = form_mw_kingdom_decision_tooltip
+
+	decision_group_type = major
+	is_shown = {
+		any_realm_county = {
+			any_county_province = {
+				geographical_region = mundus_tamriel_morrowind_firewatch
+			}
+		}
+		NOT = { exists = title:k_firewatch.holder }
+		NOT = { title:k_firewatch = { any_in_de_jure_hierarchy = { tier = tier_county } } }
+		is_in_morrowind_council = no
+	}
+
+	is_valid = {
+		completely_controls_region = mundus_tamriel_morrowind_firewatch
+		prestige_level >= 3
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+	}
+
+	effect = {
+		every_duchy = {
+			limit = {
+				is_titular = no
+				title_capital_county.title_province = {
+					geographical_region = mundus_tamriel_morrowind_firewatch
+				}
+			}
+			set_de_jure_liege_title = title:k_firewatch
+		}
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		title:k_firewatch = {
+			change_title_holder = {
+				holder = root
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+	}
+	ai_potential = {		
+		is_great_house_head = no
+		is_at_war = no
+	}
+	ai_will_do = { #Do it always, for coherence.
+		base = 100
+	}
+	ai_check_interval = 120
+}
+form_telvannis_kingdom_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+
+	desc = form_mw_kingdom_decision_desc
+	selection_tooltip = form_mw_kingdom_decision_tooltip
+
+	decision_group_type = major
+	is_shown = {
+		any_realm_county = {
+			any_county_province = {
+				geographical_region = mundus_tamriel_morrowind_telvannis
+			}
+		}
+		NOT = { exists = title:k_telvannis.holder }
+		NOT = { title:k_telvannis = { any_in_de_jure_hierarchy = { tier = tier_county } } }
+		is_in_morrowind_council = no
+	}
+
+	is_valid = {
+		completely_controls_region = mundus_tamriel_morrowind_telvannis
+		prestige_level >= 3
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+	}
+
+	effect = {
+		every_duchy = {
+			limit = {
+				is_titular = no
+				title_capital_county.title_province = {
+					geographical_region = mundus_tamriel_morrowind_telvannis
+				}
+			}
+			set_de_jure_liege_title = title:k_telvannis
+		}
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		title:k_telvannis = {
+			change_title_holder = {
+				holder = root
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+	}
+	ai_potential = {		
+		is_great_house_head = no
+		is_at_war = no
+	}
+	ai_will_do = { #Do it always, for coherence.
+		base = 100
+	}
+	ai_check_interval = 120
+}

@@ -1,0 +1,403 @@
+﻿namespace = grand_council
+grand_council.0001 = { # Fullscreen Intro Event
+	type = character_event
+	window = fullscreen_event
+	title = grand_council.0001.t
+	desc = grand_council.0001.desc
+	theme = realm
+	trigger = { # we need to prevent this from firing for all players when a new player joins in MP
+		is_ai = no
+		NOT = { has_variable = grand_council_events_0001_var }
+ 	}
+	override_background = { reference = fullscreen_grand_council }
+	override_sound = { reference = "event:/DLC/FP2/SFX/UI/fp2_struggle_ui_intro_animate" }
+
+	cooldown = { years = 100 }
+
+	widgets = {
+		widget = {
+ 			gui = "event_window_widget_situation_info_grand_council"
+ 			container = "dynamic_content_widget"
+ 			controller = situation_info
+ 			setup_scope = { situation:grand_council = { save_scope_as = situation } }
+		}
+	}
+	immediate = {
+		play_music_cue = mx_cue_epic_sacral_moment
+		set_variable = grand_council_events_0001_var
+		save_scope_value_as = {
+			name = start
+			value = yes
+		}
+	}
+	option = {
+		name = grand_council.0001.a
+		trigger = { faith = { has_doctrine = doctrine_pantheon_tribunal } }
+		clicksound = "event:/DLC/FP2/SFX/UI/fp2_struggle_start_select"
+	}
+	option = {
+		name = grand_council.0001.b
+		trigger = { NOT = { faith = { has_doctrine = doctrine_pantheon_tribunal } } }
+		clicksound = "event:/DLC/FP2/SFX/UI/fp2_struggle_start_select"
+	}
+}
+
+grand_council.0002 = {
+	type = character_event
+	title = grand_council.0002.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					any_character_situation = {
+						any_situation_sub_region = {
+							sub_region_current_phase = gcm_balanced
+						}
+					}
+				}
+				desc = grand_council.0002.desc.balanced
+			}
+			triggered_desc = {
+				trigger = {
+					any_character_situation = {
+						any_situation_sub_region = {
+							sub_region_current_phase = gcm_autonomy
+						}
+					}
+				}
+				desc = grand_council.0002.desc.autonomy
+			}
+			triggered_desc = {
+				trigger = {
+					any_character_situation = {
+						any_situation_sub_region = {
+							sub_region_current_phase = gcm_centralised
+						}
+					}
+				}
+				desc = grand_council.0002.desc.centralised
+			}
+		}
+	}
+
+	theme = realm
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:high_councilor
+		triggered_animation = {
+			trigger = {
+				any_character_situation = {
+					any_situation_sub_region = {
+						sub_region_current_phase = gcm_centralised
+					}
+				}
+			}
+			animation = personality_bold
+		}
+		triggered_animation = {
+			trigger = {
+				any_character_situation = {
+					any_situation_sub_region = {
+						sub_region_current_phase = gcm_autonomy
+					}
+				}
+			}
+			animation = personality_coward
+		}
+		animation = chancellor
+	}
+
+	trigger = {
+		NOT = { has_variable = grand_council_game_start_var }
+	}
+
+	immediate = {
+		custom_tooltip = grand_council.0002.tt
+		play_music_cue = mx_cue_epic_sacral_moment
+		random_ruler = {
+			limit = {
+				has_character_flag = gcm_high_councilor
+			}
+			save_scope_as = high_councilor
+		}
+		scope:high_councilor = {
+			capital_county = { save_scope_as = hc_capital }
+		}
+	}
+
+	option = {
+		name = grand_council.0002.a
+	}
+}
+
+grand_council.0010 = { #Hidden event to add landless rulers to GCM situation
+	hidden = yes
+	immediate = {
+		situation:grand_council ?= {
+			add_manual_participant = root
+		}
+	}
+}
+
+#Events for writ of war interaction
+grand_council.1010 = {
+	type = letter_event
+	opening = {
+		desc = grand_council.1011.opening
+	}
+	desc = grand_council.1010
+	sender = scope:recipient
+	immediate = {
+		show_as_tooltip = {
+			purchase_writ_of_war_effect = yes
+		}
+	}
+
+	option = {
+		name = grand_council.1010.positive
+	}
+}
+grand_council.1011 = {
+	type = letter_event
+	opening = {
+		desc = grand_council.1011.opening
+	}
+	desc = grand_council.1011
+	sender = scope:recipient
+
+	option = {
+		name = grand_council.1011.negative
+	}
+}
+
+#Vvardenfell events
+namespace = grand_council_vv
+
+grand_council_vv.0001 = { #Hidden event saving initiator and vote variables
+	type = character_event
+	content_source = dlc_ek
+	hidden = yes
+	theme = realm
+	immediate = {
+		root = { save_scope_as = vv_initiator }
+		set_global_variable = {
+			name = votes_in_favor_of_open
+			value = 0
+		}
+		set_global_variable = {
+			name = votes_in_favor_of_temple
+			value = 0
+		}
+		every_living_character = {
+			limit = {
+				NOT = { this = root } #Already voting in favor
+				is_great_house_leader = yes
+			}
+			trigger_event = {
+				id = grand_council_vv.0002
+				days = 5
+			}
+		}
+		every_living_character = {
+			limit = {
+				is_great_house_leader = yes
+			}
+			trigger_event = {
+				id = grand_council_vv.0003
+				days = 10
+			}
+		}
+	}
+}
+
+grand_council_vv.0002 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_council_vv.0002.t
+	desc = grand_council_vv.0002.desc
+	theme = realm
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	lower_right_portrait = {
+		character = scope:vv_initiator
+	}
+	immediate = {
+		root.primary_title = { save_scope_as = voter_title }
+		title:e_tribunal_temple.holder ?= { save_scope_as = alma_rula }
+		root = { save_scope_as = voter }
+	}
+	option = { #Vote in favor of opening Vvardenfell
+		name = grand_council_vv.0002.a
+		change_global_variable = {
+			name = votes_in_favor_of_open
+			add = character_vote_total_score_in_favor_meeting
+		}
+		if = {
+			limit = {		
+				scope:vv_initiator = { has_strong_usable_hook = scope:voter }
+			}
+			scope:vv_initiator = { 
+				use_hook = scope:voter
+				remove_hook = { target = scope:voter }
+			}
+		}	
+		stress_impact = {   
+			zealous = major_stress_impact_gain
+			ambitious = medium_stress_impact_loss
+		}
+		scope:alma_rula = {
+			add_opinion = {
+				modifier = betrayed_me_opinion
+				opinion = -40
+				target = scope:voter
+			}
+		}
+		ai_chance = {
+			base = 0
+			vvardenfell_vote_open_modifier = yes
+		}
+	}
+	option = { #Vote in favor of keeping Vvardenfell as Temple Reserve
+		name = grand_council_vv.0002.b
+		root = { save_scope_as = voted_against_vv }
+		trigger = {
+			NOT = {
+				scope:vv_initiator = {
+					has_strong_usable_hook = root
+				}
+			}
+		}
+		show_as_unavailable = {
+			always = yes
+		}
+		change_global_variable = {
+			name = votes_in_favor_of_temple
+			add = character_vote_total_score_in_favor_meeting
+		}
+		stress_impact = {   
+			zealous = major_stress_impact_loss
+			ambitious = medium_stress_impact_gain
+		}
+		scope:alma_rula = {
+			add_opinion = {
+				modifier = grateful_opinion
+				opinion = 40
+				target = scope:voter
+			}
+		}
+		add_piety = medium_piety_gain
+		ai_chance = {
+			base = 0
+			vvardenfell_vote_temple_reserve_modifier = yes
+		}
+	}
+}
+
+grand_council_vv.0003 = {
+	type = character_event
+	content_source = dlc_ek
+	hidden = yes
+	theme = realm
+	immediate = {
+		if = {
+			limit = {
+				global_var:votes_in_favor_of_open > global_var:votes_in_favor_of_temple
+			}
+			set_global_variable = {
+				name = vv_vote_succeeded
+				value = yes
+				days = 1825
+			}
+			situation:grand_council ?= {
+				every_participant_group = {
+					limit = {
+						participant_group_type = grand_council_members
+					}
+					every_situation_group_participant = {
+						add_realm_law_skip_effects = vvardenfell_open
+					}
+				}
+			}
+		}
+		else = {
+			set_global_variable = {
+				name = vv_vote_failed
+				value = yes
+				days = 1825
+			}
+		}
+		if = {
+			limit = {
+				is_ai = no
+			}		
+			trigger_event = {
+				id = grand_council_vv.0004
+				days = 6
+			}
+		}
+	}
+}
+
+grand_council_vv.0004 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_council_vv.0004.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_global_variable = vv_vote_succeeded
+				}
+				desc = grand_council_vv.0004.desc.vv_vote_succeeded
+			}
+			triggered_desc = {
+				trigger = {
+					has_global_variable = vv_vote_failed
+				}
+				desc = grand_council_vv.0004.desc.vv_vote_failed
+			}
+		}
+	}
+	theme = realm
+	left_portrait = {
+		character = scope:vv_initiator
+		triggered_animation = {
+			trigger = {
+				has_global_variable = vv_vote_succeeded
+			}
+			animation = personality_bold
+		}
+		triggered_animation = {
+			trigger = {
+				has_global_variable = vv_vote_failed
+			}
+			animation = disappointed
+		}
+	}
+	immediate = {
+		scope:vv_initiator.capital_county = { save_scope_as = hc_capital }
+	}
+	option = {
+		if = {
+			limit = {
+				has_global_variable = vv_vote_succeeded
+			}
+			show_as_tooltip = {
+				add_realm_law_skip_effects = vvardenfell_open
+			}
+		}
+		if = {
+			limit = {
+				has_global_variable = vv_vote_failed
+			}
+			custom_tooltip = kept_temple_reserve_tooltip
+		}
+		name = grand_council_vv.0004.a
+	}
+}

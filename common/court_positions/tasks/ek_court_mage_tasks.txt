@@ -1,0 +1,166 @@
+﻿### Court Mage Tasks ###
+
+court_mage_instruct = {
+	court_position_types = { court_mage_court_position }
+
+	# Monthly cost for the task
+	cost = {
+		round = no
+		gold = {
+			add = {
+				value = monthly_court_position_task_cost
+				desc = COURT_POSITION_TASK_COST_BREAKDOWN_BASE
+				format = "BASE_VALUE_FORMAT_DECIMALS_PLUS_NEGATIVE"
+			}
+		}
+	}
+
+    on_start = {
+        custom_tooltip = court_mage_instruct_tt
+        #trigger the event for the liege
+        scope:liege = {
+            trigger_event = { id = ek_magic_ai_events.0001 }
+        }
+    }
+
+    on_end = {
+        #remove the flag
+        remove_character_flag = autonomous_magic_use
+    }
+
+	ai_will_do = {
+		value = 0 # Never used by AI
+	}
+}
+
+court_mage_support_liege = {
+	court_position_types = { court_mage_court_position }
+
+	# Monthly cost for the task
+	cost = {
+		round = no
+		gold = {
+			add = {
+				value = monthly_court_position_task_cost
+				desc = COURT_POSITION_TASK_COST_BREAKDOWN_BASE
+				format = "BASE_VALUE_FORMAT_DECIMALS_PLUS_NEGATIVE"
+			}
+		}
+	}
+
+	on_start = {
+		custom_tooltip = court_mage_support_liege_fallback_tt
+	}
+
+	on_monthly = {
+		random = {
+			chance = {
+				value = 3
+				add = {
+					value = "aptitude(court_mage_court_position)"
+					multiply = 0.5
+				}
+			}
+			scope:liege = {
+				if = { limit = { can_magic_trigger = yes } }
+				add_magicka = { VALUE = t1_spell_cost }
+			}
+		}
+	}
+
+	scaling_employer_modifiers = {
+		terrible = {
+			monthly_magic_lifestyle_xp_gain_mult = 0.03
+		}
+		poor = {
+			monthly_magic_lifestyle_xp_gain_mult = 0.06
+		}
+		average = {
+			monthly_magic_lifestyle_xp_gain_mult = 0.09
+		}
+		good = {
+			monthly_magic_lifestyle_xp_gain_mult = 0.12
+		}
+		excellent = {
+			monthly_magic_lifestyle_xp_gain_mult = 0.15
+		}
+	}
+
+	ai_will_do = {
+		value = 0
+		if = {
+			limit = {
+				can_magic_trigger = yes
+				has_magic_perk_trigger = yes
+			}
+			add = 50
+		}
+		if = {
+			limit = {
+				monthly_character_income < monthly_court_position_task_cost_double
+			}
+			add = -1000
+		}
+	}
+}
+
+court_mage_improve_self = {
+	court_position_types = { court_mage_court_position }
+
+	# Monthly cost for the task
+	cost = {
+		round = no
+		prestige = {
+			add = {
+				value = monthly_court_position_task_cost
+				desc = COURT_POSITION_TASK_COST_BREAKDOWN_BASE
+				format = "BASE_VALUE_FORMAT_DECIMALS_PLUS_NEGATIVE"
+			}
+		}
+	}
+
+	on_start = {
+		custom_tooltip = court_mage_improve_self_fallback_tt
+	}
+
+	on_monthly = {
+		random = {
+			chance = {
+				value = 3
+				add = {
+					value = "aptitude(court_mage_court_position)"
+					multiply = 0.5
+				}
+			}
+
+            random_list = {
+				30 = {
+					trigger = { has_arcana_less_than = { VALUE = very_high_skill_rating } }
+					add_arcana_skill = { VALUE = 1 }
+				}
+				70 = {
+					trigger = { NOT = { has_all_magic_perks_trigger = yes } }
+					add_random_magic_perk_effect = yes
+				}
+			}
+		}
+	}
+
+	ai_will_do = {
+		value = 30 # Always good
+		if = {
+			limit = {
+				court_position:court_mage_court_position = {
+					NOT = { has_magic_lifestyle_mastery_trigger = yes }
+				}
+			}
+			add = 20
+		}
+		if = {
+			limit = {
+				monthly_character_income < monthly_court_position_task_cost_double
+			}
+			add = -1000
+		}
+	}
+}

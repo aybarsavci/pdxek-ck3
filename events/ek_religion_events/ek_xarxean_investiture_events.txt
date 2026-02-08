@@ -1,0 +1,258 @@
+﻿namespace = ek_xarxean_investiture_event
+
+ek_xarxean_investiture_event.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_xarxean_investiture_event.0001.t
+	desc = { # triggered desc here could probably be cleaner, but eh
+		first_valid = { # Intro - what's the context for seeing this event at this time?
+			triggered_desc = { # in the event that that you don't have any relatives
+				trigger = { scope:ceremoniarch_dynasty = flag:doomed }
+				desc = ek_xarxean_investiture_event.0001.desc.doomed
+			}
+			triggered_desc = { # We refresh the heir via decision
+				trigger = { has_character_flag = consulted_xarxeans_flag }
+				desc = ek_xarxean_investiture_event.0001.desc.decision
+			}
+			desc = ek_xarxean_investiture_event.0001.desc # Upon succession itself
+		}
+		first_valid = { # Dynasty check for unique loc for certain families
+			triggered_desc = {
+				trigger = { 
+					NOT = { scope:ceremoniarch_dynasty = flag:doomed } # to prevent the part where the game tells you you risk game over
+					dynasty = dynasty:dyn_auriel # Auri-El
+				}
+				desc = ek_xarxean_investiture_event.0001.desc.result.auriel
+			}
+			triggered_desc = {
+				trigger = { 
+					NOT = { scope:ceremoniarch_dynasty = flag:doomed }
+					dynasty = dynasty:dyn_phynastris # Phynastris 
+				}
+				desc = ek_xarxean_investiture_event.0001.desc.result.phynaster
+			}
+			triggered_desc = {
+				trigger = { 
+					NOT = { scope:ceremoniarch_dynasty = flag:doomed }
+					dynasty = dynasty:syrabanis # Syrabanis 
+				}
+				desc = ek_xarxean_investiture_event.0001.desc.result.syrabane
+			}
+			triggered_desc = {
+				trigger = { 
+					NOT = { scope:ceremoniarch_dynasty = flag:doomed }
+					dynasty = dynasty:dyn_xarxesar # Xarxesar 
+				}
+				desc = ek_xarxean_investiture_event.0001.desc.result.xarxes
+			}
+			triggered_desc = {
+				trigger = { 
+					NOT = { scope:ceremoniarch_dynasty = flag:doomed }
+				}
+				desc = ek_xarxean_investiture_event.0001.desc.result.base
+			}
+		}
+		first_valid = { # Ending
+			triggered_desc = { 
+				trigger = {
+					NOR = { #let's only show this part upon regular succession
+						has_character_flag = consulted_xarxeans_flag 
+						scope:ceremoniarch_dynasty = flag:doomed
+					}	
+				}
+				desc = ek_xarxean_investiture_event.0001.desc.ending
+			}
+		}
+		
+	}
+
+	theme = faith
+	
+	left_portrait = {
+		character = scope:xarxean_investiture_heir
+		animation = war_over_tie
+	}
+
+	right_portrait = {
+		character = scope:xarxean_priest
+		animation = chancellor
+	}
+	
+	trigger = {
+		# Top liege of an empire tier Ceremoniarchy realm
+		uses_praxis_mechanics = yes
+		highest_held_title_tier = tier_empire
+	}
+	
+	immediate = {
+		root.primary_title = { # for loc purposes
+			save_scope_as = primary_title
+		}
+		root.faith.religious_head = {
+			save_scope_as = xarxean_priest
+		}
+		root.dynasty = {
+			if = {
+				limit = {
+					any_dynasty_member = {
+						has_character_flag = chosen_by_xarxeans
+					}
+				}
+				ordered_dynasty_member = {
+					limit = {
+						has_character_flag = chosen_by_xarxeans
+					}
+					order_by = var:state_praxis
+					save_scope_as = old_xarxean_investiture_heir
+				}
+			}
+		}
+		hidden_effect = {
+			root.dynasty = { # let's check the ruler's dynasty
+				if = {
+					limit = {
+						any_dynasty_member = { # first we see if the Ceremoniarch has children
+							is_child_of = root
+						}
+					}
+					# if so, let's order then by Praxis to find the heir
+					ordered_dynasty_member = {
+						limit = {
+							is_child_of = root
+							has_variable = state_praxis # immediately sort out the ones without Praxis, i.e. anyone not in a Ceremoniarch realm or not of Ceremoniarch government 
+						}
+						order_by = var:state_praxis
+						max = 1 # we only need to find the top candidate
+						save_scope_as = xarxean_investiture_heir
+					}
+				}
+				else_if = {
+					limit = {
+						any_dynasty_member = { # if they don't have children who are alive, let's check for grandchildren
+							is_grandchild_of = root
+						}
+					}
+					# if so, let's order then by Praxis to find the heir
+					ordered_dynasty_member = {
+						limit = {
+							is_grandchild_of = root
+							has_variable = state_praxis
+						}
+						order_by = var:state_praxis
+						max = 1 # we only need to find the top candidate
+						save_scope_as = xarxean_investiture_heir
+					}
+				}
+				else_if = {
+					limit = {
+						any_dynasty_member = { # if they don't have grandchildren who are alive, let's check for great grandchildren
+							is_great_grandchild_of = root
+						}
+					}
+					# if so, let's order then by Praxis to find the heir
+					ordered_dynasty_member = {
+						limit = {
+							is_great_grandchild_of = root
+							has_variable = state_praxis
+						}
+						order_by = var:state_praxis
+						max = 1 # we only need to find the top candidate
+						save_scope_as = xarxean_investiture_heir
+					}
+				}
+				else_if = {
+					limit = {
+						any_dynasty_member = { # let's assume there won't be descendants past great grandchildren, and therfore check siblings
+							is_sibling_of = root
+						}
+					}
+					# if so, let's order then by Praxis to find the heir
+					ordered_dynasty_member = {
+						limit = {
+							is_sibling_of = root
+							has_variable = state_praxis
+						}
+						order_by = var:state_praxis
+						max = 1 # we only need to find the top candidate
+						save_scope_as = xarxean_investiture_heir
+					}
+				}
+				else_if = {
+					limit = {
+						any_dynasty_member = { # if no siblings either, let's then check all relatives
+							is_alive = yes # hopefully some exist
+							NOT = { this = root } # that aren't yourself, of course
+						}
+					}
+					# if so, let's order then by Praxis to find the heir
+					ordered_dynasty_member = { # let's find all dynasty members
+						limit = {
+							has_variable = state_praxis
+						}
+						order_by = var:state_praxis
+						max = 1 # we only need to find the top candidate
+						save_scope_as = xarxean_investiture_heir
+					}
+				}
+				else = {
+					save_scope_value_as = { name = ceremoniarch_dynasty value = flag:doomed } # well, if there are no dynasty members to pick from, I guess the divine numerology stuff can't magically fix that for you
+				}
+			}
+		}			
+	}
+	
+	### Let's inform the player who their next heir will be, should succession happen at this time
+	option = {
+		trigger = {
+			exists = scope:xarxean_investiture_heir
+			has_character_flag = consulted_xarxeans_flag
+		}
+		name = ek_xarxean_investiture_event.0001.a
+		scope:old_xarxean_investiture_heir ?= {
+			remove_character_flag = chosen_by_xarxeans
+		}
+		scope:xarxean_investiture_heir = {
+			add_character_flag = chosen_by_xarxeans
+		}
+		custom_tooltip = {
+			text = ek_xarxean_investiture_event.0001.a.tt
+			if = {
+				limit = { has_realm_law = xarxean_investiture_succession_law }
+				set_designated_heir = scope:xarxean_investiture_heir
+			}
+		}
+	}
+
+	### A slightly different version for when the event triggered upon death of the ruling Ceremoniarch
+	option = {
+		trigger = {
+			exists = scope:xarxean_investiture_heir
+			NOT = { has_character_flag = consulted_xarxeans_flag }
+		}
+		name = ek_xarxean_investiture_event.0001.b
+		scope:old_xarxean_investiture_heir ?= {
+			remove_character_flag = chosen_by_xarxeans
+		}
+		scope:xarxean_investiture_heir = {
+			add_character_flag = chosen_by_xarxeans
+		}
+		custom_tooltip = {
+			text = ek_xarxean_investiture_event.0001.b.tt
+			if = {
+				limit = { has_realm_law = xarxean_investiture_succession_law }
+				set_designated_heir = scope:xarxean_investiture_heir
+			}
+		}
+		#hidden_effect = { set_designated_heir = scope:xarxean_investiture_heir } # this looks weird in the tooltip so let's hide this
+		#custom_tooltip = ek_xarxean_investiture_event.0001.b.tt
+	}
+
+	### In the event there is no valid dynasty member, notify the player of this
+	option = {
+		trigger = {
+			scope:ceremoniarch_dynasty = flag:doomed
+		}
+		name = ek_xarxean_investiture_event.0001.c
+		custom_tooltip = ek_xarxean_investiture_event.0001.c.tt
+	}
+}

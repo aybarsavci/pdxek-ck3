@@ -1,0 +1,248 @@
+﻿
+jewellery = {
+
+	usage = game
+	
+	ek_ashlander_beads_wisewoman = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				
+				gene = jewellery
+				template = ek_ashlander_beads
+				value = 1
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 90
+				OR = {
+					has_character_flag = need_priest_outfit
+					is_theocratic_lessee = yes
+					AND = { is_ruler = yes government_has_flag = government_is_theocracy }
+				}
+				OR = {
+					faith = faith:old_velothi
+					portrait_ek_ashlander_clothing_trigger = yes
+				}
+#				NOT = {
+#					faith.religious_head = this
+#				}
+				NOT = {
+					faith = {
+						has_doctrine_parameter = vows_of_poverty_active
+					}
+				}
+				
+			
+			}
+			modifier = {
+				add = -100
+				OR = {
+					has_trait = line_of_x
+				}				
+			}			
+		}
+	}
+
+	ek_ashlander_beads = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				
+				gene = jewellery
+				template = ek_ashlander_beads
+				range = { 0.0 0.74 }
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 40
+				portrait_ek_ashlander_clothing_trigger = yes
+				NOT = {
+					faith = {
+						has_doctrine_parameter = vows_of_poverty_active
+					}
+				}
+			}
+			modifier = {
+				add = -100
+				OR = {
+					has_trait = line_of_x
+				}				
+			}			
+		}
+	}
+	
+	ek_horwalli_necklace_high = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				
+				gene = jewellery
+				template = ek_horwalli_necklace_high
+				range = { 0.0 1.0 }
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 40
+				OR = {
+					portrait_ek_nedic_south_clothing_trigger = yes
+				}
+				NOT = {
+					faith = {
+						has_doctrine_parameter = vows_of_poverty_active
+					}
+				}
+			}
+			modifier = {
+				add = -100
+				OR = {
+					has_trait = line_of_x
+				}				
+			}			
+		}
+	}
+
+	ek_imga_jewellery = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				
+				gene = jewellery
+				template = ek_horwalli_necklace_high
+				range = { 0.0 1.0 }
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+				OR = {
+					portrait_ek_imga_clothing_trigger = yes
+				}
+				NOT = {
+					faith = {
+						has_doctrine_parameter = vows_of_poverty_active
+					}
+				}
+			}
+			modifier = {
+				add = -100
+				OR = {
+					has_trait = line_of_x
+				}				
+			}			
+		}
+
+	}
+	
+	ek_amulet_of_kings  = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				
+				gene = jewellery
+				template = ek_amulet_of_kings 
+				value = 1
+			}
+		}
+		weight = {
+			base = 0
+			#Artifact
+			modifier = { #Change this when the aok is properly implemented
+				add = 500
+				has_trait = dragonborn
+				exists = this
+				any_equipped_character_artifact = {
+					has_variable = Amulet_of_kings_artifact
+				}
+			}
+			#Alessians
+			modifier = {
+				add = 500
+				exists = character:alessian_100
+				this = character:alessian_100
+			}
+			modifier = {
+				add = 500
+				exists = character:alessian_103
+				this = character:alessian_103
+			}
+			modifier = {
+				add = 500
+				exists = character:alessian_104
+				this = character:alessian_104
+			}
+			modifier = {
+				add = 500
+				exists = character:alessian_105
+				this = character:alessian_105
+			}
+			modifier = {
+				add = 500
+				exists = character:alessian_contest_1
+				this = character:alessian_contest_1
+			}
+			modifier = {
+				add = 500
+				exists = character:alessian_107
+				this = character:alessian_107
+			}
+			modifier = {
+				add = 500
+				exists = character:alessian_109
+				this = character:alessian_109
+			}
+			#Remans
+			modifier = {
+				add = 500
+				exists = character:reman_100
+				this = character:reman_100
+			}
+			modifier = {
+				add = 500
+				exists = character:reman_102
+				this = character:reman_102
+			}
+			modifier = {
+				add = 500
+				exists = character:reman_103
+				this = character:reman_103
+			}
+			modifier = {
+				add = 500
+				exists = character:reman_104
+				this = character:reman_104
+			}
+		}		
+	}
+}
+
+
+ek_belt_accessory = {
+	 usage = game
+	 selection_behavior = max
+	 headhunter_head_horwalli = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = belt_accessory
+				template = ek_headhunter_head_horwalli
+				range = { 0 1}
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				exists = character:shuluni_100 # vra'seth
+				this = character:shuluni_100
+			}
+		}
+	}
+}

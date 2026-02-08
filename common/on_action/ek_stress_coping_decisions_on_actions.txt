@@ -1,0 +1,57 @@
+﻿# EK Response events to stress coping decisions that lets you lose stress
+
+stress_loss_skooma_drinker = {
+	random_events = {
+		100 = ek_stress_trait_coping_decisions.1001
+	}
+}
+
+stress_loss_vampire = {
+	random_events = {
+		100 = ek_stress_trait_coping_decisions.1051
+	}
+}
+
+stress_loss_lycan = {
+	random_events = {
+		100 = ek_stress_trait_coping_decisions.1101
+	}
+}
+
+stress_loss_experimentalist = {
+	random_events = {
+		100 = ek_stress_trait_coping_decisions.1151
+		100 = ek_stress_trait_coping_decisions.1152
+		100 = ek_stress_trait_coping_decisions.1153
+		100 = ek_stress_trait_coping_decisions.1154
+		100 = ek_stress_trait_coping_decisions.1155
+	}
+}
+
+####################################################################
+# CONVERT TO VAMPIRISM ON_ACTIONS
+####################################################################
+
+#Success is just one event
+
+convert_to_vampire_failure_outcome = {
+	trigger = {
+		exists = scope:scheme
+	}
+	
+	random_events = {
+		4 = ek_transformation.2004
+		1 = ek_transformation.2005
+	}
+}
+
+convert_to_lycan_failure_outcome = {
+	trigger = {
+		exists = scope:scheme
+	}
+	
+	random_events = {
+		4 = ek_transformation.2104
+		1 = ek_transformation.2105
+	}
+}

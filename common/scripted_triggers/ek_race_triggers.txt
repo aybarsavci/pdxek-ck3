@@ -1,0 +1,202 @@
+﻿ek_race_compatible_trigger = {
+	trigger_if = {
+		limit = {
+			OR = {
+				$CHARACTER1$ = { has_character_flag = race_khajiit }
+				$CHARACTER2$ = { has_character_flag = race_khajiit }
+			}
+		}
+		$CHARACTER1$ = { has_character_flag = race_khajiit }
+		$CHARACTER2$ = { has_character_flag = race_khajiit }
+	}
+	trigger_else_if = {
+		limit = {
+			OR = {
+				$CHARACTER1$ = { has_character_flag = race_argonian }
+				$CHARACTER2$ = { has_character_flag = race_argonian }
+			}
+		}
+		$CHARACTER1$ = { has_character_flag = race_argonian }
+		$CHARACTER2$ = { has_character_flag = race_argonian }
+	}
+	trigger_else_if = {
+		limit = {
+			OR = {
+				$CHARACTER1$ = { has_character_flag = race_lilmothiit }
+				$CHARACTER2$ = { has_character_flag = race_lilmothiit }
+			}
+		}
+		$CHARACTER1$ = { has_character_flag = race_lilmothiit }
+		$CHARACTER2$ = { has_character_flag = race_lilmothiit }
+	}
+	trigger_else_if = {
+		limit = {
+			OR = {
+				$CHARACTER1$ = { has_character_flag = race_imga }
+				$CHARACTER2$ = { has_character_flag = race_imga}
+			}
+		}
+		$CHARACTER1$ = { has_character_flag = race_imga }
+		$CHARACTER2$ = { has_character_flag = race_imga }
+	}
+	trigger_else_if = {
+		limit = {
+			OR = {
+				$CHARACTER1$ = { has_character_flag = race_goblinken }
+				$CHARACTER2$ = { has_character_flag = race_goblinken }
+			}
+		}
+		$CHARACTER1$ = { has_character_flag = race_goblinken }
+		$CHARACTER2$ = { has_character_flag = race_goblinken }
+	}
+	trigger_else_if = {
+		limit = {
+			OR = {
+				$CHARACTER1$ = { has_character_flag = race_daedra }
+				$CHARACTER2$ = { has_character_flag = race_daedra }
+			}
+		}
+		$CHARACTER1$ = { has_character_flag = race_daedra }
+		$CHARACTER2$ = { has_character_flag = race_daedra }
+	}
+	trigger_else = {
+		always = yes
+	}
+}
+
+#################################
+### Physical Attributes Stuff ###
+#################################
+
+# Hands
+race_has_claws_trigger = {
+	# Claw could technically also apply to Khajiit, or hand could be used
+	# This is just slightly more flavorful
+	has_character_flag = race_argonian
+}
+
+race_has_paws_trigger = {
+	OR = {
+		has_character_flag = race_khajiit
+		has_character_flag = race_lilmothiit
+		#has_character_flag = race_kapotun
+		# After heated debate, Imga do not have paws
+	}
+	NOT = { has_trait = furstock_ohmes }
+}
+
+race_has_hooves_trigger = {
+	always = no #Always build futureproof
+}
+
+race_has_scales_trigger = {
+	OR = {
+		has_character_flag = race_argonian
+		has_trait = tsaesci_2
+		has_trait = tsaesci_3
+		has_trait = tsaesci_4
+	}
+}
+
+race_has_fur_trigger = {
+	OR = {
+		has_character_flag = race_khajiit
+		has_character_flag = race_lilmothiit
+		has_character_flag = race_imga
+		#has_character_flag = race_kapotun
+	}
+	NOT = { has_trait = furstock_ohmes }
+}
+
+race_has_feathers_trigger = {
+	always = no #Always build futureproof
+}
+
+race_has_snout_trigger = {
+	OR = {
+		has_character_flag = race_argonian
+		has_character_flag = race_lilmothiit
+		has_character_flag = race_imga
+		#has_character_flag = race_kapotun
+		#Cats dont have pronounced snouts
+	}
+}
+
+race_has_beak_trigger = {
+	#has_character_flag = race_minotaur
+	always = no #Always build futureproof
+}
+
+race_has_tail_trigger = {
+	OR = {
+		has_character_flag = race_argonian
+		has_character_flag = race_khajiit
+		has_character_flag = race_lilmothiit
+		has_character_flag = race_imga
+		#has_character_flag = race_kapotun
+	}
+}
+
+race_has_wings_trigger = {
+	has_character_flag = race_argonian
+	OR = {
+		has_culture = culture:sarpa
+		culture = {
+			any_parent_culture_or_above = { this = culture:sarpa }
+		}
+	}
+}
+
+race_has_horns_trigger = {
+	OR = {
+		has_character_flag = race_daedra
+		has_character_flag = race_argonian
+		#has_character_flag = race_minotaur
+	}
+	NOR = {
+		has_culture = culture:paatru
+		culture = {
+			any_parent_culture_or_above = { this = culture:paatru }
+		}
+	}
+}
+
+race_has_fins_trigger = {
+	has_character_flag = race_argonian
+	NOR = {
+		has_culture = culture:paatru
+		culture = {
+			any_parent_culture_or_above = { this = culture:paatru }
+		}
+	}
+}
+
+race_has_fangs_trigger = {
+	OR = {
+		AND = {
+			has_character_flag = race_argonian
+			has_culture = culture:naga
+		}
+		AND = {
+			has_character_flag = race_argonian
+			culture = {
+				any_parent_culture_or_above = { this = culture:naga }
+			}
+		}
+		has_character_flag = race_khajiit
+		has_character_flag = race_lilmothiit
+		#has_character_flag = race_kapotun
+		has_trait = vampire_character
+		has_trait = tsaesci_2
+		has_trait = tsaesci_3
+		has_trait = tsaesci_4
+	}
+}
+
+race_has_whiskers_trigger = {
+	OR = {
+		has_character_flag = race_khajiit
+		has_character_flag = race_lilmothiit
+		#has_character_flag = race_kapotun
+	}
+}

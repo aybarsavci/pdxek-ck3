@@ -1,0 +1,61 @@
+﻿# Elder Kings events related to the Spymaster's tasks
+
+namespace = ek_spymaster_task
+
+### EK Secrets
+# Spymaster found Secret Necromancer
+ek_spymaster_task.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_spymaster_task.0001.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					root = scope:councillor_liege
+				}
+				desc = spymaster_task.0311.councillor_liege_opening
+			}
+			desc = spymaster_task.0311.spymaster_opening
+		}
+		first_valid = {
+			triggered_desc = {
+				trigger = {		
+					any_secret = {
+						secret_type = secret_necromancer
+					}							
+				}
+				desc = ek_spymaster_task.0001.secret_necromancer.shared
+			}
+			desc = ek_spymaster_task.0001.secret_necromancer
+		}
+	}
+	theme = intrigue
+	left_portrait = {
+		character = scope:councillor
+		animation = shock
+	}
+	right_portrait = {
+		character = scope:secret_holder
+		animation = dismissal
+	}
+	
+	trigger = {
+		scope:secret_to_reveal = {
+			secret_type = secret_necromancer
+		}
+	}
+
+	option = {
+		name = {
+			text = ek_spymaster_task.0001.a.necromancer
+			trigger = {
+				has_trait = necromancer
+			}
+		}
+		name = ek_spymaster_task.0001.a
+		scope:secret_to_reveal = {
+			reveal_to = root
+		}
+	}
+}

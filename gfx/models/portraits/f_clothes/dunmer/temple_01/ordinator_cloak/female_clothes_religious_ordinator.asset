@@ -1,0 +1,70 @@
+pdxmesh = {
+	name = "female_clothes_religious_ordinator_mesh"
+	file = "female_clothes_religious_ordinator.mesh"
+
+#	blend_shape = { id = "male_clothes_religious_ordinator_bs_muscular"			type = "male_clothes_religious_ordinator_bs_muscular.mesh" }
+
+
+	meshsettings = {
+		name = "ordinator_cloak_Shape"
+		index = 0
+		texture_diffuse = "male_clothes_religious_ordinator_diffuse.dds"
+		texture_normal = "male_clothes_religious_ordinator_normal.dds"
+		texture_specular = "male_clothes_religious_ordinator_properties.dds"
+		shader = "portrait_attachment_pattern"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+
+pdxmesh = {
+	name = "female_clothes_religious_almarula_mesh"
+	file = "female_clothes_religious_ordinator.mesh"
+
+#	blend_shape = { id = "male_clothes_religious_ordinator_bs_muscular"			type = "male_clothes_religious_ordinator_bs_muscular.mesh" }
+
+
+	meshsettings = {
+		name = "ordinator_cloak_Shape"
+		index = 0
+		texture_diffuse = "male_clothes_religious_almarula_diffuse.dds"
+		texture_normal = "male_clothes_religious_ordinator_normal.dds"
+		texture_specular = "male_clothes_religious_almarula_properties.dds"
+		shader = "portrait_attachment_pattern"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+
+
+entity = {
+	name = "female_clothes_religious_ordinator_entity"
+	pdxmesh = "female_clothes_religious_ordinator_mesh"
+	
+#	attribute = { name = "bs_body_muscular_1"							blend_shape = "male_clothes_religious_ordinator_bs_muscular" }
+
+	game_data = {
+		portrait_entity_user_data = {
+
+		portrait_accessory = {
+			pattern_mask = "gfx/models/portraits/m_clothes/dunmer/temple_01/ordinator_cloak/male_clothes_religious_ordinator_masks.dds"	#Any 4-channel texture. Each channel will be used to mask a pattern from the variation object
+			variation = "dunmer_tribunal_ordinator_cloak"	#A "variation" object in gfx/portraits/accessory_variations/
+		}
+		}
+	}
+}
+
+entity = {
+	name = "female_clothes_religious_almarula_entity"
+	pdxmesh = "female_clothes_religious_almarula_mesh"
+	
+#	attribute = { name = "bs_body_muscular_1"							blend_shape = "male_clothes_religious_ordinator_bs_muscular" }
+
+	game_data = {
+		portrait_entity_user_data = {
+
+		portrait_accessory = {
+			pattern_mask = "gfx/models/portraits/m_clothes/dunmer/temple_01/ordinator_cloak/male_clothes_religious_ordinator_masks.dds"	#Any 4-channel texture. Each channel will be used to mask a pattern from the variation object
+			variation = "dunmer_tribunal_almarula_cloak"	#A "variation" object in gfx/portraits/accessory_variations/
+		}
+		}
+	}
+}

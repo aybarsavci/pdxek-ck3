@@ -1,0 +1,227 @@
+﻿has_sprawl_building = {
+#	trigger_if = {
+#		limit = { NOT = { exists = scope:holder } }
+#		debug_log = "Sprawl Holder Missing!"
+#		debug_log_scopes = yes
+#	}
+	has_sprawl_building_$BUILDING$ = yes
+}
+has_sprawl_building_walls_00 = {
+	OR = {
+		AND = {
+			is_county_capital = no
+			fort_level < 1
+		}
+		barony = title:b_crystal
+		barony = title:b_white_gold
+		barony = title:b_fort_legion	   # has custom walls
+		barony = title:b_arcane_university # has custom walls
+		barony = title:b_ebonheart         # special sprawl
+	}
+}
+has_sprawl_building_walls_01_tribal = {
+	OR = {
+		is_county_capital = yes
+		fort_level > 0
+	}
+	NOR = {
+		has_building_or_higher = "palisades_01"
+		has_building_or_higher = "curtain_walls_01"
+		has_building_or_higher = "hill_forts_01"
+		has_building_or_higher = "ramparts_01"
+		has_building_or_higher = "watchtowers_01"
+		barony = title:b_crystal
+		barony = title:b_white_gold
+		barony = title:b_fort_legion	   # has custom walls
+		barony = title:b_arcane_university # has custom walls
+		barony = title:b_ebonheart         # special sprawl
+	}
+}
+has_sprawl_building_walls_01 = {
+	OR = {
+		has_building_or_higher = "palisades_01"
+		has_building_or_higher = "curtain_walls_01"
+		has_building_or_higher = "hill_forts_01"
+		has_building_or_higher = "ramparts_01"
+		has_building_or_higher = "watchtowers_01"
+	}
+	NOR = {
+		has_building_or_higher = "palisades_02"
+		has_building_or_higher = "curtain_walls_02"
+		has_building_or_higher = "hill_forts_02"
+		has_building_or_higher = "ramparts_02"
+		has_building_or_higher = "watchtowers_02"
+		barony = title:b_crystal
+		barony = title:b_white_gold
+		barony = title:b_fort_legion	   	# has custom walls
+		barony = title:b_arcane_university 	# has custom walls
+		barony = title:b_godsreach			#mournhold sprawl
+		barony = title:b_narsis    			#narsis sprawl
+		barony = title:b_alma_plaza    		#mournhold sprawl
+		barony = title:b_tribunal_temple    #almalexia temple
+		barony = title:b_ebonheart         # special sprawl
+	}
+}
+has_sprawl_building_walls_02 = {
+	OR = {
+		has_building_or_higher = "palisades_02"
+		has_building_or_higher = "curtain_walls_02"
+		has_building_or_higher = "hill_forts_02"
+		has_building_or_higher = "ramparts_02"
+		has_building_or_higher = "watchtowers_02"
+	}
+	NOR = {
+		has_building_or_higher = "curtain_walls_03"
+		has_building_or_higher = "hill_forts_03"
+		has_building_or_higher = "ramparts_03"
+		has_building_or_higher = "watchtowers_03"
+		barony = title:b_crystal
+		barony = title:b_white_gold
+		barony = title:b_fort_legion	   	# has custom walls
+		barony = title:b_arcane_university 	# has custom walls
+		barony = title:b_godsreach			#mournhold sprawl
+		barony = title:b_narsis				#narsis sprawl
+		barony = title:b_alma_plaza    		#mournhold sprawl
+		barony = title:b_tribunal_temple    #almalexia temple
+		barony = title:b_ebonheart         # special sprawl
+	}
+}
+has_sprawl_building_walls_03 = {
+	OR = {
+		has_building_or_higher = "curtain_walls_03"
+		has_building_or_higher = "hill_forts_03"
+		has_building_or_higher = "ramparts_03"
+		has_building_or_higher = "watchtowers_03"
+	}
+	NOR = {
+		has_building_or_higher = "curtain_walls_06"
+		has_building_or_higher = "hill_forts_06"
+		has_building_or_higher = "ramparts_06"
+		has_building_or_higher = "watchtowers_06"
+		barony = title:b_crystal
+		barony = title:b_white_gold
+		barony = title:b_fort_legion	   	# has custom walls
+		barony = title:b_arcane_university 	# has custom walls
+		barony = title:b_godsreach    		#mournhold sprawl
+		barony = title:b_narsis    			#narsis sprawl
+		barony = title:b_alma_plaza  		#mournhold sprawl
+		barony = title:b_tribunal_temple    #almalexia temple
+		barony = title:b_necrom    			#necrom sprawl
+		barony = title:b_fane_of_the_ancestors    #fane of the ancestors
+		barony = title:b_ebonheart         # special sprawl
+	}
+}
+has_sprawl_building_walls_04 = {
+	exists = barony.holder
+	scope:holder = { NOT = { government_has_flag = government_is_tribal } }
+	OR = {
+		has_building_or_higher = "curtain_walls_06"
+		has_building_or_higher = "hill_forts_06"
+		has_building_or_higher = "ramparts_06"
+		has_building_or_higher = "watchtowers_06"
+	}
+	NOR = {
+		barony = title:b_crystal
+		barony = title:b_white_gold
+		barony = title:b_fort_legion	   	# has custom walls
+		barony = title:b_arcane_university 	# has custom walls
+		barony = title:b_godsreach    		#mournhold sprawl
+		barony = title:b_alma_plaza    		#mournhold sprawl
+		barony = title:b_tribunal_temple    #almalexia temple
+		barony = title:b_necrom    			#necrom sprawl
+		barony = title:b_fane_of_the_ancestors    #fane of the ancestors
+		barony = title:b_ebonheart         # special sprawl
+		
+	}
+}
+
+has_sprawl_building_city = {
+	exists = barony.holder
+	county = { development_level > terrible_development_level }
+	scope:holder = { NOT = { government_has_flag = government_is_tribal } }
+	OR = {
+		has_building_or_higher = "common_tradeport_02"
+		has_building_or_higher = "guild_halls_03"
+		has_building_or_higher = "city_03"
+		has_building_or_higher = "temple_04"
+		has_building_or_higher = "barracks_03"
+		has_building_or_higher = "monastic_schools_03"
+		has_building_or_higher = "military_camps_03"
+		has_building_or_higher = "farm_estates_03"
+		has_building_or_higher = "plantations_03"
+		has_building_or_higher = "pastures_04"
+		has_building_or_higher = "orchards_04"
+		has_building_or_higher = "royal_garden_03"
+		has_building_or_higher = "tax_assessor_02"
+		# Special baronies that have been requested to have city sprawl.
+		OR = {
+			# Summerset
+			barony = title:b_alinor_palace
+			barony = title:b_alinor
+			# Elsweyr
+			barony = title:b_senchal_palace
+			barony = title:b_black_kiergo
+			barony = title:b_lucky_cat_landing
+			# Morrowind
+			barony = title:b_tribunal_temple
+			barony = title:b_mournhold
+			barony = title:b_alma_plaza
+			barony = title:b_godsreach
+			# Skyrim
+			barony = title:b_windhelm
+			barony = title:b_snow_quarter
+			barony = title:b_solitude
+			barony = title:b_riften
+			barony = title:b_whiterun
+			# Hammerfell
+			barony = title:b_arlimahera_palace
+			barony = title:b_hegathe
+			barony = title:b_sister_of_the_sand # Sentinel
+			# High Rock major cities, until they get custom sprawl
+			barony = title:b_daggerfall
+			barony = title:b_evermore
+			barony = title:b_shornhelm
+			# Cyrodiil
+			barony = title:b_harborside # Anvil
+			barony = title:b_anvil
+			barony = title:b_kvatch
+			barony = title:b_skingrad
+			barony = title:b_chorrol
+			barony = title:b_bruma
+			barony = title:b_waterfront
+			barony = title:b_cheydinhal
+			barony = title:b_bravil
+		}
+	}
+	NOT = {
+		barony = title:b_crystal
+		barony = title:b_blue_palace
+		barony = title:b_white_gold
+		barony = title:b_rootspire	#island too small for sprawl
+		barony = title:b_arboretum_district   #IC districts have manually placed sprawls
+		barony = title:b_arena_district
+		barony = title:b_market_district
+		barony = title:b_elven_garden_district
+		barony = title:b_nobles_district
+		barony = title:b_temple_district
+		barony = title:b_arcane_university # has custom model
+		barony = title:b_fort_legion # has custom model
+		barony = title:b_rumare_light # has custom model
+		barony = title:b_dour	 #sprawl gets deformed by mountains
+		barony = title:b_godsreach    #mournhold sprawl
+		barony = title:b_mournhold    #mournhold sprawl
+		barony = title:b_alma_plaza    #mournhold sprawl
+		barony = title:b_tribunal_temple    #almalexia temple
+		barony = title:b_narsis    #narsis sprawl
+		barony = title:b_necrom    #necrom sprawl
+		barony = title:b_blacklight    #blacklight sprawl
+		barony = title:b_port_telvannis    #port_telvannis sprawl
+		barony = title:b_fane_of_the_ancestors    #fane of the ancestors
+		barony = title:b_ebonheart         # special sprawl
+	}
+}
+
+
+
+
+#		fallback = { debug_log = "Sprawl key lookup failed" always = no }

@@ -1,0 +1,437 @@
+﻿##################
+# Summerset Special Buildings
+##################
+# Alinor (Capital)
+# Orrery of Firsthold
+# Cloudrest College
+# Firsthold Mages' Guild - TBA
+# Mathiisen Forge District
+# Banished Cells
+##################
+################################
+#            ALINOR            #
+################################
+
+##########
+# Alinor Harbor
+##########
+alinor_harbor_01 = {
+	construction_time = very_slow_construction_time
+	effect_desc = feast_cost_discount_max_desc
+
+	type_icon = "icon_structure_special_port.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	cost_gold = 1000
+	
+#	is_enabled = {			# something like this could be implemented related to the isolationist decision proposal, maybe??
+#		NOT = { 
+#			custom_description = {
+#				text = bridges_leyawiin_02_enabled
+#				title:b_leyawiin_castle.title_province = { has_building = bridges_leyawiin_02 }
+#				NOT = {
+#					is_target_in_global_variable_list = {
+#						name = unavailable_unique_decisions
+#						target = flag:destroy_bridges_leyawiin_decision
+#					}
+#				}
+#			}
+#		}
+#	}
+
+	### NOTE: Applied via an event instead as it a non duchy_capital building can't apply duchy_modifiers (which is bullshit if you ask me)
+	# duchy_capital_county_modifier = {
+		# tax_mult = 0.1
+	# }
+	character_modifier = {
+		monthly_stewardship_lifestyle_xp_gain_mult = 0.1
+		cultural_head_fascination_mult = 0.1
+	}
+	province_modifier = {
+		monthly_income = 2
+	}
+	county_modifier = {
+		development_growth = 0.3
+		development_growth_factor = 0.4
+		levy_size = 0.15
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+
+##########
+# Alinor Palace
+##########
+alinor_palace_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_building_leisure_palace.dds"
+	cost_gold = 1000
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	character_modifier = {
+		monthly_dynasty_prestige_mult = 0.05
+		clergy_opinion = 1
+		monthly_county_control_growth_factor = 0.05
+		spellblades_max_size_add = 2
+	}
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.2
+		development_growth = 0.2
+	}
+	province_modifier = {
+		monthly_income = 2
+		stationed_spellblades_damage_mult = normal_maa_damage_tier_1
+		stationed_spellblades_toughness_mult = normal_maa_toughness_tier_1
+		stationed_spellblades_screen_mult = normal_maa_screen_tier_1
+		stationed_spellblades_pursuit_mult = normal_maa_pursuit_tier_1
+	}	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_diplomatic
+}
+
+##########
+# Alinor Royal Capital
+##########
+alinor_royal_capital_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_building_royal_forest.dds"
+	cost_gold = 1000
+	
+	can_construct_potential = {
+		barony = title:b_alinor
+		building_requirement_tribal = no
+	}
+	
+	character_modifier = {
+		monthly_prestige_gain_mult = 0.15
+		stress_gain_mult = -0.30
+		#Add a court grandeur bonus
+		court_grandeur_baseline_add = 12
+		#character_capital_county_monthly_development_growth_add = 0.6
+	}
+		
+	duchy_capital_county_modifier = {
+		levy_size = 0.15
+		tax_mult = 0.15		
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = duchy_capital
+}
+
+##########
+# Alinor City
+##########
+alinor_city_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_shwedagon_pagoda.dds"
+	
+	can_construct_potential = {
+		barony = title:b_alinor
+		building_requirement_tribal = no
+	}
+	
+	cost_gold = 3000
+	
+	max_garrison = 500
+		
+	province_modifier = {
+		monthly_income = 1
+	}
+	county_modifier = {
+		development_growth_factor = 0.25
+		monthly_county_control_growth_add = 1
+		county_opinion_add = 25
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+}
+
+##########
+# Cloudrest College
+##########
+cloudrest_college_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_lund_cathedral.dds"
+
+	effect_desc = {
+		desc = unlocks_building_desc
+		triggered_desc = {
+			trigger = { has_dlc_feature = wards_and_wardens }
+			desc = ek_university_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = tours_and_tournaments }
+			desc = university_toto_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = royal_court }
+			desc = university_roco_effect_desc
+		}
+		desc = university_effect_desc
+	}
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+		
+	cost_gold = 1000
+
+	province_modifier = {
+		monthly_income = 1
+	}
+	
+	county_modifier = {
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_learning
+	flag = mundane_education_location
+}
+
+################################
+#            Auridon           #
+################################
+
+##########
+# Mathiisen Forge District: The best steel in the whole of Summerset is produced here.
+##########
+mathiisen_forge_district_01 = {
+	effect_desc = mines_effect_desc
+	
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_great_mosque_of_cordoba.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+
+	cost_gold = 1000
+
+	character_modifier = {
+		men_at_arms_maintenance = -0.1
+	}
+
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth_factor = 0.1
+		development_growth = 0.2
+	}
+
+	province_modifier = {
+		stationed_maa_damage_mult = high_maa_damage_tier_1
+		stationed_maa_toughness_mult = high_maa_toughness_tier_1
+		monthly_income = 1
+	}
+
+	ai_value = {
+		base = 100
+		modifier = { # Fill all building slots before going for special buildings
+			factor = 0
+			free_building_slots > 0
+		}
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+##########
+# Firsthold Orrery
+##########
+firsthold_orrery_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_al-azhar_university.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+
+	effect_desc = {
+		desc = unlocks_building_desc
+		triggered_desc = {
+			trigger = { has_dlc_feature = wards_and_wardens }
+			desc = ek_university_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = tours_and_tournaments }
+			desc = university_toto_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = royal_court }
+			desc = university_roco_effect_desc
+		}
+		desc = university_effect_desc
+	}
+		
+	cost_gold = 1000
+
+	character_modifier = {
+		learning_per_prestige_level = 2
+		monthly_lifestyle_xp_gain_mult = 0.1
+		monthly_dynasty_prestige = 0.25		
+	}
+	
+	county_modifier = {
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+
+	province_modifier = {
+		stationed_mages_damage_mult = normal_maa_damage_tier_1
+		stationed_mages_toughness_mult = normal_maa_toughness_tier_1
+		stationed_mages_siege_value_mult = normal_maa_siege_value_tier_1
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_learning
+	flag = mundane_education_location
+}
+
+##########
+# Banished Cells
+##########
+banished_cells_01 = {
+	effect_desc = special_prison_effect_desc
+
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_tower_of_london.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	cost_gold = 1000
+
+	character_modifier = {
+		monthly_county_control_growth_factor = 0.1
+		monthly_county_control_growth_add = 0.1
+		monthly_piety_gain_mult = 0.1
+		intrigue_per_piety_level = 1
+		dread_gain_mult = 0.1
+	}
+
+	max_garrison = good_building_max_garrison_tier_1
+
+	province_modifier = {
+		defender_holding_advantage = normal_building_advantage_tier_1
+		fort_level = good_building_fort_level_tier_1
+	}
+
+	ai_value = {
+		base = 100
+	}
+		
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+##########
+# College of Sapiarchs
+##########
+sapiarch_college_01 = {
+	asset = {
+		type = pdxmesh
+		name = ep3_maidens_tower_01_a_mesh
+	}
+
+	type_icon = "icon_structure_maiden_tower.dds"
+
+	construction_time = very_slow_construction_time	
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+
+	effect_desc = {
+		desc = unlocks_building_desc
+		triggered_desc = {
+			trigger = { has_dlc_feature = wards_and_wardens }
+			desc = ek_arcane_university_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = tours_and_tournaments }
+			desc = university_toto_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = royal_court }
+			desc = university_roco_effect_desc
+		}
+		desc = university_effect_desc
+	}
+		
+	cost_gold = 1000
+
+	character_modifier = {
+		vassal_opinion = 10
+		cultural_head_fascination_mult = 0.1
+		monthly_lifestyle_xp_gain_mult = 0.1
+		monthly_magic_lifestyle_xp_gain_mult = 0.1
+		monthly_dynasty_prestige = 0.25		
+	}
+	
+	county_modifier = {
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+
+	province_modifier = {
+		stationed_mages_damage_mult = normal_maa_damage_tier_1
+		stationed_mages_toughness_mult = normal_maa_toughness_tier_1
+		stationed_mages_siege_value_mult = normal_maa_siege_value_tier_1
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_learning
+	flag = arcane_education_location
+}

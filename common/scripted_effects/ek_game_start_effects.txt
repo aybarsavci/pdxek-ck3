@@ -1,0 +1,40 @@
+﻿# It would be nice to over time give each culture its own history file but... dread floods my mind when I think of it
+ek_add_game_start_innovations = {
+	### Innovations
+	## Regional
+	culture:keptu = { add_innovation = innovation_war_camels }
+	
+	### MaA
+	# MaA are more important to put in the culture history files because otherwise they aren't used when generating the starting MaA
+	# EK TODO: transfer these to the respective history files (note: goblins cause a crash at game start for whatever god forsaken reason, be mindful that a similar issue might appear with others of these)
+
+	culture:altmeribosmer = { add_innovation = innovation_war_magic }
+	
+	
+	every_culture_global = { # In case only a culture within a culture group doesn't use one generic MaA
+		if = {
+			limit = { has_innovation_flag = innovation_quilted_armor_replacement has_innovation = innovation_quilted_armor }
+			remove_innovation = innovation_quilted_armor
+		}
+		if = {
+			limit = { has_innovation_flag = innovation_leather_armor_replacement has_innovation = innovation_leather_armor }
+			remove_innovation = innovation_leather_armor
+		}
+		if = {
+			limit = { has_innovation_flag = innovation_sanded_wood_replacement has_innovation = innovation_sanded_wood }
+			remove_innovation = innovation_sanded_wood
+		}
+		if = {
+			limit = { has_innovation_flag = innovation_steel_spearhead_replacement has_innovation = innovation_steel_spearhead }
+			remove_innovation = innovation_steel_spearhead
+		}
+		if = {
+			limit = { has_innovation_flag = innovation_horse_breeding_replacement has_innovation = innovation_horse_breeding }
+			remove_innovation = innovation_horse_breeding
+		}
+		if = {
+			limit = { has_innovation_flag = innovation_war_magic_replacement has_innovation = innovation_war_magic }
+			remove_innovation = innovation_war_magic
+		}
+	}
+}

@@ -1,0 +1,184 @@
+﻿ek_akaviri_headgear = {
+
+	usage = game
+	selection_behavior = weighted_random
+	priority = 1
+
+##############################
+#							 #	
+#			AKAVIRI		 	 #
+#							 #
+##############################
+
+	ek_akaviri_commoners = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = byzantine_common
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 80
+                portrait_commoner_headgear_fallback_trigger = {
+                    CULTURE_INPUT = ek_akaviri
+                }
+			}
+			modifier = { # Non-european jesters should not use the jester hat
+				add = 1000
+                portrait_jester_trigger = {  
+                    CULTURE_INPUT = ek_akaviri 
+                }
+			}
+			modifier = {
+				add = 20
+                portrait_commoner_clothing_trigger = {  
+                    CULTURE_INPUT = ek_akaviri 
+                }
+			}
+		}
+	}
+
+	ek_akaviri_low_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			court_fashion_level_4_headgear_modifier = { INPUT_PARAMETER = ek_akaviri } 
+			modifier = {
+				add = 50
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_akaviri
+                }
+			}
+		}
+	}
+
+	ek_akaviri_high_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_high_nobles_headgear_trigger = {
+                    CULTURE_INPUT = ek_akaviri
+                }   
+			}
+		}
+	}
+
+	ep1_ek_akaviri_royalty = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ep1_steppe_royalty
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 60
+				is_independent_ruler = yes
+                OR = {  
+					portrait_royalty_trigger = {
+						CULTURE_INPUT = ek_akaviri
+					}   
+				}
+			}
+			modifier = {
+				add = 60
+                OR = {
+					portrait_imperial_trigger = {
+						CULTURE_INPUT = ek_akaviri
+					}      
+				}
+			}
+			modifier = {
+				factor = 0
+				NOT = {
+					has_ep1_dlc_trigger = yes
+				}
+			}
+		}
+	}
+
+}
+
+
+ek_akaviri_war_headgear = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 4
+
+    ek_akaviri_war_low_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = steppe_war
+                accessory = m_headgear_sec_steppe_war_nob_01_lo
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_akaviri
+                }
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_akaviri
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_akaviri
+                    }
+                }
+            }
+        }
+    }
+
+    ek_akaviri_war_high_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = steppe_war
+                accessory = m_headgear_sec_steppe_war_nob_01_hi
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_akaviri
+                }
+                portrait_high_nobles_armor_trigger = {
+                    CULTURE_INPUT = ek_akaviri
+                }
+            }
+        }
+    }
+}

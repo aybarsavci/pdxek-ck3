@@ -1,0 +1,512 @@
+﻿
+#########################################
+# CULTURE RESURRECTION 					#
+#########################################
+
+namespace = ek_culture_resurrection_event
+
+# Resurrecting a dead culture with RD
+ek_culture_resurrection_event.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	theme = realm
+	override_background = { reference = wilderness_scope }
+
+	# this is a common event for RD dead culture characters
+	trigger = {	
+		is_from_ruler_designer = yes
+		culture = {
+			culture_is_alive = no
+			NOT = { has_innovation = innovation_daedric_race } # Dremora shouldn't get this event, even if they're "dead"
+			NOT = { this = culture:wrothgarian } # I spent far too much time making dedicated content about founding this culture for someone to skip all that
+		}
+	}	
+
+	# first let's prep your court so you're not all alone
+	immediate = {
+		if = {
+			limit = {
+				is_landed = yes #only if landed. laamps get a separate event
+			}
+			hidden_effect = {
+				# # trigger this effect ten times, generating a total of ten courtiers of your culture with assorted skillsets
+				while = {
+					count = 10
+					ek_fill_court_effect = yes
+				}
+				# then kick out other courtiers to make room
+				every_courtier_or_guest = {
+					limit = { NOT = { culture = { has_same_culture_heritage = root.culture }}} # I suppose it's not an issue if related cultures stick around, also stuff like Yagrum joining a Dwemer court
+					select_and_move_to_pool_effect = yes
+				}
+			}
+		}
+		# for background purposes
+		root.location ?= {
+			save_scope_as = background_wilderness_scope
+		}
+	}
+
+	# now for the main course - triggered loc
+	# there's a generic fallback desc that works for anyone, and some for specific cultures
+	# since it goes by first_valid, adding new cultural variants just requires adding a new triggered_desc block below
+
+	# title
+	title = {
+		first_valid = {
+			# Falmer
+			triggered_desc = {
+				trigger = {
+					has_culture = culture:falmer
+				}
+				desc = culture_resurrection_event.0001.t.falmer
+			}
+			# Betrayed
+			triggered_desc = {
+				trigger = {
+					has_culture = culture:falmer_betrayed
+				}
+				desc = culture_resurrection_event.0001.t.betrayed
+			}
+			# Dwemer - multiple cultures
+			triggered_desc = {
+				trigger = {
+					culture = { has_cultural_pillar = heritage_dwemeri }
+				}
+				desc = culture_resurrection_event.0001.t.dwemer
+			}
+			# Atmoran
+			triggered_desc = {
+				trigger = {
+					has_culture = culture:atmoran
+				}
+				desc = culture_resurrection_event.0001.t.atmoran
+			}
+			# Galen
+			triggered_desc = {
+				trigger = {
+					has_culture = culture:galen
+				}
+				desc = culture_resurrection_event.0001.t.galen
+			}
+			# Maormer/Tsaesci/Quey - common to these is that they're not really dead, just offmap
+			triggered_desc = {
+				trigger = {
+					OR = {
+						has_culture = culture:maormer
+						has_culture = culture:tsaesci
+						has_culture = culture:chimeriquey
+					}
+				}
+				desc = culture_resurrection_event.0001.t.offmap
+			}
+			desc = culture_resurrection_event.0001.t.base
+		}
+	}
+
+	# desc
+	desc = {
+		first_valid = {
+			# Falmer
+			triggered_desc = {
+				trigger = {
+					has_culture = culture:falmer
+				}
+				desc = culture_resurrection_event.0001.desc.falmer
+			}
+			# Betrayed
+			triggered_desc = {
+				trigger = {
+					has_culture = culture:falmer_betrayed
+				}
+				desc = culture_resurrection_event.0001.desc.betrayed
+			}
+			# Dwemer - multiple cultures, with some varying desc
+			# I tried handling this as triggered desc within triggered desc but alas
+			# Amz-Vtharden
+			triggered_desc = {
+				trigger = {
+					has_culture = culture:amz_vtharden
+				}
+				desc = culture_resurrection_event.0001.desc.resdayn
+			}
+			# Amz-Kagren
+			triggered_desc = {
+				trigger = {
+					has_culture = culture:amz_kagren
+				}
+				desc = culture_resurrection_event.0001.desc.kragen
+			}
+			# Amz-Vtholften
+			triggered_desc = {
+				trigger = {
+					has_culture = culture:amz_vtholften
+				}
+				desc = culture_resurrection_event.0001.desc.rourken
+			}
+			# Atmoran
+			triggered_desc = {
+				trigger = {
+					has_culture = culture:atmoran
+				}
+				desc = culture_resurrection_event.0001.desc.atmoran
+			}
+			# Galen
+			triggered_desc = {
+				trigger = {
+					has_culture = culture:galen
+				}
+				desc = culture_resurrection_event.0001.desc.galen
+			}
+			# Maormer/Tsaesci/Quey - common to these is that they're not really dead, just offmap
+			triggered_desc = {
+				trigger = {
+					OR = {
+						has_culture = culture:maormer
+						has_culture = culture:tsaesci
+						has_culture = culture:chimeriquey
+					}
+				}
+				desc = culture_resurrection_event.0001.desc.offmap
+			}
+			desc = culture_resurrection_event.0001.desc.base
+		}
+	}
+
+	left_portrait = {
+		character = ROOT
+		# vary the animations a bit
+		# Falmer
+		triggered_animation = {
+			trigger = { has_culture = culture:falmer }
+			animation = disapproval
+		}
+		# Betrayed
+		triggered_animation = {
+			trigger = { has_culture = culture:falmer_betrayed }
+			animation = paranoia
+		}
+		# Dwmemer
+		triggered_animation = {
+			trigger = { culture = { has_cultural_pillar = heritage_dwemeri }}
+			animation = thinking
+		}
+		# Atmoran
+		triggered_animation = {
+			trigger = { has_culture = culture:atmoran }
+			animation = marshal
+		}
+		# Galen
+		triggered_animation = {
+			trigger = { has_culture = culture:galen }
+			animation = holding_staff
+		}
+		# Maormer/Tsaesci/Quey
+		triggered_animation = {
+			trigger = { 
+				OR = {
+					has_culture = culture:maormer
+					has_culture = culture:tsaesci
+					has_culture = culture:chimeriquey
+				}
+			}
+			animation = survey
+		}
+		animation = worry
+	}
+	
+	# Option for landed rulers
+	option = {
+		# triggered desc: note the different syntax for event options vs desc and title
+		name = {
+			text = {
+				first_valid = {
+					# Falmer
+					triggered_desc = {
+						trigger = {
+							has_culture = culture:falmer
+						}
+						desc = culture_resurrection_event.0001.option1.falmer
+					}
+					# Betrayed
+					triggered_desc = {
+						trigger = {
+							has_culture = culture:falmer_betrayed
+						}
+						desc = culture_resurrection_event.0001.option1.betrayed
+					}
+					# Dwemer
+					triggered_desc = {
+						trigger = {
+							culture = { has_cultural_pillar = heritage_dwemeri }
+						}
+						desc = culture_resurrection_event.0001.option1.dwemer
+					}
+					# Atmoran
+					triggered_desc = {
+						trigger = {
+							has_culture = culture:atmoran
+						}
+						desc = culture_resurrection_event.0001.option1.atmoran
+					}
+					# Galen
+					triggered_desc = {
+						trigger = {
+							has_culture = culture:galen
+						}
+						desc = culture_resurrection_event.0001.option1.galen
+					}
+					# Maormer/Tsaesci/Quey - common to these is that they're not really dead, just offmap
+					triggered_desc = {
+						trigger = {
+							OR = {
+								has_culture = culture:maormer
+								has_culture = culture:tsaesci
+								has_culture = culture:chimeriquey
+							}
+						}
+						desc = culture_resurrection_event.0001.option1.offmap
+					}
+					desc = culture_resurrection_event.0001.option1.base
+				}
+			}
+		}
+
+		# Effects of the option
+		culture = { culture_become_alive_effect = yes }
+		capital_county = { 
+			set_county_culture = root.culture
+			set_county_faith = root.faith
+		}
+
+		# if you're dwemer, this event has an additional effect of making your kinsfolk revivable too
+		if = {
+			limit = {
+				culture = { has_cultural_pillar = heritage_dwemeri }
+			}
+			custom_tooltip = {
+				text = culture_resurrection_event.0001.other_cultures
+				every_culture_global = {
+					limit = { 
+						has_same_culture_heritage = root.culture
+					}
+					if = {
+						limit = { has_innovation = innovation_extinct_race }
+						remove_innovation = innovation_extinct_race
+						add_innovation = innovation_dead_culture
+					}
+				}				
+			}
+		}
+		
+		flavor = culture_resurrection_event.0001.option1.flavor
+
+		trigger = {
+			is_landed = yes
+		}
+	}
+
+	# landless option
+	option = {
+		# triggered desc: note the different syntax for event options vs desc and title
+		name = {
+			text = {
+				first_valid = {
+					# Falmer
+					triggered_desc = {
+						trigger = {
+							has_culture = culture:falmer
+						}
+						desc = culture_resurrection_event.0001.option2.falmer
+					}
+					# Betrayed
+					triggered_desc = {
+						trigger = {
+							has_culture = culture:falmer_betrayed
+						}
+						desc = culture_resurrection_event.0001.option2.betrayed
+					}
+					# Dwemer - multiple cultures
+					triggered_desc = {
+						trigger = {
+							culture = { has_cultural_pillar = heritage_dwemeri }
+						}
+						desc = culture_resurrection_event.0001.option2.dwemer
+					}
+					# Atmoran
+					triggered_desc = {
+						trigger = {
+							has_culture = culture:atmoran
+						}
+						desc = culture_resurrection_event.0001.option2.atmoran
+					}
+					# Galen
+					triggered_desc = {
+						trigger = {
+							has_culture = culture:galen
+						}
+						desc = culture_resurrection_event.0001.option2.galen
+					}
+					# Maormer/Tsaesci/Quey - common to these is that they're not really dead, just offmap
+					triggered_desc = {
+						trigger = {
+							OR = {
+								has_culture = culture:maormer
+								has_culture = culture:tsaesci
+								has_culture = culture:chimeriquey
+							}
+						}
+						desc = culture_resurrection_event.0001.option2.offmap
+					}
+					desc = culture_resurrection_event.0001.option2.base
+				}
+			}
+		}
+
+		# Effects of the option
+		# Trigger the dead culture laamp event to recruit some same culture followers
+		trigger_event = ep3_laamps.1984
+		# Save your culture for future revival
+		culture = {
+			add_to_global_variable_list = {
+				name = revivable_adventurer_culture
+				target = this
+			}
+		}
+		flavor = culture_resurrection_event.0001.option2.flavor
+
+		trigger = {
+			is_landless_adventurer = yes
+		}
+	}
+
+	# decline to revive your culture
+	option = {
+		# triggered desc: note the different syntax for event options vs desc and title
+		name = {
+			text = {
+				first_valid = {
+					# Falmer
+					triggered_desc = {
+						trigger = {
+							has_culture = culture:falmer
+						}
+						desc = culture_resurrection_event.0001.option3.falmer
+					}
+					# Betrayed
+					triggered_desc = {
+						trigger = {
+							has_culture = culture:falmer_betrayed
+						}
+						desc = culture_resurrection_event.0001.option3.betrayed
+					}
+					# Dwemer - multiple cultures
+					triggered_desc = {
+						trigger = {
+							culture = { has_cultural_pillar = heritage_dwemeri }
+						}
+						desc = culture_resurrection_event.0001.option3.dwemer
+					}
+					# Atmoran
+					triggered_desc = {
+						trigger = {
+							has_culture = culture:atmoran
+						}
+						desc = culture_resurrection_event.0001.option3.atmoran
+					}
+					# Galen
+					triggered_desc = {
+						trigger = {
+							has_culture = culture:galen
+						}
+						desc = culture_resurrection_event.0001.option3.galen
+					}
+					# Maormer/Tsaesci/Quey - common to these is that they're not really dead, just offmap
+					triggered_desc = {
+						trigger = {
+							OR = {
+								has_culture = culture:maormer
+								has_culture = culture:tsaesci
+								has_culture = culture:chimeriquey
+							}
+						}
+						desc = culture_resurrection_event.0001.option3.offmap
+					}
+					desc = culture_resurrection_event.0001.option3.base
+				}
+			}
+		}
+		flavor = culture_resurrection_event.0001.option3.flavor
+		
+		# we want the AI to use the first option in the scenario that a player sets up characters in RD and then don't play them themselves
+		trigger = {
+			is_ai = no
+		}
+	}	
+}
+
+# landless adventurer of a dead culture gain a homeland
+ek_culture_resurrection_event.1000 = {
+	type = character_event
+	content_source = dlc_ek
+	title = culture_resurrection_event.1000.t
+	desc = culture_resurrection_event.1000.desc
+	theme = realm
+
+	immediate = {
+		# populate court with same culture courtiers
+		hidden_effect = {
+			# # trigger this effect ten times, generating a total of ten courtiers of your culture with assorted skillsets
+			while = {
+				count = 8
+				ek_fill_court_effect = yes
+			}
+			# this effect doesn't kick out all other culture courtiers like the initial RD event does. after all if you recruited some other followers along the way, they might want to stick around :-)
+		}
+	}
+
+	left_portrait = {
+		character = ROOT
+		animation = celebrate_spear
+	}
+
+	# finally revive your culture
+	option = {
+		name = culture_resurrection_event.1000.option1
+		culture = { culture_become_alive_effect = yes }
+
+		# when one Dwemer culture is revived, the rest aren't considered fully extinct anymore - there are living Dwemer who could emulate and restore their cousins!
+		if = {
+			limit = {
+				culture = { has_cultural_pillar = heritage_dwemeri }
+			}
+			custom_tooltip = {
+				text = culture_resurrection_event.0001.other_cultures
+				every_culture_global = {
+					limit = { 
+						has_same_culture_heritage = root.culture
+					}
+					if = {
+						limit = { has_innovation = innovation_extinct_race }
+						remove_innovation = innovation_extinct_race
+						add_innovation = innovation_dead_culture
+					}
+				}				
+			}
+		}
+
+		capital_county = { 
+			set_county_culture = root.culture
+			set_county_faith = root.faith
+		}
+
+		# clean up the global variable
+		culture = {
+			remove_list_global_variable  = {
+				name = revivable_adventurer_culture
+				target = this
+			}
+		}
+		flavor = culture_resurrection_event.1000.option1.flavor
+	}
+}

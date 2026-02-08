@@ -1,0 +1,1189 @@
+﻿# This is a temporary file and location, until I figure out where else to put it
+# This event references the concept of water as memory
+namespace = ek_forgor_event
+ek_forgor_event.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_forgor_event.0001.t
+	desc = ek_forgor_event.0001.desc
+	theme = learning_medicine_focus
+
+	cooldown = { years = yearly_cooldown }
+
+	#available to Divines pantheon characters in the Iliac Bay with Mystic trait
+	trigger = {
+		OR = {
+			ROOT.faith = { has_doctrine = doctrine_pantheon_divines }
+			ROOT.faith = { has_doctrine = doctrine_pantheon_redguard }
+		}	
+		has_trait = lifestyle_mystic
+		exists = capital_province
+		capital_province = { geographical_region = mundus_tamriel_iliac_bay }
+	}	
+	left_portrait = {
+		character = ROOT
+		animation = personality_zealous
+	}
+	option = { #allows conversion to Forgotten Gods
+		name = ek_forgor_event.0001.option1
+		set_character_faith_with_conversion = faith:forgotten_gods
+		flavor = ek_forgor_event.0001.option1.flavor
+		add_piety = -100
+		stress_impact = {
+			zealous = major_stress_gain
+		}
+	}
+	option ={ #stress loss, way out from converting
+		name = ek_forgor_event.0001.option2
+		flavor = ek_forgor_event.0001.option2.flavor
+		add_stress = -50
+	}	
+	option = { #idk, was funny I suppose
+		name = ek_forgor_event.0001.option3
+		flavor = ek_forgor_event.0001.option3.flavor
+		add_character_modifier = {
+			modifier = yummy_tea
+			days = 730
+		}
+	}	
+	option = { #option for Herbalists
+		name = ek_forgor_event.0001.option4
+		flavor = ek_forgor_event.0001.option4.flavor
+		trigger = {
+			has_trait = lifestyle_herbalist
+		}		
+		add_learning_lifestyle_xp = 300
+	}	
+}	
+
+#Events to allow Dremora to gain innovations 
+namespace = ek_dremora_event
+ek_dremora_event.0001 = { #hidden event that triggers regular interval innovation gain for Dremora. This to make them a viable culture innovations wise since they don't have a cultural head
+	scope = none
+	hidden = yes
+
+	option = {
+		random_list = {
+			1 = { culture:dremora = { add_random_innovation = culture_group_military }}
+			1 = { culture:dremora = { add_random_innovation = culture_group_civic }}
+		}
+		trigger_event = { id = ek_dremora_event.0001 years = 20 }
+	}
+
+	after = {
+		every_player = {
+			limit = { culture = culture:dremora }
+			trigger_event = {
+				id = ek_dremora_event.0002
+			}
+		}
+	}
+}
+
+ek_dremora_event.0002 = { #event to notify player Dremora rulers about said innovation gain
+	type = character_event
+	content_source = dlc_ek
+	title = ek_dremora_event.0002.t
+	desc = ek_dremora_event.0002.desc
+	theme = realm
+
+	trigger = {
+		has_culture = culture:dremora
+	}
+	left_portrait = {
+		character = ROOT
+		animation = idle
+	}
+
+	option = {
+		name = ek_dremora_event.0002.option
+		flavor = ek_dremora_event.0002.option.flavor
+	}
+}
+
+#events regarding the Shadowscales
+namespace = ek_shadowscale_event
+ek_shadowscale_event.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_shadowscale_event.0001.t
+	desc = ek_shadowscale_event.0001.desc
+	theme = intrigue_skulduggery_focus
+
+	immediate = {
+		create_character = {
+				template = shadowscale_template
+				dynasty = none
+				location = this.capital_province
+				save_scope_as = shadowscale_recruit
+				after_creation = { #make Shadowscale able to be any Argonian culture
+					random_list = {
+						1 = {set_culture = culture:hleel}
+						1 = {set_culture = culture:naga}
+						1 = {set_culture = culture:paatru}
+						1 = {set_culture = culture:agaceph}
+						1 = {set_culture = culture:sarpa}
+						3 = {set_culture = culture:hapsleet} #Black-Tongues are Hapsleet, also facility in Archon
+					}
+				}		
+		}
+	}
+	right_portrait = {
+		character = scope:shadowscale_recruit
+		animation = spymaster
+	}
+	option = {
+		name = ek_shadowscale_event.0001.option
+		root = { add_courtier = scope:shadowscale_recruit}
+		appoint_court_position = {
+			recipient = scope:shadowscale_recruit
+			court_position = shadowscale_court_position
+		}
+	}
+}
+
+ek_shadowscale_event.0002 = { #This event is triggered by on_birth (see child_births_on_action.txt), when a child is born under the Shadow. Hidden event that triggers the next one for the parent
+	type = character_event
+	content_source = dlc_ek
+	hidden = yes
+
+	trigger = {
+		#Child must be an Argonian
+		culture = {has_cultural_pillar = heritage_argonian}
+		#child must be faith which follow the Shadowscale tradition
+		OR = {
+			faith = {has_doctrine = doctrine_pantheon_hist}
+			faith = {has_doctrine = doctrine_pantheon_sithis}
+		}
+	}
+	immediate = {
+		#scopes the child
+		save_scope_as = shadowborn_hatchling
+
+		#checks for twin, scopes
+		scope:shadowborn_hatchling = {
+			if = {
+				limit = { has_trait = twin }
+				random_sibling = {
+					limit = { is_twin_of = scope:shadowborn_hatchling }
+					save_scope_as = shadowborn_hatchling_2
+				}
+			}
+		}
+		#triggers the next event for a parent. This setup should fire the event for the father if they are a player, and if not for the mother (who either is the player or an AI). This means for AI it's always the mother who gets to decide, as it's easier
+		if = { #checks if father is player
+			limit = { 
+				exists = father
+				father = { is_ai = no }
+			}	
+			father = { 
+				if = { 
+					limit = {
+						scope:shadowborn_hatchling = { has_trait = twin }
+					}	
+					trigger_event = { #trigger twin event
+						id = ek_shadowscale_event.0004
+						days = { 14 28 }
+					}
+				}	
+				else = { #trigger normal event
+					trigger_event = {
+					id = ek_shadowscale_event.0003
+					days = { 14 28 }
+					}	
+				}	
+			}
+		}
+		else = { #otherwise trigger event for mother
+			limit = { 
+				exists = mother	
+			}	
+			mother = { 
+				if = { #check if hatchling is twin
+					limit = {
+						scope:shadowborn_hatchling = { has_trait = twin }
+					}	
+					trigger_event = { #trigger twin event
+						id = ek_shadowscale_event.0004
+						days = { 14 28 }
+					}
+				}
+				else = { #trigger normal event
+					trigger_event = {
+					id = ek_shadowscale_event.0003
+					days = { 14 28 }
+					}	
+				}	
+			}
+		}
+	}
+}
+ek_shadowscale_event.0003 = { #The Shadowscale Request
+	type = character_event
+	content_source = dlc_ek
+	title = ek_shadowscale_event.0003.t
+	desc = ek_shadowscale_event.0003.desc
+	theme = dynasty
+	
+	trigger = { 
+		scope:shadowborn_hatchling = { 
+			has_trait = sign_shadow 
+		}
+	}
+
+	immediate = {
+		create_character = {
+				template = shadowscale_template
+				dynasty = none
+				location = root.location
+				save_scope_as = shadowscale_visitor
+				after_creation = { #make Shadowscale able to be any Argonian culture
+					random_list = {
+						1 = {set_culture = culture:hleel}
+						1 = {set_culture = culture:naga}
+						1 = {set_culture = culture:paatru}
+						1 = {set_culture = culture:agaceph}
+						1 = {set_culture = culture:sarpa}
+						3 = {set_culture = culture:hapsleet} #Black-Tongues are Hapsleet, also facility in Archon
+					}
+				}		
+		}
+	}	
+
+	right_portrait = {
+		character = scope:shadowscale_visitor
+		animation = personality_greedy
+	}
+	lower_right_portrait = {
+		character = scope:shadowborn_hatchling
+	}
+	option = { #you give up the hatchling
+		name = ek_shadowscale_event.0003.option1
+		custom_tooltip = ek_shadowscale_event.0003.option1.tooltip
+		add_piety = 100
+		hidden_effect = {
+			scope:shadowborn_hatchling = { 
+				death = {
+					death_reason = death_shadowscale_recruit
+				}	
+			}
+			scope:shadowscale_visitor = { #yeet the npc afterwards
+				death = {
+					death_reason = death_disappearance
+				}	
+			}		
+		}
+		stress_impact = {
+			compassionate = major_stress_impact_gain
+			arrogant = medium_stress_impact_gain
+			stubborn = medium_stress_impact_gain
+			zealous = major_stress_impact_loss
+			callous = medium_stress_impact_loss
+		}	
+		ai_chance = { #AI should for the most part accept their child being taken
+			base = 80
+			modifier = {
+				add = 30
+				has_trait = zealous
+			}	
+			modifier = {
+				add = 10
+				has_trait = craven
+				has_trait = callous
+				has_trait = sadistic
+			}	
+			modifier = {
+				add = -10
+				has_trait = paranoid
+				has_trait = stubborn
+				has_trait = arrogant
+			}	
+			modifier = {
+				add = -30
+				has_trait = compassionate
+			}	
+		}		
+	}
+	option = { #you refuse to give up the hatchling, suffering the consequences
+		name = ek_shadowscale_event.0003.option2
+		flavor = ek_shadowscale_event.0003.option2.flavor
+		add_piety_level = -1
+		add_character_modifier = { 
+			modifier = refused_shadowscales 
+			years = 10	
+		}
+		hidden_effect = {
+			scope:shadowscale_visitor = { #yeet the npc afterwards
+				death = {
+					death_reason = death_disappearance
+				}	
+			}	
+			add_character_flag = { #this flag prevents using the Request a Shadowscale decision
+				flag = refused_shadowscales_flag
+				years = 50
+			}	
+		}
+		stress_impact = {
+			compassionate = major_stress_impact_loss
+			arrogant = medium_stress_impact_loss
+			stubborn = medium_stress_impact_loss
+			zealous = major_stress_impact_gain
+			callous = medium_stress_impact_gain
+		}	
+		ai_chance = { #AI should sometimes but rarely keep their kid
+			base = 20
+			modifier = {
+				add = -30
+				has_trait = zealous
+			}	
+			modifier = {
+				add = -10
+				has_trait = craven
+				has_trait = callous
+				has_trait = sadistic
+			}	
+			modifier = {
+				add = 10
+				has_trait = paranoid
+				has_trait = stubborn
+				has_trait = arrogant
+			}	
+			modifier = {
+				add = 30
+				has_trait = compassionate
+			}	
+		}						
+	}
+}
+
+ek_shadowscale_event.0004 = { #The Shadowscale Request - double trouble!
+	type = character_event
+	content_source = dlc_ek
+	title = ek_shadowscale_event.0004.t
+	desc = ek_shadowscale_event.0004.desc
+	theme = dynasty
+	
+	trigger = { 
+		scope:shadowborn_hatchling = { 
+			has_trait = sign_shadow 
+		}
+		NOT = { has_character_flag = shadowscale_twin_birth } #avoid the event triggering two times, once for each twin
+	}
+
+	immediate = {
+		create_character = {
+				template = shadowscale_template
+				dynasty = none
+				location = root.location
+				save_scope_as = shadowscale_visitor
+				after_creation = { #make Shadowscale able to be any Argonian culture
+					random_list = {
+						1 = {set_culture = culture:hleel}
+						1 = {set_culture = culture:naga}
+						1 = {set_culture = culture:paatru}
+						1 = {set_culture = culture:agaceph}
+						1 = {set_culture = culture:sarpa}
+						3 = {set_culture = culture:hapsleet} #Black-Tongues are Hapsleet, also facility in Archon
+					}
+				}		
+		}
+		add_character_flag = { #avoid the event triggering for both twins
+			flag = shadowscale_twin_birth
+			weeks = 12 #should be quite sufficient
+		}	
+	}	
+	left_portrait = {
+		character = ROOT
+		animation = idle
+	}
+	right_portrait = {
+		character = scope:shadowscale_visitor
+		animation = personality_greedy
+	}
+	lower_right_portrait = {
+		character = scope:shadowborn_hatchling_2
+	}
+	lower_left_portrait = {
+		character = scope:shadowborn_hatchling
+	}
+	option = { #you give up both hatchlings
+		name = ek_shadowscale_event.0004.option1
+		custom_tooltip = ek_shadowscale_event.0004.option1.tooltip
+		add_piety = 200
+		hidden_effect = {
+			scope:shadowborn_hatchling = { 
+				death = {
+					death_reason = death_shadowscale_recruit
+				}	
+			}
+			scope:shadowborn_hatchling_2 = { 
+				death = {
+					death_reason = death_shadowscale_recruit
+				}	
+			}
+			scope:shadowscale_visitor = { #yeet the npc afterwards
+				death = {
+					death_reason = death_disappearance
+				}	
+			}		
+		}
+		stress_impact = {
+			compassionate = massive_stress_impact_gain
+			arrogant = major_stress_impact_gain
+			stubborn = major_stress_impact_gain
+			zealous = massive_stress_impact_loss
+			callous = medium_stress_impact_loss
+		}	
+		ai_chance = { #AI should for the most part accept their child being taken, however reduced since it's both children
+			base = 60
+			modifier = {
+				add = 30
+				has_trait = zealous
+			}	
+			modifier = {
+				add = 10
+				has_trait = craven
+				has_trait = callous
+				has_trait = sadistic
+			}	
+			modifier = {
+				add = -10
+				has_trait = paranoid
+				has_trait = stubborn
+				has_trait = arrogant
+			}	
+			modifier = {
+				add = -30
+				has_trait = compassionate
+			}	
+		}		
+	}
+	option = { #you give up the first hatchling
+		name = ek_shadowscale_event.0004.option2
+		flavor = ek_shadowscale_event.0004.option2.flavor
+		custom_tooltip = ek_shadowscale_event.0004.option2.tooltip
+		add_piety = 100
+		add_piety_level = -1
+		add_character_modifier = { 
+			modifier = refused_shadowscales 
+			years = 10	
+		}
+		hidden_effect = {
+			scope:shadowborn_hatchling = { 
+				death = {
+					death_reason = death_shadowscale_recruit
+				}	
+			}
+			scope:shadowscale_visitor = { #yeet the npc afterwards
+				death = {
+					death_reason = death_disappearance
+				}	
+			}	
+			add_character_flag = { #this flag prevents using the Request a Shadowscale decision
+				flag = refused_shadowscales_flag
+				years = 50
+			}	
+		}
+		stress_impact = {
+			compassionate = major_stress_impact_gain
+			arrogant = medium_stress_impact_gain
+			stubborn = medium_stress_impact_gain
+			zealous = major_stress_impact_loss
+			callous = medium_stress_impact_loss
+		}	
+		ai_chance = { #AI should for the most part accept their child being taken
+			base = 80
+			modifier = {
+				add = 30
+				has_trait = zealous
+			}	
+			modifier = {
+				add = 10
+				has_trait = craven
+				has_trait = callous
+				has_trait = sadistic
+			}	
+			modifier = {
+				add = -10
+				has_trait = paranoid
+				has_trait = stubborn
+				has_trait = arrogant
+			}	
+			modifier = {
+				add = -30
+				has_trait = compassionate
+			}	
+		}		
+	}
+	option = { #you give up the second hatchling
+		name = ek_shadowscale_event.0004.option3
+		flavor = ek_shadowscale_event.0004.option3.flavor
+		custom_tooltip = ek_shadowscale_event.0004.option3.tooltip
+		add_piety = 100
+		add_piety_level = -1
+		add_character_modifier = { 
+			modifier = refused_shadowscales 
+			years = 10	
+		}
+		hidden_effect = {
+			scope:shadowborn_hatchling_2 = { 
+				death = {
+					death_reason = death_shadowscale_recruit
+				}	
+			}
+			scope:shadowscale_visitor = { #yeet the npc afterwards
+				death = {
+					death_reason = death_disappearance
+				}			
+			}		
+			add_character_flag = { #this flag prevents using the Request a Shadowscale decision
+				flag = refused_shadowscales_flag
+				years = 50
+			}
+		}
+		stress_impact = {
+			compassionate = major_stress_impact_gain
+			arrogant = medium_stress_impact_gain
+			stubborn = medium_stress_impact_gain
+			zealous = major_stress_impact_loss
+			callous = medium_stress_impact_loss
+		}	
+		ai_chance = { #AI should for the most part accept their child being taken
+			base = 80
+			modifier = {
+				add = 30
+				has_trait = zealous
+			}	
+			modifier = {
+				add = 10
+				has_trait = craven
+				has_trait = callous
+				has_trait = sadistic
+			}	
+			modifier = {
+				add = -10
+				has_trait = paranoid
+				has_trait = stubborn
+				has_trait = arrogant
+			}	
+			modifier = {
+				add = -30
+				has_trait = compassionate
+			}	
+		}		
+	}
+	option = { #you refuse to give up any hatchlings, suffering the consequences
+		name = ek_shadowscale_event.0004.option4
+		flavor = ek_shadowscale_event.0004.option4.flavor
+		add_piety_level = -1
+		add_character_modifier = { 
+			modifier = refused_shadowscales 
+			years = 20	
+		}
+		hidden_effect = {
+			scope:shadowscale_visitor = { #yeet the npc afterwards
+				death = {
+					death_reason = death_disappearance
+				}	
+			}	
+			add_character_flag = { #this flag prevents using the Request a Shadowscale decision
+				flag = refused_shadowscales_flag
+				years = 50
+			}	
+		}
+		stress_impact = {
+			compassionate = major_stress_impact_loss
+			arrogant = medium_stress_impact_loss
+			stubborn = medium_stress_impact_loss
+			zealous = major_stress_impact_gain
+			callous = medium_stress_impact_gain
+		}	
+		ai_chance = { #AI should sometimes but rarely keep their kid
+			base = 20
+			modifier = {
+				add = -30
+				has_trait = zealous
+			}	
+			modifier = {
+				add = -10
+				has_trait = craven
+				has_trait = callous
+				has_trait = sadistic
+			}	
+			modifier = {
+				add = 10
+				has_trait = paranoid
+				has_trait = stubborn
+				has_trait = arrogant
+			}	
+			modifier = {
+				add = 30
+				has_trait = compassionate
+			}	
+		}										
+	}
+}
+
+
+# Wrothgarian Emergence
+#based on Form Kingdom of Aragon
+namespace = ek_wrothgar_event
+ek_wrothgar_event.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_wrothgar_event.0001.t
+	theme = crown
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { 
+					capital_province = { geographical_region = mundus_tamriel_high_rock_greater_wrothgar }
+				}	
+				desc = ek_wrothgar_event.0001a.desc
+			}	
+			desc = ek_wrothgar_event.0001b.desc
+		}
+	}
+
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+	override_background = { reference = wilderness_mountains }
+	
+	option = { #Let the Wrothgarians take after the Orcs
+		name = ek_wrothgar_event.0001.option.1
+		custom_tooltip = {
+			culture:wrothgarian = { add_culture_tradition = tradition_only_the_strong }
+			text = ek_wrothgar_event.0001.option.1.tooltip
+		}	
+		culture:wrothgarian = {
+			change_cultural_acceptance = {
+				target = culture:mountain_orc
+				value = medium_positive_culture_acceptance
+				desc = ek_wrothgar_event_cultural_acceptance_gain
+			}
+		}
+	}
+
+	option = { #Let the Wrothgarians take after the Reachfolk
+		name = ek_wrothgar_event.0001.option.2
+		custom_tooltip = { 
+			culture:wrothgarian = { add_culture_tradition = tradition_hit_and_run }
+			text = ek_wrothgar_event.0001.option.2.tooltip
+		}	
+		culture:wrothgarian = {
+			change_cultural_acceptance = {
+				target = culture:reachfolk
+				value = medium_positive_culture_acceptance
+				desc = ek_wrothgar_event_cultural_acceptance_gain
+			}
+		}
+	}
+
+	option = { #Let the Wrothgarians forge their own identity
+		name = ek_wrothgar_event.0001.option.3
+		add_prestige = 1000
+		dynasty = { add_dynasty_prestige = 250 }
+	}
+}	
+
+#Wild Magic
+namespace = ek_wild_magic_event
+ek_wild_magic_event.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_wild_magic_event.0001.t
+	theme = witchcraft
+
+	trigger = {
+		culture = { has_cultural_parameter = wild_magic }
+		can_magic_trigger = yes
+	}
+
+	cooldown = { years = 3 } #this is the minimum frequency with which it can trigger without being too annoying
+
+	desc = {
+		desc = ek_wild_magic_event.0001.opening
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:wild_magic = flag:weak
+				}
+				desc = ek_wild_magic_event.0001.weak
+			}	
+			triggered_desc = {	
+				trigger = {
+					scope:wild_magic = flag:bad
+					
+				}
+				desc = ek_wild_magic_event.0001.bad
+			}
+			triggered_desc = {	
+				trigger = {
+					scope:wild_magic = flag:neutral
+					
+				}
+				desc = ek_wild_magic_event.0001.neutral
+			}
+			triggered_desc = {
+				trigger = {
+					scope:wild_magic = flag:good
+				}
+				desc = ek_wild_magic_event.0001.good
+			}	
+			triggered_desc = {
+				trigger = {
+					scope:wild_magic = flag:powerful
+				}
+				desc = ek_wild_magic_event.0001.powerful
+			}		
+		}	
+	}
+
+	immediate = {
+		#check for how the wild winds of magicka move
+		random_list = {
+			1 = { save_scope_value_as = { name = wild_magic value = flag:weak } }
+			2 = { save_scope_value_as = { name = wild_magic value = flag:bad } } 
+			2 = { save_scope_value_as = { name = wild_magic value = flag:neutral } }
+			2 = { save_scope_value_as = { name = wild_magic value = flag:good } }
+			1 = { save_scope_value_as = { name = wild_magic value = flag:powerful } } 
+		}
+		if = { #clear out old modifiers just in case
+			limit = { has_character_modifier = wild_magic_weak }
+			remove_character_modifier = wild_magic_weak
+		}
+		if = { 
+			limit = { has_character_modifier = wild_magic_bad }
+			remove_character_modifier = wild_magic_bad
+		}
+		if = { 
+			limit = { has_character_modifier = wild_magic_good}
+			remove_character_modifier = wild_magic_good
+		}
+		if = { 
+			limit = { has_character_modifier = wild_magic_powerful }
+			remove_character_modifier = wild_magic_powerful
+		}
+	}
+
+	left_portrait = {
+		character = root
+		triggered_animation = {
+			trigger = { scope:wild_magic = flag:weak }
+  			animation = fear
+  		}
+		triggered_animation = {
+			trigger = { scope:wild_magic = flag:bad }
+  			animation = worry
+  		}
+		  triggered_animation = {
+			trigger = { scope:wild_magic = flag:neutral }
+  			animation = idle
+  		}
+		  triggered_animation = {
+			trigger = { scope:wild_magic = flag:good }
+  			animation = happiness
+  		}
+		  triggered_animation = {
+			trigger = { scope:wild_magic = flag:powerful }
+  			animation = personality_honorable
+  		}
+	}
+	override_background = { reference = wilderness_scope }
+
+	option = { 
+		name = ek_wild_magic_event.0001.option1
+		trigger = { scope:wild_magic = flag:weak }
+		add_character_modifier = {
+			modifier = wild_magic_weak
+			days = 1095
+		}
+	}
+
+	option = { 
+		name = ek_wild_magic_event.0001.option2
+		trigger = { scope:wild_magic = flag:bad }
+		add_character_modifier = {
+			modifier = wild_magic_bad
+			days = 1095
+		}
+	}
+
+	option = { 
+		name = ek_wild_magic_event.0001.option3
+		trigger = { scope:wild_magic = flag:neutral }
+	}
+
+	option = { 
+		name = ek_wild_magic_event.0001.option4
+		trigger = { scope:wild_magic = flag:good }
+		add_character_modifier = {
+			modifier = wild_magic_good
+			days = 1095
+		}
+	}
+
+	option = { 
+		name = ek_wild_magic_event.0001.option5
+		trigger = { scope:wild_magic = flag:powerful }
+		add_character_modifier = {
+			modifier = wild_magic_powerful
+			days = 1095
+		}
+	}
+}
+
+namespace = ek_court_wanderer
+#to allow magic wanderers to return home
+ek_court_wanderer.0001 = {
+	scope = none
+	hidden = yes
+
+	trigger = { #no use returning the wanderer if they aren't around anymore
+		exists = scope:wandering_mage
+		scope:wandering_mage = { is_alive = yes } 
+	}
+
+	option = {
+		send_interface_toast = {
+			type = event_toast_effect_good
+			title = send_mage_to_wander_return_title
+			custom_tooltip = send_mage_to_wander_return_desc
+			right_icon = scope:wandering_mage    
+		}
+		add_courtier = scope:wandering_mage		
+		scope:wandering_mage = {
+			if = { 
+				limit = { has_character_modifier = on_an_adventure }
+				remove_character_modifier = on_an_adventure
+			}
+			return_to_court = yes
+		}
+	}
+}
+#to allow knight wanderers to return home
+ek_court_wanderer.0002 = {
+	scope = none
+	hidden = yes
+
+	trigger = { #no use returning the wanderer if they aren't around anymore
+		exists = scope:wandering_knight
+		scope:wandering_knight = { is_alive = yes } 
+	}
+
+	option = {
+		send_interface_toast = {
+			type = event_toast_effect_good
+			title = send_knight_to_wander_return_title
+			custom_tooltip = send_knight_to_wander_return_desc
+			right_icon = scope:wandering_knight    
+		}
+		add_courtier = scope:wandering_knight		
+		scope:wandering_knight = {	
+			if = { 
+				limit = { has_character_modifier = on_an_adventure }
+				remove_character_modifier = on_an_adventure
+			}	
+			return_to_court = yes
+		}
+	}
+}
+namespace = ek_responsible_suicide
+
+### Responsible Suicide events
+ek_responsible_suicide.0001 = {
+	type = character_event
+	title = ek_responsible_suicide.0001.t
+	desc = ek_responsible_suicide.0001.desc
+	theme = death
+	override_background = sitting_room
+
+	immediate = {
+		root.house = {
+			save_scope_as = house
+		}
+		root.player_heir = {
+			save_scope_as = heir
+		}
+		root.liege = {
+			save_scope_as = liege
+		}
+		root = {
+			save_scope_as = responsible
+		}
+	}
+
+	left_portrait = {
+		character = root
+		animation = throne_room_kneel_2
+	}
+
+	option = { #for when you atone for your crimes
+		name = ek_responsible_suicide.0001a
+		trigger = {
+			OR = {
+				has_crime_trait = yes
+				prestige_level = 0
+				piety_level = 0
+			}	
+		}
+		flavor = ek_responsible_suicide.0001a.flavor
+		scope:heir = {
+			add_stress = major_stress_gain
+			add_prestige = 200
+		}	
+		death = {
+			death_reason = death_responsible_suicide_crime
+		}
+	}
+
+	option = { # for when you protest the acts or character of your liege
+		name = ek_responsible_suicide.0001b
+		trigger = {
+			liege = {
+				OR = {
+					has_relation_rival = root
+					has_relation_nemesis = root
+				}
+			}
+		}
+		flavor = ek_responsible_suicide.0001b.flavor
+		scope:liege = {
+			trigger_event = {
+				id = ek_responsible_suicide.0002
+				days = 7
+			}	
+		}
+		show_as_tooltip = {
+			scope:liege = {
+				add_prestige = -250
+				add_piety = -250
+			}
+		}
+		custom_tooltip = { #this prevents the loc from saying you get killed by your liege
+			text = responsible_suicide_death_tooltip
+			death = {
+				death_reason = death_responsible_suicide_protest
+				killer = scope:liege #well, not really. but for loc purposes
+			}
+		}	
+	}
+
+	option = { # for when you wanna back out
+		name = ek_responsible_suicide.0001c
+		flavor = ek_responsible_suicide.0001c.flavor
+	}
+}
+
+# event from the perspective of the liege
+ek_responsible_suicide.0002 = {
+	type = character_event
+	title = ek_responsible_suicide.0002.t
+	desc = ek_responsible_suicide.0002.desc
+	theme = death
+	override_background = throne_room
+
+
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+
+	lower_right_portrait = {
+		character = scope:responsible
+	}
+
+	option = { #for when you atone for your crimes
+		name = ek_responsible_suicide.0002a
+		add_prestige = -250
+		add_piety = -250
+
+	}
+}
+
+namespace = ek_mane_furstock_event
+
+ek_mane_furstock_event.0001 = { #This event is triggered by on_birth (see child_births_on_action.txt), when a child is born with the Mane furstock. Hidden event that triggers the next one for the parent
+	type = character_event
+	content_source = dlc_ek
+	hidden = yes
+
+	trigger = {
+		# Child must be a Khajiit
+		culture = { has_cultural_pillar = heritage_khajiiti }
+	}
+
+	immediate = {
+		#scopes the child
+		save_scope_as = mane_kitten
+
+		#checks for twin, scopes
+		scope:mane_kitten = {
+			if = {
+				limit = { has_trait = twin }
+				random_sibling = {
+					limit = { is_twin_of = scope:mane_kitten }
+					save_scope_as = mane_kitten_2
+				}
+			}
+		}
+		#triggers the next event for a parent. This setup should fire the event for the father if they are a player, and if not for the mother (who either is the player or an AI). This means for AI it's always the mother who gets the event, as it's easier
+		if = { #checks if father is player
+			limit = { 
+				exists = father
+				father = { is_ai = no }
+			}	
+			father = { 
+				trigger_event = {
+					id = ek_mane_furstock_event.0002
+					days = { 7 14 }
+				}	
+			}
+		}
+		else = { #otherwise trigger event for mother
+			limit = { 
+				exists = mother	
+			}	
+			mother = { 
+				trigger_event = {
+					id = ek_mane_furstock_event.0002
+					days = { 7 14 }
+				}	
+			}
+		}
+	}
+}
+ek_mane_furstock_event.0002 = { #The birth of a Mane
+	type = character_event
+	content_source = dlc_ek
+	title = ek_mane_furstock_event.0002.t
+
+	theme = pregnancy
+	override_background = { reference = temple_mosque }
+
+	immediate = {
+		add_character_flag = { # avoid the event triggering for both twins
+			flag = mane_twin_birth
+			weeks = 12 # should be quite sufficient
+		}	
+	}	
+
+	desc = { # check for twins
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:mane_kitten = {
+						has_trait = twin
+					}
+				}
+				desc = ek_mane_furstock_event.0002.twin.desc
+			}	
+			desc = ek_mane_furstock_event.0002.desc
+		}
+	}
+		
+	trigger = { 
+		scope:mane_kitten = { 
+			has_trait = furstock_mane 
+		}
+		NOT = { has_character_flag = mane_twin_birth } #avoid the event triggering two times, once for each twin
+	}
+
+	lower_right_portrait = {
+		character = scope:mane_kitten
+	}
+	lower_left_portrait = {
+		character = scope:mane_kitten_2
+	}
+
+	option = { # A great omen!
+		trigger = {
+			scope:mane_kitten = {
+				NOT = { has_trait = twin }
+			}
+		}
+		name = ek_mane_furstock_event.0002.option1
+		custom_tooltip = ek_mane_furstock_event.0002.option1.tooltip
+
+		scope:mane_kitten = {
+			if = {
+				limit = {
+					exists = scope:mane_kitten.dynasty # gotta ensure the child even has a dynasty to grant renown
+				}
+				dynasty = { add_dynasty_prestige = major_dynasty_prestige_gain }
+			}
+		}
+	}
+
+	option = { # An even greater omen!
+		trigger = {
+			scope:mane_kitten = {
+				has_trait = twin
+			}
+		}
+		name = ek_mane_furstock_event.0002.option1
+		custom_tooltip = ek_mane_furstock_event.0002.option1.twin.tooltip
+
+		scope:mane_kitten = {
+			if = {
+				limit = {
+					exists = scope:mane_kitten.dynasty # gotta ensure the child even has a dynasty to grant renown
+				}
+				dynasty = { add_dynasty_prestige = massive_dynasty_prestige_gain }
+			}
+		}
+	}
+
+	option = { # I won't allow my child to become Mane!
+		trigger = {
+			scope:mane_kitten = {
+				NOT = { has_trait = twin }
+			}
+		}
+		name = ek_mane_furstock_event.0002.option2
+		custom_tooltip = ek_mane_furstock_event.0002.option2.tooltip
+
+		scope:mane_kitten = {
+			if = {
+				limit = {
+					exists = scope:mane_kitten.dynasty # gotta ensure the child even has a dynasty to grant renown
+				}
+				dynasty = { add_dynasty_prestige = miniscule_dynasty_prestige_gain }
+			}
+			add_character_flag = refused_mane_inheritance
+		}
+		ai_chance = { # We want the AI to give up their children, otherwise there will be too few Mane candidates
+			base = 0
+		}
+	}
+
+	option = { # I won't allow my children to become Mane!
+		trigger = {
+			scope:mane_kitten = {
+				has_trait = twin
+			}
+		}
+		name = ek_mane_furstock_event.0002.option2.twin
+		custom_tooltip = ek_mane_furstock_event.0002.option2.twin.tooltip
+
+		scope:mane_kitten = {
+			if = {
+				limit = {
+					exists = scope:mane_kitten.dynasty # gotta ensure the child even has a dynasty to grant renown
+				}
+				dynasty = { add_dynasty_prestige = minor_dynasty_prestige_gain }
+			}
+			add_character_flag = refused_mane_inheritance
+		}
+		scope:mane_kitten_2 = {
+			add_character_flag = refused_mane_inheritance
+		}
+		ai_chance = { # We want the AI to give up their children, otherwise there will be too few Mane candidates
+			base = 0
+		}
+	}
+}

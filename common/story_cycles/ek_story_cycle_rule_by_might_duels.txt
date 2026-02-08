@@ -1,0 +1,107 @@
+﻿story_cycle_rule_by_might_duels = {
+
+	# Upon succession, some of your siblings might contest your new rule. They will challenge you one by one, in a duel to the death.
+	# If you die, you play as the new sibling, and they will have to face the next challengers (if any)
+
+	### We add the challengers to the list
+	on_setup = {
+		set_variable = {
+			name = rule_by_might_ongoing_challenge
+			value = no
+		}
+	}
+	
+	### When everyone has been defeated
+	on_end = {
+		story_owner = { trigger_event = { id = ek_rbm.0010 days = 3 } }
+	}
+	
+	### The new ruler inherits the story (assuming they killed the owner via duel)
+	on_owner_death = {
+		if = {
+			limit = {
+				story_owner = {
+					death_reason = death_duel
+				}
+				# killer = scope:rbm_combat_challenger
+			}
+			
+			make_story_owner = story_owner.killer
+		}
+	}
+	
+	### We start the next duel
+	effect_group = {
+		days = 3
+		chance = 100
+		
+		triggered_effect = {
+			trigger = {
+				# var:rule_by_might_ongoing_challenge = no
+				has_variable_list = rbm_challenger_list
+			}
+			
+			effect = {
+				# Who is the next challenger?
+				random_in_list = {
+					variable = rbm_challenger_list
+					limit = { 
+						can_start_single_combat_trigger = yes
+						is_alive = yes
+					}
+					save_scope_as = rbm_combat_challenger
+				}
+				
+				# If we found one, let's go
+				if = {
+					limit = { exists = scope:rbm_combat_challenger }
+					
+					story_owner = {
+						save_scope_as = rbm_combat_ruler
+						set_designated_heir = scope:rbm_combat_challenger
+					}
+					
+					## Then try to take shirts off.
+					single_combat_apply_default_shirtlessness_effect = {
+						ATTACKER = scope:rbm_combat_challenger
+						DEFENDER = scope:rbm_combat_ruler
+					}
+					
+					#Block other choices while the current one is evaluating
+					set_variable = {
+						name = rule_by_might_ongoing_challenge
+						value = yes
+					}
+					
+					remove_list_variable = {
+						name = rbm_challenger_list
+						target = scope:rbm_combat_challenger
+					}
+					
+					## Let's get this bread
+					configure_start_single_combat_effect = {
+						SC_INITIATOR = scope:rbm_combat_challenger
+						SC_ATTACKER = scope:rbm_combat_challenger
+						SC_DEFENDER = scope:rbm_combat_ruler
+						FATALITY = always
+						FIXED = no
+						LOCALE = terrain_scope
+						OUTPUT_EVENT = ek_rbm.0004
+						INVALIDATION_EVENT = perk_interaction.0102
+					}
+				}
+			}
+		}
+		
+		triggered_effect = {
+			trigger = {
+				NOT = { has_variable_list = rbm_challenger_list }
+				# var:rbm_combat_challenger = no
+			}
+
+			effect = {
+				end_story = yes
+			}
+		}
+	}
+}

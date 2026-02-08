@@ -1,0 +1,140 @@
+﻿#### Local Types ####
+@administration_1 = "gfx/interface/icons/culture_innovations/innovation_administration_01.dds"
+@administration_2 = "gfx/interface/icons/culture_innovations/innovation_administration_02.dds"
+@administration_3 = "gfx/interface/icons/culture_innovations/innovation_administration_03.dds"
+@civil_construction_1 = "gfx/interface/icons/culture_innovations/innovation_civil_construction_01.dds"
+@civil_construction_2 = "gfx/interface/icons/culture_innovations/innovation_civil_construction_02.dds"
+@leadership_1 = "gfx/interface/icons/culture_innovations/innovation_leadership_01.dds"
+@leadership_2 = "gfx/interface/icons/culture_innovations/innovation_leadership_02.dds"
+@raised_banner = "gfx/interface/icons/culture_innovations/innovation_raised_banner.dds"
+@fortifications = "gfx/interface/icons/culture_innovations/innovation_fortifications.dds"
+@siege_weapons = "gfx/interface/icons/culture_innovations/innovation_siege_weapons.dds"
+@levy_building = "gfx/interface/icons/culture_innovations/innovation_levy_building.dds"
+@maa_01 = "gfx/interface/icons/culture_innovations/innovation_maa_01.dds"
+@maa_02 = "gfx/interface/icons/culture_innovations/innovation_maa_02.dds"
+@weapons_and_armor_01 = "gfx/interface/icons/culture_innovations/innovation_weapons_and_armor_01.dds"
+@weapons_and_armor_02 = "gfx/interface/icons/culture_innovations/innovation_weapons_and_armor_02.dds"
+@knight = "gfx/interface/icons/culture_innovations/innovation_knight.dds"
+@hird = "gfx/interface/icons/culture_innovations/innovation_hird.dds"
+@longboats = "gfx/interface/icons/culture_innovations/innovation_longboats.dds"
+@majesty_01 = "gfx/interface/icons/culture_innovations/innovation_majesty_01.dds"
+@majesty_02 = "gfx/interface/icons/culture_innovations/innovation_majesty_02.dds"
+@majesty_03 = "gfx/interface/icons/culture_innovations/innovation_majesty_03.dds"
+@nobility_01 = "gfx/interface/icons/culture_innovations/innovation_nobility_01.dds"
+@nobility_02 = "gfx/interface/icons/culture_innovations/innovation_nobility_02.dds"
+@nobility_03 = "gfx/interface/icons/culture_innovations/innovation_nobility_03.dds"
+@nobility_04 = "gfx/interface/icons/culture_innovations/innovation_nobility_04.dds"
+@misc_inventions = "gfx/interface/icons/culture_innovations/innovation_misc_inventions.dds"
+
+@camel = "gfx/interface/icons/culture_innovations/innovation_camel.dds"
+@elephant = "gfx/interface/icons/culture_innovations/innovation_elephant.dds"
+@special_maa_01 = "gfx/interface/icons/culture_innovations/innovation_special_maa_01.dds"
+@special_maa_02 = "gfx/interface/icons/culture_innovations/innovation_special_maa_02.dds"
+
+@moonstone_armor_01 = "gfx/interface/icons/culture_innovations/innovation_moonstone_armor_01.dds"
+@high_rock_crowning_01 = "gfx/interface/icons/culture_innovations/innovation_high_rock_crowning_01.dds"
+@crown_01 = "gfx/interface/icons/culture_innovations/innovation_crown_01.dds"
+@bombard = "gfx/interface/icons/culture_innovations/innovation_bombard.dds"
+@alchemy = "gfx/interface/icons/culture_innovations/innovation_alchemy.dds"
+@blood_price = "gfx/interface/icons/culture_innovations/innovation_blood_price.dds"
+@mammoth = "gfx/interface/icons/culture_innovations/innovation_mammoth.dds"
+
+@lost_arcane_arts = "gfx/interface/icons/culture_innovations/ai_innovation_lost_arcane_arts.dds"
+@horse_armor = "gfx/interface/icons/culture_innovations/ai_innovation_horse_armor.dds"
+@census_and_excice = "gfx/interface/icons/culture_innovations/ai_innovation_census_and_excise.dds"
+@integrated_guilds = "gfx/interface/icons/culture_innovations/ai_innovation_integrated_guilds.dds"
+@siege_magic = "gfx/interface/icons/culture_innovations/ai_innovation_siege_magic.dds"
+#EK TODO: Change modifiers to more relevant ones like Vassal Stance Opinion, chance of having a Stance and so on...
+
+#culture_group_military
+innovation_lost_arcane_arts = {
+	group = culture_group_military
+	culture_era = culture_era_late_medieval
+	icon =  @lost_arcane_arts
+	
+	can_progress = {
+		OR = {
+			has_innovation = innovation_war_magic
+			has_innovation_flag = innovation_war_magic_replacement
+		}
+	}
+
+	maa_upgrade = {
+		type = mages
+		damage = 5
+		pursuit = 5
+	}
+	maa_upgrade = {
+		type = spellblades
+		damage = 5
+		pursuit = 5
+	}
+
+	flag = global_regular
+	flag = late_medieval_era_regular
+}
+
+innovation_horse_armor = {
+	group = culture_group_military
+	culture_era = culture_era_late_medieval
+	icon =  @horse_armor
+	
+	maa_upgrade = {
+		type = heavy_cavalry
+		toughness = 3
+	}
+	maa_upgrade = {
+		type = light_cavalry
+		toughness = 3
+	}
+
+	flag = global_regular
+	flag = late_medieval_era_regular
+}
+
+# what most cultures get instead of the vanilla bombards
+innovation_siege_magic = {
+	group = culture_group_military
+	culture_era = culture_era_late_medieval
+	icon = @siege_magic
+	
+	can_progress = {
+		OR = {
+			has_innovation = innovation_war_magic
+			has_innovation_flag = innovation_war_magic_replacement
+		}
+	}
+
+	character_modifier = {
+		mages_siege_value_mult = 0.25
+		mages_siege_value_add = 0.2
+	}
+}
+
+#culture_group_civic
+innovation_census_and_excise = {
+	group = culture_group_civic
+	culture_era = culture_era_late_medieval
+	icon = @census_and_excice
+	
+	character_modifier = {
+		monthly_county_control_growth_add = 0.1
+		monthly_county_control_growth_factor = 0.1
+	}
+	
+	flag = global_regular
+	flag = late_medieval_era_regular
+}
+
+innovation_integrated_guilds = {
+	group = culture_group_civic
+	culture_era = culture_era_late_medieval
+	icon =  @integrated_guilds
+	
+	can_progress = { has_innovation = innovation_community_college }
+	
+	custom = unlock_late_medieval_academy_buildings
+
+	flag = global_regular
+	flag = late_medieval_era_regular
+}

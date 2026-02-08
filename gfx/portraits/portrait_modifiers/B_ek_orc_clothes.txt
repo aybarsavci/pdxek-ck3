@@ -1,0 +1,335 @@
+﻿ek_orc_clothes = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 1
+
+##############################
+#							 #	
+#			ORC				 #
+#							 #
+##############################
+
+    orc_clothing_lowborn = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = ek_orc_commoner_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }	
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 20
+                portrait_commoner_clothing_trigger = {
+                    CULTURE_INPUT = ek_orc
+                }
+            }
+        }
+    }
+
+    orc_clothing_low_nobles = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = ek_orc_low_nobility_clothes
+	            range = { 0.34 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                is_ruler = no
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_orc
+                }
+            }
+        }
+    }
+    orc_clothing_low_nobles_chief = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = ek_orc_low_nobility_clothes
+	            value = 0
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                is_ruler = yes
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_orc
+                }
+            }
+        }
+    }
+
+    orc_clothing_high_nobles = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = ek_orc_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0.34 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                is_ruler = no
+                portrait_high_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_orc
+                }
+            }
+        }
+    }
+    orc_clothing_high_nobles_chief = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = ek_orc_high_nobility_clothes
+	            value = 0
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                is_ruler = yes
+                portrait_high_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_orc
+                }
+            }
+        }
+    }
+	
+    orc_clothing_royalty = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = ek_orc_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                is_ruler = no
+                portrait_royalty_trigger = {
+                    CULTURE_INPUT = ek_orc
+                }
+            }
+        }
+    }
+    orc_clothing_royalty_chief = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = ek_orc_high_nobility_clothes
+	            value = 0
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                is_ruler = yes
+                portrait_royalty_trigger = {
+                    CULTURE_INPUT = ek_orc
+                }
+            }
+        }
+    }
+}
+ek_orc_armor = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 4
+
+    ek_orc_war = {
+        dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = steppe_war_nobility_clothes
+				range = { 0 1 }
+			}
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }			
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+				add = 60
+				has_ep2_dlc_trigger = no
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_orc
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_orc
+                    }
+                    portrait_high_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_orc
+                    }
+                }
+            }
+            modifier = {
+                add = 21        # So priests who are actively serving in a raised army as a commander or knight wear armor instead of priest robes
+				has_ep2_dlc_trigger = no
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_orc
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_orc
+                    }
+                    portrait_high_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_orc
+                    }
+                }
+            }
+        }
+    }
+
+    ep2_ek_orc_war_low_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = ep2_steppe_war_nobility_clothes
+                accessory = m_clothes_sec_ep2_steppe_war_nob_01_lo
+            }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }			
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 60
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_orc
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_orc
+                    }
+                }
+                has_ep2_dlc_trigger = yes
+            }
+            modifier = {
+                add = 21        # So priests who are actively serving in a raised army as a commander or knight wear armor instead of priest robes
+                OR = {
+                    portrait_commoner_armor_in_army_trigger = { 
+                        CULTURE_INPUT = ek_orc
+                    }
+                    portrait_low_nobles_armor_in_army_trigger = { 
+                        CULTURE_INPUT = ek_orc
+                    }
+                }  
+                has_ep2_dlc_trigger = yes
+            }
+        }
+    }
+
+    ep2_ek_orc_war_high_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = ep2_steppe_war_nobility_clothes
+                accessory = m_clothes_sec_ep2_steppe_war_nob_01_hi
+            }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }			
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 60
+                portrait_high_nobles_armor_trigger = {
+                    CULTURE_INPUT = ek_orc
+                }
+                has_ep2_dlc_trigger = yes
+            }
+            modifier = {
+                add = 21        # So priests who are actively serving in a raised army as a commander or knight wear armor instead of priest robes
+                portrait_high_nobles_armor_in_army_trigger = {
+                    CULTURE_INPUT = ek_orc
+                } 
+                has_ep2_dlc_trigger = yes
+            }
+        }
+    }	
+
+}

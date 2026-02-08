@@ -1,0 +1,256 @@
+﻿ek_event_characters = {		
+	usage = game
+	priority = 100
+	draugr = {
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = draugr
+				template = draugr_bs
+				value = 1.0
+			}
+			morph = {
+				mode = add				
+				gene = clothes_decay
+				template = clothes_decaying
+				value = 0.5
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000			
+				has_character_flag = dragon_cult_restoration_character_flag
+			}
+		}
+	}
+	ek_buoyant_armiger_armour = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				value = 1
+			}		
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ek_dunmer_common_scarf
+				value = 1
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = ek_altmer_noble_armor
+				value = 1
+			}
+			accessory = { 
+				mode = add
+				gene = legwear
+				template = ek_altmer_noble_war_legwear
+				value = 1
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000		
+				has_character_flag = buoyant_armiger_armour_flag
+			}
+		}
+	}
+}
+
+ek_living_god_clothes = {
+	usage = game
+	priority = 50
+	
+	ek_vivec_clothes_god = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = vivec_clothes
+				range = { 0 1 } # For the randomness to work correctly
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = no_beard
+				range = { 0 1 } # For the randomness to work correctly
+			}
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = no_hairstyles
+				range = { 0 1 } # For the randomness to work correctly
+			}	
+			accessory = {
+				mode = replace
+				gene = eye_R_accessory
+				template = heterochromia
+				range = { 0 1 } # For the randomness to work correctly
+			}
+			
+			 accessory = { 
+				 mode = add
+				 gene = particle_attachments
+				 template = vivec_flame
+				 range = { 0 1 } # For the randomness to work correctly
+			 }
+		}	
+		weight = {
+			base = 0
+			#modifier = {
+			#	add = 1000		
+			#	OR = {
+			#		has_character_flag = god_vivec_m_flag
+			#		has_character_flag = god_vivec_f_flag
+			#	}
+			#}
+		}
+	}
+	
+	ek_vivec_clothes = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = vivec_clothes
+				range = { 0 1 } # For the randomness to work correctly
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 } # For the randomness to work correctly
+			}			
+
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				exists = character:vehk_100
+				this = character:vehk_100
+			}
+		}
+	}
+}
+
+ek_vivec_body_sliders = {
+	usage = game
+	priority = 50
+	# neither looked quite right with the same body settings and i didnt make blendshapes so here im making sure their body sliders are exactly how they should be
+	vivec_m = {		
+		dna_modifiers = {
+			morph = {
+				mode = replace
+				gene = gene_bs_body_type
+				template = body_fat_head_fat_low
+				value = 0.263
+			}
+			morph = {
+				mode = replace
+				gene = gene_bs_body_shape
+				template = body_shape_rectangle_full
+				value = 0.7
+			}
+		}
+		weight = {
+			base = 0
+			#modifier = {
+			#	add = 1000			
+			#	has_character_flag = god_vivec_m_flag
+			#}
+		}
+	}
+	
+	vivec_f = {
+		dna_modifiers = {
+			morph = {
+				mode = replace
+				gene = gene_bs_body_type
+				template = body_fat_head_fat_low
+				value = 0.443
+			}
+			morph = {
+				mode = replace
+				gene = gene_bs_body_shape
+				template = body_shape_pear_half
+				value = 0.541
+			}
+			morph = {
+				mode = replace
+				gene = gene_bs_bust
+				template = bust_shape_4_full
+				value = 0.612
+			}
+		}
+		weight = {
+			base = 0
+			#modifier = {
+			#	add = 1000			
+			#	has_character_flag = god_vivec_f_flag
+			#}
+		}
+	}
+	
+}
+
+vivec_bodyweight = {
+	usage = game
+
+	priority = 50
+	
+	vivec_fat_male = {
+		dna_modifiers = {
+			morph = {
+				mode = replace
+				gene = gene_bs_body_type
+				template = body_fat_head_fat_low
+				value = 0.263
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				exists = character:vehk_100
+				this = character:vehk_100
+			}
+		}		
+	}
+}
+
+vivec_muscularity = {
+	
+	usage = game
+	priority = 50
+	
+	vivec_muscularity_male = {
+		dna_modifiers = {
+			morph = {
+				mode = replace
+				gene = gene_bs_body_shape
+				template = body_shape_rectangle_full
+				value = 0.549
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				exists = character:vehk_100
+				this = character:vehk_100
+			}
+		}		
+	}
+}
+

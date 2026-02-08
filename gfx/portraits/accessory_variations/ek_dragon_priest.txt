@@ -1,0 +1,89 @@
+﻿###################
+#	Texture sets	#
+##################
+
+
+pattern_textures = {
+	name = "western_gold_plain"
+	colormask	= "gfx/portraits/accessory_variations/textures/patterns/western/western_gold_plain_01_masks.dds"
+	normal		= "gfx/portraits/accessory_variations/textures/patterns/western/western_gold_plain_01_normal.dds"
+	properties	= "gfx/portraits/accessory_variations/textures/patterns/western/western_gold_plain_01_properties.dds"
+}
+
+pattern_textures = {
+	name = "all_silver_plain"
+	colormask	= "gfx/portraits/accessory_variations/textures/patterns/all/all_silver_plain_rough_01_masks.dds"
+	normal		= "gfx/portraits/accessory_variations/textures/patterns/all/all_silver_plain_rough_01_normal.dds"
+	properties	= "gfx/portraits/accessory_variations/textures/patterns/all/all_silver_plain_rough_01_properties.dds"
+}
+
+pattern_textures = {
+	name = "ek_silver_plain"
+	colormask	= "gfx/portraits/accessory_variations/textures/patterns/all/all_silver_plain_rough_01_masks.dds"
+	normal		= "gfx/portraits/accessory_variations/textures/patterns/all/all_silver_plain_rough_01_normal.dds"
+	properties	= "gfx/portraits/accessory_variations/textures/patterns/all/ek_all_silver_plain_rough_01_properties.dds"
+}
+
+##### AJ TIME ITS AJ TIME #####
+
+pattern_textures = {
+	name = "ek_fur_01"
+	colormask	= "gfx/portraits/accessory_variations/textures/patterns/fur/fur_masks.dds"
+	normal		= "gfx/portraits/accessory_variations/textures/patterns/fur/fur_normal.dds"
+	properties	= "gfx/portraits/accessory_variations/textures/patterns/fur/fur_properties.dds"
+}
+
+
+##################
+#	Layouts		#
+##################
+
+
+pattern_layout = {
+	name = "plain_fabric_layout_01"	
+	scale 		= { min = 0.06	max = 0.06 }
+	rotation 	= { min = 0	max = 0 }	
+	offset 		= { x = { min = 0	max = 0 }    y = { min = 0	max = 0 } } 
+}
+pattern_layout = {
+	name = "plain_fabric_layout_02"	
+	scale 		= { min = 0.1	max = 0.1 }
+	rotation 	= { min = 0	max = 0 }	
+	offset 		= { x = { min = 0	max = 0 }    y = { min = 0	max = 0 } } 
+}
+pattern_layout = {
+	name = "plain_fabric_layout_03"	
+	scale 		= { min = 0.2	max = 0.2 }
+	rotation 	= { min = 0	max = 0 }	
+	offset 		= { x = { min = 0	max = 0 }    y = { min = 0	max = 0 } } 
+}
+pattern_layout = {
+	name = "plain_fabric_layout_04"	
+	scale 		= { min = 0.15	max = 0.15 }
+	rotation 	= { min = 0	max = 0 }	
+	offset 		= { x = { min = 0	max = 0 }    y = { min = 0	max = 0 } } 
+}
+
+
+variation = {
+	name = "dragon_priest_mask_01"
+	
+	# patterns are sampled using UV-set 2
+	# uv-coordinates will be modified with scale, rotation, and offset before the texture is sampled
+	# If more than one pattern_layout is provided one will be chosen at random (uniformly, no weights)
+	pattern = { 
+		weight = 1
+		#r,g,b,a here refers to the channels in the pattern_mask scripted in the entity
+		r = { textures = "ek_silver_plain" layout = "plain_fabric_layout_01" }
+		g = { textures = "ek_silver_plain" layout = "plain_fabric_layout_01" }
+		b = { textures = "ek_silver_plain" layout = "plain_fabric_layout_01" }
+		a = { textures = "ek_silver_plain"	layout = "plain_fabric_layout_01" }
+	}
+	
+		
+	# Color palette textures are 16-wide and N-high.
+	# Shaders will chose a row in the texture at random, and each column will be sampled once.
+	# First column will be masked by the red channel in the masks, second by the green, etc.
+	# If more than one color palette texture is provided one will be chosen at random (uniformly, no weights)
+	color_palette = { weight = 1		texture = "gfx/portraits/accessory_variations/textures/color_palette_dragon_priest_01.dds" }	
+}

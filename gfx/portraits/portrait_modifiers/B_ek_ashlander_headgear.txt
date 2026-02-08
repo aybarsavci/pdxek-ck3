@@ -1,0 +1,146 @@
+﻿ek_ashlander_headgear = {
+
+	usage = game
+	selection_behavior = weighted_random
+	priority = 1
+
+##############################
+#							 #	
+#			ASHLANDER		 #
+#							 #
+##############################
+
+	ek_ashlander_commoners = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 80
+                portrait_commoner_headgear_fallback_trigger = {
+                    CULTURE_INPUT = ek_ashlander
+                }
+			}
+			modifier = { # Non-european jesters should not use the jester hat
+				add = 1000
+                portrait_jester_trigger = {  
+                    CULTURE_INPUT = ek_ashlander 
+                }
+			}
+			modifier = {
+				add = 20
+                portrait_commoner_clothing_trigger = {  
+                    CULTURE_INPUT = ek_ashlander 
+                }
+			}
+		}
+	}
+
+	ek_ashlander_low_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			court_fashion_level_4_headgear_modifier = { INPUT_PARAMETER = ek_ashlander } 
+			modifier = {
+				add = 50
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_ashlander
+                }
+			}
+		}
+	}
+
+	ek_ashlander_high_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_high_nobles_headgear_trigger = {
+                    CULTURE_INPUT = ek_ashlander
+                }   
+			}
+		}
+	}
+}
+
+
+ek_ashlander_war_headgear = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 4
+
+    ek_ashlander_war_low_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = ek_dunmer_war
+				range = { 0 1 } # The Error log gets angry if this isnt added
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_ashlander
+                }
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_ashlander
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_ashlander
+                    }
+                }
+            }
+        }
+    }
+
+    ek_ashlander_war_high_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = ek_dunmer_war
+				range = { 0 1 } # The Error log gets angry if this isnt added
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_ashlander
+                }
+                portrait_high_nobles_armor_trigger = {
+                    CULTURE_INPUT = ek_ashlander
+                }
+            }
+        }
+    }
+}

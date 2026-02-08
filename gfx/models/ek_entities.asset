@@ -1,0 +1,26 @@
+entity = {
+	name = "volcano_smoke_effect"
+	
+	locator = { name = part1 }
+	
+	default_state = "smoke"
+	state = { name = "smoke" state_time = 10 looping = yes
+		event = { time = 0 node = "part1" particle = "city/city_siege_smoke" keep_particle = yes trigger_once = yes life = 5 }
+	}
+}
+
+### add sound effect in the future like sound
+# 		event = { trigger_once = yes sound = { soundeffect = 
+# 		"event:/SFX/Ambience/3DMapEmitters/Holdings/Siege/sfx_amb_3d_holdings_siege_amb" } soundparameter = { "Tier" = 1 } keep_sound = yes }
+
+entity = {
+	name = "env_geyser01"
+	
+	locator = { name = part1 }
+	
+	default_state = "idle"
+	state = { name = "idle" state_time = 5
+		event = { time = 0 node = "part1" particle = "geyser02" trigger_once = yes skip_forward = 2}
+	}
+	cull_radius = 4
+}

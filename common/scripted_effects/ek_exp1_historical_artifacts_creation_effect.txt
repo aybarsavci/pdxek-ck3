@@ -1,0 +1,1422 @@
+﻿#### All artifacts in here should exist at game start - most should be famed, the more significant/important ones should be illustrious ###
+
+create_artifact_skull_numinex_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	set_variable = { name = animal_type value = flag:dragon days = 1 }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_skull_numinex_name
+		description = artifact_skull_numinex_description
+		type = animal_skull_big
+		visuals = skull_numinex
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = skull_numinex_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = skull_of_numinex
+		set_variable = {
+			name = artifact_succession_title
+			value = title:k_whiterun
+		}
+		save_scope_as = epic
+	}
+}
+
+create_artifact_throne_ruby_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_throne_ruby_name
+		description = artifact_throne_ruby_description
+		type = throne_special
+		visuals = throne_ruby
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = throne_ruby_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = {
+			name = artifact_succession_title
+			value = title:c_imperial_city
+		}
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = throne
+			value = yes
+		}
+	}
+}
+
+create_artifact_throne_camoran_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_throne_camoran_name
+		description = artifact_throne_camoran_description
+		type = throne_special
+		visuals = throne_camoran
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = throne_camoran_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = {
+			name = artifact_succession_title
+			value = title:e_valenwood
+		}
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = throne
+			value = yes
+		}
+	}
+}
+
+create_artifact_flask_lillandril_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_flask_lillandril_name
+		description = artifact_flask_lillandril_description
+		type = pedestal
+		visuals = flask_lillandril
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = flask_lillandril_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = {
+			name = artifact_succession_title
+			value = title:k_lillandril
+		}
+		save_scope_as = epic
+#		save_scope_value_as = {
+#			name = miscellaneous
+#			value = yes
+#		}
+	}
+}
+
+create_artifact_ansei_ward_majah_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_ansei_ward_majah_name
+		description = artifact_ansei_ward_description
+		type = pedestal
+		visuals = ansei_ward
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = ansei_ward_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = {
+			name = artifact_succession_title
+			value = title:c_sentinel
+		}
+		save_scope_as = epic
+#		save_scope_value_as = {
+#			name = miscellaneous
+#			value = yes
+#		}
+	}
+}
+
+create_artifact_ansei_ward_radan_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_ansei_ward_radan_name
+		description = artifact_ansei_ward_description
+		type = pedestal
+		visuals = ansei_ward
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = ansei_ward_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = {
+			name = artifact_succession_title
+			value = title:c_sentinel
+		}
+		save_scope_as = epic
+#		save_scope_value_as = {
+#			name = miscellaneous
+#			value = yes
+#		}
+	}
+}
+
+create_artifact_ansei_ward_halelah_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_ansei_ward_halelah_name
+		description = artifact_ansei_ward_description
+		type = pedestal
+		visuals = ansei_ward
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = ansei_ward_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = {
+			name = artifact_succession_title
+			value = title:c_sentinel
+		}
+		save_scope_as = epic
+#		save_scope_value_as = {
+#			name = miscellaneous
+#			value = yes
+#		}
+	}
+}
+
+
+create_artifact_aok_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_aok_name
+		description = artifact_aok_description
+		type = pedestal
+		visuals = aok
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = aok_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = {
+			name = Amulet_of_kings_artifact
+			value = yes
+		}
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = necklace_artifact
+			value = yes
+		}
+	}
+}
+
+create_artifact_crown_verity_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_crown_verity_name
+		description = artifact_crown_verity_description
+		type = helmet
+		template = crown_verity_template
+		visuals = crown_verity
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = crown_verity_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = {
+			name = artifact_succession_title
+			value = title:e_skyrim
+		}
+		set_variable = {
+			name = crown_verity
+			value = yes
+		}	
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = helmet_artifact
+			value = yes
+		}
+	}
+}
+
+create_artifact_diadem_diagna_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_diadem_diagna_name
+		description = artifact_diadem_diagna_description
+		type = helmet
+		visuals = diadem_diagna
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = diadem_diagna_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = {
+			name = artifact_succession_title
+			value = title:e_hammerfell
+		}
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = helmet_artifact
+			value = yes
+		}
+	}
+}
+
+create_artifact_golden_skull_beela_kaar_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_golden_skull_beela_kaar_name
+		description = artifact_golden_skull_beela_kaar_description
+		type = miscellaneous
+		visuals = golden_skull_beela_kaar
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = golden_skull_beela_kaar_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = {
+			name = artifact_succession_title
+			value = title:c_norg_tzel
+		}
+		set_variable = { name = necromancy_spell_cost_modifier value = -0.1 }
+		save_scope_as = epic
+	}
+}
+
+create_artifact_mace_aevar_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner location = {save_scope_as = location}}
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_mace_aevar_name
+		description = artifact_mace_aevar_description
+		type = mace
+		visuals = mace_aevar
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = mace_aevar_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = mace
+			value = yes
+		}
+	}
+}
+
+create_artifact_orichalc_scalpel_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_orichalc_scalpel_name
+		description = artifact_orichalc_scalpel_description
+		type = sword
+		visuals = orichalc_scalpel
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = orichalc_scalpel_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = sword
+			value = yes
+		}
+	}
+}
+
+create_artifact_black_iron_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_black_iron_name
+		description = artifact_black_iron_description
+		type = sword
+		visuals = black_iron
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = black_iron_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = sword
+			value = yes
+		}
+	}
+}
+
+create_artifact_kingmakers_trove_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_kingmakers_trove_name
+		description = artifact_kingmakers_trove_description
+		visuals = kingmakers_trove
+		type = chest
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = kingmakers_trove_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = miscellaneous
+			value = yes
+		}
+	}
+}
+
+create_artifact_veloths_judgement_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_veloths_judgement_name
+		description = artifact_veloths_judgement_description
+		type = hammer
+		visuals = veloths_judgement
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = veloths_judgement_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = {
+			name = artifact_succession_title
+			value = title:e_tribunal_temple
+		}
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = hammer
+			value = yes
+		}
+	}
+}
+
+create_artifact_staff_rootmender_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_staff_rootmender_name
+		description = artifact_staff_rootmender_description
+		type = staff
+		visuals = staff_rootmender
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = staff_rootmender_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = staff
+			value = yes
+		}
+		set_variable = { name = arcana_modifier value = 5 }
+	}
+}
+
+create_artifact_wuuthrad_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_wuuthrad_name
+		description = artifact_wuuthrad_description
+		type = axe
+		visuals = wuuthrad
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = wuuthrad_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		set_variable = {
+			name = artifact_succession_title
+			value = title:k_daggerfall
+		}
+		save_scope_value_as = {
+			name = axe
+			value = yes
+		}
+	}
+}
+
+create_artifact_crown_anton_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_crown_anton_name
+		description = artifact_crown_anton_description
+		type = helmet
+		visuals = crown_anton
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = crown_anton_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		save_scope_as = epic
+		set_variable = {
+			name = artifact_succession_title
+			value = title:k_daggerfall
+		}
+		set_variable = {
+			name = crown_anton
+			value = yes
+		}		
+		save_scope_value_as = {
+			name = helmet_artifact
+			value = yes
+		}
+		set_variable = { name = arcana_modifier value = 5 }
+	}
+}
+
+create_artifact_crown_shornhelm_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_crown_shornhelm_name
+		description = artifact_crown_shornhelm_description
+		type = helmet
+		visuals = crown_shornhelm
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = crown_shornhelm_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = {
+			name = artifact_succession_title
+			value = title:k_shornhelm
+		}
+		set_variable = {
+			name = crown_shornhelm
+			value = yes
+		}
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = helmet_artifact
+			value = yes
+		}
+	}
+}
+
+create_artifact_ring_mane_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_ring_mane_name
+		description = artifact_ring_mane_description
+		type = regalia
+		visuals = ring_mane
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created
+			date = 3256.1.1
+			recipient = character:mane_001 #Rid-Thar
+			location = province:3585 #Mane's Palace
+		}
+		modifier = ring_mane_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		save_scope_as = epic
+		set_variable = {
+			name = artifact_succession_title
+			value = title:e_elsweyr
+		}
+		save_scope_value_as = {
+			name = regalia_artifact
+			value = yes
+		}
+	}
+}
+
+create_artifact_bow_malgoth_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	set_bow_artifact_type_effect = {
+		BASE_SCOPE = scope:owner
+		NO_TYPE = no
+	}
+	save_temporary_scope_value_as = {
+		name = bow_type_is_set
+		value = $SET_BOW_TYPE$
+	}
+	scope:owner = {
+		var:artifact_bow_type = { save_scope_as = bow_type }
+		remove_variable = artifact_bow_type
+	}
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_bow_malgoth_name
+		description = artifact_bow_malgoth_description
+		type = bow
+		visuals = bow_malgoth
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = bow_malgoth_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = bow
+			value = yes
+		}
+	}
+}
+
+create_artifact_throne_mane_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_throne_mane_name
+		description = artifact_throne_mane_description
+		type = throne_special
+		visuals = throne_mane
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = throne_mane_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = {
+			name = artifact_succession_title
+			value = title:e_elsweyr
+		}
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = throne
+			value = yes
+		}
+	}
+}
+
+create_artifact_ebony_blade_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_ebony_blade_name
+		description = artifact_ebony_blade_description
+		type = sword
+		visuals = ebony_blade
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = ebony_blade_modifier
+		save_scope_as = ebony_blade
+		decaying = no
+	}
+
+	scope:ebony_blade = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = { name = daedric_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = sword
+			value = yes
+		}
+	}
+}
+
+create_artifact_harkons_sword_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_harkons_sword_name
+		description = artifact_harkons_sword_description
+		type = sword
+		visuals = harkons_sword
+		template = harkons_sword_template
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = harkons_sword_modifier
+		save_scope_as = harkons_sword
+		decaying = no
+	}
+
+	scope:harkons_sword = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = sword
+			value = yes
+		}
+	}
+}
+
+create_artifact_history_of_histories_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_history_of_histories_name
+		description = artifact_history_of_histories_description
+		type = book
+		visuals = history_of_histories
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = history_of_histories_modifier
+		save_scope_as = history_of_histories
+		decaying = no
+	}
+
+	scope:history_of_histories = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = book
+			value = yes
+		}
+	}
+}
+
+create_artifact_dragonsword_of_lainlyn_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_dragonsword_of_lainlyn_name
+		description = artifact_dragonsword_of_lainlyn_description
+		type = sword
+		visuals = dragonsword_of_lainlyn
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = dragonsword_of_lainlyn_modifier
+		save_scope_as = dragonsword_of_lainlyn
+		decaying = no
+	}
+
+	scope:dragonsword_of_lainlyn = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = sword
+			value = yes
+		}
+	}
+}
+
+create_artifact_breathtaker_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_breathtaker_name
+		description = artifact_breathtaker_description
+		type = sword
+		visuals = breathtaker
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = breathtaker_modifier
+		save_scope_as = breathtaker
+		decaying = no
+	}
+
+	scope:breathtaker = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = sword
+			value = yes
+		}
+	}
+}
+
+create_artifact_princes_woe_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_princes_woe_name
+		description = artifact_princes_woe_description
+		type = sword
+		visuals = princes_woe
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = princes_woe_modifier
+		save_scope_as = princes_woe
+		decaying = no
+	}
+
+	scope:princes_woe = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = sword
+			value = yes
+		}
+	}
+}
+
+create_artifact_dagger_foal_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_dagger_foal_name
+		description = artifact_dagger_foal_description
+		type = miscellaneous
+		visuals = dagger_foal
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = dagger_foal_modifier
+		save_scope_as = dagger_foal
+		decaying = no
+	}
+
+	scope:dagger_foal = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = dagger
+			value = yes
+		}
+	}
+}
+
+create_artifact_bow_ivory_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	set_bow_artifact_type_effect = {
+		BASE_SCOPE = scope:owner
+		NO_TYPE = no
+	}
+	save_temporary_scope_value_as = {
+		name = bow_type_is_set
+		value = $SET_BOW_TYPE$
+	}
+	scope:owner = {
+		var:artifact_bow_type = { save_scope_as = bow_type }
+		remove_variable = artifact_bow_type
+	}
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_bow_ivory_name
+		description = artifact_bow_ivory_description
+		type = bow
+		visuals = bow_ivory
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = bow_ivory_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = bow
+			value = yes
+		}
+	}
+}
+
+create_artifact_book_delegation_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_book_delegation_name
+		description = artifact_book_delegation_description
+		type = book
+		visuals = book_delegation
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = book_delegation_modifier
+		save_scope_as = book_delegation
+		decaying = no
+	}
+
+	scope:book_delegation = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = book
+			value = yes
+		}
+	}
+}
+
+create_artifact_book_bretonnick_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_book_bretonnick_name
+		description = artifact_book_bretonnick_description
+		type = book
+		visuals = book_bretonnick
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = book_bretonnick_modifier
+		save_scope_as = book_bretonnick
+		decaying = no
+	}
+
+	scope:book_bretonnick = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = book
+			value = yes
+		}
+	}
+}
+
+create_artifact_book_daenia_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_book_daenia_name
+		description = artifact_book_daenia_description
+		type = book
+		visuals = book_daenia
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = book_daenia_modifier
+		save_scope_as = book_daenia
+		decaying = no
+	}
+
+	scope:book_daenia = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = book
+			value = yes
+		}
+	}
+}
+
+create_artifact_armor_joile_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_armor_joile_name
+		description = artifact_armor_joile_description
+		type = armor_plate
+		visuals = armor_joile
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+				type = discovered
+				actor = scope:inspiration_owner
+				recipient = scope:owner
+				location = scope:inspiration_owner.location
+		}
+		modifier = armor_joile_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		add_durability = -80
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = armor
+			value = yes
+		}
+		#set_variable = { name = arcana_modifier value = 5 }
+		#set_variable = { name = magicka_modifier_flat value = 0.2 }
+		#set_variable = { name = magicka_modifier_mult value = 0.05 }
+	}
+}
+
+create_artifact_gutwrencher_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner location = {save_scope_as = location}}
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_gutwrencher_name
+		description = artifact_gutwrencher_description
+		type = mace
+		visuals = gutwrencher
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = gutwrencher_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = mace
+			value = yes
+		}
+	}
+}
+
+create_artifact_mammoth_horn_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner location = {save_scope_as = location}}
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_masterwork = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_mammoth_horn_name
+		description = artifact_mammoth_horn_description
+		type = miscellaneous
+		visuals = mammoth_horn
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = mammoth_horn_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		#set_variable = ruby_throne
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = mammoth_horn
+			value = yes
+		}
+	}
+}
+
+create_darloc_brae_spittoon_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_darloc_brae_spittoon_name
+		description = artifact_darloc_brae_spittoon_description
+		type = pedestal
+		visuals = darloc_brae_spittoon
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = darloc_brae_spittoon_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = {
+			name = artifact_succession_title
+			value = title:k_anequina
+		}
+		save_scope_as = epic
+	}
+}
+
+create_artifact_blade_cassimoran_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_blade_cassimoran_name
+		description = artifact_blade_cassimoran_description
+		type = sword
+		visuals = blade_cassimoran
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = blade_cassimoran_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = sword
+			value = yes
+		}
+	}
+}
+
+create_gambolpuddy_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_gambolpuddy_effect
+		description = artifact_gambolpuddy_effect_description
+		type = miscellaneous
+		visuals = falconry_glove
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = gambolpuddy_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = { name = gambolpuddy_artifact value = yes }
+		set_variable = { name = daedric_artifact value = yes }
+		set_variable = { name = arcana_modifier value = -3 }
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = gambolpuddy
+			value = yes
+		}
+	}
+}

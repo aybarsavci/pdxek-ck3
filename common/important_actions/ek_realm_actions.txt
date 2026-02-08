@@ -1,0 +1,29 @@
+﻿action_can_create_mystical_birthright_head_of_faith_title = {
+	check_create_action = {
+		if = {
+			limit = {
+				faith = {
+					NOT = { exists = religious_head }
+					has_doctrine = doctrine_mystical_birthright_head
+					can_create_mystical_birthright_head_of_faith_title_trigger = yes
+				}
+			}
+			try_create_important_action = {
+				important_action_type = action_can_create_mystical_birthright_head_of_faith_title
+				actor = root
+			}
+		}
+	}
+
+	unimportant = {
+		short_term_gold < 300
+	}
+
+	effect = {
+		scope:actor.faith = {
+			open_view_data = {
+				view = faith
+			}
+		}
+	}
+}

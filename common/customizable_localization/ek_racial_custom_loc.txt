@@ -1,0 +1,197 @@
+﻿### Racial Custom Loc ###
+# by Juke
+# Check for a characters physical features in events etc
+# I swear Im not-
+
+# In addition to the ones Listed here, you can check for the following:
+#race_has_tail_trigger
+#race_has_wings_trigger
+#race_has_horns_trigger
+#race_has_fins_trigger
+#race_has_fangs_trigger
+#race_has_whiskers_trigger
+
+HandClawPaw = { #Singular
+	type = character
+	
+	text = {
+		trigger = { race_has_claws_trigger = yes }
+		localization_key = bodypart_claw
+	}
+
+	text = {
+		trigger = { race_has_paws_trigger = yes }
+		localization_key = bodypart_paw
+	}
+
+	text = {
+		localization_key = bodypart_hand
+		fallback = yes
+	}
+}
+
+HandsClawsPaws = { #Plural. To account for maimed, use HandHands
+	type = character
+	
+	text = {
+		trigger = { race_has_claws_trigger = yes }
+		localization_key = bodypart_claws
+	}
+
+	text = {
+		trigger = { race_has_paws_trigger = yes }
+		localization_key = bodypart_paws
+	}
+
+	text = {
+		localization_key = bodypart_hands
+		fallback = yes
+	}
+}
+
+FootHoof = {
+	type = character
+
+	text = {
+		trigger = { race_has_hooves_trigger = yes }
+		localization_key = bodypart_hoof
+	}
+
+	text = {
+		localization_key = bodypart_foot
+		fallback = yes
+	}
+}
+
+FeetHooves = {
+	type = character
+
+	text = {
+		trigger = { race_has_hooves_trigger = yes }
+		localization_key = bodypart_hooves
+	}
+
+	text = {
+		localization_key = bodypart_feet
+		fallback = yes
+	}
+}
+
+SkinScalesFur = {
+	type = character
+	
+	text = {
+		trigger = { race_has_scales_trigger = yes }
+		localization_key = bodypart_scales
+	}
+
+	text = {
+		trigger = { race_has_fur_trigger = yes }
+		localization_key = bodypart_fur
+	}
+
+	text = {
+		trigger = { race_has_feathers_trigger = yes }
+		localization_key = bodypart_feathers
+	}
+
+	text = {
+		localization_key = bodypart_skin
+		fallback = yes
+	}
+}
+
+SkinTypeIsAre = { #Grammer
+	type = character
+	
+	text = {
+		trigger = {
+			OR = {
+				race_has_scales_trigger = yes
+				race_has_feathers_trigger = yes
+			}
+		}
+		localization_key = verb_are
+	}
+
+	text = {
+		localization_key = verb_is
+		fallback = yes
+	}
+}
+
+SkinTypeItThey = { #Grammer(woke)
+	type = character
+	
+	text = {
+		trigger = {
+			OR = {
+				race_has_scales_trigger = yes
+				race_has_feathers_trigger = yes
+			}
+		}
+		localization_key = pronoun_they
+	}
+
+	text = {
+		localization_key = pronoun_it
+		fallback = yes
+	}
+}
+
+SkinTypeS_No_S = { #Grammer
+	type = character
+	
+	text = {
+		trigger = {
+			OR = {
+				race_has_scales_trigger = yes
+				race_has_feathers_trigger = yes
+			}
+		}
+		localization_key = verb_no_s
+	}
+
+	text = {
+		localization_key = verb_s
+		fallback = yes
+	}
+}
+
+NoseSnoutBeak = {
+	type = character
+	
+	text = {
+		trigger = { race_has_snout_trigger = yes }
+		localization_key = bodypart_snout
+	}
+
+	text = {
+		trigger = { race_has_beak_trigger = yes }
+		localization_key = bodypart_beak
+	}
+
+	text = {
+		localization_key = bodypart_nose
+		fallback = yes
+	}
+}
+
+MouthSnoutBeak = {
+	type = character
+	
+	text = {
+		trigger = { race_has_snout_trigger = yes }
+		localization_key = bodypart_snout
+	}
+
+	text = {
+		trigger = { race_has_beak_trigger = yes }
+		localization_key = bodypart_beak
+	}
+
+	text = {
+		localization_key = bodypart_mouth
+		fallback = yes
+	}
+}

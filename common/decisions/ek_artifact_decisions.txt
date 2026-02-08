@@ -1,0 +1,566 @@
+﻿commission_banner_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_smith.dds"
+	}
+	cooldown = { days = standard_commission_artifact_cooldown_time }
+	sort_order = 100
+	
+	is_shown = {
+		is_landed = yes
+		highest_held_title_tier >= tier_county
+		exists = capital_province
+		has_dlc_feature = royal_court
+	}
+	
+	is_valid_showing_failures_only = {
+		# Only valid for characters with an antiquarian.
+		employs_court_position = antiquarian_court_position
+	}
+
+	minimum_cost = {
+		# Matches the cost defined in 00_inspirations.txt
+		gold = basic_fund_inspiration_cost
+	}
+
+    effect = {
+		if = {
+			limit = {
+				any_court_position_holder = {
+					type = antiquarian_court_position
+				}
+			}
+			random_court_position_holder = {
+				type = antiquarian_court_position
+				save_scope_as = antiquarian
+			}
+		}
+		# Explanatory Tooltips
+		custom_tooltip = commission_banner_decision_effect
+
+		if = {
+			limit = {
+				any_pool_character = {
+					province = root.capital_province
+					has_no_particular_noble_roots_trigger = yes
+					is_available_healthy_ai_adult = yes
+					NOR = {
+						exists = inspiration
+						has_trait = peasant_leader
+					}
+				}
+			}
+			random_pool_character = {
+				province = root.capital_province
+				limit = {
+					has_no_particular_noble_roots_trigger = yes
+					is_available_healthy_ai_adult = yes
+					NOR = {
+						exists = inspiration
+						has_trait = peasant_leader
+					}
+				}
+				save_scope_as = local_artisan
+				hidden_effect = {
+					add_character_modifier = local_artisan_modifier
+				}
+			}
+		}
+		else = {
+			# Artisan Generation
+			hidden_effect = {
+				create_character = {
+					template = local_artisan_template
+					location = root.capital_province
+					gender_female_chance = root_faith_dominant_gender_adjusted_female_chance
+					save_scope_as = local_artisan
+				}
+				scope:local_artisan = {
+					hidden_effect = {
+						add_character_modifier = local_artisan_modifier
+					}
+				}
+			}
+		}
+
+		hidden_effect = {
+			if = {
+				# Conditional exists to avoid false-positives during tooltip generation, but 'local_artisan' should always exist on execution!
+				limit = { exists = scope:local_artisan }
+				root = { add_courtier = scope:local_artisan	}
+				trigger_event = fund_inspiration.0044
+				scope:local_artisan = {
+					add_character_flag = local_artisan
+				}
+			}
+		}
+	}
+
+	ai_check_interval = 36
+	
+	ai_potential = {
+		is_at_war = no
+		ai_greed < medium_positive_ai_value
+		short_term_gold > ai_war_chest_desired_gold_value
+		war_chest_gold >= halved_ai_war_chest_gold_maximum
+	}
+
+	ai_will_do = {
+		base = 100
+
+		modifier = {
+			factor = 0
+			OR = {
+				any_character_artifact = {
+					artifact_slot_type = wall_big
+				}
+				any_character_artifact = {
+					artifact_slot_type = wall_small
+				}
+			}
+		}
+	}
+}
+
+crown_verity_decision = {
+	ai_check_interval = 120
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+	}
+	decision_group_type = major
+	desc = crown_verity_decision_desc
+
+	selection_tooltip = crown_verity_decision_tooltip
+
+	cooldown = { years = 5 }
+
+	is_shown = {
+		any_character_artifact = { 
+			has_artifact_modifier = crown_verity_modifier
+		}
+        culture = { has_cultural_pillar = heritage_atmoran }
+        NOT = {
+            has_character_modifier = verity_worthy
+        }
+	}
+
+	effect = {
+		custom_tooltip = crown_verity_judgement_tooltip
+		trigger_event = ek_historical_artifacts.0002
+	}
+	
+	ai_potential = {
+		NOT = {
+            has_character_modifier = verity_worthy
+        }
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+staff_sanguine_decision = {
+	ai_check_interval = 120
+	picture = {
+		reference = "gfx/interface/illustrations/event_scenes/oblivion_gate.dds"
+	}
+	decision_group_type = major
+
+	desc = staff_sanguine_decision_desc
+
+	selection_tooltip = staff_sanguine_selection_tooltip
+
+	is_shown = {
+		any_equipped_character_artifact = { 
+			has_artifact_modifier = staff_sanguine_modifier
+		}
+        NOT = {
+            has_character_flag = rose_summoned
+        }
+	}
+
+	effect = {
+		custom_tooltip = staff_sanguine_decision_tooltip
+		trigger_event = ek_daedric_artifacts.0001
+	}
+	
+	ai_potential = {
+		OR = {
+			has_trait = brave
+			has_trait = ambitious
+			has_trait = arrogant
+			has_trait = gregarious
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+staff_everscamp_decision = {
+	ai_check_interval = 120
+	picture = {
+		reference = "gfx/interface/illustrations/event_scenes/oblivion_gate.dds"
+	}
+	decision_group_type = major
+
+	desc = staff_everscamp_decision_desc
+
+	selection_tooltip = staff_everscamp_selection_tooltip
+
+	cooldown = { years = 5 }
+
+	is_shown = {
+		any_equipped_character_artifact = { 
+			has_artifact_modifier = staff_everscamp_modifier
+		}
+        NOT = {
+            has_character_flag = everscamp_decoded
+			has_character_modifier = everscamps_modifier
+        }
+	}
+
+	cost = {
+		prestige = medium_prestige_value
+	}
+
+	effect = {
+		custom_tooltip = staff_everscamp_decision_tooltip
+		trigger_event = ek_daedric_artifacts.0043
+	}
+	
+	ai_potential = {
+		OR = {
+			has_trait = brave
+			has_trait = ambitious
+			has_trait = arrogant
+			has_trait = gregarious
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+remove_everscamp_decision = {
+	ai_check_interval = 120
+	picture = {
+		reference = "gfx/interface/illustrations/event_scenes/oblivion_gate.dds"
+	}
+	decision_group_type = major
+
+	desc = remove_everscamp_decision_desc
+
+	selection_tooltip = remove_everscamp_selection_tooltip
+
+	cooldown = { years = 5 }
+
+	is_shown = {
+		has_character_modifier = everscamps_modifier
+	}
+
+
+	effect = {
+		custom_tooltip = remove_everscamp_decision_tooltip
+		trigger_event = ek_daedric_artifacts.0044
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+bittercup_decision = {
+	ai_check_interval = 120
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_misc.dds"
+	}
+	decision_group_type = major
+
+	desc = bittercup_decision_desc
+
+	selection_tooltip = bittercup_selection_tooltip
+
+	is_shown = {
+		any_equipped_character_artifact = { 
+			has_artifact_modifier = bittercup_modifier
+		}
+	}
+
+	effect = {
+		custom_tooltip = bittercup_decision_tooltip
+		trigger_event = ek_daedric_artifacts.0017
+	}
+	
+	ai_potential = {
+		OR = {
+			has_trait = brave
+			has_trait = ambitious
+			has_trait = arrogant
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+black_book_decision = {
+	ai_check_interval = 120
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_misc.dds"
+	}
+	decision_group_type = major
+
+	desc = black_book_decision_desc
+
+	cost = {
+		piety = 100
+	}
+
+	selection_tooltip = black_book_selection_tooltip
+
+	is_shown = {
+		any_equipped_character_artifact = { 
+			has_artifact_modifier = black_book_modifier
+		}
+	}
+
+	effect = {
+		custom_tooltip = blackbook_decision_tooltip
+		if = {
+			limit = {
+				any_equipped_character_artifact = {
+					has_variable = bb_filament
+				}
+			}
+			trigger_event = ek_daedric_artifacts.0020
+		}
+
+		if = {
+			limit = {
+				any_equipped_character_artifact = {
+					has_variable = bb_twilight
+				}
+			}
+			trigger_event = ek_daedric_artifacts.0021
+		}
+
+		if = {
+			limit = {
+				any_equipped_character_artifact = {
+					has_variable = bb_sallow
+				}
+			}
+			trigger_event = ek_daedric_artifacts.0022
+		}
+
+		if = {
+			limit = {
+				any_equipped_character_artifact = {
+					has_variable = bb_change
+				}
+			}
+			trigger_event = ek_daedric_artifacts.0023
+		}
+
+		if = {
+			limit = {
+				any_equipped_character_artifact = {
+					has_variable = bb_untold
+				}
+			}
+			trigger_event = ek_daedric_artifacts.0024
+		}
+
+		if = {
+			limit = {
+				any_equipped_character_artifact = {
+					has_variable = bb_waking
+				}
+			}
+			trigger_event = ek_daedric_artifacts.0025
+		}
+		
+	}
+	
+	ai_potential = {
+		OR = {
+			has_trait = brave
+			has_trait = ambitious
+			has_trait = arrogant
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+oghma_infinium_decision = {
+	ai_check_interval = 120
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_misc.dds"
+	}
+	decision_group_type = major
+
+	desc = oghma_infinium_decision_desc
+
+	selection_tooltip = oghma_infinium_selection_tooltip
+
+	cost = {
+		piety = 100
+	}
+
+	is_shown = {
+		any_equipped_character_artifact = { 
+			has_artifact_modifier = oghma_infinium_modifier
+		}
+		 NOT = {
+            has_trait = champion_hermaeus
+        }
+	}
+
+	is_valid = {
+		is_adult = yes
+	}
+
+	effect = {
+		custom_tooltip = oghma_infinium_decision_tooltip
+		trigger_event = ek_daedric_artifacts.0026		
+	}
+	
+	ai_potential = {
+		OR = {
+			has_trait = brave
+			has_trait = ambitious
+			has_trait = arrogant
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+skeleton_key_decision = {
+	ai_check_interval = 120
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_misc.dds"
+	}
+	decision_group_type = major
+
+	desc = skeleton_key_decision_desc
+
+	selection_tooltip = skeleton_key_selection_tooltip
+
+	cost = {
+		piety = 100
+	}
+
+	is_shown = {
+		any_equipped_character_artifact = { 
+			has_artifact_modifier = skeleton_key_modifier
+		}
+	}
+
+	effect = {
+		custom_tooltip = skeleton_key_decision_tooltip
+		trigger_event = ek_daedric_artifacts.0029		
+	}
+	
+	ai_potential = {
+		OR = {
+			has_trait = brave
+			has_trait = ambitious
+			has_trait = arrogant
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+shadow_key_decision = {
+	ai_check_interval = 120
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_misc.dds"
+	}
+	decision_group_type = major
+
+	desc = shadow_key_decision_desc
+
+	selection_tooltip = shadow_key_selection_tooltip
+
+	cost = {
+		piety = 100
+	}
+
+	is_shown = {
+		any_equipped_character_artifact = { 
+			has_artifact_modifier = shadow_key_modifier
+		}
+	}
+
+	effect = {
+		custom_tooltip = shadow_key_decision_tooltip
+		trigger_event = ek_daedric_artifacts.0040		
+	}
+	
+	ai_potential = {
+		OR = {
+			has_trait = brave
+			has_trait = ambitious
+			has_trait = arrogant
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+aok_decision = {
+	ai_check_interval = 120
+	picture = {
+		reference = "gfx/interface/illustrations/event_scenes/cyrodiil_white_gold.dds"
+	}
+	decision_group_type = major
+
+	desc = aok_decision_desc
+
+	selection_tooltip = aok_selection_tooltip
+
+	cooldown = { years = 100 }
+
+	is_shown = {
+		has_trait = dragonborn
+		any_equipped_character_artifact = { 
+			has_artifact_modifier = aok_modifier
+		}
+	}
+
+	effect = {
+		custom_tooltip = aok_decision_tooltip
+		trigger_event = ek_historical_artifacts.0005
+	}
+	
+	ai_potential = {
+		OR = {
+			has_trait = brave
+			has_trait = ambitious
+			has_trait = arrogant
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}

@@ -1,0 +1,42 @@
+﻿namespace = ek_learn_liturgical_language_ongoing
+
+# Just picked the perk, event to start the scheme immediately
+ek_learn_liturgical_language_ongoing.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_learn_liturgical_language_ongoing.0001.t
+	desc = ek_learn_liturgical_language_ongoing.0001.desc
+	theme = education
+	override_background = {
+		reference = study
+	}
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	
+	trigger = {
+		faith = { faith_has_liturgical_language = yes }
+		NOT = { knows_liturgical_language = yes }
+		NOT = { any_scheme = { scheme_type = ek_learn_liturgical_language } }
+	}
+	
+	immediate = {
+		faith = { save_scope_as = character_faith }
+	}
+
+	option = { # Start the scheme
+		name = ek_learn_liturgical_language_ongoing.0001.a
+		
+		custom_tooltip = starts_ek_learn_liturgical_language_scheme_now
+		hidden_effect = {
+			start_scheme = { type = ek_learn_liturgical_language target_character = root }
+		}
+	}
+
+	option = { # I might do it later...
+		name = ek_learn_liturgical_language_ongoing.0001.b
+		
+		custom_tooltip = can_start_ek_learn_liturgical_language_scheme_later
+	}
+}

@@ -1,0 +1,149 @@
+﻿namespace = gcm_discussion
+#Outlaw slavery - abolitionist movement ensuring it passes
+gcm_discussion.0001 = {
+	type = activity_event
+	title = gcm_discussion.0001.t
+	desc = gcm_discussion.0001.desc
+	theme = realm
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+	right_portrait = {
+		character = scope:abolitionist_character
+		animation = personality_compassionate
+	}
+	cooldown = {
+		years = 10
+	}
+	trigger = {
+		#EK TODO Morrowind_Activity enable ai after adding modifiers
+		is_ai = no #Only for player
+		is_allowed_to_vote = yes
+		#Slavery outlawed stuff
+		NOT = { #You didn't commit to voting already
+			has_character_flag = commit_to_voting_no
+		}
+	}
+	immediate = {
+		create_character = {
+			template = abolitionist_template
+			location = root.capital_province
+			save_scope_as = abolitionist_character
+		}
+	}
+	option = { #Accept, commit to voting yes
+		name = gcm_discussion.0001.a
+		add_gold = 250
+		add_character_flag = {
+			flag = commit_to_voting_yes
+			years = 1
+		}
+		duel = {
+			skill = intrigue
+			value = high_skill_rating
+			50 = { #No one notices you
+				desc = gcm_discussion.0001.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+			}
+			50 = {
+				desc = gcm_discussion.0001.a.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				add_prestige = medium_prestige_loss
+			}
+		}
+	}
+	option = { #Refuse
+		name = gcm_discussion.0001.b
+		add_prestige = medium_prestige_gain
+	}
+	after = {
+		hidden_effect = {
+			scope:abolitionist_character = {
+				death = {
+					death_reason = death_vanished
+				}
+			}
+		}
+	}
+}
+#Outlaw slavery - Camonna Tong making sure it doesn't pass
+gcm_discussion.0002 = {
+	type = activity_event
+	title = gcm_discussion.0002.t
+	desc = gcm_discussion.0002.desc
+	theme = realm
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+	right_portrait = {
+		character = scope:cammona_tong_character
+		animation = personality_callous
+	}
+	cooldown = {
+		years = 10
+	}
+	trigger = {
+		#EK TODO Morrowind_Activity enable ai after adding modifiers
+		is_ai = no #Only for player
+		is_allowed_to_vote = yes
+		#Slavery outlawed stuff
+		NOT = { #You didn't commit to voting already
+			has_character_flag = commit_to_voting_yes
+		}
+	}
+	immediate = {
+		create_character = {
+			template = camonna_tong_template
+			location = root.location
+			save_scope_as = cammona_tong_character
+		}
+	}
+	option = { #Accept, commit to voting no
+		name = gcm_discussion.0002.a
+		add_gold = 250
+		add_character_flag = {
+			flag = commit_to_voting_no
+			years = 1
+		}
+		duel = {
+			skill = intrigue
+			value = high_skill_rating
+			50 = { #No one notices you
+				desc = gcm_discussion.0001.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+			}
+			50 = {
+				desc = gcm_discussion.0001.a.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				add_prestige = medium_prestige_loss
+			}
+		}
+	}
+	option = { #Refuse
+		name = gcm_discussion.0002.b
+		add_prestige = medium_prestige_gain
+	}
+	after = {
+		hidden_effect = {
+			scope:cammona_tong_character = {
+				death = {
+					death_reason = death_vanished
+				}
+			}
+		}
+	}
+}

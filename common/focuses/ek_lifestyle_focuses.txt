@@ -1,0 +1,197 @@
+﻿### Dark Arts lifestyle
+dark_arts_mysticism_focus = {
+	lifestyle = dark_arts_lifestyle
+	
+	modifier = {
+		intrigue = 2
+		learning = 2
+		courtier_and_guest_opinion = -5
+	}
+
+	desc = {
+		desc = dark_arts_mysticism_focus_desc
+		desc = line_break
+	}
+
+	is_valid = {
+		is_necromancer = yes
+	}
+
+	auto_selection_weight = {
+		value = 0
+		if = {
+			limit = { 
+				is_necromancer = yes
+				NOT = { has_perk = necromancy_master_perk }
+			}
+			add = 2000
+		}
+	}
+}
+
+dark_arts_daedric_succour_focus = {
+	lifestyle = dark_arts_lifestyle
+	
+	modifier = {
+		monthly_dark_arts_lifestyle_xp_gain_mult = 0.1
+		diplomacy = 2
+		stress_gain_mult = 0.1
+	}
+
+	desc = {
+		desc = dark_arts_daedric_succour_focus_desc
+		desc = line_break
+	}
+
+	is_valid = {
+		is_necromancer = yes
+	}
+
+	auto_selection_weight = {
+		value = 0
+		if = {
+			limit = { 
+				is_necromancer = yes
+				NOT = { has_perk = necromancy_master_perk }
+			}
+			add = 2000
+		}
+	}
+}
+
+dark_arts_blood_magic_focus = {
+	lifestyle = dark_arts_lifestyle
+	
+	modifier = {
+		prowess = 4
+		dread_baseline_add = 10
+		health = -0.25
+	}
+
+	desc = {
+		desc = dark_arts_blood_magic_focus_desc
+		desc = line_break
+	}
+
+	is_valid = {
+		is_necromancer = yes
+	}
+
+	auto_selection_weight = {
+		value = 0
+		if = {
+			limit = { 
+				is_necromancer = yes
+				NOT = { has_perk = necromancy_master_perk }
+			}
+			add = 2000
+		}
+	}
+}
+
+### Arcana focus
+magic_theory_focus = { 
+	lifestyle = magic_lifestyle
+	
+	modifier = {
+		learning = 3
+		stewardship = 1
+	}
+
+	desc = {
+		desc = magic_theory_focus_desc
+		desc = line_break
+	}
+
+	is_valid = {
+		can_magic_trigger = yes
+	}
+
+	auto_selection_weight = {
+		value = 100
+		if = {
+			limit = { 
+				OR = { 
+					has_students_magicka_background = yes
+					is_court_mage_trigger = yes
+				}
+			}
+			add = 1900
+		}
+		if = { 
+			limit = { culture = { has_cultural_parameter = magic_preference } }
+			add = 100
+		}
+	}
+}
+
+magic_practical_focus = { 
+	lifestyle = magic_lifestyle
+	
+	modifier = {
+		prowess = 2
+		martial = 1
+		intrigue = 1
+	}
+
+	desc = {
+		desc = magic_practical_focus_desc
+		desc = line_break
+	}
+
+	is_valid = {
+		can_magic_trigger = yes
+	}
+
+	auto_selection_weight = {
+		value = 100
+		if = {
+			limit = { 
+				OR = { 
+					has_students_magicka_background = yes
+					is_court_mage_trigger = yes
+				}
+			}
+			add = 1900
+		}
+		if = { 
+			limit = { culture = { has_cultural_parameter = magic_preference } }
+			add = 100
+		}
+	}
+}
+
+magic_thaumaturgic_focus = {
+	lifestyle = magic_lifestyle
+	
+	modifier = {
+		diplomacy = 1
+		general_opinion = 5
+	}
+
+	desc = {
+		desc = magic_thaumaturgic_focus_desc
+		desc = line_break
+	}
+
+	is_valid = {
+		can_magic_trigger = yes
+	}
+
+	auto_selection_weight = {
+		value = 100
+		if = {
+			limit = { 
+				OR = { 
+					has_students_magicka_background = yes
+					is_court_mage_trigger = yes
+				}
+			}
+			add = 1900
+		}
+		if = { 
+			limit = { culture = { has_cultural_parameter = magic_preference } }
+			add = 100
+		}
+	}
+}

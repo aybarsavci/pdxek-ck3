@@ -1,0 +1,842 @@
+﻿namespace = ek_intrigue_scheme_ongoing_events
+
+############################################
+# EK Intrigue Scheme Ongoing Events 10 group — generic EK ongoing scheme events:
+# ~—Joseph J Fullerton
+############################################
+# Set a mark for Mark/Recall portal magic outside target location, based on basegame event for "Map wilderness outside of target location"
+
+ek_intrigue_scheme_ongoing_events.1000 = {
+	type = character_event
+	content_source = dlc_ek
+	theme = generic_intrigue_scheme
+
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:scheme = { scheme_type = murder } }
+				desc = murder_event_title
+			}
+			triggered_desc = {
+				trigger = { scope:scheme = { scheme_type = abduct } }
+				desc = abduct_event_title
+			}
+			triggered_desc = {
+				trigger = { scope:scheme = { scheme_type = elope } }
+				desc = elope_event_title
+			}
+		}
+		desc = ek_intrigue_scheme_ongoing_events.1000.t
+	}
+
+	desc = {
+		desc = ek_intrigue_scheme_ongoing_events.1000.desc.start
+		triggered_desc = {
+			trigger = {
+				OR = {
+					employs_court_position = court_mage_court_position
+					has_perk = alteration_apprentice_perk
+				}
+			}
+			desc = ek_intrigue_scheme_ongoing_events.1000.desc.court_mage_or_self_cast
+		}
+	}
+
+	override_background = {
+		reference = terrain_scope
+	}
+
+	left_portrait = scope:alteration_mage
+	right_portrait = scope:target
+	lower_center_portrait = {
+		trigger = { exists = scope:court_mage }
+		character = scope:court_mage
+	}
+
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	trigger = {
+		NOT = { exists = scope:scheme.var:had_ek_mark_event }
+		scope:scheme = {
+			scheme_agent_charges < opportunity_cap_value
+		} 
+		exists = scope:target.host
+		exists = scope:target.host.capital_province
+		scope:target.host = { NOT = { this = root } }
+	}
+
+	immediate = {
+		scope:scheme = {
+			set_variable = {
+				name = had_ek_mark_event
+				value = yes
+				days = 3650
+			}
+		}
+		#Save location for image and text
+		scope:target.host = {
+			save_scope_as = defender
+			capital_province = {
+				save_scope_as = scheme_location
+				save_scope_as = background_terrain_scope
+			}
+		}
+		if = {
+			limit = { employs_court_position = court_mage_court_position }
+			court_position:court_mage_court_position = {
+				if = {
+					limit = { 
+						is_available_ai_adult = yes
+						has_perk = alteration_apprentice_perk
+					}
+					save_scope_as = court_mage
+				}
+			}
+		}
+		if = {
+			limit = {
+				exists = root.capital_province
+				any_pool_character = {
+					province = root.capital_province
+					is_available_ai_adult = yes
+					can_magic_trigger = yes
+					has_perk = alteration_apprentice_perk
+				}
+			}
+			random_pool_character = {
+				province = root.capital_province
+				limit = {
+					is_available_ai_adult = yes
+					can_magic_trigger = yes
+					has_perk = alteration_apprentice_perk
+				}
+				save_scope_as = alteration_mage
+			}
+		}
+		if = { 
+			limit = { NOT = { exists = scope:alteration_mage } }
+			create_character = {
+				location = root.location
+				template = court_mage_template
+				dynasty = none
+				save_scope_as = alteration_mage
+				after_creation = {
+					if = { limit = { NOT = { has_perk = alteration_novice_perk } }
+						add_perk = alteration_novice_perk
+					}
+					if = { limit = { NOT = { has_perk = alteration_apprentice_perk } }
+						add_perk = alteration_apprentice_perk
+					}
+					add_trait = lifestyle_mystic
+				}
+			}			
+		}
+	}
+
+	option = {
+		name = ek_intrigue_scheme_ongoing_events.1000.a
+
+		pay_short_term_gold = {
+			target = scope:alteration_mage
+			gold = minor_gold_value
+		}
+
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = ek_intrigue_scheme_modifiers_marked_portal_modifier
+			}
+		}
+
+		random_list = {
+			60 = {
+				desc = ek_intrigue_scheme_ongoing_events.1000.a.success
+				ai_value_modifier = {
+					ai_rationality = 0.5
+				}
+				opinion_modifier = {
+					who = scope:alteration_mage
+					opinion_target = root
+					multiplier = 0.5
+				}
+				send_interface_toast = {
+					title = ek_intrigue_scheme_ongoing_events.1000.a.success
+					left_icon = scope:alteration_mage
+				}
+				hidden_effect = {
+					if = {
+						limit = { 	
+							can_set_relation_potential_friend_trigger = { CHARACTER = scope:alteration_mage }
+						}
+						set_relation_potential_friend = scope:alteration_mage
+					}
+				}
+			}
+			40 = {
+				desc = ek_intrigue_scheme_ongoing_events.1000.a.failure
+				modifier = {
+					scope:alteration_mage= {
+						OR = {
+							has_trait = honest
+							has_trait = drunkard
+							has_trait = contrite
+						}
+					}
+					add = 20
+				}
+				opinion_modifier = {
+					who = scope:alteration_mage
+					opinion_target = root
+					multiplier = 0.3
+				}
+				send_interface_toast = {
+					title = ek_intrigue_scheme_ongoing_events.1000.a.failure
+					left_icon = scope:alteration_mage
+					scope:scheme = {
+						add_scheme_modifier = {
+							type = intrigue_scheme_tattletale_modifier
+						}
+					}
+				}
+				if = {
+					limit = {
+						scope:defender = { is_ai = no }
+						scope:scheme = { is_scheme_exposed = no }
+					}
+					scope:defender = { trigger_event = ek_intrigue_scheme_ongoing_events.1001 }
+				}
+			}
+		}
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+			paranoid = minor_stress_impact_gain
+		}
+	}
+
+	#Ask your Court Mage
+	option = {
+		trigger = {
+			exists = scope:court_mage
+		}
+		show_as_unavailable = {
+			scope:court_mage = {
+				NOT = {
+					has_magicka = { VALUE = 30 }
+				}
+			}
+		}
+
+		name = ek_intrigue_scheme_ongoing_events.1000.b
+		
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = ek_intrigue_scheme_modifiers_marked_portal_modifier
+			}
+		}
+
+		scope:court_mage = {
+			random_list = {
+				50 = {
+					modifier = {
+						add = 10
+						has_perk = alteration_journeyman_perk
+					}
+					modifier = {
+						add = 10
+						has_perk = alteration_expert_perk
+					}
+					modifier = {
+						add = 10
+						has_perk = alteration_master_perk
+					}
+					compare_modifier = {
+						value = arcana
+						multiplier = 1
+					}
+					add_magicka = { VALUE = -10 }
+					desc = ek_intrigue_scheme_ongoing_events.1000.b.1
+				}
+				40 = {
+					modifier = {
+						add = -10
+						has_perk = alteration_expert_perk
+					}
+					modifier = {
+						add = -10
+						has_perk = alteration_master_perk
+					}
+					add_magicka = { VALUE = -20 }
+					desc = ek_intrigue_scheme_ongoing_events.1000.b.2
+				}
+				10 = {
+					modifier = {
+						add = -10
+						has_perk = alteration_journeyman_perk
+					}
+					add_magicka = { VALUE = -30 }
+					desc = ek_intrigue_scheme_ongoing_events.1000.b.3
+				}
+			}
+		}
+
+		stress_impact = {
+			paranoid = minor_stress_impact_gain
+		}
+	}
+
+	#Do it yourself
+	option = {
+		trigger = {
+			has_perk = alteration_apprentice_perk
+		}
+		show_as_unavailable = {
+			ROOT = {
+				has_magicka = { VALUE < 10 }
+			}
+		}
+		name = ek_intrigue_scheme_ongoing_events.1000.c
+
+		random_list = {
+			#Success
+			50 = {
+				modifier = {
+					add = 10
+					has_perk = alteration_journeyman_perk
+				}
+				modifier = {
+					add = 10
+					has_perk = alteration_expert_perk
+				}
+				modifier = {
+					add = 10
+					has_perk = alteration_master_perk
+				}
+				compare_modifier = {
+					value = arcana
+					multiplier = 1
+				}
+
+				desc = ek_intrigue_scheme_ongoing_events.1000.c.success
+
+				root = {
+					add_magicka = { VALUE = -10 }
+				}
+				
+				send_interface_toast = {
+					title = ek_intrigue_scheme_ongoing_events.1000.c.success
+				}
+
+				scope:scheme = {
+					add_scheme_modifier = {
+						type = ek_intrigue_scheme_modifiers_marked_portal_modifier
+					}
+				}
+			}
+			#Soft failure: no cast
+			40 = {
+				modifier = {
+					add = -10
+					has_perk = alteration_expert_perk
+				}
+				modifier = {
+					add = -10
+					has_perk = alteration_master_perk
+				}
+
+				add_stress = minor_stress_gain
+
+				desc = ek_intrigue_scheme_ongoing_events.1000.c.soft_failure
+
+				send_interface_toast = {
+					title = ek_intrigue_scheme_ongoing_events.1000.c.soft_failure
+				}
+			}
+			#Hard failure: the magicka is simply wasted
+			10 = { 
+				modifier = {
+					add = -10
+					has_perk = alteration_journeyman_perk
+				}
+
+				desc = ek_intrigue_scheme_ongoing_events.1000.c.hard_failure
+
+				send_interface_toast = {
+					title = ek_intrigue_scheme_ongoing_events.1000.c.hard_failure
+				}
+
+				add_stress = medium_stress_gain
+
+				root = {
+					add_magicka = { VALUE = -10 }
+				}
+			}
+		}
+		
+		stress_impact = {
+			lazy = medium_stress_impact_gain
+			craven = medium_stress_impact_gain
+			reclusive = minor_stress_impact_gain
+		}
+	}
+
+	option = {
+		name = ek_intrigue_scheme_ongoing_events.1000.d
+
+		stress_impact = {
+			diligent = minor_stress_impact_gain
+		}
+
+		hidden_effect = {
+			scope:alteration_mage = { silent_disappearance_effect = yes }
+		}
+	}
+}
+
+# Player defender gets a warning
+# Based on the basegame hunter equivalent
+
+ek_intrigue_scheme_ongoing_events.1001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_intrigue_scheme_ongoing_events.1001.t
+	desc = ek_intrigue_scheme_ongoing_events.1001.desc
+	theme = generic_intrigue_scheme
+
+	override_background = {
+		reference = terrain_scope
+	}
+
+	left_portrait = {
+		character = scope:alteration_mage
+		animation = personality_irrational
+	}
+	
+	immediate = {
+		add_character_modifier = {
+			modifier = more_vigilant_recistance_modifier
+			years = 5
+		}
+		hidden_effect = {
+			add_opinion = {
+				target = scope:alteration_mage
+				modifier = treachery_opinion
+			}
+		}
+
+		stress_impact = {
+			craven = minor_stress_impact_gain
+			paranoid = medium_stress_impact_gain
+		}
+	}
+
+	# Be watchful
+	option = {
+		name = ek_intrigue_scheme_ongoing_events.1001.a
+	
+		stress_impact = {
+			sadistic = minor_stress_impact_gain
+			wrathful = medium_stress_impact_gain
+			paranoid = minor_stress_impact_gain
+			vengeful = medium_stress_impact_gain
+		}
+	}
+
+	# Arrest the mage
+	option = {
+		name = ek_intrigue_scheme_ongoing_events.1001.b
+
+		imprison_character_effect = {
+			TARGET = scope:alteration_mage
+			IMPRISONER = root
+		}
+
+		stress_impact = {
+			compassionate = medium_stress_impact_gain
+			forgiving = major_stress_impact_gain
+			trusting = minor_stress_impact_gain
+			calm = minor_stress_impact_gain
+		}	
+	}
+
+	# Torture the information out of the mage
+	option = {
+		trigger = {
+			OR = {
+				has_trait = sadistic
+				has_trait = torturer
+			}
+		}
+
+		trait = sadistic
+		trait = torturer
+
+		name = ek_intrigue_scheme_ongoing_events.1001.c
+
+		add_dread = medium_dread_gain
+
+		hidden_effect = {
+			send_interface_toast = {
+				title = ek_intrigue_scheme_ongoing_events.1001.toast
+				scope:scheme = { expose_scheme = yes }
+				left_icon = scope:owner
+				right_icon = scope:target
+			}
+		}
+
+		custom_tooltip = ek_intrigue_scheme_ongoing_events.1001.c.tt
+
+		scope:alteration_mage = {
+			death = {
+				death_reason = death_dungeon
+				killer = root
+			}
+		}
+	}
+}
+
+#Look into buying (or, potentially, making) a batch of invisibility potions to use in the scheme
+
+ek_intrigue_scheme_ongoing_events.1010 = {
+	type = character_event
+	content_source = dlc_ek
+	theme = generic_intrigue_scheme
+
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:scheme = { scheme_type = murder } }
+				desc = murder_event_title
+			}
+			triggered_desc = {
+				trigger = { scope:scheme = { scheme_type = abduct } }
+				desc = abduct_event_title
+			}
+			triggered_desc = {
+				trigger = { scope:scheme = { scheme_type = elope } }
+				desc = elope_event_title
+			}
+		}
+		desc = ek_intrigue_scheme_ongoing_events.1010.t
+	}
+
+	desc = ek_intrigue_scheme_ongoing_events.1010.desc
+
+	override_background = {
+		reference = terrain_scope
+	}
+
+	left_portrait = {
+		character = ROOT
+		animation = scheme
+	}
+
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	trigger = {
+		NOT = { exists = scope:scheme.var:had_ek_invisibility_event }
+		scope:scheme = {
+			scheme_agent_charges < opportunity_cap_value
+		} 
+	}
+
+	immediate = {
+		scope:scheme = {
+			set_variable = {
+				name = had_ek_invisibility_event
+				value = yes
+				days = 3650
+			}
+		}
+	}
+
+	option = {
+		name = ek_intrigue_scheme_ongoing_events.1010.a
+
+		remove_short_term_gold = minor_gold_value
+
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = ek_intrigue_scheme_modifiers_alchemic_invisibility_potions_modifier
+			}
+		}
+
+		#Buying a large batch of invisibility potions comes with risks
+		duel = {
+			skill = intrigue
+			value = decent_skill_rating
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				desc = ek_intrigue_scheme_ongoing_events.1010.a.success
+			}
+			50 = {
+				desc = ek_intrigue_scheme_ongoing_events.1010.a.failure
+				send_interface_toast = {
+					left_icon = root
+					title = ek_intrigue_scheme_ongoing_events.1010.a.failure
+
+					add_character_modifier = {
+						modifier = ek_event_modifiers_suspicious_potion_purchase_modifier
+						years = 5
+					}
+				}
+			}
+		}
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+			paranoid = minor_stress_impact_gain
+		}
+	}
+
+	#Give it a go yourself — no herbalist trait
+	option = {
+		trigger = {
+			NOT = {
+				has_trait = lifestyle_herbalist
+			}
+		}
+
+		name = ek_intrigue_scheme_ongoing_events.1010.b
+
+		duel = {
+			skill = learning
+			value = decent_skill_rating
+			50 = {
+				desc = ek_intrigue_scheme_ongoing_events.1010.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_intrigue_scheme_ongoing_events.1010.b.success
+					scope:scheme = {
+						add_scheme_modifier = {
+							type = ek_intrigue_scheme_modifiers_alchemic_invisibility_potions_modifier
+						}
+					}
+				}
+			}
+			
+			50 = {
+				desc = ek_intrigue_scheme_ongoing_events.1010.b.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = ek_intrigue_scheme_ongoing_events.1010.b.failure
+					add_stress = minor_stress_gain
+					stress_impact = {
+						diligent = minor_stress_impact_gain
+						ambitious = minor_stress_impact_gain
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			lazy = medium_stress_impact_gain
+		}
+	}
+
+	#Do it yourself — with herbalist (guaranteed success)
+	option = {
+		trigger = {
+			has_trait = lifestyle_herbalist
+		}
+		name = ek_intrigue_scheme_ongoing_events.1010.c
+		
+		trait = lifestyle_herbalist
+
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = ek_intrigue_scheme_modifiers_alchemic_invisibility_potions_modifier
+			}
+		}
+
+		stress_impact = {
+			lazy = medium_stress_impact_gain
+		}
+	}
+
+	#Don't do anything lol
+	option = {
+		name = ek_intrigue_scheme_ongoing_events.1010.d
+
+		stress_impact = {
+			diligent = minor_stress_impact_gain
+		}
+	}
+}
+
+########################################################
+#                                                      #
+#   Regional and cultural flavour events for schemes   #
+#                                                      #
+########################################################
+
+
+# You've a vacancy for the Shadowscale position? That's toxic Lukiulity.
+
+ek_intrigue_scheme_ongoing_events.9990 = {
+	type = character_event
+	content_source = dlc_ek
+	theme = generic_intrigue_scheme
+
+	title = {
+		triggered_desc = {
+			trigger = { scope:scheme = { scheme_type = murder } }
+			desc = murder_event_title
+		}
+		desc = ek_intrigue_scheme_ongoing_events.9990.t
+	}
+
+	desc = ek_intrigue_scheme_ongoing_events.9990.desc
+
+	override_background = {
+		reference = terrain_scope
+	}
+	left_portrait = {
+		character = ROOT
+		animation = scheme
+	}
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	trigger = {
+		can_execute_decision = recruit_shadowscale_decision
+		NOT = { exists = scope:scheme.var:had_ek_shadowscale_recruitment_event }
+	}
+
+	immediate = {
+		scope:scheme = {
+			set_variable = {
+				name = had_ek_shadowscale_recruitment_event
+				value = yes
+				days = 3650
+			}
+		}
+	}
+
+	#Recruit a Shadowscale without the usual gold cost
+	option = {
+		name = ek_intrigue_scheme_ongoing_events.9990.a
+		flavor = recruit_shadowscale_decision_tooltip
+
+		hidden_effect = {
+			add_gold = 100
+		}
+		execute_decision = recruit_shadowscale_decision
+		show_as_tooltip = {
+			add_piety = -300
+		}
+	}
+
+	#Decline, receiving a small prestige award
+	option = {
+		name = ek_intrigue_scheme_ongoing_events.9990.b
+		add_prestige = minor_prestige_gain
+		stress_impact = {
+			diligent = minor_stress_impact_gain
+			greedy = minor_stress_impact_loss
+			lazy = minor_stress_impact_loss
+		}
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = ek_intrigue_scheme_modifiers_demoralised_agents_modifier
+			}
+		}
+	}
+}
+
+
+#Your Court Shadowscale approves of your killing someone who previously spurned the Shadowscales
+ek_intrigue_scheme_ongoing_events.9980 = {
+	type = character_event
+	content_source = dlc_ek
+	theme = generic_intrigue_scheme
+
+	title = {
+		triggered_desc = {
+			trigger = { scope:scheme = { scheme_type = murder } }
+			desc = murder_event_title
+		}
+		desc = ek_intrigue_scheme_ongoing_events.9980.t
+	}
+
+	desc = ek_intrigue_scheme_ongoing_events.9980.desc
+
+
+	override_background = {
+		reference = terrain_scope
+	}
+
+	left_portrait = {
+		character = ROOT
+		animation = disbelief
+	}
+
+	right_portrait = {
+		character = scope:ek_intrigue_scheme_ongoing_events_9980_court_shadowscale
+		animation = scheme
+	}
+
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	trigger = {
+		any_court_position_holder = {
+			type = shadowscale_court_position
+		}
+		scope:target = {
+			has_character_flag = refused_shadowscales_flag
+		}
+		NOT = { exists = scope:scheme.var:had_ek_shadowscale_endorsement_event }
+		scope:scheme = {
+			scheme_agent_charges < opportunity_cap_value
+		}
+	}
+
+	immediate = {
+		scope:scheme = {
+			set_variable = {
+				name = had_ek_shadowscale_endorsement_event
+				value = yes
+				days = 3650
+			}
+		}
+		random_court_position_holder = { 
+			type = shadowscale_court_position
+			save_scope_as = ek_intrigue_scheme_ongoing_events_9980_court_shadowscale	
+		}
+	}
+
+	#Only one option. The event rather demonstrates you would be a fool to refuse the Shadowscales!
+	option = {
+		name = ek_intrigue_scheme_ongoing_events.9980.a
+
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = ek_intrigue_scheme_modifiers_shadowscale_endorsement_modifier
+			}
+		}
+		scope:ek_intrigue_scheme_ongoing_events_9980_court_shadowscale = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 10
+			}
+		}
+	}
+}

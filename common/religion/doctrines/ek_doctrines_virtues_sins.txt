@@ -1,0 +1,2078 @@
+﻿### Virtues and Sins
+# Let's get this bread
+# Don't forget to find how to handle Compassionate / Callous / Sadistic! It's a bit of a special case
+doctrine_virtues = {
+	group = "virtues_sins"
+	number_of_picks = 3
+	
+	doctrine_virtue_lustful = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_lustful }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_chaste }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_chaste = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_lustful = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { lustful }
+		}
+	}
+	doctrine_virtue_chaste = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_chaste }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_lustful }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_lustful = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_chaste = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { chaste }
+		}
+	}
+	
+	doctrine_virtue_gluttonous = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_gluttonous }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_temperate }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_temperate = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_gluttonous = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { gluttonous }
+		}
+	}
+	doctrine_virtue_temperate = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_temperate }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_gluttonous }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_gluttonous = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_temperate = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { temperate }
+		}
+	}
+	
+	doctrine_virtue_greedy = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_greedy }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_generous }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_generous = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_greedy = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { greedy }
+		}
+	}
+	doctrine_virtue_generous = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_generous }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_greedy }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_greedy = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_generous = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { generous }
+		}
+	}
+	
+	doctrine_virtue_lazy = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_lazy }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_diligent }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_diligent = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_lazy = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { lazy }
+		}
+	}
+	doctrine_virtue_diligent = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_diligent }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_lazy }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_lazy = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_diligent = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { diligent }
+		}
+	}
+	
+	doctrine_virtue_wrathful = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_wrathful }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_calm }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_calm = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_wrathful = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { wrathful }
+		}
+	}
+	doctrine_virtue_calm = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_calm }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_wrathful }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_wrathful = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_calm = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { calm }
+		}
+	}
+	
+	doctrine_virtue_patient = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_patient }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_impatient }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_impatient = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_patient = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { patient }
+		}
+	}
+	doctrine_virtue_impatient = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_impatient }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_patient }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_patient = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_impatient = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { impatient }
+		}
+	}
+	
+	doctrine_virtue_arrogant = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_arrogant }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_humble }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_humble = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_arrogant = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { arrogant }
+		}
+	}
+	doctrine_virtue_humble = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_humble }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_arrogant }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_arrogant = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_humble = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { humble }
+		}
+	}
+	
+	doctrine_virtue_deceitful = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_deceitful }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_honest }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_honest = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_deceitful = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { deceitful }
+		}
+	}
+	doctrine_virtue_honest = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_honest }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_deceitful }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_deceitful = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_honest = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { honest }
+		}
+	}
+	
+	doctrine_virtue_craven = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_craven }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_brave }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_brave = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_craven = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { craven }
+		}
+	}
+	doctrine_virtue_brave = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_brave }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_craven }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_craven = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_brave = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { brave }
+		}
+	}
+	
+	doctrine_virtue_shy = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_shy }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_gregarious }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_gregarious = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_shy = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { shy }
+		}
+	}
+	doctrine_virtue_gregarious = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_gregarious }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_shy }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_shy = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_gregarious = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { gregarious }
+		}
+	}
+	
+	doctrine_virtue_ambitious = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_ambitious }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_content }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_content = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_ambitious = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { ambitious }
+		}
+	}
+	doctrine_virtue_content = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_content }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_ambitious }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_ambitious = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_content = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { content }
+		}
+	}
+	
+	doctrine_virtue_arbitrary = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_arbitrary }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_just }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_just = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_arbitrary = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { arbitrary }
+		}
+	}
+	doctrine_virtue_just = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_just }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_arbitrary }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_arbitrary = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_just = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { just }
+		}
+	}
+	
+	doctrine_virtue_cynical = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_cynical }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_zealous }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_zealous = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_cynical = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { cynical }
+		}
+	}
+	doctrine_virtue_zealous = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_zealous }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_cynical }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_cynical = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_zealous = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { zealous }
+		}
+	}
+	
+	doctrine_virtue_paranoid = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_paranoid }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_trusting }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_trusting = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_paranoid = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { paranoid }
+		}
+	}
+	doctrine_virtue_trusting = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_trusting }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_paranoid }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_paranoid = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_trusting = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { trusting }
+		}
+	}
+	
+	doctrine_virtue_compassionate = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_compassionate }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { OR = { has_doctrine = doctrine_virtue_callous has_doctrine = doctrine_virtue_sadistic } }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOR = { doctrine:doctrine_virtue_callous = { is_in_list = selected_doctrines } doctrine:doctrine_virtue_sadistic = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_compassionate = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { compassionate }
+		}
+	}
+	doctrine_virtue_callous = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_callous }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_compassionate }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_compassionate = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_callous = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = doctrines_virtues_not_callous_sadistic
+				NOT = { doctrine:doctrine_sin_sadistic = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { callous }
+		}
+	}
+	doctrine_virtue_sadistic = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_sadistic }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_compassionate }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_compassionate = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_sadistic = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = doctrines_virtues_not_sadistic_callous
+				NOT = { doctrine:doctrine_sin_callous = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { sadistic }
+		}
+	}
+	
+	doctrine_virtue_stubborn = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_stubborn }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { OR = { has_doctrine = doctrine_virtue_fickle has_doctrine = doctrine_virtue_eccentric } }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOR = { doctrine:doctrine_virtue_fickle = { is_in_list = selected_doctrines } doctrine:doctrine_virtue_eccentric = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_stubborn = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { stubborn }
+		}
+	}
+	doctrine_virtue_fickle = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_fickle }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { OR = { has_doctrine = doctrine_virtue_stubborn has_doctrine = doctrine_virtue_eccentric } }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOR = { doctrine:doctrine_virtue_stubborn = { is_in_list = selected_doctrines } doctrine:doctrine_virtue_eccentric = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_fickle = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { fickle }
+		}
+	}
+	
+	doctrine_virtue_vengeful = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_vengeful }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_forgiving }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_forgiving = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_vengeful = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { vengeful }
+		}
+	}
+	doctrine_virtue_forgiving = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_forgiving }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_virtue_vengeful }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOT = { doctrine:doctrine_virtue_vengeful = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_forgiving = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { forgiving }
+		}
+	}
+	doctrine_virtue_eccentric = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_virtue_eccentric }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { OR = { has_doctrine = doctrine_virtue_fickle has_doctrine = doctrine_virtue_stubborn } }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_AND_OPPOSITE
+				NOR = { doctrine:doctrine_virtue_fickle = { is_in_list = selected_doctrines } doctrine:doctrine_virtue_stubborn = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_VIRTUES_NOT_VIRTUE_ALSO_SIN
+				NOT = { doctrine:doctrine_sin_eccentric = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			virtues = { eccentric }
+		}
+	}
+}
+
+doctrine_sins = {
+	group = "virtues_sins"
+	number_of_picks = 3
+	
+	doctrine_sin_lustful = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_lustful }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_chaste }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_chaste = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_lustful = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { lustful }
+		}
+	}
+	doctrine_sin_chaste = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_chaste }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_lustful }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_lustful = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_chaste = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { chaste }
+		}
+	}
+	
+	doctrine_sin_gluttonous = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_gluttonous }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_temperate }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_temperate = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_gluttonous = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { gluttonous }
+		}
+	}
+	doctrine_sin_temperate = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_temperate }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_gluttonous }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_gluttonous = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_temperate = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { temperate }
+		}
+	}
+	
+	doctrine_sin_greedy = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_greedy }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_generous }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_generous = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_greedy = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { greedy }
+		}
+	}
+	doctrine_sin_generous = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_generous }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_greedy }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_greedy = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_generous = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { generous }
+		}
+	}
+	
+	doctrine_sin_lazy = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_lazy }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_diligent }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_diligent = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_lazy = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { lazy }
+		}
+	}
+	doctrine_sin_diligent = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_diligent }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_lazy }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_lazy = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_diligent = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { diligent }
+		}
+	}
+	
+	doctrine_sin_wrathful = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_wrathful }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_calm }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_calm = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_wrathful = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { wrathful }
+		}
+	}
+	doctrine_sin_calm = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_calm }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_wrathful }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_wrathful = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_calm = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { calm }
+		}
+	}
+	
+	doctrine_sin_patient = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_patient }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_impatient }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_impatient = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_patient = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { patient }
+		}
+	}
+	doctrine_sin_impatient = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_impatient }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_patient }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_patient = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_impatient = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { impatient }
+		}
+	}
+	
+	doctrine_sin_arrogant = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_arrogant }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_humble }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_humble = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_arrogant = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { arrogant }
+		}
+	}
+	doctrine_sin_humble = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_humble }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_arrogant }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_arrogant = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_humble = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { humble }
+		}
+	}
+	
+	doctrine_sin_deceitful = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_deceitful }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_honest }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_honest = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_deceitful = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { deceitful }
+		}
+	}
+	doctrine_sin_honest = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_honest }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_deceitful }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_deceitful = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_honest = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { honest }
+		}
+	}
+	
+	doctrine_sin_craven = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_craven }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_brave }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_brave = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_craven = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { craven }
+		}
+	}
+	doctrine_sin_brave = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_brave }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_craven }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_craven = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_brave = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { brave }
+		}
+	}
+	
+	doctrine_sin_shy = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_shy }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_gregarious }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_gregarious = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_shy = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { shy }
+		}
+	}
+	doctrine_sin_gregarious = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_gregarious }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_shy }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_shy = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_gregarious = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { gregarious }
+		}
+	}
+	
+	doctrine_sin_ambitious = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_ambitious }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_content }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_content = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_ambitious = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { ambitious }
+		}
+	}
+	doctrine_sin_content = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_content }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_ambitious }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_ambitious = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_content = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { content }
+		}
+	}
+	
+	doctrine_sin_arbitrary = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_arbitrary }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_just }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_just = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_arbitrary = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { arbitrary }
+		}
+	}
+	doctrine_sin_just = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_just }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_arbitrary }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_arbitrary = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_just = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { just }
+		}
+	}
+	
+	doctrine_sin_cynical = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_cynical }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_zealous }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_zealous = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_cynical = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { cynical }
+		}
+	}
+	doctrine_sin_zealous = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_zealous }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_cynical }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_cynical = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_zealous = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { zealous }
+		}
+	}
+	
+	doctrine_sin_paranoid = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_paranoid }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_trusting }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_trusting = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_paranoid = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { paranoid }
+		}
+	}
+	doctrine_sin_trusting = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_trusting }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_paranoid }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_paranoid = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_trusting = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { trusting }
+		}
+	}
+	
+	doctrine_sin_compassionate = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_compassionate }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { OR = { has_doctrine = doctrine_sin_callous has_doctrine = doctrine_sin_sadistic } }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOR = { doctrine:doctrine_sin_callous = { is_in_list = selected_doctrines } doctrine:doctrine_sin_sadistic = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_compassionate = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { compassionate }
+		}
+	}
+	doctrine_sin_callous = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_callous }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_compassionate }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_compassionate = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_callous = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = doctrines_sins_not_callous_sadistic
+				NOT = { doctrine:doctrine_virtue_sadistic = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { callous }
+		}
+	}
+	doctrine_sin_sadistic = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_sadistic }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_compassionate }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_compassionate = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_sadistic = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = doctrines_sins_not_callous_sadistic
+				NOT = { doctrine:doctrine_virtue_callous = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { sadistic }
+		}
+	}
+	
+	doctrine_sin_stubborn = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_stubborn }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { OR = { has_doctrine = doctrine_sin_stubborn has_doctrine = doctrine_sin_eccentric } }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOR = { doctrine:doctrine_sin_fickle = { is_in_list = selected_doctrines } doctrine:doctrine_sin_eccentric = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_stubborn = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { stubborn }
+		}
+	}
+	doctrine_sin_fickle = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_fickle }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { OR = { has_doctrine = doctrine_sin_stubborn has_doctrine = doctrine_sin_eccentric } }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOR = { doctrine:doctrine_sin_stubborn = { is_in_list = selected_doctrines } doctrine:doctrine_sin_eccentric = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_fickle = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { fickle }
+		}
+	}
+	
+	doctrine_sin_vengeful = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_vengeful }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_forgiving }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_forgiving = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_vengeful = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { vengeful }
+		}
+	}
+	doctrine_sin_forgiving = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_forgiving }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_sin_vengeful }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOT = { doctrine:doctrine_sin_vengeful = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_forgiving = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { forgiving }
+		}
+	}
+	doctrine_sin_eccentric = {
+		piety_cost = {
+			value = faith_doctrine_cost_low
+			if = {
+				limit = { has_doctrine = doctrine_sin_eccentric }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { OR = { has_doctrine = doctrine_sin_fickle has_doctrine = doctrine_sin_stubborn } }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		
+		can_pick = {
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_AND_OPPOSITE
+				NOR = { doctrine:doctrine_sin_fickle = { is_in_list = selected_doctrines } doctrine:doctrine_sin_stubborn = { is_in_list = selected_doctrines } }
+			}
+			custom_tooltip = {
+				text = DOCTRINES_SINS_NOT_SIN_ALSO_VIRTUE
+				NOT = { doctrine:doctrine_virtue_eccentric = { is_in_list = selected_doctrines } }
+			}
+		}
+		
+		traits = {
+			sins = { eccentric }
+		}
+	}
+}

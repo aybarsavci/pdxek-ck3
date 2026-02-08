@@ -1,0 +1,1097 @@
+﻿###############################
+# Black Marsh Special Buildings
+###############################
+# City-Port of Soulrest
+# Development Committee of South Argonia
+# Archon Harbor District
+# Blackrose Prison
+# Blackpool Fortress
+# Thorn Palace
+# Twyllbek Ruins
+# Puzzle City
+# Krona Konu Xanmeer
+# Kota-Xul Xanmeer
+# Xi-Tsei Xanmeer
+# Teeth of Sithis
+# Path of the Lily
+# Stormhold Canals
+# Deep Graves
+# Beela Kars Laboratory
+# Shrine of the Oracle
+##################
+
+##########
+# City-Port of Soulrest
+# Port Building
+##########
+soulrest_port_01 = {
+    type_icon = "icon_structure_special_port.dds"
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	construction_time = very_slow_construction_time
+	
+	cost_gold = 1000
+	
+	province_modifier = {
+		monthly_income = 2
+		epidemic_resistance = -20
+	}
+
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth = 0.1
+		development_growth_factor = 0.2
+		county_opinion_add = 10
+	}	
+	
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+soulrest_port_02 = { # fallen into chaos during Knahaten Flu
+    type_icon = "icon_structure_special_port.dds"
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	construction_time = very_slow_construction_time
+	
+	cost_gold = 1000
+	
+	province_modifier = {
+		monthly_income = 1
+		epidemic_resistance = -5
+		travel_danger = 5
+	}
+
+	county_modifier = {
+		tax_mult = 0.05
+		development_growth = 0.05
+		development_growth_factor = 0.1
+		county_opinion_add = 5
+	}	
+	
+	type = special
+
+	next_building = soulrest_port_03
+
+	flag = travel_point_of_interest_economic
+}
+soulrest_port_03 = {
+    type_icon = "icon_structure_special_port.dds"
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	construction_time = very_slow_construction_time
+	
+	cost_gold = 1000
+	
+	province_modifier = {
+		monthly_income = 1.5
+		epidemic_resistance = -15
+	}
+
+	county_modifier = {
+		tax_mult = 0.075
+		development_growth = 0.075
+		development_growth_factor = 0.15
+		county_opinion_add = 7.5
+	}	
+	
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+##########
+# Development Committee of South Argonia 
+# Great Money Drain Project
+##########
+development_committee_01 = {
+	type_icon = "icon_structure_university_of_siena.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+
+	cost_gold = 1000
+
+	construction_time = slow_construction_time
+	
+	province_modifier = {
+		monthly_income = -2
+	}
+
+	county_modifier = {
+		tax_mult = -0.2
+		development_growth = -0.3
+		development_growth_factor = -0.4
+		levy_size = -0.20
+	}	
+	
+	next_building = development_committee_02
+	
+	type = special
+
+	flag = travel_point_of_interest_economic #I suppose you could learn about WHY project finance is important
+}
+
+development_committee_02 = {
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	cost_gold = 1000
+
+	construction_time = slow_construction_time
+
+	province_modifier = {
+		monthly_income = -1
+	}
+
+	county_modifier = {
+		tax_mult = -0.1
+		development_growth = -0.15
+		development_growth_factor = -0.2
+		levy_size = -0.10
+	}
+	
+	next_building = development_committee_03
+	
+	type = special
+
+	flag = travel_point_of_interest_economic #The books aren't balanced, they should pull the plug on this
+}
+
+development_committee_03 = {
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+
+	cost_gold = 1500
+
+	construction_time = very_slow_construction_time
+
+	on_complete = {
+		county.holder = {
+			trigger_event = ek_special_buildings_events.0071
+		}
+	}
+	
+	province_modifier = {
+		monthly_income = 1
+	}
+
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth = 0.2
+		development_growth_factor = 0.2
+		levy_size = 0.1
+	}	
+	
+	type = special
+
+	flag = travel_point_of_interest_economic # Well - was this worth it?
+}
+
+##########
+# Blackpool Fortress
+# Palace Building
+##########
+blackpool_fort_01 = {
+	type_icon = "icon_structure_great_mosque_of_djenne.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+	character_modifier = {
+		court_grandeur_baseline_add = 10
+		monthly_piety = 0.25
+		knight_limit = 2
+		monthly_dynasty_prestige_mult = 0.05
+	}
+	
+	province_modifier = {
+		fort_level = normal_building_fort_level_tier_1
+		garrison_size = 0.2
+		defender_holding_advantage = normal_building_advantage_tier_1
+		stationed_maa_damage_mult = normal_maa_damage_tier_1
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+		travel_danger = -10
+	}
+
+	county_modifier = {
+		county_opinion_add = 10
+	}
+	
+	next_building = blackpool_fort_02
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+blackpool_fort_02 = {
+	type_icon = "icon_structure_great_mosque_of_djenne.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	can_construct = {
+		scope:holder = {
+			culture = { has_cultural_pillar = heritage_ayleid }
+		}
+	}	
+
+	cost_gold = 1000
+	cost_piety = 1000
+
+	construction_time = very_slow_construction_time
+
+	character_modifier = {
+		dread_gain_mult = 0.3
+		men_at_arms_cap = 2
+		men_at_arms_limit = 1
+		men_at_arms_maintenance = -0.1	
+		monthly_dynasty_prestige_mult = 0.05
+		monthly_prestige_gain_per_happy_powerful_vassal_add = 0.1
+		dread_gain_mult = 0.3
+	}
+
+	county_modifier = {
+		tax_mult = 0.15
+		levy_size = 0.15
+		county_opinion_add = 5
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+##########
+# Thorn Palace: A fortified palace that was often contested in the conflict between House Dres and the local argonian tribes
+# Palace Building
+##########
+thorn_palace_01 = {
+	type_icon = "icon_structure_alhambra.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	effect_desc = feast_cost_discount_max_desc
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = {
+		monthly_prestige = 0.25
+		powerful_vassal_opinion = 5
+		monthly_county_control_growth_factor = 0.05
+	}	
+
+	max_garrison = good_building_max_garrison_tier_1
+
+	province_modifier = {
+		defender_holding_advantage = normal_building_advantage_tier_1
+		fort_level = good_building_fort_level_tier_1
+		stationed_maa_damage_mult = normal_maa_damage_tier_1
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+		stationed_siege_weapon_siege_value_mult = normal_maa_siege_value_tier_1
+		travel_danger = -10
+	}	
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+##########
+# Blackrose Prison
+# Prison Building
+##########
+blackrose_prison_01 = {
+	type_icon = "icon_structure_tower_of_london.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+    effect_desc = special_prison_effect_desc
+        
+    cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+    character_modifier = {
+        dread_gain_mult = 0.2
+        monthly_county_control_growth_factor = 0.1
+    }
+
+    max_garrison = 250
+
+    province_modifier = {
+        defender_holding_advantage = 2
+        fort_level = 2
+        stationed_maa_damage_mult = low_maa_damage_tier_1
+        stationed_maa_toughness_mult = low_maa_toughness_tier_1
+        stationed_maa_pursuit_mult = low_maa_pursuit_tier_1
+    }
+
+    county_modifier = {
+        monthly_county_control_growth_add = 0.1
+        monthly_county_control_growth_factor = 0.2
+    }    
+  
+    type = special
+
+    flag = travel_point_of_interest_martial
+}
+
+##########
+# Path of the Lily
+# Trial Building
+##########
+lily_path_01 = {
+	type_icon = "icon_structure_canyon.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	#effect_desc = lily_path_effect_desc #EK TODO: implement
+	
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+	character_modifier = {
+		prowess_per_piety_level = 1
+		knight_limit = 1
+		knight_effectiveness_mult = 0.1
+	}
+
+	county_modifier = {
+		defender_holding_advantage = 3
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+##########
+# Twyllbek Ruins - Gideon is built upon this old ayleid ruin and uses it for materials
+# Quarry Building
+##########
+twyllbek_ruins_01 = {
+	type_icon = "toledo.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}	
+	
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+	character_modifier = {
+		build_gold_cost = -0.05
+	}
+
+	province_modifier = {
+		monthly_income = 1
+	}
+
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth_factor = 0.1
+		build_speed = -0.1
+		build_gold_cost = -0.2
+	}
+
+	next_building = twyllbek_ruins_02
+		
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+twyllbek_ruins_02 = {
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	can_construct = {
+		scope:holder = {
+			culture = { has_cultural_pillar = heritage_ayleid }
+		}
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+	character_modifier = {
+		monthly_dynasty_prestige = 0.1
+		same_culture_opinion = 10
+	}
+
+	province_modifier = {
+		garrison_size = 0.1
+		monthly_income = 1
+		defender_holding_advantage = 1
+		fort_level = 1
+	}
+
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth = 0.1
+		development_growth_factor = 0.2
+		county_opinion_add = 5
+	}
+		
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+##########
+# Archon Harbor District - once fortified by the imperials and still a major trade hub
+# Port Building
+##########
+archon_harbor_district_01 = {
+	type_icon = "icon_structure_special_port.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+	character_modifier = {
+		embarkation_cost_mult = -0.1
+	}
+
+	province_modifier = {
+		monthly_income = 1.5
+		defender_holding_advantage = 1
+		fort_level = 1
+		epidemic_resistance = -15
+	}
+
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth = 0.1
+		development_growth_factor = 0.2
+		monthly_county_control_growth_factor = -0.1
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+##########
+# Puzzle City of Mazzatun
+# Fortress Building
+##########
+puzzle_city_01 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"meso_temple_02_b_mesh"
+		}
+	}
+
+	type_icon = "icon_structure_xanmeer.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+			
+	is_enabled = {
+		custom_tooltip = {
+			text = autocratic_or_sithis
+			OR = {
+				scope:holder = { NOT = { has_government = tribal_government }}
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_sithis } }
+			}
+		}	
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+	character_modifier = {
+		prowess_per_piety_level = 1
+	}
+
+	county_modifier = {
+		supply_limit_mult = 0.25
+		development_growth_factor = -0.10
+	}
+
+	province_modifier = {
+		defender_holding_advantage = 4
+		fort_level = 2
+	}
+		
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+#########
+# Kota-Xul Xanmeer
+# University Building
+#########
+kota_xul_xanmeer_01 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"meso_temple_02_b_mesh"
+		}
+	}
+
+	type_icon = "icon_structure_xanmeer.dds"
+
+	effect_desc = {
+		desc = unlocks_building_desc
+		triggered_desc = {
+			trigger = { has_dlc_feature = wards_and_wardens }
+			desc = ek_university_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = tours_and_tournaments }
+			desc = university_toto_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = royal_court }
+			desc = university_roco_effect_desc
+		}
+		desc = university_effect_desc
+	}
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = autocratic_or_sithis
+			OR = {
+				scope:holder = { NOT = { has_government = tribal_government }}
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_sithis } }
+			}
+		}	
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time	
+	
+	character_modifier = {
+		monthly_magic_lifestyle_xp_gain_mult = 0.1
+		learning = 1
+		learning_per_stress_level = 2
+		stress_loss_mult = -0.2
+	}
+	
+	county_modifier = {
+		development_growth = 0.3
+	}
+
+	province_modifier = {
+		defender_holding_advantage = 1
+		fort_level = 2
+		stationed_mages_damage_mult = high_maa_damage_tier_1
+		stationed_mages_toughness_mult = high_maa_toughness_tier_1
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_learning
+	flag = mundane_education_location
+}
+
+#########
+# Krona-Konu Xanmeer
+# Dangerous place, but gives renown in exchange
+#########
+krona_konu_01 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"meso_temple_02_b_mesh"
+		}
+	}
+
+	type_icon = "icon_structure_xanmeer.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	is_enabled = {
+		custom_tooltip = {
+			text = autocratic_or_sithis_or_hist
+			OR = {
+				scope:holder = { NOT = { has_government = tribal_government }}
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_sithis } }
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_hist } }
+			}
+		}	
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time	
+
+	character_modifier = {
+		monthly_dynasty_prestige = 0.2
+		health = -0.1
+	}
+
+	province_modifier = {
+		defender_holding_advantage = 1
+		fort_level = 2
+		stationed_maa_damage_mult = normal_maa_damage_tier_1
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+		travel_danger = 10
+	}
+
+	county_modifier = {
+		build_gold_cost = -0.1
+		build_speed = -0.1
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+#########
+# Xi-Tsei Xanmeer
+#########
+xi_tsei_01 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"meso_temple_02_b_mesh"
+		}
+	}
+
+	type_icon = "icon_structure_xanmeer.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	is_enabled = {
+		custom_tooltip = {
+			text = is_argonian_or_sithis
+			OR = {
+				scope:holder.culture = { has_cultural_pillar = heritage_argonian }
+				scope:holder.faith = { has_doctrine = doctrine_pantheon_sithis }
+			}
+		}
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time	
+
+	character_modifier = {
+		dread_gain_mult = 0.1
+		raid_speed = 0.2
+	}
+
+	province_modifier = {
+		defender_holding_advantage = 1
+		fort_level = 2
+		stationed_maa_damage_mult = normal_maa_damage_tier_1
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+		stationed_maa_pursuit_mult = normal_maa_pursuit_tier_1
+	}
+
+	county_modifier = {
+		levy_size = 0.25
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+#########
+# Sithis Teeth Xanmeer
+# Base of the Clutch of Nisswo
+#########
+sithis_teeth_01 = {
+	type_icon = "icon_structure_sithis_teeth.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	is_enabled = {
+		custom_tooltip = {
+			text = is_argonian_or_sithis
+			OR = {
+				scope:holder.culture = { has_cultural_pillar = heritage_argonian }
+				scope:holder.faith = { has_doctrine = doctrine_pantheon_sithis }
+			}
+		}
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time	
+
+	character_modifier = {
+		enemy_hostile_scheme_phase_duration_add = 1
+		stress_gain_mult = -0.1
+		zealot_opinion = 10
+	}
+
+	province_modifier = {
+		defender_holding_advantage = 1
+		fort_level = 2
+		stationed_maa_damage_mult = normal_maa_damage_tier_1
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+	}
+
+	county_modifier = {
+        monthly_county_control_growth_add = 0.1
+    }
+	
+	type = special
+
+	flag = travel_point_of_interest_intrigue
+}
+
+#########
+# Deep Graves Cemetery
+# Graveyard Building
+#########
+deep_graves_01 = {
+	type_icon = "icon_building_graveyard.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	effect_desc = {
+		desc = ek_graveyard_effect_desc
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = must_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = yes }
+		}
+	}	
+	
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+	character_modifier = {
+		monthly_dark_arts_lifestyle_xp_gain_mult = 0.1
+		intimidated_vassal_levy_contribution_mult = 0.1
+		cowed_vassal_levy_contribution_mult = 0.2   
+		dread_gain_mult = 0.1
+	}
+
+	county_modifier = {
+		county_opinion_add = -10
+	}
+
+	province_modifier = {
+		travel_danger = 40
+		epidemic_resistance = -20
+	}
+
+	next_building = deep_graves_02
+		
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+deep_graves_02 = {
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	effect_desc = {
+		triggered_desc = {
+			trigger = { has_dlc_feature = legends_of_the_dead }
+			desc = ek_funeral_cost_discount_max_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = legends_of_the_dead }
+			desc = ek_funeral_stress_outcome_effect_desc
+		}
+	}
+
+	can_construct = {
+		custom_tooltip = {
+			text = must_not_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = no }
+		}
+	}
+	
+	is_enabled = {
+		OR = {	
+			custom_tooltip = {
+				text = burial_funeral_building_trigger_desc
+				scope:holder.faith = { building_requirement_funeral_doctrine = yes }
+			}
+			custom_tooltip = {
+				text = grave_stake_funeral_building_trigger_desc
+				scope:holder.faith = { has_doctrine_parameter = grave_stake_funeral }
+			}
+		}
+	}	
+	
+	cost_gold = 500
+
+	construction_time = slow_construction_time
+
+	character_modifier = {
+		monthly_piety = 0.25
+		monthly_dynasty_prestige_mult = 0.1
+		legitimacy_gain_mult = 0.1
+		stress_gain_mult = -0.1
+	}
+
+	county_modifier = {
+		county_opinion_add = 10
+	}
+
+	province_modifier = {
+		travel_danger = 20
+		epidemic_resistance = -10
+	}
+		
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Shrine of the Oracle
+# Temple Building
+##########
+oracle_shrine_01 = {
+	type_icon = "icon_structure_dome_of_the_rock.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	# EK TODO: tie hist interactions somehow to this SB
+	#effect_desc = oracle_shrine_01_hist_effect
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = is_cantemiric
+			scope:holder.culture = {
+				OR = {
+					this = culture:cantemiric
+					any_parent_culture_or_above = {
+						this = culture:cantemiric
+					}
+				}	
+			}
+		}
+	}
+	
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+	character_modifier = {
+		monthly_piety = 0.5
+		monthly_piety_gain_mult = 0.1
+		learning_per_piety_level = 1
+	}
+
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+
+	province_modifier = {
+		stationed_maa_damage_mult = low_maa_damage_tier_1
+		stationed_maa_toughness_mult = low_maa_toughness_tier_1
+		travel_danger = -10
+		fort_level = 1
+		defender_holding_advantage = 1
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+#########
+# Beela-Kars Laboratory
+# University Building
+#########
+beela_kars_laboratory_01 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"meso_temple_02_b_mesh"
+		}
+	}	
+
+	type_icon = "icon_structure_xanmeer.dds"
+
+	effect_desc = {
+		desc = unlocks_building_desc
+		triggered_desc = {
+			trigger = { has_dlc_feature = wards_and_wardens }
+			desc = ek_arcane_university_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = tours_and_tournaments }
+			desc = university_toto_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = royal_court }
+			desc = university_roco_effect_desc
+		}
+		desc = university_effect_desc
+	}
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = is_argonian_or_sithis
+			OR = {
+				scope:holder.culture = { has_cultural_pillar = heritage_argonian }
+				scope:holder.faith = { has_doctrine = doctrine_pantheon_sithis }
+			}
+		}
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	character_modifier = {
+		monthly_learning_lifestyle_xp_gain_mult = 0.1
+		monthly_magic_lifestyle_xp_gain_mult = 0.1
+		monthly_dark_arts_lifestyle_xp_gain_mult = 0.1
+	}
+
+	province_modifier = {
+		defender_holding_advantage = 2
+		fort_level = 2
+		stationed_mages_damage_mult = normal_maa_damage_tier_1
+		stationed_mages_toughness_mult = normal_maa_toughness_tier_1
+	}
+
+	county_modifier = {
+		county_opinion_add = -10
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_dark_arts
+	flag = arcane_education_location
+}
+
+##########
+# Stormhold Canals
+# Tradehub Building
+##########
+stormhold_canals_01 = {
+	type_icon = "icon_structure_canal.dds"	
+	
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+	province_modifier = {
+		monthly_income = 1
+		epidemic_resistance = -10
+		defender_holding_advantage = 2
+		fort_level = 1
+	}
+
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth = 0.1
+		development_growth_factor = 0.2
+	}
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+		
+	type = special
+
+	flag = travel_point_of_interest_economic
+}

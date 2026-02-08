@@ -1,0 +1,349 @@
+﻿# EK Events for the Meet Peers activity
+
+namespace = ek_playdate
+
+# Troublemaker
+ek_playdate.0001 = {
+
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_playdate.0001.t
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+			    trigger = { #You have an accessory
+					exists = scope:accessory
+			    }
+			    desc = ek_playdate.0001.accessory_desc
+			}
+			desc = ek_playdate.0001.desc
+		}
+	}
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		trigger = {
+			exists = scope:accessory
+		}
+		character = scope:accessory
+	}
+
+	lower_right_portrait = {
+		character = scope:victim
+	}
+
+
+
+	theme = playdate_activity
+	
+	cooldown = { years = yearly_cooldown }
+
+	trigger = {
+		scope:activity = {
+			any_attending_character = {
+				playdate_default_participant_trigger = yes
+				has_relation_victim = root
+			}
+		}
+	}
+	
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					playdate_default_participant_trigger = yes
+					has_relation_friend = root
+				}
+				weight = {
+					base = 1
+					compare_modifier = { #More likely to pick someone good at shenanigans
+						value = intrigue
+						multiplier = 2
+					}
+					#More likely the closer to your age they are
+					playdate_close_age_scripted_modifier = yes
+				}
+				save_scope_as = accessory
+			}
+			random_attending_character = {
+				limit = {
+					playdate_default_participant_trigger = yes
+					has_relation_victim = root
+				}
+				weight = {
+					base = 1
+					compare_modifier = { #More likely to pick someone bad at fighting
+						value = prowess
+						multiplier = -2
+					}
+					#More likely the closer to your age they are
+					playdate_close_age_scripted_modifier = yes
+				}
+				save_scope_as = victim
+			}
+		}
+	}
+
+	option = { #prank them hard
+		name = ek_playdate.0001.a
+		
+		scope:victim = {
+			add_opinion = {
+				target = root
+				modifier = hate_opinion
+				opinion = -20
+			}
+			increase_wounds_no_death_effect = { REASON = fall }
+		}
+		stress_impact = {
+			callous = medium_stress_impact_loss
+			rowdy = medium_stress_impact_loss
+			pensive = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_boldness = 0.75
+			}
+		}
+	}
+
+	option = { #prank them good
+		name = ek_playdate.0001.b
+		
+		scope:victim = {
+			add_prestige = minor_prestige_loss
+			add_opinion = {
+				target = root
+				modifier = hate_opinion
+				opinion = -20
+			}
+		}
+		
+		stress_impact = {
+			callous = medium_stress_impact_gain
+			arrogant = medium_stress_impact_loss
+			rowdy = minor_stress_impact_gain
+			pensive = minor_stress_impact_loss
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_boldness = -1
+			}
+		}
+	}
+
+	option = { # no prank
+		name = ek_playdate.0001.c
+		add_prestige = minor_prestige_gain
+		scope:victim = {
+			add_opinion = {
+				target = root
+				modifier = kindness_opinion
+				opinion = 30
+			}
+		}
+		stress_impact = {
+			rowdy = medium_stress_impact_gain
+			callous = minor_stress_impact_gain
+			sadistic = medium_stress_impact_gain
+			compassionate = medium_stress_impact_loss
+			pensive = medium_stress_impact_loss
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_compassion = -1
+			}
+		}
+	}
+
+	option = { #magic prank
+		name = ek_playdate.0001.d
+		trigger = { can_magic_trigger = yes }
+		add_prestige = minor_prestige_gain
+		scope:victim = {
+			add_prestige = minor_prestige_loss
+			add_opinion = {
+				target = root
+				modifier = hate_opinion
+				opinion = -20
+			}
+		}
+		stress_impact = {
+			callous = medium_stress_impact_loss
+			arrogant = medium_stress_impact_loss
+			rowdy = minor_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_boldness = -1
+			}
+		}
+	}
+}
+
+# Brave Little Scrib
+ek_playdate.0002 = {
+
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_playdate.0002.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+			    trigger = { #You have a scrib friend
+					exists = scope:scrib_friend
+			    }
+			    desc = ek_playdate.0002.scrib_friend_desc
+			}
+			desc = ek_playdate.0002.desc
+		}
+	}
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		trigger = {
+			exists = scope:scrib_friend
+		}
+		character = scope:scrib_friend
+	}
+
+	theme = playdate_activity
+	
+	cooldown = { years = yearly_cooldown }
+
+	trigger = {
+		NOT = {	culture = { has_cultural_pillar = heritage_goblinken } }
+		location = { geographical_region = mundus_tamriel_morrowind }
+		NOT = { has_culture = culture:ashlander }
+	}
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					playdate_default_participant_trigger = yes
+					NOR = {
+						has_relation_rival = root
+						has_relation_victim = root
+					}
+				}
+				weight = {
+					base = 1
+					compare_modifier = { #More likely to pick someone good at shenanigans
+						value = intrigue
+						multiplier = 2
+					}
+					#More likely the closer to your age they are
+					playdate_close_age_scripted_modifier = yes
+				}
+				save_scope_as = scrib_friend
+			}
+		}
+	}
+
+	option = { # fuck yeah little scrib
+		name = ek_playdate.0002.a
+		trigger = { NOT = { exists = scope:scrib_friend } }
+
+		random_list = {
+			10 = { add_prowess_skill = 2 }
+			90 = {}
+		}
+			
+		stress_impact = {
+			brave = medium_stress_impact_loss
+			rowdy = medium_stress_impact_loss
+			craven = medium_stress_impact_gain
+			pensive = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}		
+	}
+
+	option = { # fuck yeah little scrib with friend
+		name = ek_playdate.0002.b
+		trigger = { exists = scope:scrib_friend }
+		
+		random_list = {
+			10 = { add_prowess_skill = 2 }
+			90 = {}
+		}
+		
+		progress_towards_friend_effect = {
+				REASON = friend_childhood_game
+				CHARACTER = scope:scrib_friend
+				OPINION = 0
+		}
+			
+		stress_impact = {
+			brave = medium_stress_impact_loss
+			rowdy = medium_stress_impact_loss
+			craven = medium_stress_impact_gain
+			pensive = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+		}		
+	}
+
+	option = { # now i want a scrib
+		name = ek_playdate.0002.d
+
+		trigger = {
+			NOT = {
+				any_owned_story = { story_type = story_cycle_pet_scrib }
+				has_character_modifier = scrib_story_modifier
+			}
+		}
+
+		start_scrib_story_cycle_effect = yes
+	}
+
+	option = { # stupid song
+		name = ek_playdate.0002.c
+
+		if = {
+			limit = {
+				exists = scope:scrib_friend
+			}
+			scope:scrib_friend = {
+				add_opinion = {
+					target = root
+						modifier = respect_opinion
+					opinion = -20
+				}
+			}
+		}
+
+		add_prestige = medium_prestige_loss
+
+		stress_impact = {
+			brave = medium_stress_impact_gain
+			rowdy = medium_stress_impact_gain
+			craven = medium_stress_impact_loss
+			lazy = medium_stress_impact_loss
+			pensive = minor_stress_impact_loss
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_boldness = -1
+				ai_energy = -0.75
+			}
+		}		
+	}
+}

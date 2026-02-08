@@ -1,0 +1,842 @@
+﻿#############
+# THE REACH #
+#############
+### Unite the Reach
+form_reach_empire_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = form_reach_empire_decision_desc
+	selection_tooltip = form_reach_empire_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		highest_held_title_tier <= tier_kingdom
+		exists = capital_province
+		unify_kingdom_government_trigger = yes
+		
+		OR = {
+			culture = culture:reachfolk
+			culture = { any_parent_culture_or_above = { this = culture:reachfolk }}
+		}
+		
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_created_reach_empire
+			}
+		}
+	}
+
+	is_valid = {
+		completely_controls_region = mundus_tamriel_reach_east_reach
+		completely_controls_region = mundus_tamriel_reach_west_reach
+		completely_controls_region = mundus_tamriel_reach_south_reach
+		unify_kingdom_law_trigger = yes
+		highest_held_title_tier = tier_kingdom
+		prestige_level >= 3
+		#If Craglorn was formed then it is required
+		trigger_if = {
+			limit = { 
+				title:k_craglorn = { any_in_de_jure_hierarchy = { tier = tier_county } }
+			}
+			completely_controls = title:k_craglorn
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		# Based on Revive Greater Armenia
+		prestige = 2000
+		piety = 1000
+	}
+
+	effect = {
+		show_as_tooltip = {
+			form_reach_empire_scripted_effect = yes
+		}
+		custom_tooltip = {
+			text = unlock_witch_knight
+			root.culture = { add_innovation = innovation_bloodforged_arms}
+		}	
+		save_scope_as = founder
+		if = {
+			limit = { has_dlc_feature = legends }
+			create_legend_seed = {
+				type = legitimizing
+				quality = illustrious
+				chronicle = new_title
+				properties = {
+					title = title:e_reach
+					founder = root
+				}
+			}
+		}
+		trigger_event = {
+			id = ektitulartitle.1001
+		}
+		#Notify other players.
+		every_player = {
+			limit = {
+				### TODO: Uncomment it
+				NOT = { this = root }
+				is_within_diplo_range = { CHARACTER = root }
+			}
+			trigger_event = ektitulartitle.1002
+		}
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_created_reach_empire
+			}
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Turn the Reach into a proper Nordic hold
+turn_reach_nord_hold_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = turn_reach_nord_hold_decision_desc
+	selection_tooltip = turn_reach_nord_hold_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		exists = capital_province
+		has_feudal_or_admin_government = yes
+		
+		culture = { has_cultural_pillar = heritage_atmoran }
+		capital_province = { geographical_region = mundus_tamriel_skyrim_karth }
+
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_turned_reach_nord_hold
+			}
+		}
+	}
+
+	is_valid = {
+		# Karth must be under our complete control
+		completely_controls_region = mundus_tamriel_skyrim_karth
+		prestige_level >= 3
+		
+		# All of the eastern half of the Reach must have been civilised
+		custom_description = {
+			text = turn_reach_nord_hold_decision_karth_civilised
+			
+			NOT = {
+				any_realm_province = {
+					geographical_region = mundus_tamriel_skyrim_karth
+					has_holding_type = tribal_holding
+				}
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		show_as_tooltip = { turn_reach_nord_hold_decision_effect = yes }
+		
+		trigger_event = north_tamriel.0021
+		
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_turned_reach_nord_hold
+			}
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+##########
+# SKYRIM #
+##########
+### WESTERN/EASTERN SKYRIM DIVIDE
+accept_western_eastern_skyrim_divide_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = accept_western_eastern_skyrim_divide_decision_desc
+	selection_tooltip = accept_western_eastern_skyrim_divide_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		exists = capital_province
+		has_feudal_or_admin_government = yes
+		
+		culture = { has_cultural_pillar = heritage_atmoran }
+		
+		exists = title:e_western_skyrim.holder
+		exists = title:e_eastern_skyrim.holder
+		
+		OR = {
+			AND = {
+				root = title:e_western_skyrim.holder
+				NOT = { root = title:e_eastern_skyrim.holder }
+			}
+			AND = {
+				root = title:e_eastern_skyrim.holder
+				NOT = { root = title:e_western_skyrim.holder }
+			}
+		}
+		
+		# e_skyrim has de Jure vassals
+		title:e_skyrim = {
+			any_in_de_jure_hierarchy = {
+				NOT = { this = title:e_skyrim }
+				
+				exists = this
+			}
+		}
+		
+		### Loc purposes
+		character:flamehair_999 = { save_temporary_scope_as = last_hk_skyrim }
+		title:k_solitude = { save_temporary_scope_as = k_solitude }
+		title:k_morthal = { save_temporary_scope_as = k_morthal }
+		title:k_markarth = { save_temporary_scope_as = k_markarth }
+		title:k_whiterun = { save_temporary_scope_as = k_whiterun }
+		title:k_falkreath = { save_temporary_scope_as = k_falkreath }
+		title:k_winterhold = { save_temporary_scope_as = k_winterhold }
+		title:k_windhelm = { save_temporary_scope_as = k_windhelm }
+		title:k_riften = { save_temporary_scope_as = k_riften }
+		title:k_dawnstar = { save_temporary_scope_as = k_dawnstar }
+		title:k_solstheim = { save_temporary_scope_as = k_solstheim }
+	}
+
+	is_valid = {
+		# There needs to be some time passed since the high kingdom collapsed
+		title:e_skyrim = {
+			NOT = { recent_history = { type = destroyed years = 15 } }
+		}
+		
+		# Has to be at peace to formalize such a treaty
+		NOT = {
+			title:e_western_skyrim.holder = { is_at_war_with = title:e_eastern_skyrim.holder }
+		}
+
+		# Neither of them holds the de_jure capital of the opposite
+		AND = {
+			NOT = { title:e_western_skyrim.holder = { has_title = title:c_windhelm } }
+			NOT = { title:e_eastern_skyrim.holder = { has_title = title:c_solitude } }
+		}
+
+		# Neither of them wants to go for the High Kingship
+		NOT = {
+			title:e_western_skyrim.holder = { has_trait = ambitious }
+			title:e_eastern_skyrim.holder = { has_trait = ambitious }
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	effect = {
+		custom_tooltip = accept_western_eastern_skyrim_divide_decision.western_skyrim_vassals.tt
+		custom_tooltip = accept_western_eastern_skyrim_divide_decision.eastern_skyrim_vassals.tt
+		custom_tooltip = accept_western_eastern_skyrim_divide_decision.create_de_jure_empires.tt
+		custom_tooltip = accept_western_eastern_skyrim_divide_decision.reunite_skyrim.tt
+		
+		hidden_effect = {
+			# to be safe, let's make sure the kingdoms are actually part of Skyrim still and not, say, e_reach or e_orsinium
+			break_up_skyrim_scripted_effect = yes
+			
+			every_player = { trigger_event = north_tamriel.0005 }
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+western_skyrim_march_east_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = western_skyrim_march_east_decision_desc
+	selection_tooltip = western_skyrim_march_east_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		exists = capital_province
+		has_feudal_or_admin_government = yes
+		
+		culture = { has_cultural_pillar = heritage_atmoran }
+		
+		has_title = title:e_western_skyrim
+		NOT = { has_claim_on = title:e_eastern_skyrim }
+		
+		# Skyrim must have been partitioned
+		title:e_skyrim = {
+			NOT = {
+				any_in_de_jure_hierarchy = {
+					NOT = { this = title:e_skyrim }
+					
+					exists = this
+				}
+			}
+		}
+
+		NOT = { has_character_flag = flag_western_skyrim_march_east }
+	}
+
+	is_valid = {
+		# Must completely hold the New Jarldoms
+		custom_tooltip = {
+			text = western_skyrim_march_east_decision_requirements
+			completely_controls = title:k_solitude
+			completely_controls = title:k_morthal
+			completely_controls = title:k_markarth
+			completely_controls = title:k_falkreath
+
+			OR = { #to check for whether the Reach is required as well
+				AND = {
+					title:e_western_skyrim = { is_de_jure_liege_or_above_target = title:k_markarth }
+					completely_controls = title:k_markarth
+				}
+				title:e_reach = { is_de_jure_liege_or_above_target = title:k_markarth }	
+			}
+		}		
+		
+		# Central part of the province
+		completely_controls = title:k_whiterun
+		
+		# Some part of the other side
+		completely_controls = title:k_dawnstar
+		
+		prestige_level >= 3
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		if = {
+			limit = {
+				exists = title:e_eastern_skyrim.holder
+			}
+			add_pressed_claim = title:e_eastern_skyrim
+		}
+		else = {
+			add_pressed_claim = title:k_dawnstar
+			add_pressed_claim = title:k_winterhold
+			add_pressed_claim = title:k_windhelm
+			add_pressed_claim = title:k_riften
+			add_pressed_claim = title:k_solstheim
+		}
+		
+		custom_tooltip = western_skyrim_march_east_decision.claim_eastern_skyrim.tt
+		custom_tooltip = western_skyrim_march_east_decision.no_eastern_skyrim.tt
+		
+		hidden_effect = {
+			add_character_flag = flag_western_skyrim_march_east
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+eastern_skyrim_march_west_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = eastern_skyrim_march_west_decision_desc
+	selection_tooltip = eastern_skyrim_march_west_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		exists = capital_province
+		has_feudal_or_admin_government = yes
+		
+		culture = { has_cultural_pillar = heritage_atmoran }
+		
+		has_title = title:e_eastern_skyrim
+		NOT = { has_claim_on = title:e_western_skyrim }
+
+		# Skyrim must have been partitioned
+		title:e_skyrim = {
+			NOT = {
+				any_in_de_jure_hierarchy = {
+					NOT = { this = title:e_skyrim }
+					
+					exists = this
+				}
+			}
+		}
+
+		NOT = { has_character_flag = flag_eastern_skyrim_march_west }
+	}
+
+	is_valid = {
+		# Must completely hold the Old Jarldoms
+		custom_tooltip = {
+			text = eastern_skyrim_march_west_decision_requirements
+			completely_controls = title:k_winterhold
+			completely_controls = title:k_windhelm
+			completely_controls = title:k_riften
+			completely_controls = title:k_dawnstar
+		}	
+		
+		# Central part of the province
+		completely_controls = title:k_whiterun
+		
+		# Some part of the other side
+		completely_controls = title:k_falkreath
+		
+		#completely_controls = title:k_solstheim ?
+		
+		prestige_level >= 3
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		if = {
+			limit = {
+				exists = title:e_western_skyrim.holder
+			}
+			add_pressed_claim = title:e_western_skyrim
+		}
+		else = {
+			add_pressed_claim = title:k_solitude
+			add_pressed_claim = title:k_morthal
+			add_pressed_claim = title:k_markarth
+			add_pressed_claim = title:k_whiterun
+			add_pressed_claim = title:k_falkreath
+		}
+		
+		custom_tooltip = eastern_skyrim_march_west_decision.claim_western_skyrim.tt
+		custom_tooltip = eastern_skyrim_march_west_decision.no_western_skyrim.tt
+		
+		hidden_effect = {
+			add_character_flag = flag_eastern_skyrim_march_west
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+## As a joke... unless...?
+solstheim_claim_coast_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = solstheim_claim_coast_decision_desc
+	selection_tooltip = solstheim_claim_coast_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		exists = capital_province
+		
+		culture = culture:skaal
+		
+		has_title = title:k_solstheim
+
+		NOT = { has_character_flag = flag_solstheim_claim_coast }
+	}
+
+	is_valid = {
+		completely_controls = title:k_solstheim
+		
+		OR = {
+			prestige_level >= 4
+			AND = {
+				has_feudal_or_admin_government = yes
+				prestige_level >= 3
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		add_pressed_claim = title:c_bleakrock
+		add_pressed_claim = title:c_japhet_folly
+		add_pressed_claim = title:c_windhelm
+		add_pressed_claim = title:c_winterhold
+		
+		hidden_effect = {
+			add_character_flag = flag_solstheim_claim_coast
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+keizaal_realm_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+	decision_group_type = major
+	ai_check_interval = 120
+	desc = keizaal_realm_decision_desc
+
+	is_shown = {
+		culture = { has_cultural_pillar = heritage_atmoran } #So that Khajiit dragon cultists don't see it
+		is_independent_ruler = yes
+		faith = {
+			has_doctrine = doctrine_pantheon_dragons
+		}
+		highest_held_title_tier >= tier_kingdom
+		
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:keizaal_realm_decision
+			}
+		}
+	}
+
+	is_valid = {
+		culture = { has_cultural_pillar = heritage_atmoran }
+		piety_level >= 3
+		
+		OR = {
+			has_primary_title = title:e_skyrim
+			completely_controls_region = mundus_tamriel_skyrim
+		}
+		
+		faith = {
+			has_doctrine = doctrine_pantheon_dragons
+		}
+		knows_language = language_dovahzul
+	}
+	
+	cost = {
+		gold = 400
+		piety = 750
+	}
+	
+	effect = {
+		title:e_skyrim = { set_title_name = Keizaal }
+
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:keizaal_realm_decision
+		}
+		
+		custom_tooltip = keizaal_realm_decision_effect_1
+		custom_tooltip = keizaal_realm_decision_effect_2
+		custom_tooltip = keizaal_realm_decision_effect_3
+		
+		trigger_event = dragon_cult.0001
+		#trigger_event = dragon_cult.0002 #changed to trigger this after the first event is completed
+	}
+}
+
+# First Nordic Empire, rather big
+reform_first_nordic_empire_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = reform_first_nordic_empire_decision_desc
+	selection_tooltip = reform_first_nordic_empire_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		exists = capital_province
+		
+		culture = { has_cultural_pillar = heritage_atmoran }
+		
+		has_title = title:e_skyrim
+
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:nordic_empire_decision
+			}
+		}
+	}
+
+	is_valid = {
+		completely_controls_region = mundus_tamriel_skyrim
+		completely_controls_region = mundus_tamriel_hammerfell_dragontail
+		completely_controls_region = mundus_tamriel_morrowind_velothis
+		completely_controls_region = mundus_tamriel_high_rock_jehanna
+		completely_controls_region = mundus_tamriel_high_rock_evermore
+		completely_controls_region = mundus_tamriel_cyrodiil_bruma
+		trigger_if = {
+			limit = { 
+				title:k_craglorn = { any_in_de_jure_hierarchy = { tier = tier_county } }
+			}
+			completely_controls = title:k_craglorn
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		custom_tooltip = restore_nordic_empire_decision_effect
+		hidden_effect = {
+			form_nordic_empire_scripted_effect = yes	
+		}
+		if = {
+			limit = { has_dlc_feature = legends }
+			create_legend_seed = {
+				type = legitimizing
+				quality = illustrious
+				chronicle = new_title
+				properties = {
+					title = title:e_skyrim
+					founder = root
+				}
+			}
+		}
+		custom_tooltip = { #Unlock Hegemon legacy
+            text = unlocks_hegemony_dynasty_legacy
+            dynasty = {
+                set_variable = {
+                    name = can_get_hegemon_legacy_track
+                    value = yes
+                }
+            }
+        }
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:nordic_empire_decision
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+#Decision to choose capital of Skyrim after reunification
+choose_capital_skyrim_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+	desc = choose_capital_skyrim_decision_desc
+	selection_tooltip = choose_capital_skyrim_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+        is_landed = yes
+		
+		culture = { has_cultural_pillar = heritage_atmoran }
+		
+		has_primary_title = title:e_skyrim
+
+		NOR = {  #Unneeded if you're already ruling from Windhelm or Solitude
+			capital_county = { this = title:c_windhelm }
+			capital_county = { this = title:c_solitude }  
+		}
+
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:skyrim_capital_decision
+			}
+		}
+	}
+
+	is_valid = {
+		completely_controls = title:d_solitude #Completely controls Solitude for capital of Solitude
+		completely_controls = title:d_windhelm #Completely controls Windhelm for capital of Windhelm
+	}
+
+	is_valid_showing_failures_only = {
+        is_capable_adult = yes
+        is_available = yes
+        is_at_war = no
+        is_imprisoned = no
+    }
+
+	cost = {
+		prestige = 250
+	}
+
+	effect = {
+        custom_tooltip = choose_capital_skyrim_decision_effect
+        trigger_event = north_tamriel.0010
+        add_to_global_variable_list = {
+            name = unavailable_unique_decisions
+            target = flag:skyrim_capital_decision
+        }
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+nords_militant_faith_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+	
+	desc = nords_militant_faith_decision_desc
+	selection_tooltip = nords_militant_faith_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		faith.religion = religion:atmoran_religion
+		highest_held_title_tier >= tier_kingdom
+		NOT = { faith.religious_head = title:k_council_of_the_eight.holder }
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:nords_militant_faith_decision
+			}
+		}
+	}
+
+	is_valid = {
+		# High enough level of devotion
+		piety_level >= 4
+		has_title = title:e_skyrim
+		# Needs a Holy Order
+		custom_tooltip = {
+			text = militant_faith_holy_order_requirement
+			faith = { any_faith_holy_order = { holy_order_patron = root } }
+		}
+		OR = {
+			has_trait = education_martial_3
+			has_trait = education_martial_4
+			has_trait = education_martial_5
+			martial >= 20
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_at_war = no
+		is_alive = yes
+		is_available_adult = yes
+	}
+	
+	cost = {
+		piety = 2000
+	}
+	
+	effect = {
+		custom_tooltip = incompatible_with_coe_decision
+		faith = {
+			if = {
+				limit = {
+					NOT = { has_doctrine = nord_destiny_doctrine }
+				}
+				add_doctrine = nord_destiny_doctrine
+			}
+			change_fervor = {
+				value = major_fervor_gain
+				desc = fervor_gain_militant_faith
+			}
+		}
+		
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:nords_militant_faith_decision
+			}
+		}
+	}
+
+	ai_potential = {
+		OR = { #Let's limit this to people who like to war
+			has_trait = brave
+			has_trait = ambitious
+			has_trait = zealous
+			has_trait = wrathful
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}

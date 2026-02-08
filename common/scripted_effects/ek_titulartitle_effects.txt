@@ -1,0 +1,574 @@
+﻿form_kingdom_get_two_random_cities = {
+	random_realm_county = {
+		limit = {
+			target_is_de_jure_liege_or_above = scope:old_kingdom_1
+			any_in_de_facto_hierarchy = { 			#
+				exists = title_province				# With at least one Barony...
+				title_province = {					#
+					has_holding_type = city_holding # ...which is a City
+				}
+			}
+		}
+		alternative_limit = {
+			target_is_de_jure_liege_or_above = scope:old_kingdom_1
+		}
+		random_in_de_facto_hierarchy = {
+			limit = {
+				exists = title_province
+				title_province = { has_holding_type = city_holding }
+			}
+			alternative_limit = {
+				exists = title_province
+			}
+			save_scope_as = city_1
+		}
+	}
+	random_realm_county = {
+		limit = {
+			target_is_de_jure_liege_or_above = scope:old_kingdom_2
+			any_in_de_facto_hierarchy = { 			#
+				exists = title_province				# With at least one Barony...
+				title_province = {					#
+					has_holding_type = city_holding # ...which is a City
+				}
+			}
+		}
+		alternative_limit = {
+			target_is_de_jure_liege_or_above = scope:old_kingdom_2
+		}
+		random_in_de_facto_hierarchy = {
+			limit = {
+				exists = title_province
+				title_province = { has_holding_type = city_holding }
+			}
+			alternative_limit = {
+				exists = title_province
+			}
+			save_scope_as = city_2
+		}
+	}
+}
+
+form_kingdom_scripted_effect = {
+	### Localisation
+	form_kingdom_get_two_random_cities = yes
+	
+	### Which Empire (if it could be contested) would receive the kingdom
+	capital_province = { empire = { save_scope_as = de_jure_liege_to_keep } }
+	
+	### Give the kingdom
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	### Copy title history if one of the old k_ is our primary title
+	hidden_effect = {
+		if = {
+			limit = { has_primary_title = scope:old_kingdom_1 }
+			scope:new_kingdom = { copy_title_history = scope:old_kingdom_1 }
+		}
+		else_if = {
+			limit = { has_primary_title = scope:old_kingdom_2 }
+			scope:new_kingdom = { copy_title_history = scope:old_kingdom_2 }
+		}
+		else_if = {
+			limit = { 
+				exists = scope:old_kingdom_3
+				has_primary_title = scope:old_kingdom_3 
+			}
+			scope:new_kingdom = { copy_title_history = scope:old_kingdom_3 }
+		}
+	}	
+	scope:new_kingdom = {
+		change_title_holder = {
+			holder = root
+			change = scope:change
+		}
+	}
+	resolve_title_and_vassal_change = scope:change
+	set_primary_title_to = scope:new_kingdom
+	
+	hidden_effect = {
+		### Drift all the duchies under the old kingdoms into the new one
+		every_in_list = {
+			list = old_kingdom_list
+			
+			every_in_de_jure_hierarchy = {
+				limit = { tier = tier_duchy }
+				set_de_jure_liege_title = scope:new_kingdom
+			}
+		}
+		
+		### And finally we make sure to destroy all the old kingdoms title
+		# I do it by hand for now because parsing the list doesn't seem to work :|
+		destroy_title = scope:old_kingdom_1
+		destroy_title = scope:old_kingdom_2
+		if = {
+			limit = {
+				exists = scope:old_kingdom_3 # since not all kingdom decisions make use of three kingdoms
+			}
+			destroy_title = scope:old_kingdom_3
+		}
+		
+		### Make sure to set the correct de Jure liege
+		# Vassal : Take the liege primary title
+		# Indep : Take the "theoric" empire
+		if = {
+			limit = { is_independent_ruler = no }
+			scope:new_kingdom = { set_de_jure_liege_title = root.liege.primary_title }
+		}
+		else = {
+			scope:new_kingdom = { set_de_jure_liege_title = scope:de_jure_liege_to_keep }
+		}
+	}
+	
+	add_prestige = major_prestige_gain
+}
+
+## High Rock
+form_craglorn_scripted_effect = {
+	save_scope_as = scoped_ruler
+	title:k_craglorn = { save_scope_as = new_kingdom }
+	title:k_elinhir = { save_scope_as = old_kingdom_1 }
+	title:k_dragonstar = { save_scope_as = old_kingdom_2 }
+	
+	scope:old_kingdom_1 = { add_to_list = old_kingdom_list }
+	scope:old_kingdom_2 = { add_to_list = old_kingdom_list }
+	
+	custom_tooltip = form_craglorn_kingdom_decision_effects_de_jure_tt
+	
+	form_kingdom_scripted_effect = yes
+}
+form_glenumbra_scripted_effect = {
+	save_scope_as = scoped_ruler
+	title:k_glenumbra = { save_scope_as = new_kingdom }
+	title:k_daggerfall = { save_scope_as = old_kingdom_1 }
+	title:k_camlorn = { save_scope_as = old_kingdom_2 }
+	
+	scope:old_kingdom_1 = { add_to_list = old_kingdom_list }
+	scope:old_kingdom_2 = { add_to_list = old_kingdom_list }
+	
+	custom_tooltip = form_glenumbra_kingdom_decision_effects_de_jure_tt
+	custom_tooltip = form_glenumbra_kingdom_decision_integrate_balfiera_tt
+	
+	form_kingdom_scripted_effect = yes
+	
+	hidden_effect = {
+		if = {
+			limit = { completely_controls = title:d_balfiera }
+			title:d_balfiera = { set_de_jure_liege_title = scope:new_kingdom }
+		}
+	}
+}
+form_rivenspire_scripted_effect = {
+	save_scope_as = scoped_ruler
+	title:k_rivenspire = { save_scope_as = new_kingdom }
+	title:k_northpoint = { save_scope_as = old_kingdom_1 }
+	title:k_shornhelm = { save_scope_as = old_kingdom_2 }
+	
+	scope:old_kingdom_1 = { add_to_list = old_kingdom_list }
+	scope:old_kingdom_2 = { add_to_list = old_kingdom_list }
+	
+	custom_tooltip = form_rivenspire_kingdom_decision_effects_de_jure_tt
+	
+	form_kingdom_scripted_effect = yes
+}
+form_greater_wrothgar_scripted_effect = {
+	save_scope_as = scoped_ruler
+	title:k_greater_wrothgar = { save_scope_as = new_kingdom }
+	title:k_wrothgar = { save_scope_as = old_kingdom_1 }
+	title:k_fharun = { save_scope_as = old_kingdom_2 }
+	title:k_jehanna = { save_scope_as = old_kingdom_3 }
+	
+	scope:old_kingdom_1 = { add_to_list = old_kingdom_list }
+	scope:old_kingdom_2 = { add_to_list = old_kingdom_list }
+	scope:old_kingdom_3 = { add_to_list = old_kingdom_list }
+	
+	custom_tooltip = form_greater_wrothgar_kingdom_decision_effects_de_jure_tt
+	
+	form_kingdom_scripted_effect = yes
+}
+form_bangkorai_scripted_effect = {
+	save_scope_as = scoped_ruler
+	title:k_greater_bangkorai = { save_scope_as = new_kingdom }
+	title:k_evermore = { save_scope_as = old_kingdom_1 }
+	title:k_bangkorai = { save_scope_as = old_kingdom_2 }
+	
+	scope:old_kingdom_1 = { add_to_list = old_kingdom_list }
+	scope:old_kingdom_2 = { add_to_list = old_kingdom_list }
+	
+	custom_tooltip = form_bangkorai_kingdom_decision_effects_de_jure_tt
+	
+	form_kingdom_scripted_effect = yes
+}
+
+## Summerset Isles
+form_auridon_scripted_effect = {
+	save_scope_as = scoped_ruler
+	title:k_auridon = { save_scope_as = new_kingdom }
+	title:k_firsthold = { save_scope_as = old_kingdom_1 }
+	title:k_skywatch = { save_scope_as = old_kingdom_2 }
+	title:k_vulkhel = { save_scope_as = old_kingdom_3 }
+	
+	scope:old_kingdom_1 = { add_to_list = old_kingdom_list }
+	scope:old_kingdom_2 = { add_to_list = old_kingdom_list }
+	scope:old_kingdom_3 = { add_to_list = old_kingdom_list }
+	
+	custom_tooltip = form_auridon_kingdom_decision_effects_de_jure_tt
+	
+	form_kingdom_scripted_effect = yes
+}
+
+### Form Empires
+form_reach_empire_scripted_effect = {
+	root = {
+		primary_title = { save_temporary_scope_as = title_copy }
+	}
+	title:e_reach = {
+		copy_title_history = scope:title_copy
+	}
+	save_scope_as = founder
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = title_change
+		add_claim_on_loss = no
+	}
+	title:e_reach = {
+		change_title_holder = {
+			holder = root
+			change = scope:title_change
+		}
+	}
+	resolve_title_and_vassal_change = scope:title_change
+	
+	### We save the scopes for the loc
+	title:e_reach = { save_scope_as = reach_empire }
+	title:k_markarth = { save_scope_as = reach_kingdom }
+	title:k_wrothgar = { save_scope_as = wrothgar }
+	title:k_falkreath = { save_scope_as = falkreath }
+	title:k_solitude = { save_scope_as = solitude }
+	title:k_bangkorai = { save_scope_as = bangkorai }
+	title:d_darkfall = { save_scope_as = darkfall }
+	
+	### De Jure changes
+	custom_tooltip = form_reach_empire_effect_de_jure_tt
+	hidden_effect = {
+		every_kingdom = {
+			limit = {
+				title_capital_county.title_province = {
+					geographical_region = mundus_tamriel_reach
+				}
+			}
+			set_de_jure_liege_title = title:e_reach
+		}
+		## If d_darkfall is held but not k_solitude, we integrate it
+		if = {
+			limit = { NOT = { completely_controls = title:k_solitude }}
+			title:d_darkfall = { set_de_jure_liege_title = title:k_markarth }
+		}
+		# Additional regions that may be integrated if controlled
+		## If k_greater_wrothgar is controlled, we integrate it
+		if = { 
+			limit = { completely_controls = title:k_greater_wrothgar }
+			title:k_greater_wrothgar = { set_de_jure_liege_title = title:e_reach }
+		}
+		## If k_wrothgar is controlled, we integrate it
+		if = {
+			limit = { completely_controls = title:k_wrothgar }
+			title:k_wrothgar = { set_de_jure_liege_title = title:e_reach }
+		}
+		## If k_falkreath is controlled, we integrate it
+		if = {
+			limit = { completely_controls = title:k_falkreath }
+			title:k_falkreath = { set_de_jure_liege_title = title:e_reach }
+		}
+		## If k_solitude is controlled, we integrate it
+		if = {
+			limit = { completely_controls = title:k_solitude }
+			title:k_solitude = { set_de_jure_liege_title = title:e_reach }
+		}
+		## If k_bangkorai is controlled, we integrate it
+		if = {
+			limit = { completely_controls = title:k_bangkorai }
+			title:k_bangkorai = { set_de_jure_liege_title = title:e_reach }
+		}
+		#If Craglorn was formed and is controlled then integrate it
+		if = {
+			limit = { 
+				title:k_craglorn= { any_in_de_jure_hierarchy = { tier = tier_county } }
+				completely_controls = title:k_craglorn
+			}
+			title:k_craglorn = { set_de_jure_liege_title = title:e_reach }
+		}
+	}
+	
+	custom_tooltip = form_reach_empire_effect_de_jure_tt_a
+	custom_tooltip = form_reach_empire_effect_de_jure_tt_b
+}
+
+## Vvardenfell
+form_vvardenfell_empire_scripted_effect = {
+	root = {
+		primary_title = { save_temporary_scope_as = title_copy }
+	}
+	title:e_vvardenfell = {
+		copy_title_history = scope:title_copy
+	}
+	save_scope_as = founder
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = title_change
+		add_claim_on_loss = no
+	}
+	title:e_vvardenfell = {
+		change_title_holder = {
+			holder = root
+			change = scope:title_change
+		}
+	}
+	resolve_title_and_vassal_change = scope:title_change
+	### De Jure changes
+	title:k_azura_coast = { set_de_jure_liege_title = title:e_vvardenfell }
+	title:k_ashlands = { set_de_jure_liege_title = title:e_vvardenfell }
+	title:k_ascadia = { set_de_jure_liege_title = title:e_vvardenfell }
+}
+
+## Cantemiris
+form_cantemiris_empire_scripted_effect = {
+	root = {
+		primary_title = { save_temporary_scope_as = title_copy }
+	}
+	title:e_cantemiris = {
+		copy_title_history = scope:title_copy
+	}
+	save_scope_as = founder
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = title_change
+		add_claim_on_loss = no
+	}
+	title:e_cantemiris = {
+		change_title_holder = {
+			holder = root
+			change = scope:title_change
+		}
+	}
+	resolve_title_and_vassal_change = scope:title_change
+	### We save the scopes for the loc
+	title:e_cantemiris = { save_scope_as = cantemiris }
+	title:k_tearmarsh = { save_scope_as = tearmarsh }
+
+	### De Jure changes
+	custom_tooltip = form_cantemiris_empire_effect_de_jure_tt
+	custom_tooltip = form_cantemiris_empire_effect_de_jure_tt_a
+	hidden_effect = {
+		title:k_arnesia = { set_de_jure_liege_title = title:e_cantemiris }
+		title:k_thorn = { set_de_jure_liege_title = title:e_cantemiris }
+		title:k_archon = { set_de_jure_liege_title = title:e_cantemiris }
+		## If k_tearmarsh is controlled, we integrate it
+		if = {
+			limit = { completely_controls = title:k_tearmarsh }
+			title:k_tearmarsh = { set_de_jure_liege_title = title:e_cantemiris }
+		}
+	}
+}
+
+#barsaebica
+form_barsaebic_empire_scripted_effect = {
+	root = {
+		primary_title = { save_temporary_scope_as = title_copy }
+	}
+	title:e_barsaebica = {
+		copy_title_history = scope:title_copy
+	}
+	save_scope_as = founder
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = title_change
+		add_claim_on_loss = no
+	}
+	title:e_barsaebica = {
+		change_title_holder = {
+			holder = root
+			change = scope:title_change
+		}
+	}
+	resolve_title_and_vassal_change = scope:title_change
+
+	### We save the scopes for the loc
+	title:e_barsaebica= { save_scope_as = barsaebica }
+
+	### De Jure changes
+	custom_tooltip = form_barsaebic_empire_scripted_effect_de_jure_tt
+	hidden_effect = {
+		title:k_soulrest = { set_de_jure_liege_title = title:e_barsaebica }
+		title:k_shadowfen = { set_de_jure_liege_title = title:e_barsaebica }
+		title:k_gideon = { set_de_jure_liege_title = title:e_barsaebica }
+	}
+	if = {
+		limit = { #If capital is in de jure Barsaebica, then make it de jure capital of Barsaebica
+			title:e_barsaebica = { is_de_jure_liege_or_above_target = root.capital_county }
+		}
+		title:e_barsaebica = { set_capital_county = root.capital_county }
+	}
+}
+
+form_nedic_kingdom_scripted_effect = {
+	save_scope_as = founder
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = title_change
+		add_claim_on_loss = no
+	}
+	title:e_nedic_kingdom = {
+		change_title_holder = {
+			holder = root
+			change = scope:title_change
+		}
+	}
+	resolve_title_and_vassal_change = scope:title_change
+	title:e_nedic_kingdom = { save_scope_as = nedic_confederation }
+	custom_tooltip = form_nedic_kingdom_scripted_effect_de_jure_tt
+	hidden_effect = {
+		title:k_dragonstar = { set_de_jure_liege_title = title:e_nedic_kingdom }
+		title:k_elinhir = { set_de_jure_liege_title = title:e_nedic_kingdom }
+		title:k_craglorn = { set_de_jure_liege_title = title:e_nedic_kingdom }
+		title:k_skaven = { set_de_jure_liege_title = title:e_nedic_kingdom }
+		title:k_stonedale = { set_de_jure_liege_title = title:e_nedic_kingdom }
+		title:k_ojwambu = { set_de_jure_liege_title = title:e_nedic_kingdom }
+		title:k_bangkorai = { set_de_jure_liege_title = title:e_nedic_kingdom }
+		title:k_evermore = { set_de_jure_liege_title = title:e_nedic_kingdom }
+		title:k_greater_bangkorai = { set_de_jure_liege_title = title:e_nedic_kingdom }
+		title:k_falkreath = { set_de_jure_liege_title = title:e_nedic_kingdom }
+	}
+}
+
+form_nordic_empire_scripted_effect = {
+	#Integrate every kingdom from decision regions
+	every_kingdom = {
+		limit = {
+			title_capital_county.title_province = {
+				OR = {
+					geographical_region = mundus_tamriel_hammerfell_dragontail
+					geographical_region = mundus_tamriel_morrowind_velothis
+					geographical_region = mundus_tamriel_high_rock_jehanna
+					geographical_region = mundus_tamriel_high_rock_evermore
+					geographical_region = mundus_tamriel_cyrodiil_bruma
+				}
+			}
+			any_in_de_jure_hierarchy = { tier = tier_county }
+		}
+		set_de_jure_liege_title = title:e_skyrim
+	}
+	#Integrate everything in SKyrim
+	every_kingdom = {
+		limit = {
+			title_capital_county.title_province = {
+				geographical_region = mundus_tamriel_skyrim
+			}
+			NOT = { target_is_de_jure_liege_or_above = title:e_skyrim }
+		}
+		set_de_jure_liege_title = title:e_skyrim
+	}
+	#If Craglorn was formed and is controlled then integrate it instead of Dragonstar
+	if = {
+		limit = { 
+			title:k_craglorn= { any_in_de_jure_hierarchy = { tier = tier_county } }
+			completely_controls = title:k_craglorn
+		}
+		title:k_craglorn = { set_de_jure_liege_title = title:e_skyrim }
+	}
+}
+
+form_high_kingdom_hammerfell_scripted_effect = {
+	save_scope_as = founder
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = title_change
+		add_claim_on_loss = no
+	}
+	title:e_hammerfell = {
+		change_title_holder = {
+			holder = root
+			change = scope:title_change
+		}
+	}
+	resolve_title_and_vassal_change = scope:title_change
+	custom_tooltip = { #Unlock Hegemon legacy
+		text = unlocks_hegemony_dynasty_legacy
+		dynasty = {
+			set_variable = {
+				name = can_get_hegemon_legacy_track
+				value = yes
+			}
+		}
+	}
+	hidden_effect = { #Remove global flag
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:flag_formed_high_kingdom_hammerfell
+		}
+	}
+	#Destroy titles used to form high kingdom titles
+	if = {
+		limit = {
+			exists = title:e_crown.holder
+		}
+		destroy_title = title:e_crown
+	}
+	if = {
+		limit = {
+			exists = title:e_forebear.holder
+		}
+		destroy_title = title:e_forebear
+	}
+	#If Crown then convert to admin if not yet somehow
+	if = {
+		limit = {
+			has_dlc_feature = admin_gov
+			has_cultural_tradition = tradition_crown_core
+			NOT = { has_government = administrative_government } 
+		}
+		convert_to_administrative_from_feudalism_effect = yes
+	}
+}
+
+form_crown_republic_scripted_effect = {
+	save_scope_as = founder
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = title_change
+		add_claim_on_loss = no
+	}
+	title:e_crown = {
+		change_title_holder = {
+			holder = root
+			change = scope:title_change
+		}
+	}
+	resolve_title_and_vassal_change = scope:title_change
+	if = {
+		limit = { 
+			has_dlc_feature = admin_gov
+			NOT = { has_government = administrative_government } 
+		}
+		convert_to_administrative_from_feudalism_effect = yes
+	}
+}
+
+form_forebear_union_scripted_effect = {
+	save_scope_as = founder
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = title_change
+		add_claim_on_loss = no
+	}
+	title:e_forebear = {
+		change_title_holder = {
+			holder = root
+			change = scope:title_change
+		}
+	}
+	resolve_title_and_vassal_change = scope:title_change
+}

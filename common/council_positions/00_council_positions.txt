@@ -1,0 +1,1566 @@
+﻿### EK NOTE: Removed references to vanilla cultures & religions
+### EK NOTE: Added the effect of the Hegemon dynasty perk line
+
+councillor_chancellor = {
+	skill = diplomacy
+	
+	name = { #EK EDIT: custom names for chancellor
+		first_valid = {
+			 triggered_desc = {
+				trigger = {
+					scope:councillor_liege.culture = { has_cultural_pillar = heritage_argonian }
+				}
+				desc = councillor_chancellor_root_herald
+			}
+			
+			triggered_desc = {
+				trigger = {
+					government_has_flag = government_is_pirate
+				}
+				desc = councillor_chancellor_pirate
+			}
+			
+			desc = councillor_chancellor
+		}
+	}
+
+	valid_position = {
+		NOR = { 
+			government_has_flag = government_is_landless_adventurer 
+			government_has_flag = government_is_nomadic
+		}
+	}
+
+	tooltip = game_concept_chancellor_desc
+
+	modifier = {
+		name = councillor_chancellor_modifier
+		fellow_vassal_opinion = 5
+		monthly_diplomacy_lifestyle_xp_gain_mult = 0.05
+		scale = council_scaled_by_liege_tier
+	}
+
+	modifier = {
+		name = councillor_chancellor_modifier
+		monthly_prestige = 1
+		scale = council_scaled_monthly_income
+	}
+
+	modifier = {
+		name = councillor_chancellor_modifier
+		monthly_influence = 1
+		enemy_political_scheme_success_chance_max_add = -5
+		scale = council_scaled_admin_value
+	}
+
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		diplomacy = 1
+		scale = chancellor_learn_on_the_job_scale
+	}
+
+	council_owner_modifier = {
+		name = reliable_house_modifier
+		diplomacy = 1
+		scale = chancellor_reliable_house_scale
+	}
+	#EK ADDITION: new modifiers
+	council_owner_modifier = {
+		name = hegemon_2_1_modifier
+		diplomacy = 1
+		martial = 1
+		stewardship = 1
+		intrigue = 1
+		learning = 1
+		scale = hegemon_2_1_scale
+	}
+	
+	council_owner_modifier = {
+		name = prowess_bonuses_opinion
+		vassal_opinion = 1
+		courtier_and_guest_opinion = 1
+		scale = prowess_bonuses_scale
+	} #EK ADDITION END
+
+	valid_character = {
+		exists = root.liege_or_court_owner
+		can_be_chancellor_trigger = { COURT_OWNER = root.liege_or_court_owner }
+		#NOT = { this = character:528 } #EK DISABLED: no such vanilla character in ek2
+	}
+
+	on_get_position = {
+		got_council_position_effect = yes
+	}
+
+	on_fired_from_position = {
+		fired_from_council_position_effect = yes
+	}
+
+	portrait_animation = chancellor
+
+	barbershop_data = {
+		position = { 918.0 172.0 }
+		click_to_front = no
+	}
+}
+
+councillor_steward = {
+	skill = stewardship
+	name = { #EK EDIT: custom names for stewards
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:councillor_liege ={
+						culture = { has_cultural_pillar = heritage_argonian } 
+					}
+				}
+				desc = councillor_steward_fruit_bearer
+			}
+			
+			
+			triggered_desc = {
+				trigger = {
+					government_has_flag = government_is_pirate
+				}
+				desc = councillor_steward_pirate
+			}
+			desc = councillor_steward
+		}
+	}
+	tooltip = game_concept_steward_desc
+	
+	valid_position = {
+		NOR = { 
+			government_has_flag = government_is_landless_adventurer 
+			government_has_flag = government_is_nomadic
+		}
+	}
+
+	modifier = {
+		name = councillor_steward_modifier
+		monthly_income = 1
+		scale = council_scaled_monthly_income
+	}
+
+	modifier = {
+		name = councillor_steward_modifier
+		build_gold_cost = -0.025
+		monthly_stewardship_lifestyle_xp_gain_mult = 0.05
+		domain_tax_mult = 0.025
+		scale = council_scaled_by_liege_tier
+	}
+
+	modifier = {
+		name = councillor_steward_modifier
+		monthly_influence = 1
+		domicile_build_gold_cost = -0.05
+		scale = council_scaled_admin_value
+	}
+
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		stewardship = 1
+		scale = steward_learn_on_the_job_scale
+	}
+
+	council_owner_modifier = {
+		name = reliable_house_modifier
+		stewardship = 1
+		scale = steward_reliable_house_scale
+	}
+	#EK ADDITION: new modifiers
+	council_owner_modifier = {
+		name = hegemon_2_1_modifier
+		diplomacy = 1
+		martial = 1
+		stewardship = 1
+		intrigue = 1
+		learning = 1
+		scale = hegemon_2_1_scale
+	}
+	
+	council_owner_modifier = {
+		name = prowess_bonuses_domain
+		monthly_county_control_growth_add = 0.1
+		scale = prowess_bonuses_scale
+	} #EK ADDITION END
+
+	valid_character = {
+		exists = root.liege_or_court_owner
+		can_be_steward_trigger = { COURT_OWNER = root.liege_or_court_owner }
+		#NOT = { this = character:528 } #EK DISABLED: no such vanilla character in ek2
+	}
+
+	on_get_position = {
+		got_council_position_effect = yes
+	}
+
+	on_fired_from_position = {
+		fired_from_council_position_effect = yes
+	}
+
+	portrait_animation = steward
+
+	barbershop_data = {
+		position = { 1268.0 172.0 }
+		click_to_front = no
+	}
+}
+
+councillor_marshal = {
+	skill = martial
+	
+	name = { #EK EDIT: custom names for marshal
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:councillor_liege = {
+						culture = { has_cultural_pillar = heritage_argonian }
+					}
+				}
+				desc = councillor_marshal_ka_deelith
+			}
+			triggered_desc = {
+				trigger = {
+					government_has_flag = government_is_pirate
+				}
+				desc = councillor_marshal_pirate
+			}		
+			desc = councillor_marshal
+		}
+	}
+	tooltip = game_concept_marshal_desc
+
+	valid_position = {
+		NOR = { 
+			government_has_flag = government_is_landless_adventurer 
+			government_has_flag = government_is_nomadic
+		}
+	}
+
+	modifier = {
+		name = councillor_marshal_modifier
+		prowess = 1
+		army_maintenance_mult = -0.05
+		monthly_martial_lifestyle_xp_gain_mult = 0.05
+		scale = council_scaled_by_liege_tier
+	}
+
+	modifier = {
+		name = councillor_marshal_modifier
+		levy_size = 0.05
+		scale = council_scaled_by_liege_tier_not_admin
+	}
+
+	modifier = {
+		name = councillor_marshal_modifier
+		monthly_influence = 1
+		maa_toughness_mult = 0.04
+		scale = council_scaled_admin_value
+	}
+
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		martial = 1
+		scale = marshal_learn_on_the_job_scale
+	}
+
+	council_owner_modifier = {
+		name = reliable_house_modifier
+		martial = 1
+		scale = marshal_reliable_house_scale
+	}
+	#EK ADDITION: new modifiers
+	council_owner_modifier = {
+		name = hegemon_2_1_modifier
+		diplomacy = 1
+		martial = 1
+		stewardship = 1
+		intrigue = 1
+		learning = 1
+		scale = hegemon_2_1_scale
+	}
+
+	council_owner_modifier = {
+		name = prowess_bonuses_army
+		levy_size = 0.005
+		levy_reinforcement_rate = 0.005
+		men_at_arms_maintenance = -0.005
+		scale = prowess_bonuses_scale
+	} #EK ADDITION END
+
+	valid_character = {
+		exists = root.liege_or_court_owner
+		can_be_marshal_trigger = { COURT_OWNER = root.liege_or_court_owner }
+		#NOT = { this = character:528 } #EK DISABLED: no such vanilla character in ek2
+	}
+
+	on_get_position = {
+		got_council_position_effect = yes
+	}
+
+	on_fired_from_position = {
+		fired_from_council_position_effect = yes
+	}
+
+	portrait_animation = marshal
+
+	barbershop_data = {
+		position = { 558.0 172.0 }
+		click_to_front = no
+	}
+}
+
+councillor_spymaster = {
+	skill = intrigue
+	
+	name = {#EK EDIT: custom names for spymaster
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:councillor_liege = {
+						culture = { has_cultural_pillar = heritage_argonian }
+					}
+				}
+				desc = councillor_spymaster_branch_pruner
+			}
+			triggered_desc = {
+				trigger = {
+					government_has_flag = government_is_pirate
+				}
+				desc = councillor_spymaster_pirate
+			}
+			desc = councillor_spymaster
+		}
+	}
+	tooltip = game_concept_spymaster_desc
+
+	valid_position = {
+		NOT = { government_has_flag = government_is_landless_adventurer }
+	}
+
+	# Scaled modifiers.
+	modifier = {
+		name = councillor_spymaster_modifier
+		scale = council_scaled_by_liege_tier
+		monthly_intrigue_lifestyle_xp_gain_mult = 0.05
+		dread_baseline_add = 10
+	}
+
+	# Unscaled modifiers.
+	modifier = {
+		name = councillor_spymaster_modifier
+		hostile_scheme_phase_duration_add = -10
+		owned_hostile_scheme_success_chance_max_add = 10
+	}
+
+	modifier = {
+		name = councillor_spymaster_modifier
+		monthly_influence = 1
+		owned_scheme_secrecy_add = 5
+		scale = council_scaled_admin_value
+	}
+
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		intrigue = 1
+		scale = spymaster_learn_on_the_job_scale
+	}
+
+	council_owner_modifier = {
+		name = reliable_house_modifier
+		intrigue = 1
+		scale = spymaster_reliable_house_scale
+	}
+	#EK ADDITION: new modifiers
+	council_owner_modifier = {
+		name = hegemon_2_1_modifier
+		diplomacy = 1
+		martial = 1
+		stewardship = 1
+		intrigue = 1
+		learning = 1
+		scale = hegemon_2_1_scale
+	} #EK ADDITION END
+
+	valid_character = {
+		exists = root.liege_or_court_owner
+		can_be_spymaster_trigger = { COURT_OWNER = root.liege_or_court_owner }
+		NOT = { has_court_position = shadowscale_court_position }#EK EDIT
+	}
+
+	on_get_position = {
+		got_council_position_effect = yes
+	}
+
+	on_fired_from_position = {
+		fired_from_council_position_effect = yes
+	}
+	
+	use_for_scheme_phase_duration = yes
+	use_for_scheme_resistance = yes
+
+	portrait_animation = spymaster
+
+	barbershop_data = {
+		position = { 1433.0 261.0 }
+		click_to_front = yes
+	}
+}
+
+councillor_court_chaplain = {
+	skill = learning
+
+	auto_fill = {
+		trigger_if = {
+			limit = { is_ai = yes }
+			always = yes
+		}
+		trigger_else = {
+			faith = {
+				NOT = { has_doctrine_parameter = clerical_appointment_ruler }
+			}
+		}
+	}
+	fill_from_pool = yes
+
+	can_fire = {
+		custom_description = {
+			text = "court_chaplain_cant_fire_doctrines"
+			faith = {
+				NOT = { has_doctrine_parameter = clerical_appointment_fixed }
+			}
+		}
+	}
+	
+	can_reassign = {
+		custom_description = {
+			text = "court_chaplain_cant_reassign_doctrines"
+			OR = {
+				faith = {
+					NOT = { has_doctrine_parameter = clerical_appointment_fixed }
+				}
+				NOT = { exists = cp:councillor_court_chaplain }
+			}
+		}
+	}
+	
+	can_change_once = {
+		faith = {
+			has_doctrine_parameter = clerical_appointment_fixed
+		}
+		exists = cp:councillor_court_chaplain
+	}
+	
+	inherit = no
+	
+	name = { #EK EDIT: scraped out references to IRL religions, added our own
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						scope:councillor_liege.faith = faith:coiled_path
+						scope:councillor_liege.faith = faith:code_of_malacath
+						scope:councillor_liege.faith = faith:old_velothi
+					}
+				}
+				desc = councillor_court_chaplain_wise_woman
+			}
+			triggered_desc = {
+				trigger = {
+					scope:councillor_liege.faith = faith:hist
+				}
+				desc = councillor_court_chaplain_sap_speaker
+			}
+			triggered_desc = {
+				trigger = {
+					scope:councillor_liege.faith = { has_doctrine = tenet_amberhist }
+				}
+				desc = councillor_court_chaplain_amber_speaker
+			}
+			triggered_desc = {
+				trigger = {
+					scope:councillor_liege.faith = { has_doctrine = tenet_sunhist }
+				}
+				desc = councillor_court_chaplain_sun_speaker
+			}
+			triggered_desc = {
+				trigger = {
+					scope:councillor_liege.faith = { has_doctrine = tenet_ghosthist }
+				}
+				desc = councillor_court_chaplain_ghost_speaker
+			}
+			triggered_desc = {
+				trigger = {
+					scope:councillor_liege = {
+						culture = { has_cultural_pillar = heritage_goblinken }
+					}
+				}
+				desc = councillor_court_chaplain_shaman
+			}	
+			triggered_desc = {
+				trigger = {
+					scope:councillor_liege.faith = { has_doctrine = doctrine_theocracy_temporal }
+				}
+				desc = actual_bishop_title
+			}			
+			desc = councillor_court_chaplain
+		}
+	}
+
+	tooltip = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:councillor_liege.faith = { has_doctrine = doctrine_theocracy_temporal }
+				}
+				desc = game_concept_realm_priest_desc
+			}
+			desc = game_concept_court_chaplain_desc
+		}
+	}
+
+	modifier = {
+		name = councillor_court_chaplain_modifier
+		county_opinion_add = 5
+		monthly_learning_lifestyle_xp_gain_mult = 0.05
+		scale = council_scaled_by_liege_tier
+	}
+
+	modifier = {
+		name = councillor_court_chaplain_modifier
+		monthly_piety = 1
+		scale = council_scaled_monthly_income
+	}
+
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		learning = 1
+		scale = court_chaplain_learn_on_the_job_scale
+	}
+
+	council_owner_modifier = {
+		name = reliable_house_modifier
+		learning = 1
+		scale = court_chaplain_reliable_house_scale
+	}
+	#EK ADDITION: new modifier
+	council_owner_modifier = {
+		name = hegemon_2_1_modifier
+		diplomacy = 1
+		martial = 1
+		stewardship = 1
+		intrigue = 1
+		learning = 1
+		scale = hegemon_2_1_scale
+	}
+
+	pool_character_config = pool_court_chaplain
+	
+	valid_character = {
+		exists = root.liege_or_court_owner
+		can_be_court_chaplain_trigger = { COURT_OWNER = root.liege_or_court_owner }
+	}
+	
+	valid_position = {
+		NOR = { 
+			government_has_flag = government_is_landless_adventurer 
+			government_has_flag = government_is_nomadic
+		}
+	}
+
+	on_get_position = {
+		got_council_position_effect = yes
+		if = {
+			limit = {
+				years_from_game_start >= 1
+			}
+			if = {
+				limit = {
+					is_ruler = no
+					liege = {
+						faith = { has_doctrine = doctrine_clerical_succession_spiritual_fixed_appointment }
+						any_vassal = {
+							is_physically_able_adult = yes
+							is_councillor = no
+							government_has_flag = government_is_theocracy
+							can_be_court_chaplain_trigger = { COURT_OWNER = liege }
+							faith = liege.faith
+						}
+					}
+				}
+				liege = {
+					random_vassal = {
+						limit = {
+							is_physically_able_adult = yes
+							is_councillor = no
+							government_has_flag = government_is_theocracy
+							can_be_court_chaplain_trigger = { COURT_OWNER = liege }
+							faith = liege.faith
+						}
+						weight = {
+							base = 1
+							modifier = {
+								add = 1000
+								faith.religious_head ?= this
+							}
+							modifier = {
+								add = learning
+							}
+							modifier = {
+								add = primary_title.tier
+							}
+						}
+						liege = {
+							assign_councillor_type = {
+								type = councillor_court_chaplain
+								remove_existing_councillor = yes
+								target = prev
+							}
+						}
+					}
+				}
+				move_to_pool = yes
+			}
+			if = {
+				limit = {
+					exists = this
+					exists = liege.culture
+					NOT = {
+						knows_language_of_culture = liege.culture
+					}
+				}
+				random_list = {
+					10 = {
+						modifier = {
+							add = learning
+						}
+						learn_language_of_culture = liege.culture
+					}
+					5 = {
+						trigger = {
+							can_start_scheme = { 
+								type = learn_language 
+								target_character = liege 
+							}
+						}
+						start_scheme = {
+							type = learn_language
+							target_character = liege
+						}
+					}
+					5 = {
+						trigger = {
+							OR = {
+								has_trait = arrogant
+								has_trait = arbitrary
+								has_trait = lazy
+								has_trait = fickle
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	on_fired_from_position = {
+		fired_from_council_position_effect = yes
+	}
+
+	portrait_animation = chaplain
+
+	barbershop_data = {
+		position = { 1618.0 172.0  }
+		click_to_front = no
+	}
+}
+
+councillor_spouse = {
+	auto_fill = yes
+	can_fire = no
+	can_reassign = no
+	
+	### EK EDIT: Removed like 2000 lines of vanilla cultural stuff, total replace so no need to keep it around
+	name = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:councillor_liege.culture = culture:ashlander
+				}
+				desc = councillor_spouse
+			}
+			triggered_desc = {
+				trigger = {
+					scope:councillor_liege = {
+						culture = { has_cultural_pillar = heritage_argonian }
+					}
+				}
+				desc = councillor_spouse
+			}
+			triggered_desc = {
+				trigger = { is_male = yes }
+				desc = {
+					first_valid = {
+						#Tribal Default
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_empire
+								scope:councillor_liege = { government_has_flag = government_is_tribal }
+							}
+							desc = emperor_tribal_male
+						}
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_kingdom
+								scope:councillor_liege = { government_has_flag = government_is_tribal }
+							}
+							desc = king_tribal_male
+						}
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_duchy
+								scope:councillor_liege = { government_has_flag = government_is_tribal }
+							}
+							desc = duke_tribal_male
+						}
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_county
+								scope:councillor_liege = { government_has_flag = government_is_tribal }
+							}
+							desc = count_tribal_male
+						}
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_barony
+								scope:councillor_liege = { government_has_flag = government_is_tribal }
+							}
+							desc = baron_tribal_male
+						}
+						#Clan Default
+						# EK ADDITION: new custom name
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.culture = culture:ashlander
+							}
+							desc = councillor_spouse
+						} # EK ADDITION END
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_empire
+								scope:councillor_liege = { government_has_flag = government_is_clan	}
+							}
+							desc = emperor_clan_male
+						}
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_kingdom
+								scope:councillor_liege = { government_has_flag = government_is_clan	}
+							}
+							desc = king_clan_male
+						}
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_duchy
+								scope:councillor_liege = { government_has_flag = government_is_clan	}
+							}
+							desc = duke_clan_male
+						}
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_county
+								scope:councillor_liege = { government_has_flag = government_is_clan	}
+							}
+							desc = count_clan_male
+						}
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_barony
+								scope:councillor_liege = { government_has_flag = government_is_clan	}
+							}
+							desc = baron_clan_male
+						}
+						#Republic Default
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_empire
+								scope:councillor_liege = { government_has_flag = government_is_republic	}
+							}
+							desc = emperor_republic_male
+						}
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_kingdom
+								scope:councillor_liege = { government_has_flag = government_is_republic	}
+							}
+							desc = king_republic_male
+						}
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_duchy
+								scope:councillor_liege = { government_has_flag = government_is_republic	}
+							}
+							desc = duke_republic_male
+						}
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_county
+								scope:councillor_liege = { government_has_flag = government_is_republic	}
+							}
+							desc = count_republic_male
+						}
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_barony
+								scope:councillor_liege = { government_has_flag = government_is_republic	}
+							}
+							desc = baron_republic_male
+						}
+
+						#Feudal/Default Fallback
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_empire
+								scope:councillor_liege = {
+									NOR = { #The following governments have "Spouses"
+										government_has_flag = government_is_theocracy
+										government_has_flag = government_is_mercenary
+										government_has_flag = government_is_holy_order
+										
+									}
+								}
+							}
+							desc = councillor_spouse_emperor
+						}
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_kingdom
+								scope:councillor_liege = {
+									NOR = { #The following governments have "Spouses"
+										government_has_flag = government_is_theocracy
+										government_has_flag = government_is_mercenary
+										government_has_flag = government_is_holy_order
+										
+									}
+								}
+							}
+							desc = councillor_spouse_king
+						}
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_duchy
+								scope:councillor_liege = {
+									NOR = { #The following governments have "Spouses"
+										government_has_flag = government_is_theocracy
+										government_has_flag = government_is_mercenary
+										government_has_flag = government_is_holy_order
+										
+									}
+								}
+							}
+							desc = councillor_spouse_duke
+						}
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_county
+								scope:councillor_liege = {
+									NOR = { #The following governments have "Spouses"
+										government_has_flag = government_is_theocracy
+										government_has_flag = government_is_mercenary
+										government_has_flag = government_is_holy_order
+										
+									}
+								}
+							}
+							desc = councillor_spouse_count
+						}
+						triggered_desc = {
+							trigger = {
+								scope:councillor_liege.highest_held_title_tier = tier_barony
+								scope:councillor_liege = {
+									NOR = { #The following governments have "Spouses"
+										government_has_flag = government_is_theocracy
+										government_has_flag = government_is_mercenary
+										government_has_flag = government_is_holy_order
+										
+									}
+								}
+							}
+							desc = councillor_spouse_baron
+						}
+						triggered_desc = {
+							trigger = { scope:councillor_liege.highest_held_title_tier >= tier_kingdom }
+							desc = councillor_spouse_prince_consort
+						}
+						desc = councillor_spouse_husband
+					}
+				}
+			}
+			desc = {
+				first_valid = {#EK EDIT: removed vanilla culture references, total replace so no need to keep it around
+					#Tribal Default
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_empire
+							scope:councillor_liege = { government_has_flag = government_is_tribal }
+						}
+						desc = emperor_tribal_female
+					}
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_kingdom
+							scope:councillor_liege = { government_has_flag = government_is_tribal }
+						}
+						desc = king_tribal_female
+					}
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_duchy
+							scope:councillor_liege = { government_has_flag = government_is_tribal }
+						}
+						desc = duke_tribal_female
+					}
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_county
+							scope:councillor_liege = { government_has_flag = government_is_tribal }
+						}
+						desc = count_tribal_female
+					}
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_barony
+							scope:councillor_liege = { government_has_flag = government_is_tribal }
+						}
+						desc = baron_tribal_female
+					}
+					#Clan Default
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_empire
+							scope:councillor_liege = { government_has_flag = government_is_clan	}
+						}
+						desc = emperor_clan_female
+					}
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_kingdom
+							scope:councillor_liege = { government_has_flag = government_is_clan	}
+						}
+						desc = king_clan_female
+					}
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_duchy
+							scope:councillor_liege = { government_has_flag = government_is_clan	}
+						}
+						desc = duke_clan_female
+					}
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_county
+							scope:councillor_liege = { government_has_flag = government_is_clan	}
+						}
+						desc = count_clan_female
+					}
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_barony
+							scope:councillor_liege = { government_has_flag = government_is_clan	}
+						}
+						desc = baron_clan_female
+					}
+					#Republic Default
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_empire
+							scope:councillor_liege = { government_has_flag = government_is_republic	}
+						}
+						desc = emperor_republic_female
+					}
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_kingdom
+							scope:councillor_liege = { government_has_flag = government_is_republic	}
+						}
+						desc = king_republic_female
+					}
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_duchy
+							scope:councillor_liege = { government_has_flag = government_is_republic	}
+						}
+						desc = duke_republic_female
+					}
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_county
+							scope:councillor_liege = { government_has_flag = government_is_republic	}
+						}
+						desc = count_republic_female
+					}
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_barony
+							scope:councillor_liege = { government_has_flag = government_is_republic	}
+						}
+						desc = baron_republic_female
+					}
+
+					#Feudal/Default Fallback
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_empire
+							scope:councillor_liege = {
+								NOR = { #The following governments have "Spouses"
+									government_has_flag = government_is_theocracy
+									government_has_flag = government_is_mercenary
+									government_has_flag = government_is_holy_order
+									
+								}
+							}
+						}
+						desc = councillor_spouse_empress
+					}
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_kingdom
+							scope:councillor_liege = {
+								NOR = { #The following governments have "Spouses"
+									government_has_flag = government_is_theocracy
+									government_has_flag = government_is_mercenary
+									government_has_flag = government_is_holy_order
+									
+								}
+							}
+						}
+						desc = councillor_spouse_queen
+					}
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_duchy
+							scope:councillor_liege = {
+								NOR = { #The following governments have "Spouses"
+									government_has_flag = government_is_theocracy
+									government_has_flag = government_is_mercenary
+									government_has_flag = government_is_holy_order
+									
+								}
+							}
+						}
+						desc = councillor_spouse_duchess
+					}
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_county
+							scope:councillor_liege = {
+								NOR = { #The following governments have "Spouses"
+									government_has_flag = government_is_theocracy
+									government_has_flag = government_is_mercenary
+									government_has_flag = government_is_holy_order
+									
+								}
+							}
+						}
+						desc = councillor_spouse_countess
+					}
+					triggered_desc = {
+						trigger = {
+							scope:councillor_liege.highest_held_title_tier = tier_barony
+							scope:councillor_liege = {
+								NOR = { #The following governments have "Spouses"
+									government_has_flag = government_is_theocracy
+									government_has_flag = government_is_mercenary
+									government_has_flag = government_is_holy_order
+									
+								}
+							}
+						}
+						desc = councillor_spouse_baroness
+					}
+					desc = councillor_spouse
+				}
+			}
+		}
+	}
+
+	tooltip = game_concept_spouse_desc
+
+	valid_position = {
+		AND = {
+			NOT = {
+				has_diarchy_active_parameter = vizier_sits_in_the_council_instead_of_spouse
+			}
+			any_spouse = {
+				OR = {
+					court_owner = root
+					AND = {
+						is_ruler = yes
+						exists = liege
+						liege = root
+					}
+				}
+			}
+		}
+		NOT = { government_has_flag = government_is_landless_adventurer }
+	}
+
+	valid_character = {
+		exists = liege
+		can_be_spouse_councillor_trigger = { COUNCIL_OWNER = liege }
+	}
+
+	on_get_position = {
+		set_variable = {
+			name = councillor_spouse_lifestyle_progress
+			value = 0
+		}
+		# EK DISABLED
+		#if = {
+		#	limit = {
+		#		primary_spouse.primary_title = title:e_hre
+		#	}
+		#	debug_log = "Set new Spouse council position"
+		#	debug_log_scopes = yes
+		#}
+		trigger_event = councillor_spouse_background.0001
+	}
+
+	on_lose_position = {
+		remove_variable = councillor_spouse_lifestyle_progress
+	}
+
+	on_fired_from_position = {
+		remove_variable = councillor_spouse_lifestyle_progress
+	}
+
+	barbershop_data = {
+		position = { 763.0 261.00  }
+		click_to_front = yes
+	}
+}
+
+councillor_vizier = {
+	auto_fill = yes
+	can_fire = yes
+	can_reassign = yes
+	
+	name = councillor_vizier
+	tooltip = councillor_vizier_desc
+
+	valid_position = {
+		has_diarchy_active_parameter = vizier_sits_in_the_council_instead_of_spouse
+	}
+
+	valid_character = {
+		exists = root.liege_or_court_owner
+		can_be_councillor_basics_trigger = yes
+		save_temporary_scope_as = confidant
+
+		liege = {
+			OR = {
+				scope:confidant = diarch
+				any_consort = {
+					scope:confidant = this
+				}
+			}
+		}
+	}
+
+	on_get_position = {
+		set_variable = {
+			name = councillor_vizier_lifestyle_progress
+			value = 0
+		}
+	}
+
+	on_lose_position = {
+		remove_variable = councillor_vizier_lifestyle_progress
+	}
+
+	on_fired_from_position = {
+		remove_variable = councillor_vizier_lifestyle_progress
+	}
+
+	barbershop_data = {
+		position = { 763.0 261.00  }
+		click_to_front = yes
+	}
+}
+
+councillor_kurultai_1 = {
+	name = councillor_kurultai
+	tooltip = game_concept_kurultai_desc
+
+	valid_position = {
+		government_has_flag = government_is_nomadic
+	}
+
+	valid_character = {
+		exists = root.liege_or_court_owner
+		can_be_kurultai_trigger = { 
+			COURT_OWNER = root.liege_or_court_owner 
+			CP1 = councillor_kurultai_2
+			CP2 = councillor_kurultai_3
+			CP3 = councillor_kurultai_4
+		}
+	}
+	
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		diplomacy = 1
+		scale = kurultai_chancellor_learn_on_the_job_scale
+	}
+
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		stewardship = 1
+		scale = kurultai_steward_learn_on_the_job_scale
+	}
+
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		martial = 1
+		scale = kurultai_marshal_learn_on_the_job_scale
+	}
+
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		learning = 1
+		scale = kurultai_court_chaplain_learn_on_the_job_scale
+	}
+
+	modifier = {
+		name = councillor_kurultai_modifier
+		monthly_income = 0.5
+		scale = council_scaled_monthly_income
+	}
+
+	modifier = {
+		name = councillor_kurultai_modifier
+		monthly_prestige = 0.15
+		herd_gain_mult = 0.05
+		herd_capacity_mult = 0.05
+		scale = council_scaled_by_liege_tier_nomad
+	}
+
+	modifier = {
+		name = councillor_kurultai_modifier
+		monthly_prestige = 0.15
+		levy_size = 0.05
+		scale = council_scaled_by_liege_tier_not_nomad
+	}
+
+
+	modifier = {
+		name = councillor_kurultai_modifier
+		fellow_vassal_opinion = 10
+	}
+
+	on_get_position = {
+		got_council_position_effect = yes
+	}
+
+	on_fired_from_position = {
+		if = {
+			limit = {
+				exists = root.liege_or_court_owner
+				liege_or_court_owner = { is_ai = no }
+			}
+			liege_or_court_owner = {
+				add_prestige = major_prestige_loss
+			}
+		}
+		fired_from_council_position_effect = yes
+	}
+
+	portrait_animation = survey
+
+	barbershop_data = {
+		position = { 918.0 172.0 }
+		click_to_front = no
+	}
+}
+
+councillor_kurultai_2 = {
+	name = councillor_kurultai
+	tooltip = game_concept_kurultai_desc
+
+	valid_position = {
+		government_has_flag = government_is_nomadic
+	}
+
+	valid_character = {
+		exists = root.liege_or_court_owner
+		can_be_kurultai_trigger = { 
+			COURT_OWNER = root.liege_or_court_owner 
+			CP1 = councillor_kurultai_1
+			CP2 = councillor_kurultai_3
+			CP3 = councillor_kurultai_4
+		}
+	}
+	
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		diplomacy = 1
+		scale = kurultai_chancellor_learn_on_the_job_scale
+	}
+
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		stewardship = 1
+		scale = kurultai_steward_learn_on_the_job_scale
+	}
+
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		martial = 1
+		scale = kurultai_marshal_learn_on_the_job_scale
+	}
+
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		learning = 1
+		scale = kurultai_court_chaplain_learn_on_the_job_scale
+	}
+
+	modifier = {
+		name = councillor_kurultai_modifier
+		monthly_income = 0.5
+		scale = council_scaled_monthly_income
+	}
+
+	modifier = {
+		name = councillor_kurultai_modifier
+		monthly_prestige = 0.15
+		herd_gain_mult = 0.05
+		herd_capacity_mult = 0.05
+		scale = council_scaled_by_liege_tier_nomad
+	}
+
+	modifier = {
+		name = councillor_kurultai_modifier
+		monthly_prestige = 0.15
+		levy_size = 0.05
+		scale = council_scaled_by_liege_tier_not_nomad
+	}
+
+
+	modifier = {
+		name = councillor_kurultai_modifier
+		fellow_vassal_opinion = 10
+	}
+
+	on_get_position = {
+		got_council_position_effect = yes
+	}
+
+	on_fired_from_position = {
+		if = {
+			limit = {
+				exists = root.liege_or_court_owner
+				liege_or_court_owner = { is_ai = no }
+			}
+			liege_or_court_owner = {
+				add_prestige = major_prestige_loss
+			}
+		}
+		fired_from_council_position_effect = yes
+	}
+
+	portrait_animation = hunting_falcon
+
+	barbershop_data = {
+		position = { 1268.0 172.0 }
+		click_to_front = no
+	}
+}
+
+councillor_kurultai_3 = {
+	name = councillor_kurultai
+	tooltip = game_concept_kurultai_desc
+
+	valid_position = {
+		government_has_flag = government_is_nomadic
+	}
+
+	valid_character = {
+		exists = root.liege_or_court_owner
+		can_be_kurultai_trigger = { 
+			COURT_OWNER = root.liege_or_court_owner 
+			CP1 = councillor_kurultai_1
+			CP2 = councillor_kurultai_2
+			CP3 = councillor_kurultai_4
+		}
+	}
+	
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		diplomacy = 1
+		scale = kurultai_chancellor_learn_on_the_job_scale
+	}
+
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		stewardship = 1
+		scale = kurultai_steward_learn_on_the_job_scale
+	}
+
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		martial = 1
+		scale = kurultai_marshal_learn_on_the_job_scale
+	}
+
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		learning = 1
+		scale = kurultai_court_chaplain_learn_on_the_job_scale
+	}
+
+	modifier = {
+		name = councillor_kurultai_modifier
+		monthly_income = 0.5
+		scale = council_scaled_monthly_income
+	}
+
+	modifier = {
+		name = councillor_kurultai_modifier
+		monthly_prestige = 0.15
+		herd_gain_mult = 0.05
+		herd_capacity_mult = 0.05
+		scale = council_scaled_by_liege_tier_nomad
+	}
+
+	modifier = {
+		name = councillor_kurultai_modifier
+		monthly_prestige = 0.15
+		levy_size = 0.05
+		scale = council_scaled_by_liege_tier_not_nomad
+	}
+
+
+	modifier = {
+		name = councillor_kurultai_modifier
+		fellow_vassal_opinion = 10
+	}
+
+	on_get_position = {
+		got_council_position_effect = yes
+	}
+
+	on_fired_from_position = {
+		if = {
+			limit = {
+				exists = root.liege_or_court_owner
+				liege_or_court_owner = { is_ai = no }
+			}
+			liege_or_court_owner = {
+				add_prestige = major_prestige_loss
+			}
+		}
+		fired_from_council_position_effect = yes
+	}
+
+	portrait_animation = hunting_shortbow_aim_arrow_default
+
+	barbershop_data = {
+		position = { 1618.0 172.0  }
+		click_to_front = no
+	}
+}
+
+councillor_kurultai_4 = {
+	name = councillor_kurultai
+	tooltip = game_concept_kurultai_desc
+
+	valid_position = {
+		government_has_flag = government_is_nomadic
+	}
+
+	valid_character = {
+		exists = root.liege_or_court_owner
+		can_be_kurultai_trigger = { 
+			COURT_OWNER = root.liege_or_court_owner 
+			CP1 = councillor_kurultai_1
+			CP2 = councillor_kurultai_2
+			CP3 = councillor_kurultai_3
+		}
+	}
+	
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		diplomacy = 1
+		scale = kurultai_chancellor_learn_on_the_job_scale
+	}
+
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		stewardship = 1
+		scale = kurultai_steward_learn_on_the_job_scale
+	}
+
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		martial = 1
+		scale = kurultai_marshal_learn_on_the_job_scale
+	}
+
+	council_owner_modifier = {
+		name = learn_on_the_job_modifier
+		learning = 1
+		scale = kurultai_court_chaplain_learn_on_the_job_scale
+	}
+
+	modifier = {
+		name = councillor_kurultai_modifier
+		monthly_income = 0.5
+		scale = council_scaled_monthly_income
+	}
+
+	modifier = {
+		name = councillor_kurultai_modifier
+		monthly_prestige = 0.15
+		herd_gain_mult = 0.05
+		herd_capacity_mult = 0.05
+		scale = council_scaled_by_liege_tier_nomad
+	}
+
+	modifier = {
+		name = councillor_kurultai_modifier
+		monthly_prestige = 0.15
+		levy_size = 0.05
+		scale = council_scaled_by_liege_tier_not_nomad
+	}
+
+
+	modifier = {
+		name = councillor_kurultai_modifier
+		fellow_vassal_opinion = 10
+	}
+
+	on_get_position = {
+		got_council_position_effect = yes
+	}
+
+	on_fired_from_position = {
+		if = {
+			limit = {
+				exists = root.liege_or_court_owner
+				liege_or_court_owner = { is_ai = no }
+			}
+			liege_or_court_owner = {
+				add_prestige = major_prestige_loss
+			}
+		}
+		fired_from_council_position_effect = yes
+	}
+
+	portrait_animation = shepherd_with_sheep
+
+	barbershop_data = {
+		position = { 558.0 172.0 }
+		click_to_front = no
+	}
+}

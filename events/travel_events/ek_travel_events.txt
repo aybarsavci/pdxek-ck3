@@ -1,0 +1,7455 @@
+﻿namespace = ek_travel_events
+
+############################
+## Travel Flavor Events
+## 0001-3999
+############################
+
+# A Night to Forget
+ek_travel_events.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.0001.t
+	desc = ek_travel_events.0001.desc
+	theme = travel
+	override_background = { reference = alley_day }
+	
+	left_portrait = {
+		character = root
+		triggered_animation = {
+			trigger = {
+				OR = {
+					has_trait = sadistic
+					has_trait = callous
+				}
+			}
+			animation = laugh
+		}
+	   	animation = shock
+	}
+
+	right_portrait = {
+		character = scope:hungover_mage
+	   	animation = sadness
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling = yes
+		is_landless_adventurer = yes
+		is_location_valid_for_travel_event_on_land = yes
+    }
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		random_pool_character = {
+			province = root.location
+			limit = {
+				is_available_ai_adult = yes
+				has_magic_perk_trigger = yes
+				NOT = { has_magic_lifestyle_mastery_trigger = yes }
+				has_arcana = { VALUE <= 15 }
+			}
+			save_scope_as = hungover_mage
+		}
+		if = {
+			limit = { NOT = { exists = scope:hungover_mage } }
+			create_character = {
+				template = low_court_mage_template
+				location = root.location
+				culture = root.location.county.culture
+				faith = root.location.county.faith
+				#Set up the scope
+				save_scope_as = hungover_mage
+				after_creation = {
+					if = {
+						limit = { root = { is_ai = yes } }
+						add_character_flag = disappear_flag
+					}
+					add_random_magic_perk_effect = yes
+				}
+			}
+		}
+	}
+
+	# Search the relics
+	option = {
+		name = ek_travel_events.0001.a
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+
+		duel = {
+			skill = intrigue
+			value = high_skill_rating
+			10 = {
+				desc = ek_travel_events.0001.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events.0001.a.success
+					add_gold = {
+						value = minor_gold_value
+						max = 30
+					}
+				}
+			}
+			
+			10 = {
+				desc = ek_travel_events.0001.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = ek_travel_events.0001.a.failure
+					add_stress = minor_stress_gain
+				}
+			}
+		}
+		
+		stress_impact = {
+			callous = medium_stress_impact_gain
+			sadistic = medium_stress_impact_gain
+			generous = medium_stress_impact_gain
+			compassionate = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				OR = {
+					has_trait = callous
+					has_trait = sadistic
+					has_trait = generous
+				}
+			}
+		}
+	}
+
+	# Offer them a place in your entourage
+	option = {
+		name = ek_travel_events.0001.b
+		custom_tooltip = ek_travel_events.0001.b.tt
+		trigger = { has_magic_lifestyle_mastery_trigger = yes }
+
+		add_courtier = scope:hungover_mage
+		root.current_travel_plan = {
+			add_companion = scope:hungover_mage
+		}
+		scope:hungover_mage = {
+			add_character_flag = {
+				flag = blocked_from_leaving
+				years = 10
+			}
+		}
+		if = {
+			limit = {
+				can_employ_court_position_type = court_mage_court_position
+				NOT = { employs_court_position = court_mage_court_position }
+				can_appoint_char_to_court_position = {
+					CHAR = scope:hungover_mage
+					COURT_POS = court_mage_court_position
+				}
+			}
+			appoint_court_position = {
+				recipient = scope:hungover_mage
+				court_position = court_mage_court_position
+			}
+		}
+		else_if = {
+			limit = {
+				can_employ_court_position_type = court_mage_court_position
+			}
+			court_position:court_mage_court_position = {
+				add_opinion = {
+					target = root
+					modifier = disappointed_opinion
+					opinion = -5
+				}
+			}
+			replace_court_position = {
+				recipient = scope:hungover_mage
+				holder = court_position:court_mage_court_position
+				court_position = court_mage_court_position
+			}
+		}
+
+		stress_impact = {
+			callous = minor_stress_impact_gain
+			sadistic = minor_stress_impact_gain
+			paranoid = medium_stress_impact_gain
+			greedy = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				OR = {
+					has_trait = callous
+					has_trait = sadistic
+					has_trait = shy
+					has_trait = paranoid
+					has_trait = greedy
+				}
+			}
+		}
+	}
+
+	# Recruit them
+	option = {
+		name = ek_travel_events.0001.c
+		skill = diplomacy
+		trigger = { 
+			NOT = { has_magic_lifestyle_mastery_trigger = yes }
+			diplomacy >= high_skill_rating
+		}
+		add_courtier = scope:hungover_mage
+		root.current_travel_plan = {
+			add_companion = scope:hungover_mage
+		}
+		scope:hungover_mage = {
+			add_character_flag = {
+				flag = blocked_from_leaving
+				years = 10
+			}
+		}
+		if = {
+			limit = {
+				can_employ_court_position_type = court_mage_court_position
+				NOT = { employs_court_position = court_mage_court_position }
+			}
+			appoint_court_position = {
+				recipient = scope:hungover_mage
+				court_position = court_mage_court_position
+			}
+		}
+		else_if = {
+			limit = {
+				can_employ_court_position_type = court_mage_court_position
+			}
+			court_position:court_mage_court_position = {
+				add_opinion = {
+					target = root
+					modifier = disappointed_opinion
+					opinion = -5
+				}
+			}
+			replace_court_position = {
+				recipient = scope:hungover_mage
+				holder = court_position:court_mage_court_position
+				court_position = court_mage_court_position
+			}
+		}
+
+		stress_impact = {
+			callous = minor_stress_impact_gain
+			sadistic = minor_stress_impact_gain
+			paranoid = medium_stress_impact_gain
+			greedy = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				OR = {
+					has_trait = callous
+					has_trait = sadistic
+					has_trait = shy
+					has_trait = paranoid
+					has_trait = greedy
+				}
+			}
+		}
+	}
+
+	# Ask for the taverns location
+	option = {
+		name = ek_travel_events.0001.d
+		trigger = { has_trait = drunkard }
+		trait = drunkard
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 3 }
+		}
+
+		stress_impact = {
+			base = medium_stress_impact_loss
+			lazy = minor_stress_impact_loss
+			gregarious = medium_stress_impact_loss
+			temperate = medium_stress_impact_gain
+			diligent = medium_stress_impact_gain
+		}
+
+		ai_chance = 50
+	}
+
+	# Cackle at them and walk away
+	option = {
+		name = ek_travel_events.0001.e
+		add_prestige = miniscule_prestige_gain
+		if = {
+			limit = {
+				NOR = {
+					has_trait = callous
+					has_trait = sadistic
+				}
+			}
+			stress_impact = {
+				compassionate = minor_stress_impact_gain
+				just = minor_stress_impact_gain
+				forgiving = medium_stress_impact_gain
+				greedy = medium_stress_impact_gain
+			}
+		}
+		else = {
+			stress_impact = {
+				compassionate = medium_stress_impact_gain
+				just = medium_stress_impact_gain
+				forgiving = medium_stress_impact_gain
+				greedy = medium_stress_impact_gain
+			}
+		}
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				OR = {
+					has_trait = callous
+					has_trait = sadistic
+				}
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					has_trait = compassionate
+					has_trait = just
+					has_trait = forgiving
+					has_trait = greedy
+				}
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			scope:hungover_mage = {
+				if = { 
+					limit = {
+						is_courtier_of = root
+						has_character_flag = disappear_flag
+					}
+					remove_character_flag = disappear_flag
+				}
+				else_if = {
+					limit = {
+						has_character_flag = disappear_flag
+					}
+					silent_disappearance_effect = yes									
+				}
+			}
+		}
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Mundus Stone Event
+ek_travel_events.0005 = {
+	type = character_event
+	content_source = dlc_ek
+	title = {
+		first_valid = {
+			triggered_desc = { #Apprentice
+				trigger = {
+					current_month = 7
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.t.apprentice
+			}
+			triggered_desc = { #Atronach
+				trigger = {
+					current_month = 11
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.t.atronach
+			}
+			triggered_desc = { #Lady
+				trigger = {
+					current_month = 9
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.t.lady
+			}
+			triggered_desc = { #Lord
+				trigger = {
+					current_month = 3
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.t.lord
+			}
+			triggered_desc = { #Lover
+				trigger = {
+					current_month = 2
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.t.lover
+			}
+			triggered_desc = { #Witch (Reachfolk Mage)
+				trigger = {
+					current_month = 4
+        			NOT = { has_global_variable = serpent_active }
+					has_reachfolk_constellation_names = yes
+				}
+				desc = ek_travel_events.0005.t.mage_reachfolk
+			}
+			triggered_desc = { #Mage
+				trigger = {
+					current_month = 4
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.t.mage
+			}
+			triggered_desc = { #Ritual
+				trigger = {
+					current_month = 1
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.t.ritual
+			}
+			triggered_desc = { #Snake (Reachfolk Serpent)
+				trigger = {
+        			has_global_variable = serpent_active
+					has_reachfolk_constellation_names = yes
+				}
+				desc = ek_travel_events.0005.t.serpent_reachfolk
+			}
+			triggered_desc = { #Serpent
+				trigger = {
+					has_global_variable = serpent_active
+				}
+				desc = ek_travel_events.0005.t.serpent
+			}
+			triggered_desc = { #Shadow
+				trigger = {
+					current_month = 5
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.t.shadow
+			}
+			triggered_desc = { #Steed
+				trigger = {
+					current_month = 6
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.t.steed
+			}
+			triggered_desc = { #Hunter (Reachfolk Thief)
+				trigger = {
+					current_month = 12
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.t.thief_reachfolk
+			}
+			triggered_desc = { #Thief
+				trigger = {
+					current_month = 12
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.t.thief
+			}
+			triggered_desc = { #Tower
+				trigger = {
+					current_month = 10
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.t.tower
+			}
+			triggered_desc = { #Headsman (Reachfolk Warrior)
+				trigger = {
+					current_month = 8
+					NOT = { has_global_variable = serpent_active }
+					has_reachfolk_constellation_names = yes
+				}
+				desc = ek_travel_events.0005.t.warrior_reachfolk
+			}
+			triggered_desc = { #Warrior
+				trigger = {
+					current_month = 8
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.t.warrior
+			}
+		}
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = { #Apprentice
+				trigger = {
+					current_month = 7
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.desc.apprentice
+			}
+			triggered_desc = { #Atronach
+				trigger = {
+					current_month = 11
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.desc.atronach
+			}
+			triggered_desc = { #Lady
+				trigger = {
+					current_month = 9
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.desc.lady
+			}
+			triggered_desc = { #Lord
+				trigger = {
+					current_month = 3
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.desc.lord
+			}
+			triggered_desc = { #Lover
+				trigger = {
+					current_month = 2
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.desc.lover
+			}
+			triggered_desc = { #Witch (Reachfolk Mage)
+				trigger = {
+					current_month = 4
+        			NOT = { has_global_variable = serpent_active }
+					has_reachfolk_constellation_names = yes
+				}
+				desc = ek_travel_events.0005.desc.mage_reachfolk
+			}
+			triggered_desc = { #Mage
+				trigger = {
+					current_month = 4
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.desc.mage
+			}
+			triggered_desc = { #Ritual
+				trigger = {
+					current_month = 1
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.desc.ritual
+			}
+			triggered_desc = { #Snake (Reachfolk Serpent)
+				trigger = {
+        			has_global_variable = serpent_active
+					has_reachfolk_constellation_names = yes
+				}
+				desc = ek_travel_events.0005.desc.serpent_reachfolk
+			}
+			triggered_desc = { #Serpent
+				trigger = {
+					has_global_variable = serpent_active
+				}
+				desc = ek_travel_events.0005.desc.serpent
+			}
+			triggered_desc = { #Shadow
+				trigger = {
+					current_month = 5
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.desc.shadow
+			}
+			triggered_desc = { #Steed
+				trigger = {
+					current_month = 6
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.desc.steed
+			}
+			triggered_desc = { #Hunter (Reachfolk Thief)
+				trigger = {
+					current_month = 12
+        			NOT = { has_global_variable = serpent_active }
+					has_reachfolk_constellation_names = yes
+				}
+				desc = ek_travel_events.0005.desc.thief_reachfolk
+			}
+			triggered_desc = { #Thief
+				trigger = {
+					current_month = 12
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.desc.thief
+			}
+			triggered_desc = { #Tower
+				trigger = {
+					current_month = 10
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.desc.tower
+			}
+			triggered_desc = { #Headsman (Reachfolk Warrior)
+				trigger = {
+					current_month = 8
+					NOT = { has_global_variable = serpent_active }
+					has_reachfolk_constellation_names = yes
+				}
+				desc = ek_travel_events.0005.desc.warrior_reachfolk
+			}
+			triggered_desc = { #Warrior
+				trigger = {
+					current_month = 8
+        			NOT = { has_global_variable = serpent_active }
+				}
+				desc = ek_travel_events.0005.desc.warrior
+			}
+		}
+	}
+	theme = travel
+	override_background = {
+		reference = fp1_mundus_stones
+	}
+	left_portrait = {
+		character = root
+		animation = happiness 
+	}
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		is_location_valid_for_travel_event_on_land = yes
+		has_mundus_stone_modifier = no
+	}
+
+	cooldown = { years = 15 }
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+	}
+	
+	option = { # Embrace its power - apprentice
+		trigger = {
+			current_month = 7
+			NOT = { has_global_variable = serpent_active }
+		}
+		name = ek_travel_events.0005.a
+		add_piety = minor_piety_loss
+		add_character_modifier = { modifier = mundus_apprentice_modifier years = 10 }
+
+		stress_impact = {   
+			arrogant = miniscule_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = 1    
+			}
+		}
+	}
+
+	option = { # Swap signs - apprentice
+		trigger = {
+			current_month = 7
+			NOT = { has_global_variable = serpent_active }
+			NOT = {
+				has_trait = sign_apprentice
+			}
+		}
+		name = ek_travel_events.0005.b
+		add_piety = medium_piety_loss
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt.apprentice
+				remove_birthsign = yes
+				custom_tooltip = add_apprentice
+				send_interface_toast = {
+					title = ek_travel_events.0005.a.tt.apprentice
+					type = event_toast_effect_good
+					left_icon = root
+					add_trait = sign_apprentice
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt_fail.apprentice
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events.0005.a.tt_fail.apprentice
+					left_icon = root
+					add_piety = major_piety_loss
+				}
+			}
+		}
+	}
+
+	option = { # Embrace its power - atronach
+		trigger = {
+			current_month = 11
+			NOT = { has_global_variable = serpent_active }
+		}
+		name = ek_travel_events.0005.a
+		add_piety = minor_piety_loss
+		add_character_modifier = { modifier = mundus_atronach_modifier years = 10 }
+
+		stress_impact = {   
+			arrogant = miniscule_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = 1    
+			}
+		}
+	}
+
+	option = { # Swap signs - atronach
+		name = ek_travel_events.0005.b
+		add_piety = medium_piety_loss
+		trigger = {
+			current_month = 11
+			NOT = { has_global_variable = serpent_active }
+			NOT = {
+				has_trait = sign_atronach
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt.atronach
+				remove_birthsign = yes
+				custom_tooltip = add_atronach
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_travel_events.0005.a.tt.atronach
+					left_icon = root
+					add_trait = sign_atronach
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt_fail.atronach
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events.0005.a.tt_fail.atronach
+					left_icon = root
+					add_piety = major_piety_loss
+				}
+			}
+		}
+	}
+
+	option = { # Embrace its power - lady
+		trigger = {
+			current_month = 9
+			NOT = { has_global_variable = serpent_active }
+		}
+		name = ek_travel_events.0005.a
+		add_piety = minor_piety_loss
+		add_character_modifier = { modifier = mundus_lady_modifier years = 10 }
+
+		stress_impact = {   
+			arrogant = miniscule_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = 1    
+			}
+		}
+	}
+
+	option = { # Swap signs
+		name = ek_travel_events.0005.b
+		add_piety = medium_piety_loss
+		trigger = {
+			current_month = 9
+			NOT = { has_global_variable = serpent_active }
+			NOT = {
+				has_trait = sign_lady
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt.lady
+				remove_birthsign = yes
+				custom_tooltip = add_lady
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_travel_events.0005.a.tt.lady
+					left_icon = root
+					add_trait = sign_lady
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt_fail.lady
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events.0005.a.tt_fail.lady
+					left_icon = root
+					add_piety = major_piety_loss
+				}
+			}
+		}
+	}
+
+	option = { # Embrace its power - lord
+		trigger = {
+			current_month = 3
+			NOT = { has_global_variable = serpent_active }
+		}
+		name = ek_travel_events.0005.a
+		add_piety = minor_piety_loss
+		add_character_modifier = { modifier = mundus_lord_modifier years = 10 }
+
+		stress_impact = {   
+			arrogant = miniscule_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = 1    
+			}
+		}
+	}
+
+	option = { # Swap signs - lord
+		name = ek_travel_events.0005.b
+		trigger = {
+			current_month = 3
+			NOT = { has_global_variable = serpent_active }
+			NOT = {
+				has_trait = sign_lord
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt.lord
+				remove_birthsign = yes
+				custom_tooltip = add_lord
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_travel_events.0005.a.tt.lord
+					left_icon = root
+					add_trait = sign_lord
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt_fail.lord
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events.0005.a.tt_fail.lord
+					left_icon = root
+					add_piety = major_piety_loss
+				}
+			}
+		}
+	}
+
+	option = { # Embrace its power - lover
+		trigger = {
+			current_month = 2
+			NOT = { has_global_variable = serpent_active }
+		}
+		name = ek_travel_events.0005.a
+		add_piety = minor_piety_loss
+		add_character_modifier = { modifier = mundus_lover_modifier years = 10 }
+
+		stress_impact = {   
+			arrogant = miniscule_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = 1    
+			}
+		}
+	}
+
+	option = { # Swap signs
+		name = ek_travel_events.0005.b
+		add_piety = medium_piety_loss
+		trigger = {
+			current_month = 2
+			NOT = { has_global_variable = serpent_active }
+			NOT = {
+				has_trait = sign_lover
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt.lover
+				remove_birthsign = yes
+				custom_tooltip = add_lover
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_travel_events.0005.a.tt.lover
+					left_icon = root
+					add_trait = sign_lover
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt_fail.lover
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events.0005.a.tt_fail.lover
+					left_icon = root
+					add_piety = major_piety_loss
+				}
+			}
+		}
+	}
+
+	option = { # Embrace its power - mage
+		trigger = {
+			current_month = 4
+			NOT = { has_global_variable = serpent_active }
+		}
+		name = ek_travel_events.0005.a
+		add_piety = minor_piety_loss
+		add_character_modifier = { modifier = mundus_mage_modifier years = 10 }
+
+		stress_impact = {   
+			arrogant = miniscule_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = 1    
+			}
+		}
+	}
+
+	option = { # Swap signs
+		name = ek_travel_events.0005.b
+		add_piety = medium_piety_loss
+		trigger = {
+			current_month = 4
+			NOT = { has_global_variable = serpent_active }
+			NOT = {
+				has_trait = sign_mage
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt.mage
+				remove_birthsign = yes
+				custom_tooltip = add_mage
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_travel_events.0005.a.tt.mage
+					left_icon = root
+					add_trait = sign_mage
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt_fail.mage
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events.0005.a.tt_fail.mage
+					left_icon = root
+					add_piety = major_piety_loss
+				}
+			}
+		}
+	}
+	
+	option = { # Embrace its power - ritual
+		trigger = {
+			current_month = 1
+			NOT = { has_global_variable = serpent_active }
+		}
+		name = ek_travel_events.0005.a
+		add_piety = minor_piety_loss
+		add_character_modifier = { modifier = mundus_ritual_modifier years = 10 }
+
+		stress_impact = {   
+			arrogant = miniscule_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = 1    
+			}
+		}
+	}
+
+	option = { # Swap signs
+		name = ek_travel_events.0005.b
+		add_piety = medium_piety_loss
+		trigger = {
+			current_month = 1
+			NOT = { has_global_variable = serpent_active }
+			NOT = {
+				has_trait = sign_ritual
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt.ritual
+				remove_birthsign = yes
+				custom_tooltip = add_ritual
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_travel_events.0005.a.tt.ritual
+					left_icon = root
+					add_trait = sign_ritual
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt_fail.ritual
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events.0005.a.tt_fail.ritual
+					left_icon = root
+					add_piety = major_piety_loss
+				}
+			}
+		}
+	}
+
+	option = { # Embrace its power - serpent
+		trigger = {
+			has_global_variable = serpent_active
+		}
+		name = ek_travel_events.0005.a
+		add_piety = minor_piety_loss
+		add_character_modifier = { modifier = mundus_serpent_modifier years = 10 }
+
+		stress_impact = {   
+			arrogant = miniscule_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = 1    
+			}
+		}
+	}
+
+	option = { # Swap signs - serpent
+		name = ek_travel_events.0005.b
+		add_piety = medium_piety_loss
+		trigger = {
+			has_global_variable = serpent_active
+			NOT = {
+				has_trait = sign_serpent
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt.serpent
+				remove_birthsign = yes
+				custom_tooltip = add_serpent
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_travel_events.0005.a.tt.serpent
+					left_icon = root
+					add_trait = sign_serpent
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt_fail.serpent
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events.0005.a.tt_fail.serpent
+					left_icon = root
+					add_piety = major_piety_loss
+				}
+			}
+		}
+	}
+
+	option = { # Embrace its power - shadow
+		name = ek_travel_events.0005.a
+		trigger = {
+			current_month = 5
+			NOT = { has_global_variable = serpent_active }
+		}
+		add_piety = minor_piety_loss
+		add_character_modifier = { modifier = mundus_shadow_modifier years = 10 }
+
+		stress_impact = {   
+			arrogant = miniscule_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = 1    
+			}
+		}
+	}
+
+	option = { # Swap signs - shadow
+		name = ek_travel_events.0005.b
+		add_piety = medium_piety_loss
+		trigger = {
+			NOT = { has_global_variable = serpent_active }
+			current_month = 5
+			NOT = {
+				has_trait = sign_shadow
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt.shadow
+				remove_birthsign = yes
+				custom_tooltip = add_shadow
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_travel_events.0005.a.tt.shadow
+					left_icon = root
+					add_trait = sign_shadow
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt_fail.shadow
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events.0005.a.tt_fail.shadow
+					left_icon = root
+					add_piety = major_piety_loss
+				}
+			}
+		}
+	}
+
+	option = { # Embrace its power - steed
+		trigger = {
+			current_month = 6
+			NOT = { has_global_variable = serpent_active }
+		}
+		name = ek_travel_events.0005.a
+		add_piety = minor_piety_loss
+		add_character_modifier = { modifier = mundus_steed_modifier years = 10 }
+
+		stress_impact = {   
+			arrogant = miniscule_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = 1    
+			}
+		}
+	}
+
+	option = { # Swap signs - steed
+		name = ek_travel_events.0005.b
+		add_piety = medium_piety_loss
+		trigger = {
+			NOT = { has_global_variable = serpent_active }
+			current_month = 6
+			NOT = {
+				has_trait = sign_steed
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt.steed
+				remove_birthsign = yes
+				custom_tooltip = add_steed
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_travel_events.0005.a.tt.steed
+					left_icon = root
+					add_trait = sign_steed
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt_fail.steed
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events.0005.a.tt_fail.steed
+					left_icon = root
+					add_piety = major_piety_loss
+				}
+			}
+		}
+	}
+
+	option = { # Embrace its power - thief
+		name = ek_travel_events.0005.a
+		trigger = {
+			current_month = 12
+			NOT = { has_global_variable = serpent_active }
+		}
+		add_piety = minor_piety_loss
+		add_character_modifier = { modifier = mundus_thief_modifier years = 10 }
+
+		stress_impact = {   
+			arrogant = miniscule_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = 1    
+			}
+		}
+	}
+
+	option = { # Swap signs - thief
+		name = ek_travel_events.0005.b
+		add_piety = medium_piety_loss
+		trigger = {
+			current_month = 12
+			NOT = { has_global_variable = serpent_active }
+			NOT = {
+				has_trait = sign_thief
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt.thief
+				remove_birthsign = yes
+				custom_tooltip = add_thief
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_travel_events.0005.a.tt.thief
+					left_icon = root
+					add_trait = sign_thief
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt_fail.thief
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events.0005.a.tt_fail.thief
+					left_icon = root
+					add_piety = major_piety_loss
+				}
+			}
+		}
+	}
+
+	option = { # Embrace its power - tower
+		name = ek_travel_events.0005.a
+		trigger = {
+			current_month = 10
+			NOT = { has_global_variable = serpent_active }
+		}
+		add_piety = minor_piety_loss
+		add_character_modifier = { modifier = mundus_tower_modifier years = 10 }
+
+		stress_impact = {   
+			arrogant = miniscule_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = 1    
+			}
+		}
+	}
+
+	option = { # Swap signs - tower
+		name = ek_travel_events.0005.b
+		add_piety = medium_piety_loss
+		trigger = {
+			current_month = 10
+			NOT = { has_global_variable = serpent_active }
+			NOT = {
+				has_trait = sign_tower
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt.tower
+				remove_birthsign = yes
+				custom_tooltip = add_tower
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_travel_events.0005.a.tt.tower
+					left_icon = root
+					add_trait = sign_tower
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt_fail.tower
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events.0005.a.tt_fail.tower
+					left_icon = root
+					add_piety = major_piety_loss
+				}
+			}
+		}
+	}
+
+	option = { # Embrace its power - warrior
+		name = ek_travel_events.0005.a
+		trigger = {
+			current_month = 8
+			NOT = { has_global_variable = serpent_active }
+		}
+		add_piety = minor_piety_loss
+		add_character_modifier = { modifier = mundus_warrior_modifier years = 10 }
+
+		stress_impact = {   
+			arrogant = miniscule_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = 1    
+			}
+		}
+	}
+
+	option = { # Swap signs - warrior
+		name = ek_travel_events.0005.b
+		add_piety = medium_piety_loss
+		trigger = {
+			current_month = 8
+			NOT = { has_global_variable = serpent_active }
+			NOT = {
+				has_trait = sign_warrior
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = average_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt.warrior
+				remove_birthsign = yes
+				custom_tooltip = add_warrior
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_travel_events.0005.a.tt.warrior
+					left_icon = root
+					add_trait = sign_warrior
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events.0005.a.tt_fail.warrior
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events.0005.a.tt_fail.warrior
+					left_icon = root
+					add_piety = major_piety_loss
+				}
+			}
+		}
+	}
+
+	option = { # nah thanks
+		name = ek_travel_events.0005.c
+
+		add_piety = medium_piety_gain
+
+		stress_impact = {   
+			base = medium_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = -1    
+			}
+		}
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Winter Solace
+ek_travel_events.0010 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.0010.t
+	desc = ek_travel_events.0010.desc
+	theme = travel
+	left_portrait = {
+		character = root 
+		animation = happiness
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes		 
+		is_location_valid_for_travel_event_on_land = yes
+		location_has_winter_trigger = yes
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+	}
+	
+	option = { # Cool! Stay a bit
+		name = ek_travel_events.0010.a
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 3 }
+		}
+
+		stress_impact = {
+			base = medium_stress_impact_loss
+			lazy = medium_stress_impact_loss
+			diligent = minor_stress_impact_gain
+		}
+	}
+
+	option = { # Train your troops
+		name = ek_travel_events.0010.b
+		trigger = { 
+			NOT = { has_trait = winter_soldier }
+			is_landless_adventurer = yes
+		}
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+
+		random_list = {
+			20 = { 
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events.0010.b.success
+					add_trait = winter_soldier 
+				}					
+			}
+			80 = {
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = ek_travel_events.0010.b.failure
+					domicile ?= {
+						change_provisions = medium_provisions_loss
+					}
+				}				
+			}
+		}
+
+		stress_impact = {
+			diligent = minor_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+			lazy = medium_stress_impact_gain
+		}
+	}
+
+	option = { # No time!
+		name = ek_travel_events.0010.c		
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Wayshrines of Tamriel
+ek_travel_events.0015 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.0015.t
+	desc = ek_travel_events.0015.desc
+	theme = travel
+	left_portrait = {
+		character = root 
+		animation = personality_content
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		is_location_valid_for_travel_event_on_land = yes
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+	}
+	
+	option = { # Let's go!
+		name = ek_travel_events.0015.a
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = high_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_travel_events.0015.a.tt
+				send_interface_toast = {
+					title = ek_travel_events.0015.a.tt
+					type = event_toast_effect_good
+					left_icon = root
+					custom_tooltip = ek_travel_events.0015.a.effect
+					hidden_effect = {
+						current_travel_plan = {
+							add_destination_progress = { days = 500000 }
+						}
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events.0015.a.tt_fail
+				send_interface_toast = {
+					title = ek_travel_events.0015.a.tt_fail
+					type = event_toast_effect_bad
+					left_icon = root
+					add_prestige = medium_prestige_loss
+				}
+			}
+			25 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events.0015.a.tt_critical_fail
+				send_interface_toast = {
+					title = ek_travel_events.0015.a.tt_critical_fail
+					type = event_toast_effect_bad
+					left_icon = root
+					increase_wounds_effect = { REASON = wayshrine }
+				}
+			}
+		}
+		ai_chance = {
+			base = 0
+			modifier = {
+				factor = 50
+				has_trait = brave
+			}
+		}
+	}
+
+	option = { # just pray to the divines
+		name = ek_travel_events.0015.b
+		trigger = {
+			faith = { has_doctrine = doctrine_pantheon_divines }
+		}
+
+		add_piety = minor_piety_gain
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 1 }
+		}
+	}
+
+	option = { # no thanks
+		name = ek_travel_events.0015.c
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Spring's Blossom
+ek_travel_events.0020 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.0020.t
+	desc = ek_travel_events.0020.desc
+	theme = travel
+	left_portrait = {
+		character = root 
+		animation = happiness
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		is_location_valid_for_travel_event_on_land = yes
+		current_month = 3
+		location = { 
+			OR = {
+				terrain = farmlands
+				terrain = plains
+				terrain = hills
+				terrain = forest
+			}
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+	}
+	
+	option = { # Cool! Stay a bit
+		name = ek_travel_events.0020.a
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 3 }
+		}
+
+		stress_impact = {
+			base = medium_stress_impact_loss
+		}
+	}
+
+	option = { # Forage for provisions
+		name = ek_travel_events.0020.b
+		trigger = { 
+			is_landless_adventurer = yes
+		}
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+
+		random_list = {
+			60 = { 
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events.0020.b.success
+					domicile ?= {
+						change_provisions = medium_provisions_gain
+					}
+				}					
+			}
+			40 = {
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = ek_travel_events.0020.b.failure
+				}				
+			}
+		}
+
+		stress_impact = {
+			diligent = minor_stress_impact_loss
+			gluttonous = minor_stress_impact_loss
+			lazy = medium_stress_impact_gain
+		}
+	}
+
+	option = { # No time!
+		name = ek_travel_events.0020.c
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Fan Favorite
+ek_travel_events.0025 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.0025.t
+	desc = ek_travel_events.0025.desc
+	theme = travel
+	override_background = { reference = army_camp }
+
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+
+	right_portrait = {
+		character = scope:champion
+		animation = marshal
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = {
+			OR = {
+				has_building_or_higher = arena_01
+				has_building_or_higher = imperial_city_arena_01
+			}
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		play_music_cue = mx_cue_travel_arrival
+		create_character = {
+			template = new_warrior_character
+			location = root.location
+			culture = root.location.culture
+			faith = root.location.faith
+			dynasty = none
+			save_scope_as = champion
+		}
+		scope:champion = {
+			add_character_flag = wear_armor
+		}
+	}
+
+	option = { # autograph
+		name = {
+			text = ek_travel_events.0025.a 
+		}
+		name = {
+			trigger = {
+				faith = { has_doctrine = doctrine_azura_pantheon }
+			}
+			text = ek_travel_events.0025.azura
+		}
+
+		add_prestige = medium_prestige_gain
+	}
+
+	option = { # recruit
+		name = ek_travel_events.0025.b
+		skill = martial
+		trigger = { martial >= high_skill_rating }
+
+		pay_short_term_gold = {
+			target = scope:champion
+			gold = medium_gold_value
+		}
+
+		add_courtier = scope:champion
+		root.current_travel_plan = {
+			add_companion = scope:champion
+		}
+		scope:champion = {
+			add_character_flag = {
+				flag = recruited
+				days = 5
+			}
+		}
+		reverse_add_opinion = {
+			modifier = recruited_me_opinion
+			target = scope:champion
+			opinion = 20
+		}
+	}
+
+	option = {
+		name = ek_travel_events.0025.c
+		skill = prowess
+		trigger = { prowess >= high_skill_rating }
+
+		duel = {
+			skill = prowess
+			target = scope:champion
+			50 = {
+				desc = ek_travel_events.0025.c.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+				}
+				root = {
+					send_interface_toast = {
+						title = ek_travel_events.0025.c.success
+						type = event_toast_effect_good
+						add_prestige = major_prestige_gain
+					}
+				}
+			}
+			50 = {
+				desc = ek_travel_events.0025.c.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+				}
+				send_interface_toast = {
+					title = ek_travel_events.0025.c.failure
+					type = event_toast_effect_bad
+					left_icon = root
+					increase_wounds_effect = { REASON = fight }
+				}
+			}
+		}
+	}
+
+	option = { # no thanks
+		name = ek_travel_events.0025.d
+	}
+
+	after = {
+		scope:champion = {
+			remove_character_flag = wear_armor
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					is_ai = yes
+					scope:champion = {
+						NOT = {
+							is_courtier_of = root
+						}
+					}
+				}
+				scope:champion = {
+					if = {
+						limit = {
+							root = { is_ai = yes }
+						}
+						silent_disappearance_effect = yes
+					}
+				}
+			}
+		}
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Old Soldiers
+ek_travel_events.0030 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.0030.t
+	desc = ek_travel_events.0030.desc
+	theme = travel
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:soldier
+		animation = sadness
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		is_landless_adventurer = yes		 
+		is_location_valid_for_travel_event_on_land = yes
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		play_music_cue = mx_cue_travel_arrival
+		create_character = {
+			template = soldier_friend_character
+			location = root.location
+			culture = root.location.culture
+			faith = root.location.faith
+			save_scope_as = soldier
+		}
+		scope:soldier = {
+			add_character_flag = wear_armor
+		}
+	}
+
+	option = { # do it for money
+		name = ek_travel_events.0030.a
+
+		add_gold = minor_gold_value
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+
+		stress_impact = {
+			greedy = medium_stress_impact_loss
+			compassionate = minor_stress_impact_gain
+		}
+	}
+
+	option = { # do it for kindness
+		name = ek_travel_events.0030.b
+
+		reverse_add_opinion = {
+			target = scope:soldier
+			modifier = thankful_opinion
+		}
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+
+		stress_impact = {
+			greedy = minor_stress_impact_gain
+			compassionate = medium_stress_impact_loss
+		}
+	}
+
+	option = { # just go
+		name = ek_travel_events.0030.c
+
+		stress_impact = {
+			callous = minor_stress_impact_loss
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					is_ai = yes
+					scope:soldier = {
+						NOT = {
+							is_courtier_of = root
+						}
+					}
+				}
+				scope:soldier = {
+					if = {
+						limit = {
+							root = { is_ai = yes }
+						}
+						silent_disappearance_effect = yes
+					}
+				}
+			}
+		}
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Witches Festival
+ek_travel_events.0035 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.0035.t
+	desc = ek_travel_events.0035.desc
+	theme = travel
+	override_background = {
+		reference = bp1_bonfire
+	}
+
+	cooldown = { years = 15 }
+
+	left_portrait = {
+		character = root
+		triggered_animation = {
+			trigger = {
+				has_trait = zealous
+			}
+			animation = personality_callous
+		}
+	   	animation = personality_rational
+	}
+	
+	right_portrait = {
+		character = scope:witch_scope
+	   	animation = personality_compassionate
+	}
+	
+	trigger = {
+		is_available_travelling_adult = yes		 
+		is_location_valid_for_travel_event_on_land = yes
+		current_month = 10
+		current_day = 13
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		# find witch
+		random_pool_character = {
+			province = root.location
+			limit = {
+				is_available_ai_adult = yes
+				has_trait = witch
+				is_female = yes
+			}
+			save_scope_as = witch
+		}
+		if = { #As a backup create the character
+			limit = {
+				NOT = { exists = scope:witch }
+			}
+			create_character = {
+				template = witchy_template
+				location = root.location
+				culture = root.location.county.culture
+				faith = root.location.county.faith
+				gender_female_chance = 100
+				trait = witch
+				#Set up the scope
+				save_scope_as = witch_scope
+			}
+			hidden_effect = {
+				scope:witch = {
+					add_character_flag = disappear_flag
+					move_to_pool = yes
+				}
+			}
+		}
+	}
+
+	# Learn to be a Witch!
+	option = {
+		name = ek_travel_events.0035.a
+		trigger = {
+			NOT = { has_trait = witch }
+			OR = { #have a witchy trait
+				has_trait = cynical
+				has_trait = deceitful
+				has_trait = fickle
+				has_trait = arbitrary
+				OR = {
+					faith = { has_doctrine_parameter = witchcraft_accepted }
+					faith = { has_doctrine = doctrine_witchcraft_virtuous }
+					NOT = { has_trait = zealous }
+				}
+			}
+		}
+
+		give_witch_secret_or_trait_effect = yes
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+			cynical = medium_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 25
+			modifier = {
+				add = 25
+				OR = {
+					has_trait = cynical
+					has_trait = deceitful
+					has_trait = fickle
+					has_trait = arbitrary
+				}
+			}
+		}
+	}
+
+	# Recruit the Withmother
+	option = {
+		name = ek_travel_events.0035.b
+		trait = witch
+		trigger = { has_trait = witch }
+
+		pay_short_term_gold = {
+			target = scope:witch_scope
+			gold = medium_gold_value
+		}
+
+		add_courtier = scope:witch_scope
+		root.current_travel_plan = {
+			add_companion = scope:witch_scope
+		}
+
+		hidden_effect = {
+			scope:witch_scope = {
+				add_character_flag = {
+					flag = blocked_from_leaving
+					years = 10
+				}
+			}
+		}
+
+		stress_impact = {
+			paranoid = medium_stress_impact_gain
+			gregarious = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Enjoy the Festival
+	option = {
+		name = ek_travel_events.0035.c
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 3 }
+		}
+		
+		stress_impact = {
+			base = medium_stress_impact_loss
+			gregarious = medium_stress_impact_loss
+			lazy = minor_stress_impact_loss
+			diligent = minor_stress_impact_gain
+			zealous = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 50
+		}
+	}
+
+	# Taste a brew
+	option = {
+		name = ek_travel_events.0035.d
+		custom_tooltip = ek_travel_events.0035.d.tt
+		trigger = {
+			OR = {
+				can_increase_lifespan_trigger = yes
+				NOR = { 
+					is_vampire = yes
+					is_lycan = yes
+				}
+			}			
+		}
+
+		ai_chance = { # The AI should never do this
+			base = 0
+			modifier = { # Unless you're cynical/ambitious
+				add = 10
+				OR = {
+					has_trait = cynical
+					has_trait = ambitious
+				}
+			}
+		}
+		
+		trigger_event = { 
+			id = ek_travel_events.0036
+		}
+	}
+
+	# Have them burned
+	option = {
+		name = ek_travel_events.0035.e
+		trigger = {
+			NOT = { has_trait = cynical }
+			is_witch_trigger = no
+			faith = { has_doctrine_parameter = witchcraft_illegal }
+		}
+		send_interface_toast = {
+			title = travel.burned_witch
+			left_icon = root
+			add_piety = medium_piety_gain
+			scope:witch_scope = {
+				death = {
+					killer = root
+					death_reason = death_burned
+				}
+			}
+		}
+		stress_impact = {
+			sadistic = medium_stress_impact_loss
+			callous = medium_stress_impact_loss
+			zealous = major_stress_impact_loss
+			compassionate = medium_stress_impact_gain
+			just = medium_stress_impact_gain
+			calm = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 50
+			modifier = {
+				factor = 0
+				OR = {
+					has_trait = compassionate
+					has_trait = just
+					has_trait = calm
+				}
+			}
+		}
+	}
+
+	option = { # No time!
+		name = ek_travel_events.0035.f
+
+		stress_impact = {
+			diligent = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 50
+		}
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+#The Witchmother's Bargain
+ek_travel_events.0036 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.0036.t
+	desc = ek_travel_events.0036.desc
+	theme = travel
+	override_background = {
+		reference = bp1_bonfire
+	}
+
+	left_portrait = {
+		character = root
+		triggered_animation = {
+			trigger = {
+				has_trait = zealous
+			}
+			animation = personality_callous
+		}
+	   	animation = personality_rational
+	}
+	
+	right_portrait = {
+		character = scope:witch_scope
+	   	animation = personality_greedy
+	}
+
+	option = { # Take the bloody brew
+		name = ek_travel_events.0036.a
+
+		# gotta be actually vulnerable to the disease
+		trigger = {
+			can_contract_disease_trigger = { DISEASE = sanguinare_vampiris }
+		}
+
+		random_list = {
+			60 = {
+				modifier = {
+					add = 20
+					is_witch_trigger = yes
+				}
+				custom_tooltip = ek_travel_events.0036.a.tt
+				contract_sanguinare_vampiris = yes
+			}
+			40 = {
+				death = {
+					death_reason = death_witches_brew
+				}
+			}
+		}
+	}
+	
+	option = { # Take the meaty brew
+		name = ek_travel_events.0036.b
+
+		# gotta be actually vulnerable to the disease
+		trigger = {
+			can_contract_disease_trigger = { DISEASE = sanies_lupinus }
+		}
+
+		random_list = {
+			60 = {
+				modifier = {
+					add = 20
+					is_witch_trigger = yes
+				}
+				custom_tooltip = ek_travel_events.0036.b.tt
+				contract_sanies_lupinus = yes
+			}
+			40 = {
+				death = {
+					death_reason = death_witches_brew
+				}
+			}
+		}
+	}
+
+	option = { # Take the muddy brew
+		name = ek_travel_events.0036.c
+
+		# can you increase lifepspan?
+		trigger = {
+			can_increase_lifespan_trigger = yes
+		}
+
+		random_list = {
+			60 = {
+				modifier = {
+					add = 20
+					is_witch_trigger = yes
+				}
+				increase_lifespan_effect = yes
+			}
+			40 = {
+				death = {
+					death_reason = death_witches_brew
+				}
+			}
+		}
+	}
+
+	option = { # Just go
+		name = ek_travel_events.0036.d
+
+		stress_impact = {
+			zealous = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	#Get rid of the witch if they have not been recruited or killed
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					is_ai = yes
+					scope:witch = {
+						has_character_flag = disappear_flag
+						NOT = {
+							is_courtier_of = root
+						}
+					}
+				}
+				scope:witch = {
+					if = {
+						limit = {
+							root = { is_ai = yes }
+						}
+						silent_disappearance_effect = yes
+					}
+				}
+			}
+		}
+	}	
+}
+
+# Learn Windmill innovation
+ek_travel_events.0040 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.0040.t
+	desc = ek_travel_events.0040.desc
+	theme = travel
+	
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:imga_harvester
+		animation = personality_bold 
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		is_location_valid_for_travel_event_on_land = yes
+		culture.culture_head = root
+		culture = { NOT = { has_innovation = innovation_windmills } }
+		root.location.culture = { 
+			has_innovation = innovation_windmills
+			NOT = { this = root.culture }
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		play_music_cue = mx_cue_travel_arrival
+		root.location.culture = { save_scope_as = windmill_culture }
+	}
+
+	# Investigate the Windmills
+	option = { 
+		name = ek_travel_events.0040.a
+		add_stewardship_lifestyle_xp = travel_medium_xp
+		current_travel_plan = {
+			delay_travel_plan = { days = 21 }
+		}
+		culture = { add_innovation = innovation_windmills }
+
+		stress_impact = {
+			diligent = medium_stress_impact_loss
+			impatient = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = diligent
+				add = 50
+			}
+		}
+	}
+
+	# Admire them
+	option = { 
+		name = ek_travel_events.0040.b
+		current_travel_plan = {
+			delay_travel_plan = { days = 3 }
+		}
+		culture = {
+			change_cultural_acceptance = {
+				target = scope:windmill_culture
+				value = low_positive_culture_acceptance
+				desc = cultural_acceptance_event
+			}
+		}
+
+		stress_impact = {
+			content = medium_stress_impact_loss
+			arrogant = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 50
+		}
+	}
+
+	# Fight them!
+	option = {
+		name = ek_travel_events.0040.c
+		trait = lunatic_1
+
+		trigger = { has_trait = lunatic_1 }
+
+		add_stress = major_stress_loss
+		culture = {
+			change_cultural_acceptance = {
+				target = scope:windmill_culture
+				value = low_negative_culture_acceptance
+				desc = cultural_acceptance_event
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # Just go
+		name = ek_travel_events.0040.d
+
+		ai_chance = {
+			base = 10
+		}
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Looking at Stars
+ek_travel_events.0045 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.0045.t
+	desc = ek_travel_events.0045.desc
+	theme = travel
+	
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:imga_harvester
+		animation = personality_bold 
+	}
+
+	override_background = { reference = bp1_bonfire }
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		is_location_valid_for_travel_event_on_land = yes
+		has_mundus_stone_modifier = no
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		play_music_cue = mx_cue_travel_arrival
+	}
+
+	option = { # Stay awake for a while
+		name = ek_travel_events.0045.a
+
+		switch = {
+			trigger = dummy_male.current_month # Because current_month on its own is bugged in switches.
+			1 = { add_character_modifier = { modifier = mundus_ritual_modifier years = 5 } }
+			2 = { add_character_modifier = { modifier = mundus_lover_modifier years = 5 } }
+			3 = { add_character_modifier = { modifier = mundus_lord_modifier years = 5 } }
+			4 = { add_character_modifier = { modifier = mundus_mage_modifier years = 5 } }
+			5 = { add_character_modifier = { modifier = mundus_shadow_modifier years = 5 } }
+			6 = { add_character_modifier = { modifier = mundus_steed_modifier years = 5 } }
+			7 = { add_character_modifier = { modifier = mundus_apprentice_modifier years = 5 } }
+			8 = { add_character_modifier = { modifier = mundus_warrior_modifier years = 5 } }
+			9 = { add_character_modifier = { modifier = mundus_lady_modifier years = 5 } }
+			10 = { add_character_modifier = { modifier = mundus_tower_modifier years = 5 } }
+			11 = { add_character_modifier = { modifier = mundus_atronach_modifier years = 5 } }
+			12 = { add_character_modifier = { modifier = mundus_thief_modifier years = 5 } }
+		}
+	}
+
+	option = { # Go to sleep
+		name = ek_travel_events.0045.b
+		add_stress = medium_stress_loss
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Find a hidden chest
+ek_travel_events.0050 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.0050.t
+	desc = ek_travel_events.0050.desc
+	theme = travel
+	
+	left_portrait = {
+		character = root
+		animation = personality_greedy
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		is_location_valid_for_travel_event_on_land = yes
+		current_travel_plan = {
+			any_entourage_character = {
+				NOT = { this = root }
+				count > 1
+			}
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		play_music_cue = mx_cue_travel_arrival
+		current_travel_plan = {
+			if = { 
+				limit = {
+					any_entourage_character = {
+						NOT = { this = root }
+						has_perk = alteration_novice_perk
+					}
+				}
+				random_entourage_character = {
+					limit = {
+						NOT = { this = root }
+						has_perk = alteration_novice_perk
+					}
+					save_scope_as = alteration_mage
+				}
+			}
+		}
+	}
+
+	# Use a lockpick
+	option = { 
+		name = ek_travel_events.0050.a
+		trigger = { 
+			intrigue >= high_skill_rating
+		}
+
+		duel = {
+			skill = intrigue
+			value = 10
+			50 = {		
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_travel_events.0050.a.success
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_travel_events.0050.a.success
+					left_icon = root
+
+					# Get your reward
+					random_list = {
+						60 = {
+							add_gold = minor_gold_value
+						}
+						40 = {
+							add_gold = medium_gold_value
+						}
+					}
+				}
+			}
+
+			50 = {		
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events.0050.a.failure
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events.0050.a.failure
+					left_icon = root
+					add_stress = minor_stress_gain
+				}
+			}
+		}
+
+		stress_impact = {
+			greedy = minor_stress_impact_loss
+			impatient = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Use brute force
+	option = {
+		name = ek_travel_events.0050.b
+
+		duel = {
+			skill = prowess
+			value = 10
+			50 = {		
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_travel_events.0050.b.success
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_travel_events.0050.a.success
+					left_icon = root
+					# Get your reward
+					random_list = {
+						60 = {
+							add_gold = minor_gold_value
+						}
+						40 = {
+							add_gold = medium_gold_value
+						}
+					}
+				}
+			}
+
+			50 = {		
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_travel_events.0050.b.failure
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events.0050.b.failure
+					left_icon = root
+					add_stress = minor_stress_gain
+				}
+			}
+		}
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 3 }
+		}
+
+		stress_impact = {
+			greedy = minor_stress_impact_loss
+			impatient = minor_stress_impact_gain
+			wrathful = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				prowess >= high_skill_rating
+				add = 50
+			}
+		}
+	}
+
+	# I know a spell
+	option = {
+		name = ek_travel_events.0050.c
+		reason = alteration 
+
+		trigger = {
+			has_perk = alteration_novice_perk
+			has_magicka_more_than = { VALUE = t1_spell_cost }
+		}
+
+		show_as_unavailable = {
+			has_perk = alteration_novice_perk
+			has_magicka_less_than = { VALUE = t1_spell_cost }
+		}
+
+		add_magicka = { VALUE = t1_spell_cost.negate }
+
+		# Get your reward
+		send_interface_toast = {
+			type = event_toast_effect_good
+			title = ek_travel_events.0050.a.success
+			left_icon = root
+
+			# Get your reward
+			random_list = {
+				60 = {
+					add_gold = minor_gold_value
+				}
+				40 = {
+					add_gold = medium_gold_value
+				}
+			}
+		}
+		
+		stress_impact = {
+			greedy = minor_stress_impact_loss
+			impatient = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Don't we have an alteration mage?
+	option = {
+		name = ek_travel_events.0050.d
+		trigger = {
+			exists = scope:alteration_mage
+			scope:alteration_mage = {
+				has_magicka_more_than = { VALUE = t1_spell_cost } 
+			}
+		}
+
+		show_as_unavailable = {
+			scope:alteration_mage = {
+				has_magicka_less_than = { VALUE = t1_spell_cost }
+			}
+		}
+
+		scope:alteration_mage = {
+			add_magicka = { VALUE = t1_spell_cost.negate }
+		}
+
+		# Get your reward
+		send_interface_toast = {
+			type = event_toast_effect_good
+			title = ek_travel_events.0050.a.success
+			left_icon = root
+			# Get your reward
+			random_list = {
+				60 = {
+					add_gold = minor_gold_value
+				}
+				40 = {
+					add_gold = medium_gold_value
+				}
+			}
+		}
+		
+		stress_impact = {
+			greedy = minor_stress_impact_loss
+			impatient = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # Just leave it
+		name = ek_travel_events.0050.e
+
+		stress_impact = {
+			greedy = minor_stress_impact_gain
+			just = minor_stress_impact_loss
+			honest = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 10
+		}
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Find a Nirnroot
+ek_travel_events.0055 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.0055.t
+	theme = travel
+
+	desc = { 
+		desc = ek_travel_events.0055.desc.intro
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_trait = lifestyle_herbalist }
+				desc = ek_travel_events.0055.desc.herbalist
+			}
+			triggered_desc = {
+				trigger = { exists = scope:herbalist_character }
+				desc = ek_travel_events.0055.desc.entourage_herbalist
+			}
+			desc = ek_travel_events.0055.desc
+		}
+	}
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		trigger = { exists = scope:herbalist_character }
+		character = scope:herbalist_character
+		animation = personality_rational
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		is_location_valid_for_travel_event_on_land = yes
+		location = {
+			OR = {
+				is_coastal = yes
+				is_riverside_province = yes
+			}
+		}
+	}		
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		play_music_cue = mx_cue_travel_arrival
+		if = {
+			limit = { 
+				current_travel_plan = {
+					any_entourage_character = {
+						NOT = { this = root }
+						has_trait = lifestyle_herbalist
+					}
+				}
+			}
+			current_travel_plan = {
+				random_entourage_character = {
+					limit = {
+						NOT = { this = root }
+						has_trait = lifestyle_herbalist
+					}
+					save_scope_as = herbalist_character
+				}
+			} 
+		}
+	}
+
+	option = { # Herbalists can examine it
+		name = ek_travel_events.0055.a
+		trait = lifestyle_herbalist
+
+		trigger = { has_trait = lifestyle_herbalist }
+
+		if = { 
+			limit = { 
+				has_trait_xp = {
+					trait = lifestyle_herbalist
+					value < 100
+				}
+			}
+			add_trait_xp = {
+		        trait = lifestyle_herbalist
+		        value = 20
+		    }
+		}
+		else = {
+			add_learning_skill = 1
+		}		
+
+		stress_impact = {
+			greedy = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # Give it to a herbalist in your entourgae
+		name = ek_travel_events.0055.b
+
+		trigger = { exists = scope:herbalist_character }
+
+		scope:herbalist_character = {
+			if = { 
+				limit = { 
+					has_trait_xp = {
+						trait = lifestyle_herbalist
+						value < 100
+					}
+				}
+				add_trait_xp = {
+					trait = lifestyle_herbalist
+					value = 20
+				}
+			}
+			else = {
+				add_learning_skill = 1
+			}
+
+			add_opinion = {
+				target = root
+				modifier = thankful_opinion
+				opinion = 15
+			}
+		}
+
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 50
+		}
+	}
+
+	option = { # Eat it
+		name = ek_travel_events.0055.c
+		trigger = { NOT = { has_trait = lifestyle_herbalist } }
+
+		random_list = {
+			20 = {
+				send_interface_toast = {
+					title = ek_travel_events.0055.c.success
+					left_icon = root
+					add_trait = lifestyle_herbalist
+				}				
+			}
+			80 = {
+				send_interface_toast = {
+					title = travel_danger_events.1012.ate_poisonous_plant
+					left_icon = root
+					add_character_modifier = {
+						modifier = travel_ate_poisonous_plant_modifier
+						years = 5
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			eccentric = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				has_trait = eccentric
+				add = 40
+			}
+		}
+	}
+
+	option = { # Sell it in the next town
+		name = ek_travel_events.0055.d
+
+		add_gold = minor_gold_value
+
+		stress_impact = {
+			greedy = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				has_trait = greedy
+				add = 40
+			}
+		}
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+#M'aiq Discount Event
+#takes all its loc from the court event. it fits
+ek_travel_events.0060 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_court.0003.t
+	desc = {
+		desc = ek_court.0003.intro
+		random_valid = {
+			desc = ek_court.0003.desc1
+			desc = ek_court.0003.desc2
+			desc = ek_court.0003.desc3
+			desc = ek_court.0003.desc4
+			desc = ek_court.0003.desc5
+			desc = ek_court.0003.desc6
+			desc = ek_court.0003.desc7
+			desc = ek_court.0003.desc8
+			desc = ek_court.0003.desc9
+			desc = ek_court.0003.desc10
+			desc = ek_court.0003.desc11
+			desc = ek_court.0003.desc12
+			desc = ek_court.0003.desc13
+			desc = ek_court.0003.desc14
+			desc = ek_court.0003.desc15
+			desc = ek_court.0003.desc16
+			desc = ek_court.0003.desc17
+			desc = ek_court.0003.desc18
+			desc = ek_court.0003.desc19
+			desc = ek_court.0003.desc20
+			desc = ek_court.0003.desc21
+			desc = ek_court.0003.desc22
+			desc = ek_court.0003.desc23
+			desc = ek_court.0003.desc24
+			desc = ek_court.0003.desc25
+			desc = ek_court.0003.desc26
+			desc = ek_court.0003.desc27
+			desc = ek_court.0003.desc28
+			desc = ek_court.0003.desc29
+			desc = ek_court.0003.desc30
+			desc = ek_court.0003.desc31
+			desc = ek_court.0003.desc32
+			desc = ek_court.0003.desc33
+			desc = ek_court.0003.desc34
+			desc = ek_court.0003.desc35
+			desc = ek_court.0003.desc36
+			desc = ek_court.0003.desc37
+			desc = ek_court.0003.desc38
+			desc = ek_court.0003.desc39
+			desc = ek_court.0003.desc40
+			desc = ek_court.0003.desc41
+			desc = ek_court.0003.desc42
+			desc = ek_court.0003.desc43
+			desc = ek_court.0003.desc44
+			desc = ek_court.0003.desc45
+			desc = ek_court.0003.desc46
+			desc = ek_court.0003.desc47
+			desc = ek_court.0003.desc48
+			desc = ek_court.0003.desc49
+			desc = ek_court.0003.desc50
+			desc = ek_court.0003.desc51
+			desc = ek_court.0003.desc52
+			desc = ek_court.0003.desc53
+			desc = ek_court.0003.desc54
+		}
+		desc = ek_court.0003.end
+	}
+	theme = friendly
+
+	left_portrait = {
+		character = root
+		animation = disbelief
+	}
+
+	right_portrait = {
+		character = scope:maiq
+		animation = personality_cynical
+	}
+	
+	trigger = {
+		NOT = { has_character_modifier = maiq_modifier }
+		has_royal_court = no
+	}
+
+	weight_multiplier = {
+		base = 1
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		create_character = {
+			location = root.location
+			template = maiq_template
+			dynasty = none
+			gender = male
+			save_scope_as = maiq
+		}
+
+		scope:maiq = {
+			add_character_flag = {
+				flag = colovian_fur_hat
+			}
+		}
+	}
+
+	option = { # ok then
+		name = ek_court.0003.a
+		add_character_modifier = {
+				modifier = maiq_modifier
+			}
+	}
+
+	after = {
+		scope:maiq = {
+			silent_disappearance_effect = yes
+		}
+		mp_resume_travel_plan = yes
+	}
+}
+
+# The High Cost of Lying
+ek_travel_events.0065 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.0065.t
+	desc = ek_travel_events.0065.desc
+	theme = travel_danger
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:revenge
+		animation = scheme
+	}
+
+	lower_center_portrait = {
+		character = scope:bandit
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes		 
+		is_location_valid_for_travel_event_on_land = yes
+		location = {
+			county = {
+				has_county_modifier = county_corruption_bandits_rampant_modifier
+			}
+		}
+		has_trait = gallowsbait
+		current_travel_plan ?= {
+			any_entourage_character = {
+				NOT = { this = root }
+				has_trait = gallowsbait
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		# find bandit
+		random_pool_character = {
+			province = root.location
+			limit = {
+				is_available_ai_adult = yes
+				has_trait = gallowsbait
+			}
+			weight = {
+				base = 10
+				modifier = {
+					can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = THIS }
+					add = 100
+				}
+			}
+			save_scope_as = bandit
+		}
+		if = { #As a backup create the character
+			limit = {
+				NOT = { exists = scope:bandit }
+			}
+			create_character = {
+				template = bandit_character
+				location = root.location
+				culture = root.location.culture
+				faith = root.location.faith
+				dynasty = none
+				trait = gallowsbait
+				save_scope_as = bandit
+			}
+			hidden_effect = {
+				if = { 
+					limit = { is_ai = yes }
+					scope:bandit = {
+						add_character_flag = disappear_flag
+					}
+				}		
+			}
+		}
+		current_travel_plan = {
+			current_location = { save_scope_as = current_location }
+			ordered_entourage_character = {
+				limit = { 
+					NOT = { this = root } 
+					has_trait = gallowsbait
+				}
+				order_by = {
+					value = 0
+					subtract = prowess
+					if = {
+						limit = { is_knight_of = root }
+						add = -50
+					}
+					if = {
+						limit = {
+							root = { exists = cp:councillor_marshal }
+							this = root.cp:councillor_marshal
+						}
+						add = -50
+					}
+					if = {
+						limit = { has_court_position = bodyguard_court_position }
+						add = -50
+					}
+				}
+				save_scope_as = revenge
+			}
+		}
+
+
+	}
+
+	option = { # agree with the plan, use stealth
+		name = ek_travel_events.0065.a
+		stress_impact = {
+			deceitful = minor_stress_impact_loss
+		}
+		duel = {
+			skill = intrigue
+			target = scope:bandit
+			10 = {
+				desc = ek_travel_events.0065.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events.0065.a.success
+					scope:bandit = {
+						death = { 
+							death_reason = death_murder
+							killer = root
+						}
+					}
+					add_prestige = medium_prestige_gain
+					add_gold = medium_gold_value
+					scope:revenge = {
+						add_opinion = {
+							target = root 
+							modifier = thankful_opinion
+							opinion = 50
+						}
+					}
+				}
+			}
+			
+			5 = {
+				desc = ek_travel_events.0065.a.failure
+				random_list = {
+					5 = {
+						send_interface_toast = {
+							title = ek_travel_events.0065.failure.death.tt
+							type = event_toast_effect_bad
+							left_icon = root
+
+							scope:revenge = {
+								death = { 
+									death_reason = death_duel 
+									killer = scope:bandit
+								} 
+							}
+
+							increase_wounds_effect = { REASON = duel }
+						}
+					}
+					30 = { 
+						send_interface_toast = {
+							title = ek_travel_events.0065.a.failure
+							type = event_toast_effect_bad
+							left_icon = root
+
+							scope:revenge = {
+								increase_wounds_effect = { REASON = duel } 
+							}
+
+							increase_wounds_effect = { REASON = duel }
+						}
+					} 
+				}
+			}
+		}
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+
+		ai_chance = {
+			base = 0
+			modifier = {
+				factor = 50
+				has_trait = brave
+			}
+		}
+	}
+
+	option = { # agree with the plan, use brute force
+		name = ek_travel_events.0065.b
+		stress_impact = {
+			deceitful = minor_stress_impact_gain
+		}
+		duel = {
+			skill = prowess
+			target = scope:bandit
+			10 = {
+				desc = ek_travel_events.0065.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events.0065.b.success
+					scope:bandit = {
+						death = { 
+							death_reason = death_duel
+							killer = root
+						}
+					}
+					add_prestige = medium_prestige_gain
+					scope:revenge = {
+						add_opinion = {
+							target = root 
+							modifier = thankful_opinion
+							opinion = 50
+						}
+					}
+				}
+			}
+			
+			5 = {
+				desc = ek_travel_events.0065.b.failure
+				random_list = {
+					5 = {
+						death = { 
+							death_reason = death_duel 
+							killer = scope:bandit
+						}
+						send_interface_toast = {
+							title = ek_travel_events.0065.failure.death.tt
+							type = event_toast_effect_bad
+							left_icon = root
+						}
+					}
+					30 = { 
+						increase_wounds_effect = { REASON = duel }
+					} 
+				}
+			}
+		}
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+
+		ai_chance = {
+			base = 0
+			modifier = {
+				factor = 50
+				has_trait = brave
+			}
+		}
+	}
+
+	option = { # can't bother
+		name = ek_travel_events.0065.d
+		scope:revenge = {
+			add_opinion = {
+				target = root 
+				modifier = angry_opinion
+				opinion = -30
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			scope:bandit = {
+				if = { 
+					limit = {
+						is_courtier_of = root
+						has_character_flag = disappear_flag
+					}
+					remove_character_flag = disappear_flag
+				}
+				else_if = {
+					limit = {
+						has_character_flag = disappear_flag
+					}
+					silent_disappearance_effect = yes									
+				}
+			}
+		}
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Madness in Tamriel
+ek_travel_events.0070 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.0070.t
+	desc = ek_travel_events.0070.desc
+	theme = travel
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:mad_person
+		animation = paranoia
+	}
+
+	artifact = {
+		target = scope:relic
+		position = lower_left_portrait
+		trigger = { exists = scope:relic }
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		is_location_valid_for_travel_event_on_land = yes
+		current_month = 2
+		current_day = 2
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		play_music_cue = mx_cue_travel_arrival
+
+		# find mad person
+		random_pool_character = {
+			province = root.location
+			limit = {
+				is_available_ai_adult = yes
+				OR = {
+					has_trait = lunatic
+					has_trait = possessed
+				}
+			}
+			save_scope_as = mad_person
+		}
+		if = { #As a backup create the character
+			limit = {
+				NOT = { exists = scope:mad_person }
+			}
+			create_character = {
+				template = generic_peasant_character
+				location = root.location
+				culture = root.location.culture
+				faith = root.location.faith
+				dynasty = none
+				trait = lunatic_1
+				save_scope_as = mad_person
+			}
+			hidden_effect = {
+				if = {
+					limit = { is_ai = yes }
+					scope:mad_person = {
+						add_character_flag = disappear_flag
+					}
+				}
+			}
+		}
+
+		random_list = {
+			10 = {
+				trigger = {
+					any_artifact = {
+						count < 1
+						has_artifact_modifier = embittering_muzzle_modifier
+					}
+				}
+				save_scope_value_as = {
+					name = mad_relic_name
+					value = flag:embittering_muzzle
+				}
+			}
+			10 = {
+				trigger = {
+					any_artifact = {
+						count < 1
+						has_artifact_modifier = asylum_earplugs_modifier
+					}
+				}
+				save_scope_value_as = {
+					name = mad_relic_name
+					value = flag:asylum_earplugs
+				}
+			}
+			10 = {
+				trigger = {
+					any_artifact = {
+						count < 1
+						has_artifact_modifier = cheese_knife_modifier
+					}
+				}
+				save_scope_value_as = {
+					name = mad_relic_name
+					value = flag:cheese_knife
+				}
+			}
+			10 = {
+				trigger = {
+					any_artifact = {
+						count < 1
+						has_artifact_modifier = about_face_modifier
+					}
+				}
+				save_scope_value_as = {
+					name = mad_relic_name
+					value = flag:about_face
+				}
+			}
+			10 = {
+				trigger = {
+					any_artifact = {
+						count < 1
+						has_artifact_modifier = discordant_fiddle_modifier
+					}
+				}
+				save_scope_value_as = {
+					name = mad_relic_name
+					value = flag:discordant_fiddle
+				}
+			}
+			10 = {
+				trigger = {
+					any_artifact = {
+						count < 1
+						has_artifact_modifier = big_little_modifier
+					}
+				}
+				save_scope_value_as = {
+					name = mad_relic_name
+					value = flag:big_little
+				}
+			}
+			10 = {
+				trigger = {
+					any_artifact = {
+						count < 1
+						has_artifact_modifier = madmans_chalice_modifier
+					}
+				}
+				save_scope_value_as = {
+					name = mad_relic_name
+					value = flag:madmans_chalice
+				}
+			}
+			10 = {
+				trigger = {
+					any_artifact = {
+						count < 1
+						has_artifact_modifier = eidar_scrolls_modifier
+					}
+				}
+				save_scope_value_as = {
+					name = mad_relic_name
+					value = flag:eidar_scrolls
+				}					
+			}
+			10 = {
+				trigger = {
+					any_artifact = {
+						count < 1
+						has_artifact_modifier = nightlight_modifier
+					}
+				}
+				save_scope_value_as = {
+					name = mad_relic_name
+					value = flag:nightlight
+				}						
+			}
+			10 = {
+				trigger = {
+					any_artifact = {
+						count < 1
+						has_artifact_modifier = uncle_spectacles_modifier
+					}
+				}
+				save_scope_value_as = {
+					name = mad_relic_name
+					value = flag:uncle_spectacles
+				}						
+			}
+			20 = {
+				save_scope_value_as = {
+					name = mad_relic_name
+					value = flag:wabbajerky
+				}
+			}
+			20 = {
+				save_scope_value_as = {
+					name = mad_relic_name
+					value = flag:lucid_liquor
+				}
+			}
+			20 = {
+				save_scope_value_as = {
+					name = mad_relic_name
+					value = flag:ravenous_rodent
+				}
+			}
+		}
+
+		hidden_effect = {			
+			if = {
+				limit = {
+					exists = scope:mad_relic_name
+					scope:mad_relic_name = flag:embittering_muzzle
+				}
+				scope:mad_person = {
+					create_artifact_embittering_muzzle_effect = { OWNER = scope:mad_person }
+					scope:embittering_muzzle = { save_scope_as = relic }
+				}
+			}
+			else_if = {
+				limit = {
+					exists = scope:mad_relic_name
+					scope:mad_relic_name = flag:asylum_earplugs
+				}
+				scope:mad_person = {
+					create_artifact_asylum_earplugs_effect = { OWNER = scope:mad_person }
+					scope:asylum_earplugs = { save_scope_as = relic }
+				}
+			}
+			else_if = {
+				limit = {
+					exists = scope:mad_relic_name
+					scope:mad_relic_name = flag:cheese_knife
+				}
+				scope:mad_person = {
+					create_artifact_cheese_knife_effect = { OWNER = scope:mad_person }
+					scope:cheese_knife = { save_scope_as = relic }
+				}
+			}
+			else_if = {
+				limit = {
+					exists = scope:mad_relic_name
+					scope:mad_relic_name = flag:about_face
+				}
+				scope:mad_person = {
+					create_artifact_about_face_effect = { OWNER = scope:mad_person }
+					scope:about_face = { save_scope_as = relic }
+				}
+			}
+			else_if = {
+				limit = {
+					exists = scope:mad_relic_name
+					scope:mad_relic_name = flag:discordant_fiddle
+				}
+				scope:mad_person = {
+					create_artifact_discordant_fiddle_effect = { OWNER = scope:mad_person }
+					scope:discordant_fiddle = { save_scope_as = relic }
+				}
+			}
+			else_if = {
+				limit = {
+					exists = scope:mad_relic_name
+					scope:mad_relic_name = flag:big_little
+				}
+				scope:mad_person = {
+					create_artifact_big_little_effect = { OWNER = scope:mad_person }
+					scope:big_little = { save_scope_as = relic }
+				}
+			}
+			else_if = {
+				limit = {
+					exists = scope:mad_relic_name
+					scope:mad_relic_name = flag:madmans_chalice
+				}
+				scope:mad_person = {
+					create_artifact_madmans_chalice_effect = { OWNER = scope:mad_person }
+					scope:madmans_chalice = { save_scope_as = relic }
+				}
+			}
+			else_if = {
+				limit = {
+					exists = scope:mad_relic_name
+					scope:mad_relic_name = flag:eidar_scrolls
+				}
+				scope:mad_person = {
+					create_artifact_eidar_scrolls_effect = { OWNER = scope:mad_person }
+					scope:eidar_scrolls = { save_scope_as = relic }
+				}
+			}
+			else_if = {
+				limit = {
+					exists = scope:mad_relic_name
+					scope:mad_relic_name = flag:nightlight
+				}
+				scope:mad_person = {
+					create_artifact_nightlight_effect = { OWNER = scope:mad_person }
+					scope:nightlight = { save_scope_as = relic }
+				}
+			}
+			else_if = {
+				limit = {
+					exists = scope:mad_relic_name
+					scope:mad_relic_name = flag:uncle_spectacles
+				}
+				scope:mad_person = {
+					create_artifact_uncle_spectacles_effect = { OWNER = scope:mad_person }
+					scope:uncle_spectacles = { save_scope_as = relic }
+				}
+			}
+			else_if = {
+				limit = {
+					exists = scope:mad_relic_name
+					scope:mad_relic_name = flag:wabbajerky
+				}
+				scope:mad_person = {
+					create_artifact_wabbajerky_effect = { OWNER = scope:mad_person }
+					scope:wabbajerky = { save_scope_as = relic }
+				}
+			}
+			else_if = {
+				limit = {
+					exists = scope:mad_relic_name
+					scope:mad_relic_name = flag:lucid_liquor
+				}
+				scope:mad_person = {
+					create_artifact_lucid_liquor_effect = { OWNER = scope:mad_person }
+					scope:lucid_liquor = { save_scope_as = relic }
+				}
+			}
+			else_if = {
+				limit = {
+					exists = scope:mad_relic_name
+					scope:mad_relic_name = flag:ravenous_rodent
+				}
+				scope:mad_person = {
+					create_artifact_ravenous_rodent_effect = { OWNER = scope:mad_person }
+					scope:ravenous_rodent = { save_scope_as = relic }
+				}
+			}
+		}
+	}
+
+	option = { # accept the gift
+		name = ek_travel_events.0070.a
+		trigger = {
+			custom_tooltip = {
+				text = ek_travel_events.0070.a.tt
+				OR = {
+					has_trait = eccentric
+					has_trait = lunatic
+					has_trait = possessed
+				}
+			}
+			NOT = { faith = { has_doctrine = doctrine_pantheon_sheogorath } }
+		}
+
+		show_as_unavailable = {
+			NOR = {
+				has_trait = eccentric
+				has_trait = lunatic
+				has_trait = possessed
+			}
+		}
+
+		scope:relic = {
+			set_owner = {
+				target = root
+				history = {
+					location = root.capital_province
+					actor = scope:mad_person
+					recipient = root
+					type = given
+				}
+			}
+		}
+
+		stress_impact = {
+			eccentric = medium_stress_impact_loss
+			paranoid = medium_stress_impact_gain
+		}
+
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:sheogorath_cult }
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # you already follow sheo
+		name = ek_travel_events.0070.b
+		trigger = {
+			faith = { has_doctrine = doctrine_pantheon_sheogorath }
+		}
+
+		scope:relic = {
+			set_owner = {
+				target = root
+				history = {
+					location = root.capital_province
+					actor = scope:mad_person
+					recipient = root
+					type = given
+				}
+			}
+		}
+
+		add_piety = medium_piety_gain
+
+		stress_impact = {
+			eccentric = minor_stress_impact_loss
+			zealous = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # destroy the relic
+		name = ek_travel_events.0070.c
+		trigger = {
+			NOT = { faith = { has_doctrine = doctrine_pantheon_sheogorath } }
+		}
+
+		destroy_artifact = scope:relic
+
+		scope:mad_person = {
+			add_opinion = {
+				target = root
+				modifier = angry_opinion
+				opinion = -50
+			}
+		}
+
+		add_piety = major_piety_gain
+		add_character_modifier = sheogoraths_wrath
+
+		stress_impact = {
+			wrathful = minor_stress_impact_loss
+			zealous = medium_stress_impact_loss
+			eccentric = minor_stress_impact_gain
+			compassionate = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 0
+			modifier = {
+				has_trait = zealous
+				add = 25
+			}
+			modifier = {
+				has_trait = wrathful
+				add = 25
+			}
+		}
+	}
+
+	option = { # ignore the mad person
+		name = ek_travel_events.0070.d
+		
+		add_prestige = minor_prestige_gain
+
+		ai_chance = {
+			base = 50
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			scope:mad_person = {
+				if = { 
+					limit = {
+						is_alive = yes
+						is_courtier_of = root
+						has_character_flag = disappear_flag
+					}
+					remove_character_flag = disappear_flag
+				}
+				else_if = {
+					limit = {
+						is_alive = yes
+						has_character_flag = disappear_flag
+					}
+					silent_disappearance_effect = yes									
+				}
+			}
+		}
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Shards of Aetherius
+ek_travel_events.0075 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.0075.t
+	desc = ek_travel_events.0075.desc
+	theme = travel
+	left_portrait = {
+		character = root 
+		animation = shock
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes		 
+		is_location_valid_for_travel_event_on_land = yes
+		NOT = { has_character_flag = had_shards_of_aetherius_event }
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		add_character_flag = had_shards_of_aetherius_event
+		random_list = {
+			pick = 3
+			unique = yes
+			10 = {
+				modifier = {
+					has_education_martial_trigger = yes
+					add = 100
+				}
+				save_scope_value_as = {
+					name = skill_martial
+					value = yes
+				}
+			}
+			10 = {
+				modifier = {
+					has_education_martial_trigger = yes
+					add = 100
+				}
+				save_scope_value_as = {
+					name = skill_prowess
+					value = yes
+				}
+			}
+			10 = {
+				modifier = {
+					has_education_diplomacy_trigger = yes
+					add = 100
+				}
+				save_scope_value_as = {
+					name = skill_diplomacy
+					value = yes
+				}
+			}
+			10 = {
+				modifier = {
+					has_education_stewardship_trigger = yes
+					add = 100
+				}
+				save_scope_value_as = {
+					name = skill_stewardship
+					value = yes
+				}
+			}
+			10 = {
+				modifier = {
+					has_education_intrigue_trigger = yes
+					add = 100
+				}
+				save_scope_value_as = {
+					name = skill_intrigue
+					value = yes
+				}
+			}
+			10 = {
+				modifier = {
+					has_education_learning_trigger = yes
+					add = 100
+				}
+				save_scope_value_as = {
+					name = skill_learning
+					value = yes
+				}
+			}
+			10 = {
+				modifier = {
+					can_magic_trigger = yes
+					add = 100
+				}
+				save_scope_value_as = {
+					name = skill_magic
+					value = yes
+				}
+			}
+		}
+	}
+
+	option = { # martial
+		name = ek_travel_events.0075.martial
+		skill = martial
+		trigger = {
+			exists = scope:skill_martial
+		}
+
+		add_martial_skill = 1
+		
+		current_travel_plan = {
+			delay_travel_plan = { days = 1 }
+		}
+	}
+
+	option = { # prowess
+		name = ek_travel_events.0075.prowess
+		skill = prowess
+		trigger = {
+			exists = scope:skill_prowess
+		}
+
+		add_prowess_skill = 1
+		
+		current_travel_plan = {
+			delay_travel_plan = { days = 1 }
+		}
+	}
+
+	option = { # diplomacy
+		name = ek_travel_events.0075.diplomacy
+		skill = diplomacy
+		trigger = {
+			exists = scope:skill_diplomacy
+		}
+
+		add_diplomacy_skill = 1
+		
+		current_travel_plan = {
+			delay_travel_plan = { days = 1 }
+		}
+	}
+
+	option = { # stewardship
+		skill = stewardship
+		name = ek_travel_events.0075.stewardship
+		trigger = {
+			exists = scope:skill_stewardship
+		}
+
+		add_stewardship_skill = 1
+		
+		current_travel_plan = {
+			delay_travel_plan = { days = 1 }
+		}
+	}
+
+	option = { # intrigue
+		skill = intrigue
+		name = ek_travel_events.0075.intrigue
+		trigger = {
+			exists = scope:skill_intrigue
+		}
+
+		add_intrigue_skill = 1
+		
+		current_travel_plan = {
+			delay_travel_plan = { days = 1 }
+		}
+	}
+
+	option = { # learning
+		name = ek_travel_events.0075.learning
+		skill = learning
+		trigger = {
+			exists = scope:skill_learning
+		}
+
+		add_learning_skill = 1
+		
+		current_travel_plan = {
+			delay_travel_plan = { days = 1 }
+		}
+	}
+
+	option = { # magic
+		name = ek_travel_events.0075.magic
+		trigger = {
+			exists = scope:skill_magic
+		}
+
+		add_arcana_skill = { VALUE = 1 }
+		
+		current_travel_plan = {
+			delay_travel_plan = { days = 1 }
+		}
+	}
+
+	option = { 
+		name = ek_travel_events.0075.c
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+ek_travel_events.0080 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.0080.t
+	desc = ek_travel_events.0080.desc
+	theme = travel
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:skeever_trainer
+		animation = personality_greedy
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes		 
+		is_location_valid_for_travel_event_on_land = yes
+		OR = {
+			has_character_modifier = skeever_story_modifier
+			has_character_modifier = skeever_story_diseased_skeever_modifier
+			has_character_modifier = skeever_story_healthy_skeever_modifier
+		}
+	}		
+
+    immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		random_pool_character = {
+			province = root.location
+			limit = {
+				is_available_ai_adult = yes
+				has_trait = education_stewardship
+			}
+			save_scope_as = skeever_trainer
+		}
+		if = { #As a backup create the character
+			limit = {
+				NOT = { exists = scope:skeever_trainer }
+			}
+			create_character = {
+				template = merchant_template
+				dynasty = none
+				location = root.location
+				culture = root.location.culture
+				faith = root.location.faith
+				save_scope_as = skeever_trainer
+			}
+		}
+		hidden_effect = {
+			if = {
+				limit = { is_ai = yes }
+				scope:skeever_trainer = {
+					add_character_flag = disappear_flag
+				}
+			}
+			scope:skeever_trainer = {
+				start_skeever_story_cycle_effect = yes
+				remove_character_modifier = skeever_story_modifier
+				add_character_modifier = skeever_story_pack_skeever_modifier
+			}
+		}
+	}
+
+	option = { # I gladly pay for it
+		name = ek_travel_events.0080.a
+		trigger = { gold >= medium_gold_value }
+		show_as_unavailable = { gold < medium_gold_value }
+
+		pay_short_term_gold = {
+			target = scope:skeever_trainer
+			gold = medium_gold_value
+		}
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 3 }
+		}
+
+		if = {
+			limit = {
+				has_character_modifier = skeever_story_modifier
+			}
+			remove_character_modifier = skeever_story_modifier
+			add_character_modifier = skeever_story_pack_skeever_modifier
+		}
+		else_if = {
+			limit = {
+				has_character_modifier = skeever_story_healthy_skeever_modifier
+			}
+			remove_character_modifier = skeever_story_healthy_skeever_modifier
+			add_character_modifier = skeever_story_healthy_pack_skeever_modifier
+		}
+		else_if = {
+			limit = {
+				has_character_modifier = skeever_story_diseased_skeever_modifier
+			}
+			remove_character_modifier = skeever_story_diseased_skeever_modifier
+			add_character_modifier = skeever_story_diseased_pack_skeever_modifier
+		}
+
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+			impatient = minor_stress_impact_gain
+			compassionate = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 10
+		}
+	}
+
+	option = { # Haggle the price
+		name = ek_travel_events.0080.b
+		trigger = { 
+			gold >= minor_gold_value
+			diplomacy >= high_skill_rating
+		}
+		show_as_unavailable = { 
+			diplomacy >= high_skill_rating
+			gold < minor_gold_value
+		}
+		skill = diplomacy
+
+		duel = {
+			skill = diplomacy
+			target = scope:skeever_trainer
+			10 = {
+				desc = ek_travel_events.0080.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events.0080.b.success
+					pay_short_term_gold = {
+						target = scope:skeever_trainer
+						gold = minor_gold_value
+					}
+					if = {
+						limit = {
+							has_character_modifier = skeever_story_modifier
+						}
+						remove_character_modifier = skeever_story_modifier
+						add_character_modifier = skeever_story_pack_skeever_modifier
+					}
+					else_if = {
+						limit = {
+							has_character_modifier = skeever_story_healthy_skeever_modifier
+						}
+						remove_character_modifier = skeever_story_healthy_skeever_modifier
+						add_character_modifier = skeever_story_healthy_pack_skeever_modifier
+					}
+					else_if = {
+						limit = {
+							has_character_modifier = skeever_story_diseased_skeever_modifier
+						}
+						remove_character_modifier = skeever_story_diseased_skeever_modifier
+						add_character_modifier = skeever_story_diseased_pack_skeever_modifier
+					}
+					current_travel_plan = {
+						delay_travel_plan = { days = 3 }
+					}
+				}
+			}			
+			5 = {
+				desc = ek_travel_events.0080.b.failure
+				send_interface_toast = {
+					title = ek_travel_events.0080.b.failure
+					type = event_toast_effect_bad
+					left_icon = root
+					right_icon = scope:skeever_trainer
+					reverse_add_opinion = {
+						target = scope:skeever_trainer
+						modifier = insult_opinion
+						opinion = -10
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			greedy = minor_stress_impact_loss
+			impatient = minor_stress_impact_gain
+		}
+	}
+
+	option = { # Recruit them
+		name = ek_travel_events.0080.c
+		trigger = { 
+			gold >= major_gold_value
+		}
+		show_as_unavailable = { 
+			gold < major_gold_value
+		}
+
+		pay_short_term_gold = {
+			target = scope:skeever_trainer
+			gold = major_gold_value
+		}
+
+		add_courtier = scope:skeever_trainer
+
+		root.current_travel_plan = {
+			add_companion = scope:skeever_trainer
+		}
+		scope:skeever_trainer = {
+			add_character_flag = {
+				flag = recruited
+				days = 5
+			}
+		}
+		reverse_add_opinion = {
+			modifier = recruited_me_opinion
+			target = scope:skeever_trainer
+			opinion = 20
+		}
+
+		if = {
+			limit = {
+				has_character_modifier = skeever_story_modifier
+			}
+			remove_character_modifier = skeever_story_modifier
+			add_character_modifier = skeever_story_pack_skeever_modifier
+		}
+		else_if = {
+			limit = {
+				has_character_modifier = skeever_story_healthy_skeever_modifier
+			}
+			remove_character_modifier = skeever_story_healthy_skeever_modifier
+			add_character_modifier = skeever_story_healthy_pack_skeever_modifier
+		}
+		else_if = {
+			limit = {
+				has_character_modifier = skeever_story_diseased_skeever_modifier
+			}
+			remove_character_modifier = skeever_story_diseased_skeever_modifier
+			add_character_modifier = skeever_story_diseased_pack_skeever_modifier
+		}
+
+		stress_impact = {
+			greedy = major_stress_impact_gain
+			paranoid = minor_stress_impact_gain
+			gregarious = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # No thanks
+		name = ek_travel_events.0080.d
+		custom_tooltip = ek_travel_events.0080.d.tt
+
+		stress_impact = {
+			greedy = medium_stress_impact_loss
+			compassionate = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			scope:skeever_trainer = {
+				if = { 
+					limit = {
+						is_alive = yes
+						is_courtier_of = root
+						has_character_flag = disappear_flag
+					}
+					remove_character_flag = disappear_flag
+				}
+				else_if = {
+					limit = {
+						is_alive = yes
+						has_character_flag = disappear_flag
+					}
+					silent_disappearance_effect = yes									
+				}
+			}
+		}
+		mp_resume_travel_plan = yes
+	}
+}
+
+############################
+## Travel Danger Events
+## 4000-7999
+############################
+
+# Horror from the Deep
+ek_travel_events.4000 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.4000.t
+	desc = ek_travel_events.4000.desc
+	theme = travel_danger
+	override_background = { reference = alley_night }
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	right_portrait = {
+        character = scope:brethren_leader
+        animation = schadenfreude
+    }
+
+	lower_right_portrait = {
+		character = scope:kidnapped_character
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		exists = location.province_owner
+		is_location_valid_for_travel_event_on_land = yes
+		location.province_owner = {
+			faith = {
+				has_doctrine = doctrine_pantheon_deepones
+			}
+		}
+		current_travel_plan ?= {
+			any_entourage_character = {
+				NOT = { this = root }
+				count > 1
+			}
+		}
+    }
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+	
+    immediate = {
+		location.province_owner = { save_scope_as = brethren_leader }
+		mp_delay_travel_plan = { DAYS = 90 }
+		current_travel_plan = {
+			current_location = { save_scope_as = current_location }
+			ordered_entourage_character = {
+				limit = { NOT = { this = root } }
+				order_by = {
+					value = 0
+					subtract = prowess
+					if = {
+						limit = { is_knight_of = root }
+						add = -50
+					}
+					if = {
+						limit = {
+							root = { exists = cp:councillor_marshal }
+							this = root.cp:councillor_marshal
+						}
+						add = -50
+					}
+					if = {
+						limit = { has_court_position = bodyguard_court_position }
+						add = -50
+					}
+				}
+				save_scope_as = kidnapped_character
+			}
+		}
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+	}
+
+	option = { # Go before they get you!
+		name = ek_travel_events.4000.a
+		scope:kidnapped_character = {
+			death = { death_reason = death_sacrificed_to_foreign_gods }
+		}
+
+		stress_impact = {
+			arrogant = medium_stress_impact_gain
+			brave = medium_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				has_trait = arrogant
+			}
+			modifier = {
+				factor = 0
+				has_trait = brave
+			}
+		}
+	}
+
+	# Get them!
+    option = {
+        name = ek_travel_events.4000.b
+		duel = {
+			skill = prowess
+			target = scope:brethren_leader
+			50 = {
+				desc = ek_travel_events.4000.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+				}
+				root = {
+					send_interface_toast = {
+						title = ek_travel_events.4000.b.success
+						type = event_toast_effect_good
+						left_icon = scope:kidnapped_character
+						scope:brethren_leader = {
+							increase_wounds_effect = { REASON = fight }
+						}
+						if = {
+							limit = {
+								NOT = { has_trait = holy_warrior }
+								number_of_commander_traits < commander_trait_limit
+							}
+							random_list = {
+								50 = { }
+								50 = {
+									add_trait = holy_warrior
+								}
+							}
+						}
+					}
+				}
+			}
+			50 = {
+				desc = ek_travel_events.4000.b.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+				}
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events.4000.b.failure
+					left_icon = root
+					increase_wounds_effect = { REASON = fight }
+					scope:kidnapped_character = {
+						death = { death_reason = death_disappearance }
+					}
+				}
+			}
+		}
+		stress_impact = {
+			craven = medium_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				has_trait = craven
+			}
+		}
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}	
+}
+
+# Dark Ruins
+ek_travel_events.4005 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.4005.t
+	desc = {
+		desc = ek_travel_events.4005.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					var:daedric_ruin = flag:azura
+				}
+				desc = ek_travel_events.4005.azura
+			}
+			triggered_desc = {
+				trigger = {
+					var:daedric_ruin = flag:boethiah
+				}
+				desc = ek_travel_events.4005.boethiah
+			}
+			triggered_desc = {
+				trigger = {
+					var:daedric_ruin = flag:clavicus
+				}
+				desc = ek_travel_events.4005.clavicus
+			}
+			triggered_desc = {
+				trigger = {
+					var:daedric_ruin = flag:hermaeus
+				}
+				desc = ek_travel_events.4005.hermaeus
+			}
+			triggered_desc = {
+				trigger = {
+					var:daedric_ruin = flag:hircine
+				}
+				desc = ek_travel_events.4005.hircine
+			}
+			triggered_desc = {
+				trigger = {
+					var:daedric_ruin = flag:malacath
+				}
+				desc = ek_travel_events.4005.malacath
+			}
+			triggered_desc = {
+				trigger = {
+					var:daedric_ruin = flag:dagon
+				}
+				desc = ek_travel_events.4005.dagon
+			}
+			triggered_desc = {
+				trigger = {
+					var:daedric_ruin = flag:mephala
+				}
+				desc = ek_travel_events.4005.mephala
+			}
+			triggered_desc = {
+				trigger = {
+					var:daedric_ruin = flag:meridia
+				}
+				desc = ek_travel_events.4005.meridia
+			}
+			triggered_desc = {
+				trigger = {
+					var:daedric_ruin = flag:molag
+				}
+				desc = ek_travel_events.4005.molag
+			}
+			triggered_desc = {
+				trigger = {
+					var:daedric_ruin = flag:namira
+				}
+				desc = ek_travel_events.4005.namira
+			}
+			triggered_desc = {
+				trigger = {
+					var:daedric_ruin = flag:nocturnal
+				}
+				desc = ek_travel_events.4005.nocturnal
+			}
+			triggered_desc = {
+				trigger = {
+					var:daedric_ruin = flag:peryite
+				}
+				desc = ek_travel_events.4005.peryite
+			}
+			triggered_desc = {
+				trigger = {
+					var:daedric_ruin = flag:sanguine
+				}
+				desc = ek_travel_events.4005.sanguine
+			}
+			triggered_desc = {
+				trigger = {
+					var:daedric_ruin = flag:sheogorath
+				}
+				desc = ek_travel_events.4005.sheogorath
+			}
+			triggered_desc = {
+				trigger = {
+					var:daedric_ruin = flag:vaermina
+				}
+				desc = ek_travel_events.4005.vaermina
+			}
+		}
+	}
+	theme = travel_danger
+	override_background = { reference = dungeon }
+	left_portrait = {
+		character = root 
+		animation = shock
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		is_location_valid_for_travel_event_on_land = yes
+		NOT = {
+			faith.religion = { is_in_family = rf_daedra }
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+	
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		increase_wounds_no_death_effect = { REASON = fall }
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+		random_list = {
+			10 = {
+				trigger = {
+					can_secretly_worship_azura = yes
+				}
+				set_variable = {
+					name = daedric_ruin
+					value = flag:azura
+				}
+			}
+			10 = {
+				trigger = {
+					can_secretly_worship_boethiah = yes
+				}
+				set_variable = {
+					name = daedric_ruin
+					value = flag:boethiah
+				}
+			}
+			10 = {
+				trigger = {
+					can_secretly_worship_clavicus = yes
+				}
+				set_variable = {
+					name = daedric_ruin
+					value = flag:clavicus
+				}
+			}
+			10 = {
+				trigger = {
+					can_secretly_worship_hermaeus = yes
+				}
+				set_variable = {
+					name = daedric_ruin
+					value = flag:hermaeus
+				}
+			}
+			10 = {
+				trigger = {
+					can_secretly_worship_hircine = yes
+				}
+				set_variable = {
+					name = daedric_ruin
+					value = flag:hircine
+				}
+			}
+			10 = {
+				trigger = {
+					can_secretly_worship_malacath = yes
+				}
+				set_variable = {
+					name = daedric_ruin
+					value = flag:malacath
+				}
+			}
+			10 = {
+				trigger = {
+					can_secretly_worship_mehrunes = yes
+				}
+				set_variable = {
+					name = daedric_ruin
+					value = flag:dagon
+				}
+			}
+			10 = {
+				trigger = {
+					can_secretly_worship_mephala = yes
+				}
+				set_variable = {
+					name = daedric_ruin
+					value = flag:mephala
+				}
+			}
+			10 = {
+				trigger = {
+					can_secretly_worship_meridia = yes
+				}
+				set_variable = {
+					name = daedric_ruin
+					value = flag:meridia
+				}
+			}
+			10 = {
+				trigger = {
+					can_secretly_worship_molag = yes
+				}
+				set_variable = {
+					name = daedric_ruin
+					value = flag:molag
+				}
+			}
+			10 = {
+				trigger = {
+					can_secretly_worship_namira = yes
+				}
+				set_variable = {
+					name = daedric_ruin
+					value = flag:namira
+				}
+			}
+			10 = {
+				trigger = {
+					can_secretly_worship_nocturnal = yes
+				}
+				set_variable = {
+					name = daedric_ruin
+					value = flag:nocturnal
+				}
+			}
+			10 = {
+				trigger = {
+					can_secretly_worship_peryite = yes
+				}
+				set_variable = {
+					name = daedric_ruin
+					value = flag:peryite
+				}
+			}
+			10 = {
+				trigger = {
+					can_secretly_worship_sanguine = yes
+				}
+				set_variable = {
+					name = daedric_ruin
+					value = flag:sanguine
+				}
+			}
+			10 = {
+				trigger = {
+					can_secretly_worship_sheogorath = yes
+				}
+				set_variable = {
+					name = daedric_ruin
+					value = flag:sheogorath
+				}
+			}
+			10 = {
+				trigger = {
+					can_secretly_worship_vaermina = yes
+				}
+				set_variable = {
+					name = daedric_ruin
+					value = flag:vaermina
+				}
+			}
+		}
+	}
+
+	option = { # azura cult
+		name = ek_travel_events.4005.a
+		trigger = {
+			var:daedric_ruin = flag:azura
+		}
+		add_piety = medium_piety_loss
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:azura }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		stress_impact = {
+			zealous = major_stress_impact_gain
+		}
+	}
+
+	option = { # azura deny
+		name = ek_travel_events.4005.b
+		trigger = {
+			var:daedric_ruin = flag:azura
+		}
+		add_piety = medium_piety_gain
+		add_character_modifier = azuras_wrath
+	}
+
+	option = { # boethiah cult
+		name = ek_travel_events.4005.c
+		trigger = {
+			var:daedric_ruin = flag:boethiah
+		}
+		add_piety = medium_piety_loss
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:boethiah_cult }
+		stress_impact = {
+			zealous = major_stress_impact_gain
+		}
+	}
+
+	option = { # boethiah deny
+		name = ek_travel_events.4005.d
+		trigger = {
+			var:daedric_ruin = flag:boethiah
+		}
+		add_piety = medium_piety_gain
+		add_character_modifier = boethiahs_wrath
+	}
+
+	option = { # clavicus cult
+		name = ek_travel_events.4005.e
+		trigger = {
+			var:daedric_ruin = flag:clavicus
+		}
+		add_piety = medium_piety_loss
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:clavicus_cult}
+		stress_impact = {
+			zealous = major_stress_impact_gain
+		}
+	}
+
+	option = { # clavicus deny
+		name = ek_travel_events.4005.f
+		trigger = {
+			var:daedric_ruin = flag:clavicus
+		}
+		add_piety = medium_piety_gain
+		add_character_modifier = clavicus_wrath
+	}
+
+	option = { # hermaeus cult
+		name = ek_travel_events.4005.g
+		trigger = {
+			var:daedric_ruin = flag:hermaeus
+		}
+		add_piety = medium_piety_loss
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:hermaeus }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		stress_impact = {
+			zealous = major_stress_impact_gain
+		}
+	}
+
+	option = { # hermaeus deny
+		name = ek_travel_events.4005.h
+		trigger = {
+			var:daedric_ruin = flag:hermaeus
+		}
+		add_piety = medium_piety_gain
+		add_character_modifier = hermaeus_wrath
+	}
+
+	option = { # hircine cult
+		name = ek_travel_events.4005.i
+		trigger = {
+			var:daedric_ruin = flag:hircine
+		}
+		add_piety = medium_piety_loss
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:hircine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		stress_impact = {
+			zealous = major_stress_impact_gain
+		}
+	}
+
+	option = { # hircine deny
+		name = ek_travel_events.4005.j
+		trigger = {
+			var:daedric_ruin = flag:hircine
+		}
+		add_piety = medium_piety_gain
+		add_character_modifier = hircines_wrath
+	}
+
+	option = { # malacath cult
+		name = ek_travel_events.4005.k
+		trigger = {
+			var:daedric_ruin = flag:malacath
+		}
+		add_piety = medium_piety_loss
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:malacath }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		stress_impact = {
+			zealous = major_stress_impact_gain
+		}
+	}
+
+	option = { # malacath deny
+		name = ek_travel_events.4005.l
+		trigger = {
+			var:daedric_ruin = flag:malacath
+		}
+		add_piety = medium_piety_gain
+		add_character_modifier = malacaths_wrath
+	}
+
+	option = { # mehrunes cult
+		name = ek_travel_events.4005.m
+		trigger = {
+			var:daedric_ruin = flag:dagon
+		}
+		add_piety = medium_piety_loss
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:mehrunes_cult}
+		stress_impact = {
+			zealous = major_stress_impact_gain
+		}
+	}
+
+	option = { # mehrunes deny
+		name = ek_travel_events.4005.n
+		trigger = {
+			var:daedric_ruin = flag:dagon
+		}
+		add_piety = medium_piety_gain
+		add_character_modifier = mehrunes_wrath
+	}
+
+	option = { # mephala cult
+		name = ek_travel_events.4005.o
+		trigger = {
+			var:daedric_ruin = flag:mephala
+		}
+		add_piety = medium_piety_loss
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:mephala_cult}
+		stress_impact = {
+			zealous = major_stress_impact_gain
+		}
+	}
+
+	option = { # mephala deny
+		name = ek_travel_events.4005.p
+		trigger = {
+			var:daedric_ruin = flag:mephala
+		}
+		add_piety = medium_piety_gain
+		add_character_modifier = mephalas_wrath
+	}
+
+	option = { # meridia cult
+		name = ek_travel_events.4005.q
+		trigger = {
+			var:daedric_ruin = flag:meridia
+		}
+		add_piety = medium_piety_loss
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:meridia_cult}
+		stress_impact = {
+			zealous = major_stress_impact_gain
+		}
+	}
+
+	option = { # meridia deny
+		name = ek_travel_events.4005.r
+		trigger = {
+			var:daedric_ruin = flag:meridia
+		}
+		add_piety = medium_piety_gain
+		add_character_modifier = meridias_wrath
+	}
+
+	option = { # molag cult
+		name = ek_travel_events.4005.s
+		trigger = {
+			var:daedric_ruin = flag:molag
+		}
+		add_piety = medium_piety_loss
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:molag_cult }
+		stress_impact = {
+			zealous = major_stress_impact_gain
+		}
+	}
+
+	option = { # molag deny
+		name = ek_travel_events.4005.ta
+		trigger = {
+			var:daedric_ruin = flag:molag
+		}
+		add_piety = medium_piety_gain
+		add_character_modifier = molags_wrath
+	}
+
+	option = { # namira cult
+		name = ek_travel_events.4005.u
+		trigger = {
+			var:daedric_ruin = flag:namira
+		}
+		add_piety = medium_piety_loss
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:namira }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		stress_impact = {
+			zealous = major_stress_impact_gain
+		}
+	}
+
+	option = { # namira deny
+		name = ek_travel_events.4005.v
+		trigger = {
+			var:daedric_ruin = flag:namira
+		}
+		add_piety = medium_piety_gain
+		add_character_modifier = namiras_wrath
+	}
+
+	option = { # nocturnal cult
+		name = ek_travel_events.4005.x
+		trigger = {
+			var:daedric_ruin = flag:nocturnal
+		}
+		add_piety = medium_piety_loss
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:nocturnal_cult}
+		stress_impact = {
+			zealous = major_stress_impact_gain
+		}
+	}
+
+	option = { # nocturnal deny
+		name = ek_travel_events.4005.y
+		trigger = {
+			var:daedric_ruin = flag:nocturnal
+		}
+		add_piety = medium_piety_gain
+		add_character_modifier = nocturnals_wrath
+	}
+
+	option = { # peryite cult
+		name = ek_travel_events.4005.z
+		trigger = {
+			var:daedric_ruin = flag:peryite
+		}
+		add_piety = medium_piety_loss
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:peryite_cult}
+		stress_impact = {
+			zealous = major_stress_impact_gain
+		}
+	}
+
+	option = { # peryite deny
+		name = ek_travel_events.4005.1
+		trigger = {
+			var:daedric_ruin = flag:peryite
+		}
+		add_piety = medium_piety_gain
+		add_character_modifier = peryites_wrath
+	}
+
+	option = { # sanguine cult
+		name = ek_travel_events.4005.2
+		trigger = {
+			var:daedric_ruin = flag:sanguine
+		}
+		add_piety = medium_piety_loss
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:sanguine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		stress_impact = {
+			zealous = major_stress_impact_gain
+		}
+	}
+
+	option = { # sanguine deny
+		name = ek_travel_events.4005.3
+		trigger = {
+			var:daedric_ruin = flag:sanguine
+		}
+		add_piety = medium_piety_gain
+		add_character_modifier = sanguines_wrath
+	}
+
+	option = { # sheogorath cult
+		name = ek_travel_events.4005.4
+		trigger = {
+			var:daedric_ruin = flag:sheogorath
+		}
+		add_piety = medium_piety_loss
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:sheogorath_cult}
+		stress_impact = {
+			zealous = major_stress_impact_gain
+		}
+	}
+
+	option = { # sheogorath deny
+		name = ek_travel_events.4005.5
+		trigger = {
+			var:daedric_ruin = flag:sheogorath
+		}
+		add_piety = medium_piety_gain
+		add_character_modifier = sheogoraths_wrath
+	}
+
+	option = { # vaermina cult
+		name = ek_travel_events.4005.6
+		trigger = {
+			var:daedric_ruin = flag:vaermina
+		}
+		add_piety = medium_piety_loss
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:vaermina_cult}
+		stress_impact = {
+			zealous = major_stress_impact_gain
+		}
+	}
+
+	option = { # vaermina deny
+		name = ek_travel_events.4005.7
+		trigger = {
+			var:daedric_ruin = flag:vaermina
+		}
+		add_piety = medium_piety_gain
+		add_character_modifier = vaerminas_wrath
+	}	
+
+	option = { # run like the wind
+		name = ek_travel_events.4005.run
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+		stress_impact = {
+			zealous = major_stress_impact_gain
+		}
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Bad Blood
+ek_travel_events.4010 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.4010.t
+	desc = ek_travel_events.4010.desc
+	theme = travel_danger
+	right_portrait = {
+		character = root
+		scripted_animation = duel_wield_weapon
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes		 
+		is_location_valid_for_travel_event_on_land = yes
+		location = {
+			OR = {
+				county ?= { has_county_modifier = county_corruption_vampires_rampant_modifier }
+				this = province:111 #Shrouded Pass
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+		current_travel_plan = {
+			current_location = { save_scope_as = current_location }
+		}
+	}
+
+	option = { # Kill it! Kill it with fire!
+		name = ek_travel_events.4010.a
+		duel = {
+			skill = prowess
+			value = high_skill_rating
+			10 = {
+				desc = ek_travel_events.4010.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events.4010.a.success
+					add_prestige = medium_prestige_gain
+					hidden_effect = {
+						random = {
+							chance = 10
+							contract_sanguinare_vampiris = yes
+						}
+					}
+				}
+			}
+			
+			5 = {
+				desc = ek_travel_events.4010.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = ek_travel_events.4010.a.failure
+					add_prestige = medium_prestige_loss
+					random_list = {
+						10 = {
+							death = { death_reason = death_bloodfiend }
+						}
+						25 = { 
+							increase_wounds_effect = { REASON = bloodfiend }
+							contract_sanguinare_vampiris = yes
+						} 
+					} 
+				}
+			}
+		}
+
+		stress_impact = {
+			craven = minor_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 0
+			modifier = {
+				has_trait = brave 
+				add = 50
+			}
+			modifier = {
+				prowess >= high_skill_rating
+				add = 50
+			}
+		}
+	}
+
+	option = { # You are vampire
+		name = ek_travel_events.4010.b
+		trait = vampire_character
+
+		trigger = { has_trait = vampire_character }
+
+		stress_impact = {
+			base = minor_stress_impact_loss
+			arrogant = medium_stress_impact_loss
+		}
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # Let it bite
+		name = ek_travel_events.4010.c
+		custom_tooltip = ek_travel_events.4010.c.tt
+
+		trigger = { 
+			can_contract_disease_trigger = { DISEASE = sanguinare_vampiris }
+		}
+
+		increase_wounds_effect = { REASON = bloodfiend }
+		contract_sanguinare_vampiris = yes
+
+		stress_impact = {
+			ambitious = medium_stress_impact_loss
+			sadistic = minor_stress_impact_loss
+			content = minor_stress_impact_gain
+			compassionate = minor_stress_impact_gain
+			craven = minor_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 10
+			modifier = {
+				has_trait = ambitious
+				add = 40
+			}
+		}
+	}
+
+	option = { # Run as fast as you can
+		name = ek_travel_events.4010.d
+		flavor = ek_travel_events.4010.d.flavor
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+
+		stress_impact = {
+			brave = major_stress_impact_gain
+			craven = minor_stress_impact_loss
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_boldness = -0.5
+			}
+		}
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Lycan Attack
+ek_travel_events.4015 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.4015.t
+	desc = {
+		desc = ek_travel_events.4015.intro
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					location = { geographical_region = mundus_tamriel_valenwood }
+				}
+				desc = ek_travel_events.4015.werebat
+			}
+			triggered_desc = {
+				trigger = {
+					location = { geographical_region = mundus_tamriel_hammerfell }
+				}
+				desc = ek_travel_events.4015.werevulture
+			}
+			triggered_desc = {
+				trigger = {
+					location = { geographical_region = mundus_tamriel_black_marsh }
+				}
+				desc = ek_travel_events.4015.werecrocodile
+			}
+			triggered_desc = {
+				trigger = {
+					location = { geographical_region = mundus_tamriel_high_rock }
+				}
+				desc = ek_travel_events.4015.wereboar
+			}
+			triggered_desc = {
+				trigger = {
+					location = { geographical_region = mundus_tamriel_elsweyr }
+				}
+				desc = ek_travel_events.4015.werelion
+			}
+			desc = ek_travel_events.4015.werewolf
+		}
+	}
+	theme = travel_danger
+	override_background = { reference = ep3_camp_night }
+
+	right_portrait = {
+		character = root
+		scripted_animation = duel_wield_weapon
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes		 
+		is_location_valid_for_travel_event_on_land = yes
+		# Secunda is full
+		OR = {
+			cycle_both_moons = 4
+			cycle_both_moons = 8
+			cycle_both_moons = 12
+			cycle_both_moons = 16
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+		current_travel_plan = {
+			current_location = { save_scope_as = current_location }
+		}
+	}
+
+	option = { # Fight the lycan
+		name = ek_travel_events.4015.a
+		duel = {
+			skill = prowess
+			value = high_skill_rating
+			10 = {
+				desc = ek_travel_events.4015.a
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events.4015.a
+					add_prestige = medium_prestige_gain
+					hidden_effect = {
+						random = {
+							chance = 10
+							contract_sanies_lupinus = yes
+						}
+					}
+				}
+			}
+			
+			5 = {
+				desc = ek_travel_events.4015.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = ek_travel_events.4015.a.failure
+					add_prestige = medium_prestige_loss
+					random_list = {
+						10 = {
+							death = { death_reason = death_lycan }
+						}
+						25 = { 
+							increase_wounds_effect = { REASON = lycan }
+							contract_sanies_lupinus = yes
+						} 
+					} 
+				}
+			}
+		}
+
+		stress_impact = {
+			craven = minor_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 0
+			modifier = {
+				has_trait = brave 
+				add = 50
+			}
+			modifier = {
+				prowess >= high_skill_rating
+				add = 50
+			}
+		}
+	}
+
+	option = { # You are a lycan
+		name = ek_travel_events.4015.b
+		trait = lycan_character
+
+		trigger = { has_trait = lycan_character }
+
+		stress_impact = {
+			base = minor_stress_impact_loss
+			arrogant = medium_stress_impact_loss
+		}
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # Let it bite
+		name = ek_travel_events.4015.c
+		custom_tooltip = ek_travel_events.4015.c.tt
+
+		trigger = { 
+			can_contract_disease_trigger = { DISEASE = sanies_lupinus }
+		}
+
+		increase_wounds_effect = { REASON = lycan }
+		contract_sanies_lupinus = yes
+
+		stress_impact = {
+			ambitious = medium_stress_impact_loss
+			sadistic = minor_stress_impact_loss
+			content = minor_stress_impact_gain
+			compassionate = minor_stress_impact_gain
+			craven = minor_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 10
+			modifier = {
+				has_trait = ambitious
+				add = 40
+			}
+		}
+	}
+
+	option = { # Run as fast as you can
+		name = ek_travel_events.4015.d
+		flavor = ek_travel_events.4015.d.flavor
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+
+		stress_impact = {
+			brave = major_stress_impact_gain
+			craven = minor_stress_impact_loss
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_boldness = -0.5
+			}
+		}
+	}
+}
+
+# Mudcrab Encounter
+ek_travel_events.4020 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.4020.t
+	desc = ek_travel_events.4020.desc
+	theme = travel_danger
+	right_portrait = {
+		character = root
+		scripted_animation = duel_wield_weapon
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		is_location_valid_for_travel_event_on_land = yes
+		location = {
+			OR = {
+				is_coastal = yes
+				is_riverside_province = yes
+			}
+		}
+		NOT = { has_character_flag = had_mudcrab_story }
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 1
+			MAX = 3
+		}
+	}
+
+	option = { # Kill it! Kill it with fire!
+		name = ek_travel_events.4020.a
+		duel = {
+			skill = prowess
+			value = low_skill_rating
+			10 = {
+				desc = ek_travel_events.4020.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = tooltip.ek_travel_events.4020.a.success
+					add_prestige = minor_prestige_gain
+				}
+			}
+			
+			5 = {
+				desc = ek_travel_events.4020.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = tooltip.ek_travel_events.4020.a.failure
+					add_prestige = medium_prestige_loss
+					random_list = {
+						5 = {
+							death = { death_reason = death_mudcrab }
+							send_interface_toast = {
+								title = ek_travel_events.4020.a.failure.death.tt
+								type = event_toast_effect_bad
+								left_icon = root
+							}
+						}
+						30 = { 
+							increase_wounds_effect = { REASON = mudcrab }
+						} 
+					} 
+				}
+			}
+		}
+
+		stress_impact = {
+			brave = minor_stress_impact_loss
+			craven = medium_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 0
+			modifier = {
+				has_trait = brave 
+				add = 50
+			}
+			modifier = {
+				prowess >= high_skill_rating
+				add = 50
+			}
+		}
+	}
+
+	option = { # I'll take it home
+		name = ek_travel_events.4020.b
+
+		start_mudcrab_story_cycle_effect = yes
+
+		stress_impact = { 
+			compassionate = medium_stress_impact_loss
+			callous = medium_stress_impact_gain
+		}
+	}
+
+	option = { # Run as fast as you can
+		name = ek_travel_events.4020.c
+		flavor = ek_travel_events.4020.c.flavor
+
+		stress_impact = {
+			craven = minor_stress_impact_loss
+			brave = major_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_boldness = -0.5
+			}
+		}
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Thief!
+ek_travel_events.4025 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.4025.t
+	desc = ek_travel_events.4025.desc
+	theme = travel_danger
+	right_portrait = {
+		character = root
+		animation = shock
+	}
+
+	left_portrait = {
+		character = scope:thief
+		animation = aggressive_dagger
+	}
+
+	cooldown = { years = 2 }
+
+	trigger = {
+		is_available_travelling_adult = yes		 
+		is_location_valid_for_travel_event_on_land = yes
+		current_travel_plan ?= {
+			any_entourage_character = {
+				count < 2
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+		random_pool_character = {
+			province = root.location
+			limit = {
+				is_available_ai_adult = yes
+				has_trait = gallowsbait
+			}
+			weight = {
+				base = 10
+				modifier = {
+					can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = THIS }
+					add = 100
+				}
+			}
+			save_scope_as = thief
+		}
+		if = { #As a backup create the character
+			limit = {
+				NOT = { exists = scope:thief }
+			}
+			create_character = {
+				template = bandit_character
+				location = root.location
+				culture = root.location.culture
+				faith = root.location.faith
+				dynasty = none
+				trait = gallowsbait
+				save_scope_as = thief
+			}
+			hidden_effect = {
+				scope:thief = {
+					move_to_pool = yes
+					add_character_flag = disappear_flag
+				}
+			}
+		}
+	}
+
+	option = { # Here, take it, just leave me alone.
+		name = ek_travel_events.4025.a
+		remove_short_term_gold = medium_gold_value
+
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = { 
+				has_trait = greedy
+				add = -25
+			}
+		}
+	}
+
+	option = { # I'd rather die!
+		name = ek_travel_events.4025.b
+		duel = {
+			skill = prowess
+			target = scope:thief
+			10 = {
+				desc = ek_travel_events.4025.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events.4025.b.success
+					add_prestige = minor_prestige_gain
+				}
+			}
+			
+			5 = {
+				desc = ek_travel_events.4025.b.failure
+				remove_short_term_gold = medium_gold_value
+				random_list = {
+					5 = {
+						death = { 
+							death_reason = death_thief 
+							killer = scope:thief
+						}
+						send_interface_toast = {
+							title = ek_travel_events.4025.failure.death.tt
+							type = event_toast_effect_bad
+							left_icon = root
+						}
+					}
+					30 = { 
+						increase_wounds_effect = { REASON = thief }
+					} 
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = { 
+				has_trait = brave
+				add = 40
+			}
+		}
+	}
+
+	option = { # Walk Away. Right Now.
+		name = ek_travel_events.4025.c
+		duel = {
+			skill = intrigue
+			target = scope:thief
+			10 = {
+				desc = ek_travel_events.4025.c.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events.4025.c.success
+					add_prestige = minor_prestige_gain
+				}
+			}
+			
+			5 = {
+				desc = ek_travel_events.4025.c.failure
+				remove_short_term_gold = medium_gold_value
+				random_list = {
+					5 = {
+						death = { 
+							death_reason = death_thief 
+							killer = scope:thief
+						}
+						send_interface_toast = {
+							title = ek_travel_events.4025.failure.death.tt
+							type = event_toast_effect_bad
+							left_icon = root
+						}
+					}
+					30 = { 
+						increase_wounds_effect = { REASON = thief }
+					} 
+				}
+			}
+		}
+		ai_chance = {
+			base = 10
+			modifier = { 
+				intrigue >= high_skill_rating
+				add = 90
+			}
+		}
+	}
+
+	option = { # Do I look like I have any money?
+		name = ek_travel_events.4025.d
+		duel = {
+			skill = diplomacy
+			target = scope:thief
+			10 = {
+				desc = ek_travel_events.4025.d.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events.4025.d.success
+					add_prestige = minor_prestige_gain
+				}
+			}
+			
+			5 = {
+				desc = ek_travel_events.4025.d.failure
+				remove_short_term_gold = medium_gold_value
+				random_list = {
+					5 = {
+						death = { 
+							death_reason = death_thief 
+							killer = scope:thief
+						}
+						send_interface_toast = {
+							title = ek_travel_events.4025.failure.death.tt
+							type = event_toast_effect_bad
+							left_icon = root
+						}
+					}
+					30 = { 
+						increase_wounds_effect = { REASON = thief }
+					} 
+				}
+			}
+		}
+		ai_chance = {
+			base = 10
+			modifier = { 
+				diplomacy >= high_skill_rating
+				add = 90
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					is_ai = yes
+					scope:thief = {
+						is_alive = yes
+						has_character_flag = disappear_flag
+						NOT = {	is_courtier_of = root }
+					}
+				}
+				scope:thief = {
+					silent_disappearance_effect = yes
+				}
+			}
+		}
+		mp_resume_travel_plan = yes
+	}
+}
+
+# The Unquiet Dead
+ek_travel_events.4030 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.4030.t
+	desc = ek_travel_events.4030.desc
+	theme = travel_danger
+
+	right_portrait = {
+		character = root
+		scripted_animation = duel_wield_weapon
+	}
+
+	left_portrait = {
+		character = scope:undead
+		animation = war_attacker
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes		 
+		is_location_valid_for_travel_event_on_land = yes
+		location = {
+			county = {
+				has_county_modifier = county_corruption_necromancers_rampant_modifier
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 2
+			MAX = 4
+		}
+		create_character = {
+			template = undead_skeleton_template
+			location = root.location
+			culture = root.location.county.culture
+			faith = root.location.county.faith
+			#Set up the scope
+			save_scope_as = undead
+		}
+	}
+
+	option = { # Kill it! Kill it with fire!
+		name = ek_travel_events.4030.a
+		duel = {
+			skill = prowess
+			value = medium_skill_rating
+			10 = {
+				desc = ek_travel_events.4030.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events.4030.a.success
+					add_prestige = minor_prestige_gain
+				}
+			}
+			
+			5 = {
+				desc = ek_travel_events.4030.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = ek_travel_events.4030.a.failure
+					add_prestige = medium_prestige_loss
+					random_list = {
+						5 = {
+							death = { death_reason = death_undead }
+							send_interface_toast = {
+								title = ek_travel_events.4030.a.failure
+								type = event_toast_effect_bad
+								left_icon = root
+							}
+						}
+						30 = { 
+							increase_wounds_effect = { REASON = undead }
+						} 
+					} 
+				}
+			}
+		}
+
+		stress_impact = {
+			brave = minor_stress_impact_loss
+			craven = major_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_zeal = -0.5
+			}
+		}
+	}
+
+	option = { # Use resto magic
+		name = ek_travel_events.4030.b
+		reason = restoration
+
+		trigger = { 
+			has_perk = restoration_journeyman_perk
+			has_magicka_more_than = { VALUE = t3_spell_cost }
+		}
+
+		show_as_unavailable = {
+			has_magicka_less_than = { VALUE = t3_spell_cost }
+		}
+
+		add_magicka = { VALUE = t3_spell_cost.negate }
+
+		scope:undead = {
+			death = {
+				death_reason = death_purged_undead
+				killer = root
+			}
+		}
+
+		stress_impact = {
+			zealous = medium_stress_impact_loss
+			wrathful = minor_stress_impact_loss
+		}
+		
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # Take control of them
+		name = ek_travel_events.4030.c
+		trait = necromancer
+
+		trigger = { has_trait = necromancer }
+
+		spawn_army = {
+			men_at_arms = {
+				type = maa_undead_soldiers
+				stacks = 1
+			}
+			uses_supply = no
+			inheritable = no
+			location = root.location
+			name = "undead_horde"
+		}
+
+		stress_impact = {
+			ambitious = minor_stress_impact_loss
+			callous = minor_stress_impact_loss
+			cynical = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # Retreat
+		name = ek_travel_events.4030.d
+		custom_tooltip = ek_travel_events.4030.d.tt
+
+		stress_impact = {
+			craven = minor_stress_impact_loss
+			brave = major_stress_impact_gain
+		}
+
+		current_travel_plan = {
+			random_entourage_character = {
+				limit = {
+					NOT = { this = root }
+				}
+				death = { death_reason = death_undead }
+			}
+		}
+
+		increase_wounds_effect = { REASON = undead }
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_boldness = -0.5
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					is_ai = yes
+					scope:undead = {
+						NOT = {
+							is_courtier_of = root
+						}
+					}
+				}
+				scope:undead = {
+					if = {
+						limit = {
+							root = { is_ai = yes }
+						}
+						silent_disappearance_effect = yes
+					}
+				}
+			}
+		}
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Sandstorm
+ek_travel_events.4035 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.4035.t
+	desc = ek_travel_events.4035.desc
+	theme = travel_danger
+	
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		is_location_valid_for_travel_event_on_land = yes
+		location = { is_desert_trigger = yes }
+	}		
+
+    immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+		if = {
+			limit = {
+				current_travel_plan = {
+					any_entourage_character = {
+						NOT = { this = root }
+					}
+				}
+			}
+			current_travel_plan = {
+				random_entourage_character = {
+					limit = { NOT= { this = root } }
+					save_scope_as = dead_character
+				}
+			}
+		}
+	}
+
+	option = { # Thats just a bit of wind
+		name = ek_travel_events.4035.a
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 3 }
+		}
+
+		random_list = {
+			70 = {
+				custom_tooltip = ek_travel_events.4035.a.success
+				hidden_effect = {
+					send_interface_toast = {
+						left_icon = root
+						type = event_toast_effect_good
+						title = ek_travel_events.4035.a.success
+					}
+				}
+			}
+			20 = {
+				custom_tooltip = ek_travel_events.4035.a.failure
+				hidden_effect = {
+					send_interface_toast = {
+					left_icon = scope:dead_character
+					type = event_toast_effect_bad
+						title = ek_travel_events.4035.a.failure
+						scope:dead_character = {
+							death = { death_reason = death_sandstorm }
+						}
+					}
+				}
+			}
+			10 = {
+				custom_tooltip = ek_travel_events.4035.a.critical_failure
+				hidden_effect = {
+					send_interface_toast = {
+						left_icon = scope:dead_character
+						type = event_toast_effect_bad
+						title = ek_travel_events.4035.a.critical_failure
+						current_travel_plan = {
+							every_entourage_character = {
+								death = { death_reason = death_sandstorm }
+							}
+						}
+						death = { death_reason = death_sandstorm }
+						hidden_effect = { mp_resume_travel_plan = yes }
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			craven = major_stress_impact_gain
+			impatient = medium_stress_impact_loss
+			brave = minor_stress_impact_loss			
+			callous = minor_stress_impact_loss				
+		}
+
+		ai_chance = {
+			base = 0
+			modifier = {
+				factor = 50
+				has_trait = brave
+			}
+		}
+	}
+
+	option = { # Seek shelter
+		name = ek_travel_events.4035.b
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 14 }
+		}
+
+		stress_impact = {
+			craven = medium_stress_impact_loss
+			impatient = medium_stress_impact_gain				
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Heavy Rain
+ek_travel_events.4040 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.4040.t
+	theme = travel_danger
+	desc = {
+		desc = ek_travel_events.4040.intro
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					location = { is_woodland_trigger = yes }
+				}
+				desc = ek_travel_events.4040.woodland
+			}
+			triggered_desc = {
+				trigger = {
+					location = { is_highland_trigger = yes }
+				}
+				desc = ek_travel_events.4040.highland
+			}
+			triggered_desc = {
+				trigger = {
+					location = { is_wetland_trigger = yes }
+				}
+				desc = ek_travel_events.4040.wetland
+			}
+			triggered_desc = {
+				trigger = {
+					location = { is_dryland_trigger = yes }
+				}
+				desc = ek_travel_events.4040.dryland
+			}
+			desc = ek_travel_events.4040.lowland
+		}
+	}
+
+	
+	
+	override_effect_2d = {
+		reference = rain	
+	}
+
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes		 
+		is_location_valid_for_travel_event_on_land = yes
+		location = { 
+			NOR = {
+				is_desert_trigger = yes
+				has_winter_trigger = yes 
+			}
+		}
+	}		
+
+    immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		current_travel_plan = {
+			random_entourage_character = {
+				limit = { NOT = { ek_is_immune_to_disease_with_race_flag = yes } }
+				save_scope_as = ill_character
+			}
+			current_location = { save_scope_as = current_location }
+		}
+	}
+
+	option = { # Thats just a bit of rain
+		name = ek_travel_events.4040.a
+		trigger = { NOT = { has_character_flag = race_argonian } }
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+			diligent = minor_stress_impact_loss
+			lazy = minor_stress_impact_gain
+			impatient = minor_stress_impact_loss		
+		}
+		
+		hidden_effect = {
+			random_list = {
+				60 = {}	
+				40 = {
+				trigger = {
+					exists = scope:ill_character
+				}
+				send_interface_toast = {
+					left_icon = scope:ill_character
+					type = event_toast_effect_bad
+						title = ek_travel_events.4040.a.failure
+						scope:ill_character = {
+							contract_disease_effect = { DISEASE = ill TREATMENT_EVENT = no }
+						}
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				add = -50
+				has_trait = diligent
+			}
+			modifier = {
+				add = -50
+				has_trait = impatient
+			}
+		}
+	}
+
+	option = { # Refreshing for argonians
+		name = ek_travel_events.4040.b
+		trigger = { has_character_flag = race_argonian }
+
+		stress_impact = {
+			base = minor_stress_impact_loss
+			diligent = minor_stress_impact_loss
+			lazy = medium_stress_impact_gain
+			impatient = minor_stress_impact_loss		
+		}
+		
+		hidden_effect = {
+			random_list = {
+				60 = {}	
+				40 = {
+				trigger = {
+					exists = scope:ill_character
+				}
+				send_interface_toast = {
+					left_icon = scope:ill_character
+					type = event_toast_effect_bad
+						title = ek_travel_events.4040.a.failure
+						scope:ill_character = {
+							contract_disease_effect = { DISEASE = ill TREATMENT_EVENT = no }
+						}
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				add = -50
+				has_trait = diligent
+			}
+			modifier = {
+				add = -50
+				has_trait = impatient
+			}
+		}
+	}
+
+	option = { # Seek shelter
+		name = ek_travel_events.4040.c
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 3 }
+		}
+
+		stress_impact = {
+			base = minor_stress_impact_loss
+			diligent = minor_stress_impact_gain
+			lazy = minor_stress_impact_loss
+			impatient = minor_stress_impact_gain	
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Skeever in the Food
+ek_travel_events.4045 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.4045.t
+	desc = ek_travel_events.4045.desc
+	theme = travel_danger
+	
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes		 
+		is_location_valid_for_travel_event_on_land = yes
+		is_landless_adventurer = yes
+		NOT = { has_character_flag = had_skeever_story }
+	}		
+
+    immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 1
+			MAX = 3
+		}
+		domicile ?= {
+			change_provisions = minor_provisions_loss
+		}
+	}
+
+	option = { # Cursed Vernim
+		name = ek_travel_events.4045.a
+
+		add_character_modifier = {
+			modifier = skeever_in_provisions_modifier
+			years = 5
+		}
+
+		stress_impact = {
+			base = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 10
+		}
+	}
+
+	option = { # Buy some traps
+		name = ek_travel_events.4045.b
+		trigger = { gold >= minor_gold_value }
+		show_as_unavailable = { gold < minor_gold_value }
+
+		remove_short_term_gold = minor_gold_value
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+
+		add_character_modifier = {
+			modifier = skeever_traps_modifier
+			years = 5
+		}		
+
+		stress_impact = {
+			greedy = minor_stress_impact_gain
+			paranoid = minor_stress_impact_loss
+			wrathful = minor_stress_impact_loss
+			sadistic = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				factor = 0
+				has_trait = greedy
+			}
+		}
+	}
+
+	option = { # Catch the Skeever
+		name = ek_travel_events.4045.c
+		custom_tooltip = ek_travel_events.4045.c.tt
+		trait = lifestyle_hunter
+		trigger = { has_trait = lifestyle_hunter }
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+
+		trigger_event = {
+			id = ek_travel_events.4046
+			days = 7
+		}
+
+		stress_impact = {
+			diligent = minor_stress_impact_loss
+			lazy = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Caught Skeever
+ek_travel_events.4046 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.4046.t
+	desc = ek_travel_events.4046.desc
+	theme = travel_danger
+	
+	left_portrait = {
+		character = root
+		animation = hunt_knife_start
+	}
+
+	option = { # Keep it as a pet
+		name = ek_travel_events.4046.a
+
+		start_skeever_story_cycle_effect = yes
+
+		stress_impact = {
+			compassionate = medium_stress_impact_loss
+			callous = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				factor = 0
+				OR = {
+					has_trait = callous
+					has_trait = sadistic
+					has_trait = wrathful
+				}
+			}
+		}
+	}
+
+	option = { # Kill it
+		name = ek_travel_events.4046.b
+
+		stress_impact = {
+			compassionate = medium_stress_impact_gain
+			wrathful = minor_stress_impact_loss
+			sadistic = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				factor = 0
+				has_trait = compassionate
+			}
+		}
+	}
+
+	option = { # Cook it
+		name = ek_travel_events.4046.c
+		trait = gluttonous
+		trigger = { has_trait = gluttonous }
+
+		domicile ?= {
+			change_provisions = miniscule_provisions_gain
+		}
+
+		stress_impact = {
+			compassionate = medium_stress_impact_gain
+			gluttonous = medium_stress_impact_loss
+			wrathful = minor_stress_impact_loss
+			sadistic = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+# Someone walks into skeever trap
+ek_travel_events.4050 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.4050.t
+	desc = ek_travel_events.4050.desc
+	theme = travel_danger
+	
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+
+	right_portrait = {
+		character = scope:wounded_character
+		animation = severlywounded
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes		 
+		is_location_valid_for_travel_event_on_land = yes
+		is_landless_adventurer = yes
+		has_character_modifier = skeever_traps_modifier
+		current_travel_plan = {
+			any_entourage_character = {
+				NOT = { this = root }
+			}
+		}
+	}		
+
+    immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 1
+			MAX = 3
+		}
+		current_travel_plan = {
+			random_entourage_character = {
+				limit = { NOT = { this = root } }
+				increase_wounds_no_death_effect = { REASON = skeever_trap }
+				save_scope_as = wounded_character
+			}
+		}
+		if = {
+			limit = {
+				employs_court_position = court_physician_court_position
+				court_position:court_physician_court_position = {
+					is_available = yes
+					location = root.location
+				}
+			}
+			court_position:court_physician_court_position = { save_scope_as = physician }
+		}
+	}
+
+	option = { # Physician will heal you
+		name = ek_travel_events.4050.a
+
+		trigger = {
+			exists = scope:physician
+		}
+
+		scope:physician = {
+			duel = {
+				skill = learning
+				value = medium_skill_rating
+				20 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = 3.5
+						min = -25
+					}
+					desc = ek_travel_events.4050.success
+					root = {
+						send_interface_toast = {
+							title = ek_travel_events.4050.a.success
+							left_icon = scope:wounded_character
+							right_icon = scope:physician
+							scope:wounded_character = {
+								change_trait_rank = {
+									trait = wounded
+									rank = -1
+									max = 1
+								}
+								add_opinion = {
+									target = scope:physician
+									modifier = grateful_opinion
+									opinion = 10
+								}
+							}
+						}
+					}
+				}
+				15 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = -3.5
+						min = -25
+					}
+					modifier = {
+						factor = 0.5
+						has_trait = lifestyle_physician
+					}
+					desc = ek_travel_events.4050.a.failure
+					root = {
+						send_interface_toast = {
+							title = ek_travel_events.4050.a.failure
+							left_icon = scope:wounded_character
+							right_icon = scope:physician
+							scope:wounded_character = {
+								add_character_modifier = { modifier = infected_wound_modifier }
+								add_opinion = {
+									target = scope:physician
+									modifier = failed_to_treat_me_opinion
+									opinion = -15
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = { # I heal it
+		name = ek_travel_events.4050.b
+		reason = restoration
+		trigger = {
+			has_perk = restoration_novice_perk
+			has_magicka_more_than = { VALUE = t1_spell_cost }
+		}
+		show_as_unavailable = { has_magicka_less_than = { VALUE = t1_spell_cost } }
+
+		add_magicka = { VALUE = t1_spell_cost.negate }
+
+		scope:wounded_character = {
+			change_trait_rank = {
+				trait = wounded
+				rank = -1
+				max = 1
+			}
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 10
+			}
+		}
+
+		stress_impact = {
+			compassionate = medium_stress_impact_loss
+			callous = minor_stress_impact_gain
+			sadistic = medium_stress_impact_gain
+		}
+	}
+
+	option = { # Time to rest
+		name = ek_travel_events.4050.c
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 14 }
+		}
+
+		stress_impact = {
+			impatient = medium_stress_impact_gain
+			callous = minor_stress_impact_gain
+		}
+	}
+
+	option = { # Whatever
+		name = ek_travel_events.4050.d
+
+		random_list = {
+			60 = {
+				desc = ek_travel_events.4050.d.failure
+				send_interface_toast = {
+					title = ek_travel_events.4050.d.failure
+					left_icon = scope:wounded_character
+					scope:wounded_character = {
+						add_character_modifier = { modifier = infected_wound_modifier }
+						add_opinion = {
+							target = root
+							modifier = disappointed_opinion
+							opinion = -20
+						}
+					}
+				}	
+			}
+			40 = {
+				desc = ek_travel_events.4050.d.critical_failure
+				send_interface_toast = {
+					title = ek_travel_events.4050.d.critical_failure
+					left_icon = scope:wounded_character
+					scope:wounded_character = {
+						add_trait = one_legged
+						add_opinion = {
+							target = root
+							modifier = disappointed_opinion
+							opinion = -40
+						}
+					}
+				}	
+			}
+		}		
+
+		stress_impact = {
+			callous = minor_stress_impact_loss
+			compassionate = medium_stress_impact_gain
+		}
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Bountyhunter attacks
+ek_travel_events.4055 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.4055.t
+	desc = ek_travel_events.4055.desc
+	theme = travel_danger
+	
+	left_portrait = {
+		character = root
+		animation = war_defender
+	}
+
+	right_portrait = {
+		character = scope:bountyhunter
+		animation = war_attacker
+	}
+
+	cooldown = { years = 15 }
+
+	trigger = {
+		is_available_travelling_adult = yes		 
+		is_location_valid_for_travel_event_on_land = yes
+		is_landless_adventurer = yes
+		has_trait = gallowsbait
+		OR = {
+			has_trait_xp = {
+				trait = gallowsbait
+				track = bandit
+				value >= 40
+			}
+			has_trait_xp = {
+				trait = gallowsbait
+				track = thief
+				value >= 40
+			}
+			has_trait_xp = {
+				trait = gallowsbait
+				track = trickster
+				value >= 40
+			}
+			has_trait_xp = {
+				trait = gallowsbait
+				track = poacher
+				value >= 40
+			}
+			has_trait_xp = {
+				trait = gallowsbait
+				track = marauder
+				value >= 40
+			}
+		}
+		location.county.holder = {
+			exists = yes
+			has_imprisonment_reason = root
+		}
+	}		
+
+    immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+		# find bountyhunter
+		random_pool_character = {
+			province = root.location
+			limit = {
+				is_available_ai_adult = yes
+				NOT = { has_infamous_trait_trigger = yes }
+				prowess >= high_skill_rating
+			}
+			save_scope_as = bountyhunter
+		}
+		if = { #As a backup create the character
+			limit = {
+				NOT = { exists = scope:bountyhunter }
+			}
+			create_character = {
+				template = wandering_knight_character
+				location = root.location
+				culture = root.location.county.culture
+				faith = root.location.county.faith
+				#Set up the scope
+				save_scope_as = bountyhunter
+			}
+		}
+		location.county.holder = {
+			save_scope_as = local_ruler
+		}
+	}
+
+	option = { # Pay them a lot
+		name = ek_travel_events.4055.a
+		trigger = {
+			OR = {
+				has_trait_xp = {
+					trait = gallowsbait
+					track = bandit
+					value >= 80
+				}
+				has_trait_xp = {
+					trait = gallowsbait
+					track = thief
+					value >= 80
+				}
+				has_trait_xp = {
+					trait = gallowsbait
+					track = trickster
+					value >= 80
+				}
+				has_trait_xp = {
+					trait = gallowsbait
+					track = poacher
+					value >= 80
+				}
+				has_trait_xp = {
+					trait = gallowsbait
+					track = marauder
+					value >= 80
+				}
+			}
+			gold >= major_gold_value		
+		}
+		show_as_unavailable = { gold < major_gold_value }
+
+		pay_short_term_gold = {
+			target = scope:bountyhunter
+			gold = major_gold_value
+		}
+	}
+
+	option = { # Pay them
+		name = ek_travel_events.4055.b
+		trigger = {
+			OR = {
+				has_trait_xp = {
+					trait = gallowsbait
+					track = bandit
+					value < 80
+				}
+				has_trait_xp = {
+					trait = gallowsbait
+					track = thief
+					value < 80
+				}
+				has_trait_xp = {
+					trait = gallowsbait
+					track = trickster
+					value < 80
+				}
+				has_trait_xp = {
+					trait = gallowsbait
+					track = poacher
+					value < 80
+				}
+				has_trait_xp = {
+					trait = gallowsbait
+					track = marauder
+					value < 80
+				}
+			}
+			gold >= medium_gold_value		
+		}
+		show_as_unavailable = { gold < medium_gold_value }
+
+		pay_short_term_gold = {
+			target = scope:bountyhunter
+			gold = medium_gold_value
+		}
+	}
+
+	option = { # Convince them to join you
+		name = ek_travel_events.4055.c
+		skill = diplomacy
+		trigger = {
+			diplomacy >= very_high_skill_rating
+		}
+
+		duel = {
+			skill = diplomacy
+			target = scope:bountyhunter
+			20 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 0.1
+				}
+				desc = ek_travel_events.4055.c.success
+				send_interface_toast = {
+					title = ek_travel_events.4055.c.success
+					left_icon = scope:bountyhunter
+					right_icon = root
+					add_courtier = scope:bountyhunter
+					root.current_travel_plan = {
+						add_companion = scope:bountyhunter
+					}
+				}
+			}
+			30 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.1
+				}
+				desc = ek_travel_events.4055.c.failure
+				custom_tooltip = ek_travel_events.4055.duel.tt
+				send_interface_toast = {
+					title = ek_travel_events.4055.c.failure
+					left_icon = scope:bountyhunter
+					right_icon = root
+					configure_start_single_combat_effect = {
+						SC_INITIATOR = scope:bountyhunter
+						SC_ATTACKER = scope:bountyhunter
+						SC_DEFENDER = root
+						FATALITY = always
+						FIXED = no
+						LOCALE = terrain_scope
+						OUTPUT_EVENT = ek_travel_events.4056
+						INVALIDATION_EVENT = single_combat.1006
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			compassionate = medium_stress_impact_loss
+			callous = minor_stress_impact_gain
+			sadistic = medium_stress_impact_gain
+		}
+	}
+
+	option = { # Submit
+		name = ek_travel_events.4055.d
+
+		scope:local_ruler = {
+			imprison = {
+				target = root
+				type = dungeon
+			}
+		}
+
+		stress_impact = {
+			impatient = medium_stress_impact_gain
+			callous = minor_stress_impact_gain
+		}
+	}
+
+	option = { # Fight
+		name = ek_travel_events.4055.e
+		custom_tooltip = ek_travel_events.4055.duel.tt
+
+		configure_start_single_combat_effect = {
+			SC_INITIATOR = scope:bountyhunter
+			SC_ATTACKER = scope:bountyhunter
+			SC_DEFENDER = root
+			FATALITY = always
+			FIXED = no
+			LOCALE = terrain_scope
+			OUTPUT_EVENT = ek_travel_events.4056
+			INVALIDATION_EVENT = single_combat.1006
+		}
+
+		stress_impact = {
+			callous = minor_stress_impact_loss
+			compassionate = medium_stress_impact_gain
+		}
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+	}
+}
+
+# Bountyhunter duel win
+ek_travel_events.4056 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events.4056.t
+	desc = ek_travel_events.4056.desc
+	theme = travel_danger
+	
+	left_portrait = {
+        character = root
+        animation = celebrate_sword
+    }
+
+	right_portrait = {
+		character = scope:bountyhunter
+		animation = dead
+	}
+
+	option = {
+		name = ek_travel_events.4056.a
+
+		if = {
+			limit = {
+				NOT = { has_trait = lifestyle_blademaster }
+			}
+			add_trait = lifestyle_blademaster
+		}
+		else = {
+			add_trait_xp = {
+				trait = lifestyle_blademaster
+				value = 10
+			}
+		}
+	}
+}

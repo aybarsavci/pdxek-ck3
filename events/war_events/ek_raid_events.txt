@@ -1,0 +1,628 @@
+﻿namespace = ek_raiding
+
+#	You have raided bahraha's gloom
+ek_raiding.0001 = {
+	hidden = yes
+	scope = army
+
+	trigger = {
+		#You must be leading your own forces.
+		scope:raider = { is_at_location = scope:barony.title_province }
+		scope:barony.title_province = { fort_level > 0 }
+		#The county must not have recently been sacked.
+		NOT = {
+			scope:county = { has_county_modifier = recently_sacked_modifier }
+		}
+		scope:county = title:c_prince_gate
+	}
+
+	immediate = {
+		random = {
+			chance = 20
+			modifier = {
+				add = 20
+				scope:raider = {
+					OR = {
+						has_trait = plunderer 
+						has_trait = viking
+					}
+				}
+			}
+			save_scope_as = raid_army
+			scope:raider = {
+				# Grab some loc things.
+				scope:county = { save_scope_as = sacked_county }
+				scope:barony = { save_scope_as = sacked_barony }
+				scope:raider.capital_province = { save_scope_as = raider_capital }
+				trigger_event = ek_raiding.0002
+			}
+		}
+	}
+}
+
+ek_raiding.0002 = {	#Less hidden event: raiding bahraha's gloom, A Secret Shame
+	type = character_event
+	content_source = dlc_ek
+	title = ek_raiding.0002.t
+	desc = ek_raiding.0002.desc
+	theme = battle
+	override_background = { reference = temple }
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+	right_portrait = {
+		character = character:tavan_99
+		animation = personality_zealous
+	}
+
+	cooldown = { years = 1 }
+
+	immediate = {
+		#For loc.
+		scope:sacked_county.holder = { save_scope_as = sacked_county_owner }
+	}
+
+	# break the seal and get dev
+	option = {
+		name = ek_raiding.0002.a
+		add_piety = medium_piety_loss
+		
+		trigger = {
+			root.capital_county = { development_level < 15 }	#If you have a certain amount of development, you can't gain anything from this.
+			OR = {
+				scope:county = { development_level > 15 }	#The county must actually have enough development to be worth sacking.
+				scope:county.holder = {	#Or at least be a non-tribal place.
+					NOT = { government_has_flag = government_is_tribal }
+				}
+			}
+		}
+
+		scope:sacked_county = {
+			add_county_modifier = {	#Prevent the county from being sacked again, by anyone, for quite a while.
+				modifier = recently_sacked_modifier
+				years = 20
+			}
+			change_county_control = -10
+			change_development_progress = major_development_progress_loss	#Always deduct progress.
+			if = {	#If they don't have enough progress made, burn a level of development.
+				limit = { development_towards_level_increase < major_development_progress_gain }
+				change_development_level = -1
+			}
+			save_scope_value_as = {
+				name = sack_status
+				value = flag:admin_plundered
+			}
+			holder = {
+				trigger_event = ek_raiding.0003
+				if = {
+					limit = { is_independent_ruler = no }
+					liege = { trigger_event = ek_raiding.0004 }
+				}
+			}
+		}
+		root.capital_county = {
+			change_development_progress = medium_development_progress_gain
+		}
+		stress_impact = {
+			compassionate = minor_stress_impact_gain
+			forgiving = minor_stress_impact_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_greed = 0.5
+				ai_compassion = -0.5
+			}
+			modifier = {	#Weight down for stress.
+				add = -20
+				has_trait = compassionate
+			}
+			modifier = {	#Weight down for stress.
+				add = -20
+				has_trait = forgiving
+			}
+		}
+	}
+
+	# break the seal and get plunder
+	option = {
+		name = ek_raiding.0002.b
+		add_piety = medium_piety_loss
+		scope:sacked_county = {
+			add_county_modifier = {	#Prevent the county from being sacked again for quite a while.
+				modifier = recently_sacked_modifier
+				years = 20
+			}
+			if = {	#If they have enough progress gain to take the hit, then they just lose some progress.
+				limit = {
+					development_towards_level_increase > medium_development_progress_loss
+				}
+				change_development_progress = medium_development_progress_loss
+			}
+			else = {	#If they don't, then they lose the progress, and a level of development is burned away.
+				change_development_progress = medium_development_progress_loss
+				change_development_level = -1
+			}
+			save_scope_value_as = {
+				name = sack_status
+				value = flag:gold_plundered
+			}
+			holder = {
+				if = {
+					limit = { is_independent_ruler = yes }
+					trigger_event = ek_raiding.0003
+				}
+				else = {
+					trigger_event = ek_raiding.0003
+					liege = { trigger_event = ek_raiding.0004 }
+				}
+			}
+		}
+		scope:raid_army = { add_loot = scope:sacked_barony.county.title_province.raid_gold_value }
+		add_prestige = minor_prestige_value
+		stress_impact = {
+			compassionate = minor_stress_impact_gain
+			forgiving = minor_stress_impact_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_greed = 0.75
+				ai_compassion = -0.25	#It's more ethical to steal stuff than people, right?
+			}
+			modifier = {	#Weight down for stress.
+				add = -20
+				has_trait = compassionate
+			}
+			modifier = {	#Weight down for stress.
+				add = -20
+				has_trait = forgiving
+			}
+		}
+	}
+
+	# nope
+	option = {
+		name = ek_raiding.0002.c
+		scope:sacked_county = {
+			#Opinion gain if not primary defender.
+			save_scope_value_as = {
+				name = sack_status
+				value = flag:spared_plundered
+			}
+			holder = {
+				if = {
+					limit = { is_independent_ruler = yes }
+					trigger_event = ek_raiding.0003
+				}
+				else = {
+					trigger_event = ek_raiding.0003
+					liege = { trigger_event = ek_raiding.0004 }
+				}
+			}
+		}
+		if = {
+			limit = {
+				faith = {
+					OR = {
+						trait_is_sin = compassionate
+						trait_is_sin = forgiving
+						trait_is_sin = calm
+					}
+				}
+			}
+			add_piety = minor_piety_loss
+		}
+		else = { add_piety = major_piety_gain }
+		stress_impact = {
+			sadistic = minor_stress_impact_gain
+			vengeful = minor_stress_impact_gain
+			wrathful = minor_stress_impact_gain
+			greedy = minor_stress_impact_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_compassion = 0.5
+				ai_honor = 0.25
+				ai_greed = -0.25
+			}
+			modifier = {	#Weight down for stress.
+				add = -20
+				has_trait = sadistic
+			}
+			modifier = {	#Weight down for stress.
+				add = -20
+				has_trait = vengeful
+			}
+			modifier = {	#Weight down for stress.
+				add = -20
+				has_trait = wrathful
+			}
+		}
+	}
+}
+
+# A Secret Shame
+ek_raiding.0003 = {
+	type = character_event
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:sack_status = flag:spared_plundered }
+				desc = ek_raiding.0003.t_spared
+			}
+			desc = ek_raiding.0003.t_attacked
+		}
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = {	#If the holding was raided for skilled slaves, let us know of such.
+				trigger = {
+					scope:sack_status = flag:admin_plundered
+					is_independent_ruler = yes
+				}
+				desc = ek_raiding.0003.desc.admin_plundered_independent
+			}
+			triggered_desc = {	#If the holding was raided for gold, then tell us our shinies are gone.
+				trigger = {
+					scope:sack_status = flag:gold_plundered
+					is_independent_ruler = yes
+				}
+				desc = ek_raiding.0003.desc.gold_plundered_independent
+			}
+			triggered_desc = {	#If the holding was spared, we have a lukewarm one response.
+				trigger = {
+					scope:sack_status = flag:spared_plundered
+					is_independent_ruler = yes
+				}
+				desc = 	ek_raiding.0003.desc.spared_plundered_independent
+			}
+			triggered_desc = {
+				trigger = { scope:sack_status = flag:admin_plundered }
+				desc = ek_raiding.0003.desc.admin_plundered_vassal
+			}
+			triggered_desc = {
+				trigger = { scope:sack_status = flag:gold_plundered }
+				desc = ek_raiding.0003.desc.gold_plundered_vassal
+			}
+			desc = ek_raiding.0003.desc.spared_plundered_vassal
+		}
+	}
+	theme = battle
+	override_background = {
+		reference = temple
+	}
+	left_portrait = {
+		character = scope:raider
+		animation = war_over_win
+	}
+
+	right_portrait = {
+		character = character:tavan_99
+		animation = personality_zealous
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				employs_court_position = court_mage_court_position
+			}
+			court_position:court_mage_court_position = { save_scope_as = court_mage }
+		}
+		if = {
+			limit = { has_relation_rival = scope:raider }
+			scope:raider = {
+				add_prestige = miniscule_prestige_gain
+			}
+		}
+		else = {
+			progress_towards_rival_effect = {
+				REASON = rival_raided_me
+				CHARACTER = scope:raider
+				OPINION = 0
+			}
+		}
+	}
+
+	# try to seal them back yourself
+	option = {
+		name = ek_raiding.0003.a
+		trigger = {
+			can_magic_trigger = yes
+			NOT = {
+				scope:sack_status = flag:spared_plundered
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = extremely_high_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 1
+					min = -49
+				}
+				desc = ek_raiding.0003.a.tt
+				send_interface_toast = {
+					title = ek_raiding.0003.a.tt
+					left_icon = root
+					add_prestige = major_prestige_gain
+					add_piety = major_piety_gain
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_raiding.0003.a.tt_fail
+				send_interface_toast = {
+					title = ek_raiding.0003.a.tt_fail
+					left_icon = root
+					add_prestige = medium_prestige_loss
+					scope:sacked_county = {
+						add_rampant_modifier_effect = { TYPE = necromancers }
+						title_create_faction = {
+							type = ek_crisis_faction
+							target = root
+						}
+                    }
+				}
+			}
+		}
+	}
+
+	# ask court mage to seal it
+	option = {
+		name = ek_raiding.0003.b
+		trigger = {
+			employs_court_position = court_mage_court_position
+			NOT = {
+				scope:sack_status = flag:spared_plundered
+			}
+		}
+		fake_duel = {
+			skill = arcana
+			target = scope:court_mage
+			value = extremely_high_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 1
+					min = -49
+				}
+				desc = ek_raiding.0003.b.tt
+				send_interface_toast = {
+					title = ek_raiding.0003.b.tt
+					left_icon = scope:court_mage
+					scope:court_mage = {
+						add_prestige = major_prestige_gain
+						add_piety = major_piety_gain
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_raiding.0003.b.tt_fail
+				send_interface_toast = {
+					title = ek_raiding.0003.b.tt_fail
+					left_icon = scope:court_mage
+					court_position:court_mage_court_position = {
+						add_prestige = medium_prestige_loss
+					}
+					scope:sacked_county = {
+						add_rampant_modifier_effect = { TYPE = necromancers }
+						title_create_faction = {
+							type = ek_crisis_faction
+							target = root
+						}
+                    }
+				}
+			}
+		}
+	}
+
+	option = {
+		trigger = {
+			scope:sack_status = flag:spared_plundered
+		}
+		name = ek_raiding.0003.c
+	}
+
+	option = {
+		trigger = {
+			NOT = {
+				scope:sack_status = flag:spared_plundered
+			}
+		}
+		name = ek_raiding.0003.d
+		scope:sacked_county = {
+			add_rampant_modifier_effect = { TYPE = necromancers }
+			title_create_faction = {
+				type = ek_crisis_faction
+				target = root
+
+			}
+		}
+	}
+}
+
+# A Secret Shame - Liege Edition
+ek_raiding.0004 = {
+	type = character_event
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:sack_status = flag:spared_plundered }
+				desc = ek_raiding.0003.t_spared
+			}
+			desc = ek_raiding.0003.t_attacked
+		}
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = {	#If the holding was raided for skilled slaves, let us know of such.
+				trigger = {	scope:sack_status = flag:admin_plundered }
+				desc = ek_raiding.0004.desc.admin_plundered
+			}
+			triggered_desc = {	#If the holding was raided for gold, then tell us our vassal's shinies are gone.
+				trigger = {	scope:sack_status = flag:gold_plundered }
+				desc = ek_raiding.0004.desc.gold_plundered
+			}
+			desc = 	ek_raiding.0004.desc.spared_plundered #If the holding was spared, we have a lukewarm one response.
+		}
+	}
+	theme = battle
+	override_background = {
+		reference = temple
+	}
+	left_portrait = {
+		character = scope:raider
+		animation = anger
+	}
+	right_portrait = {
+		character = character:tavan_99
+		animation = personality_zealous
+	}	
+
+	#Oh no!
+	option = {	
+		name = {
+			text = ek_raiding.0004.a
+			trigger = {
+				NOT = { government_has_flag = government_is_tribal }
+			}
+		}
+		name = {
+			text = raiding.0004.a.tribal
+			trigger = { government_has_flag = government_is_tribal }
+		}
+		add_prestige = miniscule_prestige_loss
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_energy = -0.25	#Too lazy to care.
+				ai_compassion = -0.25	#But wouldn't care anyway.
+			}
+		}
+	}
+
+	#Send some cash-monies.
+	option = {	
+		name = ek_raiding.0004.b
+		trigger = {
+			NOT = { scope:sack_status = flag:spared_plundered }
+			OR = {
+				is_ai = no
+				short_term_gold >= medium_gold_value
+			}
+		}
+		pay_short_term_gold = {
+			target = scope:sacked_county.holder
+			gold = scope:sacked_barony.county.title_province.raid_gold_value
+		}
+		scope:sacked_county.holder = {
+			add_opinion = {
+				target = liege
+				modifier = grateful_opinion
+				opinion = 20
+			}
+		}
+		stress_impact = { greedy = medium_stress_impact_gain }
+		ai_chance = {
+			base = 20	#Reduced base chance: the AI shouldn't bankrupt itself helping vassals.
+			ai_value_modifier = {
+				ai_compassion = 0.25
+				ai_greed = -0.25
+			}
+			modifier = {	#Weight down for stress.
+				add = -20
+				has_trait = greedy
+			}
+		}
+	}
+
+	#I will pay for the reconstruction.
+	option = {
+		name = ek_raiding.0004.c
+		trigger = {
+			NOR = {
+				scope:sack_status = flag:spared_plundered
+				government_has_flag = government_is_tribal	#Tribes don't care about development.
+			}
+			OR = {
+				is_ai = no
+				short_term_gold >= scope:sacked_barony.county.title_province.raid_gold_value
+			}
+		}
+		remove_short_term_gold = scope:sacked_barony.county.title_province.raid_gold_value
+		scope:sacked_county.holder = {
+			add_opinion = {
+				target = liege
+				modifier = grateful_opinion
+				opinion = 30
+			}
+		}
+		scope:sacked_county = {
+			add_county_modifier = {
+				modifier = rebuilding_after_sacking_modifier
+				years = 10
+			}
+		}
+		if = {
+			limit = {
+				employs_court_position = royal_architect_court_position
+				any_court_position_holder = {
+					type = royal_architect_court_position
+				}
+			}
+			random_court_position_holder = {
+				type = royal_architect_court_position
+				save_scope_as = architect
+			}
+			custom_tooltip = raiding.0004.c.architect
+			scope:sacked_county.holder = {
+				send_interface_message = {
+					type = event_war_good
+					title = raiding.0004.c.feed.t
+					desc = raiding.0004.c.feed.desc2
+					right_icon = liege
+				}
+			}
+		}
+		else = {
+			scope:sacked_county.holder = {
+				send_interface_message = {
+					type = event_war_good
+					title = raiding.0004.c.feed.t
+					desc = raiding.0004.c.feed.desc
+					right_icon = liege
+				}
+			}
+		}
+		stress_impact = { greedy = medium_stress_impact_gain }
+		ai_chance = {
+			base = 10	#Reduced base chance: the AI shouldn't bankrupt itself helping vassals.
+			ai_value_modifier = {
+				ai_compassion = 0.5
+				ai_greed = -0.5
+			}
+			modifier = {	#Weight down for stress.
+				add = -20
+				has_trait = greedy
+			}
+		}
+	}
+}

@@ -1,0 +1,3652 @@
+﻿### Main pantheon doctrine
+# This doctrine is used when deciding who to syncretize with
+## Polytheistic pantheons give patron deities
+## Monotheistic pantheons give permanent bonuses
+# Would be cool if most of the direct bonuses could scale with devotion
+# But until Paradox reworks how to define it (i.e not hardcode it but do something like scale_with_piety_level = { } someting, it won't really be possible
+# Single princes pantheons do not have to give any permanent bonus, since it already gives access to the communions with the Prince
+# IMPORTANT NOTE: When adding a new pantheon, add it to the faiths_have_same_pantheon scripted_trigger (ek_religions_scripted_triggers.txt)
+# IMPORTANT NOTE: When adding a new secondary pantheon, add it to the faiths_syncretize_each_other scripted_trigger (ek_religions_scripted_triggers.txt)
+doctrine_main_pantheon_type = { # Removed once the faith is created
+	group = "pantheon"
+
+	doctrine_main_pantheon_type_polytheism = { # Access to patron deities
+		parameters = {
+			uses_polytheism_patrons_active = yes
+			unlocks_patron_tab_active = yes
+			same_main_pantheon_faith_hostility = yes
+		}
+	}
+
+	doctrine_main_pantheon_type_daedric_prince = { # Worships a specific Daedric Prince, giving stronger boons
+		parameters = {
+			uses_daedric_prince_focus_active = yes
+			daedra_pantheon_hostility = yes
+			same_main_pantheon_faith_hostility = yes
+		}
+	}
+
+	doctrine_main_pantheon_type_monolatrism = { # Worships a specific deity
+		parameters = {
+			uses_monolatry_aspect_active = yes
+			same_main_pantheon_faith_hostility = yes
+		}
+	}
+}
+
+doctrine_main_pantheon = {
+	group = "pantheon"
+
+	##############
+	# POLYTHEISM #
+	##############
+
+	### Aedric
+	## Atmoran
+	doctrine_pantheon_dragons = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_dragons }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_dragon_temple = yes
+			can_use_summon_dragons_active = yes
+			devotion_gives_reduced_cost_summon_dragons_active = yes
+		}
+	}
+	doctrine_pantheon_all_maker = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_all_maker }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+	}
+
+	## Nedic-Nordic pantheon
+	doctrine_pantheon_divines = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_divines }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deities_divines = yes
+			faith_uses_grand_cathedral = yes
+			divines_pantheon = yes
+		}
+	}
+	doctrine_pantheon_heroes = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_heroes }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deities_cyrodiilic_heroes = yes
+			faith_uses_grand_cathedral = yes
+		}
+	}
+	doctrine_pantheon_thousand_cults = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_thousand_cults }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = shezarr_worship_full_trigger
+				doctrine:doctrine_shezarr_worship_full = { is_in_list = selected_doctrines }
+			}
+		}
+		parameters = {
+			pantheon_adds_deities_thousand_cults = yes
+			faith_uses_grand_cathedral = yes
+		}
+	}
+	doctrine_pantheon_nedic_aedra = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_nedic_aedra }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = shezarr_worship_full_trigger
+				doctrine:doctrine_shezarr_worship_full = { is_in_list = selected_doctrines }
+			}
+		}
+		parameters = {
+			pantheon_adds_deities_nedic = yes
+			faith_uses_holy_site_other_grand_temple = yes
+			divines_pantheon_nedic = yes
+		}
+	}
+	doctrine_pantheon_redguard = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_divines }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deities_redguard = yes
+			faith_uses_grand_cathedral = yes
+			divines_pantheon_redguard = yes
+		}
+	}
+
+	doctrine_pantheon_nord = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_divines }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = shezarr_worship_full_trigger
+				doctrine:doctrine_shezarr_worship_full = { is_in_list = selected_doctrines }
+			}
+		}
+		parameters = {
+			pantheon_adds_deities_nord = yes
+			faith_uses_grand_cathedral = yes
+			divines_pantheon_nord = yes
+			atmoran_totems_hostility = yes
+		}
+	}
+
+	## Aldmeri pantheon
+	doctrine_pantheon_aedra = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_aedra }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = shezarr_worship_forbidden_trigger
+				doctrine:doctrine_shezarr_worship_forbidden = { is_in_list = selected_doctrines }
+			}
+		}
+		parameters = {
+			pantheon_adds_deities_aedra = yes
+			faith_uses_grand_cathedral = yes
+			aedra_hostility = yes
+		}
+	}
+
+	## Bosmeri pantheon
+	doctrine_pantheon_green_pact = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_green_pact }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deities_green_pact = yes
+			faith_uses_holy_site_other_grand_temple = yes
+			green_pact_hostility = yes
+		}
+	}
+
+	### Daedric
+	# hidden_is_worshipping_daedra = yes | hidden doctrine parameter (duh) mainly here so doctrine_daedra_worship_forbidden knows what to target
+	doctrine_pantheon_daedra = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_daedra }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		can_pick = {
+			# NOT = { creating_faith_has_several_daedric_princes_pantheon = yes }
+			# creating_faith_has_daedric_prince_pantheon = yes
+		}
+		parameters = {
+			pantheon_adds_deities_daedra = yes
+			faith_uses_daedric_shrine = yes
+		}
+	}
+
+	## Reach
+	doctrine_pantheon_dwemer_ancestors = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_dwemer_ancestors }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deities_dwemer_ancestors = yes
+			faith_uses_holy_site_other_grand_temple = yes
+			dwemer_hostility = yes
+		}
+	}
+
+	## Velothi
+	# Special combination of Daedra
+	doctrine_pantheon_good_daedra = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_good_daedra }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = doctrine_pantheon_good_daedra_trigger
+				NOR = {
+					doctrine:doctrine_malacath_pantheon = { is_in_list = selected_doctrines }
+					doctrine:doctrine_malacath_allowed = { is_in_list = selected_doctrines }
+					doctrine:doctrine_mehrunes_pantheon = { is_in_list = selected_doctrines }
+					doctrine:doctrine_mehrunes_allowed = { is_in_list = selected_doctrines }
+					doctrine:doctrine_molag_pantheon = { is_in_list = selected_doctrines }
+					doctrine:doctrine_molag_allowed = { is_in_list = selected_doctrines }
+					doctrine:doctrine_sheogorath_pantheon = { is_in_list = selected_doctrines }
+					doctrine:doctrine_sheogorath_allowed = { is_in_list = selected_doctrines }
+				}
+			}
+		}
+		parameters = {
+			pantheon_unlocks_daedra_good_daedra = yes
+			faith_uses_daedric_shrine = yes
+		}
+	}
+	doctrine_pantheon_bad_daedra = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_bad_daedra }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = doctrine_pantheon_bad_daedra_trigger
+				NOR = {
+					doctrine:doctrine_azura_pantheon = { is_in_list = selected_doctrines }
+					doctrine:doctrine_azura_allowed = { is_in_list = selected_doctrines }
+					doctrine:doctrine_boethiah_pantheon = { is_in_list = selected_doctrines }
+					doctrine:doctrine_boethiah_allowed = { is_in_list = selected_doctrines }
+					doctrine:doctrine_mephala_pantheon = { is_in_list = selected_doctrines }
+					doctrine:doctrine_mephala_allowed = { is_in_list = selected_doctrines }
+				}
+			}
+		}
+		parameters = {
+			pantheon_unlocks_daedra_bad_daedra = yes
+			faith_uses_daedric_shrine = yes
+		}
+	}
+	# Not really Daedra anymore
+	doctrine_pantheon_tribunal = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_tribunal }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deities_tribunal = yes
+			faith_hostility_dagoth = yes
+			faith_uses_daedric_shrine = yes
+		}
+	}
+	# Centered around Nerevar, but with the Good Daedra also in it
+	doctrine_pantheon_nerevar = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_nerevar }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			religion_tag = velothi_religion
+		}
+		parameters = {
+			pantheon_adds_deities_nerevar = yes
+			faith_uses_daedric_shrine = yes
+		}
+	}
+
+	doctrine_pantheon_ten_ancestors = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_ten_ancestors }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_unlocks_daedra_ten_ancestors = yes
+			faith_uses_daedric_shrine = yes
+		}
+	}
+
+	doctrine_pantheon_old_gods = {
+		icon = special_doctrine_reach_spirits
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_old_gods }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = shezarr_worship_full_trigger
+				doctrine:doctrine_shezarr_worship_full = { is_in_list = selected_doctrines }
+			}
+		}
+		parameters = {
+			pantheon_adds_deities_old_gods = yes
+			pantheon_unlocks_daedra_old_gods = yes
+			faith_uses_daedric_shrine = yes
+		}
+	}
+
+	### Aurbic
+	## Atmoran
+	doctrine_pantheon_atmoran_totems = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_atmoran_totems }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = shezarr_worship_full_trigger
+				doctrine:doctrine_shezarr_worship_full = { is_in_list = selected_doctrines }
+			}
+		}
+		parameters = {
+			pantheon_adds_deities_atmoran_totems = yes
+			faith_uses_holy_site_other_grand_temple = yes
+			nord_pantheon_hostility = yes
+		}
+	}
+
+	## Akaviri
+	doctrine_pantheon_elemental = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_elemental }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deities_elemental = yes
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+	}
+
+	## Khajiiti
+	doctrine_pantheon_riddlethar = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_riddlethar }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deities_riddlethar = yes
+			pantheon_unlocks_daedra_riddlethar = yes
+			faith_uses_holy_site_other_grand_temple = yes
+			riddlethar_hostility = yes
+		}
+	}
+	doctrine_pantheon_khajiiti = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_khajiiti }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deities_khajiiti = yes
+			pantheon_unlocks_daedra_khajiiti = yes
+			faith_uses_holy_site_other_grand_temple = yes
+			khajiiti_hostility = yes
+		}
+	}
+
+	# Forgotten Gods
+	doctrine_pantheon_forgotten_gods = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_forgotten_gods }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deities_forgotten_gods = yes
+			faith_uses_great_wyrd_tree = yes
+		}
+	}
+
+	# Magna-Ge
+	doctrine_pantheon_magna_ge = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_magna_ge }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deities_magna_ge = yes
+			unlocks_meridia_pantheon_active = yes
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+	}
+
+	# Lilmothiit
+	doctrine_pantheon_lilmothiit = {
+		icon = doctrine_pantheon_aspect_word_law
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_lilmothiit }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = shezarr_worship_full_trigger
+				doctrine:doctrine_shezarr_worship_full = { is_in_list = selected_doctrines }
+			}
+		}
+		parameters = {
+			pantheon_adds_deities_lilmothiit = yes
+			unlocks_azura_pantheon_active = yes
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+	}
+
+	#Reman
+	doctrine_pantheon_reman = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_reman }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deities_reman = yes
+			faith_uses_grand_cathedral = yes
+		}
+	}
+	#Trinimac
+	doctrine_pantheon_trinimac = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_trinimac }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deities_trinimac = yes
+			faith_uses_grand_cathedral = yes
+		}
+	}
+
+	## Yokudan pantheon
+	doctrine_pantheon_yokudan = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_yokudan }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deities_yokudan = yes
+			faith_uses_holy_site_other_grand_temple = yes
+			yokudan_hostility = yes
+		}
+	}
+	doctrine_pantheon_ragada = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_ragada }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_polytheism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deities_ragada = yes
+			faith_uses_holy_site_other_grand_temple = yes
+			ragada_hostility = yes
+		}
+	}
+
+	#####################
+	# DAEDRIC MONOLATRY #
+	#####################
+	doctrine_pantheon_azura = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_azura }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			can_see_doctrine_pantheon_daedra = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = faith_must_have_doctrine_azura_pantheon_trigger
+				doctrine:doctrine_azura_pantheon = { is_in_list = selected_doctrines }
+			}
+			NOT = { creating_faith_has_several_daedric_princes_pantheon = yes }
+		}
+		parameters = {
+			#worship_azura_focused_active = yes
+			adds_azura_pantheon_active = yes
+			faith_uses_daedric_shrine = yes
+		}
+		traits = {
+			virtues = { champion_azura = 2 }
+		}
+	}
+	doctrine_pantheon_boethiah = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_boethiah }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			can_see_doctrine_pantheon_daedra = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = faith_must_have_doctrine_boethiah_pantheon_trigger
+				doctrine:doctrine_boethiah_pantheon = { is_in_list = selected_doctrines }
+			}
+			NOT = { creating_faith_has_several_daedric_princes_pantheon = yes }
+		}
+		parameters = {
+			#worship_boethiah_focused_active = yes
+			adds_boethiah_pantheon_active = yes
+			faith_uses_daedric_shrine = yes
+		}
+		traits = {
+			virtues = { champion_boethiah = 2 }
+		}
+	}
+	doctrine_pantheon_clavicus = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_clavicus }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			can_see_doctrine_pantheon_daedra = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = faith_must_have_doctrine_clavicus_pantheon_trigger
+				doctrine:doctrine_clavicus_pantheon = { is_in_list = selected_doctrines }
+			}
+			NOT = { creating_faith_has_several_daedric_princes_pantheon = yes }
+		}
+		parameters = {
+			#worship_clavicus_focused_active = yes
+			adds_clavicus_pantheon_active = yes
+			faith_uses_daedric_shrine = yes
+		}
+		traits = {
+			virtues = { champion_clavicus = 2 }
+		}
+	}
+	doctrine_pantheon_hermaeus = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_hermaeus }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			can_see_doctrine_pantheon_daedra = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = faith_must_have_doctrine_hermaeus_pantheon_trigger
+				doctrine:doctrine_hermaeus_pantheon = { is_in_list = selected_doctrines }
+			}
+			NOT = { creating_faith_has_several_daedric_princes_pantheon = yes }
+		}
+		parameters = {
+			#worship_hermaeus_focused_active = yes
+			adds_hermaeus_pantheon_active = yes
+			faith_uses_daedric_shrine = yes
+		}
+		traits = {
+			virtues = { champion_hermaeus = 2 }
+		}
+	}
+	doctrine_pantheon_hircine = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_hircine }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			can_see_doctrine_pantheon_daedra = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = faith_must_have_doctrine_hircine_pantheon_trigger
+				doctrine:doctrine_hircine_pantheon = { is_in_list = selected_doctrines }
+			}
+			NOT = { creating_faith_has_several_daedric_princes_pantheon = yes }
+		}
+		parameters = {
+			#worship_hircine_focused_active = yes
+			adds_hircine_pantheon_active = yes
+			faith_uses_daedric_shrine = yes
+		}
+		traits = {
+			virtues = { champion_hircine = 2 }
+		}
+	}
+	doctrine_pantheon_malacath = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_malacath }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			can_see_doctrine_pantheon_daedra = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = faith_must_have_doctrine_malacath_pantheon_trigger
+				doctrine:doctrine_malacath_pantheon = { is_in_list = selected_doctrines }
+			}
+			NOT = { creating_faith_has_several_daedric_princes_pantheon = yes }
+		}
+		parameters = {
+			#worship_malacath_focused_active = yes
+			adds_malacath_pantheon_active = yes
+			faith_uses_daedric_shrine = yes
+		}
+		traits = {
+			virtues = { champion_malacath = 2 }
+		}
+	}
+	doctrine_pantheon_mehrunes = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_mehrunes }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			can_see_doctrine_pantheon_daedra = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = faith_must_have_doctrine_mehrunes_pantheon_trigger
+				doctrine:doctrine_mehrunes_pantheon = { is_in_list = selected_doctrines }
+			}
+			NOT = { creating_faith_has_several_daedric_princes_pantheon = yes }
+		}
+		parameters = {
+			#worship_mehrunes_focused_active = yes
+			adds_mehrunes_pantheon_active = yes
+			faith_uses_daedric_shrine = yes
+		}
+		traits = {
+			virtues = { champion_mehrunes = 2 }
+		}
+	}
+	doctrine_pantheon_mephala = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_mephala }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			can_see_doctrine_pantheon_daedra = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = faith_must_have_doctrine_mephala_pantheon_trigger
+				doctrine:doctrine_mephala_pantheon = { is_in_list = selected_doctrines }
+			}
+			NOT = { creating_faith_has_several_daedric_princes_pantheon = yes }
+		}
+		parameters = {
+			#worship_mephala_focused_active = yes
+			adds_mephala_pantheon_active = yes
+			faith_uses_daedric_shrine = yes
+		}
+		traits = {
+			virtues = { champion_mephala = 2 }
+		}
+	}
+	doctrine_pantheon_meridia = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_meridia }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			can_see_doctrine_pantheon_daedra = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = faith_must_have_doctrine_meridia_pantheon_trigger
+				doctrine:doctrine_meridia_pantheon = { is_in_list = selected_doctrines }
+			}
+			NOT = { creating_faith_has_several_daedric_princes_pantheon = yes }
+		}
+		parameters = {
+			#worship_meridia_focused_active = yes
+			adds_meridia_pantheon_active = yes
+			faith_uses_daedric_shrine = yes
+		}
+		traits = {
+			virtues = { champion_meridia = 2 }
+		}
+	}
+	doctrine_pantheon_molag = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_molag }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			can_see_doctrine_pantheon_daedra = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = faith_must_have_doctrine_molag_pantheon_trigger
+				doctrine:doctrine_molag_pantheon = { is_in_list = selected_doctrines }
+			}
+			NOT = { creating_faith_has_several_daedric_princes_pantheon = yes }
+		}
+		parameters = {
+			#worship_molag_focused_active = yes
+			adds_molag_pantheon_active = yes
+			faith_uses_daedric_shrine = yes
+		}
+		traits = {
+			virtues = { champion_molag = 2 }
+		}
+	}
+	doctrine_pantheon_namira = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_namira }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			can_see_doctrine_pantheon_daedra = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = faith_must_have_doctrine_namira_pantheon_trigger
+				doctrine:doctrine_namira_pantheon = { is_in_list = selected_doctrines }
+			}
+			NOT = { creating_faith_has_several_daedric_princes_pantheon = yes }
+		}
+		parameters = {
+			#worship_namira_focused_active = yes
+			adds_namira_pantheon_active = yes
+			faith_uses_daedric_shrine = yes
+		}
+		traits = {
+			virtues = { champion_namira = 2 }
+		}
+	}
+	doctrine_pantheon_nocturnal = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_nocturnal }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			can_see_doctrine_pantheon_daedra = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = faith_must_have_doctrine_nocturnal_pantheon_trigger
+				doctrine:doctrine_nocturnal_pantheon = { is_in_list = selected_doctrines }
+			}
+			NOT = { creating_faith_has_several_daedric_princes_pantheon = yes }
+		}
+		parameters = {
+			#worship_nocturnal_focused_active = yes
+			adds_nocturnal_pantheon_active = yes
+			faith_uses_daedric_shrine = yes
+		}
+		traits = {
+			virtues = { champion_nocturnal = 2 }
+		}
+	}
+	doctrine_pantheon_peryite = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_peryite }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			can_see_doctrine_pantheon_daedra = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = faith_must_have_doctrine_peryite_pantheon_trigger
+				doctrine:doctrine_peryite_pantheon = { is_in_list = selected_doctrines }
+			}
+			NOT = { creating_faith_has_several_daedric_princes_pantheon = yes }
+		}
+		parameters = {
+			#worship_peryite_focused_active = yes
+			adds_peryite_pantheon_active = yes
+			faith_uses_daedric_shrine = yes
+		}
+		traits = {
+			virtues = { champion_peryite = 2 }
+		}
+	}
+	doctrine_pantheon_sanguine = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_sanguine }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			can_see_doctrine_pantheon_daedra = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = faith_must_have_doctrine_sanguine_pantheon_trigger
+				doctrine:doctrine_sanguine_pantheon = { is_in_list = selected_doctrines }
+			}
+			NOT = { creating_faith_has_several_daedric_princes_pantheon = yes }
+		}
+		parameters = {
+			#worship_sanguine_focused_active = yes
+			adds_sanguine_pantheon_active = yes
+			faith_uses_daedric_shrine = yes
+		}
+		traits = {
+			virtues = { champion_sanguine = 2 }
+		}
+	}
+	doctrine_pantheon_sheogorath = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_sheogorath }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			can_see_doctrine_pantheon_daedra = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = faith_must_have_doctrine_sheogorath_pantheon_trigger
+				doctrine:doctrine_sheogorath_pantheon = { is_in_list = selected_doctrines }
+			}
+			NOT = { creating_faith_has_several_daedric_princes_pantheon = yes }
+		}
+		parameters = {
+			#worship_sheogorath_focused_active = yes
+			adds_sheogorath_pantheon_active = yes
+			faith_uses_daedric_shrine = yes
+		}
+		traits = {
+			virtues = { champion_sheogorath= 2 }
+		}
+	}
+	doctrine_pantheon_vaermina = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_vaermina }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			can_see_doctrine_pantheon_daedra = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = faith_must_have_doctrine_vaermina_pantheon_trigger
+				doctrine:doctrine_vaermina_pantheon = { is_in_list = selected_doctrines }
+			}
+			NOT = { creating_faith_has_several_daedric_princes_pantheon = yes }
+		}
+		parameters = {
+			#worship_vaermina_focused_active = yes
+			adds_vaermina_pantheon_active = yes
+			faith_uses_daedric_shrine = yes
+		}
+		traits = {
+			virtues = { champion_vaermina = 2 }
+		}
+	}
+
+	#############
+	# MONOLATRY #
+	#############
+
+	### No specific deity
+	doctrine_pantheon_no_monolatry_pantheon = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_the_one }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_no_holy_site = yes
+		}
+	}
+
+	### Aedric
+	## Nedic-Nordic pantheon
+	doctrine_pantheon_the_one = { # The One
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_the_one }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_grand_cathedral = yes
+		}
+	}
+	doctrine_pantheon_lorkhan = { # Lorkhan
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_lorkhan }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = shezarr_worship_full_trigger
+				doctrine:doctrine_shezarr_worship_full = { is_in_list = selected_doctrines }
+			}
+		}
+		parameters = {
+			faith_uses_grand_cathedral = yes
+		}
+	}
+	doctrine_pantheon_ancestor_moth = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_ancestor_moth }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+	}
+
+	## Aldmeri pantheon
+
+	## Yokudan pantheon
+	doctrine_pantheon_herd_mother = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_herd_mother }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+	}
+
+	## Reach
+	doctrine_pantheon_druadach = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_druadach }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+		character_modifier = {
+			mountains_advantage = 10
+			mountains_attrition_mult = -0.5
+		}
+	}
+
+	### Aurbic
+	# Imga
+	doctrine_pantheon_ius = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_ius }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+	}
+
+	doctrine_pantheon_anui_el = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_anui_el }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+	}
+
+	# Wilderking
+	doctrine_pantheon_wilderking = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_wilderking}
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+			wilderking_hostility = yes
+		}
+
+		can_pick = { # the Wilderking lays down his own Law
+			custom_tooltip = {
+				text = wilderking_custom_faith_blocker
+				always = no
+			}
+		}
+	}
+	
+	## Celestials
+	doctrine_pantheon_celestials = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_celestials }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+	}
+	doctrine_pantheon_celestial_serpent = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_celestial_serpent }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+			serpent_priest = yes
+		}
+		traits = {
+			virtues = { sign_serpent = 2 }
+		}
+
+	}
+	doctrine_pantheon_magnus = {
+		icon = doctrine_sp_aedra_magnus
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_magnus }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = shezarr_worship_forbidden_trigger
+				doctrine:doctrine_shezarr_worship_forbidden = { is_in_list = selected_doctrines }
+			}
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+	}
+	## Wyrd
+	doctrine_pantheon_jephre = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_jephre }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_great_wyrd_tree = yes
+		}
+	}
+
+	## Khajiiti
+	doctrine_pantheon_baandar = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_baandar }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+			baandar_hostility = yes
+		}
+	}
+
+	## The Deep
+	doctrine_pantheon_deepones = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_deepones }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+	}
+	doctrine_pantheon_xrib = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_xrib }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+	}
+
+	## Hist
+	doctrine_pantheon_hist = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_hist }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+			unlocks_hist_communion = yes
+		}
+	}
+	
+	## Sithis
+	doctrine_pantheon_sithis = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_sithis }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+	}
+	doctrine_pantheon_ghost_snake = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_ghost_snake }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+	}
+
+	## Necromantic
+	doctrine_pantheon_mannimarco = {
+		name = {
+			first_valid = {
+				triggered_desc = {
+					trigger = { character:mannimarco_1000 = { is_alive = yes }} #not dead - King of Worms
+					desc = doctrine_pantheon_mannimarco_name
+				}
+				desc = doctrine_pantheon_mannimarco_name_dead #dead - God of Worms
+			}
+		}
+		desc = {
+			first_valid = {
+				triggered_desc = {
+					trigger = { character:mannimarco_1000 = { AND = { is_alive = no has_trait = lich_character }}} #lich, then dead
+					desc = doctrine_pantheon_mannimarco_desc_lich_dead
+				}
+				triggered_desc = {
+					trigger = { character:mannimarco_1000 = { AND = { is_alive = yes has_trait = lich_character }}} #lich, not dead
+					desc = doctrine_pantheon_mannimarco_desc_lich
+				}
+				triggered_desc = {
+					trigger = { character:mannimarco_1000 = { AND = { is_alive = no has_trait = vampire_character }}} #vampire, then dead
+					desc = doctrine_pantheon_mannimarco_desc_vampire_dead
+				}
+				triggered_desc = {
+					trigger = { character:mannimarco_1000 = { AND = { is_alive = yes has_trait = vampire_character }}} #vampire, not dead
+					desc = doctrine_pantheon_mannimarco_desc_vampire
+				}
+				triggered_desc = {
+					trigger = { character:mannimarco_1000 = { AND = { is_alive = no has_trait = lifespan_magic_6 }}} #immortal (lifespan 6), then dead
+					desc = doctrine_pantheon_mannimarco_desc_immortal_dead
+				}
+				triggered_desc = {
+					trigger = { character:mannimarco_1000 = { AND = { is_alive = yes has_trait = lifespan_magic_6 }}} #immortal (lifespan 6), not dead
+					desc = doctrine_pantheon_mannimarco_desc_immortal
+				}
+				triggered_desc = {
+					trigger = { character:mannimarco_1000 = { is_alive = yes }} #not dead
+					desc = doctrine_pantheon_mannimarco_desc
+				}
+				desc = doctrine_pantheon_mannimarco_desc_dead #dead
+			}
+		}
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_mannimarco }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = necromancy_related_doctrine_trigger
+				doctrine:doctrine_necromancy_accepted = { is_in_list = selected_doctrines }
+			}
+		}
+	}
+	doctrine_pantheon_ideal_masters = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_ideal_masters }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = necromancy_related_doctrine_trigger
+				doctrine:doctrine_necromancy_accepted = { is_in_list = selected_doctrines }
+			}
+		}
+	}
+
+	## Osh Ornim
+	doctrine_pantheon_stones = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_stones }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+	}
+
+	## Vampiric
+	doctrine_pantheon_lamae = {
+		desc = {
+			first_valid = {
+				triggered_desc = {
+					trigger = { character:bal_100 = { AND = { is_alive = yes NOT = { has_trait = vampire_character }}}} #in case she should lose the trait in some freak accident ???
+					desc = doctrine_pantheon_lamae_desc_alt_mortal
+				}
+				triggered_desc = {
+					trigger = { character:bal_100 = { is_alive = yes }}
+					desc = doctrine_pantheon_lamae_desc
+				}
+				desc = doctrine_pantheon_lamae_desc_alt
+			}
+		}
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_lamae }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = vampirism_related_doctrine_trigger
+				doctrine:doctrine_vampirism_virtuous = { is_in_list = selected_doctrines }
+			}
+		}
+	}
+
+	## Yoku
+	doctrine_pantheon_satakal = {
+		icon = doctrine_pantheon_ghost_snake # EK NOTE: REPLACE
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_satakal }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			faith_uses_holy_site_other_grand_temple = yes
+			satakal_hostility = yes
+		}
+	}
+
+	### Non-Prince Daedric
+	## Velothi
+	doctrine_pantheon_dagoth = {
+		piety_cost = {
+			value = faith_doctrine_cost_high
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_dagoth }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+
+		parameters = {
+			faith_hostility_tribunal = yes
+			faith_uses_daedric_shrine = yes
+		}
+
+		can_pick = { #no one but Dagoth should want this
+			custom_tooltip = {
+				text = sixth_house_custom_faith_blocker
+				always = no
+			}
+		}
+	}
+}	
+
+doctrine_main_pantheon_aspect = { # If you pick Monolatrism and not a Daedric Prince
+	group = "pantheon"
+
+	doctrine_pantheon_no_aspect = { # No aspect
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			multiply = faith_unchanged_doctrine_cost_mult
+		}
+		is_shown = {
+		}
+		parameters = {
+		}
+	}
+	doctrine_pantheon_aspect_knowledge = { # Lifestyle exp
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_aspect_knowledge }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			devotion_gives_lifestyle_experience = yes
+			### EK TODO: The two things below
+			devotion_lvl_4_gives_increase_education = yes
+			devotion_lvl_5_gives_change_education = yes
+		}
+	}
+	doctrine_pantheon_aspect_religious_war = { # Holy Wars cost and piety + devotion gain
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_aspect_religious_war }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			devotion_gives_holy_war_cost_piety_gain = yes
+			devotion_lvl_4_gives_hostile_holy_war = yes
+			devotion_lvl_5_gives_unlimited_kingdom_holy_war = yes
+		}
+	}
+	doctrine_pantheon_aspect_harmony = { # Popular opinion
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_aspect_harmony }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			devotion_gives_popular_opinion = yes
+		}
+	}
+	doctrine_pantheon_aspect_cavalry = { # Cavalry stats
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_aspect_cavalry }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			devotion_gives_cavalry_effectiveness = yes
+		}
+	}
+	doctrine_pantheon_aspect_county_control = { # County control base and % growth
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_aspect_county_control }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			devotion_gives_control_growth = yes
+			### EK TODO: Level 4 unlocks absolute country control, level 5 allows spending piety to get 100 control
+		}
+	}
+	doctrine_pantheon_aspect_development = { # Development base and % growth
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_aspect_development }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			devotion_gives_development_progress = yes
+		}
+	}
+	doctrine_pantheon_aspect_naval = { # Naval speed and embarkation cost
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_aspect_naval }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			devotion_gives_naval_speed = yes
+			### EK TODO: Level 4 unlocks river sailing, level 5 removes penalties from disembarkment
+		}
+	}
+	doctrine_pantheon_aspect_inner_peace = { # Stress gain reduction and stress loss bonus
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_aspect_inner_peace }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			devotion_gives_stress_bonus = yes
+			devotion_lvl_4_gives_lose_coping_trait = yes
+			devotion_lvl_5_gives_choose_coping_trait = yes
+		}
+	}
+	doctrine_pantheon_aspect_word_law = { # Tyranny gain reduction and vassal opinion
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_aspect_word_law }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			devotion_gives_tyranny_reduction_vassal_opinion = yes
+			### EK TODO: Level 4 unlocks ability to spend piety to not receive tyranny, level 5 allows spending piety to declare a vassal criminal
+		}
+	}
+	doctrine_pantheon_aspect_stars = { # Star sign power scaling with devotion
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_aspect_stars }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			devotion_gives_star_sign_power = yes
+			### EK TODO: The two things below
+			devotion_lvl_4_gives_changing_star_sign = yes
+			devotion_lvl_5_gives_second_star_sign = yes
+		}
+	}
+	doctrine_pantheon_aspect_attraction = { # Attraction opinion + seduction scheme success chance
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_aspect_attraction }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			devotion_gives_attraction_opinion = yes
+			devotion_lvl_4_gives_seduction_scheme_power = yes
+			devotion_lvl_5_gives_additional_seduction_scheme = yes
+		}
+	}
+	doctrine_pantheon_aspect_hostile_scheme = { # Hostile scheme power
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_pantheon_aspect_hostile_scheme }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			devotion_gives_hostile_scheme_power = yes
+			### EK TODO: The two things below
+			devotion_lvl_4_gives_hostile_scheme_defense = yes
+			devotion_lvl_5_gives_additional_hostile_scheme = yes
+		}
+	}
+}
+
+### Doctrine dictating the worship of shezarr
+doctrine_shezarr_worship = {
+	group = "pantheon"
+
+	doctrine_shezarr_worship_full = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_shezarr_worship_full }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_shezarr_worship_neutral }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_shezarr_worship_forbidden }
+				multiply = faith_changed_doctrine_cost_mult_three_step
+			}
+		}
+		parameters = {
+			shezarr_worship_full_hostility = yes
+		}
+	}
+
+	doctrine_shezarr_worship_respected = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_shezarr_worship_respected }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_shezarr_worship_forbidden }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+		parameters = {
+			shezarr_worship_respected_hostility = yes
+		}
+	}
+
+	doctrine_shezarr_worship_neutral = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_shezarr_worship_neutral }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_shezarr_worship_full }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+		}
+	}
+
+	doctrine_shezarr_worship_forbidden = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_shezarr_worship_forbidden }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_shezarr_worship_respected }
+				multiply = faith_changed_doctrine_cost_mult_two_step
+			}
+			else_if = {
+				limit = { has_doctrine = doctrine_shezarr_worship_full }
+				multiply = faith_changed_doctrine_cost_mult_three_step
+			}
+		}
+		parameters = {
+			shezarr_worship_forbidden_hostility = yes
+		}
+	}
+}
+
+### Secondary pantheon doctrine
+doctrine_secondary_pantheon = {
+	# group = "secondary_pantheon"
+	group = "pantheon"
+
+	doctrine_sp_none = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_none }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		parameters = {
+			no_secondary_pantheon_active = yes
+		}
+		character_modifier = {
+			same_faith_opinion = 5
+		}
+	}
+
+	doctrine_sp_divines = {
+		icon = doctrine_pantheon_divines
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_divines }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			NOT = { doctrine:doctrine_pantheon_divines = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_pantheon_redguard = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_pantheon_nord = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_pantheon_nedic_aedra = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_main_pantheon_type_daedric_prince = { is_in_list = selected_doctrines } } # No talkie-backsie, you said you'd revere a single Daedric Prince and no one else
+		}
+		parameters = {
+			divines_pantheon_syncretism = yes
+			unlocks_patron_tab_active = yes
+		}
+	}
+	doctrine_sp_redguard = {
+		icon = doctrine_pantheon_redguard
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_redguard }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			NOT = { doctrine:doctrine_pantheon_divines = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_pantheon_redguard = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_pantheon_nord = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_pantheon_nedic_aedra = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_main_pantheon_type_daedric_prince = { is_in_list = selected_doctrines } } # No talkie-backsie, you said you'd revere a single Daedric Prince and no one else
+		}
+		parameters = {
+			redguard_pantheon_syncretism = yes
+			unlocks_patron_tab_active = yes
+		}
+	}
+	doctrine_sp_nord = {
+		icon = doctrine_pantheon_nord
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_nord }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			NOT = { doctrine:doctrine_pantheon_divines = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_pantheon_redguard = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_pantheon_nord = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_pantheon_nedic_aedra = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_main_pantheon_type_daedric_prince = { is_in_list = selected_doctrines } } # No talkie-backsie, you said you'd revere a single Daedric Prince and no one else
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = shezarr_worship_full_trigger
+				doctrine:doctrine_shezarr_worship_full = { is_in_list = selected_doctrines }
+			}
+		}
+		parameters = {
+			nord_pantheon_syncretism = yes
+			unlocks_patron_tab_active = yes
+		}
+	}
+	doctrine_sp_nedic_aedra = {
+		icon = doctrine_pantheon_nedic_aedra
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_nedic_aedra }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			NOT = { doctrine:doctrine_pantheon_divines = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_pantheon_redguard = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_pantheon_nord = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_pantheon_nedic_aedra = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_main_pantheon_type_daedric_prince = { is_in_list = selected_doctrines } } # No talkie-backsie, you said you'd revere a single Daedric Prince and no one else
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = shezarr_worship_full_trigger
+				doctrine:doctrine_shezarr_worship_full = { is_in_list = selected_doctrines }
+			}
+		}
+		parameters = {
+			nedic_aedra_pantheon_syncretism = yes
+			unlocks_patron_tab_active = yes
+		}
+	}
+	doctrine_sp_aedra = {
+		icon = doctrine_pantheon_aedra
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_aedra }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			NOT = { doctrine:doctrine_pantheon_aedra = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_main_pantheon_type_daedric_prince = { is_in_list = selected_doctrines } } # No talkie-backsie, you said you'd revere a single Daedric Prince and no one else
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = shezarr_worship_forbidden_trigger
+				doctrine:doctrine_shezarr_worship_forbidden = { is_in_list = selected_doctrines }
+			}
+		}
+		parameters = {
+			aedra_pantheon_syncretism = yes
+			unlocks_patron_tab_active = yes
+		}
+	}
+
+	doctrine_sp_daedra = {
+		icon = doctrine_pantheon_daedra
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_daedra }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			NOT = { doctrine:doctrine_pantheon_daedra = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_main_pantheon_type_daedric_prince = { is_in_list = selected_doctrines } } # No talkie-backsie, you said you'd revere a single Daedric Prince and no one else
+		}
+		parameters = {
+			daedra_pantheon_syncretism = yes
+			unlocks_patron_tab_active = yes
+		}
+	}
+
+	doctrine_sp_atmoran_totems = {
+		icon = doctrine_pantheon_atmoran_totems
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_atmoran_totems }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			NOT = { doctrine:doctrine_pantheon_atmoran_totems = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_main_pantheon_type_daedric_prince = { is_in_list = selected_doctrines } } # No talkie-backsie, you said you'd revere a single Daedric Prince and no one else
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = shezarr_worship_full_trigger
+				doctrine:doctrine_shezarr_worship_full = { is_in_list = selected_doctrines }
+			}
+		}
+		parameters = {
+			atmoran_totems_pantheon_syncretism = yes
+			unlocks_patron_tab_active = yes
+		}
+	}
+
+	doctrine_sp_nerevar = {
+		icon = doctrine_pantheon_nerevar
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_nerevar }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			NOT = { doctrine:doctrine_pantheon_nerevar = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_main_pantheon_type_daedric_prince = { is_in_list = selected_doctrines } } # No talkie-backsie, you said you'd revere a single Daedric Prince and no one else
+		}
+		parameters = {
+			nerevar_pantheon_syncretism = yes
+			unlocks_patron_tab_active = yes
+		}
+	}
+
+	doctrine_sp_lorkhan = {
+		icon = doctrine_pantheon_lorkhan
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_lorkhan }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			NOR = { # Mixing a main pantheon containing Lorkhan with a secondary about Lorkhan makes little sense
+				doctrine:doctrine_pantheon_lorkhan = { is_in_list = selected_doctrines }
+				doctrine:doctrine_pantheon_nord = { is_in_list = selected_doctrines }
+				doctrine:doctrine_pantheon_nedic_aedra = { is_in_list = selected_doctrines }
+				doctrine:doctrine_pantheon_thousand_cults = { is_in_list = selected_doctrines }
+				doctrine:doctrine_pantheon_atmoran_totems = { is_in_list = selected_doctrines }
+				doctrine:doctrine_pantheon_lilmothiit = { is_in_list = selected_doctrines }
+			}
+			NOT = { doctrine:doctrine_main_pantheon_type_daedric_prince = { is_in_list = selected_doctrines } } # No talkie-backsie, you said you'd revere a single Daedric Prince and no one else
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = shezarr_worship_full_trigger
+				doctrine:doctrine_shezarr_worship_full = { is_in_list = selected_doctrines }
+			}
+		}
+		parameters = {
+			unlocks_patron_tab_active = yes
+		}
+	}
+	doctrine_sp_good_daedra = {
+		icon = doctrine_pantheon_good_daedra
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_good_daedra }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			NOT = { doctrine:doctrine_pantheon_good_daedra = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_main_pantheon_type_daedric_prince = { is_in_list = selected_doctrines } } # No talkie-backsie, you said you'd revere a single Daedric Prince and no one else
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = doctrine_pantheon_good_daedra_trigger
+				NOR = {
+					doctrine:doctrine_malacath_pantheon = { is_in_list = selected_doctrines }
+					doctrine:doctrine_malacath_allowed = { is_in_list = selected_doctrines }
+					doctrine:doctrine_mehrunes_pantheon = { is_in_list = selected_doctrines }
+					doctrine:doctrine_mehrunes_allowed = { is_in_list = selected_doctrines }
+					doctrine:doctrine_molag_pantheon = { is_in_list = selected_doctrines }
+					doctrine:doctrine_molag_allowed = { is_in_list = selected_doctrines }
+					doctrine:doctrine_sheogorath_pantheon = { is_in_list = selected_doctrines }
+					doctrine:doctrine_sheogorath_allowed = { is_in_list = selected_doctrines }
+				}
+			}
+		}
+		parameters = {
+			good_daedra_pantheon_syncretism = yes
+			unlocks_patron_tab_active = yes
+		}
+	}
+	doctrine_sp_magna_ge = {
+		icon = doctrine_pantheon_magna_ge
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_magna_ge }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			NOT = { doctrine:doctrine_pantheon_magna_ge = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_main_pantheon_type_daedric_prince = { is_in_list = selected_doctrines } } # No talkie-backsie, you said you'd revere a single Daedric Prince and no one else
+		}
+		parameters = {
+			magna_ge_pantheon_syncretism = yes
+			unlocks_patron_tab_active = yes
+		}
+	}
+	doctrine_sp_heroes = {
+		icon = doctrine_pantheon_heroes
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_heroes }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			NOT = { doctrine:doctrine_pantheon_heroes = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_main_pantheon_type_daedric_prince = { is_in_list = selected_doctrines } } # No talkie-backsie, you said you'd revere a single Daedric Prince and no one else
+		}
+		parameters = {
+			heroes_pantheon_syncretism = yes
+			unlocks_patron_tab_active = yes
+		}
+	}
+	doctrine_sp_reman = {
+		icon = doctrine_pantheon_reman
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_reman }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			NOT = { doctrine:doctrine_pantheon_reman = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_main_pantheon_type_daedric_prince = { is_in_list = selected_doctrines } } # No talkie-backsie, you said you'd revere a single Daedric Prince and no one else
+		}
+		parameters = {
+			reman_pantheon_syncretism = yes
+			unlocks_patron_tab_active = yes
+		}
+	}
+	doctrine_sp_trinimac = {
+		icon = doctrine_pantheon_trinimac
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_trinimac }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			NOT = { doctrine:doctrine_pantheon_trinimac = { is_in_list = selected_doctrines } }
+			NOT = { doctrine:doctrine_main_pantheon_type_daedric_prince = { is_in_list = selected_doctrines } } # No talkie-backsie, you said you'd revere a single Daedric Prince and no one else
+		}
+		parameters = {
+			trinimac_pantheon_syncretism = yes
+			unlocks_patron_tab_active = yes
+		}
+	}
+}
+
+### Secondary deities
+## Up to 3
+doctrine_secondary_pantheon_deity = {
+	group = "secondary_pantheon"
+	number_of_picks = 3
+
+
+	is_available_on_create = { NOT = { doctrine:doctrine_sp_none = { is_in_list = selected_doctrines } } }
+
+	### Special
+	doctrine_sp_no_deity_1 = {
+		is_shown = {
+			OR = {
+				doctrine:doctrine_sp_none = { is_in_list = selected_doctrines }
+				NAND = {
+					doctrine:doctrine_sp_no_deity_2 = { is_in_list = selected_doctrines }
+					doctrine:doctrine_sp_no_deity_3 = { is_in_list = selected_doctrines }
+				}
+			}
+		}
+		can_pick = {
+			OR = {
+				doctrine:doctrine_sp_none = { is_in_list = selected_doctrines }
+				NAND = {
+					doctrine:doctrine_sp_no_deity_2 = { is_in_list = selected_doctrines }
+					doctrine:doctrine_sp_no_deity_3 = { is_in_list = selected_doctrines }
+				}
+			}
+		}
+		parameters = {
+		}
+	}
+	doctrine_sp_no_deity_2 = {
+		is_shown = {
+			OR = {
+				doctrine:doctrine_sp_none = { is_in_list = selected_doctrines }
+				NAND = {
+					doctrine:doctrine_sp_no_deity_1 = { is_in_list = selected_doctrines }
+					doctrine:doctrine_sp_no_deity_3 = { is_in_list = selected_doctrines }
+				}
+			}
+		}
+		can_pick = {
+			OR = {
+				doctrine:doctrine_sp_none = { is_in_list = selected_doctrines }
+				NAND = {
+					doctrine:doctrine_sp_no_deity_1 = { is_in_list = selected_doctrines }
+					doctrine:doctrine_sp_no_deity_3 = { is_in_list = selected_doctrines }
+				}
+			}
+		}
+		parameters = {
+		}
+	}
+	doctrine_sp_no_deity_3 = {
+		is_shown = {
+			OR = {
+				doctrine:doctrine_sp_none = { is_in_list = selected_doctrines }
+				NAND = {
+					doctrine:doctrine_sp_no_deity_1 = { is_in_list = selected_doctrines }
+					doctrine:doctrine_sp_no_deity_2 = { is_in_list = selected_doctrines }
+				}
+			}
+		}
+		can_pick = {
+			OR = {
+				doctrine:doctrine_sp_none = { is_in_list = selected_doctrines }
+				NAND = {
+					doctrine:doctrine_sp_no_deity_1 = { is_in_list = selected_doctrines }
+					doctrine:doctrine_sp_no_deity_2 = { is_in_list = selected_doctrines }
+				}
+			}
+		}
+		parameters = {
+		}
+	}
+
+	### Divines
+	doctrine_sp_divines_akatosh = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_divines_akatosh }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_divines = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_akatosh = yes
+		}
+	}
+	doctrine_sp_divines_arkay = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_divines_arkay }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_divines = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_arkay = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = anti_undeath_god_doctrine_trigger
+				NOR = {
+					doctrine:doctrine_vampirism_accepted = { is_in_list = selected_doctrines }
+					doctrine:doctrine_vampirism_virtuous = { is_in_list = selected_doctrines }
+					doctrine:doctrine_necromancy_accepted = { is_in_list = selected_doctrines }
+				}	
+			}	
+		}
+	}
+	doctrine_sp_divines_dibella = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_divines_dibella }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_divines = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_dibella = yes
+		}
+	}
+	doctrine_sp_divines_julianos = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_divines_julianos }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_divines = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_julianos = yes
+		}
+	}
+	doctrine_sp_divines_kynareth = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_divines_kynareth }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_divines = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_kynareth = yes
+		}
+	}
+	doctrine_sp_divines_mara = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_divines_mara }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_divines = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_mara = yes
+		}
+	}
+	doctrine_sp_divines_stendarr = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_divines_stendarr }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_divines = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_stendarr = yes
+		}
+	}
+	doctrine_sp_divines_zenithar = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_divines_zenithar }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_divines = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_zenithar = yes
+		}
+	}
+
+	### Redguard Creed
+	doctrine_sp_redguard_akatosh = {
+		icon = doctrine_sp_divines_akatosh
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_redguard_akatosh }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_redguard = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_akatosh = yes
+		}
+	}
+	doctrine_sp_redguard_arkay = {
+		icon = doctrine_sp_divines_arkay
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_redguard_arkay }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_redguard = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_arkay = yes
+		}
+	}
+	doctrine_sp_redguard_kynareth = {
+		icon = doctrine_sp_divines_kynareth
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_redguard_kynareth }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_redguard = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_kynareth = yes
+		}
+	}
+	doctrine_sp_redguard_zenithar = {
+		icon = doctrine_sp_divines_zenithar
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_redguard_zenithar }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_redguard = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_zenithar = yes
+		}
+	}
+	doctrine_sp_redguard_morwha = {
+		icon = doctrine_sp_divines_mara
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_redguard_morwha }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_redguard = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_morwha = yes
+		}
+	}
+	doctrine_sp_redguard_onsi = {
+		icon = doctrine_sp_divines_stendarr #EK NOTE: REPLACE
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_redguard_onsi }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_redguard = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_onsi = yes
+		}
+	}
+	doctrine_sp_redguard_ruptga = {
+		icon = doctrine_sp_divines_zenithar #EK NOTE: REPLACE
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_redguard_ruptga }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_redguard = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_ruptga = yes
+		}
+	}
+	doctrine_sp_redguard_reman = {
+		icon = doctrine_sp_heroes_reman
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_redguard_reman }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_redguard = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_reman = yes
+		}
+	}
+
+	### Nordic Pantheon
+	doctrine_sp_nord_dibella = {
+		icon = doctrine_sp_divines_dibella
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_nord_dibella }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_nord = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_nord_dibella = yes
+		}
+	}
+	doctrine_sp_nord_jhunal = {
+		icon = doctrine_sp_at_owl
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_nord_jhunal }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_nord = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_jhunal = yes
+		}
+	}
+	doctrine_sp_nord_kyne = {
+		icon = doctrine_sp_at_hawk
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_nord_kyne }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_nord = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_kyne = yes
+		}
+	}
+	doctrine_sp_nord_mara = {
+		icon = doctrine_sp_divines_mara
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_nord_mara }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_nord = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_nord_mara = yes
+		}
+	}
+	doctrine_sp_nord_stuhn = {
+		icon = doctrine_sp_at_whale
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_nord_stuhn }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_nord = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_stuhn = yes
+		}
+	}
+	doctrine_sp_nord_tsun = {
+		icon = doctrine_sp_at_bear
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_nord_tsun }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_nord = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_tsun = yes
+		}
+	}
+	doctrine_sp_nord_shor = {
+		icon = doctrine_sp_at_fox
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_nord_shor }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_nord = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_shor = yes
+		}
+	}
+
+	### Nedic Aedra
+	doctrine_sp_nedic_aedra_shezarr = {
+		icon = doctrine_pantheon_lorkhan
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_nedic_aedra_shezarr }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_nedic_aedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_shezarr_nede = yes
+		}
+	}
+	doctrine_sp_nedic_aedra_arkay = {
+		icon = doctrine_sp_divines_arkay
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_nedic_aedra_arkay }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_nedic_aedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_arkay_nede = yes
+		}
+	}
+	doctrine_sp_nedic_aedra_dibella = {
+		icon = doctrine_sp_divines_dibella
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_nedic_aedra_dibella }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_nedic_aedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_dibella_nede = yes
+		}
+	}
+	doctrine_sp_nedic_aedra_kynareth = {
+		icon = doctrine_sp_divines_kynareth
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_nedic_aedra_kynareth }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_nedic_aedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_kynareth_nede = yes
+		}
+	}
+	doctrine_sp_nedic_aedra_mara = {
+		icon = doctrine_sp_divines_mara
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_nedic_aedra_mara }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_nedic_aedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_mara = yes
+		}
+	}
+	doctrine_sp_nedic_aedra_zenithar = {
+		icon = doctrine_sp_divines_zenithar
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_nedic_aedra_zenithar }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_nedic_aedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_zenithar_nede = yes
+		}
+	}
+
+	### Aedra
+	doctrine_sp_aedra_auriel = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_aedra_auriel }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_aedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_auriel = yes
+		}
+	}
+	doctrine_sp_aedra_yffre = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_aedra_yffre }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_aedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_yffre = yes
+		}
+	}
+	doctrine_sp_aedra_magnus = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_aedra_magnus }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_aedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_magnus = yes
+		}
+	}
+	doctrine_sp_aedra_phynaster = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_aedra_phynaster }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_aedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_phynaster = yes
+		}
+	}
+	doctrine_sp_aedra_syrabane = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_aedra_syrabane }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_aedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_syrabane = yes
+		}
+	}
+	doctrine_sp_aedra_trinimac = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_aedra_trinimac }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_aedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_trinimac = yes
+		}
+	}
+	doctrine_sp_aedra_xarxes = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_aedra_xarxes }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_aedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_xarxes = yes
+		}
+		can_pick = {
+			custom_tooltip = {
+				text = anti_undeath_god_doctrine_trigger
+				NOR = {
+					doctrine:doctrine_vampirism_accepted = { is_in_list = selected_doctrines }
+					doctrine:doctrine_vampirism_virtuous = { is_in_list = selected_doctrines }
+					doctrine:doctrine_necromancy_accepted = { is_in_list = selected_doctrines }
+				}	
+			}	
+		}
+	}
+	doctrine_sp_aedra_xen = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_aedra_xen }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_aedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_xen = yes
+		}
+	}
+
+	### Daedra
+	doctrine_sp_daedra_azura = {
+		icon = doctrine_pantheon_azura
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_daedra_azura }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_azura_pantheon_active = yes
+		}
+	}
+	doctrine_sp_daedra_boethiah = {
+		icon = doctrine_pantheon_boethiah
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_daedra_boethiah }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_boethiah_pantheon_active = yes
+		}
+	}
+	doctrine_sp_daedra_clavicus = {
+		icon = doctrine_pantheon_clavicus
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_daedra_clavicus }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_clavicus_pantheon_active = yes
+		}
+	}
+	doctrine_sp_daedra_hermaeus = {
+		icon = doctrine_pantheon_hermaeus
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_daedra_hermaeus }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_hermaeus_pantheon_active = yes
+		}
+	}
+	doctrine_sp_daedra_hircine = {
+		icon = doctrine_pantheon_hircine
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_daedra_hircine }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_hircine_pantheon_active = yes
+		}
+	}
+	doctrine_sp_daedra_malacath = {
+		icon = doctrine_pantheon_malacath
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_daedra_malacath }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_malacath_pantheon_active = yes
+		}
+	}
+	doctrine_sp_daedra_mehrunes = {
+		icon = doctrine_pantheon_mehrunes
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_daedra_mehrunes }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_mehrunes_pantheon_active = yes
+		}
+	}
+	doctrine_sp_daedra_mephala = {
+		icon = doctrine_pantheon_mephala
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_daedra_mephala }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_mephala_pantheon_active = yes
+		}
+	}
+	doctrine_sp_daedra_meridia = {
+		icon = doctrine_pantheon_meridia
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_daedra_meridia }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_meridia_pantheon_active = yes
+		}
+	}
+	doctrine_sp_daedra_molag = {
+		icon = doctrine_pantheon_molag
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_daedra_molag }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_molag_pantheon_active = yes
+		}
+	}
+	doctrine_sp_daedra_namira = {
+		icon = doctrine_pantheon_namira
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_daedra_namira }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_namira_pantheon_active = yes
+		}
+	}
+	doctrine_sp_daedra_nocturnal = {
+		icon = doctrine_pantheon_nocturnal
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_daedra_nocturnal }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_nocturnal_pantheon_active = yes
+		}
+	}
+	doctrine_sp_daedra_peryite = {
+		icon = doctrine_pantheon_peryite
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_daedra_peryite }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_peryite_pantheon_active = yes
+		}
+	}
+	doctrine_sp_daedra_sanguine = {
+		icon = doctrine_pantheon_sanguine
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_daedra_sanguine }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_sanguine_pantheon_active = yes
+		}
+	}
+	doctrine_sp_daedra_sheogorath = {
+		icon = doctrine_pantheon_sheogorath
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_daedra_sheogorath }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_sheogorath_pantheon_active = yes
+		}
+	}
+	doctrine_sp_daedra_vaermina = {
+		icon = doctrine_pantheon_vaermina
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_daedra_vaermina }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_vaermina_pantheon_active = yes
+		}
+	}
+
+	### Atmoran Totems
+	doctrine_sp_at_hawk = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_at_hawk }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_atmoran_totems = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_hawk = yes
+		}
+	}
+	doctrine_sp_at_wolf = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_at_wolf }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_atmoran_totems = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_wolf = yes
+		}
+	}
+	doctrine_sp_at_snake = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_at_snake }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_atmoran_totems = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_snake = yes
+		}
+	}
+	doctrine_sp_at_moth = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_at_moth }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_atmoran_totems = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_moth = yes
+		}
+	}
+	doctrine_sp_at_owl = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_at_owl }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_atmoran_totems = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_owl = yes
+		}
+	}
+	doctrine_sp_at_whale = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_at_whale }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_atmoran_totems = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_whale = yes
+		}
+	}
+	doctrine_sp_at_bear = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_at_bear }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_atmoran_totems = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_bear = yes
+		}
+	}
+	doctrine_sp_at_fox = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_at_fox }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_atmoran_totems = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_fox = yes
+		}
+	}
+	doctrine_sp_at_dragon = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_at_dragon }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_atmoran_totems = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_dragon = yes
+		}
+	}
+	doctrine_sp_at_hare = {
+		icon = doctrine_pantheon_hermaeus
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_at_hare }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_atmoran_totems = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_hare = yes
+		}
+	}
+	#Nerevar
+	doctrine_sp_vl_nerevar = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_vl_nerevar }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_nerevar = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_nerevar = yes
+		}
+	}
+	#Lorkhan
+	doctrine_sp_dv_shezarr = {
+		icon = doctrine_pantheon_lorkhan
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_dv_shezarr }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_lorkhan = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_shezarr = yes
+		}
+	}
+	#Good Daedra
+	doctrine_sp_good_daedra_azura = {
+		icon = doctrine_pantheon_azura
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_good_daedra_azura }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_good_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_azura_pantheon_active = yes
+		}
+	}
+	doctrine_sp_good_daedra_boethiah = {
+		icon = doctrine_pantheon_boethiah
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_good_daedra_boethiah }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_good_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_boethiah_pantheon_active = yes
+		}
+	}
+	doctrine_sp_good_daedra_mephala = {
+		icon = doctrine_pantheon_mephala
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_good_daedra_mephala }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_good_daedra = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_mephala_pantheon_active = yes
+		}
+	}
+	# Magna-Ge
+	doctrine_sp_magna_ge_magnus = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_magna_ge_magnus }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_magna_ge = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_magnus = yes
+		}
+	}
+	doctrine_sp_magna_ge_meridnunda = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_magna_ge_meridnunda }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_magna_ge = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			unlocks_meridia_pantheon_active = yes
+		}
+	}
+	doctrine_sp_magna_ge_xerolyg = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_magna_ge_xerolyg }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_magna_ge = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_xerolyg = yes
+		}
+	}
+	doctrine_sp_magna_ge_mnemoli = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_magna_ge_mnemoli }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_magna_ge = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_mnemoli = yes
+		}
+	}
+	# Cult of Heroes
+	doctrine_sp_heroes_alessia = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_heroes_alessia }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_heroes = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_alessia = yes
+		}
+	}
+	doctrine_sp_heroes_pelinal = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_heroes_pelinal }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_heroes = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_pelinal = yes
+		}
+	}
+	doctrine_sp_heroes_morihaus = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_heroes_morihaus }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_heroes = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_morihaus = yes
+		}
+	}
+	doctrine_sp_heroes_reman = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_heroes_reman }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_heroes = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_reman = yes
+		}
+	}
+	doctrine_sp_heroes_bendu = {
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_heroes_bendu }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_heroes = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_bendu = yes
+		}
+	}
+	doctrine_sp_reman_light_of_man = {
+		icon = doctrine_pantheon_reman
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_reman_light_of_man }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_reman = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_light_of_man = yes
+		}
+	}
+	doctrine_sp_reman_the_cyrodiil = {
+		icon = doctrine_pantheon_reman
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_reman_the_cyrodiil }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_reman = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_the_cyrodiil = yes
+		}
+	}
+	doctrine_sp_reman_worldly_god = {
+		icon = doctrine_pantheon_reman
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_reman_worldly_god }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_reman = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_worldly_god = yes
+		}
+	}
+	doctrine_sp_trinimac_paragon = {
+		icon = doctrine_pantheon_trinimac
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_trinimac_paragon }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_trinimac = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_paragon = yes
+		}
+	}
+	doctrine_sp_trinimac_gold_champ = {
+		icon = doctrine_pantheon_trinimac
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_trinimac_gold_champ }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_trinimac = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_gold_champ = yes
+		}
+	}
+	doctrine_sp_trinimac_blade_of_courage = {
+		icon = doctrine_pantheon_trinimac
+		piety_cost = {
+			value = faith_doctrine_cost_mid
+			if = {
+				limit = { has_doctrine = doctrine_sp_trinimac_blade_of_courage }
+				multiply = faith_unchanged_doctrine_cost_mult
+			}
+		}
+		is_shown = {
+			doctrine:doctrine_sp_trinimac = { is_in_list = selected_doctrines }
+		}
+		parameters = {
+			pantheon_adds_deity_blade_of_courage = yes
+		}
+	}
+}

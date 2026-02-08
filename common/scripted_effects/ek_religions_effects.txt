@@ -1,0 +1,4608 @@
+﻿### Scripted effects tied to religions & faiths
+# Stuff scaling with stress level
+update_religions_stress = {
+	if = {
+		limit = {
+			OR = {
+				# Your faith has a stress related tenet
+				faith = { has_doctrine_parameter = stress_gives_piety_active }
+				# You have a stress related modifier
+				has_character_modifier = stress_gives_piety_stress_1
+				has_character_modifier = stress_gives_piety_stress_2
+				has_character_modifier = stress_gives_piety_stress_3
+			}
+		}
+		
+		# Remove the modifiers
+		remove_character_modifier = stress_gives_piety_stress_1
+		remove_character_modifier = stress_gives_piety_stress_2
+		remove_character_modifier = stress_gives_piety_stress_3
+		
+		# Add the ones you need
+		if = {
+			limit = { faith = { has_doctrine_parameter = stress_gives_piety_active } }
+			if = {
+				limit = { stress_level >= 3 }
+				add_character_modifier = stress_gives_piety_stress_3
+			}
+			else_if = {
+				limit = { stress_level >= 2 }
+				add_character_modifier = stress_gives_piety_stress_2
+			}
+			else_if = {
+				limit = { stress_level >= 1 }
+				add_character_modifier = stress_gives_piety_stress_1
+			}
+		}
+	}
+}
+
+# Stuff scaling with devotion (piety_level)
+clear_religions_piety_level_effect = {
+	remove_character_modifier = $MODIFIER$_0
+	remove_character_modifier = $MODIFIER$_1
+	remove_character_modifier = $MODIFIER$_2
+	remove_character_modifier = $MODIFIER$_3
+	remove_character_modifier = $MODIFIER$_4
+	remove_character_modifier = $MODIFIER$_5
+	remove_character_modifier = $MODIFIER$_6
+}
+
+update_religions_piety_level_effect = {
+	clear_religions_piety_level_effect = { MODIFIER = $MODIFIER$ }
+	
+	if = {
+		limit = { faith = { has_doctrine_parameter = $MODIFIER$ } }
+		set_variable = { name = religion_character_modifier_tier value = piety_level }
+		
+		if = {
+			limit = { has_perk = radiant_perk }
+			change_variable = { name = religion_character_modifier_tier add = 1 }
+		}
+		
+		if = {
+			limit = { var:religion_character_modifier_tier = 0 }
+			add_character_modifier = $MODIFIER$_0
+		}
+		else_if = {
+			limit = { var:religion_character_modifier_tier = 1 }
+			# That modifier is never used because it doesn't do anything
+			# add_character_modifier = $MODIFIER$_1
+		}
+		else_if = {
+			limit = { var:religion_character_modifier_tier = 2 }
+			add_character_modifier = $MODIFIER$_2
+		}
+		else_if = {
+			limit = { var:religion_character_modifier_tier = 3 }
+			add_character_modifier = $MODIFIER$_3
+		}
+		else_if = {
+			limit = { var:religion_character_modifier_tier = 4 }
+			add_character_modifier = $MODIFIER$_4
+		}
+		else_if = {
+			limit = { var:religion_character_modifier_tier = 5 }
+			add_character_modifier = $MODIFIER$_5
+		}
+		else_if = {
+			limit = { var:religion_character_modifier_tier = 6 }
+			add_character_modifier = $MODIFIER$_6
+		}
+		remove_variable = religion_character_modifier_tier
+	}
+}
+
+### USE IT ONLY IF YOU ALREADY KNOW THE FAITH SUPPORTS THESE MODIFIERS
+# If in doubt, use update_religions_piety_level_effect
+unsafe_update_religions_piety_level_effect = {
+	clear_religions_piety_level_effect = { MODIFIER = $MODIFIER$ }
+
+	set_variable = { name = religion_character_modifier_tier value = piety_level }
+	if = {
+		limit = { has_perk = radiant_perk }
+		change_variable = { name = religion_character_modifier_tier add = 1 }
+	}
+
+	if = {
+		limit = { var:religion_character_modifier_tier = 0 }
+		add_character_modifier = $MODIFIER$_0
+	}
+	else_if = {
+		limit = { var:religion_character_modifier_tier = 1 }
+		# That modifier is never used because it doesn't do anything
+		# add_character_modifier = $MODIFIER$_1
+	}
+	else_if = {
+		limit = { var:religion_character_modifier_tier = 2 }
+		add_character_modifier = $MODIFIER$_2
+	}
+	else_if = {
+		limit = { var:religion_character_modifier_tier = 3 }
+		add_character_modifier = $MODIFIER$_3
+	}
+	else_if = {
+		limit = { var:religion_character_modifier_tier = 4 }
+		add_character_modifier = $MODIFIER$_4
+	}
+	else_if = {
+		limit = { var:religion_character_modifier_tier = 5 }
+		add_character_modifier = $MODIFIER$_5
+	}
+	else_if = {
+		limit = { var:religion_character_modifier_tier = 6 }
+		add_character_modifier = $MODIFIER$_6
+	}
+	remove_variable = religion_character_modifier_tier
+}
+
+update_religions_piety_level = {
+	### LIFESTYLE EXPERIENCE WITH DEVOTION
+	if = {
+		limit = {
+			OR = {
+				# Your faith has a devotion related tenet
+				faith = { has_doctrine_parameter = devotion_gives_lifestyle_experience }
+				# You have a devotion related modifier
+				has_character_modifier_scaling_devotion = { MODIFIER = devotion_gives_lifestyle_experience }
+			}
+		}
+		
+		update_religions_piety_level_effect = { MODIFIER = devotion_gives_lifestyle_experience }
+	}
+	
+	### HOLY WAR COST AND PIETY GAIN WITH DEVOTION
+	if = {
+		limit = {
+			OR = {
+				# Your faith has a devotion related tenet
+				faith = { has_doctrine_parameter = devotion_gives_holy_war_cost_piety_gain }
+				# You have a devotion related modifier
+				has_character_modifier_scaling_devotion = { MODIFIER = devotion_gives_holy_war_cost_piety_gain }
+			}
+		}
+		
+		update_religions_piety_level_effect = { MODIFIER = devotion_gives_holy_war_cost_piety_gain }
+	}
+	
+	### POPULAR OPINION WITH DEVOTION
+	if = {
+		limit = {
+			OR = {
+				# Your faith has a devotion related tenet
+				faith = { has_doctrine_parameter = devotion_gives_popular_opinion }
+				# You have a devotion related modifier
+				has_character_modifier_scaling_devotion = { MODIFIER = devotion_gives_popular_opinion }
+			}
+		}
+		
+		update_religions_piety_level_effect = { MODIFIER = devotion_gives_popular_opinion }
+	}
+
+	### DISEASE RESISTANCE WITH DEVOTION
+	if = {
+		limit = {
+			OR = {
+				# Your faith has a devotion related tenet
+				faith = { has_doctrine_parameter = devotion_gives_health_penalty_negation }
+				# You have a devotion related modifier
+				has_character_modifier_scaling_devotion = { MODIFIER = devotion_gives_health_penalty_negation }
+			}
+		}
+		
+		update_religions_piety_level_effect = { MODIFIER = devotion_gives_health_penalty_negation }
+	}
+	
+
+	### HEALTH WITH DEVOTION
+	if = {
+		limit = {
+			OR = {
+				# Your faith has a devotion related tenet
+				faith = { has_doctrine_parameter = devotion_gives_health }
+				# You have a devotion related modifier
+				has_character_modifier_scaling_devotion = { MODIFIER = devotion_gives_health }
+			}
+		}
+		
+		update_religions_piety_level_effect = { MODIFIER = devotion_gives_health }
+	}
+	
+	### CALAVRY EFFECTIVENESS WITH DEVOTION
+	if = {
+		limit = {
+			OR = {
+				# Your faith has a devotion related tenet
+				faith = { has_doctrine_parameter = devotion_gives_cavalry_effectiveness }
+				# You have a devotion related modifier
+				has_character_modifier_scaling_devotion = { MODIFIER = devotion_gives_cavalry_effectiveness }
+			}
+		}
+		
+		update_religions_piety_level_effect = { MODIFIER = devotion_gives_cavalry_effectiveness }
+	}
+	
+	### CONTROL GROWTH WITH DEVOTION
+	if = {
+		limit = {
+			OR = {
+				# Your faith has a devotion related tenet
+				faith = { has_doctrine_parameter = devotion_gives_control_growth }
+				# You have a devotion related modifier
+				has_character_modifier_scaling_devotion = { MODIFIER = devotion_gives_control_growth }
+			}
+		}
+		
+		update_religions_piety_level_effect = { MODIFIER = devotion_gives_control_growth }
+	}
+	
+	### DEVELOPMENT GROWTH WITH DEVOTION
+	if = {
+		limit = {
+			OR = {
+				# Your faith has a devotion related tenet
+				faith = { has_doctrine_parameter = devotion_gives_development_progress }
+				# You have a devotion related modifier
+				has_character_modifier_scaling_devotion = { MODIFIER = devotion_gives_development_progress }
+			}
+		}
+		
+		update_religions_piety_level_effect = { MODIFIER = devotion_gives_development_progress }
+	}
+	
+	### NAVAL SPEED AND EMBARKATION COST WITH DEVOTION
+	if = {
+		limit = {
+			OR = {
+				# Your faith has a devotion related tenet
+				faith = { has_doctrine_parameter = devotion_gives_naval_speed }
+				# You have a devotion related modifier
+				has_character_modifier_scaling_devotion = { MODIFIER = devotion_gives_naval_speed }
+			}
+		}
+		
+		update_religions_piety_level_effect = { MODIFIER = devotion_gives_naval_speed }
+	}
+	
+	### STRESS GAIN AND STRESS LOSS WITH DEVOTION
+	if = {
+		limit = {
+			OR = {
+				# Your faith has a devotion related tenet
+				faith = { has_doctrine_parameter = devotion_gives_stress_bonus }
+				# You have a devotion related modifier
+				has_character_modifier_scaling_devotion = { MODIFIER = devotion_gives_stress_bonus }
+			}
+		}
+		
+		update_religions_piety_level_effect = { MODIFIER = devotion_gives_stress_bonus }
+	}
+	
+	### TYRANNY GAIN REDUC AND VASSAL OPINION WITH DEVOTION
+	if = {
+		limit = {
+			OR = {
+				# Your faith has a devotion related tenet
+				faith = { has_doctrine_parameter = devotion_gives_tyranny_reduction_vassal_opinion }
+				# You have a devotion related modifier
+				has_character_modifier_scaling_devotion = { MODIFIER = devotion_gives_tyranny_reduction_vassal_opinion }
+			}
+		}
+		
+		update_religions_piety_level_effect = { MODIFIER = devotion_gives_tyranny_reduction_vassal_opinion }
+	}
+	
+	### STAR SIGN POWER WITH DEVOTION
+	if = {
+		limit = {
+			OR = {
+				# Your faith has a devotion related tenet
+				faith = { has_doctrine_parameter = devotion_gives_star_sign_power }
+				# You have a devotion related modifier
+				# Mage
+				has_character_modifier_scaling_devotion = { MODIFIER = devotion_gives_star_sign_power_mage }
+				# Warrior
+				has_character_modifier_scaling_devotion = { MODIFIER = devotion_gives_star_sign_power_warrior }
+				# Thief
+				has_character_modifier_scaling_devotion = { MODIFIER = devotion_gives_star_sign_power_thief }
+				# Serpent
+				has_character_modifier_scaling_devotion = { MODIFIER = devotion_gives_star_sign_power_serpent }
+			}
+		}
+		
+		clear_religions_piety_level_effect = { MODIFIER = devotion_gives_star_sign_power_mage }
+		clear_religions_piety_level_effect = { MODIFIER = devotion_gives_star_sign_power_warrior }
+		clear_religions_piety_level_effect = { MODIFIER = devotion_gives_star_sign_power_thief }
+		clear_religions_piety_level_effect = { MODIFIER = devotion_gives_star_sign_power_serpent }
+		
+		if = {
+			limit = { has_trait = sign_ritual }
+			unsafe_update_religions_piety_level_effect = { MODIFIER = devotion_gives_star_sign_power_mage }
+		}
+		else_if = {
+			limit = { has_trait = sign_lover }
+			unsafe_update_religions_piety_level_effect = { MODIFIER = devotion_gives_star_sign_power_thief }
+		}
+		else_if = {
+			limit = { has_trait = sign_lord }
+			unsafe_update_religions_piety_level_effect = { MODIFIER = devotion_gives_star_sign_power_warrior }
+		}
+		else_if = {
+			limit = { has_trait = sign_mage }
+			unsafe_update_religions_piety_level_effect = { MODIFIER = devotion_gives_star_sign_power_mage }
+		}
+		else_if = {
+			limit = { has_trait = sign_shadow }
+			unsafe_update_religions_piety_level_effect = { MODIFIER = devotion_gives_star_sign_power_thief }
+		}
+		else_if = {
+			limit = { has_trait = sign_steed }
+			unsafe_update_religions_piety_level_effect = { MODIFIER = devotion_gives_star_sign_power_warrior }
+		}
+		else_if = {
+			limit = { has_trait = sign_apprentice }
+			unsafe_update_religions_piety_level_effect = { MODIFIER = devotion_gives_star_sign_power_mage }
+		}
+		else_if = {
+			limit = { has_trait = sign_warrior }
+			unsafe_update_religions_piety_level_effect = { MODIFIER = devotion_gives_star_sign_power_warrior }
+		}
+		else_if = {
+			limit = { has_trait = sign_lady }
+			unsafe_update_religions_piety_level_effect = { MODIFIER = devotion_gives_star_sign_power_warrior }
+		}
+		else_if = {
+			limit = { has_trait = sign_tower }
+			unsafe_update_religions_piety_level_effect = { MODIFIER = devotion_gives_star_sign_power_thief }
+		}
+		else_if = {
+			limit = { has_trait = sign_atronach }
+			unsafe_update_religions_piety_level_effect = { MODIFIER = devotion_gives_star_sign_power_mage }
+		}
+		else_if = {
+			limit = { has_trait = sign_thief }
+			unsafe_update_religions_piety_level_effect = { MODIFIER = devotion_gives_star_sign_power_thief }
+		}
+		else_if = {
+			limit = { has_trait = sign_serpent }
+			unsafe_update_religions_piety_level_effect = { MODIFIER = devotion_gives_star_sign_power_serpent }
+		}
+	}
+	
+	### ATTRACTION OPINION AND SECUDE SCHEME POWER WITH DEVOTION
+	if = {
+		limit = {
+			OR = {
+				# Your faith has a devotion related tenet
+				faith = { has_doctrine_parameter = devotion_gives_attraction_opinion }
+				# You have a devotion related modifier
+				has_character_modifier_scaling_devotion = { MODIFIER = devotion_gives_attraction_opinion }
+			}
+		}
+		
+		update_religions_piety_level_effect = { MODIFIER = devotion_gives_attraction_opinion }
+	}
+	
+	### HOSTILE SCHEME POWER WITH DEVOTION
+	if = {
+		limit = {
+			OR = {
+				# Your faith has a devotion related tenet
+				faith = { has_doctrine_parameter = devotion_gives_hostile_scheme_power }
+				# You have a devotion related modifier
+				has_character_modifier_scaling_devotion = { MODIFIER = devotion_gives_hostile_scheme_power }
+			}
+		}
+		
+		update_religions_piety_level_effect = { MODIFIER = devotion_gives_hostile_scheme_power }
+	}
+}
+
+### FAITH'S VIEW ON THE DAEDRIC PRINCES
+faith_give_view_daedric_prince = {
+	if = {
+		limit = { has_doctrine = doctrine_hidden_daedra_allowed }
+		if = {
+			limit = {
+				NOR = {
+					has_doctrine = doctrine_$DAEDRIC_PRINCE$_pantheon
+					has_doctrine = doctrine_$DAEDRIC_PRINCE$_allowed
+					has_doctrine = doctrine_$DAEDRIC_PRINCE$_shunned
+					has_doctrine = doctrine_$DAEDRIC_PRINCE$_criminal
+				}
+			}
+			add_doctrine = doctrine_$DAEDRIC_PRINCE$_allowed
+		}
+	}
+	else_if = {
+		limit = { has_doctrine = doctrine_hidden_daedra_shunned }
+		if = {
+			limit = {
+				NOR = {
+					has_doctrine = doctrine_$DAEDRIC_PRINCE$_pantheon
+					has_doctrine = doctrine_$DAEDRIC_PRINCE$_allowed
+					has_doctrine = doctrine_$DAEDRIC_PRINCE$_shunned
+					has_doctrine = doctrine_$DAEDRIC_PRINCE$_criminal
+				}
+			}
+			add_doctrine = doctrine_$DAEDRIC_PRINCE$_shunned
+		}
+	}
+	else_if = {
+		limit = { has_doctrine = doctrine_hidden_daedra_criminal }
+		if = {
+			limit = {
+				NOR = {
+					has_doctrine = doctrine_$DAEDRIC_PRINCE$_pantheon
+					has_doctrine = doctrine_$DAEDRIC_PRINCE$_allowed
+					has_doctrine = doctrine_$DAEDRIC_PRINCE$_shunned
+					has_doctrine = doctrine_$DAEDRIC_PRINCE$_criminal
+				}
+			}
+			add_doctrine = doctrine_$DAEDRIC_PRINCE$_criminal
+		}
+	}
+}
+
+faith_give_view_daedric_princes = {
+	faith_give_view_daedric_prince = { DAEDRIC_PRINCE = azura }
+	faith_give_view_daedric_prince = { DAEDRIC_PRINCE = boethiah }
+	faith_give_view_daedric_prince = { DAEDRIC_PRINCE = clavicus }
+	faith_give_view_daedric_prince = { DAEDRIC_PRINCE = hermaeus }
+	faith_give_view_daedric_prince = { DAEDRIC_PRINCE = hircine }
+	faith_give_view_daedric_prince = { DAEDRIC_PRINCE = malacath }
+	faith_give_view_daedric_prince = { DAEDRIC_PRINCE = mehrunes }
+	faith_give_view_daedric_prince = { DAEDRIC_PRINCE = mephala }
+	faith_give_view_daedric_prince = { DAEDRIC_PRINCE = meridia }
+	faith_give_view_daedric_prince = { DAEDRIC_PRINCE = molag }
+	faith_give_view_daedric_prince = { DAEDRIC_PRINCE = namira }
+	faith_give_view_daedric_prince = { DAEDRIC_PRINCE = nocturnal }
+	faith_give_view_daedric_prince = { DAEDRIC_PRINCE = peryite }
+	faith_give_view_daedric_prince = { DAEDRIC_PRINCE = sanguine }
+	faith_give_view_daedric_prince = { DAEDRIC_PRINCE = sheogorath }
+	faith_give_view_daedric_prince = { DAEDRIC_PRINCE = vaermina }
+	
+	# Remove the doctrines
+	if = {
+		limit = { has_doctrine = doctrine_hidden_daedra_allowed }
+		remove_doctrine = doctrine_hidden_daedra_allowed
+	}
+	else_if = {
+		limit = { has_doctrine = doctrine_hidden_daedra_shunned }
+		remove_doctrine = doctrine_hidden_daedra_shunned
+	}
+	else_if = {
+		limit = { has_doctrine = doctrine_hidden_daedra_criminal }
+		remove_doctrine = doctrine_hidden_daedra_criminal
+	}
+}
+
+faith_give_faith_id = {
+	change_global_variable = {
+		name = current_faith_id
+		add = 1
+	}
+	set_variable = {
+		name = faith_id
+		value = global_var:current_faith_id
+	}
+	
+	if = {
+		limit = { var:faith_id = 000 }
+		add_doctrine = hostility_doctrine_id_000
+	}
+	else_if = {
+		limit = { var:faith_id = 001 }
+		add_doctrine = hostility_doctrine_id_001
+	}
+	else_if = {
+		limit = { var:faith_id = 002 }
+		add_doctrine = hostility_doctrine_id_002
+	}
+	else_if = {
+		limit = { var:faith_id = 003 }
+		add_doctrine = hostility_doctrine_id_003
+	}
+	else_if = {
+		limit = { var:faith_id = 004 }
+		add_doctrine = hostility_doctrine_id_004
+	}
+	else_if = {
+		limit = { var:faith_id = 005 }
+		add_doctrine = hostility_doctrine_id_005
+	}
+	else_if = {
+		limit = { var:faith_id = 006 }
+		add_doctrine = hostility_doctrine_id_006
+	}
+	else_if = {
+		limit = { var:faith_id = 007 }
+		add_doctrine = hostility_doctrine_id_007
+	}
+	else_if = {
+		limit = { var:faith_id = 008 }
+		add_doctrine = hostility_doctrine_id_008
+	}
+	else_if = {
+		limit = { var:faith_id = 009 }
+		add_doctrine = hostility_doctrine_id_009
+	}
+	else_if = {
+		limit = { var:faith_id = 010 }
+		add_doctrine = hostility_doctrine_id_010
+	}
+	else_if = {
+		limit = { var:faith_id = 011 }
+		add_doctrine = hostility_doctrine_id_011
+	}
+	else_if = {
+		limit = { var:faith_id = 012 }
+		add_doctrine = hostility_doctrine_id_012
+	}
+	else_if = {
+		limit = { var:faith_id = 013 }
+		add_doctrine = hostility_doctrine_id_013
+	}
+	else_if = {
+		limit = { var:faith_id = 014 }
+		add_doctrine = hostility_doctrine_id_014
+	}
+	else_if = {
+		limit = { var:faith_id = 015 }
+		add_doctrine = hostility_doctrine_id_015
+	}
+	else_if = {
+		limit = { var:faith_id = 016 }
+		add_doctrine = hostility_doctrine_id_016
+	}
+	else_if = {
+		limit = { var:faith_id = 017 }
+		add_doctrine = hostility_doctrine_id_017
+	}
+	else_if = {
+		limit = { var:faith_id = 018 }
+		add_doctrine = hostility_doctrine_id_018
+	}
+	else_if = {
+		limit = { var:faith_id = 019 }
+		add_doctrine = hostility_doctrine_id_019
+	}
+	else_if = {
+		limit = { var:faith_id = 020 }
+		add_doctrine = hostility_doctrine_id_020
+	}
+	else_if = {
+		limit = { var:faith_id = 021 }
+		add_doctrine = hostility_doctrine_id_021
+	}
+	else_if = {
+		limit = { var:faith_id = 022 }
+		add_doctrine = hostility_doctrine_id_022
+	}
+	else_if = {
+		limit = { var:faith_id = 023 }
+		add_doctrine = hostility_doctrine_id_023
+	}
+	else_if = {
+		limit = { var:faith_id = 024 }
+		add_doctrine = hostility_doctrine_id_024
+	}
+	else_if = {
+		limit = { var:faith_id = 025 }
+		add_doctrine = hostility_doctrine_id_025
+	}
+	else_if = {
+		limit = { var:faith_id = 026 }
+		add_doctrine = hostility_doctrine_id_026
+	}
+	else_if = {
+		limit = { var:faith_id = 027 }
+		add_doctrine = hostility_doctrine_id_027
+	}
+	else_if = {
+		limit = { var:faith_id = 028 }
+		add_doctrine = hostility_doctrine_id_028
+	}
+	else_if = {
+		limit = { var:faith_id = 029 }
+		add_doctrine = hostility_doctrine_id_029
+	}
+	else_if = {
+		limit = { var:faith_id = 030 }
+		add_doctrine = hostility_doctrine_id_030
+	}
+	else_if = {
+		limit = { var:faith_id = 031 }
+		add_doctrine = hostility_doctrine_id_031
+	}
+	else_if = {
+		limit = { var:faith_id = 032 }
+		add_doctrine = hostility_doctrine_id_032
+	}
+	else_if = {
+		limit = { var:faith_id = 033 }
+		add_doctrine = hostility_doctrine_id_033
+	}
+	else_if = {
+		limit = { var:faith_id = 034 }
+		add_doctrine = hostility_doctrine_id_034
+	}
+	else_if = {
+		limit = { var:faith_id = 035 }
+		add_doctrine = hostility_doctrine_id_035
+	}
+	else_if = {
+		limit = { var:faith_id = 036 }
+		add_doctrine = hostility_doctrine_id_036
+	}
+	else_if = {
+		limit = { var:faith_id = 037 }
+		add_doctrine = hostility_doctrine_id_037
+	}
+	else_if = {
+		limit = { var:faith_id = 038 }
+		add_doctrine = hostility_doctrine_id_038
+	}
+	else_if = {
+		limit = { var:faith_id = 039 }
+		add_doctrine = hostility_doctrine_id_039
+	}
+	else_if = {
+		limit = { var:faith_id = 040 }
+		add_doctrine = hostility_doctrine_id_040
+	}
+	else_if = {
+		limit = { var:faith_id = 041 }
+		add_doctrine = hostility_doctrine_id_041
+	}
+	else_if = {
+		limit = { var:faith_id = 042 }
+		add_doctrine = hostility_doctrine_id_042
+	}
+	else_if = {
+		limit = { var:faith_id = 043 }
+		add_doctrine = hostility_doctrine_id_043
+	}
+	else_if = {
+		limit = { var:faith_id = 044 }
+		add_doctrine = hostility_doctrine_id_044
+	}
+	else_if = {
+		limit = { var:faith_id = 045 }
+		add_doctrine = hostility_doctrine_id_045
+	}
+	else_if = {
+		limit = { var:faith_id = 046 }
+		add_doctrine = hostility_doctrine_id_046
+	}
+	else_if = {
+		limit = { var:faith_id = 047 }
+		add_doctrine = hostility_doctrine_id_047
+	}
+	else_if = {
+		limit = { var:faith_id = 048 }
+		add_doctrine = hostility_doctrine_id_048
+	}
+	else_if = {
+		limit = { var:faith_id = 049 }
+		add_doctrine = hostility_doctrine_id_049
+	}
+	else_if = {
+		limit = { var:faith_id = 050 }
+		add_doctrine = hostility_doctrine_id_050
+	}
+	else_if = {
+		limit = { var:faith_id = 051 }
+		add_doctrine = hostility_doctrine_id_051
+	}
+	else_if = {
+		limit = { var:faith_id = 052 }
+		add_doctrine = hostility_doctrine_id_052
+	}
+	else_if = {
+		limit = { var:faith_id = 053 }
+		add_doctrine = hostility_doctrine_id_053
+	}
+	else_if = {
+		limit = { var:faith_id = 054 }
+		add_doctrine = hostility_doctrine_id_054
+	}
+	else_if = {
+		limit = { var:faith_id = 055 }
+		add_doctrine = hostility_doctrine_id_055
+	}
+	else_if = {
+		limit = { var:faith_id = 056 }
+		add_doctrine = hostility_doctrine_id_056
+	}
+	else_if = {
+		limit = { var:faith_id = 057 }
+		add_doctrine = hostility_doctrine_id_057
+	}
+	else_if = {
+		limit = { var:faith_id = 058 }
+		add_doctrine = hostility_doctrine_id_058
+	}
+	else_if = {
+		limit = { var:faith_id = 059 }
+		add_doctrine = hostility_doctrine_id_059
+	}
+	else_if = {
+		limit = { var:faith_id = 060 }
+		add_doctrine = hostility_doctrine_id_060
+	}
+	else_if = {
+		limit = { var:faith_id = 061 }
+		add_doctrine = hostility_doctrine_id_061
+	}
+	else_if = {
+		limit = { var:faith_id = 062 }
+		add_doctrine = hostility_doctrine_id_062
+	}
+	else_if = {
+		limit = { var:faith_id = 063 }
+		add_doctrine = hostility_doctrine_id_063
+	}
+	else_if = {
+		limit = { var:faith_id = 064 }
+		add_doctrine = hostility_doctrine_id_064
+	}
+	else_if = {
+		limit = { var:faith_id = 065 }
+		add_doctrine = hostility_doctrine_id_065
+	}
+	else_if = {
+		limit = { var:faith_id = 066 }
+		add_doctrine = hostility_doctrine_id_066
+	}
+	else_if = {
+		limit = { var:faith_id = 067 }
+		add_doctrine = hostility_doctrine_id_067
+	}
+	else_if = {
+		limit = { var:faith_id = 068 }
+		add_doctrine = hostility_doctrine_id_068
+	}
+	else_if = {
+		limit = { var:faith_id = 069 }
+		add_doctrine = hostility_doctrine_id_069
+	}
+	else_if = {
+		limit = { var:faith_id = 070 }
+		add_doctrine = hostility_doctrine_id_070
+	}
+	else_if = {
+		limit = { var:faith_id = 071 }
+		add_doctrine = hostility_doctrine_id_071
+	}
+	else_if = {
+		limit = { var:faith_id = 072 }
+		add_doctrine = hostility_doctrine_id_072
+	}
+	else_if = {
+		limit = { var:faith_id = 073 }
+		add_doctrine = hostility_doctrine_id_073
+	}
+	else_if = {
+		limit = { var:faith_id = 074 }
+		add_doctrine = hostility_doctrine_id_074
+	}
+	else_if = {
+		limit = { var:faith_id = 075 }
+		add_doctrine = hostility_doctrine_id_075
+	}
+	else_if = {
+		limit = { var:faith_id = 076 }
+		add_doctrine = hostility_doctrine_id_076
+	}
+	else_if = {
+		limit = { var:faith_id = 077 }
+		add_doctrine = hostility_doctrine_id_077
+	}
+	else_if = {
+		limit = { var:faith_id = 078 }
+		add_doctrine = hostility_doctrine_id_078
+	}
+	else_if = {
+		limit = { var:faith_id = 079 }
+		add_doctrine = hostility_doctrine_id_079
+	}
+	else_if = {
+		limit = { var:faith_id = 080 }
+		add_doctrine = hostility_doctrine_id_080
+	}
+	else_if = {
+		limit = { var:faith_id = 081 }
+		add_doctrine = hostility_doctrine_id_081
+	}
+	else_if = {
+		limit = { var:faith_id = 082 }
+		add_doctrine = hostility_doctrine_id_082
+	}
+	else_if = {
+		limit = { var:faith_id = 083 }
+		add_doctrine = hostility_doctrine_id_083
+	}
+	else_if = {
+		limit = { var:faith_id = 084 }
+		add_doctrine = hostility_doctrine_id_084
+	}
+	else_if = {
+		limit = { var:faith_id = 085 }
+		add_doctrine = hostility_doctrine_id_085
+	}
+	else_if = {
+		limit = { var:faith_id = 086 }
+		add_doctrine = hostility_doctrine_id_086
+	}
+	else_if = {
+		limit = { var:faith_id = 087 }
+		add_doctrine = hostility_doctrine_id_087
+	}
+	else_if = {
+		limit = { var:faith_id = 088 }
+		add_doctrine = hostility_doctrine_id_088
+	}
+	else_if = {
+		limit = { var:faith_id = 089 }
+		add_doctrine = hostility_doctrine_id_089
+	}
+	else_if = {
+		limit = { var:faith_id = 090 }
+		add_doctrine = hostility_doctrine_id_090
+	}
+	else_if = {
+		limit = { var:faith_id = 091 }
+		add_doctrine = hostility_doctrine_id_091
+	}
+	else_if = {
+		limit = { var:faith_id = 092 }
+		add_doctrine = hostility_doctrine_id_092
+	}
+	else_if = {
+		limit = { var:faith_id = 093 }
+		add_doctrine = hostility_doctrine_id_093
+	}
+	else_if = {
+		limit = { var:faith_id = 094 }
+		add_doctrine = hostility_doctrine_id_094
+	}
+	else_if = {
+		limit = { var:faith_id = 095 }
+		add_doctrine = hostility_doctrine_id_095
+	}
+	else_if = {
+		limit = { var:faith_id = 096 }
+		add_doctrine = hostility_doctrine_id_096
+	}
+	else_if = {
+		limit = { var:faith_id = 097 }
+		add_doctrine = hostility_doctrine_id_097
+	}
+	else_if = {
+		limit = { var:faith_id = 098 }
+		add_doctrine = hostility_doctrine_id_098
+	}
+	else_if = {
+		limit = { var:faith_id = 099 }
+		add_doctrine = hostility_doctrine_id_099
+	}
+	
+	else_if = {
+		limit = { var:faith_id = 100 }
+		add_doctrine = hostility_doctrine_id_100
+	}
+	else_if = {
+		limit = { var:faith_id = 101 }
+		add_doctrine = hostility_doctrine_id_101
+	}
+	else_if = {
+		limit = { var:faith_id = 102 }
+		add_doctrine = hostility_doctrine_id_102
+	}
+	else_if = {
+		limit = { var:faith_id = 103 }
+		add_doctrine = hostility_doctrine_id_103
+	}
+	else_if = {
+		limit = { var:faith_id = 104 }
+		add_doctrine = hostility_doctrine_id_104
+	}
+	else_if = {
+		limit = { var:faith_id = 105 }
+		add_doctrine = hostility_doctrine_id_105
+	}
+	else_if = {
+		limit = { var:faith_id = 106 }
+		add_doctrine = hostility_doctrine_id_106
+	}
+	else_if = {
+		limit = { var:faith_id = 107 }
+		add_doctrine = hostility_doctrine_id_107
+	}
+	else_if = {
+		limit = { var:faith_id = 108 }
+		add_doctrine = hostility_doctrine_id_108
+	}
+	else_if = {
+		limit = { var:faith_id = 109 }
+		add_doctrine = hostility_doctrine_id_109
+	}
+	else_if = {
+		limit = { var:faith_id = 110 }
+		add_doctrine = hostility_doctrine_id_110
+	}
+	else_if = {
+		limit = { var:faith_id = 111 }
+		add_doctrine = hostility_doctrine_id_111
+	}
+	else_if = {
+		limit = { var:faith_id = 112 }
+		add_doctrine = hostility_doctrine_id_112
+	}
+	else_if = {
+		limit = { var:faith_id = 113 }
+		add_doctrine = hostility_doctrine_id_113
+	}
+	else_if = {
+		limit = { var:faith_id = 114 }
+		add_doctrine = hostility_doctrine_id_114
+	}
+	else_if = {
+		limit = { var:faith_id = 115 }
+		add_doctrine = hostility_doctrine_id_115
+	}
+	else_if = {
+		limit = { var:faith_id = 116 }
+		add_doctrine = hostility_doctrine_id_116
+	}
+	else_if = {
+		limit = { var:faith_id = 117 }
+		add_doctrine = hostility_doctrine_id_117
+	}
+	else_if = {
+		limit = { var:faith_id = 118 }
+		add_doctrine = hostility_doctrine_id_118
+	}
+	else_if = {
+		limit = { var:faith_id = 119 }
+		add_doctrine = hostility_doctrine_id_119
+	}
+	else_if = {
+		limit = { var:faith_id = 120 }
+		add_doctrine = hostility_doctrine_id_120
+	}
+	else_if = {
+		limit = { var:faith_id = 121 }
+		add_doctrine = hostility_doctrine_id_121
+	}
+	else_if = {
+		limit = { var:faith_id = 122 }
+		add_doctrine = hostility_doctrine_id_122
+	}
+	else_if = {
+		limit = { var:faith_id = 123 }
+		add_doctrine = hostility_doctrine_id_123
+	}
+	else_if = {
+		limit = { var:faith_id = 124 }
+		add_doctrine = hostility_doctrine_id_124
+	}
+	else_if = {
+		limit = { var:faith_id = 125 }
+		add_doctrine = hostility_doctrine_id_125
+	}
+	else_if = {
+		limit = { var:faith_id = 126 }
+		add_doctrine = hostility_doctrine_id_126
+	}
+	else_if = {
+		limit = { var:faith_id = 127 }
+		add_doctrine = hostility_doctrine_id_127
+	}
+	else_if = {
+		limit = { var:faith_id = 128 }
+		add_doctrine = hostility_doctrine_id_128
+	}
+	else_if = {
+		limit = { var:faith_id = 129 }
+		add_doctrine = hostility_doctrine_id_129
+	}
+	else_if = {
+		limit = { var:faith_id = 130 }
+		add_doctrine = hostility_doctrine_id_130
+	}
+	else_if = {
+		limit = { var:faith_id = 131 }
+		add_doctrine = hostility_doctrine_id_131
+	}
+	else_if = {
+		limit = { var:faith_id = 132 }
+		add_doctrine = hostility_doctrine_id_132
+	}
+	else_if = {
+		limit = { var:faith_id = 133 }
+		add_doctrine = hostility_doctrine_id_133
+	}
+	else_if = {
+		limit = { var:faith_id = 134 }
+		add_doctrine = hostility_doctrine_id_134
+	}
+	else_if = {
+		limit = { var:faith_id = 135 }
+		add_doctrine = hostility_doctrine_id_135
+	}
+	else_if = {
+		limit = { var:faith_id = 136 }
+		add_doctrine = hostility_doctrine_id_136
+	}
+	else_if = {
+		limit = { var:faith_id = 137 }
+		add_doctrine = hostility_doctrine_id_137
+	}
+	else_if = {
+		limit = { var:faith_id = 138 }
+		add_doctrine = hostility_doctrine_id_138
+	}
+	else_if = {
+		limit = { var:faith_id = 139 }
+		add_doctrine = hostility_doctrine_id_139
+	}
+	else_if = {
+		limit = { var:faith_id = 140 }
+		add_doctrine = hostility_doctrine_id_140
+	}
+	else_if = {
+		limit = { var:faith_id = 141 }
+		add_doctrine = hostility_doctrine_id_141
+	}
+	else_if = {
+		limit = { var:faith_id = 142 }
+		add_doctrine = hostility_doctrine_id_142
+	}
+	else_if = {
+		limit = { var:faith_id = 143 }
+		add_doctrine = hostility_doctrine_id_143
+	}
+	else_if = {
+		limit = { var:faith_id = 144 }
+		add_doctrine = hostility_doctrine_id_144
+	}
+	else_if = {
+		limit = { var:faith_id = 145 }
+		add_doctrine = hostility_doctrine_id_145
+	}
+	else_if = {
+		limit = { var:faith_id = 146 }
+		add_doctrine = hostility_doctrine_id_146
+	}
+	else_if = {
+		limit = { var:faith_id = 147 }
+		add_doctrine = hostility_doctrine_id_147
+	}
+	else_if = {
+		limit = { var:faith_id = 148 }
+		add_doctrine = hostility_doctrine_id_148
+	}
+	else_if = {
+		limit = { var:faith_id = 149 }
+		add_doctrine = hostility_doctrine_id_149
+	}
+	else_if = {
+		limit = { var:faith_id = 150 }
+		add_doctrine = hostility_doctrine_id_150
+	}
+	else_if = {
+		limit = { var:faith_id = 151 }
+		add_doctrine = hostility_doctrine_id_151
+	}
+	else_if = {
+		limit = { var:faith_id = 152 }
+		add_doctrine = hostility_doctrine_id_152
+	}
+	else_if = {
+		limit = { var:faith_id = 153 }
+		add_doctrine = hostility_doctrine_id_153
+	}
+	else_if = {
+		limit = { var:faith_id = 154 }
+		add_doctrine = hostility_doctrine_id_154
+	}
+	else_if = {
+		limit = { var:faith_id = 155 }
+		add_doctrine = hostility_doctrine_id_155
+	}
+	else_if = {
+		limit = { var:faith_id = 156 }
+		add_doctrine = hostility_doctrine_id_156
+	}
+	else_if = {
+		limit = { var:faith_id = 157 }
+		add_doctrine = hostility_doctrine_id_157
+	}
+	else_if = {
+		limit = { var:faith_id = 158 }
+		add_doctrine = hostility_doctrine_id_158
+	}
+	else_if = {
+		limit = { var:faith_id = 159 }
+		add_doctrine = hostility_doctrine_id_159
+	}
+	else_if = {
+		limit = { var:faith_id = 160 }
+		add_doctrine = hostility_doctrine_id_160
+	}
+	else_if = {
+		limit = { var:faith_id = 161 }
+		add_doctrine = hostility_doctrine_id_161
+	}
+	else_if = {
+		limit = { var:faith_id = 162 }
+		add_doctrine = hostility_doctrine_id_162
+	}
+	else_if = {
+		limit = { var:faith_id = 163 }
+		add_doctrine = hostility_doctrine_id_163
+	}
+	else_if = {
+		limit = { var:faith_id = 164 }
+		add_doctrine = hostility_doctrine_id_164
+	}
+	else_if = {
+		limit = { var:faith_id = 165 }
+		add_doctrine = hostility_doctrine_id_165
+	}
+	else_if = {
+		limit = { var:faith_id = 166 }
+		add_doctrine = hostility_doctrine_id_166
+	}
+	else_if = {
+		limit = { var:faith_id = 167 }
+		add_doctrine = hostility_doctrine_id_167
+	}
+	else_if = {
+		limit = { var:faith_id = 168 }
+		add_doctrine = hostility_doctrine_id_168
+	}
+	else_if = {
+		limit = { var:faith_id = 169 }
+		add_doctrine = hostility_doctrine_id_169
+	}
+	else_if = {
+		limit = { var:faith_id = 170 }
+		add_doctrine = hostility_doctrine_id_170
+	}
+	else_if = {
+		limit = { var:faith_id = 171 }
+		add_doctrine = hostility_doctrine_id_171
+	}
+	else_if = {
+		limit = { var:faith_id = 172 }
+		add_doctrine = hostility_doctrine_id_172
+	}
+	else_if = {
+		limit = { var:faith_id = 173 }
+		add_doctrine = hostility_doctrine_id_173
+	}
+	else_if = {
+		limit = { var:faith_id = 174 }
+		add_doctrine = hostility_doctrine_id_174
+	}
+	else_if = {
+		limit = { var:faith_id = 175 }
+		add_doctrine = hostility_doctrine_id_175
+	}
+	else_if = {
+		limit = { var:faith_id = 176 }
+		add_doctrine = hostility_doctrine_id_176
+	}
+	else_if = {
+		limit = { var:faith_id = 177 }
+		add_doctrine = hostility_doctrine_id_177
+	}
+	else_if = {
+		limit = { var:faith_id = 178 }
+		add_doctrine = hostility_doctrine_id_178
+	}
+	else_if = {
+		limit = { var:faith_id = 179 }
+		add_doctrine = hostility_doctrine_id_179
+	}
+	else_if = {
+		limit = { var:faith_id = 180 }
+		add_doctrine = hostility_doctrine_id_180
+	}
+	else_if = {
+		limit = { var:faith_id = 181 }
+		add_doctrine = hostility_doctrine_id_181
+	}
+	else_if = {
+		limit = { var:faith_id = 182 }
+		add_doctrine = hostility_doctrine_id_182
+	}
+	else_if = {
+		limit = { var:faith_id = 183 }
+		add_doctrine = hostility_doctrine_id_183
+	}
+	else_if = {
+		limit = { var:faith_id = 184 }
+		add_doctrine = hostility_doctrine_id_184
+	}
+	else_if = {
+		limit = { var:faith_id = 185 }
+		add_doctrine = hostility_doctrine_id_185
+	}
+	else_if = {
+		limit = { var:faith_id = 186 }
+		add_doctrine = hostility_doctrine_id_186
+	}
+	else_if = {
+		limit = { var:faith_id = 187 }
+		add_doctrine = hostility_doctrine_id_187
+	}
+	else_if = {
+		limit = { var:faith_id = 188 }
+		add_doctrine = hostility_doctrine_id_188
+	}
+	else_if = {
+		limit = { var:faith_id = 189 }
+		add_doctrine = hostility_doctrine_id_189
+	}
+	else_if = {
+		limit = { var:faith_id = 190 }
+		add_doctrine = hostility_doctrine_id_190
+	}
+	else_if = {
+		limit = { var:faith_id = 191 }
+		add_doctrine = hostility_doctrine_id_191
+	}
+	else_if = {
+		limit = { var:faith_id = 192 }
+		add_doctrine = hostility_doctrine_id_192
+	}
+	else_if = {
+		limit = { var:faith_id = 193 }
+		add_doctrine = hostility_doctrine_id_193
+	}
+	else_if = {
+		limit = { var:faith_id = 194 }
+		add_doctrine = hostility_doctrine_id_194
+	}
+	else_if = {
+		limit = { var:faith_id = 195 }
+		add_doctrine = hostility_doctrine_id_195
+	}
+	else_if = {
+		limit = { var:faith_id = 196 }
+		add_doctrine = hostility_doctrine_id_196
+	}
+	else_if = {
+		limit = { var:faith_id = 197 }
+		add_doctrine = hostility_doctrine_id_197
+	}
+	else_if = {
+		limit = { var:faith_id = 198 }
+		add_doctrine = hostility_doctrine_id_198
+	}
+	else_if = {
+		limit = { var:faith_id = 199 }
+		add_doctrine = hostility_doctrine_id_199
+	}
+}
+
+faith_give_view_shezarr = {
+	if = {
+		limit = {
+			NOR = {
+				has_doctrine = doctrine_shezarr_worship_full
+				has_doctrine = doctrine_shezarr_worship_respected
+				has_doctrine = doctrine_shezarr_worship_neutral
+				has_doctrine = doctrine_shezarr_worship_forbidden
+			}
+		}
+		add_doctrine = doctrine_shezarr_worship_neutral
+	}
+}
+
+faith_give_proper_cultural_identity_doctrine = {
+	if = {
+		limit = { has_doctrine = doctrine_cultural_identity_none_creating_faith }
+		remove_doctrine = doctrine_cultural_identity_none_creating_faith
+		add_doctrine = doctrine_cultural_identity_none
+	}
+	else_if = {
+		limit = { has_doctrine = doctrine_cultural_identity_heritage_creating_faith }
+		root.culture = { save_scope_as = culture_faith }
+		set_variable = { name = associated_culture value = scope:culture_faith }
+		remove_doctrine = doctrine_cultural_identity_heritage_creating_faith
+		add_doctrine = doctrine_cultural_identity_heritage
+	}
+	else_if = {
+		limit = { has_doctrine = doctrine_cultural_identity_heritage_exclusive_creating_faith }
+		root.culture = { save_scope_as = culture_faith }
+		set_variable = { name = associated_culture value = scope:culture_faith }
+		remove_doctrine = doctrine_cultural_identity_heritage_exclusive_creating_faith
+		add_doctrine = doctrine_cultural_identity_heritage_exclusive
+	}
+	else_if = {
+		limit = { has_doctrine = doctrine_cultural_identity_culture_creating_faith }
+		root.culture = { save_scope_as = culture_faith }
+		set_variable = { name = associated_culture value = scope:culture_faith }
+		remove_doctrine = doctrine_cultural_identity_culture_creating_faith
+		add_doctrine = doctrine_cultural_identity_culture
+	}
+	else_if = {
+		limit = { has_doctrine = doctrine_cultural_identity_culture_exclusive_creating_faith }
+		root.culture = { save_scope_as = culture_faith }
+		set_variable = { name = associated_culture value = scope:culture_faith }
+		remove_doctrine = doctrine_cultural_identity_culture_exclusive_creating_faith
+		add_doctrine = doctrine_cultural_identity_culture_exclusive
+	}
+}
+
+faith_clean_unused_doctrines = {
+	### Non-monolatric faiths do not care about the 'No Aspect' doctrine
+	if = {
+		limit = { has_doctrine = doctrine_pantheon_no_aspect NOT = { has_doctrine = doctrine_main_pantheon_type_monolatrism } }
+		remove_doctrine = doctrine_pantheon_no_aspect
+	}
+	
+	### Faiths without secondary deities don't need to see the doctrine
+	if = {
+		limit = { has_doctrine = doctrine_sp_no_deity_1 }
+		remove_doctrine = doctrine_sp_no_deity_1
+	}
+	if = {
+		limit = { has_doctrine = doctrine_sp_no_deity_2 }
+		remove_doctrine = doctrine_sp_no_deity_2
+	}
+	if = {
+		limit = { has_doctrine = doctrine_sp_no_deity_3 }
+		remove_doctrine = doctrine_sp_no_deity_3
+	}
+	
+	### Faiths without a liturgical language don't need the doctrine
+	if = {
+		limit = { has_doctrine = doctrine_liturgical_language_none }
+		remove_doctrine = doctrine_liturgical_language_none
+	}
+}
+
+### FERVOR EQUILIBRIUM
+# PROBLEM! THE FE OF THE COUNCIL OF THE EIGHT MEMBERS DEPENDS ON THE LEADER.
+# SOLUTION? EVERYTMIME YOU UPDATE THE FERVOR EQUILIBRIUM OF ALL FAITHS, MAKE SURE TO FIRST UPDATE THE CO8 FERVOR EQUILIBRIUM
+faith_update_fervor_equilibrium = {
+	save_scope_as = current_faith
+	
+	##### V2
+	### FERVOR EQUILIBRIUM COMPUTATION
+	## Let's clean the variables
+	if = {
+		limit = { has_variable = fe_impact_nb_temples }
+		remove_variable = fe_impact_nb_temples
+	}
+	if = {
+		limit = { has_variable = fe_impact_nb_holy_order }
+		remove_variable = fe_impact_nb_holy_order
+	}
+	if = {
+		limit = { has_variable = fe_impact_mean_county_opinion }
+		remove_variable = fe_impact_mean_county_opinion
+	}
+	if = {
+		limit = { has_variable = fe_impact_sinful_traits_hof }
+		remove_variable = fe_impact_sinful_traits_hof
+	}
+	if = {
+		limit = { has_variable = fe_impact_virtuous_traits_hof }
+		remove_variable = fe_impact_virtuous_traits_hof
+	}
+	if = {
+		limit = { has_variable = fe_impact_hof_missing }
+		remove_variable = fe_impact_hof_missing
+	}
+	if = {
+		limit = { has_variable = fe_impact_hof_ca }
+		remove_variable = fe_impact_hof_ca
+	}
+	if = {
+		limit = { has_variable = fe_impact_ecclesiarchy_boost }
+		remove_variable = fe_impact_ecclesiarchy_boost
+	}
+	
+	## Base
+	set_variable = {
+		name = fervor_equilibrium
+		value = 50
+	}
+	
+	## How many temples compared to our counties. High nb of temples = positive equilibrium impact
+	if = {
+		limit = { num_county_followers > 0 }
+		
+		# 0 = 0%fe; 0.5 = 10fe; 1 = 20%fe
+		set_variable = {
+			name = fe_impact_nb_temples
+			value = 0
+		}
+		
+		every_barony = {
+			limit = {
+				this.faith = scope:current_faith
+				title_province = { has_holding_type = church_holding }
+			}
+			scope:current_faith = { change_variable = { name = fe_impact_nb_temples add = 1 } }
+		}
+		
+		# We get the proportion of temples (most of the time between 0 and 1, might be a bit above 1)
+		change_variable = {
+			name = fe_impact_nb_temples
+			divide = num_county_followers
+		}
+		
+		# Multiply that by 20, so that the fervor impact is between 0 and +20%
+		change_variable = {
+			name = fe_impact_nb_temples
+			multiply = 20
+		}
+		
+		# If we have the Control clergy doctrine, we multiply it by two
+		if = {
+			limit = { has_doctrine_parameter = increases_fe_impact_nb_temples_active }
+			change_variable = {
+				name = fe_impact_nb_temples
+				multiply = 2
+			}
+		}
+		
+		# Cap it at 20
+		clamp_variable = {
+			name = fe_impact_nb_temples
+			max = 20
+			min = 0
+		}
+		
+		## And finally we apply that to our fervor equilibrium
+		change_variable = {
+			name = fervor_equilibrium
+			add = var:fe_impact_nb_temples
+		}
+	}
+	
+	## Faiths with the Recruitment doctrine get a FE bonus for each holy order
+	if = {
+		limit = {
+			has_doctrine_parameter = number_holy_orders_increases_fe_active
+			any_faith_holy_order = { count >= 1 always = yes }
+		}
+		set_variable = {
+			name = fe_impact_nb_holy_order
+			value = 0
+		}
+		every_faith_holy_order = {
+			scope:current_faith = {
+				change_variable = {
+					name = fe_impact_nb_holy_order
+					add = 5
+				}
+			}
+		}
+		change_variable = {
+			name = fervor_equilibrium
+			add = var:fe_impact_nb_holy_order
+		}
+	}
+	
+	## Faiths with Alms and Pacification get a FE modifier depending on the faith mean county opinion
+	if = {
+		limit = {
+			has_doctrine_parameter = mean_popular_opinion_modifies_fe_active
+			num_county_followers >= 1
+		}
+		set_variable = {
+			name = fe_impact_mean_county_opinion
+			value = 0
+		}
+		every_county = {
+			limit = { faith = scope:current_faith }
+			save_scope_as = current_county
+			
+			scope:current_faith = {
+				change_variable = {
+					name = fe_impact_mean_county_opinion
+					add = scope:current_county.county_opinion
+				}
+			}
+		}
+		change_variable = {
+			name = fe_impact_mean_county_opinion
+			divide = num_county_followers
+		}
+		
+		clamp_variable = {
+			name = fe_impact_mean_county_opinion
+			min = 0
+		}
+		
+		change_variable = {
+			name = fervor_equilibrium
+			add = var:fe_impact_mean_county_opinion
+		}
+	}
+	
+	## Head of Faith impact (if any)
+	if = {
+		limit = { NOT = { has_doctrine_parameter = no_head_of_faith } }
+		if = {
+			limit = { exists = this.religious_head }
+			this.religious_head = { save_scope_as = hof }
+			
+			# Each sin/virtue of the HoF modifies the fervor equilibrium by -5/+5%
+			if = {
+				limit = { scope:hof = { num_sinful_traits > 0 } }
+				
+				set_variable = {
+					name = fe_impact_sinful_traits_hof
+					value = -5
+				}
+				change_variable = {
+					name = fe_impact_sinful_traits_hof
+					multiply = this.religious_head.num_sinful_traits
+				}
+				change_variable = {
+					name = fervor_equilibrium
+					add = var:fe_impact_sinful_traits_hof
+				}
+			}
+			if = {
+				limit = { scope:hof = { num_virtuous_traits > 0 } }
+				
+				set_variable = {
+					name = fe_impact_virtuous_traits_hof
+					value = 5
+				}
+				change_variable = {
+					name = fe_impact_virtuous_traits_hof
+					multiply = this.religious_head.num_virtuous_traits
+				}
+				change_variable = {
+					name = fervor_equilibrium
+					add = var:fe_impact_virtuous_traits_hof
+				}
+			}
+		}
+		else = {
+			# If there is no HoF while you should have one, we assume it has 3 sins (so you should get one)
+			set_variable = {
+				name = fe_impact_hof_missing
+				value = -15
+			}
+			change_variable = {
+				name = fervor_equilibrium
+				add = var:fe_impact_hof_missing
+			}
+		}
+	}
+
+	# Hierocratic HoF gives a small bonus when they have a high Crown Authority
+	if = {
+		limit = { has_doctrine_parameter = hof_crown_authority_improves_fe }
+		if = {
+			limit = {
+				exists = this.religious_head
+				this.religious_head = {
+					OR = {
+						has_realm_law = crown_authority_1
+						has_realm_law = crown_authority_2
+						has_realm_law = crown_authority_3
+					}
+				}
+			}
+			this.religious_head = { save_scope_as = hof }
+			
+			if = {
+				limit = { scope:hof = { has_realm_law = crown_authority_1 } }
+				set_variable = {
+					name = fe_impact_hof_ca
+					value = 5
+				}
+			}
+			else_if = {
+				limit = { scope:hof = { has_realm_law = crown_authority_2 } }
+				set_variable = {
+					name = fe_impact_hof_ca
+					value = 10
+				}
+			}
+			else_if = {
+				limit = { scope:hof = { has_realm_law = crown_authority_3 } }
+				set_variable = {
+					name = fe_impact_hof_ca
+					value = 15
+				}
+			}
+		
+			change_variable = {
+				name = fervor_equilibrium
+				add = var:fe_impact_hof_ca
+			}
+		}
+	}
+	
+	## Daedric cults
+	# Once it's in the mod, the strength of the Daedra revered by its cult should impact the cult fervor (high fervor when the Prince is strong, low when the Prince is weak)
+	
+	## Doctrines & Tenets
+	# Faiths with Ecclesiarchy get an equilibrium boost for each holy site
+	if = {
+		limit = { has_doctrine_parameter = holy_site_increase_fervor_equilibrium_active }
+		set_variable = {
+			name = fe_impact_ecclesiarchy_boost
+			value = 0
+		}
+		
+		every_holy_site = {
+			limit = { holder.faith = scope:current_faith }
+			
+			scope:current_faith = {
+				change_variable = {
+					name = fe_impact_ecclesiarchy_boost
+					add = 5
+				}
+			}
+		}
+		
+		change_variable = {
+			name = fervor_equilibrium
+			add = var:fe_impact_ecclesiarchy_boost
+		}
+	}
+	
+	## Size penalty
+	# Faiths with over 50 counties get a scaling FE penalty, based on the (currently disabled) fervor gain penalty gain due to size
+	# fe = fe * 1/sqrt(max(49, faith_size)/49)
+	# Only checks if nb counties > 49, so fe *= 1/sqrt(faith_size/49)
+	if = {
+		limit = { num_county_followers > 49 }
+		set_local_variable = { name = param value = { value = num_county_followers } }
+		get_sqrt = yes
+		
+		if = { # Some tenets and doctrines can reduce this size penalty
+			limit = { has_doctrine_parameter = reduces_number_counties_fervor_equilibrium_penality_active }
+			# We slightly lower sqrt(faith_size), so the penalty isn't as strong
+			set_local_variable = {
+				name = result
+				value = {
+					value = local_var:result
+					multiply = 0.75
+				}
+			}
+		}
+		
+		set_local_variable = { name = result value = { value = local_var:result divide = 7 } } # We divide by sqrt(7) here, as sqrt(faith_size/49) = sqrt(faith_size)/sqrt(49)
+		
+		set_variable = { # We get 1/sqrt(faith_size/49)
+			name = fe_impact_faith_size
+			value = {
+				value = 1
+				divide = local_var:result
+			}
+		}
+		set_variable = { # That's our new Equilibrium
+			name = fervor_equilibrium_new
+			value = {
+				value = var:fervor_equilibrium
+				multiply = var:fe_impact_faith_size
+			}
+		}
+		# set_variable = { # That's the difference
+			# name = fe_impact_faith_size
+			# value = {
+				# value = var:fervor_equilibrium
+				# subtract = var:fervor_equilibrium_new
+			# }
+		# }
+		
+		set_variable = { # We apply the new equilibrium
+			name = fervor_equilibrium
+			value = var:fervor_equilibrium_new
+		}
+	}
+	
+	## Finally, make sure it's between bounds that make sense
+	clamp_variable = {
+		name = fervor_equilibrium
+		min = 0
+		max = 100
+	}
+}
+
+### MYSTICAL BIRTHRIGHT HEAD OF FAITH
+# We call that when we lack a potential heir (not enough living characters with the faith with the Miracle Worker trait)
+mb_hof_generate_new_potential_heir = {
+	### Faith should always be ours
+	
+	### Culture should be taken from the pool of cultures available to our faith
+	## If our faith is tied to a culture group, the new character culture should be in that group
+	## If our faith is tied to a culture, the new character should be of that culture
+	## If neither, then we can go wild (as long as that culture is alive)
+	if = {
+		limit = {
+			# Culture group
+			faith = {
+				OR = {
+					has_doctrine = doctrine_cultural_identity_heritage
+					has_doctrine = doctrine_cultural_identity_heritage_exclusive
+				}
+			}
+		}
+		random_culture_global = {
+			limit = {
+				has_same_culture_heritage = root.culture
+				culture_is_alive = yes
+			}
+			weight = {
+				modifier = {
+					factor = 2
+					this = root.culture # let's nudge it a little towards maintaining the current HoF culture
+				}
+			}
+			save_scope_as = new_character_culture
+		}
+	}	
+	else_if = {
+		limit = {
+			# Culture
+			faith = {
+				OR = {
+					has_doctrine = doctrine_cultural_identity_culture
+					has_doctrine = doctrine_cultural_identity_culture_exclusive
+				}
+			}
+		}
+		root.culture = { save_scope_as = new_character_culture }
+	}
+	else = {
+		random_culture_global = {
+			limit = { culture_is_alive = yes }
+			save_scope_as = new_character_culture
+		}
+	}	
+	
+	random_list = {
+		20 = {
+			create_character = {
+				faith = root.faith
+				culture = scope:new_character_culture
+				location = root.capital_province
+				template = pool_repopulate_diplomacy
+				dynasty = none
+				
+				save_temporary_scope_as = new_mb_hof_potential_heir
+			}
+			scope:new_mb_hof_potential_heir = { 
+				furstock_trait_clear_effect = yes
+				add_trait = furstock_mane 
+			}
+		}
+		20 = {
+			create_character = {
+				faith = root.faith
+				culture = scope:new_character_culture
+				location = root.capital_province
+				template = pool_repopulate_martial
+				dynasty = none
+				
+				save_temporary_scope_as = new_mb_hof_potential_heir
+			}
+			scope:new_mb_hof_potential_heir = { 
+				furstock_trait_clear_effect = yes
+				add_trait = furstock_mane 
+			}
+		}
+		20 = {
+			create_character = {
+				faith = root.faith
+				culture = scope:new_character_culture
+				location = root.capital_province
+				template = pool_repopulate_stewardship
+				dynasty = none
+				
+				save_temporary_scope_as = new_mb_hof_potential_heir
+			}
+			scope:new_mb_hof_potential_heir = { 
+				furstock_trait_clear_effect = yes
+				add_trait = furstock_mane 
+			}
+		}
+		20 = {
+			create_character = {
+				faith = root.faith
+				culture = scope:new_character_culture
+				location = root.capital_province
+				template = pool_repopulate_intrigue
+				dynasty = none
+				
+				save_temporary_scope_as = new_mb_hof_potential_heir
+			}
+			scope:new_mb_hof_potential_heir = { 
+				furstock_trait_clear_effect = yes
+				add_trait = furstock_mane 
+			}
+		}
+		20 = {
+			create_character = {
+				faith = root.faith
+				culture = scope:new_character_culture
+				location = root.capital_province
+				template = pool_repopulate_learning
+				dynasty = none
+				
+				save_temporary_scope_as = new_mb_hof_potential_heir
+			}
+			scope:new_mb_hof_potential_heir = { 
+				furstock_trait_clear_effect = yes
+				add_trait = furstock_mane 
+			}
+		}
+	}
+}
+
+# Dynamic HoF title creation
+set_up_dynamic_mbhof_hof_title_effect = {
+	faith = { save_scope_as = my_faith }
+	create_dynamic_title = {
+		tier = duchy
+		name = REL_HEAD_TITLE_NAME
+	}
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	scope:new_title = {
+		set_destroy_if_invalid_heir = yes
+		set_no_automatic_claims = yes
+		set_definitive_form = yes
+		set_always_follows_primary_heir = yes
+		change_title_holder = {
+			holder = $NEW_HOLDER$
+			change = scope:change
+		}
+	}
+	resolve_title_and_vassal_change = scope:change
+	faith = { set_religious_head_title = scope:new_title }
+	scope:new_title = { generate_coa = religious_title }
+
+	### Congrats you become a Hierocracy
+	change_government = hierocracy_government
+	add_realm_law_skip_effects = mbhof_succession_law
+}
+
+# To switch two faiths HoF. One must have doctrine_no_head, and one must not.
+switch_faiths_hof = {
+	if = {
+		limit = { $FAITH_HEAD$ = { has_doctrine = doctrine_spiritual_head } }
+		switch_faiths_hof_with_relhead_doctrine = { FAITH_HEAD = $FAITH_HEAD$ FAITH_NO_HEAD = $FAITH_NO_HEAD$ HOF_DOCTRINE = doctrine_spiritual_head }
+	}
+	else_if = {
+		limit = { $FAITH_HEAD$ = { has_doctrine = doctrine_temporal_head } }
+		switch_faiths_hof_with_relhead_doctrine = { FAITH_HEAD = $FAITH_HEAD$ FAITH_NO_HEAD = $FAITH_NO_HEAD$ HOF_DOCTRINE = doctrine_temporal_head }
+	}
+	else_if = {
+		limit = { $FAITH_HEAD$ = { has_doctrine = doctrine_mystical_birthright_head } }
+		switch_faiths_hof_with_relhead_doctrine = { FAITH_HEAD = $FAITH_HEAD$ FAITH_NO_HEAD = $FAITH_NO_HEAD$ HOF_DOCTRINE = doctrine_mystical_birthright_head }
+	}
+}
+
+switch_faiths_hof_with_relhead_doctrine = {
+	$FAITH_HEAD$.religious_head = { save_scope_as = current_hof }
+	$FAITH_HEAD$.religious_head_title = { save_scope_as = current_hof_title }
+	
+	$FAITH_HEAD$ = {
+		remove_doctrine = $HOF_DOCTRINE$
+		add_doctrine = doctrine_no_head
+		remove_religious_head_title = yes
+	}
+	scope:current_hof = { set_character_faith = $FAITH_NO_HEAD$ }
+	$FAITH_NO_HEAD$ = {
+		remove_doctrine = doctrine_no_head
+		add_doctrine = $HOF_DOCTRINE$
+		set_religious_head_title = scope:current_hof_title
+	}
+}
+
+### Faiths with a Hierocratic HoF get stronger doctrines depending on their Hierocrat Crown Authority
+update_feudal_theocracy_ca_doctrine_impact = {
+	if = {
+		limit = { $CA$ = 0 }
+		if = {
+			limit = {
+				faith = {
+					OR = {
+						has_doctrine = doctrine_clerical_function_taxation
+						has_doctrine = doctrine_clerical_function_taxation_1
+						has_doctrine = doctrine_clerical_function_taxation_2
+						has_doctrine = doctrine_clerical_function_taxation_3
+					}
+				}
+			}
+			faith = {
+				remove_doctrine = doctrine_clerical_function_taxation_1
+				remove_doctrine = doctrine_clerical_function_taxation_2
+				remove_doctrine = doctrine_clerical_function_taxation_3
+				
+				add_doctrine = doctrine_clerical_function_taxation
+			}
+		}
+		else_if = {
+			limit = {
+				faith = {
+					OR = {
+						has_doctrine = doctrine_clerical_function_alms_and_pacification
+						has_doctrine = doctrine_clerical_function_alms_and_pacification_1
+						has_doctrine = doctrine_clerical_function_alms_and_pacification_2
+						has_doctrine = doctrine_clerical_function_alms_and_pacification_3
+					}
+				}
+			}
+			faith = {
+				remove_doctrine = doctrine_clerical_function_alms_and_pacification_1
+				remove_doctrine = doctrine_clerical_function_alms_and_pacification_2
+				remove_doctrine = doctrine_clerical_function_alms_and_pacification_3
+				
+				add_doctrine = doctrine_clerical_function_alms_and_pacification
+			}
+		}
+		else_if = {
+			limit = {
+				faith = {
+					OR = {
+						has_doctrine = doctrine_clerical_function_recruitment
+						has_doctrine = doctrine_clerical_function_recruitment_1
+						has_doctrine = doctrine_clerical_function_recruitment_2
+						has_doctrine = doctrine_clerical_function_recruitment_3
+					}
+				}
+			}
+			faith = {
+				remove_doctrine = doctrine_clerical_function_recruitment_1
+				remove_doctrine = doctrine_clerical_function_recruitment_2
+				remove_doctrine = doctrine_clerical_function_recruitment_3
+				
+				add_doctrine = doctrine_clerical_function_recruitment
+			}
+		}
+	}
+	else_if = {
+		limit = { $CA$ = 1 }
+		if = {
+			limit = {
+				faith = {
+					OR = {
+						has_doctrine = doctrine_clerical_function_taxation
+						has_doctrine = doctrine_clerical_function_taxation_1
+						has_doctrine = doctrine_clerical_function_taxation_2
+						has_doctrine = doctrine_clerical_function_taxation_3
+					}
+				}
+			}
+			faith = {
+				remove_doctrine = doctrine_clerical_function_taxation
+				remove_doctrine = doctrine_clerical_function_taxation_2
+				remove_doctrine = doctrine_clerical_function_taxation_3
+				
+				add_doctrine = doctrine_clerical_function_taxation_1
+			}
+		}
+		else_if = {
+			limit = {
+				faith = {
+					OR = {
+						has_doctrine = doctrine_clerical_function_alms_and_pacification
+						has_doctrine = doctrine_clerical_function_alms_and_pacification_1
+						has_doctrine = doctrine_clerical_function_alms_and_pacification_2
+						has_doctrine = doctrine_clerical_function_alms_and_pacification_3
+					}
+				}
+			}
+			faith = {
+				remove_doctrine = doctrine_clerical_function_alms_and_pacification
+				remove_doctrine = doctrine_clerical_function_alms_and_pacification_2
+				remove_doctrine = doctrine_clerical_function_alms_and_pacification_3
+				
+				add_doctrine = doctrine_clerical_function_alms_and_pacification_1
+			}
+		}
+		else_if = {
+			limit = {
+				faith = {
+					OR = {
+						has_doctrine = doctrine_clerical_function_recruitment
+						has_doctrine = doctrine_clerical_function_recruitment_1
+						has_doctrine = doctrine_clerical_function_recruitment_2
+						has_doctrine = doctrine_clerical_function_recruitment_3
+					}
+				}
+			}
+			faith = {
+				remove_doctrine = doctrine_clerical_function_recruitment
+				remove_doctrine = doctrine_clerical_function_recruitment_2
+				remove_doctrine = doctrine_clerical_function_recruitment_3
+				
+				add_doctrine = doctrine_clerical_function_recruitment_1
+			}
+		}
+	}
+	else_if = {
+		limit = { $CA$ = 2 }
+		if = {
+			limit = {
+				faith = {
+					OR = {
+						has_doctrine = doctrine_clerical_function_taxation
+						has_doctrine = doctrine_clerical_function_taxation_1
+						has_doctrine = doctrine_clerical_function_taxation_2
+						has_doctrine = doctrine_clerical_function_taxation_3
+					}
+				}
+			}
+			faith = {
+				remove_doctrine = doctrine_clerical_function_taxation
+				remove_doctrine = doctrine_clerical_function_taxation_1
+				remove_doctrine = doctrine_clerical_function_taxation_3
+				
+				add_doctrine = doctrine_clerical_function_taxation_2
+			}
+		}
+		else_if = {
+			limit = {
+				faith = {
+					OR = {
+						has_doctrine = doctrine_clerical_function_alms_and_pacification
+						has_doctrine = doctrine_clerical_function_alms_and_pacification_1
+						has_doctrine = doctrine_clerical_function_alms_and_pacification_2
+						has_doctrine = doctrine_clerical_function_alms_and_pacification_3
+					}
+				}
+			}
+			faith = {
+				remove_doctrine = doctrine_clerical_function_alms_and_pacification
+				remove_doctrine = doctrine_clerical_function_alms_and_pacification_1
+				remove_doctrine = doctrine_clerical_function_alms_and_pacification_3
+				
+				add_doctrine = doctrine_clerical_function_alms_and_pacification_2
+			}
+		}
+		else_if = {
+			limit = {
+				faith = {
+					OR = {
+						has_doctrine = doctrine_clerical_function_recruitment
+						has_doctrine = doctrine_clerical_function_recruitment_1
+						has_doctrine = doctrine_clerical_function_recruitment_2
+						has_doctrine = doctrine_clerical_function_recruitment_3
+					}
+				}
+			}
+			faith = {
+				remove_doctrine = doctrine_clerical_function_recruitment
+				remove_doctrine = doctrine_clerical_function_recruitment_1
+				remove_doctrine = doctrine_clerical_function_recruitment_3
+				
+				add_doctrine = doctrine_clerical_function_recruitment_2
+			}
+		}
+	}
+	else_if = {
+		limit = { $CA$ = 3 }
+		if = {
+			limit = {
+				faith = {
+					OR = {
+						has_doctrine = doctrine_clerical_function_taxation
+						has_doctrine = doctrine_clerical_function_taxation_1
+						has_doctrine = doctrine_clerical_function_taxation_2
+						has_doctrine = doctrine_clerical_function_taxation_3
+					}
+				}
+			}
+			faith = {
+				remove_doctrine = doctrine_clerical_function_taxation
+				remove_doctrine = doctrine_clerical_function_taxation_1
+				remove_doctrine = doctrine_clerical_function_taxation_2
+				
+				add_doctrine = doctrine_clerical_function_taxation_3
+			}
+		}
+		else_if = {
+			limit = {
+				faith = {
+					OR = {
+						has_doctrine = doctrine_clerical_function_alms_and_pacification
+						has_doctrine = doctrine_clerical_function_alms_and_pacification_1
+						has_doctrine = doctrine_clerical_function_alms_and_pacification_2
+						has_doctrine = doctrine_clerical_function_alms_and_pacification_3
+					}
+				}
+			}
+			faith = {
+				remove_doctrine = doctrine_clerical_function_alms_and_pacification
+				remove_doctrine = doctrine_clerical_function_alms_and_pacification_1
+				remove_doctrine = doctrine_clerical_function_alms_and_pacification_2
+				
+				add_doctrine = doctrine_clerical_function_alms_and_pacification_3
+			}
+		}
+		else_if = {
+			limit = {
+				faith = {
+					OR = {
+						has_doctrine = doctrine_clerical_function_recruitment
+						has_doctrine = doctrine_clerical_function_recruitment_1
+						has_doctrine = doctrine_clerical_function_recruitment_2
+						has_doctrine = doctrine_clerical_function_recruitment_3
+					}
+				}
+			}
+			faith = {
+				remove_doctrine = doctrine_clerical_function_recruitment
+				remove_doctrine = doctrine_clerical_function_recruitment_1
+				remove_doctrine = doctrine_clerical_function_recruitment_2
+				
+				add_doctrine = doctrine_clerical_function_recruitment_3
+			}
+		}
+	}
+}
+
+# Personality Cult tenet faiths update their sins and virtues to reflect those of their HoF
+personality_cult_update_virtues_sins = {
+	faith = {
+		# Remove the virtues
+		if = {
+			limit = { has_doctrine = doctrine_virtue_lustful }
+			remove_doctrine = doctrine_virtue_lustful
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_chaste }
+			remove_doctrine = doctrine_virtue_chaste
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_virtue_gluttonous }
+			remove_doctrine = doctrine_virtue_gluttonous
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_temperate }
+			remove_doctrine = doctrine_virtue_temperate
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_virtue_greedy }
+			remove_doctrine = doctrine_virtue_greedy
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_generous }
+			remove_doctrine = doctrine_virtue_generous
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_virtue_lazy }
+			remove_doctrine = doctrine_virtue_lazy
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_diligent }
+			remove_doctrine = doctrine_virtue_diligent
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_virtue_wrathful }
+			remove_doctrine = doctrine_virtue_wrathful
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_calm }
+			remove_doctrine = doctrine_virtue_calm
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_virtue_patient }
+			remove_doctrine = doctrine_virtue_patient
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_impatient }
+			remove_doctrine = doctrine_virtue_impatient
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_virtue_arrogant }
+			remove_doctrine = doctrine_virtue_arrogant
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_humble }
+			remove_doctrine = doctrine_virtue_humble
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_virtue_deceitful }
+			remove_doctrine = doctrine_virtue_deceitful
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_honest }
+			remove_doctrine = doctrine_virtue_honest
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_virtue_craven }
+			remove_doctrine = doctrine_virtue_craven
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_brave }
+			remove_doctrine = doctrine_virtue_brave
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_virtue_shy }
+			remove_doctrine = doctrine_virtue_shy
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_gregarious }
+			remove_doctrine = doctrine_virtue_gregarious
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_virtue_ambitious }
+			remove_doctrine = doctrine_virtue_ambitious
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_content }
+			remove_doctrine = doctrine_virtue_content
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_virtue_arbitrary }
+			remove_doctrine = doctrine_virtue_arbitrary
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_just }
+			remove_doctrine = doctrine_virtue_just
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_virtue_cynical }
+			remove_doctrine = doctrine_virtue_cynical
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_zealous }
+			remove_doctrine = doctrine_virtue_zealous
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_virtue_paranoid }
+			remove_doctrine = doctrine_virtue_paranoid
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_trusting }
+			remove_doctrine = doctrine_virtue_trusting
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_virtue_compassionate }
+			remove_doctrine = doctrine_virtue_compassionate
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_callous }
+			remove_doctrine = doctrine_virtue_callous
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_sadistic }
+			remove_doctrine = doctrine_virtue_sadistic
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_virtue_stubborn }
+			remove_doctrine = doctrine_virtue_stubborn
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_fickle }
+			remove_doctrine = doctrine_virtue_fickle
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_eccentric }
+			remove_doctrine = doctrine_virtue_eccentric
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_virtue_vengeful }
+			remove_doctrine = doctrine_virtue_vengeful
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_virtue_forgiving }
+			remove_doctrine = doctrine_virtue_forgiving
+		}
+
+		
+		# Remove the sins
+		if = {
+			limit = { has_doctrine = doctrine_sin_lustful }
+			remove_doctrine = doctrine_sin_lustful
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_chaste }
+			remove_doctrine = doctrine_sin_chaste
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_sin_gluttonous }
+			remove_doctrine = doctrine_sin_gluttonous
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_temperate }
+			remove_doctrine = doctrine_sin_temperate
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_sin_greedy }
+			remove_doctrine = doctrine_sin_greedy
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_generous }
+			remove_doctrine = doctrine_sin_generous
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_sin_lazy }
+			remove_doctrine = doctrine_sin_lazy
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_diligent }
+			remove_doctrine = doctrine_sin_diligent
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_sin_wrathful }
+			remove_doctrine = doctrine_sin_wrathful
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_calm }
+			remove_doctrine = doctrine_sin_calm
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_sin_patient }
+			remove_doctrine = doctrine_sin_patient
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_impatient }
+			remove_doctrine = doctrine_sin_impatient
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_sin_arrogant }
+			remove_doctrine = doctrine_sin_arrogant
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_humble }
+			remove_doctrine = doctrine_sin_humble
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_sin_deceitful }
+			remove_doctrine = doctrine_sin_deceitful
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_honest }
+			remove_doctrine = doctrine_sin_honest
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_sin_craven }
+			remove_doctrine = doctrine_sin_craven
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_brave }
+			remove_doctrine = doctrine_sin_brave
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_sin_shy }
+			remove_doctrine = doctrine_sin_shy
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_gregarious }
+			remove_doctrine = doctrine_sin_gregarious
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_sin_ambitious }
+			remove_doctrine = doctrine_sin_ambitious
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_content }
+			remove_doctrine = doctrine_sin_content
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_sin_arbitrary }
+			remove_doctrine = doctrine_sin_arbitrary
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_just }
+			remove_doctrine = doctrine_sin_just
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_sin_cynical }
+			remove_doctrine = doctrine_sin_cynical
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_zealous }
+			remove_doctrine = doctrine_sin_zealous
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_sin_paranoid }
+			remove_doctrine = doctrine_sin_paranoid
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_trusting }
+			remove_doctrine = doctrine_sin_trusting
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_sin_compassionate }
+			remove_doctrine = doctrine_sin_compassionate
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_callous }
+			remove_doctrine = doctrine_sin_callous
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_sadistic }
+			remove_doctrine = doctrine_sin_sadistic
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_sin_stubborn }
+			remove_doctrine = doctrine_sin_stubborn
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_fickle }
+			remove_doctrine = doctrine_sin_fickle
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_eccentric }
+			remove_doctrine = doctrine_sin_eccentric
+		}
+		
+		if = {
+			limit = { has_doctrine = doctrine_sin_vengeful }
+			remove_doctrine = doctrine_sin_vengeful
+		}
+		else_if = {
+			limit = { has_doctrine = doctrine_sin_forgiving }
+			remove_doctrine = doctrine_sin_forgiving
+		}
+	}
+	
+	# Now that the sins have been removed, let's add the traits of the ruler as virtues, and their opposites as sins
+	# Most rulers should have three personality traits, sometimes (but rarely) four, which is good as most faiths have three basic virtues
+	# This may overlap with some tenets but w/e
+	if = {
+		limit = { has_trait = lustful }
+		faith = {
+			add_doctrine = doctrine_virtue_lustful
+			add_doctrine = doctrine_sin_chaste
+		}
+	}
+	else_if = {
+		limit = { has_trait = chaste }
+		faith = {
+			add_doctrine = doctrine_virtue_chaste
+			add_doctrine = doctrine_sin_lustful
+		}
+	}
+	
+	if = {
+		limit = { has_trait = gluttonous }
+		faith = {
+			add_doctrine = doctrine_virtue_gluttonous
+			add_doctrine = doctrine_sin_temperate
+		}
+	}
+	else_if = {
+		limit = { has_trait = temperate }
+		faith = {
+			add_doctrine = doctrine_virtue_temperate
+			add_doctrine = doctrine_sin_gluttonous
+		}
+	}
+	
+	if = {
+		limit = { has_trait = greedy }
+		faith = {
+			add_doctrine = doctrine_virtue_greedy
+			add_doctrine = doctrine_sin_generous
+		}
+	}
+	else_if = {
+		limit = { has_trait = generous }
+		faith = {
+			add_doctrine = doctrine_virtue_generous
+			add_doctrine = doctrine_sin_greedy
+		}
+	}
+	
+	if = {
+		limit = { has_trait = lazy }
+		faith = {
+			add_doctrine = doctrine_virtue_lazy
+			add_doctrine = doctrine_sin_diligent
+		}
+	}
+	else_if = {
+		limit = { has_trait = diligent }
+		faith = {
+			add_doctrine = doctrine_virtue_diligent
+			add_doctrine = doctrine_sin_lazy
+		}
+	}
+	
+	if = {
+		limit = { has_trait = wrathful }
+		faith = {
+			add_doctrine = doctrine_virtue_wrathful
+			add_doctrine = doctrine_sin_calm
+		}
+	}
+	else_if = {
+		limit = { has_trait = calm }
+		faith = {
+			add_doctrine = doctrine_virtue_calm
+			add_doctrine = doctrine_sin_wrathful
+		}
+	}
+	
+	if = {
+		limit = { has_trait = patient }
+		faith = {
+			add_doctrine = doctrine_virtue_patient
+			add_doctrine = doctrine_sin_impatient
+		}
+	}
+	else_if = {
+		limit = { has_trait = impatient }
+		faith = {
+			add_doctrine = doctrine_virtue_impatient
+			add_doctrine = doctrine_sin_patient
+		}
+	}
+	
+	if = {
+		limit = { has_trait = arrogant }
+		faith = {
+			add_doctrine = doctrine_virtue_arrogant
+			add_doctrine = doctrine_sin_humble
+		}
+	}
+	else_if = {
+		limit = { has_trait = humble }
+		faith = {
+			add_doctrine = doctrine_virtue_humble
+			add_doctrine = doctrine_sin_arrogant
+		}
+	}
+	
+	if = {
+		limit = { has_trait = deceitful }
+		faith = {
+			add_doctrine = doctrine_virtue_deceitful
+			add_doctrine = doctrine_sin_honest
+		}
+	}
+	else_if = {
+		limit = { has_trait = honest }
+		faith = {
+			add_doctrine = doctrine_virtue_honest
+			add_doctrine = doctrine_sin_deceitful
+		}
+	}
+	
+	if = {
+		limit = { has_trait = craven }
+		faith = {
+			add_doctrine = doctrine_virtue_craven
+			add_doctrine = doctrine_sin_brave
+		}
+	}
+	else_if = {
+		limit = { has_trait = brave }
+		faith = {
+			add_doctrine = doctrine_virtue_brave
+			add_doctrine = doctrine_sin_craven
+		}
+	}
+	
+	if = {
+		limit = { has_trait = shy }
+		faith = {
+			add_doctrine = doctrine_virtue_shy
+			add_doctrine = doctrine_sin_gregarious
+		}
+	}
+	else_if = {
+		limit = { has_trait = gregarious }
+		faith = {
+			add_doctrine = doctrine_virtue_gregarious
+			add_doctrine = doctrine_sin_shy
+		}
+	}
+	
+	if = {
+		limit = { has_trait = ambitious }
+		faith = {
+			add_doctrine = doctrine_virtue_ambitious
+			add_doctrine = doctrine_sin_content
+		}
+	}
+	else_if = {
+		limit = { has_trait = content }
+		faith = {
+			add_doctrine = doctrine_virtue_content
+			add_doctrine = doctrine_sin_ambitious
+		}
+	}
+	
+	if = {
+		limit = { has_trait = arbitrary }
+		faith = {
+			add_doctrine = doctrine_virtue_arbitrary
+			add_doctrine = doctrine_sin_just
+		}
+	}
+	else_if = {
+		limit = { has_trait = just }
+		faith = {
+			add_doctrine = doctrine_virtue_just
+			add_doctrine = doctrine_sin_arbitrary
+		}
+	}
+	
+	if = {
+		limit = { has_trait = cynical }
+		faith = {
+			add_doctrine = doctrine_virtue_cynical
+			add_doctrine = doctrine_sin_zealous
+		}
+	}
+	else_if = {
+		limit = { has_trait = zealous }
+		faith = {
+			add_doctrine = doctrine_virtue_zealous
+			add_doctrine = doctrine_sin_cynical
+		}
+	}
+	
+	if = {
+		limit = { has_trait = paranoid }
+		faith = {
+			add_doctrine = doctrine_virtue_paranoid
+			add_doctrine = doctrine_sin_trusting
+		}
+	}
+	else_if = {
+		limit = { has_trait = trusting }
+		faith = {
+			add_doctrine = doctrine_virtue_trusting
+			add_doctrine = doctrine_sin_paranoid
+		}
+	}
+	
+	# These three are a bit special, Sadistic and Callous can't be stacked but they aren't exactly opposites, so we pick one at random if we're compassionate
+	if = {
+		limit = { has_trait = compassionate }
+		faith = {
+			add_doctrine = doctrine_virtue_compassionate
+			
+			random_list = {
+				50 = { add_doctrine = doctrine_sin_callous }
+				50 = { add_doctrine = doctrine_sin_sadistic }
+			}
+		}
+	}
+	else_if = {
+		limit = { has_trait = callous }
+		faith = {
+			add_doctrine = doctrine_virtue_callous
+			add_doctrine = doctrine_sin_compassionate
+		}
+	}
+	else_if = {
+		limit = { has_trait = sadistic }
+		faith = {
+			add_doctrine = doctrine_virtue_sadistic
+			add_doctrine = doctrine_sin_compassionate
+		}
+	}
+	
+	# Same for stubborn/fickle/eccentric
+	if = {
+		limit = { has_trait = stubborn }
+		faith = {
+			add_doctrine = doctrine_virtue_stubborn
+			
+			random_list = {
+				50 = { add_doctrine = doctrine_sin_fickle }
+				50 = { add_doctrine = doctrine_sin_eccentric }
+			}
+		}
+	}
+	else_if = {
+		limit = { has_trait = fickle }
+		faith = {
+			add_doctrine = doctrine_virtue_fickle
+			
+			random_list = {
+				50 = { add_doctrine = doctrine_sin_stubborn }
+				50 = { add_doctrine = doctrine_sin_eccentric }
+			}
+		}
+	}
+	else_if = {
+		limit = { has_trait = eccentric }
+		faith = {
+			add_doctrine = doctrine_virtue_eccentric
+			
+			random_list = {
+				50 = { add_doctrine = doctrine_sin_fickle }
+				50 = { add_doctrine = doctrine_sin_eccentric }
+			}
+		}
+	}
+	
+	faith = { faith_update_base_hostility_with_everyone_else = { FAITH = this } }
+}
+
+### Liturgical language
+# Update your liturgical language modifier
+update_liturgical_language_modifier = {
+	if = {
+		limit = {
+			OR = {
+				# We have a liturgical language modifier we don't need
+				AND = {
+					has_character_modifier = knows_liturgical_language_modifier
+					OR = {
+						# Your faith doesn't have a liturgical language
+						faith = { NOT = { faith_has_liturgical_language = yes } }
+						# You're part of the clergy, so it's expected from you to know it
+						is_clergy = yes
+						# You might have unlearned it
+						NOT = { knows_liturgical_language = yes }
+					}
+				}
+				
+				# We should have one but we don't
+				AND = {
+					faith = { faith_has_liturgical_language = yes }
+					NOT = { has_character_modifier = knows_liturgical_language_modifier }
+					NOT = { is_clergy = yes }
+					knows_liturgical_language = yes
+				}
+			}
+		}
+		
+		if = {
+			limit = {
+				# We have a liturgical language modifier we don't need
+				has_character_modifier = knows_liturgical_language_modifier
+				OR = {
+					# Your faith doesn't have a liturgical language
+					faith = { NOT = { faith_has_liturgical_language = yes } }
+					# You're part of the clergy, so it's expected from you to know it
+					is_clergy = yes
+					# You might have unlearned it
+					NOT = { knows_liturgical_language = yes }
+				}
+			}
+			remove_character_modifier = knows_liturgical_language_modifier
+		}
+		
+		else_if = {
+			limit = {
+				# We should have one but we don't
+				faith = { faith_has_liturgical_language = yes }
+				NOT = { has_character_modifier = knows_liturgical_language_modifier }
+				NOT = { is_clergy = yes }
+				knows_liturgical_language = yes
+			}
+			
+			add_character_modifier = knows_liturgical_language_modifier
+		}
+	}
+}
+
+# Check if that character needs to learn a liturgical language, and make it so if they need to
+update_liturgical_language = {
+	if = {
+		limit = {
+			is_clergy = yes
+			faith = { faith_has_liturgical_language = yes }
+		}
+		learn_liturgical_language = yes
+	}
+}
+learn_liturgical_language = {
+	if = {
+		limit = { NOT = { knows_language = language_daedric } faith = { has_doctrine_parameter = clergy_knows_daedric } }
+		learn_language = language_daedric
+	}
+	else_if = {
+		limit = { NOT = { knows_language = language_dovahzul } faith = { has_doctrine_parameter = clergy_knows_dragon } }
+		learn_language = language_dovahzul
+	}
+	else_if = {
+		limit = { NOT = { knows_language = language_tsaesci } faith = { has_doctrine_parameter = clergy_knows_tsaesci } }
+		learn_language = language_tsaesci
+	}
+	else_if = {
+		limit = { NOT = { knows_language = language_altmeris } faith = { has_doctrine_parameter = clergy_knows_altmeris } }
+		learn_language = language_altmeris
+	}
+}
+
+### The Celestial Serpent
+update_serpent_priest = {
+	if = {
+		limit = {
+			is_clergy = yes
+			faith = { has_doctrine_parameter = serpent_priest }
+		}
+		get_sign_serpent = yes
+	}
+}
+
+get_sign_serpent = {
+	if = {
+		limit = { NOT = { has_trait = sign_serpent } faith = { has_doctrine_parameter = serpent_priest } }
+	}
+	remove_birthsign = yes
+	add_trait = sign_serpent
+}
+
+### Tsaescence
+consume_effect = {
+	$VICTIM$ = {
+		save_scope_as = victim
+	}
+
+	$EXECUTIONER$ = {
+		save_scope_as = executioner
+		save_scope_as = imprisoner #Save this scope to show correct tyranny tooltip
+	}
+
+	scope:executioner = {
+		# Dread gain
+		if = {
+			limit = {
+				scope:victim = {
+					time_in_prison = { years > 15 } # No one even remembers who they are anymore
+				}
+			}
+			# No dread for you
+		}
+		else_if = { # Executing Emperors/HoF is quite dreadful
+			limit = {
+				scope:victim = {
+					OR = {
+						highest_held_title_tier >= tier_empire
+						scope:executioner.faith.religious_head = scope:victim # Your head of faith
+					}
+				}
+			}
+			add_dread = execute_interaction_massive_dread_gain
+		}
+		else_if = {
+			limit = {
+				scope:victim = {
+					OR = {
+						highest_held_title_tier >= tier_kingdom
+						tier_or_related_liege_tier_greater_or_equal_trigger = { TIER = tier_empire }
+						is_powerful_vassal_of = scope:executioner # Is your powerful vassal
+						target_is_vassal_or_below = scope:executioner # Your liege/s
+						is_close_family_of = scope:executioner
+					}
+				}
+			}
+			add_dread = execute_interaction_major_dread_gain
+		}
+		else_if = {
+			limit = {
+				scope:victim = {
+					OR = {
+						highest_held_title_tier >= tier_duchy
+						tier_or_related_liege_tier_greater_or_equal_trigger = { TIER = tier_kingdom }
+						AND = { # Is your vassal, and higher than Baron
+							is_vassal_of = scope:executioner
+							primary_title.tier > tier_barony
+						}
+						AND = { # Peer Vassals
+							exists = primary_title
+							primary_title.tier > tier_barony
+							exists = liege
+							liege = scope:executioner.liege
+						}
+						has_trait = peasant_leader
+					}
+				}
+			}
+			add_dread = execute_interaction_medium_dread_gain
+		}
+		else_if = {
+			limit = {
+				scope:victim = {
+					OR = {
+						highest_held_title_tier >= tier_county
+						tier_or_related_liege_tier_greater_or_equal_trigger = { TIER = tier_duchy }
+						is_vassal_of = scope:executioner # Is your Baron vassal
+						is_close_or_extended_family_of = scope:executioner
+						
+						scope:executioner = { # Executing close family of your vassals is dreadful...
+							any_vassal = {
+								is_close_family_of = scope:victim
+							}
+						}
+						scope:executioner = { # Executing close family of your liege/s is the same...
+							any_liege_or_above = {
+								is_close_family_of = scope:victim
+							}
+						}
+					}
+				}
+			}
+			add_dread = execute_interaction_minor_dread_gain
+		}
+		
+		# Piety loss (or gain) from executions
+		if = {
+			limit = {
+				faith = {
+					has_doctrine_parameter = human_sacrifice_active
+				}
+			}
+			scope:victim = {
+				if = {
+					limit = {
+						OR = {
+							highest_held_title_tier >= tier_empire
+							any_close_family_member = {
+								highest_held_title_tier >= tier_empire
+							}
+						}
+					}
+					scope:executioner = { add_piety = massive_piety_gain }
+				}
+				else_if = {
+					limit = {
+						OR = {
+							highest_held_title_tier >= tier_kingdom
+							any_close_family_member = {
+								highest_held_title_tier >= tier_kingdom
+							}
+						}
+					}
+					scope:executioner = { add_piety = major_piety_gain }
+				}
+				else_if = {
+					limit = {
+						OR = {
+							highest_held_title_tier >= tier_duchy
+							any_close_family_member = {
+								highest_held_title_tier >= tier_duchy
+							}
+						}
+					}
+					scope:executioner = { add_piety = medium_piety_gain }
+				}
+				else_if = {
+					limit = {
+						OR = {
+							is_ruler = yes
+							is_lowborn = no
+							any_close_family_member = {
+								is_ruler = yes
+							}
+						}
+					}
+					scope:executioner = { add_piety = minor_piety_gain }
+				}
+				else = {
+					scope:executioner = { add_piety = miniscule_piety_gain }
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				faith = scope:victim.faith
+				NOT = { has_perk = divine_retribution_perk }
+				scope:victim = {
+					has_no_particular_noble_roots_trigger = yes
+				}
+			}
+			add_piety = miniscule_piety_loss
+		}
+		else_if = {
+			limit = {
+				faith = scope:victim.faith
+				NOT = { has_perk = divine_retribution_perk }
+			}
+			add_piety = medium_piety_loss
+		}
+		
+		# Stress loss
+		if = {
+			limit = { has_relation_rival = scope:victim }
+
+			if = {
+				limit = {
+					NOR = {
+						has_trait = sadistic
+						has_trait = vengeful
+						has_trait = compassionate
+						has_trait = forgiving
+					}
+				}
+				add_stress = medium_stress_loss
+			}
+			else = {
+				stress_impact = {
+					sadistic = major_stress_impact_loss
+					vengeful = massive_stress_impact_loss
+					compassionate = minor_stress_impact_gain
+					forgiving = minor_stress_impact_gain
+				}
+			}
+		}
+		else_if = { #Killing infidels is relaxing
+			limit = {
+				has_trait = zealous
+				NOT = { scope:executioner.faith = scope:victim.faith }
+			}
+
+			if = {
+				limit = {
+					NOR = {
+						has_trait = sadistic
+						has_trait = compassionate
+						has_trait = forgiving
+					}
+				}
+				add_stress = medium_stress_loss
+			}
+			else = {
+				stress_impact = {
+					sadistic = major_stress_impact_loss
+					compassionate = minor_stress_impact_gain
+					forgiving = minor_stress_impact_gain
+				}
+			}
+		}
+		# Stress Gain
+		else_if = {
+			limit = {
+				exists = scope:victim
+				has_execute_reason = scope:victim
+				NOT = {
+					has_trait = sadistic
+				}
+				scope:victim = {
+					OR = {
+						is_child_of = scope:executioner
+						is_grandchild_of = scope:executioner
+						is_great_grandchild_of = scope:executioner
+					}
+				}
+			}
+			stress_impact = {
+				base = minor_stress_impact_gain
+				compassionate = massive_stress_impact_gain
+				forgiving = major_stress_impact_gain
+				generous = minor_stress_impact_gain
+				family_first = minor_stress_impact_gain
+			}
+		}
+		else_if = {
+			limit = {
+				NOT = {
+					has_trait = sadistic
+				}
+				scope:victim = {
+					OR = {
+						is_child_of = scope:executioner
+						is_grandchild_of = scope:executioner
+						is_great_grandchild_of = scope:executioner
+					}
+				}
+			}
+			stress_impact = {
+				base = medium_stress_impact_gain
+				compassionate = massive_stress_impact_gain
+				forgiving = major_stress_impact_gain
+				generous = medium_stress_impact_gain
+				trusting = minor_stress_impact_gain
+				content = minor_stress_impact_gain
+				family_first = minor_stress_impact_gain
+			}
+			if = {
+				limit = {
+					exists = scope:execution_sacrifice
+					NOT = { always = scope:execution_sacrifice }
+				}
+				stress_impact = {
+					just = medium_stress_impact_gain
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				exists = scope:victim
+				has_execute_reason = scope:victim
+			}
+			stress_impact = {
+				sadistic = medium_stress_impact_loss
+				compassionate = medium_stress_impact_gain
+				forgiving = minor_stress_impact_gain
+				generous = minor_stress_impact_gain
+			}
+		}
+		else = {
+			stress_impact = {
+				sadistic = medium_stress_impact_loss
+				compassionate = major_stress_impact_gain
+				forgiving = medium_stress_impact_gain
+				generous = medium_stress_impact_gain
+				trusting = minor_stress_impact_gain
+				content = minor_stress_impact_gain
+			}
+			if = {
+				limit = {
+					exists = scope:execution_sacrifice
+					NOT = { always = scope:execution_sacrifice }
+				}
+				stress_impact = {
+					just = medium_stress_impact_gain
+				}
+			}
+		}
+		
+		#Kinslaying
+		add_kinslayer_trait_or_nothing_effect = { VICTIM = scope:victim }
+
+		#Tyranny
+		if = {
+			limit = {
+				exists = scope:recipient
+				has_execute_reason = scope:victim
+			}
+			custom_tooltip = IS_ALLOWED_TO_EXECUTE_DESC
+		}
+		else_if = {
+			limit = {
+				OR = {
+					AND = {
+						NOT = { exists = scope:recipient }
+						has_execute_reason = scope:victim
+					}
+					is_at_war_with = scope:victim
+				}
+			}
+			custom_tooltip = IS_ALLOWED_TO_EXECUTE_NO_RECIPIENT_DESC
+		}
+		else_if = {
+			limit = {
+				scope:victim = {
+					OR = {
+						is_landed = no
+						NOT = { is_of_major_or_minor_interest_trigger = { CHARACTER = scope:executioner } }
+					}
+				}
+				### Singe note: This used to be > faith_astray_level, however dynamic hostility makes it so that Astray is between 1 and 33, so to be sure it's better to make it >= faith_hostile_level
+	   			scope:executioner.faith = {
+	  				faith_hostility_level = {
+	 					target = scope:victim.faith
+						value >= faith_hostile_level
+	 				}
+				}
+			}
+			custom_tooltip = IS_ALLOWED_TO_EXECUTE_HOSTILE_RELIGION_DESC
+		}
+		else_if = {
+			limit = {
+				scope:victim = { target_is_liege_or_above = prev }
+			}
+			add_tyranny = execution_tyranny_gain
+		}
+		else_if = {
+			limit = {
+				scope:victim = {
+					NOT = { exists = liege }
+					exists = host
+				}
+				any_pool_guest = { count > 0 }
+			}
+			every_pool_guest = {
+				limit = {
+					NOR = {
+						this = scope:victim
+						is_in_list = guest_list
+					}
+				}
+				add_to_temporary_list = guest_list
+			}
+			every_in_list = {
+				list = guest_list
+				custom = all_your_guests
+				add_opinion = {
+					target = prev
+					modifier = executed_guest_modifier
+				}
+			}
+		}
+		else = {
+			if = {
+				limit = {
+					exists = scope:victim.liege
+					NOT = { scope:victim.liege = scope:victim }
+				}
+				scope:victim.liege = {
+					add_opinion = {
+						target = prev
+						modifier = executed_my_countryman_modifier
+					}
+				}
+			}
+		}
+	}
+
+	execute_opinion_effect = { VICTIM = scope:victim EXECUTIONER = scope:executioner }
+
+		random_list = {
+			40 = {
+				trigger = {
+					NOR = {
+					has_trait = tsaesci_1
+					has_trait = tsaesci_2
+					has_trait = tsaesci_3
+					has_trait = tsaesci_4
+					}
+				}
+				change_trait_rank = {
+					trait = tsaesci
+					rank = 1
+					max = 4
+				}
+				save_scope_value_as = {
+					name = tsaesence_upgrade
+					value = flag:tsaescence_1
+				}
+				#then, recalculate age modifiers
+				trigger_event = { on_action = ek_aging_penalties }
+			}
+			30 = {
+				trigger = {
+					has_trait = tsaesci_1
+				}
+				change_trait_rank = {
+					trait = tsaesci
+					rank = 1
+					max = 4
+				}
+				save_scope_value_as = {
+					name = tsaesence_upgrade
+					value = flag:tsaescence_2
+				}
+				#then, recalculate age modifiers
+				trigger_event = { on_action = ek_aging_penalties }
+			}
+			20 = {
+				trigger = {
+					has_trait = tsaesci_2
+				}
+				change_trait_rank = {
+					trait = tsaesci
+					rank = 1
+					max = 4
+				}
+				save_scope_value_as = {
+					name = tsaesence_upgrade
+					value = flag:tsaescence_3
+				}
+				#then, recalculate age modifiers
+				trigger_event = { on_action = ek_aging_penalties }
+			}
+			10 = {
+				trigger = {
+					has_trait = tsaesci_3
+				}
+				change_trait_rank = {
+					trait = tsaesci
+					rank = 1
+					max = 4
+				}
+				save_scope_value_as = {
+					name = tsaesence_upgrade
+					value = flag:tsaescence_4
+				}
+				#then, recalculate age modifiers
+				trigger_event = { on_action = ek_aging_penalties }
+			}
+			40 = {
+				modifier = {
+					scope:victim = { intrigue = decent_skill_rating }
+					add = -3
+				}
+				modifier = {
+					scope:victim = { diplomacy = decent_skill_rating }
+					add = -3
+				}
+				modifier = {
+					scope:victim = { stewardship = decent_skill_rating }
+					add = -3
+				}
+				modifier = {
+					scope:victim = { martial = decent_skill_rating }
+					add = -3
+				}
+				modifier = {
+					scope:victim = { learning = decent_skill_rating }
+					add = -3
+				}
+				modifier = {
+					scope:victim = { prowess = decent_skill_rating }
+					add = -3
+				}
+				modifier = {
+					scope:victim = { has_arcana = { VALUE = decent_skill_rating } }
+					add = -3
+				}
+				modifier = {
+					scope:victim = { intrigue = high_skill_rating }
+					add = -4
+				}
+				modifier = {
+					scope:victim = { diplomacy = high_skill_rating }
+					add = -4
+				}
+				modifier = {
+					scope:victim = { stewardship = high_skill_rating }
+					add = -4
+				}
+				modifier = {
+					scope:victim = { martial = high_skill_rating }
+					add = -4
+				}
+				modifier = {
+					scope:victim = { learning = high_skill_rating }
+					add = -4
+				}
+				modifier = {
+					scope:victim = { prowess = high_skill_rating }
+					add = -4
+				}
+				modifier = {
+					scope:victim = { has_arcana = { VALUE = high_skill_rating } }
+					add = -4
+				}
+				modifier = {
+					scope:victim = { intrigue = very_high_skill_rating }
+					add = -5
+				}
+				modifier = {
+					scope:victim = { diplomacy = very_high_skill_rating }
+					add = -5
+				}
+				modifier = {
+					scope:victim = { stewardship = very_high_skill_rating }
+					add = -5
+				}
+				modifier = {
+					scope:victim = { martial = very_high_skill_rating }
+					add = -5
+				}
+				modifier = {
+					scope:victim = { learning = very_high_skill_rating }
+					add = -5
+				}
+				modifier = {
+					scope:victim = { prowess = very_high_skill_rating }
+					add = -5
+				}
+				modifier = {
+					scope:victim = { has_arcana = { VALUE = very_high_skill_rating } }
+					add = -5
+				}
+				modifier = {
+					scope:victim = { intrigue = very_high_skill_rating }
+					add = -5
+				}
+				modifier = {
+					scope:victim = { diplomacy = very_high_skill_rating }
+					add = -5
+				}
+				modifier = {
+					scope:victim = { stewardship = very_high_skill_rating }
+					add = -5
+				}
+				modifier = {
+					scope:victim = { martial = very_high_skill_rating }
+					add = -5
+				}
+				modifier = {
+					scope:victim = { learning = very_high_skill_rating }
+					add = -5
+				}
+				modifier = {
+					scope:victim = { prowess = very_high_skill_rating }
+					add = -5
+				}
+				modifier = {
+					scope:victim = { has_arcana = { VALUE = very_high_skill_rating } }
+					add = -5
+				}
+				min = 10
+				custom_tooltip = consume_interaction_failure.tt
+				save_scope_value_as = {
+					name = tsaesence_upgrade
+					value = flag:no_increase
+				}
+			}
+	}
+}
+
+tsaesence_change_personality_effect = {
+    random_list = {
+        50 = { #get brave
+            trigger = { scope:victim = { has_trait = brave } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_brave
+            }
+        }
+        50 = { #get calm
+            trigger = { scope:victim = { has_trait = calm } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_calm
+            }
+        }
+        50 = { #get chaste
+            trigger = { scope:victim = { has_trait = chaste } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_chaste
+            }
+        }
+        50 = { #get content
+            trigger = { scope:victim = { has_trait = content } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_content
+            }
+        }
+        50 = { #get diligent
+            trigger = { scope:victim = { has_trait = diligent } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_diligent
+            }
+        }
+        50 = { #get fickle
+            trigger = { scope:victim = { has_trait = fickle } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_fickle
+            }
+        }
+        50 = { #get forgiving
+            trigger = { scope:victim = { has_trait = forgiving } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_forgiving
+            }
+        }
+        50 = { #get generous
+            trigger = { scope:victim = { has_trait = generous } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_generous
+            }
+        }
+        50 = { #get gregarious
+            trigger = { scope:victim = { has_trait = gregarious } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_gregarious
+            }
+        }
+        50 = { #get honest
+            trigger = { scope:victim = { has_trait = honest } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_honest
+            }
+        }
+        50 = { #get humble
+            trigger = { scope:victim = { has_trait = humble } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_humble
+            }
+        }
+        50 = { #get just
+            trigger = { scope:victim = { has_trait = just } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_just
+            }
+        }
+        50 = { #get patient
+            trigger = { scope:victim = { has_trait = patient } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_patient
+            }
+        }
+        50 = { #get temperate
+            trigger = { scope:victim = { has_trait = temperate } }
+            save_scope_value_as = {
+                    name = tsaesence_outcome
+                    value = flag:personality_temperate
+            }
+        }
+        50 = { #get trusting
+            trigger = { scope:victim = { has_trait = trusting } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_trusting
+            }
+        }
+        50 = { #get zealous
+            trigger = { scope:victim = { has_trait = zealous } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_zealous
+            }
+        }
+        50 = { #get compassionate
+            trigger = { scope:victim = { has_trait = compassionate } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_compassionate
+            }
+        }
+        50 = { #get sadistic
+            trigger = { scope:victim = { has_trait = sadistic } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_sadistic
+            }
+        }
+        50 = { #get callous
+            trigger = { scope:victim = { has_trait = callous } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_callous
+            }
+        }
+        50 = { #get cynical
+            trigger = { scope:victim = { has_trait = cynical } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_cynical
+            }
+        }
+        50 = { #get paranoid
+            trigger = { scope:victim = { has_trait = paranoid } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_paranoid
+            }
+        }
+        50 = { #get gluttonous
+            trigger = { scope:victim = { has_trait = gluttonous } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_gluttonous
+            }
+        }
+        50 = { #get impatient
+            trigger = { scope:victim = { has_trait = impatient } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_impatient
+            }
+        }
+        50 = { #get arbitrary
+            trigger = { scope:victim = { has_trait = arbitrary } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_arbitrary
+            }
+        }
+        50 = { #get arrogant
+            trigger = { scope:victim = { has_trait = arrogant } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_arrogant
+            }
+        }
+        50 = { #get deceitful
+            trigger = { scope:victim = { has_trait = deceitful } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_deceitful
+            }
+        }
+        50 = { #get shy
+            trigger = { scope:victim = { has_trait = shy } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_shy
+            }
+        }
+        50 = { #get greedy
+            trigger = { scope:victim = { has_trait = greedy } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_greedy
+            }
+        }
+        50 = { #get vengeful
+            trigger = { scope:victim = { has_trait = vengeful } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_vengeful
+            }
+        }
+        50 = { #get stubborn
+            trigger = { scope:victim = { has_trait = stubborn } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_stubborn
+            }
+        }
+        50 = { #get lazy
+            trigger = { scope:victim = { has_trait = lazy } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_lazy
+            }
+        }
+        50 = { #get ambitious
+            trigger = { scope:victim = { has_trait = ambitious } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_ambitious
+            }
+        }
+        50 = { #get lustful
+            trigger = { scope:victim = { has_trait = lustful } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_lustful
+            }
+        }
+        50 = { #get wrathful
+            trigger = { scope:victim = { has_trait = wrathful } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_wrathful
+            }
+        }
+        50 = { #get craven
+            trigger = { scope:victim = { has_trait = craven } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_craven
+            }
+        }
+        50 = { #get eccentric
+            trigger = { scope:victim = { has_trait = eccentric } }
+            save_scope_value_as = {
+                name = tsaesence_outcome
+                value = flag:personality_eccentric
+            }
+        }
+    }                       
+}
+
+tsaesence_get_skill_effect = {
+    if = {
+        limit = { scope:victim = { has_trait = education_martial } }
+        save_scope_value_as = {
+            name = tsaesence_outcome
+            value = flag:skill_martial
+        }
+    }
+    else_if = {
+        limit = { scope:victim = { has_trait = education_intrigue } }
+        save_scope_value_as = {
+            name = tsaesence_outcome
+            value = flag:skill_intrigue
+        }
+    }
+    else_if = {
+        limit = { scope:victim = { has_trait = education_stewardship } }
+        save_scope_value_as = {
+            name = tsaesence_outcome
+            value = flag:skill_stewardship
+        }
+    }
+    else_if = {
+        limit = { scope:victim = { has_trait = education_learning } }
+        save_scope_value_as = {
+            name = tsaesence_outcome
+            value = flag:skill_learning
+        }
+    }
+    else_if = {
+        limit = { scope:victim = { has_trait = education_diplomacy } }
+        save_scope_value_as = {
+            name = tsaesence_outcome
+            value = flag:skill_diplomacy
+        }
+    }
+}
+
+tsaesence_learn_language_effect = {
+	save_scope_value_as = {
+		name = tsaesence_outcome
+		value = flag:new_language
+	}
+}
+
+tsaesence_resolve_effect = {
+	# Language
+	if = {
+		limit = { scope:tsaesence_outcome = flag:new_language }
+		learn_language_of_culture = scope:victim.culture
+	}
+	# Skill
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:skill_martial }
+		add_martial_skill = 1
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:skill_intrigue }
+		add_intrigue_skill = 1
+	}
+	else_if= {
+		limit = { scope:tsaesence_outcome = flag:skill_stewardship }
+		add_stewardship_skill = 1
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:skill_learning }
+		add_learning_skill = 1
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:skill_diplomacy }
+		add_diplomacy_skill = 1
+	}
+	# Personality
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_brave }
+		if = { 
+			limit = { has_trait = craven }
+			remove_trait = craven
+		}
+        add_trait_force_tooltip = brave
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_vengeful }
+		if = { 
+			limit = { has_trait = forgiving }
+			remove_trait = forgiving
+		}
+		add_trait_force_tooltip = vengeful
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_zealous }
+		if = { 
+			limit = { has_trait = cynical }
+			remove_trait = cynical
+		}
+        add_trait_force_tooltip = zealous
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_calm }
+		if = { 
+			limit = { has_trait = wrathful }
+			remove_trait = wrathful
+		}
+        add_trait_force_tooltip = calm
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_chaste }
+		if = { 
+			limit = { has_trait = lustful }
+			remove_trait = lustful
+		}
+        add_trait_force_tooltip = chaste
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_content }
+		if = { 
+			limit = { has_trait = ambitious }
+			remove_trait = ambitious
+		}
+        add_trait_force_tooltip = content
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_generous }
+		if = { 
+			limit = { has_trait = greedy }
+			remove_trait = greedy
+		}
+        add_trait_force_tooltip = generous
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_diligent }
+		if = { 
+			limit = { has_trait = lazy }
+			remove_trait = lazy
+		}
+        add_trait_force_tooltip = diligent
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_fickle }
+		if = { 
+			limit = { has_trait = stubborn }
+			remove_trait = stubborn
+		}
+		if = { 
+			limit = { has_trait = eccentric }
+			remove_trait = eccentric
+		}
+        add_trait_force_tooltip = fickle
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_forgiving }
+		if = { 
+			limit = { has_trait = vengeful }
+			remove_trait = vengeful
+		}
+        add_trait_force_tooltip = forgiving
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_gregarious }
+		if = { 
+			limit = { has_trait = shy }
+			remove_trait = shy
+		}
+        add_trait_force_tooltip = gregarious
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_diligent }
+		if = { 
+			limit = { has_trait = lazy }
+			remove_trait = lazy
+		}
+        add_trait_force_tooltip = diligent
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_honest }
+		if = { 
+			limit = { has_trait = deceitful }
+			remove_trait = deceitful
+		}
+        add_trait_force_tooltip = honest
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_humble }
+		if = { 
+			limit = { has_trait = arrogant }
+			remove_trait = arrogant
+		}
+        add_trait_force_tooltip = humble
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_just }
+		if = { 
+			limit = { has_trait = arbitrary }
+			remove_trait = arbitrary
+		}
+        add_trait_force_tooltip = just
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_patient }
+		if = { 
+			limit = { has_trait = impatient }
+			remove_trait = impatient
+		}
+        add_trait_force_tooltip = patient
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_temperate }
+		if = { 
+			limit = { has_trait = gluttonous }
+			remove_trait = gluttonous
+		}
+        add_trait_force_tooltip = temperate
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_trusting }
+		if = { 
+			limit = { has_trait = paranoid }
+			remove_trait = paranoid
+		}
+        add_trait_force_tooltip = trusting
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_compassionate }
+		if = { 
+			limit = { has_trait = callous }
+			remove_trait = callous
+		}
+		if = { 
+			limit = { has_trait = sadistic }
+			remove_trait = sadistic
+		}
+        add_trait_force_tooltip = compassionate
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_sadistic }
+		if = { 
+			limit = { has_trait = callous }
+			remove_trait = callous
+		}
+		if = { 
+			limit = { has_trait = compassionate }
+			remove_trait = compassionate
+		}
+        add_trait_force_tooltip = sadistic
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_callous }
+		if = { 
+			limit = { has_trait = sadistic }
+			remove_trait = sadistic
+		}
+		if = { 
+			limit = { has_trait = compassionate }
+			remove_trait = compassionate
+		}
+        add_trait_force_tooltip = callous
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_cynical }
+		if = { 
+			limit = { has_trait = zealous }
+			remove_trait = zealous
+		}
+        add_trait_force_tooltip = cynical
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_paranoid }
+		if = { 
+			limit = { has_trait = trusting }
+			remove_trait = trusting
+		}
+        add_trait_force_tooltip = paranoid
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_gluttonous }
+		if = { 
+			limit = { has_trait = temperate }
+			remove_trait = temperate
+		}
+        add_trait_force_tooltip = gluttonous
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_impatient }
+		if = { 
+			limit = { has_trait = patient }
+			remove_trait = patient
+		}
+        add_trait_force_tooltip = impatient
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_arbitrary }
+		if = { 
+			limit = { has_trait = just }
+			remove_trait = just
+		}
+        add_trait_force_tooltip = arbitrary
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_arrogant }
+		if = { 
+			limit = { has_trait = humble }
+			remove_trait = humble
+		}
+        add_trait_force_tooltip = arrogant
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_deceitful }
+		if = { 
+			limit = { has_trait = honest }
+			remove_trait = honest
+		}
+        add_trait_force_tooltip = deceitful
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_shy }
+		if = { 
+			limit = { has_trait = gregarious }
+			remove_trait = gregarious
+		}
+        add_trait_force_tooltip = shy
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_greedy }
+		if = { 
+			limit = { has_trait = generous }
+			remove_trait = generous
+		}
+        add_trait_force_tooltip = greedy
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_vengeful }
+		if = { 
+			limit = { has_trait = forgiving }
+			remove_trait = forgiving
+		}
+        add_trait_force_tooltip = vengeful
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_stubborn }
+		if = { 
+			limit = { has_trait = fickle }
+			remove_trait = fickle
+		}
+		if = { 
+			limit = { has_trait = eccentric }
+			remove_trait = eccentric
+		}
+        add_trait_force_tooltip = stubborn
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_lazy }
+		if = { 
+			limit = { has_trait = diligent }
+			remove_trait = diligent
+		}
+        add_trait_force_tooltip = lazy
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_ambitious }
+		if = { 
+			limit = { has_trait = content }
+			remove_trait = content
+		}
+        add_trait_force_tooltip = ambitious
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_lustful }
+		if = { 
+			limit = { has_trait = chaste }
+			remove_trait = chaste
+		}
+        add_trait_force_tooltip = lustful
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_wrathful }
+		if = { 
+			limit = { has_trait = calm }
+			remove_trait = calm
+		}
+        add_trait_force_tooltip = wrathful
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_craven }
+		if = { 
+			limit = { has_trait = brave }
+			remove_trait = brave
+		}
+        add_trait_force_tooltip = craven
+	}
+	else_if = {
+		limit = { scope:tsaesence_outcome = flag:personality_eccentric }
+		if = { 
+			limit = { has_trait = fickle }
+			remove_trait = fickle
+		}
+		if = { 
+			limit = { has_trait = stubborn }
+			remove_trait = stubborn
+		}
+        add_trait_force_tooltip = eccentric
+	}
+}
+
+###EK NOTE: This includes prowess and arcana, if you don't want that use the vanilla get_highest_player_skill_effect - He9
+ek_get_highest_character_skill_effect = { 
+	save_scope_value_as = {
+		name = ek_highest_character_skill
+		value = flag:diplomacy
+	}
+	save_scope_value_as = {
+		name = ek_highest_character_skill_value
+		value = diplomacy
+	}
+	if = {
+		limit = { martial > scope:ek_highest_character_skill_value }
+		save_scope_value_as = {
+			name = ek_highest_character_skill
+			value = flag:martial
+		}
+		save_scope_value_as = {
+			name = ek_highest_character_skill_value
+			value = martial
+		}
+	}
+	if = {
+		limit = { stewardship > scope:ek_highest_character_skill_value }
+		save_scope_value_as = {
+			name = ek_highest_character_skill
+			value = flag:stewardship
+		}
+		save_scope_value_as = {
+			name = ek_highest_character_skill_value
+			value = stewardship
+		}
+	}
+	if = {
+		limit = { intrigue > scope:ek_highest_character_skill_value }
+		save_scope_value_as = {
+			name = ek_highest_character_skill
+			value = flag:intrigue
+		}
+		save_scope_value_as = {
+			name = ek_highest_character_skill_value
+			value = intrigue
+		}
+	}
+	if = {
+		limit = { learning > scope:ek_highest_character_skill_value }
+		save_scope_value_as = {
+			name = ek_highest_character_skill
+			value = flag:learning
+		}
+		save_scope_value_as = {
+			name = ek_highest_character_skill_value
+			value = learning
+		}
+	}
+	if = {
+		limit = { prowess > scope:ek_highest_character_skill_value }
+		save_scope_value_as = {
+			name = ek_highest_character_skill
+			value = flag:prowess
+		}
+		save_scope_value_as = {
+			name = ek_highest_character_skill_value
+			value = prowess
+		}
+	}
+	if = {
+		limit = { arcana > { VALUE = scope:ek_highest_character_skill_value } }
+		save_scope_value_as = {
+			name = ek_highest_character_skill
+			value = flag:arcana
+		}
+		save_scope_value_as = {
+			name = ek_highest_character_skill_value
+			value = arcana
+		}
+	}
+}
+
+lift_curse = {
+	if = {
+		limit = {
+			OR = {
+				has_character_modifier = sanguines_wrath
+				has_character_modifier = nocturnals_wrath
+				has_character_modifier = meridias_wrath
+				has_character_modifier = boethiahs_wrath
+				has_character_modifier = molags_wrath
+				has_character_modifier = azuras_wrath
+				has_character_modifier = clavicus_wrath
+				has_character_modifier = mehrunes_wrath
+				has_character_modifier = namiras_wrath
+				has_character_modifier = hircines_wrath	
+				has_character_modifier = sheogoraths_wrath
+				has_character_modifier = malacaths_wrath
+				has_character_modifier = vaerminas_wrath
+				has_character_modifier = hermaeus_wrath
+				has_character_modifier = mephalas_wrath
+				has_character_modifier = peryites_wrath	
+				has_character_modifier = azuras_attention
+				has_character_modifier = boethiahs_attention
+				has_character_modifier = clavicus_attention
+				has_character_modifier = hermaeus_attention
+				has_character_modifier = hircines_attention
+				has_character_modifier = malacaths_attention
+				has_character_modifier = mehrunes_attention
+				has_character_modifier = mephalas_attention
+				has_character_modifier = meridias_attention
+				has_character_modifier = molags_attention
+				has_character_modifier = namiras_attention
+				has_character_modifier = nocturnals_attention
+				has_character_modifier = peryites_attention
+				has_character_modifier = sanguines_attention
+				has_character_modifier = sheogoraths_attention
+				has_character_modifier = vaerminas_attention
+			}
+		}
+		custom_tooltip = ek_lift_daedric_curse.tt
+		hidden_effect = {
+			if = {
+				limit = { has_character_modifier = sanguines_wrath }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.sanguine
+					remove_character_modifier = sanguines_wrath
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = nocturnals_wrath }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.nocturnal
+					remove_character_modifier = nocturnals_wrath
+				}
+			}
+			if = {
+				limit = { has_character_modifier = meridias_wrath }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.meridia
+					remove_character_modifier = meridias_wrath
+				}
+			}
+			if = {
+				limit = { has_character_modifier = boethiahs_wrath }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.boethia
+					remove_character_modifier = boethiahs_wrath
+				}
+			}
+			if = {
+				limit = { has_character_modifier = molags_wrath }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.molag
+					remove_character_modifier = molags_wrath
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = azuras_wrath }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.azura
+					remove_character_modifier = azuras_wrath
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = clavicus_wrath }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.clavicus
+					remove_character_modifier = clavicus_wrath
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = mehrunes_wrath }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.mehrunes
+					remove_character_modifier = mehrunes_wrath
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = namiras_wrath }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.namira
+					remove_character_modifier = namiras_wrath
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = hircines_wrath }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.hircine
+					remove_character_modifier = hircines_wrath
+				}
+			}
+			if = {
+				limit = { has_character_modifier = sheogoraths_wrath }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.sheogorath
+					remove_character_modifier = sheogoraths_wrath
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = malacaths_wrath }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.malacath
+					remove_character_modifier = malacaths_wrath
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = vaerminas_wrath }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.vaermina
+					remove_character_modifier = vaerminas_wrath
+				}
+			}
+			if = {
+				limit = { has_character_modifier = azuras_attention }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.attention
+					remove_character_modifier = azuras_attention
+				}
+			}
+			if = {
+				limit = { has_character_modifier = boethiahs_attention }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.attention
+					remove_character_modifier = boethiahs_attention
+				}
+			}
+			if = {
+				limit = { has_character_modifier = clavicus_attention }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.attention
+					remove_character_modifier = clavicus_attention
+				}
+			}
+			if = {
+				limit = { has_character_modifier = hermaeus_attention }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.attention
+					remove_character_modifier = hermaeus_attention
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = hircines_attention }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.attention
+					remove_character_modifier = hircines_attention
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = malacaths_attention }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.attention
+					remove_character_modifier = malacaths_attention
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = mehrunes_attention }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.attention
+					remove_character_modifier = mehrunes_attention
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = mephalas_attention }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.attention
+					remove_character_modifier = mephalas_attention
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = meridias_attention }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.attention
+					remove_character_modifier = meridias_attention
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = molags_attention }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.attention
+					remove_character_modifier = molags_attention
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = namiras_attention }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.attention
+					remove_character_modifier = namiras_attention
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = nocturnals_attention }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.attention
+					remove_character_modifier = nocturnals_attention
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = peryites_attention }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.attention
+					remove_character_modifier = peryites_attention
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = sanguines_attention }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.attention
+					remove_character_modifier = sanguines_attention
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = sheogoraths_attention }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.attention
+					remove_character_modifier = sheogoraths_attention
+				}				
+			}
+			if = {
+				limit = { has_character_modifier = vaerminas_attention }
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_lift_daedric_curse.attention
+					remove_character_modifier = vaerminas_attention
+				}				
+			}
+		}
+	}
+}
+
+### Exalted Heroism thingies
+# Become a new Saint, adds the trait and checks if you can also set a new virtue/sin
+char_becomes_saint = {
+	add_trait = saint
+	
+	if = {
+		limit = { faith = { has_doctrine_parameter = virtues_sins_decided_saints } }
+		custom_tooltip = new_saint_change_virtue_sin
+		trigger_event = ek_tenets.0052
+	}
+}
+
+ek_holy_site_building_setup = {
+	every_religion_global = {
+		every_faith = {
+			every_holy_site = {
+				limit = {
+					title_province = {
+						has_special_building_slot = no
+					}
+				}
+				title_province = {
+					add_special_building_slot = generic_holy_site_01
+				}
+			}
+		}
+	}	
+}
+
+# Hist
+increase_amber_blessed_effect = {
+	if = { 
+		limit = { 
+			NOT = { 
+				has_trait = amber_blessed
+			}
+		}
+		add_trait = amber_blessed_1
+	}
+	else_if = {
+		limit = {
+			OR = {
+				has_trait = amber_blessed_1
+				has_trait = amber_blessed_2
+			}
+		}
+		change_trait_rank = {
+			trait = amber_blessed
+			rank = 1
+			max = 3
+		}
+	}
+}
+
+increase_sun_blessed_effect = {
+	if = { 
+		limit = { 
+			NOT = { 
+				has_trait = sun_blessed
+			}
+		}
+		add_trait = sun_blessed_1
+	}
+	else_if = {
+		limit = {
+			OR = {
+				has_trait = sun_blessed_1
+				has_trait = sun_blessed_2
+			}
+		}
+		change_trait_rank = {
+			trait = sun_blessed
+			rank = 1
+			max = 3
+		}
+	}
+}
+
+increase_ghost_scale_effect = {
+	if = { 
+		limit = { 
+			NOT = { 
+				has_trait = ghost_scale
+			}
+		}
+		add_trait = ghost_scale_1
+	}
+	else_if = {
+		limit = {
+			OR = {
+				has_trait = ghost_scale_1
+				has_trait = ghost_scale_2
+			}
+		}
+		change_trait_rank = {
+			trait = ghost_scale
+			rank = 1
+			max = 3
+		}
+	}
+}
+
+increase_argonian_behemoth_effect = {
+	if = { 
+		limit = { 
+			NOT = { 
+				has_trait = argonian_behemoth
+			}
+		}
+		add_trait = argonian_behemoth_1
+	}
+	else_if = {
+		limit = {
+			has_trait = argonian_behemoth_1
+		}
+		change_trait_rank = {
+			trait = argonian_behemoth
+			rank = 1
+			max = 3
+		}
+	}
+	else_if = {
+		limit = {
+			has_trait = argonian_behemoth_2
+		}
+		change_trait_rank = {
+			trait = argonian_behemoth
+			rank = 1
+			max = 3
+		}
+		depose = yes # this character is now mindless and cannot rule
+	}
+}

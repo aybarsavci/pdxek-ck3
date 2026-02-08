@@ -1,0 +1,138 @@
+﻿#EK ADDITIONS: new court rooms and edited vanilla court triggers
+
+######################
+### EK court rooms ###
+######################
+
+white_gold = {	# location specific court room
+	trigger = {
+		exists = capital_county
+		capital_county = title:c_imperial_city
+	}
+}
+
+yespest = {
+	trigger = {
+		NOT = { capital_county ?= title:c_imperial_city }
+		capital_county.culture = {
+			OR = {
+				has_graphical_ayleid_culture_group_trigger = yes
+			}
+		}
+	}
+}
+
+nord = {
+	trigger = {
+		NOT = { capital_county ?= title:c_imperial_city }
+		capital_county.culture = {
+			has_graphical_nordic_culture_group_trigger = yes
+		}
+	}
+}
+
+###########################
+### Vanilla court rooms ###
+###########################
+
+byzantine = {
+	trigger = {
+		always = no
+	}
+}
+
+mediterranean = {
+	trigger = {
+		NOT = { capital_county ?= title:c_imperial_city }
+		capital_county.culture = {
+			OR = {
+				has_graphical_cyrodilic_culture_group_trigger = yes
+				has_graphical_strident_culture_group_trigger = yes
+			}
+		}
+	}
+}
+
+steppe = {
+	trigger = {
+		NOT = { capital_county ?= title:c_imperial_city }
+		has_graphical_nordic_culture_group_trigger = no
+		has_mpo_dlc_trigger = yes
+		capital_county.culture = {
+			OR =  {
+				has_graphical_argonian_culture_group_trigger = yes
+				has_graphical_nedic_south_culture_group_trigger = yes
+				has_graphical_bosmer_culture_group_trigger = yes
+				has_graphical_orc_culture_group_trigger = yes
+			}
+		}
+	}
+}
+
+mena = {
+	trigger = {
+		NOT = { capital_county ?= title:c_imperial_city }
+		capital_county.culture = {
+			OR = {
+				has_graphical_redguard_culture_group_trigger = yes
+				has_graphical_yokudan_culture_group_trigger = yes
+				has_graphical_dwemer_culture_group_trigger = yes
+				has_graphical_aldmer_culture_group_trigger = yes
+				has_graphical_akaviri_culture_group_trigger = yes
+			}
+		}
+	}
+}
+
+indian = {
+	trigger = {
+		NOT = { capital_county ?= title:c_imperial_city }
+		capital_county.culture = {
+			OR = {
+				has_graphical_khajiit_culture_group_trigger = yes
+				AND = {
+					has_graphical_argonian_culture_group_trigger = yes
+					has_mpo_dlc_trigger = no
+				}
+				AND = { 
+					has_graphical_nedic_south_culture_group_trigger = yes
+					has_mpo_dlc_trigger = no
+				}
+				AND = {
+					has_graphical_bosmer_culture_group_trigger = yes
+					has_mpo_dlc_trigger = no
+				}
+				has_graphical_nedic_keptu_culture_group_trigger = yes
+				has_graphical_armun_an_culture_group_trigger = yes
+				has_graphical_velothi_culture_group_trigger = yes
+				has_graphical_telvanni_culture_group_trigger = yes
+				has_graphical_dres_culture_group_trigger = yes
+				has_graphical_gah_julan_culture_group_trigger = yes
+				has_graphical_chuzei_culture_group_trigger = yes
+				has_graphical_daedric_culture_group_trigger = yes
+			}
+		}
+	}
+}
+
+western = {
+	trigger = {
+		NOT = { capital_county ?= title:c_imperial_city }
+		capital_county.culture = {
+			OR = {
+				has_graphical_nedic_north_culture_group_trigger = yes
+				has_graphical_breton_culture_group_trigger = yes
+				AND = {
+					has_graphical_goblin_culture_group_trigger = yes
+					has_mpo_dlc_trigger = no
+				}
+				AND = {
+					has_graphical_orc_culture_group_trigger = yes
+					has_mpo_dlc_trigger = no
+				}
+				has_graphical_balfieri_culture_group_trigger = yes
+				has_graphical_colovian_culture_group_trigger = yes
+			}
+		}
+	}
+}

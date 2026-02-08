@@ -1,0 +1,237 @@
+﻿sense_opportunity_perk = {
+	lifestyle = intrigue_lifestyle
+	tree = crimeboss
+	position = { 1 0 }
+	icon = node_intrigue
+	
+	auto_selection_weight = {
+		value = 11
+		if = {
+			limit = {
+				has_education_intrigue_trigger = yes
+			}
+			add = 1989
+		}
+		if = {
+			limit = {
+				can_start_new_lifestyle_tree_trigger = no
+			}
+			multiply = 0
+		}
+	}
+
+	can_be_picked = {
+		always = yes
+	}
+
+	name = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { is_landless_adventurer = yes }
+				desc = sense_opportunity_perk_adventurer_name
+			}
+			desc = sense_opportunity_perk_name
+		}
+	}
+
+	# EK TODO: add new criminal actions decision for the current location
+	government_character_modifier = {
+		flag = government_is_landless_adventurer
+		general_opinion = 5
+	}
+
+	effect = {
+		if = {
+			limit = {
+				NOT = { government_has_flag = government_is_landless_adventurer }
+			}
+			custom_description_no_bullet = { # Counties with negative control can get positive modifiers
+				text = sense_opportunity_perk_effect
+			}
+		}
+		if = {
+			limit = {
+				government_has_flag = government_is_landless_adventurer
+			}
+			# EK TODO: implement those modifers
+			custom_description_no_bullet = { # Camps with negative temperament can get positive modifiers
+				text = adventurer_sense_opportunity_perk_effect
+			}
+		}
+	}
+}
+
+missing_persons_perk = {
+	lifestyle = intrigue_lifestyle
+	tree = crimeboss
+	position = { 0 1 }
+	icon = node_intrigue
+	
+	parent = sense_opportunity_perk
+
+	effect = {  # Occasionally get lowborn prisoners
+		custom_description_no_bullet = {
+			text = missing_persons_perk_effect
+		}
+	}
+}
+
+establish_enforcer_perk = {
+	lifestyle = intrigue_lifestyle
+	tree = crimeboss
+	position = { 2 1 }
+	icon = node_intrigue
+	
+	parent = sense_opportunity_perk
+
+	name = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { is_landless_adventurer = yes }
+				desc = establish_enforcer_perk_adventurer_name
+			}
+			desc = establish_enforcer_perk_name
+		}
+	}
+	
+	effect = {
+		if = {
+			limit = {
+				NOT = { government_has_flag = government_is_landless_adventurer }
+			}
+			custom_description_no_bullet = { # Gets enforcer court position
+				text = establish_enforcer_perk_effect
+			}
+		}
+		if = {
+			limit = {
+				government_has_flag = government_is_landless_adventurer
+			}	
+			custom_description_no_bullet = { # Gets retainer camp position
+				text = adventurer_establish_enforcer_perk_effect
+			}
+		}
+	}
+}
+
+friends_in_low_places_perk = {
+	lifestyle = intrigue_lifestyle
+	tree = crimeboss
+	position = { 1 2 }
+	icon = node_intrigue
+	
+	parent = establish_enforcer_perk
+	parent = missing_persons_perk
+
+	character_modifier = {	
+		max_steal_back_artifact_schemes_add = 1
+	}
+
+	effect = { # Increased success chance for stealing artifacts
+		custom_description_no_bullet = {
+			text = friends_in_low_places_perk_effect
+		}
+	}	
+}
+
+you_owe_me_perk = {
+	lifestyle = intrigue_lifestyle
+	tree = crimeboss
+	position = { 0 3 }
+	icon = node_intrigue
+	
+	parent = friends_in_low_places_perk
+
+	name = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { is_landless_adventurer = yes }
+				desc = you_owe_me_perk_adventurer_name
+			}
+			desc = you_owe_me_perk_name
+		}
+	}
+
+	effect = {
+		custom_description_no_bullet = { # Granting pardon to a criminal gives a hook
+			text = you_owe_me_perk_effect
+		}
+	}
+}
+
+call_henchmen_perk = {
+	lifestyle = intrigue_lifestyle
+	tree = crimeboss
+	position = { 2 3 }
+	icon = node_intrigue
+	
+	parent = friends_in_low_places_perk
+
+	name = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { is_landless_adventurer = yes }
+				desc = call_henchmen_perk_adventurer_name
+			}
+			desc = call_henchmen_perk_name
+		}
+	}
+
+	effect = {
+		if = {
+			limit = {
+				NOT = { government_has_flag = government_is_landless_adventurer }
+			}
+			custom_description_no_bullet = { # Granting pardon to a criminal gives a hook
+				text = call_henchmen_perk_effect
+			}
+		}
+		if = {
+			limit = {
+				government_has_flag = government_is_landless_adventurer
+			}	
+			custom_description_no_bullet = { # Increased Request chance based on dread
+				text = adventurer_call_henchmen_perk_effect
+			}
+		}
+	}
+}
+
+keep_them_in_line_perk = {
+	lifestyle = intrigue_lifestyle
+	tree = crimeboss
+	position = { 1 4 }
+	icon = node_intrigue
+	
+	parent = you_owe_me_perk
+	parent = call_henchmen_perk
+	
+	character_modifier = {
+		knight_effectiveness_per_dread = 0.01
+	}
+
+	effect = {
+		if = {
+			limit = {
+				government_has_flag = government_is_landless_adventurer
+			}	
+			custom_description_no_bullet = { # Increased Request chance based on dread
+				text = adventurer_keep_them_in_line_perk_effect
+			}
+		}
+	}
+}
+
+crimeboss_perk = {
+	lifestyle = intrigue_lifestyle
+	tree = crimeboss
+	position = { 1 5 }
+	icon = trait_crimeboss
+	
+	parent = keep_them_in_line_perk
+	
+	trait = crimeboss
+	effect = {
+		add_trait_force_tooltip = crimeboss
+	}
+}

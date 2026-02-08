@@ -1,0 +1,169 @@
+﻿### EK EDIT: Remove events too specific to vanilla
+
+# Called every Jan 1st
+# Root does not exist
+ek_yearly_global_pulse = {
+	# on_actions = {
+	# 	initalize_spell_lists #just incase new ones are added for an existing save. on_gamestart would be better but I don't think it fires on save load
+	# }
+
+	effect = {
+		### e_cyrodiil split
+		# e_cyrodiil hasn't been held in 100 years and has some de Jure land
+		# e_cyrodiilic_potentate hasn't been held in 50 years
+		# Neither e_colovian_estates nor e_nibenay holds the IC
+		# Note: Currently, if Cyrodiil is reformed and then the Empire title is destroyed, it can split again a century later - probably not an issue as it can be a good idea, also very unlikely to happen anyway
+		# It'll also always fire on Jan 1st, might be a good idea to randomize it a bit - but for now it works and that's what matters
+		if = {
+			limit = {
+				title:e_cyrodiil = {
+					is_titular = no
+					NOT = { is_title_created = yes }
+					NOT = { recent_history = { years = 100 } }
+				}
+				title:e_cyrodiilic_potentate = {
+					NOT = { is_title_created = yes }
+					NOT = { recent_history = { years = 30 } }
+				}
+				title:c_imperial_city.holder = {
+					NOR = {
+						has_title = title:e_colovian_estates
+						has_title = title:e_nibenay
+					}
+				}
+			}
+			# Break up Cyrodiil!
+			break_up_cyrodiil_scripted_effect = yes
+			
+			# And finally we let people know what the hell just happened
+			every_player = { trigger_event = central_tamriel.0005 }
+		}
+		#Elsweyr split
+		if = {
+			limit = {
+				#NOT = { exists = e_elsweyr.holder }
+				NOT = { #Make sure dissolution didn't happen yer
+						is_target_in_global_variable_list = {
+							name = elsweyr_variables
+							target = flag:elsweyr_dissolved
+						} 
+				}
+				OR = {
+					#Dissolves if Elsweyr didn't exist for 20 years
+					title:e_elsweyr = {
+						NOT = { is_title_created = yes }
+						NOT = { recent_history = { years = 20 } }
+					}
+					AND = {
+						#Dissolves 100 years after Ridthar-Ridatta if Mane doesn't fully control Elsweyr 
+						current_date >= 3410.1.1
+						#For testing
+						#current_date >= 3372.1.1
+						#Mane controls at least 75% of Elsweyr
+						any_county_in_region = {
+							region = mundus_tamriel_elsweyr
+							percent < 0.75
+							holder.top_liege = title:e_elsweyr.holder
+						}
+					}
+				}
+			}
+			#Trigger effect that dissolves Elsweyr and triggers event for players
+			hidden_effect = {
+				dissolve_elsweyr_scripted_effect = yes
+			}
+		}
+	}
+	
+	on_actions = {
+		delay = { months = 1 }
+		ek_monthly_global_pulse
+		delay = { months = 2 }
+		ek_monthly_global_pulse
+		delay = { months = 3 }
+		ek_monthly_global_pulse
+		delay = { months = 4 }
+		ek_monthly_global_pulse
+		delay = { months = 5 }
+		ek_monthly_global_pulse
+		delay = { months = 6 }
+		ek_monthly_global_pulse
+		delay = { months = 7 }
+		ek_monthly_global_pulse
+		delay = { months = 8 }
+		ek_monthly_global_pulse
+		delay = { months = 9 }
+		ek_monthly_global_pulse
+		delay = { months = 10 }
+		ek_monthly_global_pulse
+		delay = { months = 11 }
+		ek_monthly_global_pulse
+	}
+}
+
+# Called every 1st day of any month
+# Root does not exist
+ek_monthly_global_pulse = {
+	effect = {
+		### EK EDIT: Update each faith Fervor Equilibrium
+		# Note: We do not use on_faith_monthly for performance reason (only once a year instead of once every month) and because we need a certain order
+		every_religion_global = {
+			every_faith = { 
+				faith_update_fervor_equilibrium = yes
+			}
+		}
+
+		#Wandering Mindless Maintenance
+		every_living_character = {
+			limit = {
+				is_undead = yes
+				is_mindless_character = yes
+				is_pool_character = yes
+			}
+			death = {
+				death_reason = death_crumbled_dust
+			}
+		}
+
+		#Wandering Dremora Maintenance
+		every_living_character = {
+			limit = {
+				culture = {
+					has_cultural_pillar = heritage_dremora
+				}
+				is_pool_character = yes
+			}
+			death = {
+				death_reason = death_returned_oblivion
+			}
+		}
+	} 
+}
+
+# Called from code once a quarter for "playable" (count+) characters.
+# Root is the character
+# scope:quarter is which quarter it's for, from 1 to 4. Note that scope:quarter = 1 isn't necessarily in Q1 by calendar time
+ek_quarterly_playable_pulse = {
+	on_actions = {
+		ek_realm_maintenance_quarterly_pulse
+		ek_monthly_events_pulse
+		magic_lifestyle_progress_pulse
+		add_quarterly_magicka
+		dark_arts_lifestyle_progress_pulse
+		ek_county_corruption_spread
+	}
+}
+
+# Called from code once a year for all characters, at a random point that year (individually for each character)
+# Root is the character
+ek_random_yearly_everyone_pulse = {
+	effect = {
+		# Liturgical language update
+		update_liturgical_language_modifier = yes
+		# Check Selestial Serpent priest's constellation
+		update_serpent_priest = yes
+	}
+	on_actions = {
+		add_yearly_magicka
+	}
+}

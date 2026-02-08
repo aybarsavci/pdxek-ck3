@@ -1,0 +1,297 @@
+﻿namespace = ek_test_event
+
+ek_test_event.1 = {
+	type = character_event
+	content_source = dlc_ek
+	hidden = yes
+	
+	immediate = {
+		set_global_variable = {
+			name = third_era_year
+			value = current_year
+		}
+	}
+}
+
+## Praxis increase event
+ek_test_event.2 = {
+	type = character_event
+	content_source = dlc_ek
+	theme = crown
+	desc =  TEST_PRAXIS_EVENT_DESC
+
+	option = { #Large Praxis Increase
+		name = TEST_PRAXIS_EVENT_LARGE_INCREASE.DESC
+		large_praxis_increase_effect = yes
+	}
+
+	option = { #Moderate Praxis Increase
+		name = TEST_PRAXIS_EVENT_INCREASE.DESC
+		moderate_praxis_increase_effect = yes
+	}
+
+	option = { #Small Praxis Increase
+		name = TEST_PRAXIS_EVENT_SMALL_INCREASE.DESC
+		small_praxis_increase_effect = yes
+	}
+
+	option = { #Small Praxis Decrease!
+		name = TEST_PRAXIS_EVENT_SMALL_DECREASE.DESC
+		small_praxis_decrease_effect = yes
+	}
+	option = { #Moderate Praxis Decrease!
+		name = TEST_PRAXIS_EVENT_DECREASE.DESC
+		moderate_praxis_decrease_effect = yes
+	}
+
+	option = { #Large Praxis Decrease
+		name = TEST_PRAXIS_EVENT_LARGE_DECREASE.DESC
+		large_praxis_decrease_effect = yes
+	}
+}
+
+ek_test_event.3 = {
+	type = character_event
+	content_source = dlc_ek
+	hidden = yes
+	
+	immediate = {
+		create_artifact_aok_effect = {
+			OWNER = root
+		}
+	}
+}
+
+ek_test_event.4 = {
+	type = character_event
+	content_source = dlc_ek
+	title = test_artifact_name
+	desc = artifact_staff_description
+	theme = stewardship_wealth_focus
+	orphan = yes
+	
+	immediate = {
+		create_artifact_weapon_effect = {
+			OWNER = root
+			CREATOR = root
+			SET_WEAPON_TYPE = flag:artifact_weapon_type_staff
+		}
+	}
+
+	option = { 
+		name = debug_test_artifact_cloth_option
+	}
+}
+
+ek_test_event.5 = { #for testing faith loc
+	type = character_event
+	content_source = dlc_ek
+	theme = faith
+	title = ek_test_event.5.t
+	desc = ek_test_event.5.desc
+
+	trigger = {
+		always = no
+	}
+
+	option = {
+		name = ek_test_event.5.option
+	}
+}
+
+ek_test_event.6 = { #for testing factions
+	type = character_event
+	content_source = dlc_ek
+	theme = realm
+	title = ek_test_event.6.t
+	desc = ek_test_event.6.desc
+
+	# trigger = {
+	# 	always = no
+	# }
+
+	immediate = {
+		random_held_title = {
+			limit = {
+				tier = tier_county
+				NOT = { this = holder.capital_county }
+				NOT = { ek_county_has_crisis_faction_modifier = yes }
+			}
+			save_scope_as = crisis_county
+		}
+	}
+
+	option = { # Spawn Bandits
+		name = ek_test_event.6.a
+		scope:crisis_county ?= { add_rampant_modifier_effect = { TYPE = bandits }}
+	}
+
+	option = { # Spawn Goblins
+		name = ek_test_event.6.b
+		scope:crisis_county ?= { add_rampant_modifier_effect = { TYPE = goblinken }}
+	}
+	
+	option = { 
+		name = ek_test_event.6.c
+		scope:crisis_county ?= {add_rampant_modifier_effect = { TYPE = falmer }}
+	}
+	
+	option = { 
+		name = ek_test_event.6.d
+		scope:crisis_county ?= {add_rampant_modifier_effect = { TYPE = vampires }}
+	}
+	
+	option = { 
+		name = ek_test_event.6.e
+		scope:crisis_county ?= { add_rampant_modifier_effect = { TYPE = werewolves }}
+	}
+
+	option = { 
+		name = ek_test_event.6.f
+		scope:crisis_county ?= { add_rampant_modifier_effect = { TYPE = necromancers }}
+	}
+	
+	option = { 
+		name = ek_test_event.6.g
+		scope:crisis_county ?= { add_rampant_modifier_effect = { TYPE = peryite }}
+	}
+
+	option = { 
+		name = ek_test_event.6.i
+		scope:crisis_county ?= { add_rampant_modifier_effect = { TYPE = imga }}
+	}
+
+	option = { 
+		name = ek_test_event.6.x
+		trigger_event = ek_test_event.61
+	}
+	
+	after = {
+		if = {
+			limit = {
+				any_targeting_faction = {
+					scope:crisis_county ?= { can_title_join_faction = prev }
+				}
+			}
+			random_targeting_faction = {
+				limit = { scope:crisis_county ?= { can_title_join_faction = prev } } 
+				scope:crisis_county ?= { title_join_faction = prev }
+			}
+		}
+		else_if = {
+			limit = {
+				scope:crisis_county ?= {
+					ek_county_has_crisis_faction_modifier = yes
+				}
+			}
+			scope:crisis_county ?= { 
+				if = {
+					limit = { can_title_create_faction = { type = ek_crisis_faction target = root } }
+					title_create_faction = { type = ek_crisis_faction target = root }
+				}
+				else_if = {
+					limit = { can_title_create_faction = { type = ek_crisis_faction target = root.top_liege } }
+					title_create_faction = { type = ek_crisis_faction target = root.top_liege }
+				}
+			}
+		}
+	}
+}
+
+ek_test_event.61 = { #for testing factions, page two
+	type = character_event
+	content_source = dlc_ek
+	theme = realm
+	title = ek_test_event.6.t
+	desc = ek_test_event.6.desc
+
+	# trigger = {
+	# 	always = no
+	# }
+
+	immediate = {
+		random_held_title = {
+			limit = {
+				tier = tier_county
+				NOT = { this = holder.capital_county }
+			}
+			save_scope_as = crisis_county
+		}
+	}
+
+	option = { 
+		name = ek_test_event.6.j
+		scope:crisis_county ?= { add_rampant_modifier_effect = { TYPE = daedra }}
+	}
+
+	option = { 
+		name = ek_test_event.6.k
+		scope:crisis_county ?= { add_rampant_modifier_effect = { TYPE = ashlanders }}
+	}
+	
+	option = { 
+		name = ek_test_event.6.l
+		scope:crisis_county ?= { add_rampant_modifier_effect = { TYPE = slaves }}
+	}
+
+	option = { 
+		name = ek_test_event.6.y
+		trigger_event = ek_test_event.6
+	}
+	
+	option = { 
+		name = ek_test_event.6.z
+		scope:crisis_county ?= { ek_add_crisis_modifier_effect = yes }
+	}
+	
+	after = {
+		if = {
+			limit = {
+				scope:crisis_county ?= {
+					ek_county_has_crisis_faction_modifier = yes
+				}
+			}
+			scope:crisis_county ?= { 
+				if = {
+					limit = { can_title_create_faction = { type = ek_crisis_faction target = root } }
+					title_create_faction = { type = ek_crisis_faction target = root }
+				}
+				else_if = {
+					limit = { can_title_create_faction = { type = ek_crisis_faction target = root.top_liege } }
+					title_create_faction = { type = ek_crisis_faction target = root.top_liege }
+				}
+			}
+		}
+	}
+}
+
+ek_test_event.7 = { #for spawning a slave character to test culture/faith setup
+	type = character_event
+	theme = prison
+	title = ek_test_event.7.t
+	desc = ek_test_event.7.desc
+
+	trigger = {
+		always = no
+	}
+
+	immediate = {
+		slave_character_culture_faith_effect = { $LOCATION$ = root.location }
+		create_character = {
+			location = root.location
+			template = crisis_slave_leader_character
+			culture = scope:slave_culture
+			faith = scope:slave_faith
+			gender_female_chance = 50
+			save_scope_as = slave
+		}
+	}	
+
+	left_portrait = {
+		character = scope:slave
+	}
+
+	option = {
+		name = ek_test_event.7.option
+	}
+}

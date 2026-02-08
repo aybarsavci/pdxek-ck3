@@ -1,0 +1,333 @@
+﻿GetContestTypeMagicAptitude = {
+	type = character
+
+	text = {
+		trigger = {
+			contest_type_aptitude_magic = 0
+		}
+		localization_key = contest_aptitude_non_existent
+	}
+	text = {
+		trigger = {
+			contest_type_aptitude_magic = 1
+		}
+		localization_key = aptitude_terrible
+	}
+	text = {
+		trigger = {
+			contest_type_aptitude_magic = 2
+		}
+		localization_key = aptitude_poor
+	}
+	text = {
+		trigger = {
+			contest_type_aptitude_magic = 3
+		}
+		localization_key = aptitude_average
+	}
+	text = {
+		trigger = {
+			contest_type_aptitude_magic = 4
+		}
+		localization_key = aptitude_good
+	}
+	text = {
+		trigger = {
+			contest_type_aptitude_magic = 5
+		}
+		localization_key = aptitude_excellent
+	}
+}
+
+GetHistBlessingTrait = {
+	type = character
+
+	#Amber Hist
+	text = {
+		trigger = { 
+			faith = { has_doctrine = tenet_amberhist }
+			NOT = { 
+				has_trait = amber_blessed			
+			}
+		}
+		localization_key = activity_hist_communion_amber_blessed_1_desc
+	}
+
+	text = {
+		trigger = { 
+			faith = { has_doctrine = tenet_amberhist }
+			has_trait = amber_blessed_1
+		}
+		localization_key = activity_hist_communion_amber_blessed_2_desc
+	}
+
+	text = {
+		trigger = { 
+			faith = { has_doctrine = tenet_amberhist }
+			has_trait = amber_blessed_2
+		}
+		localization_key = activity_hist_communion_amber_blessed_3_desc
+	}
+
+	text = {
+		trigger = { 
+			faith = { has_doctrine = tenet_amberhist }
+			has_trait = amber_blessed_3
+		}
+		localization_key = activity_hist_communion_amber_blessed_3_desc
+	}
+
+	#Sun Hist
+		text = {
+		trigger = { 
+			faith = { has_doctrine = tenet_sunhist }
+			NOT = { 
+				has_trait = sun_blessed			
+			}
+		}
+		localization_key = activity_hist_communion_sun_blessed_1_desc
+	}
+
+	text = {
+		trigger = { 
+			faith = { has_doctrine = tenet_sunhist }
+			has_trait = sun_blessed_1
+		}
+		localization_key = activity_hist_communion_sun_blessed_2_desc
+	}
+
+	text = {
+		trigger = { 
+			faith = { has_doctrine = tenet_sunhist }
+			has_trait = sun_blessed_2
+		}
+		localization_key = activity_hist_communion_sun_blessed_3_desc
+	}
+
+	text = {
+		trigger = { 
+			faith = { has_doctrine = tenet_sunhist }
+			has_trait = sun_blessed_3
+		}
+		localization_key = activity_hist_communion_sun_blessed_3_desc
+	}
+
+	#Ghost Hist
+		text = {
+		trigger = { 
+			faith = { has_doctrine = tenet_ghosthist }
+			NOT = { 
+				has_trait = ghost_scale				
+			}
+		}
+		localization_key = activity_hist_communion_ghost_scale_1_desc
+	}
+
+	text = {
+		trigger = { 
+			faith = { has_doctrine = tenet_ghosthist }
+			has_trait = ghost_scale_1
+		}
+		localization_key = activity_hist_communion_ghost_scale_2_desc
+	}
+
+	text = {
+		trigger = { 
+			faith = { has_doctrine = tenet_ghosthist }
+			has_trait = ghost_scale_2
+		}
+		localization_key = activity_hist_communion_ghost_scale_3_desc
+	}
+
+	text = {
+		trigger = { 
+			faith = { has_doctrine = tenet_ghosthist }
+			has_trait = ghost_scale_3
+		}
+		localization_key = activity_hist_communion_ghost_scale_3_desc
+	}
+
+	#Fallback if none of the above
+	text = {
+		trigger = { 
+			NOR = {
+				faith = { has_doctrine = tenet_amberhist }
+				faith = { has_doctrine = tenet_sunhist }
+				faith = { has_doctrine = tenet_ghosthist }
+			}
+		}
+		localization_key = activity_hist_communion_standard_blessing_desc
+	}
+
+}
+
+GetArgonianBehemothTrait = {
+	type = character
+	#Behemoth
+	text = {
+		trigger = { 
+			NOT = { 
+				has_trait = argonian_behemoth
+			}
+		}
+		localization_key = activity_hist_communion_argonian_behemoth_1_desc
+	}
+
+	text = {
+		trigger = { 
+			has_trait = argonian_behemoth_1
+		}
+		localization_key = activity_hist_communion_argonian_behemoth_2_desc
+	}
+
+	text = {
+		trigger = { 
+			has_trait = argonian_behemoth_2
+		}
+		localization_key = activity_hist_communion_argonian_behemoth_3_desc
+	}
+
+	text = {
+		trigger = { 
+			has_trait = argonian_behemoth_3
+		}
+		localization_key = activity_hist_communion_argonian_behemoth_3_desc
+	}
+}
+
+GetMagicEducationTrait = {
+	type = character
+	text = {
+		trigger = { 
+			NOT = { 
+				has_trait = education_magic
+			}
+		}
+		localization_key = activity_arcane_education_magic_1_desc
+	}
+
+	text = {
+		trigger = { 
+			has_trait = education_magic_1
+		}
+		localization_key = activity_arcane_education_magic_2_desc
+	}
+
+	text = {
+		trigger = { 
+			has_trait = education_magic_2
+		}
+		localization_key = activity_arcane_education_magic_3_desc
+	}
+
+	text = {
+		trigger = { 
+			has_trait = education_magic_3
+		}
+		localization_key = activity_arcane_education_magic_4_desc
+	}
+
+	text = {
+		trigger = { 
+			has_trait = education_magic_4
+		}
+		localization_key = activity_arcane_education_magic_5_desc
+	}
+}
+
+#Adult Education
+GetArcaneOrMundaneRewardTier0 = {
+	type = character
+
+	#Arcane Rewards
+	text = {
+		trigger = {
+			involved_activity ?= {
+				activity_has_arcane_education_type_trigger = yes
+			}
+		}
+		localization_key = activity_adult_education_special_type_bar_arcane_reward_0
+	}
+
+	#Mundane Rewards
+	text = {
+		trigger = {
+			involved_activity ?= {
+				activity_has_mundane_education_type_trigger = yes
+			}
+		}
+		localization_key = activity_adult_education_special_type_bar_mundane_reward_0
+	}
+}
+
+GetArcaneOrMundaneRewardTier1 = {
+	type = character
+
+	#Arcane Rewards
+	text = {
+		trigger = {
+			involved_activity ?= {
+				activity_has_arcane_education_type_trigger = yes
+			}
+		}
+		localization_key = activity_adult_education_special_type_bar_arcane_reward_1
+	}
+
+	#Mundane Rewards
+	text = {
+		trigger = {
+			involved_activity ?= {
+				activity_has_mundane_education_type_trigger = yes
+			}
+		}
+		localization_key = activity_adult_education_special_type_bar_mundane_reward_1
+	}
+}
+
+GetArcaneOrMundaneRewardTier2 = {
+	type = character
+
+	#Arcane Rewards
+	text = {
+		trigger = {
+			involved_activity ?= {
+				activity_has_arcane_education_type_trigger = yes
+			}
+		}
+		localization_key = activity_adult_education_special_type_bar_arcane_reward_2
+	}
+
+	#Mundane Rewards
+	text = {
+		trigger = {
+			involved_activity ?= {
+				activity_has_mundane_education_type_trigger = yes
+			}
+		}
+		localization_key = activity_adult_education_special_type_bar_mundane_reward_2
+	}
+}
+
+GetArcaneOrMundaneRewardTier3 = {
+	type = character
+
+	#Arcane Rewards
+	text = {
+		trigger = {
+			involved_activity ?= {
+				activity_has_arcane_education_type_trigger = yes
+			}
+		}
+		localization_key = activity_adult_education_special_type_bar_arcane_reward_3
+	}
+
+	#Mundane Rewards
+	text = {
+		trigger = {
+			involved_activity ?= {
+				activity_has_mundane_education_type_trigger = yes
+			}
+		}
+		localization_key = activity_adult_education_special_type_bar_mundane_reward_3
+	}
+}

@@ -1,0 +1,3454 @@
+﻿namespace = ek_morrowind
+
+
+# The Curse of Malacath
+
+ek_morrowind.0001 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0001.t
+	desc = ek_morrowind.0001.desc
+	theme = family
+
+	trigger = {
+		culture = {
+			has_cultural_pillar = heritage_dunmeri
+		}
+		scope:disinherited = {
+			NOT = {
+				has_character_flag = already_cursed
+			}
+		}
+		is_house_head = yes
+	}
+
+	immediate = {
+		random_realm_province = {
+			weight = { #Only possible if it's your province
+				base = 0
+				modifier = {
+					add = 500
+					province_owner = root
+				}
+			}
+			save_scope_as = cursed_county
+		}
+		scope:disinherited = {
+			add_character_flag = already_cursed
+		}
+	}
+
+	left_portrait = {
+		character = root
+	}				
+
+	right_portrait = {
+		character = scope:disinherited
+	}
+
+	option = {
+		name = ek_morrowind.0001.a
+		skill = learning
+		duel = {
+			skill = learning
+			value = average_skill_rating
+			75 = {
+				desc = ek_morrowind.0001.a.great
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				add_prestige = medium_prestige_gain
+			}
+			25 = {	
+				desc = ek_morrowind.0001.a.poor
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				add_piety = medium_piety_loss
+				scope:cursed_county = {
+					county = {
+						add_county_modifier = { 
+							modifier = emboldened_outcasts
+							months = 10
+						}
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = ek_morrowind.0001.b
+		remove_short_term_gold = medium_gold_value
+		random_list = {
+			50 = {
+				custom_tooltip = ek_morrowind.0001.a.success.tooltip
+				add_prestige = medium_prestige_gain
+			}
+			50 = {
+				custom_tooltip = ek_morrowind.0001.a.failure.tooltip
+				add_prestige = medium_prestige_loss
+				scope:cursed_county = {
+					county = {
+						add_county_modifier = { 
+							modifier = emboldened_outcasts
+							months = 10
+						}
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = ek_morrowind.0001.c
+		random_list = {
+			50 = {
+				custom_tooltip = ek_morrowind.0001.c.success.tooltip
+			}
+			50 = {
+				custom_tooltip = ek_morrowind.0001.c.failure.tooltip
+				scope:cursed_county = {
+					county = {
+						add_county_modifier = { 
+							modifier = emboldened_outcasts
+							months = 10
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# The Curse of Sheogorath
+
+ek_morrowind.0002 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0002.t
+	desc = ek_morrowind.0002.desc
+	theme = family
+
+	trigger = {
+		culture = {
+			has_cultural_pillar = heritage_dunmeri
+		}
+		is_house_head = yes
+		house = {
+			any_house_member = {
+				has_trait = lunatic
+				NOT = {
+					this = ROOT
+					has_character_flag = already_cursed
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_realm_province = {
+			weight = { #Only possible if it's your province
+				base = 0
+				modifier = {
+					add = 500
+					province_owner = root
+				}
+			}
+			save_scope_as = cursed_county
+		}
+		house = {
+			random_house_member = {
+				limit = {
+					has_trait = lunatic
+					NOT = {
+						has_character_flag = already_cursed
+					}
+				}
+				save_scope_as = lunatic
+				add_character_flag = already_cursed
+			}
+		}
+	}
+
+	left_portrait = {
+		character = root
+	}				
+
+	right_portrait = {
+		character = scope:lunatic
+	}
+
+	option = {
+		name = ek_morrowind.0002.a
+		skill = learning
+		duel = {
+			skill = learning
+			value = average_skill_rating
+			75 = {
+				desc = ek_morrowind.0002.a.great
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				send_interface_toast = {
+					type = event_toast_effect_good
+					left_icon = root
+					title = ek_morrowind.0002.a.great
+					add_prestige = medium_prestige_gain
+				}
+			}
+			25 = {	
+				desc = ek_morrowind.0002.a.poor
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					left_icon = root
+					title = ek_morrowind.0002.a.poor
+					add_piety = medium_piety_loss
+					scope:cursed_county = {
+						county = {
+							add_county_modifier = { 
+								modifier = emboldened_maniacs
+								months = 10
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = ek_morrowind.0002.b
+		remove_short_term_gold = medium_gold_value
+		random_list = {
+			50 = {
+				custom_tooltip = ek_morrowind.0002.a.success.tooltip
+				send_interface_toast = {
+					type = event_toast_effect_good
+					left_icon = root
+					title = ek_morrowind.0002.a.success.tooltip
+					add_prestige = medium_prestige_gain
+				}
+			}
+			50 = {
+				custom_tooltip = ek_morrowind.0002.a.failure.tooltip
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					left_icon = root
+					title = ek_morrowind.0002.a.failure.tooltip
+					add_prestige = medium_prestige_loss
+					scope:cursed_county = {
+						county = {
+							add_county_modifier = { 
+								modifier = emboldened_maniacs
+								months = 10
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = ek_morrowind.0002.c
+		random_list = {
+			50 = {
+				send_interface_toast = {
+					type = event_toast_effect_good
+					left_icon = root
+					title = ek_morrowind.0002.c.success.tooltip
+					custom_tooltip = ek_morrowind.0002.c.success.tooltip
+				}
+			}
+			50 = {
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					left_icon = root
+					title = ek_morrowind.0002.c.failure.tooltip
+					custom_tooltip = ek_morrowind.0002.c.failure.tooltip
+					scope:cursed_county = {
+						county = {
+							add_county_modifier = { 
+								modifier = emboldened_maniacs
+								months = 10
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# The Curse of Molag Bal
+
+ek_morrowind.0003 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0003.t
+	desc = ek_morrowind.0003.desc
+	theme = family
+
+	trigger = {
+		culture = {
+			has_cultural_tradition = tradition_great_houses
+		}
+		is_house_head = yes
+		house = {
+			any_house_member = {
+				OR = {
+					has_trait = bastard
+					has_trait = disputed_heritage
+				}
+				NOT = {
+					has_character_flag = already_cursed
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_realm_province = {
+			weight = { #Only possible if it's your province
+				base = 0
+				modifier = {
+					add = 500
+					province_owner = root
+				}
+			}
+			save_scope_as = cursed_county
+		}
+		house = {
+			random_house_member = {
+				limit = {
+					OR = {
+						has_trait = bastard
+						has_trait = disputed_heritage
+					}
+					NOT = {
+						has_character_flag = already_cursed
+					}
+				}
+				save_scope_as = bastard
+				add_character_flag = already_cursed
+			}
+		}
+	}
+
+	left_portrait = {
+		character = root
+	}				
+
+	right_portrait = {
+		character = scope:bastard
+	}
+
+	option = {
+		name = ek_morrowind.0003.a
+		skill = learning
+		duel = {
+			skill = learning
+			value = average_skill_rating
+			75 = {
+				desc = ek_morrowind.0003.a.great
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				add_prestige = medium_prestige_gain
+			}
+			25 = {	
+				desc = ek_morrowind.0003.a.poor
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				add_piety = medium_piety_loss
+				scope:cursed_county = {
+					county = {
+						add_county_modifier = { 
+							modifier = emboldened_fornicators
+							months = 10
+						}
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = ek_morrowind.0003.b
+		remove_short_term_gold = medium_gold_value
+		random_list = {
+			50 = {
+				custom_tooltip = ek_morrowind.0003.a.success.tooltip
+				add_prestige = medium_prestige_gain
+			}
+			50 = {
+				custom_tooltip = ek_morrowind.0003.a.failure.tooltip
+				add_prestige = medium_prestige_loss
+				scope:cursed_county = {
+					county = {
+						add_county_modifier = { 
+							modifier = emboldened_fornicators
+							months = 10
+						}
+					}
+				}
+			}
+		}
+	}
+	option = {
+		name = ek_morrowind.0003.c
+		random_list = {
+			50 = {
+				custom_tooltip = ek_morrowind.0003.c.success.tooltip
+			}
+			50 = {
+				custom_tooltip = ek_morrowind.0003.c.failure.tooltip
+				scope:cursed_county = {
+					county = {
+						add_county_modifier = { 
+							modifier = emboldened_fornicators
+							months = 10
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# Representing the House
+
+ek_morrowind.0004 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0004.t
+	desc = ek_morrowind.0004.desc
+	theme = diplomacy
+
+	trigger = {
+		culture = {
+			has_cultural_pillar = heritage_dunmeri
+		}
+		liege = {
+			is_great_house_head = yes
+		}
+		is_great_house_head = no
+		is_independent_ruler = no
+		has_focus_diplomacy = yes
+	}
+
+	immediate = {
+		liege = {
+			save_scope_as = liege
+		}
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	left_portrait = {
+		character = root
+	}				
+
+	right_portrait = {
+		character = scope:liege
+	}
+
+	option = {
+		name = ek_morrowind.0004.a
+		skill = diplomacy
+		duel = {
+			skill = diplomacy
+			value = high_skill_rating
+			75 = {
+				desc = ek_morrowind.0004.a.great
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				reverse_add_opinion = {
+					target = scope:liege
+					modifier = grateful_opinion
+					opinion = 20
+				}
+				scope:liege = {
+					add_character_modifier = {
+						modifier = esteemed_name
+						years = 2
+					}
+				}
+			}
+			10 = {
+				desc = ek_morrowind.0004.a.critical
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				reverse_add_opinion = {
+					target = scope:liege
+					modifier = impressed_opinion
+					opinion = 30
+				}
+				random = {
+					chance = 50
+					add_hook = {
+						target = scope:liege
+						type = favor_hook
+					}
+				}
+				scope:liege = {
+					add_character_modifier = {
+						modifier = esteemed_name
+						years = 2
+					}
+				}
+				add_character_modifier = {
+					modifier = esteemed_name
+					years = 1
+				}
+			}
+			25 = {	
+				desc = ek_morrowind.0004.a.poor
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				reverse_add_opinion = {
+					target = scope:liege
+					modifier = disappointed_opinion
+					opinion = -20
+				}
+				scope:liege = {
+					add_prestige = medium_prestige_loss
+				}
+				add_prestige = major_prestige_loss
+			}
+		}
+	}
+	option = {
+		name = ek_morrowind.0004.b
+		stress_impact = {
+			diligent = major_stress_impact_gain
+		}
+	}
+	option = {
+		name = ek_morrowind.0004.c
+		stress_impact = {
+			honest = major_stress_impact_gain
+			loyal = major_stress_gain
+		}
+		### EK TODO: FIRE MONOPOLISING THE MEETINGS WHEN IT'S DONE
+	}
+}
+
+# House Retainers
+
+ek_morrowind.0005 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0005.t
+	desc = ek_morrowind.0005.desc
+	theme = martial
+
+	trigger = {
+		culture = {
+			has_cultural_pillar = heritage_dunmeri
+		}
+		liege = {
+			is_great_house_head = yes
+		}
+		is_great_house_head = no
+		is_independent_ruler = no
+		has_focus_martial = yes
+	}
+
+	immediate = {
+		liege = {
+			save_scope_as = liege
+		}
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	left_portrait = {
+		character = root
+	}				
+
+	right_portrait = {
+		character = scope:liege
+	}
+
+	option = {
+		name = ek_morrowind.0005.a
+		skill = martial
+		duel = {
+			skill = diplomacy
+			value = high_skill_rating
+			75 = {
+				desc = ek_morrowind.0005.a.great
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				reverse_add_opinion = {
+					target = scope:liege
+					modifier = grateful_opinion
+					opinion = 20
+				}
+				scope:liege = {
+					add_character_modifier = {
+						modifier = zealous_retainers
+						years = 2
+					}
+				}
+			}
+			10 = {
+				desc = ek_morrowind.0005.a.critical
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				reverse_add_opinion = {
+					target = scope:liege
+					modifier = impressed_opinion
+					opinion = 30
+				}
+				random = {
+					chance = 50
+					add_hook = {
+						target = scope:liege
+						type = favor_hook
+					}
+				}
+				scope:liege = {
+					add_character_modifier = {
+						modifier = zealous_retainers
+						years = 2
+					}
+				}
+				add_character_modifier = {
+					modifier = zealous_retainers
+					years = 1
+				}
+			}
+			25 = {	
+				desc = ek_morrowind.0005.a.poor
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				reverse_add_opinion = {
+					target = scope:liege
+					modifier = disappointed_opinion
+					opinion = -20
+				}
+				scope:liege = {
+					add_prestige = medium_prestige_loss
+				}
+				add_prestige = major_prestige_loss
+			}
+		}
+	}
+	option = {
+		name = ek_morrowind.0005.b
+		stress_impact = {
+			diligent = major_stress_impact_gain
+		}
+	}
+	option = {
+		name = ek_morrowind.0005.c
+		stress_impact = {
+			honest = major_stress_impact_gain
+			loyal = major_stress_gain
+		}
+		custom_tooltip = ek_morrowind.0005.c.tooltip
+		# Fire personal enterprises event
+		trigger_event = ek_morrowind.0018
+	}
+}
+
+# Inspecting House Holdings
+
+ek_morrowind.0006 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0006.t
+	desc = ek_morrowind.0006.desc
+	theme = stewardship
+
+	trigger = {
+		culture = {
+			has_cultural_pillar = heritage_dunmeri
+		}
+		liege = {
+			is_great_house_head = yes
+		}
+		is_great_house_head = no
+		is_independent_ruler = no
+		has_focus_stewardship = yes
+	}
+
+	immediate = {
+		liege = {
+			save_scope_as = liege
+		}
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	left_portrait = {
+		character = root
+	}				
+
+	right_portrait = {
+		character = scope:liege
+	}
+
+	option = {
+		name = ek_morrowind.0006.a
+		skill = stewardship
+		duel = {
+			skill = stewardship
+			value = high_skill_rating
+			75 = {
+				desc = ek_morrowind.0006.a.great
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				reverse_add_opinion = {
+					target = scope:liege
+					modifier = grateful_opinion
+					opinion = 20
+				}
+				scope:liege = {
+					add_character_modifier = {
+						modifier = model_business
+						years = 2
+					}
+				}
+			}
+			10 = {
+				desc = ek_morrowind.0006.a.critical
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				reverse_add_opinion = {
+					target = scope:liege
+					modifier = impressed_opinion
+					opinion = 30
+				}
+				random = {
+					chance = 50
+					add_hook = {
+						target = scope:liege
+						type = favor_hook
+					}
+				}
+				scope:liege = {
+					add_character_modifier = {
+						modifier = model_business
+						years = 2
+					}
+				}
+				add_character_modifier = {
+					modifier = model_business
+					years = 1
+				}
+			}
+			25 = {	
+				desc = ek_morrowind.0006.a.poor
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				reverse_add_opinion = {
+					target = scope:liege
+					modifier = disappointed_opinion
+					opinion = -20
+				}
+				scope:liege = {
+					add_prestige = medium_prestige_loss
+				}
+				add_prestige = major_prestige_loss
+			}
+		}
+	}
+	option = {
+		name = ek_morrowind.0006.b
+		stress_impact = {
+			diligent = major_stress_impact_gain
+		}
+	}
+	option = {
+		name = ek_morrowind.0006.c
+		stress_impact = {
+			honest = major_stress_impact_gain
+			loyal = major_stress_gain
+		}
+		### EK TODO: FIRE CREATIVE BOOKKEEPING WHEN IT'S DONE
+	}
+}
+
+# Meddling in the Council
+
+ek_morrowind.0007 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0007.t
+	desc = ek_morrowind.0007.desc
+	theme = intrigue
+
+	trigger = {
+		culture = {
+			has_cultural_pillar = heritage_dunmeri
+		}
+		liege = {
+			is_great_house_head = yes
+		}
+		is_great_house_head = no
+		is_independent_ruler = no
+		has_focus_intrigue = yes
+	}
+
+	immediate = {
+		liege = {
+			save_scope_as = liege
+		}
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	left_portrait = {
+		character = root
+	}				
+
+	right_portrait = {
+		character = scope:liege
+	}
+
+	option = {
+		name = ek_morrowind.0007.a
+		skill = intrigue
+		duel = {
+			skill = intrigue
+			value = high_skill_rating
+			75 = {
+				desc = ek_morrowind.0007.a.great
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				reverse_add_opinion = {
+					target = scope:liege
+					modifier = grateful_opinion
+					opinion = 20
+				}
+				scope:liege = {
+					add_character_modifier = {
+						modifier = conspirators_exposed
+						years = 2
+					}
+				}
+			}
+			10 = {
+				desc = ek_morrowind.0007.a.critical
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				reverse_add_opinion = {
+					target = scope:liege
+					modifier = impressed_opinion
+					opinion = 30
+				}
+				random = {
+					chance = 50
+					add_hook = {
+						target = scope:liege
+						type = favor_hook
+					}
+				}
+				scope:liege = {
+					add_character_modifier = {
+						modifier = conspirators_exposed
+						years = 2
+					}
+				}
+				add_character_modifier = {
+					modifier = conspirators_exposed
+					years = 1
+				}
+			}
+			25 = {	
+				desc = ek_morrowind.0007.a.poor
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				reverse_add_opinion = {
+					target = scope:liege
+					modifier = disappointed_opinion
+					opinion = -20
+				}
+				scope:liege = {
+					add_prestige = medium_prestige_loss
+				}
+				add_prestige = major_prestige_loss
+			}
+		}
+	}
+	option = {
+		name = ek_morrowind.0007.b
+		stress_impact = {
+			diligent = major_stress_impact_gain
+		}
+	}
+	option = {
+		name = ek_morrowind.0007.c
+		stress_impact = {
+			honest = major_stress_impact_gain
+			loyal = major_stress_gain
+		}
+		### EK TODO: FIRE SELLING SECRETS WHEN IT'S DONE
+	}
+}
+
+# The Persecution of Heretics
+
+ek_morrowind.0008 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0008.t
+	desc = ek_morrowind.0008.desc
+	theme = learning
+
+	trigger = {
+		culture = {
+			has_cultural_pillar = heritage_dunmeri
+		}
+		liege = {
+			is_great_house_head = yes
+		}
+		is_great_house_head = no
+		is_independent_ruler = no
+		has_focus_learning = yes
+	}
+
+	immediate = {
+		liege = {
+			save_scope_as = liege
+		}
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	left_portrait = {
+		character = root
+	}				
+
+	right_portrait = {
+		character = scope:liege
+	}
+
+	option = {
+		name = ek_morrowind.0008.a
+		skill = learning
+		duel = {
+			skill = learning
+			value = high_skill_rating
+			75 = {
+				desc = ek_morrowind.0008.a.great
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				reverse_add_opinion = {
+					target = scope:liege
+					modifier = grateful_opinion
+					opinion = 20
+				}
+				scope:liege = {
+					add_character_modifier = {
+						modifier = fervent_priesthood
+						years = 2
+					}
+				}
+			}
+			10 = {
+				desc = ek_morrowind.0008.a.critical
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				reverse_add_opinion = {
+					target = scope:liege
+					modifier = impressed_opinion
+					opinion = 30
+				}
+				random = {
+					chance = 50
+					add_hook = {
+						target = scope:liege
+						type = favor_hook
+					}
+				}
+				scope:liege = {
+					add_character_modifier = {
+						modifier = fervent_priesthood
+						years = 2
+					}
+				}
+				add_character_modifier = {
+					modifier = fervent_priesthood
+					years = 1
+				}
+			}
+			25 = {	
+				desc = ek_morrowind.0008.a.poor
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				reverse_add_opinion = {
+					target = scope:liege
+					modifier = disappointed_opinion
+					opinion = -20
+				}
+				scope:liege = {
+					add_prestige = medium_prestige_loss
+				}
+				add_prestige = major_prestige_loss
+			}
+		}
+	}
+	option = {
+		name = ek_morrowind.0008.b
+		stress_impact = {
+			diligent = major_stress_impact_gain
+		}
+	}
+	option = {
+		name = ek_morrowind.0008.c
+		stress_impact = {
+			honest = major_stress_impact_gain
+			loyal = major_stress_gain
+		}
+		### EK TODO: FIRE DUPLICITOUS CONCERNS WHEN IT'S DONE
+	}
+}
+
+# Paperwork
+
+ek_morrowind.0009 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0009.t
+	desc = ek_morrowind.0009.desc
+	theme = stewardship_duty_focus
+
+	trigger = {
+		culture = {
+			has_cultural_tradition = tradition_great_houses
+		}
+		any_sub_realm_county = {
+			has_county_modifier = county_corruption_lackluster_administration_modifier
+		}
+	}
+
+	cooldown = { years = 5 }
+
+	immediate = {
+		random_sub_realm_county = {
+			limit = {	has_county_modifier = county_corruption_lackluster_administration_modifier  }
+			save_scope_as = corrupt_county
+		}
+	}
+
+	left_portrait = {
+		character = root
+	}
+
+	option = {
+		name = ek_morrowind.0009.a
+		stress_impact = {
+			base = medium_stress_impact_gain
+			lazy = medium_stress_impact_gain
+		}
+		add_prestige = medium_prestige_gain
+		scope:corrupt_county = {
+			remove_county_modifier = county_corruption_lackluster_administration_modifier
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0009.b
+		stress_impact = {
+			compassionate = major_stress_impact_gain
+		}
+		add_prestige = medium_prestige_loss
+		add_character_modifier = {
+			modifier = vassal_distrust_modifier
+			years = 5
+		}
+		scope:corrupt_county = {
+			remove_county_modifier = county_corruption_lackluster_administration_modifier
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0009.c
+		stress_impact = {
+			diligent = major_stress_impact_gain
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0009.d
+		add_prestige = medium_prestige_loss
+		random_list = {
+			25 = {
+				create_character = {
+					employer = root
+					name = "Does-Paperwork"
+					template = pool_repopulate_stewardship
+					faith = faith:hist
+					culture = culture:ojel
+					save_scope_as = does_paperwork
+				}
+				scope:does_paperwork = {
+					add_character_flag = {
+						flag = blocked_from_leaving
+						years = 1
+					}
+				}
+				scope:corrupt_county = {
+					remove_county_modifier = county_corruption_lackluster_administration_modifier
+				}
+			}
+			25 = {
+				create_character = {
+					employer = root
+					template = pool_repopulate_stewardship
+					faith = root.faith
+					culture = root.culture
+					save_scope_as = does_paperwork
+				}
+				scope:does_paperwork = {
+					add_character_flag = {
+						flag = blocked_from_leaving
+						years = 1
+					}
+				}
+				scope:corrupt_county = {
+					remove_county_modifier = county_corruption_lackluster_administration_modifier
+				}
+			}
+			25 = {
+				scope:corrupt_county = {
+					remove_county_modifier = county_corruption_lackluster_administration_modifier
+				}
+			}
+			25 = {
+
+			}
+
+		}
+	}
+}
+
+# Great House Statutes
+
+ek_morrowind.0010 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0010.t
+	desc = ek_morrowind.0010.desc
+	theme = stewardship_duty_focus
+
+	trigger = {
+		culture = {
+			has_cultural_tradition = tradition_great_houses
+		}
+		any_sub_realm_county = {
+			has_county_modifier = county_corruption_uncooperative_guilds_modifier
+		}
+	}
+
+	cooldown = { years = 5 }
+
+	immediate = {
+		random_sub_realm_county = {
+			limit = {	has_county_modifier = county_corruption_uncooperative_guilds_modifier  }
+			save_scope_as = corrupt_county
+		}
+	}
+
+	left_portrait = {
+		character = root
+	}
+
+	option = {
+		name = ek_morrowind.0010.a
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+		}
+		scope:corrupt_county = {
+			remove_county_modifier = county_corruption_uncooperative_guilds_modifier
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0010.b
+		stress_impact = {
+			diligent = medium_stress_impact_gain
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0010.c
+		add_gold = medium_gold_value
+		stress_impact = {
+			generous = minor_stress_impact_gain
+			honest = medium_stress_impact_gain
+		}
+
+		random = {
+			chance = 75
+			random_sub_realm_county = {
+				limit = {
+					NOT = {
+						has_county_modifier = county_corruption_uncooperative_guilds_modifier
+					}
+				}
+				add_county_modifier = {
+					modifier = county_corruption_uncooperative_guilds_modifier
+					years = 10
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_greed = 1
+				ai_honor = -0.5
+			}
+		}
+	}
+}
+
+# Hosting the Temple
+
+ek_morrowind.0011 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0011.t
+	desc = ek_morrowind.0011.desc
+	theme = learning_theology_focus
+
+	trigger = {
+		is_great_house_head = yes
+		has_focus_learning = yes
+		exists = cp:councillor_court_chaplain
+	}
+
+	immediate = {
+		random_ruler = {
+			limit = {
+				OR = {
+					has_title = title:e_tribunal_temple
+					has_title = title:k_archcanon_vivec
+					has_title = title:k_archcanon_almalexia
+					has_title = title:k_archcanon_sotha_sil
+				}
+			}
+			save_scope_as = archcanon
+		}
+		cp:councillor_court_chaplain = {
+			save_scope_as = chaplain
+		}
+	}
+
+	left_portrait = {
+		character = root
+	}				
+
+	right_portrait = {
+		character = scope:archcanon
+	}
+
+	
+
+	option = {
+		name = ek_morrowind.0011.a
+		skill = learning
+		duel = {
+			skill = learning
+			value = medium_skill_rating
+			75 = {
+				desc = ek_morrowind.0011.a.great
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				send_interface_toast = {
+					type = event_toast_effect_good
+					left_icon = root
+					title = ek_morrowind.0011.a.great
+					add_learning_lifestyle_xp = medium_lifestyle_xp
+				}
+			}
+			25 = {	
+				desc = ek_morrowind.0011.a.poor
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					left_icon = root
+					title = ek_morrowind.0011.a.poor
+					add_learning_lifestyle_xp = minor_lifestyle_xp
+				}
+			}
+		}
+	}
+	option = {
+		name = ek_morrowind.0011.b
+		skill = learning
+		duel = {
+			skill = learning
+			value = high_skill_rating
+			75 = {
+				desc = ek_morrowind.0011.b.great
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				send_interface_toast = {
+					type = event_toast_effect_good
+					left_icon = root
+					title = ek_morrowind.0011.b.great
+					add_learning_lifestyle_perk_points = 1
+				}
+			}
+			25 = {	
+				desc = ek_morrowind.0011.a.poor
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					left_icon = root
+					title = ek_morrowind.0011.a.poor
+					add_prestige = medium_prestige_loss
+					add_piety = medium_piety_loss
+					add_learning_lifestyle_xp = medium_lifestyle_xp
+				}
+			}
+		}
+	}
+	option = {
+		name = ek_morrowind.0011.c
+	}
+}
+
+# The Oath-Bureau Investigates
+
+ek_morrowind.0012 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0012.t
+	desc = ek_morrowind.0012.desc
+	theme = stewardship_duty_focus
+
+	trigger = {
+		culture = { has_cultural_tradition = tradition_great_houses }
+		faith = { has_doctrine = doctrine_pantheon_tribunal }
+		any_sub_realm_county = {
+			has_county_modifier = county_corruption_smuggling_ring_modifier
+		}
+	}
+
+	cooldown = { years = 5 }
+
+	immediate = {
+		random_sub_realm_county = {
+			limit = {	has_county_modifier = county_corruption_smuggling_ring_modifier  }
+			save_scope_as = corrupt_county
+		}
+	}
+
+	left_portrait = {
+		character = root
+	}
+
+	option = {
+		name = ek_morrowind.0012.a
+		add_prestige = medium_prestige_loss
+		scope:corrupt_county = {
+			remove_county_modifier = county_corruption_smuggling_ring_modifier
+		}
+		random = {
+			chance = 50
+			custom_tooltip = ek_morrowind.0012.a.reveal
+			hidden_effect = {
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					left_icon = root
+					title = ek_morrowind.0012.a.reveal
+					house = {
+						random_house_member = {
+							limit = {
+								has_any_secrets = yes
+							}
+							random_secret = {
+								limit = {
+									NOT = { is_known_by = root }
+								}
+								expose_secret = root
+							}
+						}
+					}
+				}	
+			}
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0012.b
+		stress_impact = {
+			diligent = medium_stress_impact_gain
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0012.c
+		add_gold = medium_gold_value
+		stress_impact = {
+			generous = minor_stress_impact_gain
+			honest = medium_stress_impact_gain
+		}
+
+		random = {
+			chance = 75
+			random_sub_realm_county = {
+				limit = {
+					NOT = {
+						has_county_modifier = county_corruption_smuggling_ring_modifier
+					}
+				}
+				add_county_modifier = {
+					modifier = county_corruption_smuggling_ring_modifier
+					years = 10
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_greed = 1
+				ai_honor = -0.5
+			}
+		}
+	}
+}
+
+# Bounty Dispensations
+
+ek_morrowind.0013 = { 
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0013.t
+	desc = ek_morrowind.0013.desc
+	theme = stewardship_duty_focus
+
+	trigger = {
+		culture = {
+			has_cultural_tradition = tradition_great_houses
+		}
+		any_sub_realm_county = {
+			has_county_modifier = county_corruption_unsafe_highways_modifier
+		}
+	}
+
+	cooldown = { years = 5 }
+
+	immediate = {
+		random_sub_realm_county = {
+			limit = {	has_county_modifier = county_corruption_unsafe_highways_modifier  }
+			save_scope_as = corrupt_county
+		}
+		faith.religious_head = {
+			save_scope_as = head_of_faith
+		}
+	}
+
+	left_portrait = {
+		character = root
+	}
+
+	option = {
+		name = ek_morrowind.0013.a
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+		}
+		remove_short_term_gold = 50
+		scope:corrupt_county = {
+			remove_county_modifier = county_corruption_unsafe_highways_modifier
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0013.b
+		stress_impact = {
+			zealous = medium_stress_impact_gain
+		}
+		add_piety = medium_piety_loss
+		reverse_add_opinion = {
+			target = cp:councillor_court_chaplain
+			modifier = disappointed_opinion
+			opinion = -10
+		}
+		reverse_add_opinion = {
+			target = scope:head_of_faith
+			modifier = disappointed_opinion
+			opinion = -10
+		}
+		scope:corrupt_county = {
+			remove_county_modifier = county_corruption_unsafe_highways_modifier
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0013.c
+		stress_impact = {
+			diligent = medium_stress_impact_gain
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0013.d
+		add_gold = medium_gold_value
+		stress_impact = {
+			generous = minor_stress_impact_gain
+			honest = medium_stress_impact_gain
+		}
+
+		random = {
+			chance = 75
+			random_sub_realm_county = {
+				limit = {
+					NOT = {
+						has_county_modifier = county_corruption_unsafe_highways_modifier
+					}
+				}
+				add_county_modifier = {
+					modifier = county_corruption_unsafe_highways_modifier
+					years = 10
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_greed = 1
+				ai_honor = -0.5
+			}
+		}
+	}
+}
+
+# vivec defends morrowind
+ek_morrowind.0014 = { 
+	type = character_event
+	window = duel_event
+	title = ek_morrowind.0014.t
+	desc = { 
+		random_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:army_commander = {
+						has_trait = lunatic
+					}
+				}
+				desc = ek_morrowind.0014.jestloc
+			}
+			desc = ek_morrowind.0014.desc
+			desc = ek_morrowind.0014.seriousloc
+		}
+	}
+	theme = war
+	override_background = { reference = battlefield }
+
+	immediate = {
+		create_vivec_effect = yes
+		scope:army.army_commander = {
+			random_list = {
+				pick = 3
+				unique = yes
+				# good diplo
+				1000 = {
+					trigger = {
+						NOT = { exists = local_var:vivec_good_diplo }
+						diplomacy > 10
+					}
+					set_local_variable = {
+						name = vivec_good_diplo
+						value = yes
+					}
+				}
+				# good martial
+				1000 = {
+					trigger = {
+						NOT = { exists = local_var:vivec_good_martial }
+						martial > 10
+					}
+					set_local_variable = {
+						name = vivec_good_martial
+						value = yes
+					}
+				}
+				# good stewardship
+				1000 = {
+					trigger = {
+						NOT = { exists = local_var:vivec_good_stewardship }
+						stewardship > 10
+					}
+					set_local_variable = {
+						name = vivec_good_stewardship
+						value = yes
+					}
+				}
+				# good intrigue
+				1000 = {
+					trigger = {
+						NOT = { exists = local_var:vivec_good_intrigue }
+						intrigue > 10
+					}
+					set_local_variable = {
+						name = vivec_good_intrigue
+						value = yes
+					}
+				}
+				# good learning
+				1000 = {
+					trigger = {
+						NOT = { exists = local_var:vivec_good_learning }
+						learning > 10
+					}
+					set_local_variable = {
+						name = vivec_good_learning
+						value = yes
+					}
+				}
+				# good prowess
+				1000 = {
+					trigger = {
+						NOT = { exists = local_var:vivec_good_prowess }
+						prowess > 10
+					}
+					set_local_variable = {
+						name = vivec_good_prowess
+						value = yes
+					}
+				}
+				# good arcana
+				1000 = {
+					trigger = {
+						NOT = { exists = local_var:vivec_good_arcana }
+						arcana > 10
+					}
+					set_local_variable = {
+						name = vivec_good_arcana
+						value = yes
+					}
+				}
+			}
+		}
+		random_province = {
+			limit = {
+				geographical_region = mundus_tamriel_morrowind
+			}
+			save_scope_as = teleport_location
+		}
+		random_character_war = {
+			limit = {
+					casus_belli = {
+					any_target_title = {
+						holder = {
+							is_in_morrowind_council = yes
+						}
+					}
+				}
+			}
+			save_scope_as = war_scope
+		}
+	}
+
+	left_portrait = {
+		character = scope:army_commander
+		scripted_animation = duel_wield_weapon
+	}				
+
+	right_portrait = {
+		character = scope:vivec
+		animation = throne_room_two_handed_passive_1
+		hide_info = yes
+	}
+
+	option = {
+		name = ek_morrowind.0014.diplo
+		skill = diplomacy
+		trigger = {
+			exists = local_var:vivec_good_diplo
+		}
+		scope:army_commander = {
+			duel = {
+				skill = diplomacy
+				target = scope:vivec
+				50 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = 3.5
+						min = -49
+					}
+					root = {
+						send_interface_toast = {
+							title = vivec_fled
+							scope:army_commander = { add_prestige = major_prestige_gain }
+						}
+					}
+				}
+				50 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = -3.5
+						min = -49
+					}
+					apply_dies_irae_effect = yes
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0014.martial
+		skill = martial
+		trigger = {
+			exists = local_var:vivec_good_martial
+		}
+		scope:army_commander = {
+			duel = {
+				skill = martial
+				target = scope:vivec
+				50 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = 3.5
+						min = -49
+					}
+					root = {
+						send_interface_toast = {
+							title = vivec_fled
+							scope:army_commander = { add_prestige = major_prestige_gain }
+						}
+					}
+				}
+				50 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = -3.5
+						min = -49
+					}
+					apply_dies_irae_effect = yes
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0014.stewardship
+		skill = stewardship
+		trigger = {
+			exists = local_var:vivec_good_stewardship
+		}
+		scope:army_commander = {
+			duel = {
+				skill = stewardship
+				target = scope:vivec
+				50 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = 3.5
+						min = -49
+					}
+					root = {
+						send_interface_toast = {
+							title = vivec_fled
+							scope:army_commander = { add_prestige = major_prestige_gain }
+						}
+					}
+				}
+				50 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = -3.5
+						min = -49
+					}
+					apply_dies_irae_effect = yes
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0014.intrigue
+		skill = intrigue
+		trigger = {
+			exists = local_var:vivec_good_intrigue
+		}
+		scope:army_commander = {
+			duel = {
+				skill = intrigue
+				target = scope:vivec
+				50 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = 3.5
+						min = -49
+					}
+					root = {
+						send_interface_toast = {
+							title = vivec_fled
+							scope:army_commander = { add_prestige = major_prestige_gain }
+						}
+					}
+				}
+				50 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = -3.5
+						min = -49
+					}
+					apply_dies_irae_effect = yes
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0014.learning
+		skill = learning
+		trigger = {
+			exists = local_var:vivec_good_learning
+		}
+		scope:army_commander = {
+			duel = {
+				skill = learning
+				target = scope:vivec
+				50 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = 3.5
+						min = -49
+					}
+					root = {
+						send_interface_toast = {
+							title = vivec_fled
+							scope:army_commander = { add_prestige = major_prestige_gain }
+						}
+					}
+				}
+				50 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = -3.5
+						min = -49
+					}
+					apply_dies_irae_effect = yes
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0014.prowess
+		skill = prowess
+		trigger = {
+			exists = local_var:vivec_good_prowess
+		}
+		scope:army_commander = {
+			duel = {
+				skill = prowess
+				target = scope:vivec
+				50 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = 3.5
+						min = -49
+					}
+					root = {
+						send_interface_toast = {
+							title = vivec_fled
+							scope:army_commander = { add_prestige = major_prestige_gain }
+						}
+					}
+				}
+				50 = {
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = -3.5
+						min = -49
+					}
+					apply_dies_irae_effect = yes
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0014.arcana
+		trigger = {
+			exists = local_var:vivec_good_arcana
+		}
+		scope:army_commander = {
+			fake_duel = {
+				skill = arcana
+				target = scope:vivec
+			}
+			random_list = {
+				10 = { # success
+					compare_modifier = {
+						value = scope:fake_duel_value
+						multiplier = 1
+					}
+					root = {
+						send_interface_toast = {
+							title = vivec_fled
+							scope:army_commander = { add_prestige = major_prestige_gain }
+						}
+					}
+				}
+				12 = { #failure
+					apply_dies_irae_effect = yes
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0014.retreat
+		add_internal_flag = dangerous
+		scope:war_scope ?= {
+			end_war = defender
+		}
+		if = {
+			limit = {
+				scope:army = {
+					is_raid_army = yes
+				}
+			}
+			scope:army = {
+				add_loot = -200
+			}
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	after = {
+		scope:vivec = {
+			silent_disappearance_effect = yes
+		}
+		trigger_event = ek_morrowind.9999
+	}	
+}
+
+# tribunal preamble
+ek_morrowind.0015 = { 
+	type = character_event
+	title = ek_morrowind.0015.t
+	desc = { 
+		random_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:army_commander = {
+						has_trait = lunatic
+					}
+				}
+				desc = ek_morrowind.0015.jestloc
+			}
+			desc = ek_morrowind.0015.desc
+			desc = ek_morrowind.0015.seriousloc
+		}
+	}
+	theme = war
+	override_background = { reference = battlefield }
+
+
+	trigger = {
+		#EK TODO: disabled because Vivec is broken
+		always = no
+		is_in_morrowind_council = no
+		OR = {
+			any_army = {
+				is_raid_army = yes
+			}
+			AND = {
+				is_at_war_as_attacker = yes
+				any_character_war = {
+					casus_belli = {
+						any_target_title = {
+							holder = {
+								is_in_morrowind_council = yes
+							}
+						}
+					}
+					primary_attacker = {
+						save_temporary_scope_as = attacker_check_mw
+					}
+					primary_defender = {
+						save_temporary_scope_as = defender_check_mw
+					}
+				}
+			}
+		}
+		any_army = {
+			location = { 
+				geographical_region = mundus_tamriel_morrowind			
+			}
+		}
+		#Attacked stronger than defender
+		scope:attacker_check_mw.current_military_strength >= scope:defender_check_mw.current_military_strength
+	}
+
+	immediate = {
+		random_army = {
+			limit = {
+				location = { 
+					geographical_region = mundus_tamriel_morrowind			
+				}	
+			}
+			save_scope_as = army
+			scope:army.army_commander = {
+				save_scope_as = army_commander
+			}
+		}
+	}
+
+	left_portrait = {
+		character = scope:army_commander
+		scripted_animation = duel_wield_weapon
+	}
+
+	option = {
+		name = ek_morrowind.0015.a
+		custom_tooltip = ek_morrowind.0015.a.flavor
+		trigger_event = ek_morrowind.0014
+	}	
+}
+
+# Visit the Amayan Vineyards and decide what to do with this year's vintage
+
+ek_morrowind.0016 = { 
+	type = character_event
+	title = ek_morrowind.0016.t
+	desc = ek_morrowind.0016.desc
+	theme = stewardship
+
+	immediate = {
+		title:b_arvel.title_province = {
+			save_scope_as = arvel
+		}
+	}
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:steward
+	}
+
+	option = {
+		name = ek_morrowind.0016.a
+		start_travel_plan = {
+			destination = scope:arvel
+			on_arrival_event = ek_morrowind.0017
+			on_travel_planner_cancel_on_action = visit_vineyard_cancel
+			on_arrival_destinations = all_but_last
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0016.b
+		remove_decision_cooldown = visit_vineyard
+	}
+}
+
+ek_morrowind.0017 = { 
+	type = character_event
+	title = ek_morrowind.0016.t
+	desc = ek_morrowind.0016.desc
+	theme = stewardship
+	override_background = {
+		reference = bp1_wine_cellar
+	}
+
+	immediate = {
+		title:b_arvel.county = {
+			save_scope_as = arvel
+		}
+	}
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:steward
+	}
+
+	option = {
+		name = ek_morrowind.0017.a
+		scope:arvel = {
+			add_county_modifier = {
+				modifier = tears_of_amaya
+				years = 5
+			}
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0017.b
+		random = {
+			chance = 30
+			add_trait = drunkard
+		}
+		stress_impact = {
+			base = major_stress_impact_loss
+		}
+	}
+}
+
+# Personal Enterprises
+
+ek_morrowind.0018 = { 
+	type = character_event
+	title = ek_morrowind.0018.t
+	desc = ek_morrowind.0018.desc
+	theme = diplomacy_majesty_focus
+
+	trigger = {
+		this = liege.cp:councillor_spymaster
+	}
+
+	immediate = {
+		liege = {
+			save_scope_as = liege
+		}
+	}
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+	}
+
+	option = {
+		name = ek_morrowind.0018.a
+		skill = martial
+		duel = {
+			skill = martial
+			value = high_skill_rating
+			50 = {
+				desc = ek_morrowind.0018.a.good
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				send_interface_toast = {
+					type = event_toast_effect_good
+					left_icon = root
+					title = ek_morrowind.0018.a.great
+					reverse_add_opinion = {
+						target = scope:liege
+						opinion = -10
+						modifier = suspicious_opinion
+					}
+					add_gold = medium_gold_value
+				}
+			}
+			25 = {	
+				desc = ek_morrowind.0018.a.great
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				reverse_add_opinion = {
+					target = scope:liege
+					opinion = -15
+					modifier = suspicious_opinion
+				}
+				random = {
+					chance = 50
+					add_hook = {
+						type = major_crime_accomplice_hook
+						target = scope:liege
+					}
+				}
+				add_gold = medium_gold_value
+			}
+			50 = {	
+				desc = ek_morrowind.0018.a.poor
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					left_icon = root
+					title = ek_morrowind.0018.a.poor
+					reverse_add_opinion = {
+						target = scope:liege
+						opinion = -30
+						modifier = betrayed_me_opinion
+					}
+					add_prestige = medium_prestige_loss
+					scope:liege = {
+						add_hook = {
+							type = major_crime_accomplice_hook
+							target = ROOT
+						}
+					}
+				}
+			}
+			25 = {	
+				desc = ek_morrowind.0018.a.worst
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					left_icon = root
+					title = ek_morrowind.0018.a.worst
+					reverse_add_opinion = {
+						target = scope:liege
+						modifier = plotting_against_me_opinion
+					}
+					hidden_effect = {	#Make all weak claims on your titles into strong claims.
+						every_held_title = {
+							save_temporary_scope_as = abdicator_title
+							every_claimant = {
+								limit = { has_weak_claim_on = scope:abdicator_title }
+								make_claim_strong = scope:abdicator_title
+							}
+						}
+					}
+					custom_tooltip = stress_threshold.3411.l.tt
+					depose = yes
+
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0018.b
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+			generous = medium_stress_impact_loss
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0018.c
+		stress_impact = {
+			deceitful = medium_stress_impact_gain
+			disloyal = medium_stress_impact_gain
+		}
+		trigger_event = ek_morrowind.0005
+	}
+}
+
+# Cunning Diplomacy
+
+ek_morrowind.0019 = { 
+	type = character_event
+	title = ek_morrowind.0019.t
+	desc = ek_morrowind.0019.desc
+	theme = diplomacy_majesty_focus
+
+	trigger = {
+		culture = {
+			OR = {
+				this = culture:marduhn_oad
+				any_parent_culture_or_above = { this = culture:marduhn_oad }
+			}
+		}
+		any_neighboring_realm_same_rank_owner = {
+			culture = {
+				NOT = { 
+					this = culture:marduhn_oad
+					any_parent_culture_or_above = {	this = culture:marduhn_oad } 
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_neighboring_realm_same_rank_owner = {
+			limit = {
+				culture = {
+					NOT = { 
+						this = culture:marduhn_oad
+						any_parent_culture_or_above = {	this = culture:marduhn_oad } 
+					}
+				}
+			}
+			save_scope_as = neighbor
+		}
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:neighbor
+	}
+
+	option = {
+		name = ek_morrowind.0019.a
+		add_hook = {
+			target = scope:neighbor
+			type = favor_hook
+		}
+		scope:neighbor = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 30
+			}
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0019.b
+		add_gold = medium_gold_value
+		scope:neighbor = {
+			add_opinion = {
+				modifier = tricked_opinion
+				target = root
+				opinion = -50
+			}
+		}	
+	}
+}
+
+# The Doctrine of Disassembly
+
+ek_morrowind.0020 = { 
+	type = character_event
+	title = ek_morrowind.0020.t
+	desc = {
+		desc = ek_morrowind.0020.desc_intro
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = scope:prisoner
+				}
+				desc = ek_morrowind.0020.desc
+			}
+			desc = ek_morrowind.0020.no_prisoner_desc
+		}
+	}
+	theme = learning_theology_focus
+	override_background = {
+		trigger = { exists = scope:prisoner }
+		reference = dungeon
+	}
+	override_background = {
+		trigger = { NOT = { exists = scope:prisoner } }
+		reference = study
+	}
+
+	trigger = {
+		has_trait = p_tr_sotha
+	}
+
+	immediate = {
+		random_prisoner = {
+			limit = {
+				root = { has_execute_reason = prev }
+			}
+			save_scope_as = prisoner
+		}
+		select_local_farm_animal_effect = yes
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:prisoner
+		animation = beg
+	}
+
+	option = {
+		add_internal_flag = dangerous
+		name = ek_morrowind.0020.a
+		trigger = {
+			exists = scope:prisoner
+		}
+		scope:prisoner = {
+			death = {
+				death_reason = death_disassembled
+				killer = root
+			}
+		}
+		add_dread = major_dread_gain
+		add_piety = major_piety_gain
+		add_learning_lifestyle_xp = 100
+		add_magic_lifestyle_xp = 100
+		stress_impact = {
+			just = medium_stress_impact_gain
+			honest = major_stress_impact_gain
+			compassionate = major_stress_impact_gain
+		}
+	}
+
+	option = {
+		name = ek_morrowind.0020.b
+		add_dread = minor_dread_gain
+		add_piety = medium_piety_gain
+		add_learning_lifestyle_xp = 100
+		stress_impact = {
+			compassionate = medium_stress_impact_gain
+		}	
+	}
+
+	option = {
+		name = ek_morrowind.0020.c
+		stress_impact = {
+			sadistic = medium_stress_impact_gain
+			zealous = medium_stress_impact_gain
+		}	
+	}
+}
+
+# Everything Must Go!
+
+ek_morrowind.0021 = { 
+	type = character_event
+	title = ek_morrowind.0021.t
+	desc = ek_morrowind.0021.desc
+	theme = mental_health
+	content_source = dlc_ek
+
+	trigger = {
+		OR = {
+			has_trait = lunatic
+			has_trait = eccentric
+		}
+		location = { 
+			geographical_region = mundus_tamriel_morrowind			
+		}
+		any_character_artifact = {
+			count >= 2
+			has_variable = ai_to_ai_destroy_in_sieges
+		}
+	}
+
+	immediate = {
+		create_character = {
+			template = lord_cluttermonkey
+			dynasty = none
+			location = root.location
+			save_scope_as = lord_cluttermonkey
+		}
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+
+	right_portrait = {
+		character = scope:lord_cluttermonkey
+		animation = aggressive_mace
+	}
+
+	# duel
+	option = {
+		skill = prowess
+		name = ek_morrowind.0021.a
+		duel = {
+			skill = prowess
+			target = scope:lord_cluttermonkey
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				root = {
+					send_interface_toast = {
+						title = ek_morrowind.0021.a.success
+						add_prestige = medium_prestige_gain
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				death = {
+					death_reason = death_mysterious
+					killer = scope:lord_cluttermonkey
+				}
+			}
+		}
+	}
+
+	# declutter
+	option = {
+		name = ek_morrowind.0021.b
+		every_character_artifact = {
+			limit = {
+				has_variable = ai_to_ai_destroy_in_sieges
+			}
+			destroy_artifact = this
+		}
+	}
+
+
+	# scream for help
+	option = {
+		name = ek_morrowind.0021.c
+		add_prestige = major_prestige_loss
+	}
+
+	after = {
+		scope:lord_cluttermonkey = {
+			silent_disappearance_effect = yes
+		}
+	}
+}
+
+# Worshipping the Illogical
+
+ek_morrowind.0022 = { 
+	type = character_event
+	title = ek_morrowind.0022.t
+	desc = ek_morrowind.0022.desc
+	theme = learning_theology_focus
+	content_source = dlc_ek
+	
+	override_background = {
+		reference = study
+	}
+
+	trigger = {
+		has_trait = p_tr_sotha
+		OR = {
+			learning > 9
+			intrigue > 9
+		}
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	left_portrait = {
+		character = root
+	}
+
+	# embrace almsivi
+	option = {
+		name = ek_morrowind.0022.a
+		zealous_progression_effect = yes
+		add_piety = minor_piety_gain
+	}
+
+	# question faith
+	option = {
+		name = ek_morrowind.0022.b
+		add_prestige = minor_prestige_gain
+		cynical_progression_effect = yes
+		random = {
+			chance = 30
+			add_learning_lifestyle_xp = minor_lifestyle_xp
+		}
+	}
+
+	# reverent skepticism
+	option = {
+		name = ek_morrowind.0022.c
+		duel = {
+			skills = { intrigue learning }
+			value = average_skill_rating
+			75 = {
+				desc = ek_morrowind.0022.c.great
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				add_prestige = medium_prestige_gain
+				add_piety = medium_piety_gain
+			}
+			25 = {	
+				desc = ek_morrowind.0022.c.poor
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				add_piety = medium_piety_loss
+			}
+		}
+	}
+}
+
+# The Eleventh Sequence
+
+ek_morrowind.0023 = { 
+	type = character_event
+	title = ek_morrowind.0023.t
+	desc = ek_morrowind.0023.desc
+	theme = learning_theology_focus
+	content_source = dlc_ek
+	
+	override_background = {
+		reference = study
+	}
+
+	trigger = {
+		has_trait = p_tr_sotha
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	left_portrait = {
+		character = root
+	}
+
+	# embrace brass-wrought truth
+	option = {
+		name = ek_morrowind.0023.a
+		zealous_progression_effect = yes
+		add_piety = minor_piety_gain
+	}
+
+	# long for the familiar
+	option = {
+		name = ek_morrowind.0023.b
+		add_prestige = minor_prestige_gain
+		cynical_progression_effect = yes
+		random = {
+			chance = 30
+			add_learning_lifestyle_xp = minor_lifestyle_xp
+		}
+	}
+
+	# question reality
+	option = {
+		name = ek_morrowind.0023.c
+		duel = {
+			skill = learning
+			value = average_skill_rating
+			75 = {
+				desc = ek_morrowind.0023.c.great
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				add_prestige = medium_prestige_gain
+				add_piety = medium_piety_gain
+			}
+			25 = {	
+				desc = ek_morrowind.0023.c.poor
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				add_piety = medium_piety_loss
+			}
+			2 = {	
+				desc = ek_morrowind.0023.c.awful
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 1
+				add_trait = lunatic_1
+			}
+		}
+	}
+}
+
+# Turning the Ratchet
+ek_morrowind.0024 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0024.t
+	desc = ek_morrowind.0024.desc
+	theme = intrigue
+		
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:spymaster
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	trigger = {
+		culture = {
+			has_cultural_tradition = tradition_deshaan_agronomy
+		}
+		OR = {
+			intrigue > 9
+			scope:spymaster ?= {
+				intrigue > 9
+			}
+		}
+	}
+
+	immediate = {
+		cp:councillor_spymaster = {
+			save_scope_as = spymaster
+		}
+		random_sub_realm_county = {
+			limit = {
+				county_control <= 50
+			}
+			random_county_province = {
+				limit = {
+					OR = {
+						has_building = slave_markets_01
+						has_building = slave_markets_02
+						has_building = slave_markets_03
+						has_building = slave_markets_04
+					}	
+				}
+				save_scope_as = slave_province
+			}
+		}
+	}
+
+	option = { # gold
+		name = ek_morrowind.0024.a
+		add_gold = medium_gold_value
+		add_dread = minor_dread_gain
+		stress_impact = { 
+			greedy = medium_stress_impact_loss
+		}
+	}
+
+	option = { # secret
+		name = ek_morrowind.0024.b
+
+		trigger = {
+			any_neighboring_top_liege_realm_owner = {
+				has_any_secrets = yes
+				any_secret = {
+					NOT = { is_known_by = root }
+				}
+			}
+		}
+
+		random_neighboring_top_liege_realm_owner = {
+			limit = {
+				has_any_secrets = yes
+			}
+			random_secret = {
+				limit = {
+					NOT = { is_known_by = root }
+				}
+				expose_secret = root
+			}
+		}
+
+		add_dread = minor_dread_gain
+		stress_impact = { 
+			paranoid = medium_stress_impact_loss
+		}
+	}
+
+	option = { # slavery
+		name = ek_morrowind.0024.c
+
+		trigger = {
+			AND = {
+				culture = { has_cultural_parameter = keeps_slaves } # Slaver cultures that are members of GCM cannot ban their own slave keeping while the Council allows it
+				any_character_situation = {
+					this = situation:grand_council
+				}
+			}
+			any_sub_realm_county = {
+				county_control <= 50
+				any_county_province = {
+					OR = {
+						has_building = slave_markets_01
+						has_building = slave_markets_02
+						has_building = slave_markets_03
+						has_building = slave_markets_04
+					}
+				}
+			}
+		}
+
+		scope:slave_province ?= {
+			change_county_control = 30
+		}
+
+		add_dread = minor_dread_gain
+		stress_impact = { 
+			sadistic = medium_stress_impact_loss
+		}
+	}
+
+	option = { # gold + prestige + no dread gain
+		name = ek_morrowind.0024.d
+		trait = schemer
+
+		trigger = {
+			has_trait = schemer
+		}
+
+		add_gold = medium_gold_value
+		add_prestige = medium_prestige_gain
+	}
+
+	option = { # nah
+		name = ek_morrowind.0024.e
+		
+		stress_impact = { 
+			ambitious = medium_stress_impact_gain 
+			diligent = medium_stress_impact_gain
+			lazy = medium_stress_impact_loss
+		}
+	}
+}
+
+# The Web of Contempt
+ek_morrowind.0025 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0025.t
+	desc = ek_morrowind.0025.desc
+	theme = intrigue
+		
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:faction_leader
+		animation = anger
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	trigger = {
+		culture = {
+			has_cultural_tradition = tradition_deshaan_agronomy
+		}
+		any_targeting_faction = {
+			faction_is_at_war = no
+			faction_leader = {
+				exists = yes
+			}
+		}
+	}
+
+	immediate = {
+		random_targeting_faction = {
+			limit = { faction_is_at_war = no }
+			save_scope_as = contempt_faction
+			faction_leader = {
+				save_scope_as = faction_leader
+	}
+
+			}
+		}
+	option = { # Let your contempt be your motivator. There is none better.
+		name = ek_morrowind.0025.a
+		skill = intrigue
+		duel = {
+			skill = intrigue
+			value = high_skill_rating
+			75 = {
+				desc = ek_morrowind.0025.a.great
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				scope:contempt_faction = {
+					add_faction_discontent = -50
+				}
+			}
+			10 = {
+				desc = ek_morrowind.0025.a.critical
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				scope:contempt_faction = {
+					destroy_faction = yes
+				}
+			}
+			25 = {	
+				desc = ek_morrowind.0025.a.poor
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				scope:contempt_faction = {
+					add_faction_discontent = 50
+				}
+				add_prestige = major_prestige_loss
+			}
+		}
+	}
+
+	option = { # Never hang by a single thread.
+		name = ek_morrowind.0025.b
+		scope:contempt_faction = {
+			add_faction_discontent = -25
+		}
+	}
+
+	option = { # nah
+		name = ek_morrowind.0025.c
+		
+		stress_impact = { 
+			ambitious = medium_stress_impact_gain 
+			diligent = medium_stress_impact_gain
+			lazy = medium_stress_impact_loss
+		}
+	}
+}
+
+# The Way of Confusion
+ek_morrowind.0026 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0026.t
+	desc = ek_morrowind.0026.desc
+	theme = intrigue
+		
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:confused_courtier
+		animation = thinking
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	trigger = {
+		culture = {
+			has_cultural_tradition = tradition_deshaan_agronomy
+		}
+		intrigue > 9
+	}
+
+	immediate = {
+		random_courtier = {
+			save_scope_as = confused_courtier
+		}
+	}
+
+	option = { # Speak in Contradictions
+		name = ek_morrowind.0026.a
+		random = {
+			chance = 30
+			add_trait = fickle
+		}
+		add_prestige = minor_prestige_gain
+	}
+
+	option = { # Confuse Even Yourself
+		name = ek_morrowind.0026.b
+		random = {
+			chance = 30
+			add_trait = eccentric
+		}
+		add_prestige = medium_prestige_gain
+	}
+
+	option = { # nah
+		name = ek_morrowind.0026.c
+
+		reverse_add_opinion = {
+			target = scope:confused_courtier
+			modifier = grateful_opinion
+			opinion = 20
+		}
+		
+		stress_impact = { 
+			ambitious = medium_stress_impact_gain 
+			diligent = medium_stress_impact_gain
+			lazy = medium_stress_impact_loss
+		}
+	}
+}
+
+# Folk Medicine
+ek_morrowind.0027 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0027.t
+	desc = ek_morrowind.0027.desc
+	theme = learning_medicine_focus
+		
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:slave_trader
+		animation = beg
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	trigger = {
+		location = {
+			geographical_region = mundus_tamriel_morrowind
+		}
+		any_sub_realm_county = {
+			any_county_province = {
+				has_building_or_higher = slave_markets_01
+			}
+		}
+	}
+
+	immediate = {
+		create_character = {
+			employer = root
+			template = pool_repopulate_stewardship
+			faith = root.faith
+			culture = root.culture
+			save_scope_as = slave_trader
+		}
+		random_sub_realm_county = {
+			limit = {
+				county_control <= 50
+				any_county_province = {
+					has_building_or_higher = slave_markets_01
+				}
+			}
+			save_scope_as = slave_province
+		}
+		random_court_position_holder = {
+			type = court_physician_court_position
+			save_scope_as = court_physician
+		}
+	}
+
+	option = { # Fetch the Cure
+		name = ek_morrowind.0027.a
+		remove_short_term_gold = minor_gold_value
+		add_prestige = minor_prestige_loss
+		add_piety = medium_piety_gain
+		cynical_progression_effect = yes
+		scope:slave_province ?= {
+			change_county_control = 30
+		}
+		stress_impact = {
+			compassionate = medium_stress_impact_loss
+			callous = medium_stress_impact_gain
+		}
+	}
+
+	option = { # Cure it Yourself
+		name = ek_morrowind.0027.b
+		trigger = {
+			learning > 9
+		}
+		add_prestige = minor_prestige_loss
+
+		skill = learning
+		duel = {
+			skill = learning
+			value = high_skill_rating
+			75 = {
+				desc = ek_morrowind.0027.a.great
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				add_piety = medium_piety_gain
+				scope:slave_province ?= {
+					change_county_control = 30
+				}
+			}
+			25 = {	
+				desc = ek_morrowind.0027.a.poor
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				
+				add_prestige = minor_prestige_loss
+			}
+		}
+	}
+
+	option = { # Court Physician
+		name = ek_morrowind.0027.c
+
+		trigger = {
+			employs_court_position = court_physician_court_position
+		}
+
+		add_piety = minor_piety_gain
+
+		random_court_position_holder = {
+			type = court_physician_court_position
+			add_opinion = {
+				target = ROOT
+				modifier = disappointed_opinion
+				opinion = -20
+			}
+		}
+	}
+
+	option = { # nah
+		name = ek_morrowind.0027.d
+
+		scope:slave_province = {
+			county = {
+				add_county_modifier = { 
+					modifier = hearth_dust_outbreak
+					months = 10
+				}
+			}
+		}
+
+		reverse_add_opinion = {
+			target = scope:slave_trader
+			modifier = disappointed_opinion
+			opinion = -20
+		}
+	}
+
+	after = {
+		scope:slave_trader = {
+			silent_disappearance_effect = yes
+		}
+	}
+}
+
+# Breaking Some Eggs
+ek_morrowind.0028 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0028.t
+	desc = ek_morrowind.0028.desc
+	theme = stewardship_duty_focus	
+		
+	left_portrait = {
+		character = scope:steward
+		animation = stress
+	}
+
+	right_portrait = {
+		character = scope:merchant
+		animation = anger
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	trigger = {
+		exists = cp:councillor_steward
+		location = {
+			geographical_region = mundus_tamriel_morrowind
+		}
+		any_sub_realm_county = {
+			any_county_province = {
+				has_building_or_higher = kwama_mines_01
+			}
+		}
+	}
+
+	immediate = {
+		create_character = {
+			employer = root
+			template = pool_repopulate_stewardship
+			faith = root.faith
+			culture = root.culture
+			save_scope_as = merchant
+		}
+		random_sub_realm_county = {
+			limit = {
+				any_county_province = {
+					has_building_or_higher = kwama_mines_01
+				}
+			}
+			save_scope_as = kwama_province
+		}
+		cp:councillor_steward = {
+			save_scope_as = steward
+		}
+	}
+
+	option = { # Side with the Merchant
+		name = ek_morrowind.0028.a
+		remove_short_term_gold = minor_gold_value
+		scope:kwama_province = {
+			county = {
+				add_county_modifier = { 
+					modifier = bustling_commerce
+					months = 10
+				}
+			}
+		}
+		scope:steward = {
+			add_opinion = {
+				target = ROOT
+				modifier = disappointed_opinion
+				opinion = -20
+			}
+		}
+	}
+
+	option = { # Side with the Steward
+		name = ek_morrowind.0028.b
+		add_prestige = minor_prestige_loss
+		scope:steward = {
+			add_opinion = {
+				target = ROOT
+				modifier = grateful_opinion
+				opinion = 20
+			}
+		}
+	}
+
+	option = { # Investigate the Issue
+		name = ek_morrowind.0028.c
+		trigger = {
+			intrigue > 9
+		}
+		skill = intrigue
+		duel = {
+			skill = intrigue
+			value = high_skill_rating
+			75 = {
+				desc = ek_morrowind.0028.c.great
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 5
+				}
+				add_prestige = minor_prestige_gain
+				scope:kwama_province ?= {
+					change_county_control = 30
+				}
+			}
+			25 = {	
+				desc = ek_morrowind.0028.c.poor
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -5
+				}
+				min = 10
+				remove_short_term_gold = minor_gold_value
+				add_prestige = minor_prestige_loss
+			}
+		}
+	}
+
+	option = { # Crimeboss
+		name = ek_morrowind.0028.d
+
+		trigger = {
+			has_trait = crimeboss
+		}
+		add_gold = medium_gold_value
+		add_tyranny = medium_tyranny_gain
+	}
+
+	after = {
+		scope:merchant = {
+			silent_disappearance_effect = yes
+		}
+	}
+}
+
+# Awakening Dreams
+ek_morrowind.0029 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0029.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					dynasty ?= { has_dynasty_modifier = scarab_blood_dynasty_modifier }
+				}
+				desc = ek_morrowind.0029.scarab
+			}
+			triggered_desc = {
+				trigger = {
+					dynasty ?= { has_dynasty_modifier = unmourned_blood_dynasty_modifier }
+				}
+				desc = ek_morrowind.0029.unmourned
+			}
+		}
+	}
+	theme = death
+
+	override_background = {
+		reference = bedchamber
+	}
+		
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	trigger = {
+		OR = {
+			dynasty ?= { has_dynasty_modifier = scarab_blood_dynasty_modifier }
+			dynasty ?= { has_dynasty_modifier = unmourned_blood_dynasty_modifier }
+		}
+	}
+
+	immediate = {
+		add_character_modifier = {
+			modifier = sleep_deprived_modifier
+			years = 5
+		}
+	}
+
+	option = { # Embrace the Dreams
+		name = ek_morrowind.0029.a
+		add_piety = minor_piety_gain
+	}
+
+	option = { # Seek to Understand
+		name = ek_morrowind.0029.b
+		add_learning_lifestyle_xp = medium_lifestyle_xp
+		add_stress = medium_stress_gain
+	}
+}
+
+# Karvinasim
+ek_morrowind.0030 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind.0030.t
+	desc = ek_morrowind.0030.desc
+	theme = realm
+		
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	trigger = {
+		capital_province = {
+			is_coastal = yes
+			OR = {
+				geographical_region = mundus_tamriel_cyrodiil
+				geographical_region = mundus_tamriel_hammerfell_craglorn
+			}
+		}
+	}
+
+	immediate = {
+		capital_county = {
+			add_county_modifier = {
+				modifier = karvinasim
+				months = 12
+			}
+		}
+	}
+
+	option = { # Hire Professionals
+		name = ek_morrowind.0030.a
+		remove_short_term_gold = medium_gold_value
+		capital_county = {
+			remove_county_modifier = karvinasim
+		}
+	}
+
+	option = { # Use Opportunity to Sell Their Eggs
+		name = ek_morrowind.0030.b
+		add_gold = medium_gold_value
+		add_tyranny = medium_tyranny_gain
+	}
+
+	option = { # just wait
+		name = ek_morrowind.0030.c
+		stress_impact = {
+			lazy = minor_stress_impact_loss
+			diligent = medium_stress_impact_gain
+		}
+		
+	}
+}
+
+ek_morrowind.9999 = {
+	hidden = yes
+
+	immediate = {
+		every_living_character = {
+			limit = {
+				OR = {
+					has_character_flag = god_character
+					has_character_flag = god_vivec_f_flag
+					has_character_flag = god_vivec_m_flag
+				}
+			}
+			silent_disappearance_effect = yes
+		}
+	}
+}

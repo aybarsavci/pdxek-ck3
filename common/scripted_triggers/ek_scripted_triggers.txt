@@ -1,0 +1,781 @@
+﻿# Is this culture dead or alive? I.e, are there significant communities of your culture that can reasonably expand and convert people
+culture_is_alive = {
+	is_target_in_global_variable_list = {
+		name = culture_is_alive
+		target = this
+	}
+}
+
+culture_is_magic_focused = {
+	has_cultural_parameter = magic_preference
+}
+
+has_dwemer_ruins = {
+	exists = capital_province
+	capital_province = {
+		OR = {
+			geographical_region = mundus_tamriel_morrowind
+			geographical_region = mundus_tamriel_skyrim
+			geographical_region = mundus_tamriel_hammerfell
+			geographical_region = mundus_tamriel_high_rock
+		}
+	}
+}
+
+has_ayleid_ruins = {
+	exists = capital_province
+	capital_province = {
+		OR = {
+			geographical_region = mundus_tamriel_cyrodiil
+			geographical_region = mundus_tamriel_valenwood
+			geographical_region = mundus_tamriel_high_rock
+			geographical_region = mundus_tamriel_hammerfell
+			geographical_region = mundus_tamriel_elsweyr
+			geographical_region = mundus_tamriel_black_marsh
+		}
+	}
+}
+
+county_has_ek_holding = {
+	OR = {
+		any_county_province = { has_holding_type = academy_holding }
+		any_county_province = { has_holding_type = hist_holding }
+	}
+}
+province_has_ek_holding = {
+	OR = {
+		has_holding_type = academy_holding
+		has_holding_type = hist_holding
+	}
+}
+
+has_special_prison = {
+	OR = {
+			has_building_or_higher = blackrose_prison_01
+			has_building_or_higher = the_bastion_01
+			has_building_or_higher = amenos_station_01
+		has_building_or_higher = banished_cells_01
+		has_building_or_higher = gorne_asylum_01
+	}
+}
+
+has_special_forge = {
+	OR = {
+		has_building_or_higher = ebonhall_01
+		has_building_or_higher = mathiisen_forge_district_01
+		has_building_or_higher = fahlbtharz_forge_01
+	}
+}
+
+ek_has_education_rank_4_trigger = {
+	OR = {
+		has_trait_rank = {
+			trait = education_diplomacy
+			rank = 4
+		}
+		has_trait_rank = {
+			trait = education_martial
+			rank = 4
+		}
+		has_trait_rank = {
+			trait = education_stewardship
+			rank = 4
+		}
+		has_trait_rank = {
+			trait = education_intrigue
+			rank = 4
+		}
+		has_trait_rank = {
+			trait = education_learning
+			rank = 4
+		}
+		has_trait_rank = {
+			trait = education_martial_prowess
+			rank = 4
+		}
+		has_trait_rank = {
+			trait = education_magic
+			rank = 4
+		}
+	}
+}
+
+use_convert_to_vampire_secrecy_trigger = {
+	$OWNER$ = {
+		any_secret = { secret_type = secret_vampire }
+		save_temporary_scope_as = vampire_secrecy_check
+		trait_is_shunned_or_criminal_in_my_or_lieges_faith_trigger = { TRAIT = vampire_character GENDER_CHARACTER = scope:vampire_secrecy_check }
+	}
+}
+
+knows_about_character_being_vampire_trigger = {
+	OR = {
+		$CHARACTER$ = { has_trait = vampire_character }
+		any_known_secret = {
+			secret_owner = $CHARACTER$
+			secret_type = secret_vampire
+		}
+	}
+}
+
+potential_vampire_friend_trigger = {
+	faith = $CHARACTER$.faith
+	knows_about_character_being_vampire_trigger = { CHARACTER = $CHARACTER$ }
+	save_temporary_scope_as = trigger_vampire_friend
+	$CHARACTER$ = { knows_about_character_being_vampire_trigger = { CHARACTER = scope:trigger_vampire_friend } }
+}
+
+use_convert_to_lycan_secrecy_trigger = {
+	$OWNER$ = {
+		any_secret = { secret_type = secret_lycan }
+		save_temporary_scope_as = lycan_secrecy_check
+		trait_is_shunned_or_criminal_in_my_or_lieges_faith_trigger = { TRAIT = lycan_character GENDER_CHARACTER = scope:lycan_secrecy_check }
+	}
+}
+
+knows_about_character_being_lycan_trigger = {
+	OR = {
+		$CHARACTER$ = { has_trait = lycan_character }
+		any_known_secret = {
+			secret_owner = $CHARACTER$
+			secret_type = secret_lycan
+		}
+	}
+}
+
+potential_lycan_friend_trigger = {
+	faith = $CHARACTER$.faith
+	knows_about_character_being_lycan_trigger = { CHARACTER = $CHARACTER$ }
+	save_temporary_scope_as = trigger_lycan_friend
+	$CHARACTER$ = { knows_about_character_being_lycan_trigger = { CHARACTER = scope:trigger_lycan_friend } }
+}
+
+is_summoned_character = {
+	OR = { 
+		has_character_flag = summoned_undead
+		has_character_flag = summoned_daedra
+	}
+}
+
+is_daedric_character = {
+	OR = { 
+		has_character_flag = summoned_daedra
+		culture = { has_cultural_pillar = heritage_dremora }
+	}
+}
+
+is_daedra_cultist = {
+	OR = {
+		has_trait = azura_worshipper
+		has_trait = boethiah_worshipper
+		has_trait = clavicus_worshipper
+		has_trait = hermaeus_worshipper
+		has_trait = hircine_worshipper
+		has_trait = malacath_worshipper
+		has_trait = mehrunes_worshipper
+		has_trait = mephala_worshipper
+		has_trait = meridia_worshipper
+		has_trait = molag_worshipper
+		has_trait = namira_worshipper
+		has_trait = nocturnal_worshipper
+		has_trait = peryite_worshipper
+		has_trait = sanguine_worshipper
+		has_trait = sheogorath_worshipper
+		has_trait = vaermina_worshipper
+	}
+}
+
+is_undead_character = {
+	OR = {
+		has_trait = lich_character
+		has_trait = undead_character
+	}
+}
+
+is_mindless_character = { #Note: when changing this one, also change the setup in 00_rules.txt, as using this scripted trigged there caused errors
+	has_trait_with_flag = mindless_character
+}
+
+potential_undead_thrall = {
+	# these are groups that cannot be made into undead
+	NOR = {
+		has_character_flag = corpse_can_not_be_claimed # if the character is killed through execution, name-biting or the turn into thrall character interaction, don't apply the effect again
+		is_undead_character = yes # duh
+		has_trait = vampire_character # vamps just kinda turn to dust when killed
+		is_daedric_character = yes # daedra don't stick around when killed
+	}
+}
+
+is_daedric_champion = {
+	OR = {
+		has_trait = champion_azura
+		has_trait = champion_boethiah
+		has_trait = champion_clavicus
+		has_trait = champion_hermaeus
+		has_trait = champion_hircine
+		has_trait = champion_mehrunes
+		has_trait = champion_meridia
+		has_trait = champion_molag
+		has_trait = champion_namira
+		has_trait = champion_sanguine
+		has_trait = champion_sheogorath
+		has_trait = champion_malacath
+		has_trait = champion_vaermina
+		has_trait = champion_nocturnal
+		has_trait = champion_peryite
+		has_trait = champion_mephala
+	}
+}
+
+is_pariah_character = {
+	culture = {
+		has_innovation = innovation_pariah_folk
+	}
+}
+
+is_pariah_or_legacy_character = {
+	culture = {
+		OR = {
+			has_innovation = innovation_pariah_folk
+			has_innovation = innovation_pariah_legacy
+		}
+	}
+}
+
+is_former_pariah_character = {
+	culture = {
+		OR = {
+			has_innovation = innovation_redeemed_pariahs
+			has_innovation = innovation_pariah_legacy
+		}
+	}
+}
+
+can_discriminate_pariah = {
+	$CHARACTER1$ = {
+		is_pariah_character = yes
+		has_pariah_exception = no
+	}
+	$CHARACTER2$ = {
+		is_pariah_character = no
+		NOT = { is_tolerant_of_pariah = { PARIAH = $CHARACTER1$ }}
+	}
+}
+
+is_tolerant_of_pariah = {
+	OR = {
+		culture = { has_innovation = innovation_pariah_legacy }
+		AND = {
+			culture = { has_cultural_parameter = tolerant_of_orc_pariahs }
+			$PARIAH$ = {
+				culture = { has_cultural_pillar = heritage_orcish }
+			}
+		}
+	}
+}
+
+has_pariah_exception = {
+	OR = {
+		has_trait = varangian
+		has_trait = adventurer
+	}
+}
+
+has_crime_trait = { #since afaik we can't check easily whether a character has *any* criminal trait
+	OR = {
+		# this one's a crime anyway
+		has_trait = murderer
+		# these vary a bit based on faith
+		AND = {
+			has_trait = kinslayer_1
+			trait_is_criminal_in_faith_trigger = { TRAIT = kinslayer_1 FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = kinslayer_2
+			trait_is_criminal_in_faith_trigger = { TRAIT = kinslayer_2 FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = kinslayer_3
+			trait_is_criminal_in_faith_trigger = { TRAIT = kinslayer_3 FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			is_cannibal_trigger = yes
+			trait_is_criminal_in_faith_trigger = { TRAIT = cannibal FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = adulterer
+			trait_is_criminal_in_faith_trigger = { TRAIT = adulterer FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = fornicator
+			trait_is_criminal_in_faith_trigger = { TRAIT = fornicator FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			is_incestuous_trigger = yes
+			trait_is_criminal_in_faith_trigger = { TRAIT = incestuous FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			is_deviant_trigger = yes
+			trait_is_criminal_in_faith_trigger = { TRAIT = deviant FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		# and then there are these bad boys
+		AND = {
+			has_trait = azura_worshipper
+			trait_is_criminal_in_faith_trigger = { TRAIT = azura_worshipper FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = champion_azura
+			trait_is_criminal_in_faith_trigger = { TRAIT = champion_azura FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = boethiah_worshipper
+			trait_is_criminal_in_faith_trigger = { TRAIT = boethiah_worshipper FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = champion_boethiah
+			trait_is_criminal_in_faith_trigger = { TRAIT = champion_boethiah FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = clavicus_worshipper
+			trait_is_criminal_in_faith_trigger = { TRAIT = clavicus_worshipper FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = champion_clavicus
+			trait_is_criminal_in_faith_trigger = { TRAIT = champion_clavicus FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = hermaeus_worshipper
+			trait_is_criminal_in_faith_trigger = { TRAIT = hermaeus_worshipper FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = champion_hermaeus
+			trait_is_criminal_in_faith_trigger = { TRAIT = champion_hermaeus FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = hircine_worshipper
+			trait_is_criminal_in_faith_trigger = { TRAIT = hircine_worshipper FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = champion_hircine
+			trait_is_criminal_in_faith_trigger = { TRAIT = champion_hircine FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = malacath_worshipper
+			trait_is_criminal_in_faith_trigger = { TRAIT = malacath_worshipper FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = champion_malacath
+			trait_is_criminal_in_faith_trigger = { TRAIT = champion_malacath FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = mehrunes_worshipper
+			trait_is_criminal_in_faith_trigger = { TRAIT = mehrunes_worshipper FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = champion_mehrunes
+			trait_is_criminal_in_faith_trigger = { TRAIT = champion_mehrunes FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = mephala_worshipper
+			trait_is_criminal_in_faith_trigger = { TRAIT = mephala_worshipper FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = champion_mephala
+			trait_is_criminal_in_faith_trigger = { TRAIT = champion_mephala FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = meridia_worshipper
+			trait_is_criminal_in_faith_trigger = { TRAIT = meridia_worshipper FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = champion_meridia
+			trait_is_criminal_in_faith_trigger = { TRAIT = champion_meridia FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = molag_worshipper
+			trait_is_criminal_in_faith_trigger = { TRAIT = molag_worshipper FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = champion_molag
+			trait_is_criminal_in_faith_trigger = { TRAIT = champion_molag FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = namira_worshipper
+			trait_is_criminal_in_faith_trigger = { TRAIT = namira_worshipper FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = champion_namira
+			trait_is_criminal_in_faith_trigger = { TRAIT = champion_namira FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = nocturnal_worshipper
+			trait_is_criminal_in_faith_trigger = { TRAIT = nocturnal_worshipper FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = champion_nocturnal
+			trait_is_criminal_in_faith_trigger = { TRAIT = champion_nocturnal FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = peryite_worshipper
+			trait_is_criminal_in_faith_trigger = { TRAIT = peryite_worshipper FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = champion_peryite
+			trait_is_criminal_in_faith_trigger = { TRAIT = champion_peryite FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = sanguine_worshipper
+			trait_is_criminal_in_faith_trigger = { TRAIT = sanguine_worshipper FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = champion_sanguine
+			trait_is_criminal_in_faith_trigger = { TRAIT = champion_sanguine FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = sheogorath_worshipper
+			trait_is_criminal_in_faith_trigger = { TRAIT = sheogorath_worshipper FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = champion_sheogorath
+			trait_is_criminal_in_faith_trigger = { TRAIT = champion_sheogorath FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = vaermina_worshipper
+			trait_is_criminal_in_faith_trigger = { TRAIT = vaermina_worshipper FAITH = root.faith GENDER_CHARACTER = root }
+		}
+		AND = {
+			has_trait = champion_vaermina
+			trait_is_criminal_in_faith_trigger = { TRAIT = champion_vaermina FAITH = root.faith GENDER_CHARACTER = root }
+		}
+	}	
+}
+
+can_build_slave_markets = {
+	custom_tooltip = {
+		text = keeps_slaves_slavery_trigger
+		OR = {
+			scope:holder.culture = { #the local ruler must want to deal in slavery
+				has_cultural_parameter = keeps_slaves
+			}	
+			scope:holder = { #or if the GCM allows it within all of Morrowind, all Great House Dunmer may keep slaves
+				any_character_situation = {
+					any_participant_group = {
+						participant_group_type = grand_council_members
+						participant_group_has_character = scope:holder
+					}
+				}
+			}
+			scope:holder = { #or if they're pirates then YARR
+				government_has_flag = government_is_pirate
+			}
+		}
+	}
+	custom_tooltip = {
+		text = slavery_banned_in_realm_flag_slavery_trigger
+		NOT = { #if the top liege of a realm decides to ban slavery, that takes presedence
+			scope:holder.top_liege = {
+				primary_title = {
+					has_variable = slavery_banned_in_realm_flag
+				} 
+			}
+		}
+	}
+}
+
+is_slaver = {
+	OR = {
+		culture = { has_cultural_parameter = keeps_slaves }
+		is_in_morrowind_council = yes
+		government_has_flag = government_is_pirate
+	}
+	NOT = {
+		root.top_liege = {
+			primary_title = {
+				has_variable = slavery_banned_in_realm_flag
+			} 
+		}
+	}
+}
+
+can_build_kwama_mines = {
+	county ?= {
+		any_county_province = {
+			geographical_region = mundus_tamriel_morrowind
+			OR = {
+				terrain = hills
+				terrain = ashlands
+			}
+		}
+	}
+}
+
+can_expel_pariah = { #difference being that the exceptions only apply against personal interactions, not war
+	$CHARACTER1$ = {
+		is_pariah_character = yes
+	}
+	$CHARACTER2$ = {
+		is_pariah_character = no
+		NOT = { is_tolerant_of_pariah = { PARIAH = $CHARACTER1$ }}
+	}
+}
+
+can_discriminate_daedric_race = {
+	$CHARACTER1$ = {
+		is_daedric_character = yes
+	}
+	$CHARACTER2$ = {
+		NOR = {
+			is_daedric_character = yes
+			faith.religion = { is_in_family = rf_daedra }
+		}
+	}
+}
+
+is_elvish_character = {
+	OR = {
+		culture = { has_cultural_pillar = heritage_bosmeri }
+		culture = { has_cultural_pillar = heritage_falmeri }
+		culture = { has_cultural_pillar = heritage_aldmeri }
+		culture = { has_cultural_pillar = heritage_dunmeri }
+		culture = { has_cultural_pillar = heritage_chimeri }
+		culture = { has_cultural_pillar = heritage_ayleid }
+		culture = { has_cultural_pillar = heritage_maormeri }
+	}
+}
+
+is_human_character = {
+	OR = {
+		culture = {has_cultural_pillar = heritage_atmoran }
+		culture = {has_cultural_pillar = heritage_kothri }
+		culture = {has_cultural_pillar = heritage_nedic_north }
+		culture = {has_cultural_pillar = heritage_nedic_central }
+		culture = {has_cultural_pillar = heritage_yokudan }
+		culture = {has_cultural_pillar = heritage_breton }
+	}
+}
+
+nickname_already_given_list_trigger = {
+    OR = {
+        AND = {
+            NOT = {
+                is_target_in_global_variable_list = {
+                    name = nickname_already_given
+                    target = flag:$NICKNAME$
+                }
+            }
+            OR = {
+                has_game_rule = once_per_game_nickname
+                has_game_rule = only_one_nickname
+            }
+        }
+        has_game_rule = no_limitation_nickname
+    }
+	is_important_lore_character = no
+}
+
+ek_can_get_harm_events_trigger = {
+	NOR = { # EK TODO: add/rework harm events for those cases. They are currently deactivated to prevent undeads from choking, etc.
+		is_undead_character = yes
+		is_daedric_character = yes
+		AND = {
+			is_important_lore_character = yes
+			is_ai = yes
+		}
+	}
+}
+
+# Characters added to this list are saved from harm events if played by the AI and won't get random nicknames
+is_important_lore_character = {
+	OR = {
+		this = character:mannimarco_1000 #Mannimarco
+		this = character:galerion_100 #Vanus Galerion
+		this = character:vastarie_1000 #Vastarie
+		this = character:fyr_100 #Divayth Fyr
+		this = character:bal_100 #Lamae Bal
+		this = character:volkihar_1000 #Harkon
+		this = character:volkihar_1001 #Valerica
+		this = character:volkihar_1002 #Serana
+		this = character:saran_1000 #Rada al Saran
+		this = character:vardengroet_gyron #Vardengroet
+		this = character:bagarn_1000 #Yagrum Bagarn 
+		this = character:dremora_1000 #Velehk Sain
+		#EK TODO: doesn't cover all 440/450 lore characters yet
+	}
+}
+
+can_drown = {
+	NOR = {
+		has_character_flag = race_argonian
+		is_undead = yes
+	}
+}
+
+ek_is_valid_activity_guest = {
+	is_mindless_character = no
+	trigger_if = {
+		limit = {
+			scope:host = {
+				faith = { has_doctrine_parameter = cleanse_abominations_lycanthropes_rulers }
+			}
+			NOT = { scope:host = { is_known_lycan = yes } }
+		}
+		NOT = {
+			is_known_lycan = yes
+		}
+	}
+	trigger_if = {
+		limit = {
+			scope:host = {
+				faith = { has_doctrine_parameter = cleanse_abominations_vampires_rulers }
+			}
+			NOT = { scope:host = { is_known_vampire = yes } }
+		}
+		NOT = {
+			is_known_vampire = yes
+		}
+	}
+	trigger_if = {
+		limit = {
+			scope:host = {
+				faith = { has_doctrine_parameter = cleanse_abominations_undead_rulers }
+			}
+			NOT = { scope:host = { is_undead = yes } }
+		}
+		NOT = {
+			is_undead = yes
+		}
+	}
+	trigger_if = {
+		limit = {
+			scope:host = {
+				faith = { has_doctrine_parameter = cleanse_abominations_necromancers_rulers }
+			}
+			NOT = { scope:host = { is_known_necromancer = yes } }
+		}
+		NOT = {
+			is_known_necromancer = yes
+		}
+	}
+	trigger_if = {
+		limit = {
+			culture = { has_innovation = innovation_daedric_race }
+		}
+		scope:host = {
+			OR = {			
+				faith.religion = { is_in_family = rf_daedra }
+				culture = { has_innovation = innovation_daedric_race }
+			}
+        }
+	}
+}
+
+has_hist_communion = {
+	faith = { has_doctrine = doctrine_pantheon_hist }
+	culture = { has_cultural_pillar = heritage_argonian }
+	has_character_flag = race_argonian
+}
+
+can_be_healed_by_hist_trigger = {
+	OR = {
+		has_trait = wounded_1
+		has_trait = wounded_2
+		has_trait = wounded_3
+		has_trait = maimed
+		has_trait = one_legged
+		has_trait = one_eyed
+		has_trait = blind
+		has_trait = infirm
+		has_trait = disrupted
+		has_trait = depressed
+		has_trait = possessed
+		has_trait = lunatic_1
+	}
+}
+
+has_dark_arts_perk_trigger = {
+	OR = {
+		# Necromancy
+		has_perk = necromancy_novice_perk
+		has_perk = necromancy_apprentice_perk
+		has_perk = necromancy_journeyman_perk
+		has_perk = necromancy_expert_perk
+		has_perk = necromancy_master_perk
+	}
+}
+
+faith_tolerates_daedra_trigger = {
+	OR = {
+		religion = { is_in_family = rf_daedra }
+		has_doctrine = tenet_daedric_bargains
+	}
+}
+
+can_increase_lifespan_trigger = {
+	NOR = {
+		has_character_flag = race_daedra
+		has_trait_with_flag = is_immortal
+		has_trait_with_flag = tsaesci
+		is_vampire = yes
+		is_undead = yes
+	}
+}
+
+is_woodland_trigger = {
+	OR = {
+		terrain = forest
+		terrain = taiga
+		terrain = valenwood
+		terrain = jungle
+	}
+}
+
+is_wetland_trigger = {
+	OR = {
+		terrain = wetlands
+		terrain = floodplains
+		terrain = oasis
+		terrain = black_marsh
+	}
+}
+
+is_dryland_trigger = {
+	OR = {
+		terrain = drylands
+		terrain = desert
+		terrain = ashlands
+	}
+}
+
+is_highland_trigger = {
+	OR = {
+		terrain = hills
+		terrain = mountains
+		terrain = desert_mountains
+	}
+}
+
+is_lowland_trigger = {
+	OR = {
+		terrain = plains
+		terrain = farmlands
+		terrain = steppe
+		terrain = tundra
+	}
+}
+
+is_favored_by_sheogorath_trigger = {
+	OR = {
+		has_trait = lunatic
+		has_trait = eccentric
+		has_trait = possessed
+		faith = { has_doctrine = doctrine_pantheon_sheogorath }
+	}
+}
+
+has_cyrodilic_empire_trigger = {
+	OR = {
+		has_title = title:e_cyrodiil
+		has_title = title:e_cyrodiilic_potentate
+		has_title = title:e_tamriel
+	}
+}

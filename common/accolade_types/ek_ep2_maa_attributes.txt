@@ -1,0 +1,389 @@
+﻿##################################################
+# EK EDIT: NEW MEN_AT_ARMS ACCOLADES
+##################################################
+# CONTROL VALUES
+
+@has_relevant_maa_weight_up_value = 500
+@respected_culture_for_maa_type_value = 100
+@disinterested_culture_for_maa_type_value = -100
+
+@number_maa_regiments_increment_1 = 1
+@number_maa_regiments_increment_2 = 2
+@number_maa_regiments_increment_3 = 4
+@number_maa_regiments_increment_4 = 6
+
+@accolade_maa_maint_1 = -0.1
+@accolade_maa_maint_2 = -0.15
+@accolade_maa_maint_3 = -0.2
+@accolade_maa_maint_4 = -0.25
+@accolade_maa_maint_5 = -0.3
+
+@accolade_maa_damage_1 = 0.1
+@accolade_maa_damage_2 = 0.2
+@accolade_maa_damage_3 = 0.3
+@accolade_maa_damage_4 = 0.4
+@accolade_maa_damage_5 = 0.5
+@accolade_maa_damage_6 = 0.6
+
+@accolade_maa_toughness_1 = 0.1
+@accolade_maa_toughness_2 = 0.2
+@accolade_maa_toughness_3 = 0.3
+@accolade_maa_toughness_4 = 0.4
+@accolade_maa_toughness_5 = 0.5
+@accolade_maa_toughness_6 = 0.6
+
+@accolade_maa_screen_1 = 0.1
+@accolade_maa_screen_2 = 0.2
+@accolade_maa_screen_3 = 0.3
+@accolade_maa_screen_4 = 0.4
+@accolade_maa_screen_5 = 0.5
+@accolade_maa_screen_6 = 0.6
+
+@accolade_maa_pursuit_1 = 0.1
+@accolade_maa_pursuit_2 = 0.2
+@accolade_maa_pursuit_3 = 0.3
+@accolade_maa_pursuit_4 = 0.4
+@accolade_maa_pursuit_5 = 0.5
+@accolade_maa_pursuit_6 = 0.6
+
+##################################################
+# Mages
+archmage_attribute = {
+	adjective = accolade_archmage_adj
+	noun = accolade_archmage
+	accolade_categories = { men_at_arms army_bonus militant subtle aggressive defensive ranged_fighter light_fighter }
+
+	potential = {
+		prowess >= accolade_prowess_requirement_value
+		OR = {
+			has_trait_xp = {
+				trait = tourney_participant
+				track = magic
+				value >= 20
+			}
+			has_trait = education_magic
+			has_trait = arcana_good
+			has_trait = battlemage
+		} 
+		culture ?= { 
+			OR = {
+				has_innovation = innovation_war_magic
+				has_innovation_flag = innovation_war_magic_replacement
+				culture_has_mage_maa = yes
+			}
+		}
+	}
+
+	weight = {
+		value = accolade_uninteresting_base_value
+		scope:owner ?= {
+			# Should only be interested at all if they have a unit of the type OR if the maa type is exciting and foreign
+			if = {
+				limit = {
+					number_maa_regiments_of_base_type = {
+						type = mages
+						value >= 1
+					}
+				}
+				add = @has_relevant_maa_weight_up_value
+				# Weight up a bit further for more MaA of the same type.
+				## A few.
+				if = {
+					limit = {
+						number_maa_regiments_of_base_type = {
+							type = mages
+							value >= @number_maa_regiments_increment_1
+						}
+					}
+					add = @has_relevant_maa_weight_up_value
+				}
+				## Lots.
+				if = {
+					limit = {
+						number_maa_regiments_of_base_type = {
+							type = mages
+							value >= @number_maa_regiments_increment_2
+						}
+					}
+					add = @has_relevant_maa_weight_up_value
+				}
+				## Many.
+				if = {
+					limit = {
+						number_maa_regiments_of_base_type = {
+							type = mages
+							value >= @number_maa_regiments_increment_3
+						}
+					}
+					add = @has_relevant_maa_weight_up_value
+				}
+				## Many-lots.
+				if = {
+					limit = {
+						number_maa_regiments_of_base_type = {
+							type = mages
+							value >= @number_maa_regiments_increment_4
+						}
+					}
+					add = @has_relevant_maa_weight_up_value
+				}
+				#Culture
+				if = {
+					limit = { 
+						root.culture ?= {
+							OR = { 
+								has_cultural_pillar = heritage_cyrodiilic
+								has_cultural_pillar = heritage_breton
+								has_cultural_pillar = heritage_aldmeri
+							}
+						}
+					}
+					add = @respected_culture_for_maa_type_value
+				}
+				# AI values.
+				add = {
+					value = ai_energy
+					multiply = 1
+				}
+				add = {
+					value = ai_boldness
+					multiply = 1
+				}
+
+				# Finally, weight for opinion.
+				multiply = accolade_opinion_multiplier_value
+			}
+			## Era.
+			### No specific era preference.
+		}
+	}
+
+	ranks = {
+		100 = {
+			liege_modifier = { 
+				mages_max_size_add = @number_maa_regiments_increment_1
+			}
+			knight_army_modifier = { 
+				mages_damage_mult = @accolade_maa_damage_1
+				mages_toughness_mult = @accolade_maa_toughness_1 
+			}
+		}
+		300 = {
+			liege_modifier = { 
+				mages_max_size_add = @number_maa_regiments_increment_1
+			}
+			knight_army_modifier = { 
+				mages_damage_mult = @accolade_maa_damage_1 
+				mages_toughness_mult = @accolade_maa_toughness_1
+			}
+		}
+		600 = {
+			liege_modifier = { 
+				mages_max_size_add = @number_maa_regiments_increment_2
+			}
+			knight_army_modifier = { 
+				mages_damage_mult = @accolade_maa_damage_4
+				mages_toughness_mult = @accolade_maa_toughness_2
+			}
+			men_at_arms = { accolade_maa_mages }
+		}
+		1000 = {
+			liege_modifier = { 
+				mages_max_size_add = @number_maa_regiments_increment_2
+			}
+			knight_army_modifier = { 
+				mages_damage_mult = @accolade_maa_damage_4
+				mages_toughness_mult = @accolade_maa_toughness_2
+			}
+		}
+		1500 = {
+			liege_modifier = {
+				mages_max_size_add = @number_maa_regiments_increment_3
+			}
+			knight_army_modifier = { 
+				mages_damage_mult = @accolade_maa_damage_6
+				mages_toughness_mult = @accolade_maa_toughness_3
+			}
+			men_at_arms = { accolade_maa_mages }
+		}
+		2100 = {
+			liege_modifier = { 
+				mages_max_size_add = @number_maa_regiments_increment_3
+			}
+			knight_army_modifier = { 
+				mages_damage_mult = @accolade_maa_damage_6
+				mages_toughness_mult = @accolade_maa_toughness_3
+			}
+		}
+	}
+}
+
+spellsword_attribute = {
+	adjective = accolade_spellsword_adj
+	noun = accolade_spellsword
+	accolade_categories = { men_at_arms army_bonus militant subtle aggressive defensive ranged_fighter light_fighter }
+
+	potential = {
+		prowess >= accolade_prowess_requirement_value
+		OR = {
+			has_trait_xp = {
+				trait = tourney_participant
+				track = magic
+				value >= 20
+			}
+			has_trait = education_magic
+			has_trait = arcana_good
+			has_trait = battlemage
+		} 
+		culture ?= { 
+			OR = {
+				has_innovation = innovation_magical_studies
+				has_innovation_flag = innovation_magical_studies_replacement
+				culture_has_spellblades_maa = yes
+			}
+		}
+	}
+
+	weight = {
+		value = accolade_uninteresting_base_value
+		scope:owner ?= {
+			# Should only be interested at all if they have a unit of the type OR if the maa type is exciting and foreign
+			if = {
+				limit = {
+					number_maa_regiments_of_base_type = {
+						type = spellblades
+						value >= 1
+					}
+				}
+				add = @has_relevant_maa_weight_up_value
+				# Weight up a bit further for more MaA of the same type.
+				## A few.
+				if = {
+					limit = {
+						number_maa_regiments_of_base_type = {
+							type = spellblades
+							value >= @number_maa_regiments_increment_1
+						}
+					}
+					add = @has_relevant_maa_weight_up_value
+				}
+				## Lots.
+				if = {
+					limit = {
+						number_maa_regiments_of_base_type = {
+							type = spellblades
+							value >= @number_maa_regiments_increment_2
+						}
+					}
+					add = @has_relevant_maa_weight_up_value
+				}
+				## Many.
+				if = {
+					limit = {
+						number_maa_regiments_of_base_type = {
+							type = spellblades
+							value >= @number_maa_regiments_increment_3
+						}
+					}
+					add = @has_relevant_maa_weight_up_value
+				}
+				## Many-lots.
+				if = {
+					limit = {
+						number_maa_regiments_of_base_type = {
+							type = spellblades
+							value >= @number_maa_regiments_increment_4
+						}
+					}
+					add = @has_relevant_maa_weight_up_value
+				}
+				#Culture
+				if = {
+					limit = { 
+						root.culture ?= {
+							OR = { 
+								has_cultural_pillar = heritage_cyrodiilic
+								has_cultural_pillar = heritage_breton
+								has_cultural_pillar = heritage_aldmeri
+							}
+						}
+					}
+					add = @respected_culture_for_maa_type_value
+				}
+				# AI values.
+				add = {
+					value = ai_energy
+					multiply = 1
+				}
+				add = {
+					value = ai_boldness
+					multiply = 1
+				}
+
+				# Finally, weight for opinion.
+				multiply = accolade_opinion_multiplier_value
+			}
+			## Era.
+			### No specific era preference.
+		}
+	}
+
+	ranks = {
+		100 = {
+			liege_modifier = { 
+				spellblades_max_size_add = @number_maa_regiments_increment_1
+			}
+			knight_army_modifier = { 
+				spellblades_damage_mult = @accolade_maa_damage_1
+				spellblades_toughness_mult = @accolade_maa_toughness_1 
+			}
+		}
+		300 = {
+			liege_modifier = { 
+				spellblades_max_size_add = @number_maa_regiments_increment_1
+			}
+			knight_army_modifier = { 
+				spellblades_damage_mult = @accolade_maa_damage_1 
+				spellblades_toughness_mult = @accolade_maa_toughness_1
+			}
+		}
+		600 = {
+			liege_modifier = { 
+				spellblades_max_size_add = @number_maa_regiments_increment_2
+			}
+			knight_army_modifier = { 
+				spellblades_damage_mult = @accolade_maa_damage_4
+				spellblades_toughness_mult = @accolade_maa_toughness_2
+			}
+			men_at_arms = { accolade_maa_spellswords }
+		}
+		1000 = {
+			liege_modifier = { 
+				spellblades_max_size_add = @number_maa_regiments_increment_2
+			}
+			knight_army_modifier = { 
+				spellblades_damage_mult = @accolade_maa_damage_4
+				spellblades_toughness_mult = @accolade_maa_toughness_2
+			}
+		}
+		1500 = {
+			liege_modifier = {
+				spellblades_max_size_add = @number_maa_regiments_increment_3
+			}
+			knight_army_modifier = { 
+				spellblades_damage_mult = @accolade_maa_damage_6
+				spellblades_toughness_mult = @accolade_maa_toughness_3
+			}
+			men_at_arms = { accolade_maa_spellswords }
+		}
+		2100 = {
+			liege_modifier = { 
+				spellblades_max_size_add = @number_maa_regiments_increment_3
+			}
+			knight_army_modifier = { 
+				spellblades_damage_mult = @accolade_maa_damage_6
+				spellblades_toughness_mult = @accolade_maa_toughness_3
+			}
+		}
+	}
+}

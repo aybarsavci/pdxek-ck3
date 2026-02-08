@@ -1,0 +1,28 @@
+pdxmesh = {
+	name = "building_special_crystal_like_law_mesh"
+	file = "building_special_crystal_like_law.mesh"
+	scale = 2.1
+
+	meshsettings = {
+		name = "building_special_crystal_like_law"
+		index = 0
+		texture_diffuse = "building_special_crystal_like_law_diffuse.dds"
+		texture_normal = "building_special_crystal_like_law_normal.dds"
+		texture_specular = "building_special_crystal_like_law_properties.dds"
+		shader = "standard_alpha_to_coverage"
+		shader_file = "gfx/FX/pdxmesh.shader"
+	}
+}
+
+entity = {
+	name = "building_special_crystal_like_law_entity"
+	pdxmesh = "building_special_crystal_like_law_mesh"
+
+	locator = { name = crystallikelaw }
+	
+	default_state = "idle"
+	state = { name = "idle" state_time = 5 looping = yes
+		event = { time = 0 node = "crystallikelaw" particle = "special/crystal_like_law" trigger_once = yes }
+	}	
+	
+}

@@ -1,0 +1,65 @@
+﻿
+ek_portrait_religious_trigger_fallback = {
+	exists = this
+    OR = {
+        portrait_has_trait_trigger = { TRAIT = devoted }
+		portrait_has_trait_trigger = { TRAIT = sibyl }
+        AND = {
+            OR = {
+				has_council_position = councillor_court_chaplain
+                is_theocratic_lessee = yes
+                AND = { 
+					primary_title.tier >= tier_barony 
+					government_has_flag = government_is_theocracy 	
+				}
+            }
+        }
+    }
+}
+ek_portrait_religious_trigger = {
+	ek_portrait_religious_trigger_fallback = yes
+	faith = faith:$FAITH_INPUT$
+}
+
+ek_portrait_mage_low_trigger_fallback = {
+	exists = this
+    OR = {
+		AND = {
+			is_court_mage_trigger = yes
+			exists = liege
+			liege = {
+				highest_held_title_tier >= tier_kingdom
+			}
+		}
+		# AND = {
+			# can_magic_trigger = yes
+			# OR = {
+				# primary_title = { has_title_law = mage_magocratic_succession_law }
+				# primary_title = { has_title_law = sorcerous_elective_succession_law }
+				# primary_title = { has_title_law = magelord_elective_succession_law }
+			# }
+			# is_ruler = yes
+		# }
+
+		AND = {
+			can_magic_trigger = yes
+			can_have_mage_magocratic_succession_law_trigger = yes
+		}		
+		
+    }
+}
+ek_portrait_mage_high_trigger_fallback = {
+	ek_portrait_mage_low_trigger_fallback = yes
+	OR = {
+		highest_held_title_tier >= tier_duchy
+		can_have_mage_magocratic_succession_law_trigger = yes
+	}
+}
+ek_portrait_mage_low_trigger = {
+	ek_portrait_mage_low_trigger_fallback = yes
+	portrait_$CULTURE_INPUT$_clothing_trigger = yes
+}
+ek_portrait_mage_high_trigger = {
+	ek_portrait_mage_high_trigger_fallback = yes
+	portrait_$CULTURE_INPUT$_clothing_trigger = yes
+}

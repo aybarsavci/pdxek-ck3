@@ -1,0 +1,964 @@
+﻿##############
+#   PIRATE   #
+##############
+### Go from a Feudal government to a Pirate one
+become_pirate_government_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_port.dds" }
+	
+	desc = become_pirate_government_decision_desc
+	selection_tooltip = become_pirate_government_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		has_feudal_like_government = yes
+		highest_held_title_tier < tier_kingdom
+		capital_province = { is_coastal = yes }
+		has_perk = taking_it_all_perk
+	}
+
+	is_valid = {
+		trigger_if = {
+			limit = { is_independent_ruler = no }
+			
+			OR = {
+				has_trait = plunderer
+				liege = { government_has_flag = government_is_pirate }
+			}
+		}
+		trigger_else = {
+			has_trait = plunderer
+		}
+		
+		custom_description = {
+			text = has_raided_for_two_hundred_gold_ct
+			has_variable = total_loot
+			var:total_loot >= 200
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+	}
+
+	effect = {
+		change_government = pirate_government
+		custom_tooltip = become_pirate_government_decision_duchy_tier_title_ct
+		if = {
+			limit = { highest_held_title_tier >= tier_duchy }
+			every_held_title = {
+				limit = { this.tier >= tier_duchy }
+				add_title_law = pirate_elective_succession_law
+			}
+		}
+		custom_tooltip = become_pirate_government_decision_total_loot_workaround_ct
+		show_as_tooltip = { add_gold = var:total_loot }
+		
+		# trigger_event = ek_pirates.0001
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+# A decision to stop being a pirate (wow!)
+stop_being_pirate_government_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	desc = stop_being_pirate_government_decision_desc
+
+	ai_check_interval = 120
+
+	is_shown = {
+		government_has_flag = government_is_pirate
+	}
+	is_valid = {
+		is_independent_ruler = yes
+		prestige_level >= 3
+		capital_province.county = {
+			development_level >= convert_to_feudalism_development_requirement
+		}
+		highest_held_title_tier >= tier_kingdom
+
+	}
+
+	cost = {
+		gold = 1000
+		prestige = 5000
+	}
+
+	effect = {
+		change_government = autocracy_government
+		every_vassal = {
+				limit = {
+					government_has_flag = government_is_pirate
+					}
+				change_government = autocracy_government
+			}
+	}
+
+	ai_potential = {
+		NOT = {
+				has_title = title:d_brethren_gold_coast 
+				has_title = title:d_red_sails
+				has_title = title:d_regal_pirate
+				has_title = title:d_masconian_pirates
+				has_title = title:d_ghost_fleet
+				has_title = title:d_heartless_horde
+				has_title = title:d_yoku_freeport
+				has_title = title:d_ruddy_fangs
+				has_title = title:d_bonechime_gang
+				has_title = title:d_ra_ugakta
+				has_title = title:d_napere_do_kotu
+				has_title = title:d_sea_vipers
+				has_title = title:d_blue_venom
+				has_title = title:d_storm_sharks
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+########################
+#		Feudal		   #
+########################
+### Flip to Feudal from Autocracy
+adopt_feudal_government_decision = { # since the autoflip from adopting Hereditary Hierarchy broke, let's make it a decision instead
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds" }
+	
+	desc = adopt_feudal_government_decision_desc
+	selection_tooltip = adopt_feudal_government_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		government_has_flag = government_is_autocracy
+		culture = { has_cultural_parameter = unlocks_feudal_government }
+	}
+
+	is_valid = {
+		government_has_flag = government_is_autocracy
+		custom_tooltip = {
+			text = adopt_feudal_government_decision_requirement
+			culture = { has_cultural_parameter = unlocks_feudal_government }
+		}
+	}
+
+	is_valid_showing_failures_only = {
+	}
+
+	effect = {
+		change_government = feudal_government
+		#If they're a vassal, we need to set their vassal contract if their obligations aren't modifiable. Else they won't give stuff
+		if = {
+			limit = {
+				is_independent_ruler = no
+				vassal_contract_has_modifiable_obligations = no
+			}
+			vassal_contract_set_obligation_level = { type = feudal_government_taxes level = 1 }
+			vassal_contract_set_obligation_level = { type = feudal_government_levies level = 1 }
+		}
+	}
+
+	cost = {
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Flip to Autocracy from Feudal
+adopt_autocracy_government_decision = { # since the autoflip from adopting Hereditary Hierarchy broke, let's make it a decision instead
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds" }
+	
+	desc = adopt_autocracy_government_decision_desc
+	selection_tooltip = adopt_autocracy_government_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 12
+
+	is_shown = {
+		government_has_flag = government_is_feudal
+		NOT = { culture = { has_cultural_parameter = unlocks_feudal_government }}
+	}
+
+	is_valid = {
+		government_has_flag = government_is_feudal
+		custom_tooltip = {
+			text = adopt_autocracy_government_decision_requirement
+			NOT = { culture = { has_cultural_parameter = unlocks_feudal_government }}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+	}
+
+	effect = {
+		change_government = autocracy_government
+	}
+
+	cost = {
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+#####################
+#   Ceremoniarchy   #
+#####################
+### Go from a Praxic government to a Feudal one
+remove_praxis_government_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds" }
+	
+	desc = remove_praxis_government_decision_desc
+	selection_tooltip = remove_praxis_government_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		uses_praxis_mechanics = yes
+		has_variable = state_praxis
+	}
+
+	is_valid = {
+		custom_description = {
+			text = has_low_praxis_ct
+			var:state_praxis <= 10
+		}
+		OR = {
+			is_independent_ruler = yes
+			custom_description = {
+				text = liege_not_praxis_ct
+				liege = {
+					uses_praxis_mechanics = no
+				}
+			}
+	 	}
+	}
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+		is_at_war = no
+	}
+
+	effect = {
+		remove_variable = state_praxis
+		if = {
+			limit = { has_dlc_feature = admin_gov }
+			change_government = feudal_government
+		}
+		else = {
+			if = {
+				limit = {
+					has_realm_law = xarxean_investiture_succession_law
+				}
+				remove_realm_law = xarxean_investiture_succession_law
+				add_realm_law = partition_succession_law
+			}
+			if = {
+				limit = {
+					primary_title = { has_title_law = altmeri_elective_succession_law }
+				}
+				primary_title = { remove_title_law = altmeri_elective_succession_law }
+			}
+		}
+	}
+
+	cost = {
+		prestige = 500
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 50
+	}
+}
+
+### Form a Ceremonarichy
+become_praxis_government_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds" }
+	
+	desc = become_praxis_government_decision_desc
+	selection_tooltip = become_praxis_government_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		#Culture uses praxis but no praxis variable
+		should_use_praxis_mechanics = yes
+		NOT = { has_variable = state_praxis }
+		highest_held_title_tier >= tier_kingdom #No admin duchies
+	}
+
+ 
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+		is_at_war = no
+	}
+
+	effect = {
+		if = {
+			limit = { has_dlc_feature = admin_gov }
+			convert_to_administrative_from_feudalism_effect = yes
+			set_starting_praxis = yes
+		}
+		else = {
+			set_starting_praxis = yes
+			if = {
+				limit = {
+					primary_title.tier = tier_empire
+				}
+				add_realm_law = xarxean_investiture_succession_law
+				hidden_effect = {
+					every_held_title = {
+						limit = {
+							OR = {
+								tier = tier_kingdom
+								tier = tier_duchy
+							}	
+						}
+						clear_title_laws = yes # and then we purge the Praxis Elective law from your kingdom and duchy tier titles to have those also follow your fancy new Xarxean Investiture succession
+					}
+				}
+			}
+			if = {
+				limit = {
+					primary_title.tier = tier_kingdom 
+				}
+				primary_title = { add_title_law = altmeri_elective_succession_law }
+			}
+		}
+	}
+
+	cost = {
+		prestige = 500
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 80
+	}
+}
+
+### Settle as a Pirate Confederacy
+
+#############
+#   OTHER   #
+#############
+# Lose the 'Disorganized Military' innovation
+disorganized_military_reform_military_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_invite_knights.dds" }
+	
+	desc = disorganized_military_reform_military_decision_desc
+	selection_tooltip = disorganized_military_reform_military_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		# Can't reform the military if it's not disorganized
+		culture = { has_innovation = innovation_disorganized_military }
+		# There exists a culture head that could potentially take this decision
+		exists = culture.culture_head
+	}
+
+	is_valid = {
+		martial >= 20
+		custom_tooltip = {
+			text = has_military_lifestyle_traits
+			OR = {
+				AND = {
+					has_trait = strategist
+					has_trait = overseer
+				}
+				AND = {
+					has_trait = strategist
+					has_trait = gallant
+				}
+				AND = {
+					has_trait = gallant
+					has_trait = overseer
+				}
+			}
+		}
+		prestige_level >= 3
+		# We are the culture head
+		custom_tooltip = {
+			text = you_are_culture_head
+			culture.culture_head = root
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+	}
+
+	effect = {
+		show_as_tooltip = { culture = { remove_innovation = innovation_disorganized_military } }
+		
+		trigger_event = ek_major_decisions.0001
+	}
+
+	cost = {
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+# Lose the Pariah Folk innovation
+cast_off_pariah_status_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	
+	desc = cast_off_pariah_status_decision_desc
+	selection_tooltip = cast_off_pariah_status_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		# Can't cast off a status that isn't there
+		culture = { has_innovation = innovation_pariah_folk }
+		# There exists a culture head that could potentially take this decision
+		exists = culture.culture_head
+	}
+
+	is_valid = {
+		# gotta rule a large realm
+		highest_held_title_tier >= tier_kingdom
+		# gotta be highly prestigious otherwise why would outsiders care?
+		OR = {
+			prestige_level >= 5
+			AND = { #however maybe it would be easier to gain acceptance if you ruled Orsinium or wasn't a Daedra worshipper?
+				OR = {
+					has_title = title:k_orsinium
+					custom_tooltip = {
+						text = not_daedric_faith
+						NOT = { faith.religion = { is_in_family = rf_daedra }}
+					}	
+				}	
+				prestige_level >= 4
+			}
+			AND = { #even better: you rule Orsinium *and* isn't a Daedra worshipper!
+				has_title = title:k_orsinium
+				custom_tooltip = {
+					text = not_daedric_faith
+					NOT = { faith.religion = { is_in_family = rf_daedra }}
+				}	
+				prestige_level >= 3
+			}
+		}	
+		# We're gonna need proper armies to gain respect
+		custom_tooltip = {
+			text = not_disorganized_military
+			NOT = {	culture = { has_innovation = innovation_disorganized_military }}
+		}
+		# We are the culture head
+		custom_tooltip = {
+			text = you_are_culture_head
+			culture.culture_head = root
+		}	
+	}
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+	}
+
+	effect = {
+		show_as_tooltip = { culture = { remove_innovation = innovation_pariah_folk } }
+		trigger_event = ek_major_decisions.0030 #to notify the world about this
+		trigger_event = { id = ek_major_decisions.0032 years = 10 } #hidden event to periodically check for whether the culture should be returned to pariah status. first checks after 10 years, then ever 15
+		save_scope_as = pariah_reformer #for event loc
+		
+		#Notify other players.
+		every_player = {
+			limit = {
+				NOT = { this = root }
+			}
+			trigger_event = ek_major_decisions.0031
+		}
+	}
+
+	cost = {
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+# Summon a Daedric Heir
+daedric_heir_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" } #wip
+	
+	desc = daedric_heir_decision_desc
+	selection_tooltip = daedric_heir_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		# You are a Daedra
+		culture = { has_cultural_pillar = heritage_dremora }
+		NOT = { exists = player_heir }
+		faith.religion = { is_in_family = rf_daedra } # you worship a Daedra of some kind
+	}
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+	}
+
+	effect = {
+		custom_tooltip = daedric_heir_decision_effect_tooltip
+		if = {
+			limit = {
+				is_female = yes
+			}
+			create_character = {
+			template = dremora_scion_character
+			gender_female_chance = 50
+			faith = this.faith
+			culture = this.culture
+			dynasty_house = root.house
+			mother = root
+			location = root.capital_province
+			}
+		}
+		else = {
+			create_character = {
+			template = dremora_scion_character
+			gender_female_chance = 50
+			faith = this.faith
+			culture = this.culture
+			dynasty_house = root.house
+			father = root
+			location = root.capital_province
+			}
+		}
+	}
+
+	cost = { #TODO - replace with Ardor once that system is more fleshed out
+		prestige = { value = medium_prestige_value }
+		piety = { value = medium_prestige_value }
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+# Restore Tamrielic Empire
+proclaim_tamriel_empire_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = proclaim_tamriel_empire_decision_desc
+	selection_tooltip = proclaim_tamriel_empire_decision_desc
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		OR = {
+			has_title = title:e_cyrodiil
+			has_title = title:e_cyrodiilic_potentate
+		}
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_restored_tamriel_empire
+			}
+		}
+		has_feudal_or_admin_government = yes
+	}
+
+	is_valid = {
+		completely_controls = title:e_cyrodiil
+		completely_controls_region = mundus_tamriel_high_rock
+		completely_controls_region = mundus_tamriel_hammerfell
+		completely_controls_region = mundus_tamriel_cyrodiil
+		completely_controls_region = mundus_tamriel_skyrim
+		completely_controls_region = mundus_tamriel_summerset_isles
+		completely_controls_region = mundus_tamriel_valenwood
+		completely_controls_region = mundus_tamriel_elsweyr
+		completely_controls_region = mundus_tamriel_morrowind
+		completely_controls_region = mundus_tamriel_black_marsh
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+	}
+
+	effect = {
+		custom_tooltip = proclaim_tamriel_empire_decision_effect_tooltip
+		create_tamriel_empire_scripted_effect = yes
+		# trigger_event = {
+		# 	id = roman_restoration.0001
+		# }
+		if = {
+			limit = { has_dlc_feature = legends }
+			create_legend_seed = {
+				type = legitimizing
+				quality = illustrious
+				chronicle = new_title
+				properties = {
+					title = title:e_tamriel
+					founder = root
+				}
+			}
+		}
+		custom_tooltip = { #Unlock Hegemon legacy
+            text = unlocks_hegemony_dynasty_legacy
+            dynasty = {
+                set_variable = {
+                    name = can_get_hegemon_legacy_track
+                    value = yes
+                }
+            }
+        }
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_restored_tamriel_empire
+			}
+			set_global_variable = {
+				name = flag_restored_tamriel_empire
+				value = root
+			}
+			set_global_variable = {
+				name = third_era_year
+				value = current_year
+			}
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+### Return Viridian Woods to Viridian Sentinel - Return Rome copy
+return_viridan_woods_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_personal_religious.dds" }
+
+	desc = return_viridan_woods_decision_desc
+	selection_tooltip = return_viridan_woods_decision_tooltip
+
+	is_shown = {
+		is_independent_ruler = yes
+		faith = faith:druid_circles
+		any_sub_realm_county = {
+			this = title:c_viridian_woods
+		}
+		# prevent an AI liege from giving away a player's titles
+		NAND = {
+			is_ai = no
+			NOT = {
+				any_sub_realm_county = {
+					NOT = {
+						this = title:c_viridian_woods
+					}
+				}
+			}
+		}
+		# ensure the Viridian Sentinel doesn't already hold the county
+		title:c_viridian_woods.holder = {
+			NOT = { has_character_flag = viridian_sentinel_flag }
+		}
+	}
+
+	effect = {
+		create_title_and_vassal_change = {
+			type = returned
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		title:c_viridian_woods = {
+			random_claimant = {
+				limit = { has_character_flag = viridian_sentinel_flag } #the Viridian Sentinel always has a claim on the Viridian Woods
+				save_scope_as = viridian_sentinel
+			}
+			change_title_holder = {
+				holder = scope:viridian_sentinel
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+		
+		add_piety = major_piety_value
+		
+		scope:viridian_sentinel = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 20
+			}
+		}
+
+		stress_impact = {
+			cynical = medium_stress_impact_gain
+			ambitious = minor_stress_impact_gain
+		}
+	}
+	
+	ai_check_interval = 12
+
+	ai_potential = {
+		is_at_war = no
+		is_independent_ruler = yes
+		faith = faith:druid_circles
+		ai_zeal > very_high_negative_ai_value
+		title:c_viridian_woods = {
+			holder = {
+				is_ai = yes
+			}
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+
+		modifier = { # If you fought the Viridian Sentinel to get the Woods, don't immediately hand it back
+			factor = 0
+			scope:viridian_sentinel = {
+				has_opinion_modifier = {
+					target = root
+					modifier = declared_war
+				}
+			}
+		}
+	}
+}
+
+### Return Beldama to the Wyrd - Return Rome copy
+return_beldama_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_personal_religious.dds" }
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { faith = faith:beldama_wyrd }
+				desc = return_beldama_decision_desc_beldama_wyrd
+			}
+			desc = return_beldama_decision_desc
+		}
+	}		
+	selection_tooltip = return_beldama_decision_tooltip
+
+	is_shown = {
+		is_independent_ruler = yes
+		OR = {
+			faith = faith:beldama_wyrd #obviously Beldama Wyrd rulers would want to return Beldama to their HoF
+			AND = {
+				faith = { has_doctrine = special_doctrine_bretic_traditions } # the Wyrd however holds special interest to Bretons as a whole, Glenumbrans in particular
+				culture = {
+					OR = {
+						this = culture:glenumbran
+						any_parent_culture_or_above = {
+							this = culture:glenumbran
+						}
+					}	
+				}
+			}	
+		}	
+		any_sub_realm_county = {
+			this = title:c_beldama
+		}
+		# prevent an AI liege from giving away a player's titles
+		NAND = {
+			is_ai = no
+			NOT = {
+				any_sub_realm_county = {
+					NOT = {
+						this = title:c_beldama
+					}
+				}
+			}
+		}
+		NOT = {
+			title:c_beldama.holder = faith:beldama_wyrd.religious_head
+		}
+	}
+
+	effect = {
+		create_title_and_vassal_change = {
+			type = returned
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		title:c_beldama = {
+			change_title_holder = {
+				holder = faith:beldama_wyrd.religious_head
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+		
+		add_piety = major_piety_value
+		
+		if = {
+			limit = { NOT = { faith:beldama_wyrd.religious_head = root} }
+			faith:beldama_wyrd.religious_head = {
+				add_opinion = {
+					target = root
+					modifier = grateful_opinion
+					opinion = 20
+				}
+			}
+		}
+
+		stress_impact = {
+			cynical = medium_stress_impact_gain
+			ambitious = minor_stress_impact_gain
+		}
+	}
+	
+	ai_check_interval = 12
+
+	ai_potential = {
+		is_at_war = no
+		is_independent_ruler = yes
+		faith = faith:beldama_wyrd
+		ai_zeal > very_high_negative_ai_value
+		title:c_beldama = {
+			holder = {
+				is_ai = yes
+			}
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+
+		modifier = { # If you fought the Beldama Wyrd to get Beldama, don't immediately hand it back
+			factor = 0
+			faith:beldama_wyrd.religious_head = {
+				has_opinion_modifier = {
+					target = root
+					modifier = declared_war
+				}
+			}
+		}
+	}
+}
+
+##################################################
+# Convert Hist Realm to Tribalism
+##################################################
+
+# A decision to deformalise the entire realm back into tribes if your faith has the Ku-Vastei tenet.
+convert_hist_to_tribalism_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_realm.dds" }
+	decision_group_type = major
+	desc = convert_hist_to_tribalism_decision_desc
+
+	ai_check_interval = 36
+
+	is_shown = {
+		is_landed = yes
+		primary_title.tier >= tier_county
+		faith = { has_doctrine = tenet_kuvastei }	
+		NOT = {
+			any_held_title = {
+				tier = tier_county
+				title_province = {
+					has_holding_type = tribal_holding
+				}
+			}
+		}
+		### EK EDIT: has_feudal_like_government = yes, also accounted for pirates
+		OR = {
+			has_feudal_like_government = yes
+			has_government = pirate_government
+		}	
+	}
+
+	is_valid = {
+		
+	}
+
+
+	effect = {
+		trigger_event = major_decisions.0200
+
+		change_government = tribal_government
+		hidden_effect = {
+			add_character_flag = {
+				flag = just_converted_to_tribalism
+				years = 5
+			}
+		}
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}

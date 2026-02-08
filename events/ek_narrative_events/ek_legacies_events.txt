@@ -1,0 +1,97 @@
+﻿# Narrative events tied to powerful legacies
+
+namespace = ek_legacies
+
+
+########################
+# Unlocked the last Dragonblood perk
+# 0001-0010
+########################
+
+### The dynasty head gets the event
+ek_legacies.0001 = {
+	content_source = dlc_ek
+	title = ek_legacies.0001.t
+	desc = ek_legacies.0001.desc
+	
+	theme = war
+	
+	left_portrait = {
+		character = scope:dragon_master
+		animation = war_over_win
+	}
+	
+	right_portrait = {
+		character = scope:vassal_1
+		animation = fear
+	}
+	
+	immediate = {
+		save_scope_as = dragon_master
+		capital_province = { barony = { save_scope_as = capital } }
+		
+		random_vassal = {
+			save_scope_as = vassal_1
+		}
+	}
+
+	# The world will be brought to its knees!
+	option = {
+		name = ek_legacies.0001.a
+		
+		custom_tooltip = ek_legacies.0001.unlock_dovah_vahzol
+		
+		every_player = {
+			limit = { NOT = { this = scope:dragon_master } }
+			trigger_event = ek_legacies.0002
+		}
+	}
+}
+
+# People get the news
+ek_legacies.0002 = {
+	content_source = dlc_ek
+	title = ek_legacies.0001.t
+	desc = ek_legacies.0002.desc
+	
+	theme = war
+	
+	left_portrait = {
+		character = scope:dragon_master
+		animation = war_over_win
+	}
+	
+	right_portrait = {
+		character = root
+		animation = worry
+	}
+
+	option = {
+		name = ek_legacies.0002.a
+		
+		custom_tooltip = ek_legacies.0002.unlock_dovah_vahzol
+	}
+}
+
+########################
+# Event fired every month to update the dynasty legacies modifiers
+# Each dynasty that gets one of these modifiers has to be added to the dynasties_with_legacies_modifiers_to_update global list
+# This event fires the dynasty_update_legacies_modifiers_effect for each member of this list, which wipes all their modifiers and recalculates it, based on the dynasty level of Splendor
+# This is a workaround, as there is no dynasty_prestige_level related on action
+########################
+ek_legacies.0011 = {
+	hidden = yes
+	#type = none # error.log does not like it, but we need a none-type event to not rely on any root scope
+	scope = none
+	
+	immediate = {
+		every_in_global_list = {
+			variable = dynasties_with_legacies_modifiers_to_update
+			save_scope_as = current_dynasty
+			
+			dynasty_update_legacies_modifiers_effect = { DYNASTY = scope:current_dynasty }
+		}
+		
+		trigger_event = { id = ek_legacies.0011 days = 7 } # Fires every week
+	}
+}

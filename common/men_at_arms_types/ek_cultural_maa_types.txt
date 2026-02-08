@@ -1,0 +1,1591 @@
+﻿
+# full terrains list as of 06/05/2025 #update when you edit this file
+# ashlands
+# valenwood
+# tundra
+# black_marsh
+# plains
+# farmlands
+# hills
+# desert
+# desert_mountains
+# oasis
+# jungle
+# taiga
+# wetlands
+# steppe
+# floodplains
+# drylands
+
+
+
+@maa_buy_cost = 150
+@low_maintenance_cost = 1.0
+@high_maintenance_cost = 5.0
+@cultural_maa_extra_ai_score = 80 # Equivalent to having 8 extra regiments beyond what the code scoring would indicate (see NEGATIVE_SCORE_PER_EXISTING_REGIMENT)
+
+# Must be synced between files with the values located at "# Provisions Costs #".
+@provisions_cost_infantry_cheap = 3
+@provisions_cost_infantry_moderate = 7
+@provisions_cost_infantry_expensive = 12
+@provisions_cost_infantry_bankrupting = 15
+
+@provisions_cost_cavalry_cheap = 7
+@provisions_cost_cavalry_moderate = 15
+@provisions_cost_cavalry_expensive = 21
+@provisions_cost_cavalry_bankrupting = 30
+
+@provisions_cost_special_cheap = 6
+@provisions_cost_special_moderate = 12
+@provisions_cost_special_expensive = 18
+@provisions_cost_special_bankrupting = 24
+
+### Akaviri
+akaviri_dragon_hunters = {
+	type = heavy_infantry
+	
+	damage = 40
+	toughness = 22
+	pursuit = 0
+	screen = 15
+	
+	terrain_bonus = {
+		valenwood = { damage = -5 toughness = -5 }
+		desert = { damage = -5 toughness = -5 }
+		black_marsh = { damage = -10 toughness = -5 }
+		hills = { damage = 5 toughness = 5 }
+		mountains = { damage = 5 toughness = 5 }
+		desert_mountains = { damage = 5 toughness = 5 }
+	}
+	
+	counters = {
+		pikemen = 0.5
+		dragon_maa = 2
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_akaviri_dragon_hunters } }
+	
+	buy_cost = { gold = 120 }
+	low_maintenance_cost = { gold = heavy_infantry_maa_low_maint_cost }
+	high_maintenance_cost = { gold = heavy_infantry_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_expensive
+	
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = akaviri_dragon_hunters
+}
+
+### Aldmeris
+summerset_justiciars = {
+	type = spellblades
+	
+	damage = 30
+	toughness = 24
+	pursuit = 15
+	screen = 15
+	
+	terrain_bonus = {
+		hills = { damage = 5 toughness = 5}
+		farmlands = { damage = 5 }
+		drylands = { damage = 5 toughness = 5 }
+		floodplains = { damage = 5 toughness = 5 }
+		wetlands = { damage = -5 toughness = -5 pursuit = -5 screen = -5 }
+		black_marsh = { damage = -5 toughness = -5 pursuit = -5 screen = -5 }
+	}
+	
+	counters = {
+		mages = 1
+		archers = 1
+	}
+	
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_summerset_justiciars } }
+	
+	buy_cost = { gold = spellblades_maa_recruitment_cost }
+	low_maintenance_cost = { gold = spellblades_maa_low_maint_cost }
+	high_maintenance_cost = { gold = spellblades_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+	
+	stack = 50
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = summerset_justiciars
+}
+
+direnni_sorcerers = {
+	type = mages
+	
+	damage = 42
+	toughness = 5
+	pursuit = 10
+	screen = 25
+	
+	siege_tier = 1
+	siege_value = 0.15
+	
+	terrain_bonus = {
+		mountains = { damage = 5 screen = 5}
+		desert_mountains = { damage = 5 screen = 5}
+		hills = { damage = 5 screen = 5}
+		farmlands = { damage = 5 }
+		jungle = { damage = -5 pursuit = -5 screen = -12 }
+		valenwood = { damage = -5 pursuit = -5 screen = -12 }
+		black_marsh = { damage = -5 pursuit = -5 screen = -12 }
+	}
+
+	counters = {
+		heavy_infantry = 1
+		pikemen = 1
+	}
+	
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_direnni_sorcerers } }
+	
+	buy_cost = { gold = 120 }
+	low_maintenance_cost = { gold = mages_maa_low_maint_cost }
+	high_maintenance_cost = { gold = mages_maa_high_maint_cost }
+	provision_cost = @provisions_cost_special_expensive
+
+	stack = 50
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = mages
+}
+
+welkynar_knights = {
+	type = heavy_cavalry
+	
+	damage = 120
+	toughness = 35
+	pursuit = 40
+	screen = 20
+	
+	siege_tier = 3 #It is a battle hardened mage riding a massive Gryphon
+	siege_value = 0.4
+	
+	terrain_bonus = {
+		mountains = { damage = 20 toughness = 10 pursuit = 15 screen = 10 }
+		desert_mountains = { damage = 20 toughness = 10 pursuit = 15 screen = 10 }
+		hills = { damage = 15 toughness = 5 pursuit = 10 }
+		forest = { damage = -10 pursuit = -10 }
+		taiga = { damage = -15 pursuit = -15 }
+		jungle = { damage = -15 pursuit = -15 }
+		valenwood = { damage = -20 toughness = -10 pursuit = -20 }
+		black_marsh = { damage = -20 toughness = -10 pursuit = -20 }
+	}
+
+	counters = {
+		heavy_infantry = 1
+		skirmishers = 1
+		heavy_cavalry = 0.5
+		light_cavalry = 1
+	}
+
+	winter_bonus = {
+		normal_winter = { damage = -15 toughness = -5 }
+		harsh_winter = { damage = -30 toughness = -10 }
+	}
+
+	buy_cost = { gold = 300 }
+	low_maintenance_cost = { gold = heavy_cavalry_maa_low_maint_cost }
+	high_maintenance_cost = { gold = heavy_cavalry_maa_high_maint_cost }
+	provision_cost = @provisions_cost_special_expensive
+
+	stack = 50
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = welkynar_knights
+}
+
+### Argonian
+
+winged_avengers = { #Sarpa
+	type = archers
+
+	damage = 20
+	toughness = 5
+	pursuit = 10
+	screen = 10
+	
+	terrain_bonus = {
+		plains = { damage = -10 }
+		forest = { damage = 4 screen = 4 }
+		taiga = { damage = 4 screen = 4 }
+		jungle = { damage = 10 toughness = 10 pursuit = 15 screen = 15 }
+		valenwood = { damage = 10 toughness = 10 pursuit = 15 }
+		wetlands = { damage = 15 toughness = 10 pursuit = 10 screen = 5 }
+		black_marsh = { damage = 20 toughness = 20 pursuit = 25 screen = 25 }
+	}
+
+	counters = {
+		skirmishers = 1
+		mages = 1
+	}
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_winged_avengers } }
+
+	winter_bonus = {
+		normal_winter = { damage = -5 }
+		harsh_winter = { damage = -10 toughness = -2 }
+	}
+
+
+	buy_cost = { gold = bowmen_maa_recruitment_cost }
+	low_maintenance_cost = { gold = bowmen_maa_low_maint_cost }
+	high_maintenance_cost = { gold = bowmen_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = winged_avengers
+}
+
+shellback_phalanx = {
+	type = pikemen
+	
+	damage = 24
+	toughness = 40
+	pursuit = 0
+	screen = 0
+	
+	terrain_bonus = {
+		ashlands = { damage = -5 toughness = -10 }
+		drylands = { damage = -5 toughness = -10 }
+		mountains = { toughness = 10 }
+		hills = { toughness = 8 }
+		wetlands = { toughness = 10 }
+		black_marsh = { toughness = 20 }
+	}
+
+	counters = {
+		light_cavalry = 1
+		heavy_cavalry = 1
+	}
+
+	winter_bonus = {
+		normal_winter = { damage = -5 toughness = -10 }
+		harsh_winter = { damage = -10 toughness = -20 }
+	}
+
+	buy_cost = { gold = pikemen_maa_recruitment_cost }
+	low_maintenance_cost = { gold = pikemen_maa_low_maint_cost }
+	high_maintenance_cost = { gold = pikemen_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = shellback_phalanx
+}
+
+### Ayleidon
+ayleid_sorcerers = {
+	type = mages
+	
+	damage = 32
+	toughness = 10
+	pursuit = 5
+	screen = 25
+	
+	siege_tier = 1
+	siege_value = 0.1
+	
+	terrain_bonus = {
+		mountains = { damage = 5 screen = 5}
+		jungle = { damage = 10 toughness = 10 }
+		valenwood = { damage = 10 toughness = 5 }
+		hills = { damage = 5 screen = 5}
+		black_marsh = { damage = 5 screen = 10 }
+	}
+	
+	counters = {
+		heavy_infantry = 1
+		pikemen = 1
+	}
+	
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_ayleid_sorcerers } }
+	
+	buy_cost = { gold = mages_maa_recruitment_cost }
+	low_maintenance_cost = { gold = mages_maa_low_maint_cost }
+	high_maintenance_cost = { gold = mages_maa_high_maint_cost }
+	provision_cost = @provisions_cost_special_moderate
+
+	stack = 50
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = mages
+}
+
+### Bosmeris
+bosmer_stalkers = {
+	type = archers
+	
+	damage = 30
+	toughness = 10
+	pursuit = 5
+	screen = 0
+	
+	terrain_bonus = {
+		plains = { damage = -5 toughness = -5 pursuit = -5 }
+		valenwood = { damage = 10 toughness = 5 pursuit = 10 screen = 15 }
+		forest = { damage = 10 toughness = 5 pursuit = 5 }
+		taiga = { damage = 5 }
+		jungle = { damage = 10 toughness = 5 pursuit = 5 }
+		hills = { damage = 5 }
+	}
+
+	counters = {
+		skirmishers = 1
+		mages = 1
+		archer_cavalry = 0.5
+	}
+
+	winter_bonus = {
+		harsh_winter = { damage = -10 toughness = -4 }
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_bosmer_stalkers } }
+
+	buy_cost = { gold = bowmen_maa_recruitment_cost }
+	low_maintenance_cost = { gold = bowmen_maa_low_maint_cost }
+	high_maintenance_cost = { gold = bowmen_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = bosmer_stalkers
+}
+
+### Breton
+breton_pikemen_companies = {
+	type = pikemen
+	
+	damage = 35
+	toughness = 24
+	pursuit = 0
+	screen = 0
+	
+	terrain_bonus = {
+		mountains = { toughness = 12 }
+		plains = { damage = 10 toughness = 10 }
+		hills = { damage = 4 toughness = 8 }
+		farmlands = { damage = 5 toughness = 14 }
+		jungle = { damage = -5 toughness = -10 }
+		valenwood = { damage = -5 toughness = -10 }
+		black_marsh = { damage = -5 toughness = -10 }
+		wetlands = { damage = -5 toughness = -10 }
+	}
+
+	counters = {
+		light_cavalry = 1
+		heavy_cavalry = 1
+		camel_cavalry = 1
+		elephant_cavalry = 1
+		archer_cavalry = 0.5
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_breton_pikemen_companies } }
+
+	buy_cost = { gold = pikemen_maa_recruitment_cost }
+	low_maintenance_cost = { gold = pikemen_maa_low_maint_cost }
+	high_maintenance_cost = { gold = pikemen_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	holy_order_fallback = yes
+	
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = pikemen
+}
+breton_hedge_knights = {
+	type = spellblades
+	
+	damage = 30
+	toughness = 30
+	pursuit = 0
+	screen = 20
+	
+	terrain_bonus = {
+		farmlands = { damage = 8 toughness = 8 screen = 8}
+		wetlands = { damage = 8 toughness = 5 pursuit = 5 }
+		hills = { damage = 8 toughness = 8 }
+	}
+
+	counters = {
+		mages = 1
+		archers = 1
+		skirmishers = 1
+	}
+	
+	buy_cost = { gold = spellblades_maa_recruitment_cost }
+	low_maintenance_cost = { gold = spellblades_maa_low_maint_cost }
+	high_maintenance_cost = { gold = spellblades_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_breton_hedge_knights } }
+
+	stack = 50
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = spellblades
+}
+breton_highlanders = {
+	type = heavy_infantry
+	
+	damage = 40
+	toughness = 26
+	pursuit = 0
+	screen = 24
+	
+	terrain_bonus = {
+		ashlands = { damage = -5 toughness = -5 }
+		drylands = { damage = -5 toughness = -5 }
+		hills = { damage = 8 toughness = 15 }
+		valenwood = { damage = -15 toughness = -10}
+		desert = { damage = -10 toughness = -5 }
+		desert_mountains = { toughness = 10 }
+		mountains = { damage = 8 toughness = 15 }
+		black_marsh = { damage = -10 toughness = -15 }
+	}
+	
+	counters = {
+		pikemen = 1
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_breton_highlanders } }
+	
+	buy_cost = { gold = heavy_infantry_maa_recruitment_cost }
+	low_maintenance_cost = { gold = heavy_infantry_maa_low_maint_cost }
+	high_maintenance_cost = { gold = heavy_infantry_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	holy_order_fallback = yes
+	
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = heavy_infantry
+}
+light_grazing_horde = {
+	type = light_cavalry
+	
+	damage = 25
+	toughness = 15
+	pursuit = 60
+	screen = 20
+	
+	terrain_bonus = {
+		plains = { damage = 15 }
+		hills = { damage = 15 toughness = 10 }
+		forest = { damage = 10 toughness = 15 }
+		steppe = { damage = 10 }
+		#floodplains = { damage = 5 toughness = 10 } #no floodplains around bjoule. but there should be!!!
+		mountains = { damage = -10 pursuit = -20 }
+		desert_mountains = { damage = -15 pursuit = -20 }
+		wetlands = { pursuit = -15 }
+		jungle = { damage = -10 toughness = -8 pursuit = -10}
+		valenwood = { damage = -10 toughness = -10 pursuit = -10 screen = -10}
+		black_marsh = {damage = -15 toughness = -15 pursuit = -30 screen = -30}
+	}
+
+	counters = {
+		archers = 1
+		heavy_infantry = 1
+		spellblades = 1
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_light_grazing_horde } }
+
+	buy_cost = { gold = light_cavalry_maa_recruitment_cost }
+	low_maintenance_cost = { gold = light_cavalry_maa_low_maint_cost }
+	high_maintenance_cost = { gold = light_cavalry_maa_high_maint_cost }
+	provision_cost = @provisions_cost_cavalry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = light_cavalry
+}
+
+### Chimeris
+
+### Cyrodiilic
+armored_legionaires = {
+	type = heavy_infantry
+	
+	damage = 38
+	toughness = 24
+	pursuit = 10
+	screen = 20
+	
+	counters = {
+		pikemen = 1
+		spellblades = 1
+	}
+
+	terrain_bonus = {
+		ashlands = { damage = -5 toughness = -5}
+		plains = { pursuit = 10 }
+		farmlands = { pursuit = 10 }
+		forest = { pursuit = 10 screen = 10 }
+		jungle = { pursuit = 10 screen = 10}
+		valenwood = { damage = -10 toughness = -10}
+		desert = { damage = -10 toughness = -5 }
+		desert_mountains = { damage = -10 toughness = -5}
+		black_marsh = { damage = -10 toughness = -15 }
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_armored_legionaires } }
+
+	buy_cost = { gold = heavy_infantry_maa_recruitment_cost }
+	low_maintenance_cost = { gold = heavy_infantry_maa_low_maint_cost }
+	high_maintenance_cost = { gold = heavy_infantry_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score}
+	icon = armored_legionaires
+}
+
+equestrian_brigade = {
+	type = light_cavalry
+	
+	damage = 22
+	toughness = 16
+	pursuit = 30
+	screen = 50
+	
+	terrain_bonus = {
+		hills = { damage = 15 }
+		plains = { damage = 15 }
+		drylands = { damage = 15 }
+		wetlands = { damage = -15 toughness = -10 pursuit = -30 screen = -30 }
+		jungle = { damage = -10 toughness = -8 pursuit = -10}
+		valenwood = { damage = -10 toughness = -10 pursuit = -10 screen = -10}
+		black_marsh = {damage = -15 toughness = -15 pursuit = -30 screen = -30}
+	}
+
+	counters = {
+		archers = 1
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_equestrian_brigade } }
+
+	buy_cost = { gold = light_cavalry_maa_recruitment_cost }
+	low_maintenance_cost = { gold = light_cavalry_maa_low_maint_cost }
+	high_maintenance_cost = { gold = light_cavalry_maa_high_maint_cost }
+	provision_cost = @provisions_cost_cavalry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = light_cavalry
+}
+
+nibenese_battlemages = {
+	type = mages
+	
+	damage = 30
+	toughness = 25
+	pursuit = 15
+	screen = 20
+	
+	siege_tier = 1
+	siege_value = 0.15
+
+	terrain_bonus = {
+		hills = { damage = 5 screen = 5 }
+		farmlands = { damage = 10 screen = 5 }
+		forest = { damage = 5 toughness = 5 screen = 5 }
+		jungle = { damage = 5 toughness = 5 screen = 5 }
+		wetlands = { damage = 5 toughness = 5 screen = 5 }
+		floodplains = { damage = 5 toughness = 5 screen = 5 } #cyrodiil should also have far more floodplains imo.. and rice paddies when those are added
+	}
+
+	counters = {
+		heavy_infantry = 1
+		pikemen = 1
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_nibenese_battlemages } }
+	
+	terrain_bonus = {
+		forest = { damage = 8 toughness = 4 }
+		jungle = { damage = 8 toughness = 4 }
+	}
+	
+	buy_cost = { gold = heavy_infantry_maa_recruitment_cost }
+	low_maintenance_cost = { gold = heavy_infantry_maa_low_maint_cost }
+	high_maintenance_cost = { gold = heavy_infantry_maa_high_maint_cost }
+	provision_cost = @provisions_cost_special_moderate
+
+	stack = 50
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = mages
+}
+ut_nibenu_bowmen = {
+	type = archers
+	
+	damage = 30
+	toughness = 12
+	pursuit = 5
+	screen = 0
+	
+	terrain_bonus = {
+		drylands = { toughness = -10 }
+		desert = { toughness = -10 }
+		hills = { damage = 8 toughness = 4 pursuit = 4 }
+		wetlands =  { damage = 10 toughness = 10 pursuit = 10 screen = 15}
+		#floodplains = { damage = 10 toughness = 10 pursuit = 10 screen = 15} #no floodplains...
+		jungle =  { damage = 10 toughness = 10 pursuit = 10 screen = 15}
+		forest = { damage = 5 toughness = 5 pursuit = 5 screen = 5}
+		valenwood = { damage = 5 toughness = 5 pursuit = 5 screen = 5}
+		black_marsh = { damage = 5 toughness = 5 pursuit = 5 screen = 5}
+	}
+
+	counters = {
+		skirmishers = 1
+		mages = 1
+		spellblades = 1
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_ut_nibenu_bowmen } }
+
+	buy_cost = { gold = bowmen_maa_recruitment_cost }
+	low_maintenance_cost = { gold = bowmen_maa_low_maint_cost }
+	high_maintenance_cost = { gold = bowmen_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = ut_nibenu_bowmen
+}
+
+### Dunmeris
+dunmer_oathmen = {
+	type = heavy_infantry
+	
+	damage = 30
+	toughness = 22
+	pursuit = 0
+	screen = 5
+	
+	terrain_bonus = {
+		ashlands = { damage = 10 }
+		valenwood = { damage = -10 toughness = -10}
+		desert = { damage = -10 toughness = -10 }
+		hills = { damage = 5 toughness = 5 }
+		wetlands = { damage = 5 toughness = 5 }
+		mountains = { damage = 5 toughness = 5 }
+		desert_mountains = { damage = 5 toughness = 5 }
+		black_marsh = { damage = -10 toughness = -10 }
+	}
+	
+	counters = {
+		pikemen = 1
+		spellblades = 1
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_dunmer_oathmen } }
+	
+	buy_cost = { gold = heavy_infantry_maa_recruitment_cost }
+	low_maintenance_cost = { gold = heavy_infantry_maa_low_maint_cost }
+	high_maintenance_cost = { gold = heavy_infantry_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = dunmer_oathmen
+}
+
+ashlander_champions = {
+	type = skirmishers
+	
+	damage = 20
+	toughness = 10
+	pursuit = 10
+	screen = 14
+	
+	terrain_bonus = {
+		ashlands = { damage = 15 toughness = 15 pursuit = 15 screen = 15 }
+		drylands = { damage = 10 toughness = 10 pursuit = 5 screen = 5 }
+		jungle = { damage = -10 toughness = -5 pursuit = -5 screen = -5 }
+		valenwood = { damage = -10 toughness = -5 pursuit = -5 screen = -5 }
+		black_marsh = { damage = -10 toughness = -5 pursuit = -5 screen = -5 }
+	}
+	
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_ashlander_champions } }	
+
+	counters = {
+		heavy_infantry = 1
+	}
+
+	buy_cost = { gold = skirmisher_maa_recruitment_cost }
+	low_maintenance_cost = { gold = skirmisher_maa_low_maint_cost }
+	high_maintenance_cost = { gold = skirmisher_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = ashlander_champions
+}
+
+nixhound_riders = {
+	type = light_cavalry
+	
+	damage = 25
+	toughness = 15
+	pursuit = 20
+	screen = 20
+	
+	terrain_bonus = {
+		mountains = { damage = 10 toughness = 10 screen = 10 }
+		hills = { damage = 10 toughness = 10 screen = 10 }
+		ashlands = { damage = 10 toughness = 5 screen = 10 }
+		drylands = { damage = 10 toughness = 5}
+	}
+
+	counters = {
+		archers = 1
+		skirmishers = 1
+	}
+
+	winter_bonus = {
+		harsh_winter = { damage = -5 toughness = -2 }
+	}
+
+	buy_cost = { gold = light_cavalry_maa_recruitment_cost }
+	low_maintenance_cost = { gold = light_cavalry_maa_low_maint_cost }
+	high_maintenance_cost = { gold = light_cavalry_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = nixhound_riders
+}
+
+### Dwemeri
+
+dwemer_centurion = { # kind of war elephant clone
+	type = heavy_infantry
+	
+	damage = 250
+	toughness = 50
+	pursuit = 0
+	screen = 0
+	
+	siege_value = 0.1
+	
+	terrain_bonus = {
+		desert_mountains = { damage = 50 toughness = 20 }
+		mountains = { damage = 50 toughness = 20 }
+		ashlands = { damage = 50 toughness = 20 }
+		wetlands = { damage = -100 toughness = -25 }
+		black_marsh = { damage = -100 toughness = -25 }
+		floodplains = { damage = -50 toughness = -25 }
+	}
+	
+	counters = {
+		skirmishers = 2
+		heavy_infantry = 2
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_dwemer_animunculi } }
+	
+	buy_cost = { gold = war_elephant_recruitment_cost }
+	low_maintenance_cost = { gold = war_elephant_low_maint_cost }
+	high_maintenance_cost = { gold = war_elephant_high_maint_cost }
+	provision_cost = @provisions_cost_cavalry_bankrupting
+
+	stack = 25
+	hired_stack_size = 10
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = animunculi
+}
+
+dwemer_sphere = {
+	type = skirmishers
+	
+	damage = 15
+	toughness = 15
+	pursuit = 12
+	screen = 15
+	
+	counters = {
+		heavy_infantry = 1
+		heavy_cavalry = 1
+	}
+
+	terrain_bonus = {
+		desert_mountains = { damage = 8 toughness = 2 }
+		mountains = { damage = 8 toughness = 2 }
+		ashlands = { damage = 8 toughness = 2 }
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_dwemer_animunculi } }
+
+	buy_cost = { gold = skirmisher_maa_recruitment_cost }
+	low_maintenance_cost = { gold = skirmisher_maa_low_maint_cost }
+	high_maintenance_cost = { gold = skirmisher_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = animunculi
+}
+
+dwemer_arbalesters = { #cho ko nu clone
+	type = archers
+
+	damage = 30
+	toughness = 20
+	pursuit = 0
+	screen = 0
+
+	terrain_bonus = {
+		mountains = { damage = 8 toughness = 2 }
+		ashlands = { damage = 8 toughness = 2 }
+	}
+
+	counters = { 
+		skirmishers = 1
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_dwemer_arbalesters } }
+
+	buy_cost = { gold = crossbowmen_maa_recruitment_cost }
+	low_maintenance_cost = { gold = crossbowmen_low_maint_cost }
+	high_maintenance_cost = { gold = crossbowmen_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = crossbowmen
+}
+
+### Falmeri
+
+knight_paladins = {
+	type = spellblades
+	
+	damage = 30
+	toughness = 24
+	pursuit = 15
+	screen = 18
+	
+	terrain_bonus = {
+		tundra = { damage = 5 screen = 5 }
+		taiga = { damage = 5 screen = 5 }
+		mountains = { damage = 5 toughness = 5 }
+		hills = { damage = 5 toughness = 5}
+		jungle = { damage = -5 toughness = -5 pursuit = -5 screen = -5 }
+		valenwood = { damage = -5 toughness = -5 pursuit = -5 screen = -5 }
+		desert = { damage = -5 toughness = -5 pursuit = -5 screen = -5 }
+		black_marsh = { damage = -5 toughness = -5 pursuit = -5 screen = -5 }
+	}
+
+	winter_bonus = {
+		harsh_winter = { damage = 5 toughness = 2 }
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_knight_paladins } }
+	
+	counters = {
+		mages = 1
+		archers = 1
+		pikemen = 1
+	}
+	
+	buy_cost = { gold = spellblades_maa_recruitment_cost }
+	low_maintenance_cost = { gold = spellblades_maa_low_maint_cost }
+	high_maintenance_cost = { gold = spellblades_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 50
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = spellblades
+}
+
+nightprowlers = {
+	type = spellblades
+	
+	damage = 25
+	toughness = 15
+	pursuit = 20
+	screen = 20
+	
+	terrain_bonus = {
+		tundra = { damage = 5 screen = 5 }
+		taiga = { damage = 5 screen = 5 }
+		mountains = { damage = 5 toughness = 5 }
+		hills = { damage = 5 toughness = 5}
+		jungle = { damage = -5 toughness = -5 pursuit = -5 screen = -5 }
+		valenwood = { damage = -5 toughness = -5 pursuit = -5 screen = -5 }
+		desert = { damage = -5 toughness = -5 pursuit = -5 screen = -5 }
+		black_marsh = { damage = -5 toughness = -5 pursuit = -5 screen = -5 }
+	}
+
+	winter_bonus = {
+		harsh_winter = { damage = 5 toughness = 2 }
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_nightprowlers } }
+	
+	counters = {
+		mages = 1
+		skirmishers = 1
+	}
+	
+	buy_cost = { gold = spellblades_maa_recruitment_cost }
+	low_maintenance_cost = { gold = spellblades_maa_low_maint_cost }
+	high_maintenance_cost = { gold = spellblades_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 50
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = spellblades
+}
+
+chaurus_riders = {
+	type = light_cavalry
+	
+	damage = 25
+	toughness = 20
+	pursuit = 35
+	screen = 25
+	
+	terrain_bonus = {
+		plains = { damage = -15 }
+		farmlands = { damage = -15 }
+		mountains = { damage 15 pursuit = 5}
+		taiga = { damage = 15 pursuit = 5 }
+		tundra = { damage = 15 pursuit = 5 }
+		valenwood = { damage = -5 toughness = -5 pursuit = -5 screen = -5 }
+		desert = { damage = -5 toughness = -5 pursuit = -5 screen = -5 }
+		black_marsh = { damage = -5 toughness = -5 pursuit = -5 screen = -5 }
+	}
+
+	counters = {
+		archers = 1
+		spellblades = 1
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_chaurus_riders } }
+
+	winter_bonus = {
+		harsh_winter = { damage = 5 toughness = 2 }
+	}
+
+	buy_cost = { gold = light_cavalry_maa_recruitment_cost }
+	low_maintenance_cost = { gold = light_cavalry_maa_low_maint_cost }
+	high_maintenance_cost = { gold = light_cavalry_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = culture_ai_weight_light_cavalry }
+	icon = light_cavalry
+}
+
+# Imga
+
+imga_frenzied = {
+	type = heavy_infantry
+	
+	damage = 25
+	toughness = 30
+	pursuit = 10
+	screen = 0
+
+	terrain_bonus = {
+		jungle = { pursuit = 10 screen = 10 }
+		valenwood = { pursuit = 10 screen = 10 }
+		ashlands = { damage = -10 toughness = -10}
+		desert = { damage = -10 toughness = -15 }
+		desert_mountains = { damage = -10 toughness = -15}
+		black_marsh = { damage = -10 toughness = -15 }
+	}
+	
+	counters = {
+		skirmishers = 1
+		pikemen = 1
+		spellblades = 1
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_imga_frenzied } }
+
+	buy_cost = { gold = heavy_infantry_maa_recruitment_cost }
+	low_maintenance_cost = { gold = heavy_infantry_maa_low_maint_cost }
+	high_maintenance_cost = { gold = heavy_infantry_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = imga_frenzied
+}
+
+### Lilmothiit
+
+soul_trappers = {
+	type = spellblades
+	
+	damage = 20
+	toughness = 15
+	pursuit = 22
+	screen = 15
+	
+	terrain_bonus = {
+		floodplains = { damage = 12 toughness = 5 pursuit = 5 }
+		black_marsh = { damage = 12 toughness = 12 pursuit = 15 }
+		wetlands = { damage = 12 toughness = 5 pursuit = 5 }
+		jungle = { damage = 12 toughness = 5 pursuit = 5 }
+	}
+
+	counters = {
+		mages = 1
+		heavy_infantry = 1
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_soul_trappers } }
+
+	buy_cost = { gold = spellblades_maa_recruitment_cost }
+	low_maintenance_cost = { gold = spellblades_maa_low_maint_cost }
+	high_maintenance_cost = { gold = spellblades_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = skirmishers
+}
+
+walk_worm_cavalry = {
+	type = light_cavalry
+	
+	damage = 22
+	toughness = 22
+	pursuit = 25
+	screen = 35
+	
+	terrain_bonus = {
+		floodplains = { damage = 12 toughness = 5 pursuit = 5 }
+		black_marsh = { damage = 12 toughness = 12 pursuit = 15 }
+		wetlands = { damage = 12 toughness = 5 pursuit = 5 }
+		jungle = { damage = 12 toughness = 5 pursuit = 5 }
+	}
+	
+	counters = {
+		archers = 1
+		heavy_infantry = 1
+		spellblades = 1
+	}
+	
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_walk_worm_cavalry } }
+
+	buy_cost = { gold = light_cavalry_maa_recruitment_cost }
+	low_maintenance_cost = { gold = light_cavalry_maa_low_maint_cost }
+	high_maintenance_cost = { gold = light_cavalry_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = light_cavalry
+}
+
+### Nedic
+witch_knight = { #unlocked for Reachfolk by decision
+	type = light_cavalry
+	
+	damage = 30
+	toughness = 15
+	pursuit = 25
+	screen = 30
+	
+	terrain_bonus = {
+		plains = { damage = 15 }
+		drylands = { damage = 15 }
+		hills = { damage = 5 pursuit = 5 }
+		mountains = { damage = -10 pursuit = -20 }
+		jungle = { damage = -10 toughness =-8 pursuit = -8 screen =-8}
+		valenwood = { damage = -10 toughness =-10 pursuit = -8 screen =-10}
+		wetlands = { damage = -15 toughness = -15}
+		black_marsh = { damage = -15 toughness = -15 pursuit = -15}
+	}
+	
+	counters = {
+		archers = 1
+		skirmishers = 1
+		mages = 1
+	}
+
+	buy_cost = { gold = light_cavalry_maa_recruitment_cost }
+	low_maintenance_cost = { gold = light_cavalry_maa_low_maint_cost }
+	high_maintenance_cost = { gold = light_cavalry_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = witch_knight
+}
+
+deathlands_slayers = {
+	type = skirmishers
+	
+	damage = 20
+	toughness = 14
+	pursuit = 10
+	screen = 10
+	
+	terrain_bonus = {
+		drylands = { damage = 8 toughness = 8 pursuit = 5 }
+		hills = { damage = 6 toughness = 6 }
+	}
+
+	counters = {
+		heavy_infantry = 1
+		spellblades = 1
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_deathlands_slayers } }
+
+	buy_cost = { gold = skirmisher_maa_recruitment_cost }
+	low_maintenance_cost = { gold = skirmisher_maa_low_maint_cost }
+	high_maintenance_cost = { gold = skirmisher_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = skirmishers
+}
+
+###Headhunters MAA
+south_nedic_headhunters = {
+	type = spellblades
+	
+	damage = 25
+	toughness = 15
+	pursuit = 24
+	screen = 24
+	
+	terrain_bonus = {
+		black_marsh = { damage = 8 toughness = 4 pursuit = 10 screen = 10 }
+		wetlands = { damage = 8 toughness = 4 pursuit = 10 screen = 10 }
+		jungle = { damage = 4 toughness = 4 pursuit = 4 screen = 4 }
+		valenwood = { damage = 4 toughness = 4 pursuit = 4 screen = 4 }
+	}
+
+	counters = {
+		heavy_infantry = 1.5
+		archers = 1
+		mages = 1
+	}
+
+	can_recruit = {
+		valid_for_maa_trigger = { PARAMETER = unlock_maa_nedic_headhunters }
+		culture = { 
+			OR = {
+				has_cultural_pillar = heritage_kothri
+				any_parent_culture = { has_cultural_pillar = heritage_kothri }
+			}
+		}
+	}
+
+	buy_cost = { gold = spellblades_maa_recruitment_cost }
+	low_maintenance_cost = { gold = spellblades_maa_low_maint_cost }
+	high_maintenance_cost = { gold = spellblades_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 50
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = spellblades
+}
+
+north_nedic_headhunters = {
+	type = spellblades
+	
+	damage = 25
+	toughness = 15
+	pursuit = 24
+	screen = 24
+	
+	terrain_bonus = {
+		mountains = { damage = 8 toughness = 4 pursuit = 10 screen = 10 }
+		desert_mountains = { damage = 8 toughness = 4 pursuit = 10 screen = 10 }
+		hills = { damage = 4 toughness = 4 pursuit = 4 screen = 4 }
+		forest = {toughness = 4 screen = 4 }
+		taiga = {toughness = 4 screen = 4 }
+	}
+
+	counters = {
+		heavy_infantry = 1
+		archers = 1.5
+		mages = 1
+	}
+
+
+	can_recruit = {
+		valid_for_maa_trigger = { PARAMETER = unlock_maa_nedic_headhunters }
+		culture = { 
+			OR = {
+				has_cultural_pillar = heritage_nedic_north
+				any_parent_culture = { has_cultural_pillar = heritage_nedic_north }
+			}
+		}
+	}
+
+	buy_cost = { gold = spellblades_maa_recruitment_cost }
+	low_maintenance_cost = { gold = spellblades_maa_low_maint_cost }
+	high_maintenance_cost = { gold = spellblades_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 50
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = spellblades
+}
+
+central_nedic_headhunters = {
+	type = spellblades
+	
+	damage = 25
+	toughness = 15
+	pursuit = 24
+	screen = 24
+	
+	terrain_bonus = {
+		hills = { damage = 4 toughness = 4 pursuit = 4 screen = 4 }
+		drylands = { damage = 4 toughness = 4 pursuit = 4 screen = 4 }
+		forest = {toughness = 4 screen = 4 }
+	}
+
+	counters = {
+		heavy_infantry = 1
+		archers = 1
+		mages = 1.5
+	}
+	
+	can_recruit = {
+		valid_for_maa_trigger = { PARAMETER = unlock_maa_nedic_headhunters  }
+		culture = { 
+			OR = {
+				has_cultural_pillar = heritage_nedic_central
+				any_parent_culture = { has_cultural_pillar = heritage_nedic_central }
+			}
+		}
+	}
+
+	buy_cost = { gold = spellblades_maa_recruitment_cost }
+	low_maintenance_cost = { gold = spellblades_maa_low_maint_cost }
+	high_maintenance_cost = { gold = spellblades_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 50
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = spellblades
+}
+
+jungle_peltasts = {
+	type = skirmishers
+	
+	damage = 18
+	toughness = 16
+	pursuit = 16
+	screen = 12
+	
+	terrain_bonus = {
+		black_marsh = { damage = 6 toughness = 6 pursuit = 15 }
+		valenwood = { damage = 6 toughness = 6 pursuit = 15 }
+		forest = { damage = 4 toughness = 6 }
+		jungle = { damage = 4 toughness = 6 }
+		wetlands = { damage = 4 toughness = 6 }
+		plains = { damage = -10 }
+	}
+
+	counters = {
+		heavy_infantry = 1
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_jungle_peltasts } }	
+
+	buy_cost = { gold = skirmisher_maa_recruitment_cost }
+	low_maintenance_cost = { gold = skirmisher_maa_low_maint_cost }
+	high_maintenance_cost = { gold = skirmisher_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = skirmishers
+}
+
+
+### Nordic
+huscarl = {
+	type = heavy_infantry
+
+	damage = 40
+	toughness = 26
+	pursuit = 0
+	screen = 24
+	
+	terrain_bonus = {
+		steppe = { damage = 4 toughness = 8 }
+		taiga = { damage = 8 toughness = 8 pursuit = 8 screen = 8 }
+		tundra = { damage = 8 toughness = 8 pursuit = 8 screen = 8 }
+		desert = { damage = -4 toughness = -4 }
+		ashlands = { damage = -4 toughness = -4 }
+		jungle = { damage = -4 toughness = -4 }
+		valenwood = { damage = -15 toughness = -10 }
+		black_marsh = { damage = -15 toughness = -10 }
+	}
+	
+	counters = {
+		pikemen = 1
+		archers = 1
+	}
+
+	winter_bonus = {
+		normal_winter = { damage = 10 toughness = 10 }
+		harsh_winter = { damage = 10 toughness = 5 }
+	}	
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_huscarls } }	
+
+	buy_cost = { gold = heavy_infantry_maa_recruitment_cost }
+	low_maintenance_cost = { gold = heavy_infantry_maa_low_maint_cost }
+	high_maintenance_cost = { gold = heavy_infantry_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = nord_housecarl
+}
+
+skaal_hunter = {
+	type = skirmishers
+	
+	damage = 30
+	toughness = 14
+	pursuit = 10
+	screen = 10
+	
+	terrain_bonus = {
+		ashlands = { toughness = -5 pursuit = -5 screen = -5}
+		desert = { toughness = -5 pursuit = -5 screen = -5}
+		forest = { damage = 4 toughness = 4 screen = 4 }
+		taiga = { damage = 8 toughness = 8 screen = 8 }
+		tundra = { damage = 8 toughness = 4 }
+		steppe = { damage = 8 toughness = 4 }
+	}
+
+	counters = {
+		heavy_infantry = 1
+		pikemen = 1
+	}
+
+	winter_bonus = {
+		normal_winter = { damage = 5 toughness = 10 }
+		harsh_winter = { damage = 10 toughness = 5 }
+	}	
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_skaal_hunter } }	
+
+	buy_cost = { gold = skirmisher_maa_recruitment_cost }
+	low_maintenance_cost = { gold = skirmisher_maa_low_maint_cost }
+	high_maintenance_cost = { gold = skirmisher_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = skaal_hunter
+}
+
+### Orsimer
+orc_marauders = {
+	type = heavy_infantry
+	
+	damage = 45
+	toughness = 30
+	pursuit = 10
+	screen = 0
+
+	terrain_bonus = {
+		mountains = { damage = 5 toughness = 5 pursuit = 5 }
+		forest = { damage = 5 toughness = 5 pursuit = 5 }
+		taiga = { damage = 5 toughness = 5 pursuit = 5 }
+		hills = { damage = 4 toughness = 4 pursuit = 4 }
+		plains = { damage = -6 toughness = -5 }
+		farmlands = { damage = -6 toughness = -5 }
+	}
+	
+	counters = {
+		pikemen = 1
+		heavy_cavalry = 1
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_orc_marauders } }	
+	
+	buy_cost = { gold = heavy_infantry_maa_recruitment_cost }
+	low_maintenance_cost = { gold = heavy_infantry_maa_low_maint_cost }
+	high_maintenance_cost = { gold = heavy_infantry_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = orc_marauders
+}
+
+orc_berserkers = {
+	type = heavy_infantry
+	
+	damage = 45
+	toughness = 15
+	pursuit = 0
+	screen = 0
+	
+	counters = {
+		heavy_infantry = 1
+		skirmishers = 1
+	}
+
+	terrain_bonus = {
+		mountains = { damage = 5 toughness = 15 screen = 30 }
+		forest = { damage = 5 toughness = 10 screen = 30 }
+		taiga = { damage = 5 toughness = 10 screen = 30 }
+		hills = { damage = 4 toughness = 10 screen = 30 }
+		plains = { damage = -6 toughness = -5 }
+		farmlands = { damage = -6 toughness = -5 }
+	}
+	
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_orc_berserkers } }	
+	
+	
+	buy_cost = { gold = heavy_infantry_maa_recruitment_cost }
+	low_maintenance_cost = { gold = heavy_infantry_maa_low_maint_cost }
+	high_maintenance_cost = { gold = heavy_infantry_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+	
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = orc_berserkers
+}
+
+orc_wood_skirmishers = {
+	type = skirmishers
+	
+	damage = 26
+	toughness = 16
+	pursuit = 10
+	screen = 0
+	
+	terrain_bonus = {
+		valenwood = { damage = 12 toughness = 8 pursuit = 6 screen = 10 }
+		forest = { damage = 6 toughness = 4 pursuit = 3 screen = 5 }
+		jungle = { damage = 6 toughness = 4 pursuit = 3 screen = 5 }
+		hills = { damage = 5 toughness = 4 }
+	}
+	
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_orc_wood_skirmishers } }	
+
+	counters = {
+		heavy_infantry = 1
+	}
+
+	buy_cost = { gold = skirmisher_maa_recruitment_cost }
+	low_maintenance_cost = { gold = skirmisher_maa_low_maint_cost }
+	high_maintenance_cost = { gold = skirmisher_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = orc_wood
+}
+
+### Yoku
+yokudan_way_of_the_sword = { ###Better version available to those with the Virtues of War Tradition
+	type = heavy_infantry
+	
+	damage = 42
+	toughness = 22
+	pursuit = 0
+	screen = 0
+	
+	terrain_bonus = {
+		desert = { damage = 8 toughness = 8 }
+		desert_mountains = { damage = 8 toughness = 8 }
+	}
+	
+	counters = {
+		pikemen = 1
+	}	
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_yokudan_way_of_the_sword } }
+	
+	buy_cost = { gold = heavy_infantry_maa_recruitment_cost }
+	low_maintenance_cost = { gold = heavy_infantry_maa_low_maint_cost }
+	high_maintenance_cost = { gold = heavy_infantry_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = swordmasters
+}
+
+abecean_pirates = {
+	type = skirmishers
+	
+	damage = 14
+	toughness = 18
+	pursuit = 15
+	screen = 20
+	
+	terrain_bonus = {
+		plains = { damage = 6 toughness = 6 }
+		farmlands = { damage = 6 toughness = 6 }
+		floodplains = { damage = 6 toughness = 6 }
+		oasis = { damage = 6 toughness = 6 }
+		drylands = { damage = 6 toughness = 6 }
+	}
+
+	counters = {
+		heavy_infantry = 1
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_abecean_pirates } }
+
+	buy_cost = { gold = skirmisher_maa_recruitment_cost }
+	low_maintenance_cost = { gold = skirmisher_maa_low_maint_cost }
+	high_maintenance_cost = { gold = skirmisher_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 100
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = abecean_pirates
+}
+
+### Goblin-ken
+
+ice_shamans = {
+	type = mages
+	
+	damage = 30
+	toughness = 10
+	pursuit = 10
+	screen = 25
+	
+	siege_tier = 1
+	siege_value = 0.1
+	
+	terrain_bonus = {
+		steppe = { damage = 5 }
+		floodplains = { damage = 5 screen = 15 }
+		wetlands = { damage = 5 screen = 15 }
+		mountains = { damage = 10 toughness = 10 }
+		tundra = { damage = 15 toughness = 15 }
+		taiga = { damage = 5 toughness = 10 }
+	}
+
+	winter_bonus = {
+		harsh_winter = { damage = 10 toughness = 5 }
+	}
+	
+	counters = {
+		heavy_infantry = 1
+		pikemen = 1
+	}
+
+	can_recruit = { valid_for_maa_trigger = { PARAMETER = unlock_maa_ice_shamans } }
+
+	buy_cost = { gold = mages_maa_recruitment_cost }
+	low_maintenance_cost = { gold = mages_maa_low_maint_cost }
+	high_maintenance_cost = { gold = mages_maa_high_maint_cost }
+	provision_cost = @provisions_cost_infantry_moderate
+
+	stack = 50
+	ai_quality = { value = @cultural_maa_extra_ai_score }
+	icon = mages
+}

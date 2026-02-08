@@ -1,0 +1,432 @@
+﻿ek_on_game_start_after_lobby = {
+	effect = {
+		ek_on_game_start_laws_scripted_effect = yes
+		#Great House preset voting pattern
+		#GCM TODO: unless GH status is dynamic, the variables are redundant
+		#preset_great_house_voting_pattern = yes
+		### GAME RULE: DETERMINISTIC CONQUEST
+		#Add noble family rulers to GCM situation
+		every_ruler = {
+			limit = {
+				is_landless_ruler = yes #Is landless admin ruler
+				any_held_title = { is_noble_family_title = yes } #Is landless admin ruler 
+				any_liege_or_above = { is_allowed_to_vote = yes } #Liege is in GCM
+			}
+			trigger_event = {
+				id = grand_council.0010
+			}
+		}
+		# To prevent the phase changes event from triggering on game start
+		situation:grand_council ?= {
+			every_participant_group = {
+				every_situation_group_participant = {
+					set_variable = {
+						name = grand_council_game_start_var
+						years = 1
+					}
+				}
+			}
+		}
+	}
+	events = {
+		ek_race.0002 #EK EDIT - Initial race & lifespan assignment
+		ek_dremora_event.0001 #Event triggering every 20 years to allow Dremora innovation gain
+	}
+}
+
+## so that every_living_character only gets called once
+ek_on_game_start_to_elc = {
+    effect = {
+        every_living_character = { trigger_event = { on_action = ek_on_game_start_every_char } }
+    }
+}
+ek_on_game_start_every_char = { # all on_start on_actions that need to use every_living_character get called here
+    on_actions = {
+        on_start_birthsign
+        on_start_tattoo_scarification
+		on_start_arcana
+		on_start_decay
+		on_start_kill_off_kreath_culture_characters
+    }
+	effect = {
+		update_liturgical_language = yes
+		update_liturgical_language_modifier = yes
+		update_serpent_priest = yes
+	}
+	events = {
+		ek_mbhof.0001
+		ek_culture_resurrection_event.0001 # Resurrecting dead cultures with RD
+		ek_secret_trait_event.0001 # Vampire
+		ek_secret_trait_event.0002 # Lycan
+		ek_secret_trait_event.0003 # Necromancer
+		ek_secret_trait_event.0004 # Lich
+		ek_secret_trait_event.0005 # Pirate (not a secret trait but whatever)
+		ek_secret_trait_event.0006 # Daedric Worshipper
+	}
+}
+
+ek_on_game_start_events = {
+	events = {
+		# ek_legacies.0011 # Starts the dynasty legacies modifiers event
+		ek_historical_artifacts.0001 
+	}
+		
+	on_actions = {
+		ek_legacy_recursive
+	}
+}
+ek_legacy_recursive = {
+	effect = {
+		every_in_global_list = {
+			variable = dynasties_with_legacies_modifiers_to_update
+			save_scope_as = current_dynasty
+			
+			dynasty_update_legacies_modifiers_effect = { DYNASTY = scope:current_dynasty }
+		}
+	}
+	on_actions = {
+		delay = {days = 7}
+		ek_legacy_recursive
+	}
+}
+
+ek_on_game_start_effects = {
+
+	effect = {		
+		### Give every province an id, as we can't access it otherwise (special tool that will be used later
+		set_global_variable = { name = curr_province value = 1 }
+		every_province = {
+			set_variable = { name = province_id value = global_var:curr_province }
+			change_global_variable = { name = curr_province add = 1 }
+		}
+	}
+}
+
+
+# this forces titles that should have a dynamic coa at game start to update their coa
+# ideally use this with a bit of precision, as it might be a bit heavy on performance to iterate over every county in an empire/kingdom
+ek_on_game_start_dynamic_coa = {
+	effect = {
+		title:k_wrothgar = { # all k_wrothgar titles have a dynamic coa
+			every_in_de_jure_hierarchy = {
+				update_dynamic_coa = yes
+			}
+		}
+		title:k_fharun = { # all k_wrothgar titles have a dynamic coa
+			every_in_de_jure_hierarchy = {
+				update_dynamic_coa = yes
+			}
+		}
+		title:k_jehanna = { # all k_wrothgar titles have a dynamic coa
+			every_in_de_jure_hierarchy = {
+				update_dynamic_coa = yes
+			}
+		}
+		title:d_bhoriane = { # all d_bhoriane counties have a dynamic coa
+			every_in_de_jure_hierarchy = {
+				update_dynamic_coa = yes
+			}
+		}
+		title:k_balfiera = { # all k_balfiera titles have a dynamic coa
+			every_in_de_jure_hierarchy = {
+				update_dynamic_coa = yes
+			}
+		}
+		title:d_hectaran = { # just Hectaran
+			update_dynamic_coa = yes
+		}
+		title:k_markarth = { # all k_markarth counties have a dynamic coa
+			every_in_de_jure_hierarchy = {
+				update_dynamic_coa = yes
+			}
+		}
+		title:d_silgrad = { # all d_silgrad counties have a dynamic coa
+			every_in_de_jure_hierarchy = {
+				update_dynamic_coa = yes
+			}
+		}
+		title:k_rimmen = { # so we get the cyrodiilic coa for Pardus in 440/450
+			update_dynamic_coa = yes
+		}
+		title:c_sea_viper = { # for the Maormer pirates
+			update_dynamic_coa = yes
+		}
+		title:k_gideon = { # all k_gideon titles have a dynamic coa
+			every_in_de_jure_hierarchy = {
+				update_dynamic_coa = yes
+			}
+		}
+		title:k_thorn = { # all k_thorn titles have a dynamic coa
+			every_in_de_jure_hierarchy = {
+				update_dynamic_coa = yes
+			}
+		}
+		title:k_shadowfen = { # all k_shadowfen titles have a dynamic coa
+			every_in_de_jure_hierarchy = {
+				update_dynamic_coa = yes
+			}
+		}
+		title:d_murkmire = { # all d_murkmire titles have a dynamic coa
+			every_in_de_jure_hierarchy = {
+				update_dynamic_coa = yes
+			}
+		}
+		title:k_tearmarsh = { # all k_tearmarsh titles have a dynamic coa
+			every_in_de_jure_hierarchy = {
+				update_dynamic_coa = yes
+			}
+		}
+	}
+}
+
+#To setup custom legitimacy for some start date characters.
+#This is only done for those characters that don't start with appropriate legitimacy levels automatically.
+#EK TODO MW: the MW branch has currently consolidated all history related on_game_starts, so this will have to be moved once we've put MW onto develop
+
+ek_on_game_start_praxis = {
+	effect = {
+		every_ruler = {
+			### Ceremoniarchy: Refresh the Praxis modifiers
+			limit = {
+				OR = {
+					uses_praxis_mechanics = yes
+					any_liege_or_above = { uses_praxis_mechanics = yes }
+				}
+			}
+			every_courtier_or_guest = {
+				update_praxis_monthly = yes
+				refresh_praxis_traits = yes
+			}
+			update_praxis_monthly = yes
+			refresh_praxis_traits = yes
+		}
+	}
+}
+
+# existing Academy holders gets assigned the Arch-Mage variable if they qualify
+ek_on_game_start_flavourise = {
+	effect = {
+		if = {
+			limit = {
+				government_has_flag = government_is_academy
+				can_have_mage_magocratic_succession_law_trigger = yes
+			}
+			set_variable = flavourise_arch_mage
+		}
+		# For some reason the above won't give these the variable
+		if = {
+			character:vardengroet_gyron = {
+				set_variable = flavourise_arch_mage
+			}
+			character:dherirrik_100 = {
+				set_variable = flavourise_arch_mage
+			}
+			character:astula_100 = {
+				set_variable = flavourise_arch_mage
+			}			
+			character:mannimarco_1000 = {
+				set_variable = flavourise_mannimarco
+			}
+			character:volkihar_1000 = {
+				set_variable = flavourise_vampire
+			}
+			character:volkihar_1001 = {
+				set_variable = flavourise_vampire
+			}
+			character:volkihar_1002 = {
+				set_variable = flavourise_vampire
+			}
+			character:saran_1000 = {
+				set_variable = flavourise_ashen_lord
+			}
+			title:k_indoril.holder = {
+				set_variable = flavourise_high_councilor
+			}		
+		}		
+	}
+}
+
+# The error log gets unhappy if characters born in negative years are set as parents of anyone, so instead
+# we'll leave the parentage out in the history file then set it here.
+ek_on_game_start_fix_history_parents = {
+	effect = {
+		#Khajiit
+		character:nequinal_001 = { adopt = character:nequinal_line }
+		character:nequinal_line = { adopt = character:nequinal_991 }
+		#Bosmer
+		character:camoran_1 = { adopt = character:camoran_2 }
+		character:auriel1_4b = { adopt = character:camoran_2 }
+		#Altmer
+		character:auriel_ancestors = { adopt = character:auriel_1 }
+		character:auriel_ancestors = { adopt = character:auriel_1b }
+		character:auriel_ancestors = { adopt = character:auriel_1c }
+		character:auriel_ancestors = { adopt = character:auriel_1d }
+		#Al-Udhendra's line
+		character:auriel_1 = {adopt = character:auriel_2 }
+		character:auriel_2 = {adopt = character:auriel_3 }
+		character:auriel_2 = {adopt = character:auriel_3b }
+		character:auriel_3b = {adopt = character:auriel_4 }
+		character:auriel_4 = {adopt = character:auriel_5 }
+		character:auriel_5 = {adopt = character:auriel_6 }
+		character:auriel_6 = {adopt = character:auriel_7 }
+		character:auriel_6_wife = {adopt = character:auriel_7 }
+		character:auriel_6 = {adopt = character:auriel_7b }
+		character:auriel_6_wife = {adopt = character:auriel_7b }
+		character:auriel_6 = {adopt = character:auriel_7c }
+		character:auriel_6_wife = {adopt = character:auriel_7c }
+		#Uranya's line
+		character:auriel_1b = { adopt = character:auriel1_2 }
+		character:auriel_1b_spouse1 = { adopt = character:auriel1_2 }
+		character:auriel_1b = { adopt = character:auriel1_2b }
+		character:auriel_1b_spouse2 = { adopt = character:auriel1_2b }
+		character:auriel1_2 = { adopt = character:auriel1_3 }
+		character:auriel1_3 = { adopt = character:auriel1_4 }
+		character:auriel1_3 = { adopt = character:auriel1_4b }
+		#Erisare's line
+		character:auriel_1c = { adopt = character:auriel2_1 }
+		character:auriel2_1 = { adopt = character:auriel2_2 }
+		character:auriel2_2 = { adopt = character:auriel2_3 }
+		character:auriel2_2 = { adopt = character:auriel2_3b }
+		character:auriel2_3 = { adopt = character:auriel2_4 }
+		character:auriel2_4 = { adopt = character:auriel2_5 }
+		character:auriel2_5 = { adopt = character:auriel2_6 }
+		#Arantar's line
+		character:auriel_1d = { adopt = character:auriel3_2 }
+		character:auriel3_2 = { adopt = character:auriel3_3 }
+		character:auriel3_3 = { adopt = character:auriel3_4 }
+		character:auridon_torinaan = { adopt = character:rilis_0 }
+		character:auridon_torinaan = { adopt = character:rilis_0b }
+		character:isquer_ulorome = { adopt = character:isquer_ummanor }
+		character:isquer_ulorome = { adopt = character:isquer_nurarion }
+		character:isquer_ummanor = { adopt = character:isquer_001 }
+		character:isquer_001 = { adopt = character:isquer_002 }
+		#Errinorne
+		character:auriel1_2b = { adopt = character:errinorne_1 }
+		character:errinorne_1 = { adopt = character:errinorne_2 }
+		character:errinorne_2 = { adopt = character:errinorne_3 }
+		character:errinorne_3 = { adopt = character:errinorne_4 }
+		character:errinorne_4 = { adopt = character:errinorne_5 }
+		#Xarxesars
+		character:xarxes_xarxes = { adopt = character:xarxes_line }
+		character:xarxes_oghma = { adopt = character:xarxes_line }
+		character:xarxes_line = { adopt = character:auriel_priest_1000 }
+		character:xarxes_line = { adopt = character:xarxes_1 }
+		character:xarxes_1 = { adopt = character:xarxes_2 }
+		character:xarxes_1 = { adopt = character:xarxes_2b }
+		character:xarxes_1 = { adopt = character:xarxes_2c }
+		character:xarxes_2 = { adopt = character:xarxes_3 }
+		character:xarxes_2b = { adopt = character:xarxes_3b }
+		character:xarxes_3b = { adopt = character:xarxes_3b1 }
+		character:xarxes_2c = { adopt = character:xarxes_4 }
+		character:xarxes_4 = { adopt = character:xarxes_5 }
+		character:xarxes_4 = { adopt = character:xarxes_5b }
+		character:xarxes_5 = { adopt = character:xarxes_6 }
+		character:xarxes_6 = { adopt = character:xarxes_7 }
+		character:xarxes_6 = { adopt = character:xarxes_7b }
+		character:xarxes_7 = { adopt = character:xarxes_8 }
+		character:xarxes_7b = { adopt = character:xarxes2_8 }
+		character:xarxes_5b = { adopt = character:xarxes1_6 }
+		character:xarxes1_6 = { adopt = character:xarxes1_7 }
+		#Oghma branch
+		character:xarxes_line = { adopt = character:oghma_1 }
+		character:oghma_1 = { adopt = character:oghma_2 }
+		character:oghma_2 = { adopt = character:oghma_3 }
+		character:oghma_2 = { adopt = character:oghma_3b }
+		character:oghma_3b = { adopt = character:oghma_3b1 }
+		character:oghma_3b1 = { adopt = character:xarxes1_6 }
+		character:oghma_3 = { adopt = character:oghma_4 }
+		character:oghma_4 = { adopt = character:oghma_5 }
+		character:oghma_5 = { adopt = character:oghma_6 }
+		#Phynasters
+		character:phynaster_1000 = { adopt = character:phynaster_1000b }
+		character:phynaster_1000b = { adopt = character:phynaster_92 }
+		#Other
+		character:caerinor_cassimoran = { adopt = character:caerinor_line }
+		character:caerinor_line = { adopt = character:caerinor_998 }
+		#Dunmer
+		character:hlaalu_narsara = { adopt = character:hlaalu2_1 }
+		character:hlaalu_narsara = { adopt = character:hlaalu_andrus }
+		character:hlaalu_narsara = { adopt = character:hlaavaru_1 }
+		character:hlaalu2_1 = { adopt = character:hlaalu_2_line }
+		character:hlaalu_2_line = { adopt = character:hlaalu_2 } 
+		character:hlaalu_andrus = { adopt = character:hlaalu_andrus_line }
+		character:hlaalu_andrus_line = { adopt = character:hlaarys_1 }
+		character:hlaavaru_1 = { adopt = character:hlaavaru_1_line }
+		character:hlaavaru_1_line = { adopt = character:hlaavaru_2 }
+		#Ayleid
+		character:oiobala_1 = { adopt = character:oiobala_2 }
+		character:oiobala_1 = { adopt = character:oiobala_2b }
+		character:rulanyil_1 = { adopt = character:rulanyil_2 }
+		#Direnni
+		character:direnni_1 = { adopt = character:direnni_2 }
+		character:direnni_2 = { adopt = character:direnni_2_line }
+		character:direnni_2_line = { adopt = character:direnni_3 }
+		character:direnni_2_line = { adopt = character:direnni_3b }
+		character:direnni_2_line = { adopt = character:direnni_3c }
+		character:direnni_2_line = { adopt = character:direnni_tyrigel_1 }
+	}
+}
+
+#Setting up de jure for Great Houses
+ek_on_game_start_gh_de_jure = {
+	effect = {
+		#Telvanni
+		title:d_telvannis = { set_de_jure_liege_title = title:k_telvanni }
+		title:d_uradas = { set_de_jure_liege_title = title:k_telvanni }
+		title:d_banor = { set_de_jure_liege_title = title:k_telvanni }
+		title:d_dagon_urul = { set_de_jure_liege_title = title:k_telvanni }
+		title:d_sunad_mora = { set_de_jure_liege_title = title:k_telvanni }
+		title:d_boethiah_spine = { set_de_jure_liege_title = title:k_telvanni }
+		title:d_molag_ruhn = { set_de_jure_liege_title = title:k_telvanni }
+		title:d_mothrivra = { set_de_jure_liege_title = title:k_telvanni }
+		title:d_muthada = { set_de_jure_liege_title = title:k_telvanni }
+		title:d_scath_anud = { set_de_jure_liege_title = title:k_telvanni }
+		#Indoril
+		title:d_mournhold = { set_de_jure_liege_title = title:k_indoril }
+		title:d_taldeic = { set_de_jure_liege_title = title:k_indoril }
+		title:d_eidolon = { set_de_jure_liege_title = title:k_indoril }
+		title:d_vhul = { set_de_jure_liege_title = title:k_indoril }
+		title:d_nanaav = { set_de_jure_liege_title = title:k_indoril }
+		title:d_meralag = { set_de_jure_liege_title = title:k_indoril }
+		title:d_amber_forest = { set_de_jure_liege_title = title:k_indoril }
+		title:d_ebonheart = { set_de_jure_liege_title = title:k_indoril }
+		title:d_bal_foyen = { set_de_jure_liege_title = title:k_indoril }
+		title:d_daen_seeth = { set_de_jure_liege_title = title:k_indoril }
+		title:d_roa_dyr = { set_de_jure_liege_title = title:k_indoril }
+		title:d_necrom = { set_de_jure_liege_title = title:k_indoril }
+		title:d_gorne = { set_de_jure_liege_title = title:k_indoril }
+		title:d_draloris = { set_de_jure_liege_title = title:k_indoril }
+		title:d_nethril = { set_de_jure_liege_title = title:k_indoril }
+		title:d_aamul = { set_de_jure_liege_title = title:k_indoril }
+		title:d_kemel = { set_de_jure_liege_title = title:k_indoril }
+		#Dres
+		title:d_tear = { set_de_jure_liege_title = title:k_dres }
+		title:d_karag = { set_de_jure_liege_title = title:k_dres }
+		title:d_rithendis = { set_de_jure_liege_title = title:k_dres }
+		title:d_felyon = { set_de_jure_liege_title = title:k_dres }
+		title:d_yengrith = { set_de_jure_liege_title = title:k_dres }
+		title:d_silnion = { set_de_jure_liege_title = title:k_dres }
+		title:d_bashipal = { set_de_jure_liege_title = title:k_dres }
+		title:d_horak = { set_de_jure_liege_title = title:k_dres }
+		#Redoran
+		title:d_blacklight = { set_de_jure_liege_title = title:k_redoran }
+		title:d_cormaris = { set_de_jure_liege_title = title:k_redoran }
+		title:d_selethis = { set_de_jure_liege_title = title:k_redoran }
+		title:d_roth_roryn = { set_de_jure_liege_title = title:k_redoran }
+		title:d_marahk_bazhul = { set_de_jure_liege_title = title:k_redoran }
+		title:d_veranis = { set_de_jure_liege_title = title:k_redoran }
+		title:d_kragenmoor = { set_de_jure_liege_title = title:k_redoran }
+		title:d_silgrad = { set_de_jure_liege_title = title:k_redoran }
+		title:d_zabamat = { set_de_jure_liege_title = title:k_redoran }
+		title:d_coronati = { set_de_jure_liege_title = title:k_redoran }
+		#Hlaalu
+		title:d_narsis = { set_de_jure_liege_title = title:k_hlaalu }
+		title:d_shipal_shin = { set_de_jure_liege_title = title:k_hlaalu }
+		#Great Houses to Morrowind
+		title:k_indoril = { set_de_jure_liege_title = title:e_morrowind }
+		title:k_hlaalu = { set_de_jure_liege_title = title:e_morrowind }
+		title:k_redoran = { set_de_jure_liege_title = title:e_morrowind }
+		title:k_dres = { set_de_jure_liege_title = title:e_morrowind }
+		title:k_telvanni = { set_de_jure_liege_title = title:e_morrowind }
+	}
+}

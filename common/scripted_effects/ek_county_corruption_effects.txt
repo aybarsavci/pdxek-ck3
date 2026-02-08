@@ -1,0 +1,443 @@
+﻿#EK NOTE: those scripted_effects were modelled after add_bandits_rampant_modifier_effect & remove_bandits_rampant_modifier_effect from the vanilla file 00_county_corruption_effects.txt
+
+ek_add_crimeboss_modifier_effect = {
+	random_list = {
+		100 = {
+			trigger = {
+				NOT = { has_county_modifier = county_corruption_uncontrolled_sprawl_modifier }
+			}
+			save_scope_value_as = {
+				name = low_control
+				value = yes
+			}
+			add_uncontrolled_sprawl_modifier_effect = yes
+		}
+		100 = {
+			trigger = {
+				NOT = { has_county_modifier = county_corruption_strict_mob_boss_modifier }
+			}
+			save_scope_value_as = {
+				name = low_control
+				value = yes
+			}
+			add_strict_mob_boss_modifier_effect = yes
+		}
+		100 = {
+			trigger = {
+				NOT = { has_county_modifier = county_corruption_armed_merchants_modifier }
+			}
+			save_scope_value_as = {
+				name = low_control
+				value = yes
+			}
+			add_armed_merchants_modifier_effect = yes
+		}		
+		100 = {
+			trigger = {
+				NOT = { has_county_modifier = county_corruption_thriving_nightlife_modifier }
+			}
+			save_scope_value_as = {
+				name = low_control
+				value = yes
+			}
+			add_thriving_nightlife_modifier_effect = yes
+		}
+		100 = {
+			trigger = {
+				NOT = { has_county_modifier = county_corruption_protection_fees_modifier }
+			}
+			save_scope_value_as = {
+				name = low_control
+				value = yes
+			}
+			add_protection_fees_modifier_effect = yes
+		}
+		100 = {
+			trigger = {
+				NOT = { has_county_modifier = county_corruption_unsactioned_debauchery_modifier }
+			}
+			save_scope_value_as = {
+				name = low_control
+				value = yes
+			}
+			add_unsactioned_debauchery_modifier_effect = yes
+		}
+		100 = {
+			trigger = {
+				NOT = { has_county_modifier = county_corruption_bolstered_hideouts_modifier }
+			}
+			save_scope_value_as = {
+				name = low_control
+				value = yes
+			}
+			add_bolstered_hideouts_modifier_effect = yes
+		}
+		100 = {
+			trigger = {
+				NOT = { has_county_modifier = county_corruption_cheap_produce_modifier }
+			}
+			save_scope_value_as = {
+				name = low_control
+				value = yes
+			}
+			add_cheap_produce_modifier_effect = yes
+		}
+		100 = {
+			trigger = {
+				NOT = { has_county_modifier = county_corruption_street_war_experience_modifier }
+			}
+			save_scope_value_as = {
+				name = low_control
+				value = yes
+			}
+			add_street_war_experience_modifier_effect = yes
+		}
+		100 = {
+			trigger = {
+				NOT = { has_county_modifier = county_corruption_growing_gangs_modifier }
+			}
+			save_scope_value_as = {
+				name = low_control
+				value = yes
+			}
+			add_growing_gangs_modifier_effect = yes
+		}
+		100 = {
+			trigger = {
+				NOT = { has_county_modifier = county_corruption_bustling_drug_business_modifier }
+			}
+			save_scope_value_as = {
+				name = low_control
+				value = yes
+			}
+			add_bustling_drug_business_modifier_effect = yes
+		}
+	}
+}
+
+### Crimeboss modifiers
+add_bustling_drug_business_modifier_effect = {
+	save_scope_as = county
+	holder = {
+		send_interface_message = {
+			type = msg_county_corruption_bad
+			title = {
+				desc = gain_county_corruption.message.county_corruption
+			}
+			left_icon = scope:county
+			scope:county = {
+				add_county_modifier = {
+					modifier = county_corruption_bustling_drug_business_modifier
+					years = 10
+				}
+			}
+		}
+	}
+}
+
+add_growing_gangs_modifier_effect = {
+	save_scope_as = county
+	holder = {
+		send_interface_message = {
+			type = msg_county_corruption_bad
+			title = {
+				desc = gain_county_corruption.message.county_corruption
+			}
+			left_icon = scope:county
+			scope:county = {
+				add_county_modifier = {
+					modifier = county_corruption_growing_gangs_modifier
+					years = 10
+				}
+			}
+		}
+	}
+}
+
+add_street_war_experience_modifier_effect = {
+	save_scope_as = county
+	holder = {
+		send_interface_message = {
+			type = msg_county_corruption_bad
+			title = {
+				desc = gain_county_corruption.message.county_corruption
+			}
+			left_icon = scope:county
+			scope:county = {
+				add_county_modifier = {
+					modifier = county_corruption_street_war_experience_modifier
+					years = 10
+				}
+			}
+		}
+	}
+}
+
+add_cheap_produce_modifier_effect = {
+	save_scope_as = county
+	holder = {
+		send_interface_message = {
+			type = msg_county_corruption_bad
+			title = {
+				desc = gain_county_corruption.message.county_corruption
+			}
+			left_icon = scope:county
+			scope:county = {
+				add_county_modifier = {
+					modifier = county_corruption_cheap_produce_modifier
+					years = 10
+				}
+			}
+		}
+	}
+}
+
+add_bolstered_hideouts_modifier_effect = {
+	save_scope_as = county
+	holder = {
+		send_interface_message = {
+			type = msg_county_corruption_bad
+			title = {
+				desc = gain_county_corruption.message.county_corruption
+			}
+			left_icon = scope:county
+			scope:county = {
+				add_county_modifier = {
+					modifier = county_corruption_bolstered_hideouts_modifier
+					years = 10
+				}
+			}
+		}
+	}
+}
+
+add_unsactioned_debauchery_modifier_effect = {
+	save_scope_as = county
+	holder = {
+		send_interface_message = {
+			type = msg_county_corruption_bad
+			title = {
+				desc = gain_county_corruption.message.county_corruption
+			}
+			left_icon = scope:county
+			scope:county = {
+				add_county_modifier = {
+					modifier = county_corruption_unsactioned_debauchery_modifier
+					years = 10
+				}
+			}
+		}
+	}
+}
+
+add_protection_fees_modifier_effect = {
+	save_scope_as = county
+	holder = {
+		send_interface_message = {
+			type = msg_county_corruption_bad
+			title = {
+				desc = gain_county_corruption.message.county_corruption
+			}
+			left_icon = scope:county
+			scope:county = {
+				add_county_modifier = {
+					modifier = county_corruption_protection_fees_modifier
+					years = 10
+				}
+			}
+		}
+	}
+}
+
+add_thriving_nightlife_modifier_effect = {
+	save_scope_as = county
+	holder = {
+		send_interface_message = {
+			type = msg_county_corruption_bad
+			title = {
+				desc = gain_county_corruption.message.county_corruption
+			}
+			left_icon = scope:county
+			scope:county = {
+				add_county_modifier = {
+					modifier = county_corruption_thriving_nightlife_modifier
+					years = 10
+				}
+			}
+		}
+	}
+}
+
+add_armed_merchants_modifier_effect = {
+	save_scope_as = county
+	holder = {
+		send_interface_message = {
+			type = msg_county_corruption_bad
+			title = {
+				desc = gain_county_corruption.message.county_corruption
+			}
+			left_icon = scope:county
+			scope:county = {
+				add_county_modifier = {
+					modifier = county_corruption_armed_merchants_modifier
+					years = 10
+				}
+			}
+		}
+	}
+}
+
+add_uncontrolled_sprawl_modifier_effect = {
+	save_scope_as = county
+	holder = {
+		send_interface_message = {
+			type = msg_county_corruption_bad
+			title = {
+				desc = gain_county_corruption.message.county_corruption
+			}
+			left_icon = scope:county
+			scope:county = {
+				add_county_modifier = {
+					modifier = county_corruption_uncontrolled_sprawl_modifier
+					years = 10
+				}
+			}
+		}
+	}
+}
+
+add_strict_mob_boss_modifier_effect = {
+	save_scope_as = county
+	holder = {
+		send_interface_message = {
+			type = msg_county_corruption_bad
+			title = {
+				desc = gain_county_corruption.message.county_corruption
+			}
+			left_icon = scope:county
+			scope:county = {
+				add_county_modifier = {
+					modifier = county_corruption_strict_mob_boss_modifier
+					years = 10
+				}
+			}
+		}
+	}
+}
+
+# FACTION
+add_rampant_modifier_effect = {
+	save_scope_as = county
+	holder = {
+		send_interface_message = {
+			type = msg_county_corruption_bad
+			title = {
+				first_valid = {
+					triggered_desc = {
+						trigger = { exists = scope:deficit }
+						desc = gain_county_corruption.message.deficit
+					}
+					triggered_desc = {
+						trigger = { exists = scope:low_control }
+						desc = gain_county_corruption.message.low_control
+					}
+					triggered_desc = {
+						trigger = { exists = scope:neighboring_corruption }
+						desc = gain_county_corruption.message.neighboring_corruption
+					}
+					desc = gain_county_corruption.message.county_corruption
+				}
+			}
+			left_icon = scope:county
+			scope:county = {
+				add_county_modifier = {
+					modifier = county_corruption_$TYPE$_rampant_modifier
+					years = 10
+				}
+				change_county_control = -15 # make a bit harder to remove than typical corruption
+			}
+		}
+	}
+}
+
+remove_rampant_modifier_effect = {
+	save_scope_as = county
+	holder = {
+		if = {
+			limit = {
+				exists = scope:marshal_removal
+			}
+			send_interface_message = {
+				type = msg_county_corruption_good_increase_control
+				title = remove_county_corruption.message.marshal_removal
+				left_icon = scope:county
+				right_icon = scope:councillor
+
+				scope:county = {
+					remove_county_modifier = county_corruption_$TYPE$_rampant_modifier
+				}
+			}
+		}
+		else = {
+			scope:county = {
+				remove_county_modifier = county_corruption_$TYPE$_rampant_modifier
+			}
+		}
+	}
+}
+
+# Other County modifiers
+add_skeever_infested_modifier_effect = {
+	save_scope_as = county
+	holder = {
+		send_interface_message = {
+			type = msg_county_corruption_bad
+			title = {
+				first_valid = {
+					triggered_desc = {
+						trigger = { exists = scope:deficit }
+						desc = gain_county_corruption.message.deficit
+					}
+					triggered_desc = {
+						trigger = { exists = scope:low_control }
+						desc = gain_county_corruption.message.low_control
+					}
+					desc = gain_county_corruption.message.county_corruption
+				}
+			}
+			left_icon = scope:county
+			scope:county = {
+				add_county_modifier = {
+					modifier = county_corruption_skeever_infested_modifier
+					years = 10
+				}
+			}
+		}
+	}
+}
+
+remove_skeever_infested_modifier_effect = {
+	save_scope_as = county
+	holder = {
+		if = {
+			limit = {
+				exists = scope:marshal_removal
+			}
+			send_interface_message = {
+				type = msg_county_corruption_good_increase_control
+				title = remove_county_corruption.message.marshal_removal
+				left_icon = scope:county
+				right_icon = scope:councillor
+
+				scope:county = {
+					remove_county_modifier = county_corruption_skeever_infested_modifier
+				}
+			}
+		}
+		else = {
+			scope:county = {
+				remove_county_modifier = county_corruption_skeever_infested_modifier
+			}
+		}
+	}
+}

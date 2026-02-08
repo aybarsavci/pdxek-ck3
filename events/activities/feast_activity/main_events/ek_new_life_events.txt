@@ -1,0 +1,1856 @@
+﻿namespace = ek_new_life
+
+
+# EK-EDIT: New Life Event - For Host!
+
+ek_new_life.2001 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life.2001.t
+	desc = ek_new_life.2001.desc
+	theme = feast_activity
+	left_portrait = root
+	right_portrait = scope:enemy_1
+	lower_right_portrait = scope:enemy_2
+
+	trigger = {
+		this = scope:host
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+		}
+	}
+
+	immediate = {
+		play_music_cue = mx_cue_banquet
+	}
+
+	option = {
+		name = ek_new_life.2001.a
+		custom_tooltip = ek_new_life.2001.a.tt
+	}
+}
+
+# EK EDIT: New Life Festival for Guests!
+
+ek_new_life.2501 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life.2501.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						has_relation_rival = scope:host
+					}
+					reverse_opinion = {
+						target = scope:host
+						value < -40
+					}
+				}
+				desc = ek_new_life.2501.dislikes_host
+			}
+			desc = ek_new_life.2501.likes_host
+		}
+	}
+	theme = feast_activity
+	left_portrait = {
+		character = scope:host
+		animation = happiness
+	}
+
+	trigger = {
+		# Guests only.
+		NOT = { this = scope:host }
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+		}
+	}
+
+	immediate = {
+		play_music_cue = mx_cue_banquet
+	}
+
+	option = {
+		name = {
+			trigger = { has_trait = gluttonous }
+			text = ek_new_life.2501.a.gluttonous
+		}
+		name = {
+			trigger = { has_trait = drunkard }
+			text = ek_new_life.2501.a.drunkard
+		}
+		name = {
+			trigger = { has_trait = gregarious }
+			text = ek_new_life.2501.a.gregarious
+		}
+		name = {
+			trigger = { has_trait = shy }
+			text = ek_new_life.2501.a.shy
+		}
+		name = {
+			text = ek_new_life.2501.a
+		}
+	}
+
+	option = {
+		trigger = {
+			opinion = {
+				target = scope:host
+				value < 0
+			}
+		}
+		exclusive = yes
+		name = ek_new_life.2501.b
+	}
+}
+
+#####################
+# LAVA FOOT STOMP
+#####################
+ek_new_life.0001 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life_dunmer.0001.t
+	desc = {
+		first_valid = {
+			random_valid = {
+				triggered_desc = {
+					trigger = { exists = scope:friend }
+					desc = ek_new_life_dunmer.0001.friend_reminder
+				}
+				triggered_desc = {
+					trigger = { exists = scope:rival }
+					desc = ek_new_life_dunmer.0001.rival_reminder
+				}
+				triggered_desc = {
+					trigger = { exists = scope:spouse }
+					desc = ek_new_life_dunmer.0001.spouse_reminder
+				}
+				triggered_desc = {
+					trigger = { exists = scope:sadist }
+					desc = ek_new_life_dunmer.0001.sadist_reminder
+				}
+			}
+			desc = ek_new_life_dunmer.0001.reminder
+		}
+		desc = ek_new_life_dunmer.0001.worry
+	}
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+	theme = feast_activity
+	
+	trigger = {
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+		}
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+			culture = { has_cultural_pillar = heritage_dunmeri }
+		}
+	}
+
+	cooldown = { years = 2 }
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					has_relation_friend = root
+				}
+				save_scope_as = friend
+			}
+			random_attending_character = {
+				limit = {
+					has_relation_rival = root
+				}
+				save_scope_as = rival
+			}
+			random_attending_character = {
+				limit = {
+					has_trait = sadistic
+				}
+				save_scope_as = sadist
+			}
+		}
+		random_spouse = { #root character's spouse, not necessarily a part of the activity
+			save_scope_as = spouse
+		}
+	}
+
+	option = { #Do the Lava Stomp
+		name = ek_new_life_dunmer.0001.a
+		stress_impact = {
+			base = medium_stress_loss
+		}
+	}	
+
+	 
+}
+
+
+#####################
+# TRIUNE
+#####################
+ek_new_life.0002 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life_dunmer.0002.t
+	desc = {
+		first_valid = {
+			random_valid = {
+				triggered_desc = {
+					trigger = { exists = scope:friend }
+					desc = ek_new_life_dunmer.0002.friend_reminder
+				}
+				triggered_desc = {
+					trigger = { exists = scope:rival }
+					desc = ek_new_life_dunmer.0002.rival_reminder
+				}
+				triggered_desc = {
+					trigger = { exists = scope:spouse }
+					desc = ek_new_life_dunmer.0002.spouse_reminder
+				}
+				triggered_desc = {
+					trigger = { exists = scope:zealot }
+					desc = ek_new_life_dunmer.0002.zealot_reminder
+				}
+			}
+			desc = ek_new_life_dunmer.0002.reminder
+		}
+		desc = ek_new_life_dunmer.0002.worry
+	}
+	left_portrait = {
+		character = root
+	}
+	theme = feast_activity
+	
+	trigger = {
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+			culture = { has_cultural_pillar = heritage_dunmeri }
+			has_trait = zealous
+			faith = {
+				has_doctrine = doctrine_pantheon_tribunal
+			}
+		}
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+		}
+	}
+
+	cooldown = { years = 2 }
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					has_relation_friend = root
+					has_trait = zealous
+					faith = {
+						has_doctrine = doctrine_pantheon_tribunal
+					}
+				}
+				save_scope_as = friend
+			}
+			random_attending_character = {
+				limit = {
+					has_relation_rival = root
+					has_trait = zealous
+					faith = {
+						has_doctrine = doctrine_pantheon_tribunal
+					}
+				}
+				save_scope_as = rival
+			}
+			random_attending_character = {
+				limit = {
+					has_trait = zealous
+				}
+				save_scope_as = zealot
+			}
+		}
+		random_spouse = { #root character's spouse, not necessarily a part of the activity
+			limit = {
+				has_trait = zealous
+				faith = {
+					has_doctrine = doctrine_pantheon_tribunal
+				}
+			}
+			save_scope_as = spouse
+		}
+	}
+
+	option = { #Praise the Tribunal
+		name = ek_new_life_dunmer.0002.a
+		add_piety = minor_piety_gain
+	}
+	 
+}
+
+#####################
+# SATURALIA TREE DECORATION
+#####################
+ek_new_life.0003 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life_breton.0001.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = scope:decorator
+					scope:decorator = {
+						has_relation_friend = root 
+					}
+				}
+				desc = ek_new_life_breton.0001.friend_reminder
+			}
+			triggered_desc = {
+				trigger = {
+					exists = scope:decorator
+					scope:decorator = {
+						has_relation_rival = root 
+					}
+				}
+				desc = ek_new_life_breton.0001.rival_reminder
+			}
+			triggered_desc = {
+				trigger = {
+					exists = scope:decorator
+					scope:decorator = {
+						has_trait = diligent
+					}
+				}
+				desc = ek_new_life_breton.0001.diligent_reminder
+			}
+			triggered_desc = {
+				trigger = {
+					exists = scope:decorator
+					scope:decorator = {
+						is_spouse_of = root 
+					}
+				}
+				desc = ek_new_life_breton.0001.spouse_reminder
+			}
+			triggered_desc = {
+				trigger = { NOT = { exists = scope:decorator } }
+				desc = ek_new_life_breton.0001.reminder
+			}
+		}
+		desc = ek_new_life_breton.0001.worry
+	}
+	left_portrait = {
+		character = root
+	}
+	right_portrait = {
+		character = scope:decorator
+	}
+	theme = feast_activity
+	
+	trigger = {
+		is_ai = no
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+		}
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+		} 
+	}
+	
+	cooldown = { years = 2 }
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					NOT = { this = root }
+					OR = {
+						has_relation_friend = root 
+						has_relation_rival = root
+						has_trait = diligent
+						is_spouse_of = root 
+					}
+				}
+				save_scope_as = decorator
+			}
+		}
+	}
+
+	option = { #Decorate the tree
+		name = ek_new_life_breton.0001.a
+
+		if = {
+			limit = {
+				exists = scope:decorator
+			}
+			random_list = {
+				10 = {
+					trigger = {
+						scope:decorator = {
+							opinion = {
+								target = root
+								value >= low_positive_opinion
+							}
+						} 
+						can_set_relation_potential_lover_trigger = { CHARACTER = scope:decorator } 
+					}
+					set_relation_potential_lover = scope:decorator
+				}
+				10 = {
+					trigger = { 
+						can_set_relation_potential_rival_trigger = { CHARACTER = scope:decorator } 
+						scope:decorator = {
+							opinion = {
+								target = root
+								value <= low_positive_opinion
+							}
+						}
+					}
+					set_relation_potential_rival = scope:decorator
+				}
+				10 = {
+					trigger = {
+						can_set_relation_potential_friend_trigger = { CHARACTER = scope:decorator } 
+						scope:decorator = {
+							opinion = {
+								target = root
+								value >= low_positive_opinion
+							}
+						}
+					}
+					set_relation_potential_friend = scope:decorator
+				}
+				10 = {
+					trigger = { 
+						can_set_relation_best_friend_trigger = { CHARACTER = scope:decorator } 
+						scope:decorator = {
+							opinion = {
+								target = root
+								value >= low_positive_opinion
+							}
+						}
+					}
+					set_relation_best_friend = { reason = best_friend_saturalia_tree copy_reason = friend target = scope:decorator }
+				}
+				10 = {
+					trigger = { 
+						can_set_relation_nemesis_trigger = { CHARACTER = scope:decorator } 
+						scope:decorator = {
+							opinion = {
+								target = root
+								value <= low_positive_opinion
+							}
+						}
+					}
+					set_relation_nemesis = { reason = nemesis_saturalia_tree target = scope:decorator }
+				}
+				10 = {
+					trigger = { 
+						scope:decorator = {
+							opinion = {
+								target = root
+								value >= low_positive_opinion
+							}
+						}
+						can_set_relation_soulmate_trigger = { CHARACTER = scope:decorator } 
+					}
+					set_relation_soulmate = { reason = soulmate_saturalia_tree target = scope:decorator }
+				}
+			}
+		}
+		stress_impact = {
+			base = medium_stress_loss
+		}
+	}
+
+	option = { #Ew no
+		name = ek_new_life_breton.0001.b
+	}	
+
+	 
+}
+
+#####################
+# SATURALIA DEBAUCHERY
+#####################
+ek_new_life.0004 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life_breton.0002.t
+	desc = ek_new_life_breton.0002.desc
+	left_portrait = {
+		character = root
+	}
+	theme = feast_activity
+	
+	trigger = {
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+			can_secretly_worship_sanguine = yes
+			culture = { has_cultural_pillar = heritage_breton }
+		}
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+		} 
+	}
+
+	cooldown = { years = 2 }
+
+	option = { #Hail Sanguine
+		name = ek_new_life_breton.0002.a
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:sanguine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+
+	option = { #Ew no
+		name = ek_new_life_breton.0002.b
+		add_stress = medium_stress_impact_gain
+	}
+		
+
+	 
+}
+
+#####################
+# SATURALIA GIFT-GIVING
+#####################
+ek_new_life.0005 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life_breton.0003.t
+	desc = ek_new_life_breton.0003.desc
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+
+	right_portrait = {
+		character = scope:secret_santa
+		animation = toast_goblet
+	}
+	theme = feast_activity
+	
+	trigger = {
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+			culture = { has_cultural_pillar = heritage_breton }
+		}
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+			any_attending_character = {
+				NOT = { this = root }
+				OR = {
+					has_relation_friend = root
+					has_relation_potential_friend = root
+					has_relation_best_friend = root
+					is_close_family_of = root
+				}
+			}
+		}
+	}
+
+	cooldown = { years = 2 }
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					NOT = { this = root }
+					OR = {
+						has_relation_friend = root
+						has_relation_potential_friend = root
+						has_relation_best_friend = root
+						is_close_family_of = root
+					}
+				}
+				save_scope_as = secret_santa
+			}
+		}
+	}
+
+	option = { # Accept gift
+		name = ek_new_life_breton.0003.a
+		custom_tooltip = ek_new_life_breton.0003.a.tt
+		custom_tooltip = bp1_yearly.3005.opinion.tt
+
+		hidden_effect = {
+			every_relation = {
+				type = friend 
+				add_opinion = {
+					modifier = gift_opinion 
+					opinion = 30
+					target = root 
+				}	
+			}
+			random_list = {
+				# You get a real gift
+				80 = {
+					set_signature_weapon_effect = yes
+					# Gift #1 - A Signature Weapon
+					if = {
+						limit = { 
+							has_variable = signature_weapon
+							root.var:signature_weapon = flag:axe 
+						}
+						create_artifact_weapon_effect = {
+							OWNER = root
+							CREATOR = scope:friend2
+							SET_WEAPON_TYPE = flag:artifact_weapon_type_axe
+						}
+					}
+					else_if = {
+						limit = { 
+							has_variable = signature_weapon
+							root.var:signature_weapon = flag:hammer 
+						}
+						create_artifact_weapon_effect = {
+							OWNER = root
+							CREATOR = scope:friend2
+							SET_WEAPON_TYPE = flag:artifact_weapon_type_hammer
+						}
+					}
+					else_if = {
+						limit = { 
+							has_variable = signature_weapon
+							root.var:signature_weapon = flag:spear 
+						}
+						create_artifact_weapon_effect = {
+							OWNER = root
+							CREATOR = scope:friend2
+							SET_WEAPON_TYPE = flag:artifact_weapon_type_spear
+						}
+					}
+					else_if = {
+						limit = { 
+							has_variable = signature_weapon
+							root.var:signature_weapon = flag:mace 
+						}
+						create_artifact_weapon_effect = {
+							OWNER = root
+							CREATOR = scope:friend2
+							SET_WEAPON_TYPE = flag:artifact_weapon_type_mace
+						}
+					}
+					else_if = {
+						limit = { 
+							has_variable = signature_weapon
+							root.var:signature_weapon = flag:dagger 
+						}
+						create_artifact_weapon_effect = {
+							OWNER = root
+							CREATOR = scope:friend2
+							SET_WEAPON_TYPE = flag:artifact_weapon_type_dagger
+						}
+					}
+					else_if = {
+						limit = { 
+							has_variable = signature_weapon
+							root.var:signature_weapon = flag:staff
+						}
+						create_artifact_weapon_effect = {
+							OWNER = root
+							CREATOR = scope:friend2
+							SET_WEAPON_TYPE = flag:artifact_weapon_type_staff
+						}
+					}
+					else_if = {
+						limit = { 
+							has_variable = signature_weapon
+							root.var:signature_weapon = flag:bow
+						}
+						create_artifact_weapon_effect = {
+							OWNER = root
+							CREATOR = scope:friend2
+							SET_WEAPON_TYPE = flag:artifact_weapon_type_bow
+						}
+					}
+					else = { #For swords, but also as fallback
+						create_artifact_weapon_effect = {
+							OWNER = root
+							CREATOR = scope:friend2
+							SET_WEAPON_TYPE = flag:artifact_weapon_type_sword
+						}
+					}
+					if = {
+						limit = {
+							exists = scope:newly_created_artifact
+						}
+						scope:newly_created_artifact = {
+							add_artifact_history = {
+								type = given
+								actor = scope:friend2
+								recipient = root
+							}
+						}
+						send_interface_toast = {
+							title = ek_new_life_breton.0003.t.gift
+							left_icon = scope:newly_created_artifact
+							show_as_tooltip = {
+								scope:newly_created_artifact = {
+									set_owner = root
+								}
+							}
+						}
+					}
+				}
+				# You get a real gift
+				60 = {
+					if = {
+						limit = {
+							root = {
+								NOT = { has_royal_court = yes }
+							}
+						}
+						save_temporary_scope_value_as = {
+							name = should_be_trinket
+							value = yes
+						}
+					}
+					random_dummy_gender_effect = yes
+					create_artifact_book_effect = {
+						OWNER = root 
+						CREATOR = scope:dummy_gender
+						SET_SUBJECT = flag:no
+						SET_TOPIC = flag:no
+					}
+					if = {
+						limit = {
+							exists = scope:newly_created_artifact
+						}
+						scope:newly_created_artifact = {
+							add_artifact_history = {
+								type = given
+								actor = scope:friend2
+								recipient = root
+							}
+						}
+						send_interface_toast = {
+							title = ek_new_life_breton.0003.t.gift
+							left_icon = scope:newly_created_artifact
+							show_as_tooltip = {
+								scope:newly_created_artifact = {
+									set_owner = root
+								}
+							}
+						}
+					}
+				}
+				# You get a real gift
+				60 = {
+					create_artifact_brooch_effect = {
+						OWNER = root
+						SMITH = scope:friend2
+					}
+					if = {
+						limit = {
+							exists = scope:newly_created_artifact
+						}
+						scope:newly_created_artifact = {
+							add_artifact_history = {
+								type = given
+								actor = scope:friend2
+								recipient = root
+							}
+						}
+						send_interface_toast = {
+							title = ek_new_life_breton.0003.t.gift
+							left_icon = scope:newly_created_artifact
+							show_as_tooltip = {
+								scope:newly_created_artifact = {
+									set_owner = root
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	option = { #no thanks
+		name = ek_new_life_breton.0003.b
+		add_piety = medium_piety_gain
+		reverse_add_opinion = {
+			modifier = disappointed_opinion
+			target = scope:secret_santa
+			opinion = -30
+		}
+	}
+
+	 
+}
+#####################
+# SATURALIA PARADING
+#####################
+ek_new_life.0006 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life_breton.0004.t
+	desc = ek_new_life_breton.0004.desc
+	left_portrait = {
+		character = root
+	}
+	theme = feast_activity
+	
+	trigger = {
+		has_trait = lifestyle_reveler
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+		}
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+			culture = { has_cultural_pillar = heritage_breton }
+		}
+	}
+
+	cooldown = { years = 2 }
+
+	option = { #Wave to the crowd
+		name = ek_new_life_breton.0004.a
+		add_stress = medium_stress_impact_loss
+	}
+		
+
+	 
+}
+
+#####################
+# SATURALIA CASTLE CHARM CHALLENGE
+#####################
+ek_new_life.0007 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life_breton.0005.t
+	desc = ek_new_life_breton.0005.desc
+	left_portrait = {
+		character = root
+		animation = admiration
+	}
+	theme = feast_activity
+	
+	trigger = {
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+			culture = {
+				has_cultural_pillar = heritage_breton
+			}
+		}
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+		} 
+	}
+
+	cooldown = { years = 2 }
+
+	option = {
+		name = ek_new_life_breton.0005.a
+		stress_impact = {
+			base = medium_stress_impact_loss
+			callous = major_stress_impact_gain
+			vengeful = major_stress_impact_gain
+		}
+	}
+
+	option = {
+		name = ek_new_life_breton.0005.b
+		stress_impact = {
+			callous = major_stress_impact_loss
+			vengeful = major_stress_impact_loss
+		}
+		add_dread = minor_dread_gain
+	}
+
+	option = {
+		name = ek_new_life_breton.0005.c
+		add_internal_flag = dangerous
+		stress_impact = {
+			callous = major_stress_impact_gain
+			vengeful = major_stress_impact_gain
+			brave = major_stress_impact_loss
+			craven = major_stress_impact_gain
+		}
+		random_list = {
+			50 = {
+				add_prestige = medium_prestige_gain
+			}
+			50 = {
+				increase_wounds_effect = { REASON = accident }
+			}
+		}
+	}
+
+	 
+
+}
+
+#####################
+# THE WOLF THAT CRAVED THE SKY
+#####################
+ek_new_life.0008 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life_reach.0001.t
+	desc = ek_new_life_breton.0004.desc
+	left_portrait = {
+		character = scope:wolf
+		animation = fear
+	}
+
+	right_portrait = {
+		character = scope:bear
+		animation = rage
+	}
+
+	lower_center_portrait = {
+		character = scope:storyteller
+	}
+
+	theme = feast_activity
+	
+	trigger = {
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+			any_attending_character = { 
+				prowess > 9
+				NOR = { 
+					has_trait = gluttonous
+					ek_human_age_equivalent > 50
+				}
+			}
+			any_attending_character = {
+				has_trait = gluttonous
+				NOR = { 
+					prowess > 9
+					ek_human_age_equivalent > 50
+				}
+			}
+			any_attending_character = {
+				ek_human_age_equivalent > 50
+			}
+		}		
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+			has_culture = culture:reachfolk
+		}
+	}
+
+	cooldown = { years = 2 }
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					prowess > 9
+					NOR = { 
+						has_trait = gluttonous
+						ek_human_age_equivalent > 50
+					}
+				}
+				save_scope_as = bear
+			}
+			random_attending_character = {
+				limit = {
+					has_trait = gluttonous
+					NOR = { 
+						prowess > 9
+						ek_human_age_equivalent > 50
+					}
+				}
+				save_scope_as = wolf
+			}
+			random_attending_character = {
+				limit = {
+					ek_human_age_equivalent > 50
+				}
+				save_scope_as = storyteller
+			} 
+		}
+	}
+
+	option = { #nice story
+		name = ek_new_life_reach.0001.a
+		add_stress = medium_stress_impact_loss
+	}
+		
+
+	 
+}
+
+#####################
+# SNOW BEAR PLUNGE
+#####################
+ek_new_life.0009 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life.0009.t
+	desc = ek_new_life.0009.desc
+	left_portrait = {
+		character = root
+	}
+
+	theme = feast_activity
+	
+	trigger = {
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+			culture = { has_cultural_pillar = heritage_atmoran }
+		}
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+		}
+	}
+
+	cooldown = { years = 2 }
+
+	immediate = {
+		scope:host = { add_character_flag = is_naked }
+	}
+
+	option = { #plunge!
+		name = ek_new_life.0009.a
+			stress_impact = {
+				base = medium_stress_loss
+				gregarious = major_stress_loss
+				arrogant = major_stress_gain
+			}
+		add_character_modifier = { 
+			modifier = bear_plunge 
+			years = 5
+		}
+	}
+
+	option = { #away, peasant
+		name = ek_new_life.0009.b
+			stress_impact = {
+				gregarious = medium_stress_gain
+				arrogant = medium_stress_loss
+			}
+	}
+		
+
+	after = {
+		hidden_effect = {
+			scope:host = { remove_character_flag = is_naked }
+		}
+	}
+}
+
+#####################
+# STONETOOTH BASH
+#####################
+ek_new_life.0010 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life.0010.t
+	desc = ek_new_life.0010.desc
+	left_portrait = {
+		character = root
+	}
+
+	theme = feast_activity
+	
+	trigger = {
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+			culture = { has_cultural_pillar = heritage_orcish }
+		}
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+		}
+	}
+
+	cooldown = { years = 2 }
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					NOT = { this = root}
+				}
+				save_scope_as = belcher
+			}
+		}
+	}
+
+	option = { # Impressive!
+		name = ek_new_life.0010.a
+		reverse_add_opinion = {
+			modifier = friendliness_opinion
+			target = scope:belcher
+			opinion = 20
+		}
+		if = {
+			limit = {
+				NOR = {
+					has_relation_friend = scope:belcher
+					has_relation_potential_friend = scope:belcher
+				}
+			}
+			set_relation_potential_friend = scope:belcher
+		}
+		scope:belcher = { add_prestige = minor_prestige_gain }
+	}
+
+	option = { # meh
+		name = ek_new_life.0010.b
+			stress_impact = {
+				gregarious = medium_stress_gain
+				arrogant = medium_stress_loss
+			}
+	}
+		
+
+	 
+}
+
+#####################
+# SIGNAL FIRE SPRINT
+#####################
+ek_new_life.0011 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life.0011.t
+	desc = ek_new_life.0011.desc
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:runner
+	}
+
+	theme = feast_activity
+
+	cooldown = { years = 2 }
+	
+	trigger = {
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+			culture = { has_cultural_pillar = heritage_yokudan }
+			location = {
+				NOT = {
+					geographical_region = mundus_tamriel_yokuda
+				}
+			}
+		}
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+		}
+	}
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					NOT = { this = root }
+				}
+				save_scope_as = runner
+			}
+		}
+	}
+
+	option = { # Impressive!
+		name = ek_new_life.0011.a
+		progress_towards_friend_effect = {
+			CHARACTER = scope:runner
+			REASON = friend_signal_fire_sprint
+			OPINION = 30
+		}
+		scope:runner = { add_prestige = minor_prestige_gain }
+	}
+
+	option = { # meh
+		name = ek_new_life.0011.b
+		stress_impact = {
+			gregarious = medium_stress_impact_gain
+			arrogant = medium_stress_impact_loss
+		}
+	}
+		
+
+	 
+}
+
+#####################
+# OLD LIFE FESTIVAL
+#####################
+ek_new_life.0012 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life.0012.t
+	desc = ek_new_life.0012.desc
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:runner
+	}
+
+	theme = feast_activity
+	
+	trigger = {
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+			culture = { has_cultural_pillar = heritage_cyrodiilic }
+		}
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+		}
+	}
+
+	cooldown = { years = 2 }
+
+	option = { # let's hear it
+		name = ek_new_life.0012.a
+		stress_impact = {
+			base = medium_stress_impact_loss
+			gregarious = medium_stress_impact_loss
+			arrogant = medium_stress_impact_gain
+		}
+	}
+
+	option = { # meh
+		name = ek_new_life.0012.b
+		stress_impact = {
+			gregarious = medium_stress_impact_gain
+			arrogant = medium_stress_impact_loss
+		}
+	}
+		
+
+	 
+}
+
+#####################
+# MUD BALL MERRIMENT
+#####################
+ek_new_life.0013 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life.0013.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+			    trigger = {
+					exists = scope:to_blame
+			    }
+			    desc = ek_new_life.0013.desc_two
+			}
+			desc = ek_new_life.0013.desc_opening
+		}
+		desc = ek_new_life.0013.desc
+	}
+	theme = feast_activity
+	left_portrait = {
+		character = scope:participant
+		animation = happiness
+	}
+	right_portrait = scope:to_blame
+	
+	trigger = {
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+			culture = { has_cultural_pillar = heritage_bosmeri }
+		}
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+		}
+	}
+
+	cooldown = { years = 2 }
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					NOT = { this = root }
+				}
+				save_scope_as = participant
+			}
+
+			if = {
+				limit = {
+					any_attending_character = {
+						NOT = { this = root }
+						NOT = { this = scope:participant }
+					}
+				}
+				random_attending_character = {
+					limit = {
+						NOT = { this = root }
+						NOT = { this = scope:participant }
+					}
+					weight = {
+						base = 1
+						modifier = { #more likely to pick someone you don't like
+							add = 5
+							OR = {
+								has_relation_rival = root
+								has_relation_potential_rival = root
+								has_relation_bully = root
+							}
+						}
+					}
+					save_scope_as = to_blame
+				}
+			}
+		}
+	}
+
+	option = { #I will not back down!
+		name = ek_new_life.0013.a
+		duel = {
+			skill = prowess
+			target = scope:participant
+			40 = {
+				desc = ek_new_life.0013.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+					min = -19
+				}
+				send_interface_toast = {
+					title = ek_new_life.0013.a.success
+					left_icon = scope:participant
+					add_character_modifier = {
+						modifier = playdate_shown_bravery_modifier
+						years = 5
+					}
+				}
+			}
+			10 = {
+				desc = ek_new_life.0013.a.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.5
+				}
+				send_interface_toast = {
+					title = ek_new_life.0013.a.failure
+					left_icon = scope:participant
+					increase_wounds_no_death_effect = { REASON = fight }
+				}
+			}
+		}
+		progress_towards_friend_effect = {
+			REASON = friend_mudball_fight
+			CHARACTER = scope:participant
+			OPINION = default_friend_opinion
+		}
+		stress_impact = {
+			brave = medium_stress_impact_loss
+			craven = medium_stress_impact_gain
+			arrogant = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_boldness = 0.75
+				ai_energy = 0.5
+				ai_honor = 0.5
+			}
+		}
+	}
+
+	option = { #how dare you
+		name = ek_new_life.0013.b
+		add_prestige = minor_prestige_gain
+		scope:participant = {
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = -15
+			}
+		}
+		stress_impact = {
+			brave = medium_stress_impact_gain
+			arrogant = medium_stress_impact_loss
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_boldness = -0.75
+			}
+		}
+	}
+
+	option = { #it was them, not me!!
+		name = ek_new_life.0013.c
+		trigger = {
+			exists = scope:to_blame
+		}
+		duel = {
+			skill = diplomacy
+			target = scope:to_blame
+			20 = {
+				desc = ek_new_life.0013.c.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+					min = -19
+				}
+				send_interface_toast = {
+					title = ek_new_life.0013.c.success
+					left_icon = scope:participant
+					scope:participant = {
+						add_opinion = {
+							target = root
+							modifier = trust_opinion
+							opinion = 30
+						}
+					}
+				}
+				scope:participant = {
+					if = {
+						limit = {
+							NOT = {
+								has_relation_rival = scope:to_blame
+							}
+						}
+						set_relation_rival = {
+							target = scope:to_blame
+							reason = rival_shifted_blame
+						}
+					}
+				}
+			}
+			10 = {
+				desc = ek_new_life.0013.c.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.5
+				}
+				send_interface_toast = {
+					title = ek_new_life.0013.c.failure
+					left_icon = scope:participant
+					add_prestige = medium_prestige_loss
+					progress_towards_rival_effect = {
+						CHARACTER = scope:to_blame
+						REASON = rival_mudball_lie
+						OPINION = 0
+					}
+					scope:participant = {
+						add_opinion = {
+							target = root
+							modifier = respect_opinion
+							opinion = -15
+						}
+					}
+				}
+			}
+		}
+		progress_towards_rival_effect = {
+			CHARACTER = scope:to_blame
+			REASON = rival_mudball_lie
+			OPINION = default_rival_opinion
+		}
+		stress_impact = {
+			deceitful = medium_stress_impact_loss
+			curious = minor_stress_impact_loss
+			charming = minor_stress_impact_loss
+			honest = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_vengefulness = 0.75
+				ai_honor = -0.75
+			}
+		}
+	}
+
+	 
+}
+
+#####################
+# WAR ORPHAN'S SOJOURN
+#####################
+ek_new_life.0014 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life.0014.t
+	desc = ek_new_life.0014.desc
+	left_portrait = {
+		character = root
+	}
+
+	theme = feast_activity
+	override_background = { reference = temple_scope }
+	
+	trigger = {
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+			culture = { has_cultural_pillar = heritage_aldmeri }
+		}
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+		}
+	}
+
+	cooldown = { years = 2 }
+
+	option = { # i'll donate my time
+		name = ek_new_life.0014.a
+		add_prestige = medium_prestige_loss
+		small_praxis_decrease_effect = yes
+		stress_impact = {
+			gregarious = medium_stress_impact_loss
+			zealous = medium_stress_impact_loss
+			arrogant = medium_stress_impact_gain
+		}
+	}
+
+	option = { # i'll donate gold
+		name = ek_new_life.0014.b
+		remove_short_term_gold = medium_gold_value
+		moderate_praxis_increase_effect = yes
+		stress_impact = {
+			zealous = medium_stress_impact_loss
+			generous = medium_stress_impact_loss
+			greedy = medium_stress_impact_gain
+		}
+	}
+
+	option = { # i'd rather not
+		name = ek_new_life.0014.c
+		add_piety = medium_piety_loss
+		small_praxis_decrease_effect = yes
+		stress_impact = {
+			zealous = medium_stress_impact_gain
+			gregarious = medium_stress_impact_gain
+			generous = medium_stress_impact_gain
+			arrogant = medium_stress_impact_loss
+		}
+	}
+		
+
+	 
+}
+
+#####################
+# FISH BOON FEAST
+#####################
+ek_new_life.0015 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life.0015.t
+	desc = ek_new_life.0015.desc
+	left_portrait = {
+		character = root
+	}
+
+	theme = feast_activity
+	override_background = { reference = wilderness_scope }
+	
+	trigger = {
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+			culture = { has_cultural_pillar = heritage_argonian }
+		}
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+		}
+	}
+
+	cooldown = { years = 2 }
+
+	option = { # i'll fish too!
+		name = ek_new_life.0015.a
+		add_prestige = medium_prestige_loss
+		stress_impact = {
+			gregarious = medium_stress_impact_loss
+			arrogant = medium_stress_impact_gain
+		}
+	}
+
+	option = { # i'll stay out of it
+		name = ek_new_life.0015.b
+		stress_impact = {
+			gregarious = medium_stress_impact_gain
+			generous = medium_stress_impact_gain
+			arrogant = medium_stress_impact_loss
+		}
+	}
+		
+
+	 
+}
+
+##################################
+# TRIAL OF THE FIVE-CLAWED GUILE #
+##################################
+ek_new_life.0016 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life.0016.t
+	desc = ek_new_life.0016.desc
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		trigger = {
+			exists = scope:lockpicker
+		}
+		character = scope:lockpicker
+	}
+
+	theme = feast_activity
+	
+	trigger = {
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+			culture = { has_cultural_pillar = heritage_khajiiti }
+		}
+		scope:activity = {
+			any_attending_character = {
+				NOT = { this = root }
+				intrigue > 9
+			}
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+		}
+	}
+
+	cooldown = { years = 2 }
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					NOT = { this = root }
+					intrigue > 9
+				}
+				save_scope_as = lockpicker
+			}
+		}
+	}
+
+	option = { # i'll pick the locks!
+		name = ek_new_life.0016.a
+		duel = {
+			skill = intrigue
+			value = high_skill_rating
+			40 = {
+				desc = ek_new_life.0016.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+				}
+				send_interface_toast = {
+					title = ek_new_life.0016.a.success
+					left_icon = root
+					add_prestige = medium_prestige_gain
+				}
+			}
+			10 = {
+				desc = ek_new_life.0016.a.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -2
+				}
+				send_interface_toast = {
+					title = ek_new_life.0016.a.failure
+					left_icon = root
+					add_prestige = minor_prestige_loss
+				}
+			}
+		}
+		stress_impact = {
+			gregarious = medium_stress_impact_loss
+			arrogant = medium_stress_impact_gain
+		}
+	}
+
+	option = { # i'll pickpocket the winner
+		name = ek_new_life.0016.b
+		trigger = {
+			exists = scope:lockpicker
+		}
+		duel = {
+			skill = intrigue
+			target = scope:lockpicker
+			20 = {
+				desc = ek_new_life.0016.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+					min = -19
+				}
+				send_interface_toast = {
+					title = ek_new_life.0016.b.success
+					left_icon = scope:lockpicker
+					add_prestige = medium_prestige_gain
+					scope:lockpicker = {
+						progress_towards_rival_effect = {
+							CHARACTER = root
+							REASON = rival_five_clawed_guile
+							OPINION = 0
+						}
+					}
+				}
+			}
+			10 = {
+				desc = ek_new_life.0016.b.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.5
+				}
+				send_interface_toast = {
+					title = ek_new_life.0016.b.failure
+					left_icon = scope:lockpicker
+					add_prestige = medium_prestige_loss
+					scope:lockpicker = {
+						progress_towards_rival_effect = {
+							CHARACTER = root
+							REASON = rival_five_clawed_guile
+							OPINION = 0
+						}
+					}
+				}
+			}
+		}
+		stress_impact = {
+			gregarious = medium_stress_impact_loss
+			arrogant = medium_stress_impact_gain
+		}
+	}
+
+	option = { # i'll not engage in this
+		name = ek_new_life.0016.c
+		add_prestige = minor_prestige_gain
+		stress_impact = {
+			gregarious = medium_stress_impact_gain
+			arrogant = medium_stress_impact_loss
+		}
+	}
+		
+
+	 
+}
+
+#############
+# SCOUR DAY #
+#############
+ek_new_life.0017 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_new_life.0017.t
+	desc = ek_new_life.0017.desc
+	left_portrait = {
+		character = root
+	}
+	theme = feast_activity
+	
+	trigger = {
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+			culture = { has_cultural_pillar = heritage_breton }
+		}
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_new_life
+			}
+		} 
+	}
+
+	cooldown = { years = 2 }
+
+	option = { #help with the sweeping
+		name = ek_new_life.0017.a
+		add_prestige = minor_prestige_loss
+		stress_impact = {
+			base = 50
+			humble = major_stress_impact_loss
+			compassionate = major_stress_impact_loss
+		}
+	}
+
+	option = { #hell no
+		name = ek_new_life.0017.b
+		add_prestige = minor_prestige_gain
+		stress_impact = {
+			base = 50
+			humble = medium_stress_impact_gain
+			compassionate = medium_stress_impact_gain
+		}
+	}	 
+}

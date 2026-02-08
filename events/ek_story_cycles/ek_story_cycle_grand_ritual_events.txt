@@ -1,0 +1,1189 @@
+﻿namespace = grand_ritual
+
+# 1xxx - life extension
+# 2xxx - lichdom
+
+######################
+##  LIFE extension  ##
+######################
+
+##  OPENING  ##
+
+grand_ritual.1000 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1000.t
+	desc = {
+		desc = grand_ritual.1000.desc #different desc for each lifespan trait. possibly for mer as well "blessed with a long life, but need moar"
+		first_valid = {
+			triggered_desc = {
+				trigger = { always = yes } #1,2,3
+				desc = grand_ritual.1000.desc.a #low chance of ritual going wrong
+			}
+			triggered_desc = {
+				trigger = { always = no } #4,5
+				desc = grand_ritual.1000.desc.b #moderate chance of ritual going wrong
+			}
+			triggered_desc = {
+				trigger = { always = no } #6,7s
+				desc = grand_ritual.1000.desc.c #high chance of ritual going wrong
+			}
+		}
+	}
+	#theme = #EKTODO magic event theme
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = { # Start the scheme
+        name = grand_ritual.1000.a
+		trigger = {
+			NOT = { any_scheme = { scheme_type = ek_life_extension } }
+			NOT = { has_trait = lifespan_6 }
+		}
+
+        custom_tooltip = starts_ek_life_extension_scheme_now
+        hidden_effect = {
+            start_scheme = { type = ek_life_extension target_character = root }
+        }
+    }
+
+
+	option = {
+		name = grand_ritual.1000.b
+	}
+}
+
+grand_ritual.1010 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1010.t
+	desc = grand_ritual.1010.desc
+
+	#theme = #EKTODO magic event theme
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1010.a
+		trigger_event = { id = grand_ritual.1110 days = { 70 120 } }
+		custom_tooltip = grand_ritual.1010.a.tooltip
+	}
+	option = {
+		name = grand_ritual.1010.b
+		trigger_event = { id = grand_ritual.1120 days = { 70 120 } }
+		custom_tooltip = grand_ritual.1010.b.tooltip
+	}
+	option = {
+		name = grand_ritual.1010.c
+		trigger_event = { id = grand_ritual.1130 days = { 70 120 } }
+		custom_tooltip = grand_ritual.1010.c.tooltip
+	}
+}
+
+grand_ritual.1020 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1020.t
+	desc = grand_ritual.1020.desc
+
+	#theme = #EKTODO magic event theme
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1020.a
+	}
+	option = {
+		name = grand_ritual.1020.b
+	}
+	option = {
+		name = grand_ritual.1020.c
+	}
+}
+
+grand_ritual.1030 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1030.t
+	desc = grand_ritual.1030.desc
+
+	#theme = #EKTODO magic event theme
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1030.a
+	}
+	option = {
+		name = grand_ritual.1030.b
+	}
+	option = {
+		name = grand_ritual.1030.c
+	}
+}
+
+grand_ritual.1040 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1040.t
+	desc = grand_ritual.1040.desc
+
+	#theme = #EKTODO magic event theme
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1040.a
+	}
+	option = {
+		name = grand_ritual.1040.b
+	}
+	option = {
+		name = grand_ritual.1040.c
+	}
+}
+
+grand_ritual.1050 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1050.t
+	desc = grand_ritual.1050.desc
+
+	#theme = #EKTODO magic event theme
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1050.a
+	}
+	option = {
+		name = grand_ritual.1050.b
+	}
+	option = {
+		name = grand_ritual.1050.c
+	}
+}
+
+##  STAGE 1  ## - skills
+# research - books, letter to immortal, daedric bargin (knowledge), steal/blackmail for secrets, phnaster walking thing altmer
+
+grand_ritual.1110 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1110.t
+	desc = grand_ritual.1110.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1110.a
+		save_scope_value_as = { name = choice_11xx value = flag:library } #save in story. can referenc in second round "already have pages of book...find more or use wht have"
+		gr_event_outcome_effect = {
+			SUCC = 45
+			FAIL = 55
+			SKILL = learning
+			SWING = 40
+			THRESH = 15
+		} #maybe have score over multiple events like schemes, but fewer events
+		hidden_effect = {
+			if = {
+				limit = { exists = var:grand_ritual_story }
+				if = {
+					limit = { scope:success = yes }
+					var:grand_ritual_story = { change_variable = { name = seed add = 8 } }
+				}
+				else = { var:grand_ritual_story = { change_variable = { name = seed add = -8 } } }
+			}
+			else = { debug_log = "missing grand ritual story variable" }
+		}
+	}
+
+	option = {
+		name = grand_ritual.1110.b
+		save_scope_value_as = { name = choice_11xx value = flag:merchant }
+		gr_event_outcome_effect = {
+			SUCC = 50
+			FAIL = 50
+			SKILL = stewardship
+			SWING = 25
+			THRESH = 10
+		} #hud wiget circle show complete stages. hatched for active, solid complete
+		hidden_effect = {
+			if = {
+				limit = { exists = var:grand_ritual_story }
+				if = {
+					limit = { scope:success = yes }
+					var:grand_ritual_story = { change_variable = { name = seed add = 5 } }
+				}
+				else = { var:grand_ritual_story = { change_variable = { name = seed add = -5 } } }
+			}
+			else = { debug_log = "missing grand ritual story variable" }
+		}
+	}
+
+	#after = { trigger_event = { id = grand_ritual.1111 days = { 70 120 } } }
+	after = { trigger_event = grand_ritual.1111 }
+}
+grand_ritual.1111 = {
+	type = character_event
+	content_source = dlc_ek
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:success = yes }
+				desc = grand_ritual.1111.t.succ
+			}
+			triggered_desc = {
+				trigger = { scope:success = no }
+				desc = grand_ritual.1111.t.fail
+			}
+		}
+	}
+	desc = {
+		#desc = grand_ritual.1111.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:choice_11xx = flag:library }
+				desc = {
+					first_valid = {
+						triggered_desc = {
+							trigger = { scope:success = yes }
+							desc = grand_ritual.1111.desc.library.succ
+						}
+						triggered_desc = {
+							trigger = { scope:success = no }
+							desc = grand_ritual.1111.desc.library.fail
+						}
+					}
+				}
+			}
+			triggered_desc = {
+				trigger = { scope:choice_11xx = flag:merchant }
+				desc = {
+					first_valid = {
+						triggered_desc = {
+							trigger = { scope:success = yes }
+							desc = grand_ritual.1111.desc.merchant.succ
+						}
+						triggered_desc = {
+							trigger = { scope:success = no }
+							desc = grand_ritual.1111.desc.merchant.fail
+						}
+					}
+				}
+			}
+		}
+	}
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1111.a
+		trigger = { scope:success = yes }
+	}
+
+	option = {
+		name = grand_ritual.1111.b
+		trigger = { scope:success = no }
+	}
+
+	after = {
+		clear_saved_scope = success
+		if = {
+			limit = { exists = var:grand_ritual_story }
+			var:grand_ritual_story = { set_variable = { name = stage value = 2 } }
+		}
+		else = { debug_log = "missing grand ritual story variable" }
+	}
+}
+grand_ritual.1120 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1120.t
+	desc = grand_ritual.1120.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1120.a
+	}
+
+	option = {
+		name = grand_ritual.1120.b
+	}
+
+	option = {
+		name = grand_ritual.1120.c
+	}
+}
+grand_ritual.1121 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1121.t
+	desc = grand_ritual.1121.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1121.a
+	}
+
+	option = {
+		name = grand_ritual.1121.b
+	}
+
+	option = {
+		name = grand_ritual.1121.c
+	}
+}
+grand_ritual.1130 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1130.t
+	desc = grand_ritual.1130.desc
+
+	theme = learning
+	override_background = { reference = relaxing_room }
+	right_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	left_portrait = {
+		character = scope:bound_dremora
+	}
+
+	immediate = {
+		random_list = {
+            10 = {
+                create_character = {
+                    template = dremora_boethiah_template
+                    location = root.capital_province
+                    gender_female_chance = 50
+                    save_scope_as = bound_dremora
+                }
+            }
+            10 = {
+                create_character = {
+                    template = dremora_malacath_template
+                    location = root.capital_province
+                    gender_female_chance = 50
+                    save_scope_as = bound_dremora
+                }
+            }
+            10 = {
+                create_character = {
+                    template = dremora_mehrunes_template
+                    location = root.capital_province
+                    gender_female_chance = 50
+                    save_scope_as = bound_dremora
+                }
+            }
+            10 = {
+                create_character = {
+                    template = dremora_molag_template
+                    location = root.capital_province
+                    gender_female_chance = 50
+                    save_scope_as = bound_dremora
+                }
+            }
+            10 = {
+                create_character = {
+                    template = dremora_namira_template
+                    location = root.capital_province
+                    gender_female_chance = 50
+                    save_scope_as = bound_dremora
+                }
+            }
+            10 = {
+                create_character = {
+                    template = dremora_peryite_template
+                    location = root.capital_province
+                    gender_female_chance = 50
+                    save_scope_as = bound_dremora
+                }
+            }
+            10 = {
+                create_character = {
+                    template = dremora_sanguine_template
+                    location = root.capital_province
+                    gender_female_chance = 50
+                    save_scope_as = bound_dremora
+                }
+            }
+            10 = {
+                create_character = {
+                    template = dremora_vaermina_template
+                    location = root.capital_province
+                    gender_female_chance = 50
+                    save_scope_as = bound_dremora
+                }
+            }
+        }
+	}
+
+	option = {
+		name = grand_ritual.1130.a
+		duel = {
+			skill = prowess
+			target = scope:bound_dremora
+			10 = {	
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 2
+				}
+				
+			}
+			10 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -2
+				}
+								
+			}
+		}
+	}
+
+	option = {
+		name = grand_ritual.1130.b
+	}
+
+	option = {
+		name = grand_ritual.1130.c
+	}
+}
+grand_ritual.1131 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1131.t
+	desc = grand_ritual.1131.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1131.a
+	}
+
+	option = {
+		name = grand_ritual.1131.b
+	}
+
+	option = {
+		name = grand_ritual.1131.c
+	}
+}
+grand_ritual.1140 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1140.t
+	desc = grand_ritual.1140.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1140.a
+	}
+
+	option = {
+		name = grand_ritual.1140.b
+	}
+
+	option = {
+		name = grand_ritual.1140.c
+	}
+}
+grand_ritual.1150 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1150.t
+	desc = grand_ritual.1150.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1150.a
+	}
+
+	option = {
+		name = grand_ritual.1150.b
+	}
+
+	option = {
+		name = grand_ritual.1150.c
+	}
+}
+
+##  STAGE 2  ## - perks
+# experimentation - focus on perk checks "synthesis of alteration and restoration" type stuff
+
+grand_ritual.1210 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1210.t
+	desc = grand_ritual.1210.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1210.a
+	}
+
+	option = {
+		name = grand_ritual.1210.b
+	}
+
+	option = {
+		name = grand_ritual.1210.c
+	}
+}
+grand_ritual.1220 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1220.t
+	desc = grand_ritual.1220.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1220.a
+	}
+
+	option = {
+		name = grand_ritual.1220.b
+	}
+
+	option = {
+		name = grand_ritual.1220.c
+	}
+}
+grand_ritual.1230 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1230.t
+	desc = grand_ritual.1230.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1230.a
+	}
+
+	option = {
+		name = grand_ritual.1230.b
+	}
+
+	option = {
+		name = grand_ritual.1230.c
+	}
+}
+grand_ritual.1240 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1240.t
+	desc = grand_ritual.1240.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1240.a
+	}
+
+	option = {
+		name = grand_ritual.1240.b
+	}
+
+	option = {
+		name = grand_ritual.1240.c
+	}
+}
+grand_ritual.1250 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1250.t
+	desc = grand_ritual.1250.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1250.a
+	}
+
+	option = {
+		name = grand_ritual.1250.b
+	}
+
+	option = {
+		name = grand_ritual.1250.c
+	}
+}
+
+##  STAGE 3  ## - skills
+# material aquisition - hunt for ingredients (martial), buy/contract ingredients (stewardship), gather ingredients (learning), daedric bargin (diplo), steal ingrediet (intrigue)
+# bad ingredients? or in stage 4?
+
+grand_ritual.1310 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1310.t
+	desc = grand_ritual.1310.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1310.a
+	}
+
+	option = {
+		name = grand_ritual.1310.b
+	}
+
+	option = {
+		name = grand_ritual.1310.c
+	}
+}
+grand_ritual.1320 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1320.t
+	desc = grand_ritual.1320.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1320.a
+	}
+
+	option = {
+		name = grand_ritual.1320.b
+	}
+
+	option = {
+		name = grand_ritual.1320.c
+	}
+}
+grand_ritual.1330 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1330.t
+	desc = grand_ritual.1330.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1330.a
+	}
+
+	option = {
+		name = grand_ritual.1330.b
+	}
+
+	option = {
+		name = grand_ritual.1330.c
+	}
+}
+grand_ritual.1340 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1340.t
+	desc = grand_ritual.1340.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1340.a
+	}
+
+	option = {
+		name = grand_ritual.1340.b
+	}
+
+	option = {
+		name = grand_ritual.1340.c
+	}
+}
+grand_ritual.1350 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1350.t
+	desc = grand_ritual.1350.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1350.a
+	}
+
+	option = {
+		name = grand_ritual.1350.b
+	}
+
+	option = {
+		name = grand_ritual.1350.c
+	}
+}
+
+##  STAGE 4  ## - perks
+# final prep - time of year?, bad ingredients?
+
+grand_ritual.1410 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1410.t
+	desc = grand_ritual.1410.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1410.a
+	}
+
+	option = {
+		name = grand_ritual.1410.b
+	}
+
+	option = {
+		name = grand_ritual.1410.c
+	}
+}
+grand_ritual.1420 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1420.t
+	desc = grand_ritual.1420.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1420.a
+	}
+
+	option = {
+		name = grand_ritual.1420.b
+	}
+
+	option = {
+		name = grand_ritual.1420.c
+	}
+}
+grand_ritual.1430 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1430.t
+	desc = grand_ritual.1430.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1430.a
+	}
+
+	option = {
+		name = grand_ritual.1430.b
+	}
+
+	option = {
+		name = grand_ritual.1430.c
+	}
+}
+grand_ritual.1440 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1440.t
+	desc = grand_ritual.1440.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1440.a
+	}
+
+	option = {
+		name = grand_ritual.1440.b
+	}
+
+	option = {
+		name = grand_ritual.1440.c
+	}
+}
+grand_ritual.1450 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1450.t
+	desc = grand_ritual.1450.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1450.a
+	}
+
+	option = {
+		name = grand_ritual.1450.b
+	}
+
+	option = {
+		name = grand_ritual.1450.c
+	}
+}
+
+##  STAGE 5  ##
+# ritual execution - arkay/priest of interfere? - strayed too far to heresy, choice continue or relent , ideal masters
+
+grand_ritual.1510 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1510.t
+	desc = grand_ritual.1510.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1510.a
+	}
+
+	option = {
+		name = grand_ritual.1510.b
+	}
+
+	option = {
+		name = grand_ritual.1510.c
+	}
+}
+grand_ritual.1520 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1520.t
+	desc = grand_ritual.1520.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1520.a
+	}
+
+	option = {
+		name = grand_ritual.1520.b
+	}
+
+	option = {
+		name = grand_ritual.1520.c
+	}
+}
+grand_ritual.1530 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1530.t
+	desc = grand_ritual.1530.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1530.a
+	}
+
+	option = {
+		name = grand_ritual.1530.b
+	}
+
+	option = {
+		name = grand_ritual.1530.c
+	}
+}
+grand_ritual.1540 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1540.t
+	desc = grand_ritual.1540.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1540.a
+	}
+
+	option = {
+		name = grand_ritual.1540.b
+	}
+
+	option = {
+		name = grand_ritual.1540.c
+	}
+}
+grand_ritual.1550 = {
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1550.t
+	desc = grand_ritual.1550.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1550.a
+	}
+
+	option = {
+		name = grand_ritual.1550.b
+	}
+
+	option = {
+		name = grand_ritual.1550.c
+	}
+}
+
+##  RANDOM EVENTS  ##
+# sabotage by rival/low opinion char #rival++ weight, nemisis++++
+# friend/high opinion char give found tome/info #friend++, bff++++
+# priest of arkay/similar interfers
+# specific events - eg hermaeus mora offers deal if part of cult/patron
+# discover bad/fake ingredients
+
+##  OUTCOMES  ##
+
+grand_ritual.1901 = { #total failure
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1901.t
+	desc = grand_ritual.1901.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	immediate = {
+		random_list = {
+			50 = { save_scope_value_as = { name = outcome value = flag:death } }
+			50 = { save_scope_value_as = { name = outcome value = flag:incapable } }
+		}
+	}
+
+	option = {
+		name = grand_ritual.1901.a
+		switch = {
+			trigger = scope:outcome
+			flag:death = { death = { death_reason = death_vanished } }
+			flag:incapable = { add_trait = incapable }
+		}
+	}
+}
+
+grand_ritual.1902 = { #moderate failure
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1902.t
+	desc = grand_ritual.1902.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	immediate = {
+		random_list = {
+			50 = { save_scope_value_as = { name = outcome value = flag:wounded } }
+			#50 = { save_scope_value_as = { name = outcome value = flag:mag_exh } }
+		}
+	}
+
+	option = {
+		name = grand_ritual.1902.a
+		switch = {
+			trigger = scope:outcome
+			flag:wounded = { add_trait = wounded_2 }
+			#flag:mag_exh = { add_character_modifier = magicka_exhaustion_modifier }
+		}
+	}
+}
+
+grand_ritual.1903 = { #no consequence failure
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1903.t
+	desc = grand_ritual.1903.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1903.a
+	}
+}
+
+grand_ritual.1904 = { #moderate success
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1904.t
+	desc = grand_ritual.1904.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	immediate = {
+		random_list = {
+			50 = { save_scope_value_as = { name = outcome value = flag:wounded } }
+			#50 = { save_scope_value_as = { name = outcome value = flag:mag_exh } }
+		}
+	}
+
+	option = {
+		name = grand_ritual.1904.a
+		increase_lifespan_effect = yes
+		switch = {
+			trigger = scope:outcome
+			flag:wounded = { add_trait = wounded_2 } #change to wounded effect to increment
+			#flag:mag_exh = { add_character_modifier = magicka_exhaustion_modifier }
+		}
+	}
+}
+
+grand_ritual.1905 = { #total success
+	type = character_event
+	content_source = dlc_ek
+	title = grand_ritual.1905.t
+	desc = grand_ritual.1905.desc
+
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = personality_cynical # find better anim
+	}
+
+	option = {
+		name = grand_ritual.1905.a
+		increase_lifespan_effect = yes
+	}
+}

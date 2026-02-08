@@ -1,0 +1,22 @@
+﻿on_start_decay = {
+	trigger = {
+		is_undead = yes
+	}
+	effect = {
+		set_starting_decay_effect = yes
+	}
+}
+
+ek_decay_monthly_pulse = {
+	trigger = {
+		is_alive = yes
+		is_undead = yes
+	}
+	effect = {
+		update_decay_monthly_effect = yes
+		trigger_event = { 
+			on_action = ek_decay_monthly_pulse
+			months = 1
+		}
+	}
+}

@@ -1,0 +1,23 @@
+﻿# Code on-action: character being imprisoned in root scope
+# imprisoning character set as scope:imprisoner
+ek_on_imprison = {
+	effect = {
+		if = {
+			limit = {
+				has_character_flag = ek_fire_blood_price_flag
+			}
+			trigger_event = ek_prison.1002
+			remove_character_flag = ek_fire_blood_price_flag
+		}
+		#if = {
+		#	limit = {
+		#		has_character_flag = ek_ashlander_exile
+		#	}
+		#	trigger_event = ek_prison.1004
+		#	remove_character_flag = ek_ashlander_exile
+		#}
+		else = {
+			trigger_event = prison_notification.0001
+		}
+	}
+}

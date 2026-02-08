@@ -1,0 +1,173 @@
+﻿### EK EDIT: Removed references to vanilla languages and religions
+
+#EK EDIT: Removed all vanilla stuff here, we entirely replace it
+KnightCulture = {
+	type = character
+	
+	text = {
+		trigger = {
+			OR = {
+				AND = {
+					government_has_flag = government_is_holy_order
+					culture = { has_cultural_pillar = language_dunmeris }
+				}
+				AND = {
+					government_has_flag = government_is_theocracy
+					culture = { has_cultural_pillar = language_dunmeris }
+				}
+			}
+				
+		}
+		localization_key = knight_ordinator
+	}	
+
+	text = {
+		 trigger = {
+			OR = {
+				AND = {
+					culture = { has_cultural_pillar = heritage_atmoran }
+					culture = { has_cultural_pillar = language_nordic }
+				}
+				AND = {
+					culture = { has_cultural_pillar = heritage_atmoran }
+					culture = { has_cultural_pillar = language_cyrodiilic }
+				}
+			}
+			 	NOT = { government_has_flag = government_is_pirate } 
+		 }
+		 localization_key = knight_nord
+	}
+	
+	text = {
+		 trigger = {
+			culture = { has_cultural_pillar = language_dunmeris }
+				NOT = { government_has_flag = government_is_pirate } 
+		 }
+		 localization_key = knight_dunmer
+	}
+	
+	text = {
+		 trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_yoku }
+				culture = { has_cultural_pillar = language_tamrielic_yoku }
+			}
+				NOT = { government_has_flag = government_is_pirate } 
+		 }
+		 localization_key = knight_redguard
+	}
+	
+	text = {
+		 trigger = {
+			culture = { has_cultural_pillar = language_ayleidoon }
+				NOT = { government_has_flag = government_is_pirate } 	
+		 }
+		 localization_key = knight_ayleid
+	}
+	
+	text = {
+		 trigger = {
+			culture = { has_cultural_pillar = heritage_tsaesci }
+				NOT = { government_has_flag = government_is_pirate } 
+		 }
+		 localization_key = knight_syffim
+	}
+	
+	text = {
+		 trigger = {
+			culture = { has_cultural_pillar = language_altmeris }
+				NOT = { government_has_flag = government_is_pirate } 
+		 }
+		 localization_key = knight_altmer
+	}
+	
+	text = {
+		 trigger = {
+			culture = { has_cultural_pillar = language_taagra }
+			NOT = { government_has_flag = government_is_pirate } 
+		}
+		localization_key = knight_khajiit
+	}
+	
+	text = {
+		 trigger = {
+			culture = { has_cultural_pillar = language_bosmeris }
+				NOT = { government_has_flag = government_is_pirate } 
+		 }
+		 localization_key = knight_bosmer
+	}
+	
+	text = {
+		 trigger = {
+			culture = { has_cultural_pillar = language_lilmothiit }
+				NOT = { government_has_flag = government_is_pirate } 
+		 }
+		 localization_key = knight_lilmothiit
+	}
+	
+	text = {
+		trigger = {
+			OR = {
+				culture = { has_cultural_pillar = language_bretic }
+				culture = { has_cultural_pillar = language_cyrodiilic }
+				culture = { has_cultural_pillar = language_old_falmeris }
+				culture = { has_cultural_pillar = language_imga }
+				faith = { religion_tag = trinimac_religion }
+			}
+			NOT = { government_has_flag = government_is_pirate } 
+		}
+		localization_key = knight_default
+	}
+	
+	text = {
+		trigger = {
+			OR = {
+				government_has_flag = government_is_pirate
+			} 
+		}
+		localization_key = knight_pirate
+	}
+	
+	
+##### Fallback #####
+	
+	text = {
+		localization_key = knight_champion
+		fallback = yes
+	}
+}
+
+KnightCulturePlural = {
+	parent = KnightCulture
+	suffix = "_plural"
+}
+
+KnightCultureNoTooltip = {
+	parent = KnightCulture
+	suffix = "_no_tooltip"
+}
+
+KnightCulturePluralNoTooltip = {
+	parent = KnightCulture
+	suffix = "_no_tooltip_plural"
+}
+
+KnightCultureNoTooltipLowercase = {
+	parent = KnightCulture
+	suffix = "_no_tooltip_lowercase"
+}
+
+KnightCulturePluralNoTooltipLowercase = {
+	parent = KnightCulture
+	suffix = "_no_tooltip_lowercase_plural"
+}
+
+KnightCulturePluralPossessiveNoTooltipLowercase = {
+	parent = KnightCulture
+	suffix = "_no_tooltip_lowercase_plural_possessive"
+}
+
+KnightCultureAdjectiveNoTooltipLowercase = {
+	parent = KnightCulture
+	suffix = "_no_tooltip_lowercase_adjective"
+}

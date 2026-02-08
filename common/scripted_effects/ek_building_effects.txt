@@ -1,0 +1,224 @@
+﻿hist_growth_effect = {
+    if = { # if the hist holding is destroyed or fully grown clean the variable
+        limit = {
+            any_realm_county = {
+                any_county_province = { 
+                    has_variable = hist_growth_variable
+                    NOR = { 
+                        has_building = hist_01
+                        has_building = hist_02
+                        has_building = hist_03
+                    }                    
+                }
+            }
+        }
+        every_realm_county = {
+            every_county_province = {
+                limit = {
+                    has_variable = hist_growth_variable
+                    NOR = { 
+                        has_building = hist_01
+                        has_building = hist_02
+                        has_building = hist_03
+                    }                    
+                }
+            }
+            remove_variable = hist_growth_variable
+        }
+    }
+    if = {
+        limit = { # if the county has a hist holding, let it grow
+            any_realm_county = {
+                any_county_province = { 
+                    OR = {
+                        has_building = hist_01
+                        has_building = hist_02
+                        has_building = hist_03
+                    }
+                }
+            }
+        }
+        every_realm_county = {
+            every_county_province = {
+                limit = { 
+                    OR = {
+                        has_building = hist_01
+                        has_building = hist_02
+                        has_building = hist_03
+                    }
+                }
+                if = { # Increase variable
+                    limit = {
+                        has_variable = hist_growth_variable                            
+                    }
+                    random_list = {
+                        20 = {}
+                        60 = { 
+                            change_variable = {
+                                name = hist_growth_variable
+                                add = 0.1
+                            }
+                        }
+                        0 = { 
+                            modifier = {
+                                terrain = black_marsh
+                                add = 5
+                            }
+                            modifier = {
+                                has_building = minding_grove_01
+                                add = 5
+                            }
+                            modifier = {
+                                has_building = minding_grove_02
+                                add = 10
+                            }
+                            modifier = {
+                                has_building = minding_grove_03
+                                add = 15
+                            }
+                            change_variable = {
+                                name = hist_growth_variable
+                                add = 0.2
+                            }
+                        }
+                    }
+                }
+                else = {
+                    set_variable = {
+                        name = hist_growth_variable
+                        value = 0
+                    }
+                }
+                if = { # Young Hist after 25 years
+                    limit = {
+                        has_building = hist_01
+                        var:hist_growth_variable >= 5
+                    }
+                    save_scope_as = province
+                    scope:province.county.holder = {
+                        send_interface_message = {
+                            type = event_generic_good
+                            title = hist_holding_upgraded
+                            left_icon = scope:province.county
+                            scope:province = {
+                                add_building = hist_02
+                            }
+                        }
+                    }
+                }
+                else_if = { # Mature Hist after 100 years
+                    limit = {
+                        has_building = hist_02
+                        var:hist_growth_variable >= 20
+                    }
+                    save_scope_as = province
+                    scope:province.county.holder = {
+                        send_interface_message = {
+                            type = event_generic_good
+                            title = hist_holding_upgraded
+                            left_icon = scope:province.county
+                            scope:province = {
+                                add_building = hist_03
+                            }
+                        }
+                    }
+                }
+                else_if = { # Old Hist after 300 years
+                    limit = {
+                        has_building = hist_03
+                        var:hist_growth_variable >= 50
+                    }
+                    save_scope_as = province
+                    scope:province.county.holder = {
+                        send_interface_message = {
+                            type = event_generic_good
+                            title = hist_holding_upgraded
+                            left_icon = scope:province.county
+                            scope:province = {
+                                add_building = hist_04
+                            }
+                        }
+                    }
+                }
+            }            
+        }
+    }
+}
+
+remove_buildings_effect = {
+    if = {
+        limit = {
+            has_building = $BUILDING$_01
+        }
+        remove_building = $BUILDING$_01
+    }
+    else_if = {
+        limit = {
+            has_building = $BUILDING$_02
+        }
+        remove_building = $BUILDING$_02
+    }
+    else_if = {
+        limit = {
+            has_building = $BUILDING$_03
+        }
+        remove_building = $BUILDING$_03
+    }
+    else_if = {
+        limit = {
+            has_building = $BUILDING$_04
+        }
+        remove_building = $BUILDING$_04
+    }
+    else_if = {
+        limit = {
+            has_building = $BUILDING$_05
+        }
+        remove_building = $BUILDING$_05
+    }
+    else_if = {
+        limit = {
+            has_building = $BUILDING$_06
+        }
+        remove_building = $BUILDING$_06
+    }
+    else_if = {
+        limit = {
+            has_building = $BUILDING$_07
+        }
+        remove_building = $BUILDING$_07
+    }
+    else_if = {
+        limit = {
+            has_building = $BUILDING$_08
+        }
+        remove_building = $BUILDING$_08
+    }
+}
+
+remove_buildings_four_levels_effect = { #For buildings with only 4 levels
+    if = {
+        limit = {
+            has_building = $BUILDING$_01
+        }
+        remove_building = $BUILDING$_01
+    }
+    else_if = {
+        limit = {
+            has_building = $BUILDING$_02
+        }
+        remove_building = $BUILDING$_02
+    }
+    else_if = {
+        limit = {
+            has_building = $BUILDING$_03
+        }
+        remove_building = $BUILDING$_03
+    }
+    else_if = {
+        limit = {
+            has_building = $BUILDING$_04
+        }
+        remove_building = $BUILDING$_04
+    }
+}

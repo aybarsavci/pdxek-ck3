@@ -1,0 +1,58 @@
+﻿### EK NOTE: Tutorial was adapted to EK2, removed vanilla effects entirely
+
+# Called from code after history generation if in the tutorial
+# Empty scope
+on_game_start_with_tutorial = {
+	effect = {
+		title:k_daggerfall.holder = {
+			add_gold = 1000
+			add_prestige = 4000
+		}
+		title:b_daggerfall_castle.title_province = {
+			if = {
+				limit = { has_building = hill_forts_02 }
+				remove_building = hill_forts_02
+				if = {
+					limit = { building_slots >= 1 }
+					add_building = hill_forts_01
+				}
+				else = {
+					add_province_modifier = extra_building_slot
+					add_building = hill_forts_01
+				}
+			}
+		}
+		title:b_sword_rest.title_province = {
+			if = {
+				limit = {
+					building_slots >= 1
+					NOT = { has_building = common_tradeport_01 }
+				}
+				add_building = common_tradeport_01
+			}
+			if = {
+				limit = {
+					building_slots >= 1
+					NOT = { has_building = curtain_walls_01 }
+				}
+				add_building = curtain_walls_01
+			}
+		}
+		title:b_shalgora.title_province = {
+			if = {
+				limit = {
+					building_slots >= 1
+					NOT = { has_building = ramparts_01 }
+				}
+				add_building = ramparts_01
+			}
+			if = {
+				limit = {
+					building_slots >= 1
+					NOT = { has_building = logging_camps_01 }
+				}
+				add_building = logging_camps_01
+			}
+		}
+	}
+}

@@ -1,0 +1,106 @@
+﻿#EK2
+# Make sure the weights here match up best as possible with the custom_hair set
+mohawks = {
+
+    usage = game
+    selection_behavior = weighted_random
+
+	mohawk_hair = {
+		dna_modifiers = {
+			morph = {
+				mode = replace
+				gene = hairline_type
+				template = mohawk
+				value = 1.0
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				exists = this
+				culture = { has_cultural_pillar = heritage_goblinken }
+			}
+
+			modifier = {
+				add = 80
+				exists = this
+				OR = {
+					culture = { has_cultural_pillar = heritage_bosmeri }
+					culture = { has_cultural_pillar = heritage_orcish }
+				}
+			}
+
+			modifier = {
+				add = 60
+				exists = this
+				OR = {
+					culture = { has_cultural_pillar = heritage_atmoran }
+					culture = { has_cultural_pillar = heritage_nedic_north }
+					culture = { has_cultural_pillar = heritage_kothri }
+
+				}
+			}
+
+			modifier = {
+				add = 50
+				exists = this
+				OR = {
+					culture = { has_cultural_pillar = heritage_dunmeri }
+				}
+			}
+
+			modifier = {
+				add = 30
+				AND = {
+					culture = { has_cultural_pillar = heritage_aldmeri }
+					highest_held_title_tier < tier_county
+				}
+			}
+
+			modifier = {
+				add = -100
+				OR = {
+					is_from_ruler_designer = yes
+					has_character_flag = has_scripted_appearance
+					has_trait = line_of_x
+				}
+			}
+		}
+	}  
+
+	no_mohawk_hair = {
+		weight = {
+			base = 50
+			modifier = {
+				add = 50
+				OR = {
+					is_from_ruler_designer = yes
+					has_character_flag = has_scripted_appearance
+					has_trait = line_of_x
+				}
+			}
+		}
+	}  
+
+	mohawk_scripted = {
+		dna_modifiers = {
+			morph = {
+				mode = replace
+				gene = hairline_type
+				template = mohawk
+				value = 1.0
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 200
+				exists = character:indoril_alma_rula # Farwil Indoril
+				this = character:indoril_alma_rula
+			}
+		}
+	}  
+	
+}
+#EK2

@@ -1,0 +1,69 @@
+﻿ek_county_corruption_spread_chance = {
+	value = 5
+	add = {
+		value = 100
+		subtract = county_control			
+		multiply = 0.075
+	}
+	add = {
+		value = holder.legitimacy_level
+		multiply = -0.5
+	}
+	add = {
+		value = 100
+		subtract = development_level
+		multiply = 0.025
+	}
+	add = {
+		every_county_province = {
+			limit = { has_holding = no }
+			add = 1
+		}
+	}
+	if = {
+		limit = { holder = { is_at_war = yes } }
+		add = 2.5
+	}
+	if = {
+		limit = { has_game_rule = ek_crisis_factions_apocalyptic }
+		multiply = 4
+	}
+	else_if = {
+		limit = { has_game_rule = ek_crisis_factions_frequent }
+		multiply = 2
+	}
+	else_if = {
+		limit = { has_game_rule = ek_crisis_factions_rare }
+		multiply = 0.5
+	}
+	min = 0
+	max = 100
+}
+
+ek_county_corruption_spread_chance_from_disease = {
+	value = 5
+	if = {
+		limit = { scope:epidemic = { outbreak_intensity = major } }
+		add = 2.5
+	}
+	if = {
+		limit = { scope:epidemic = { outbreak_intensity = apocalyptic } }
+		add = 5
+	}
+	if = {
+		limit = { any_neighboring_county = { has_county_modifier = county_corruption_peryite_rampant_modifier } }
+		add = 2.5
+	}
+	if = {
+		limit = { has_game_rule = ek_crisis_factions_apocalyptic }
+		multiply = 4
+	}
+	else_if = {
+		limit = { has_game_rule = ek_crisis_factions_frequent }
+		multiply = 2
+	}
+	else_if = {
+		limit = { has_game_rule = ek_crisis_factions_rare }
+		multiply = 0.5
+	}
+}

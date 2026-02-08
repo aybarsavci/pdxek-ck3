@@ -1,0 +1,185 @@
+﻿ek_on_death = {
+	effect = {
+		if = {
+			limit = {
+				# You have Rule by Might succ
+				has_realm_law = rule_by_might_succession_law
+				
+				# The heir is one of your kids
+				primary_heir = { is_child_of = root }
+			}
+			save_scope_as = previous_ruler
+			primary_heir = { trigger_event = { id = ek_rbm.0001 days = 3 } }
+		}
+
+		if = {
+			limit = {
+				any_courtier = {
+					OR = {
+						has_character_flag = summoned_daedra
+						has_character_flag = summoned_undead
+					}
+				}
+			}
+			every_courtier = {
+				limit = {
+					has_character_flag = summoned_daedra
+				}
+				death = {
+					death_reason = death_returned_oblivion
+				}
+			}
+			every_courtier = {
+				limit = {
+					has_character_flag = summoned_undead
+				}
+				death = {
+					death_reason = death_crumbled_dust
+				}
+			}
+		}
+		
+		if = {
+			limit = { has_character_flag = mystical_birthright_next_hof }
+			save_scope_as = last_mbhof_potential
+			this.faith.religious_head = {
+				add_character_flag = { flag = last_mbhof_potential_died days = 3 }
+				trigger_event = { id = ek_mbhof.0001 days = 1 }
+			}
+		}
+		
+		#Destroy a warlord emperor's titular if he's illegitimate on death
+		if = {
+			limit = {
+				primary_title ?= { has_variable = warlord_empire }
+				legitimacy_level < 4
+			}
+			primary_title = { save_scope_as = warlord_empire_to_destroy }
+			destroy_title = scope:warlord_empire_to_destroy
+			every_vassal = {
+				limit = {
+					is_de_jure_vassal_of_liege_trigger = no
+				}
+				create_title_and_vassal_change = {
+					type = independency
+					save_scope_as = change
+					add_claim_on_loss = yes
+				}
+				becomes_independent = {
+					change = scope:change
+				}
+				resolve_title_and_vassal_change = scope:change
+			}
+		}
+		if = { # Neccesary for the one nickname per lifetime rule from epithet to work
+			limit = { 
+				has_any_nickname = yes
+				NOT = { has_game_rule = once_per_game_nickname }
+			}
+			save_scope_as = epithet_receiver
+			if = {
+				limit = {
+					exists = scope:epithet_receiver.var:nickname_given
+					}
+				remove_list_global_variable = {
+					name = nickname_already_given
+					target = scope:epithet_receiver.var:nickname_given
+				}
+			}
+		}
+		if = { 
+			limit = { 
+				has_character_modifier = modifier_spell_claim_corpse
+				potential_undead_thrall = yes
+				var:new_master = { is_alive = yes }
+			}
+    		create_undead_thrall_effect = { MASTER = var:new_master THRALL = root } # Character with claimed corpse dies
+		}
+		else_if = {
+			limit = {
+				is_knight = yes
+				potential_undead_thrall = yes
+				liege = { has_character_modifier = modifier_ritual_unhallowed_earth }
+			}
+			create_undead_thrall_effect = { MASTER = root.liege THRALL = root } # Knight dies while the Hallowed Earth ritual is active
+		}
+
+		#If non-admin Ceremoniarchy empire then trigger succession event
+		if = {
+			limit = {
+				highest_held_title_tier = tier_empire
+				has_realm_law = xarxean_investiture_succession_law
+			}
+			trigger_event = {
+				id = ek_xarxean_investiture_event.0001 # Locate and assign the new heir for a Ceremoniarchy empire tier realm
+			}
+		}
+		#For Dagoth dynasties
+		if = {
+			limit = {
+				dynasty ?= { has_dynasty_modifier = scarab_blood_dynasty_modifier }
+			}
+			save_scope_as = last_dagoth
+			dynasty.dynast = {
+				trigger_event = {
+					id = ek_tenets.0062
+					days = 1
+				}
+			}
+		}
+		if = {
+			limit = { is_morrowind_high_councilor = { CHARACTER = root } }
+			## Did they die violently?.
+			if = {
+				limit = {
+					exists = scope:killer
+					situation:grand_council ?= {
+						situation_top_has_catalyst = catalyst_situation_hc_died_violently
+						NOT = { has_variable = significant_character_death_cooldown }
+					}
+				}
+				situation:grand_council ?= {
+					trigger_situation_catalyst = {
+						catalyst = catalyst_situation_hc_died_violently
+					}
+					set_variable = {
+						name = significant_character_death_cooldown
+						value = yes
+						years = catalyst_cooldown_between_significant_character_deaths_years_value
+					}
+				}
+			}
+			## If not, give the natural version.
+			else_if = {
+				limit = {
+					situation:grand_council ?= {
+						situation_top_has_catalyst = catalyst_situation_hc_died_naturally
+						NOT = { has_variable = significant_character_death_cooldown }
+					}
+				}
+				situation:grand_council ?= {
+					trigger_situation_catalyst = { 
+						catalyst = catalyst_situation_hc_died_naturally
+						character = root
+					}
+					set_variable = {
+						name = significant_character_death_cooldown
+						value = yes
+						years = catalyst_cooldown_between_significant_character_deaths_years_value
+					}
+				}
+			}
+		}
+	}
+	
+	events = {
+		ek_lifestyles.0001 # Character dies, notifies best friends and soul mates (Commune with the Dead)
+		divines.0001 # Sibyl of Dibella dies, let's find a new one
+		ek_religious_decision.0501 # Saves an ancestor to be buried in Cath Bedraud
+		ek_story_cycle_necromancy_events.0010  # Necromancy tutor dies
+		ek_daedric_artifacts.9999 # daedric artifact cleanup
+		ek_faith_events.0001 # Viridian Sentinel dies, let's find a new one
+		ek_faith_events.0002 # Scribe of Auri-El dies, let's find a new one
+		ek_morrowind_hc.0001 #High Councilor is dead, time to vote
+	}
+}

@@ -1,0 +1,289 @@
+﻿unify_kingdom_government_trigger = {
+	OR = {
+		has_feudal_or_admin_government = yes
+		government_has_flag = government_is_tribal
+	}
+	
+	highest_held_title_tier <= tier_kingdom
+	highest_held_title_tier >= tier_duchy
+}
+
+unify_small_kingdom_law_trigger = {
+	trigger_if = {
+		limit = {
+			has_feudal_like_government = yes
+		}
+		OR = {
+			has_realm_law = crown_authority_1
+			has_realm_law = crown_authority_2
+			has_realm_law = crown_authority_3
+		}
+	}
+	trigger_else_if = {
+		limit = {
+			government_has_flag = government_is_tribal
+		}
+		OR = {
+			has_realm_law = tribal_authority_1
+			has_realm_law = tribal_authority_2
+			has_realm_law = tribal_authority_3
+		}
+	}
+	trigger_else_if = {
+		limit = { 
+			government_has_flag = government_is_administrative
+		}
+		OR = {
+			has_realm_law = imperial_bureaucracy_1
+			has_realm_law = imperial_bureaucracy_2
+			has_realm_law = imperial_bureaucracy_3
+		}
+	}
+	# This shouldn't happen
+	trigger_else = {
+		always = no
+	}
+}
+
+unify_kingdom_law_trigger = {
+	trigger_if = {
+		limit = {
+			has_feudal_like_government = yes
+		}
+		OR = {
+			has_realm_law = crown_authority_2
+			has_realm_law = crown_authority_3
+		}
+	}
+	trigger_else_if = {
+		limit = {
+			government_has_flag = government_is_tribal
+		}
+		OR = {
+			has_realm_law = tribal_authority_2
+			has_realm_law = tribal_authority_3
+		}
+	}
+	trigger_else_if = {
+		limit = {
+			government_has_flag = government_is_administrative
+		}
+		OR = {
+			has_realm_law = imperial_bureaucracy_2
+			has_realm_law = imperial_bureaucracy_3
+		}
+	}
+	# This shouldn't happen
+	trigger_else = {
+		always = no
+	}
+}
+
+can_unify_kingdom_of_is_shown = {
+	### Iron Orcs can unify Craglorn, but Skaal cannot
+	is_native_to = { REGION = $NATIVITY_REGION$ CULTURE = root.culture }
+	capital_province = { geographical_region = mundus_$REGION$ }
+	### The Kingdom can't be already held
+	NOT = { exists = title:k_$NATIVITY_REGION$.holder }
+	### And it can't have been formed recently (as in, hasn't crumbled already)
+	title:k_$NATIVITY_REGION$ = { is_titular = yes }
+	### And we need the right government
+	unify_kingdom_government_trigger = yes
+}
+
+can_unify_kingdom_of_is_valid = {
+	completely_controls_region = mundus_$REGION$
+	unify_small_kingdom_law_trigger = yes
+	prestige_level >= 3
+}
+
+is_sixth_house_known_by_trigger = {
+	OR = {
+		custom_description = {
+			text = has_a_sixth_house_faith
+			faith = faith:sixth_house
+		}
+		custom_description = {
+			text = has_a_sixth_house_crypto_secret_known_by_character
+			subject = this
+			object = $CHARACTER$
+			any_secret = {
+				secret_type = secret_crypto_religionist
+				is_known_by = $CHARACTER$
+			}
+			secret_faith ?= faith:sixth_house
+		}
+	}
+}
+
+julan_shar_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_blacklight
+			is_de_jure_liege_or_above_target = title:d_cormaris
+			is_de_jure_liege_or_above_target = title:d_selethis
+		}
+	}
+}
+
+roth_roryn_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_roth_roryn
+			is_de_jure_liege_or_above_target = title:d_veranis
+			is_de_jure_liege_or_above_target = title:d_zabamat
+			is_de_jure_liege_or_above_target = title:d_marahk_bazhul
+		}
+	}
+}
+
+coronati_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_coronati
+			is_de_jure_liege_or_above_target = title:d_kragenmoor
+		}
+	}
+}
+
+narsis_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_narsis
+			is_de_jure_liege_or_above_target = title:d_shipal_shin
+		}
+	}
+}
+
+aanthirin_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_ebonheart
+			is_de_jure_liege_or_above_target = title:d_roa_dyr
+		}
+	}
+}
+
+bal_foyen_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_daen_seeth
+			is_de_jure_liege_or_above_target = title:d_bal_foyen
+			is_de_jure_liege_or_above_target = title:d_kemel
+		}
+	}
+}
+
+nanaav_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_nanaav
+			is_de_jure_liege_or_above_target = title:d_vhul
+			is_de_jure_liege_or_above_target = title:d_eidolon
+		}
+	}
+}
+
+orethan_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_amber_forest
+			is_de_jure_liege_or_above_target = title:d_meralag
+			is_de_jure_liege_or_above_target = title:d_nethril
+		}
+	}
+}
+
+aamul_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_draloris
+			is_de_jure_liege_or_above_target = title:d_aamul
+		}
+	}
+}
+
+necrom_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_necrom
+			is_de_jure_liege_or_above_target = title:d_gorne
+		}
+	}
+}
+
+mournhold_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_mournhold
+			is_de_jure_liege_or_above_target = title:d_taldeic
+		}
+	}
+}
+
+telvannis_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_telvannis
+			is_de_jure_liege_or_above_target = title:d_banor
+			is_de_jure_liege_or_above_target = title:d_uradas
+		}
+	}
+}
+
+dagon_urul_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_dagon_urul
+			is_de_jure_liege_or_above_target = title:d_boethiah_spine
+		}
+	}
+}
+
+molag_ruhn_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_molag_ruhn
+			is_de_jure_liege_or_above_target = title:d_muthada
+			is_de_jure_liege_or_above_target = title:d_scath_anud
+		}
+	}
+}
+
+sunad_mora_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_sunad_mora
+			is_de_jure_liege_or_above_target = title:d_mothrivra
+		}
+	}
+}
+
+bashipal_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_bashipal
+			is_de_jure_liege_or_above_target = title:d_horak
+			is_de_jure_liege_or_above_target = title:d_silnion
+		}
+	}
+}
+
+yengrith_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_yengrith
+			is_de_jure_liege_or_above_target = title:d_rithendis
+			is_de_jure_liege_or_above_target = title:d_felyon
+		}
+	}
+}
+
+tear_trigger = {
+	root.primary_title = {	
+		NOT = {
+			is_de_jure_liege_or_above_target = title:d_tear
+			is_de_jure_liege_or_above_target = title:d_karag
+		}
+	}
+}

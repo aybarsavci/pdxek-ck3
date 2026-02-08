@@ -1,0 +1,151 @@
+﻿pirate_government = {
+	government_rules = {
+		create_cadet_branches = yes
+		rulers_should_have_dynasty = yes
+		dynasty_named_realms = no
+		royal_court = yes
+		legitimacy = yes
+	}
+
+	primary_holding = castle_holding
+	valid_holdings = { city_holding tribal_holding }
+	required_county_holdings = { castle_holding city_holding church_holding }
+
+	vassal_contract_group = pirate_vassal
+	
+	ai = {
+		use_legends = yes
+	}
+	
+	character_modifier = {
+		legitimacy_gain_mult = -0.5
+	}
+	
+	flag = government_can_raid_rule 
+	flag = government_can_raid_across_water_rule
+	flag = government_is_pirate
+	flag = government_is_settled
+	color = hsv{ 0.1 0.1 0.1 }
+}
+
+academy_government = {
+	government_rules = {
+		council = no
+		court_generate_spouses = no
+		inherit_from_dynastic_government = no
+	}
+
+	primary_holding = academy_holding
+	required_county_holdings = { academy_holding city_holding church_holding }
+	court_generate_commanders = 5
+
+	ai = {
+		arrange_marriage = no
+		use_goals = no
+		use_scripted_guis = no
+		perform_religious_reformation = no
+		use_legends = no
+	}
+
+	vassal_contract_group = academy_vassal
+	
+	flag = government_is_academy
+	flag = government_is_settled
+	color = hsv{ 0.23 0.5 0.87 }
+}
+
+hierocracy_government = { # Only for faiths with the Temporal Clergy, still allows you to hold Temples if you're the HoF
+	government_rules = {
+		rulers_should_have_dynasty = yes
+		dynasty_named_realms = no
+		royal_court = yes
+		legitimacy = yes
+	}	
+	
+	primary_holding = castle_holding
+	valid_holdings = { church_holding }
+	required_county_holdings = { city_holding castle_holding church_holding }
+
+	tax_slot_type = hierocracy_tax_slot
+
+	vassal_contract_group = hierocracy_vassal
+	
+	ai = {
+		use_legends = yes
+	}
+	
+	can_get_government = {
+		should_use_hierocracy_government = yes
+	}
+	
+	flag = government_is_hierocracy
+	flag = government_is_settled
+	color = hsv{ 0 0.63 0.71 }
+}
+
+autocracy_government = {
+	government_rules = {
+		create_cadet_branches = yes
+		rulers_should_have_dynasty = yes
+		dynasty_named_realms = no
+		royal_court = yes
+		legitimacy = yes
+		dynasty_named_realms = yes
+	}
+
+	primary_holding = castle_holding
+	valid_holdings = { hist_holding } 
+	required_county_holdings = { castle_holding city_holding church_holding }
+	
+	tax_slot_type = autocracy_tax_slot
+	
+	fallback = 1
+
+	vassal_contract_group = autocracy_vassal
+	
+	ai = {
+		use_legends = yes
+	}
+	
+	flag = may_elevate_co_monarch
+	flag = government_is_autocratic
+	
+	### EK EDIT: You shouldn't get this if you're eligibile for the Hierocratic government
+	can_get_government = {
+		should_use_autocracy_government = yes
+	}
+	
+	flag = government_is_autocracy
+	flag = government_is_settled
+	color = hsv{ 0.66 0.44 0.88 }
+}
+
+landed_order_government = {
+	government_rules = {
+		religious = yes
+		dynasty_named_realms = no
+		court_generate_spouses = no
+		inherit_from_dynastic_government = no
+	}
+	primary_holding = castle_holding
+	required_county_holdings = { castle_holding city_holding church_holding }
+
+	court_generate_commanders = 5
+
+	ai = {
+		arrange_marriage = no
+		use_scripted_guis = no
+		perform_religious_reformation = no
+		use_legends = no
+	}
+	
+	vassal_contract_group = landed_order_vassal
+	
+	can_get_government = {
+		should_use_landed_order_government = yes
+	}
+	
+	flag = government_is_landed_order
+	flag = government_is_settled
+	color = hsv{ 0.00 0.00 0.40 }
+}

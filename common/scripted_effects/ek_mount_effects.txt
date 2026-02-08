@@ -1,0 +1,118 @@
+﻿#Effects used in mount events
+
+
+#####################################################################
+# EFFECT LIST
+#####################################################################
+# !!! Remember to add all new effects with a short description here !!!
+#
+
+#select_local_mount_effect
+
+######################################################################
+# EFFECTS
+######################################################################
+
+
+#Used to find a local animal to mount
+select_local_mount_effect = {
+	hidden_effect = {
+		if = {
+			limit = {
+				NOT = { exists = var:local_mount }
+			}
+			random_list = {
+				40 = {
+					# they're everywhere, except morrowind
+					modifier = {
+						factor = 0
+						NOT = { culture = { has_innovation = innovation_horse_breeding } }
+					}
+					set_variable = {
+						name = local_mount
+						value = flag:horse
+					}
+				}
+				40 = {
+					# must use camels
+					modifier = {
+						factor = 0
+						NOT = { culture = { has_innovation = innovation_war_camels } }
+					}
+					set_variable = {
+						name = local_mount
+						value = flag:camel
+					}
+				}
+				40 = {
+					# must use kagouti
+					modifier = {
+						factor = 0
+						NOT = { culture = { has_innovation = innovation_guar } }
+					}
+					set_variable = {
+						name = local_mount
+						value = flag:kagouti
+					}
+				}
+				40 = {
+					# must use bristleback boars
+					modifier = {
+						factor = 0
+						NOT = { culture = culture:riekling }
+					}
+					set_variable = {
+						name = local_mount
+						value = flag:bristleback
+					}
+				}
+				5 = {
+					# must use senche
+					modifier = {
+						factor = 0
+						NOT = { culture = { has_innovation = innovation_senche_raht } }
+					}
+					set_variable = {
+						name = local_mount
+						value = flag:senche
+					}
+				}
+				5 = {
+					# must use gryphons
+					modifier = {
+						factor = 0
+						NOT = { culture = { has_innovation = innovation_eton_nir_gryphon_riders } }
+					}
+					set_variable = {
+						name = local_mount
+						value = flag:gryphon
+					}
+				}
+				100 = {
+					# must be lunatic
+					modifier = {
+						factor = 0
+						NOT = { has_trait = lunatic }
+					}
+					set_variable = {
+						name = local_mount
+						value = flag:toy_horse
+					}
+				}
+				40 = {
+					modifier = {
+						factor = 0
+						NOR = {
+							culture = culture:goblin
+							culture = culture:riekr
+						}	
+					}
+					set_variable = {
+						name = local_mount
+						value = flag:durzog
+					}
+				}
+			}
+		}
+	}
+}

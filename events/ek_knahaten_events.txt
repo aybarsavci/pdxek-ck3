@@ -1,0 +1,3581 @@
+﻿namespace = ek_knahaten_events_bm
+
+# ek_knahaten_events_bm  - Black Marsh Knahaten/Post-Knahaten Events
+	#0001				 - BM Non-Argonian County swaps to Argonian
+	#0002				 - followup, no non-argonian counties left in realm of non-argonian ruler
+	#0003				 - followup, no non-argonian counties left in total. for the strongest ruler of the former culture (or player)
+	#0004				 - Soulrest Emporium falls into chaos
+# ek_knahaten_events_els - Elsweyr Knahaten/Post-Knahaten Events
+	#0001				 - Orcrest Bazaar Devastated
+	#0002				 - Senchal Port falls into chaos
+	#0003				 - followup, Senchal Burns
+	#0004				 - Altmer offer assistance / find the appropriate ruler
+	#0005				 - News of the plague reaches the ears of the most important Altmer
+	#0006				 - Chosen Elsweyr ruler gets the missive
+	#0007				 - Altmer guy gets a response
+	#gap
+	#0010				 - Stricken - we find any khajiiti monastery holders in northern Elsweyr
+	#0011				 - Stricken - The Afflicted return
+	#0012				 - Stricken - Travel (faux) Danger event: Stricken encounter
+# ek_knahaten_events_hfl - Hammerfell Knahaten Events
+	#0001				 - Systres Isolationism
+	#0002				 - perpetual death cycle :>
+	#0003				 - City Redguards flee to the Alik'r
+# ek_knahaten_events_global - Knahaten Global Outbreak Broadcasts (inspired by ck2 Reaper's Due/EK2 Knahaten announcements)
+	#0001				 - Announcement to every player, except those in Black Marsh, that Black Marsh is ravaged by the Flu
+	#0002				 - Elsweyr
+	#0003				 - Morrowind
+	#0004				 - Cyrodiil
+	#0005				 - Skyrim
+	#0006				 - High Rock
+	#0007				 - Hammerfell
+	#0008				 - Valenwood
+	#0009				 - Summerset Isles
+	#0010				 - Yokuda
+	#0011				 - Announcement of a culture having died because of the Knahaten
+    #0012				 - Announcement that the Flu has finally left Elsweyr
+
+############################
+## Black Marsh Knahaten/Post-Knahaten Events
+## 0001-1000
+## by TheynT
+############################
+
+# Argonian, former culture, non-argonian Rulers react, that their non-argonian county is now an argonian county
+# Comes with the following scopes:
+# newly_argonian_county					- The county that has just become argonian
+# newly_argonian_county_former_culture	- The previous culture of the county
+# newly_argonian_county_former_faith	- The previous faith of the county
+ek_knahaten_events_bm.0001 = {
+	type = character_event
+	title = ek_knahaten_events_bm.0001.t
+	desc = {
+		desc = ek_knahaten_events_bm.0001.desc
+		triggered_desc = {
+			trigger = {
+				culture = scope:newly_argonian_county_former_culture
+			}
+			desc = ek_knahaten_events_bm.0001.desc_ruler_culture
+		}
+	}
+	content_source = dlc_ek
+	theme = knahaten
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	option = { # Argonian Ruler: Offer relief for the remaining non argonians
+		name = ek_knahaten_events_bm.0001.b_argonian
+
+		trigger = { culture = { has_cultural_tradition = tradition_histskin } }
+		
+		add_piety = minor_piety_gain
+		scope:newly_argonian_county = {
+			add_county_modifier = { #+ popular opinion, development growth - tax income
+				modifier = surviving_non_argonian_relief
+				years = 10
+			}
+		}
+
+		ai_chance = {
+			ai_value_modifier = {
+				ai_compassion = 0.5
+				ai_honor = 0.4
+				ai_greed = -0.1
+				ai_zeal = -0.1
+			}
+			modifier = {
+				factor = 1.5
+				culture = {
+					cultural_acceptance = {
+						target = scope:newly_argonian_county_former_culture
+						value >= 50
+					}
+				}
+			}
+		}
+	}
+	option = { # Let's try to resettle the non-argonians
+		name = ek_knahaten_events_bm.0001.a
+
+		random_list = {
+			25 = {
+				modifier = {
+					factor = 0.2
+					has_game_rule = bd_occurrence_historical
+				}
+				modifier = { #If a county of the same culture is in your realm
+					factor = 1.05
+					any_sub_realm_county = {
+						culture = scope:newly_argonian_county_former_culture
+					}
+				}
+				modifier = { #If you yourself are of the same culture
+					factor = 1.025
+					culture = scope:newly_argonian_county_former_culture
+				}
+				scope:newly_argonian_county = {
+					set_county_culture = scope:newly_argonian_county_former_culture
+					set_county_faith = scope:newly_argonian_county_former_faith
+					change_development_level = 3
+					if = {
+						limit = { has_variable = former_culture }
+						if = {
+							limit = { var:former_culture = scope:newly_argonian_county_former_culture }
+							remove_variable = former_culture
+						}
+					}
+				}
+				if = { #If it brings the culture back to life, we need to run the proper effect
+					limit = { scope:newly_argonian_county_former_culture = { culture_is_alive = no } }
+					scope:newly_argonian_county_former_culture = { culture_become_alive_effect = yes }
+				}
+				add_piety = major_piety_value
+				desc = ek_knahaten_events_bm.0001.a.tooltip
+			}
+			25 = {
+				modifier = {
+					factor = 0.3
+					has_game_rule = bd_occurrence_historical
+				}
+				modifier = { #If a county of the same culture is in your realm
+					factor = 1.1
+					any_sub_realm_county = {
+						culture = scope:newly_argonian_county_former_culture
+					}
+				}
+				modifier = { #If you yourself are of the same culture
+					factor = 1.05
+					culture = scope:newly_argonian_county_former_culture
+				}
+				scope:newly_argonian_county = {
+					change_development_level = 1
+				}
+				add_piety = medium_piety_value
+				desc = ek_knahaten_events_bm.0001.a.tooltip2
+			}
+			50 = {
+				add_piety = minor_piety_value
+				desc = ek_knahaten_events_bm.0001.a.tooltip3
+			}
+		}
+
+		ai_chance = {
+			ai_value_modifier = {
+				ai_compassion = 0.1
+				ai_honor = 0.1
+				ai_greed = -1.5
+				ai_zeal = -0.5
+			}
+			modifier = {
+				add = 1.5
+				has_trait = compassionate
+			}
+			modifier = {
+				add = 0.5
+				culture = {
+					cultural_acceptance = {
+						target = scope:newly_argonian_county_former_culture
+						value >= 75
+					}
+				}
+			}
+			modifier = {
+				add = 20
+				culture = scope:newly_argonian_county_former_culture
+			}
+		}
+	}	
+	option = { # Non-Argonian Ruler: Encourage the argonian majority to help the survivors
+		name = ek_knahaten_events_bm.0001.b_non_argonian
+
+		trigger = { NOT = { culture = { has_cultural_tradition = tradition_histskin } }}
+		random_list = {
+			70 = {
+				modifier = {
+					add = 20
+					culture = {
+						cultural_acceptance = {
+							target = scope:newly_argonian_county_former_culture
+							value >= 75
+						}
+					}
+				}
+				desc = ek_knahaten_events_bm.0001.b_non_argonian.tooltip
+				scope:newly_argonian_county = {
+					add_county_modifier = { #+ popular opinion, development growth - tax income
+						modifier = surviving_non_argonian_relief
+						years = 10
+					}
+				}
+			}
+			30 = {
+				desc = ek_knahaten_events_bm.0001.b_non_argonian.tooltip2
+			}
+		}
+	}
+	option = { # Oh no how tragic!
+		name = {
+			trigger = { culture = { has_cultural_tradition = tradition_histskin } }
+			text = ek_knahaten_events_bm.0001.c.argonian
+		}
+		name = {
+			trigger = { NOT = { culture = { has_cultural_tradition = tradition_histskin } } }
+			text = ek_knahaten_events_bm.0001.c.non_argonian
+		}
+		name = {
+			trigger = { culture = scope:newly_argonian_county_former_culture }
+			text = ek_knahaten_events_bm.0001.c.your_culture
+		}
+
+		if = {
+			limit = { culture = scope:newly_argonian_county_former_culture }
+			add_stress = minor_stress_gain
+		}
+	}
+	option = { # Let's drive out the rest of them too
+		name = ek_knahaten_events_bm.0001.d
+
+		trigger = {
+			NOT = { culture = scope:newly_argonian_county_former_culture }
+		}
+
+		add_piety = major_piety_loss
+		add_dread = 25
+
+		scope:newly_argonian_county = {
+			if = {
+				limit = {
+					development_level >= 1
+				}
+				change_development_level = -1
+			}
+			change_county_control = 10
+		}
+
+		ai_chance = {
+			ai_value_modifier = {
+				ai_compassion = -0.5
+				ai_honor = -0.5
+				ai_zeal = -0.5
+			}
+			modifier = {
+				add = 2
+				has_trait = sadistic
+			}
+			modifier = {
+				add = 2
+				has_trait = paranoid
+			}
+			modifier = {
+				add = 2
+				culture = {
+					cultural_acceptance = {
+						target = scope:newly_argonian_county_former_culture
+						value <= 10
+					}
+				}
+			}
+		}
+	}
+
+	after = {
+		if = {
+			limit = {
+				culture = scope:newly_argonian_county_former_culture #If the ruler is of the former culture
+				NOT = { #And this was the last county of the culture in the rulers realm
+					any_sub_realm_county = {
+						culture = scope:newly_argonian_county_former_culture
+					}
+				}
+			}
+			hidden_effect = {
+				#Rescoping, to pass them to the event
+				scope:newly_argonian_county = { save_scope_as = newly_argonian_county }
+				scope:newly_argonian_county_former_culture = { save_scope_as = newly_argonian_county_former_culture }
+				scope:newly_argonian_county_former_faith = { save_scope_as = newly_argonian_county_former_faith }
+				trigger_event = { id = ek_knahaten_events_bm.0002 days = 2 } 
+			}
+		}
+		if = { #If no more counties of the former culture are left
+			limit = {
+				scope:newly_argonian_county_former_culture = { culture_is_alive = no }
+			}
+			hidden_effect = {
+				ordered_ruler = {
+					limit = { culture = scope:newly_argonian_county_former_culture }
+					order_by = sub_realm_size
+					position = 0
+					save_scope_as = ruler_with_biggest_realm
+				}	
+			}
+			if = { #If the player is the largest ruler, we prefer them.
+				limit = {
+					exists = scope:ruler_with_biggest_realm
+					any_player = {
+						culture = scope:newly_argonian_county_former_culture
+						save_temporary_scope_as = player
+					}
+					scope:player = scope:ruler_with_biggest_realm
+				}
+				scope:ruler_with_biggest_realm = { trigger_event = { id = ek_knahaten_events_bm.0003 days = 10 } }
+			}
+			else_if = { #If the player is playing a ruler of that culture, we prefer them
+				limit = {
+					any_player = {
+						culture = scope:newly_argonian_county_former_culture
+					}
+				}
+				random_player = {
+					limit = { culture = scope:newly_argonian_county_former_culture }
+					trigger_event = { id = ek_knahaten_events_bm.0003 days = 10 }
+				}
+			}
+			else_if = { #else, if there still is a ruler of the former culture, we launch the revival/save stuff for them
+				limit = {
+					exists = scope:ruler_with_biggest_realm
+				}
+				scope:ruler_with_biggest_realm = { trigger_event = { id = ek_knahaten_events_bm.0003 days = 10 } }
+			}
+			else_if = { # Else, we announce that the culture is dead to every player (only once)
+				limit = { NOT = { exists = global_var:knahaten_wipeout_broadcast_happened_before } }
+				every_player = {
+					limit = {
+						any_sub_realm_county = {
+							title_province = { geographical_region = mundus_tamriel_black_marsh }
+						}
+					}
+					scope:newly_argonian_county_former_culture = { save_scope_as = newly_argonian_county_former_culture }
+					trigger_event = { id = ek_knahaten_events_global.0011 days = { 31 61 } }
+				}
+			}
+			else = {
+				every_player = {
+					limit = {
+						any_sub_realm_county = {
+							title_province = { geographical_region = mundus_tamriel_black_marsh }
+						}
+					}
+					scope:newly_argonian_county_former_culture = { save_scope_as = newly_argonian_county_former_culture }
+					trigger_event = { id = ek_knahaten_events_global.0011 days = { 31 61 } }
+				}
+			}
+		}
+	}	
+}
+
+# Followup event for the ruler of the former culture, if the county was the last in their realm
+# Comes with the following scopes:
+# newly_argonian_county					- The county that has just become argonian
+# newly_argonian_county_former_culture	- The previous culture of the county
+# newly_argonian_county_former_faith	- The previous faith of the county
+ek_knahaten_events_bm.0002 = {
+	type = character_event
+	title = ek_knahaten_events_bm.0002.t
+	desc = ek_knahaten_events_bm.0002.desc
+
+	content_source = dlc_ek
+	theme = knahaten
+	right_portrait = {
+		character = root
+		animation = worry
+	}
+	left_portrait = {
+		character = scope:possible_argonian_ruler
+		animation = idle
+	}
+
+	immediate = {
+		#We find every county in realm that was formerly of the culture
+		if = {
+			limit = {
+				any_sub_realm_county = {
+					has_variable = former_culture
+				}
+			}
+			every_sub_realm_county = {
+				limit = { has_variable = former_culture }
+				if = {
+					limit = {
+						var:former_culture = root.culture
+						NOT = { culture = root.culture }
+					}
+					add_to_list = formerly_rulers_culture_counties
+				}
+			}
+		}
+
+		#To find a county of the same culture in the area for option 2
+		if = {
+			limit = {
+				capital_province = { geographical_region = custom_nativity_middle_argonia }
+				any_county_in_region = {
+					region = custom_nativity_middle_argonia
+					NOT = { holder = root }
+					culture = root.culture
+				}
+			}
+			random_county_in_region = {
+				region = custom_nativity_middle_argonia
+				limit = {
+					NOT = { holder = root }
+					culture = root.culture
+				}
+				save_scope_as = same_culture_county
+			}
+
+		}
+		else_if = {
+			limit = {
+				capital_province = { geographical_region = custom_nativity_onkobra }
+				any_county_in_region = {
+					region = custom_nativity_onkobra
+					NOT = { holder = root }
+					culture = root.culture
+				}
+			}
+			random_county_in_region = {
+				region = custom_nativity_onkobra
+				limit = {
+					NOT = { holder = root }
+					culture = root.culture
+				}
+				save_scope_as = same_culture_county
+			}
+		}
+		else_if = {
+			limit = {
+				capital_province = { geographical_region = custom_nativity_black_bays }
+				any_county_in_region = {
+					region = custom_nativity_black_bays
+					NOT = { holder = root }
+					culture = root.culture
+				}
+			}
+			random_county_in_region = {
+				region = custom_nativity_black_bays
+				limit = {
+					NOT = { holder = root }
+					culture = root.culture
+				}
+				save_scope_as = same_culture_county
+			}
+		}
+		else_if = {
+			limit = {
+				capital_province = { geographical_region = custom_nativity_padomaic_marshes }
+				any_county_in_region = {
+					region = custom_nativity_padomaic_marshes
+					NOT = { holder = root }
+					culture = root.culture
+				}
+			}
+			random_county_in_region = {
+				region = custom_nativity_padomaic_marshes
+				limit = {
+					NOT = { holder = root }
+					culture = root.culture
+				}
+				save_scope_as = same_culture_county
+			}
+		}
+		else_if = { #If there's no county in the direct area, just BM will do
+		limit = {
+			capital_province = { geographical_region = mundus_tamriel_black_marsh }
+			any_county_in_region = {
+				region = mundus_tamriel_black_marsh
+				NOT = { holder = root }
+				culture = root.culture
+			}
+		}
+			random_county_in_region = {
+				region = mundus_tamriel_black_marsh
+				limit = {
+					NOT = { holder = root }
+					culture = root.culture
+				}
+				save_scope_as = same_culture_county
+			}
+		}
+		else = { #And, last resort, anywhere in the world
+			random_county_in_region = {
+				region = mundus_tamriel
+				limit = {
+					NOT = { holder = root }
+					culture = root.culture
+				}
+				save_scope_as = same_culture_county
+			}
+		}
+
+		#To find an argonian character to abdicate to
+		if = { #Argonian Vassal first
+			limit = {
+				any_vassal = {
+					has_character_flag = race_argonian #So we get a _proper_ argonian
+					is_adult = yes
+				}
+			}
+			random_vassal = {
+				limit = {
+					has_character_flag = race_argonian
+					is_adult = yes
+				}
+				save_scope_as = possible_argonian_ruler
+			}
+		}
+		else_if = { #Argonian courtier next
+			limit = {
+				any_courtier = {
+					has_character_flag = race_argonian #So we get a _proper_ argonian
+					is_adult = yes
+				}
+			}
+			random_courtier = {
+				limit = {
+					has_character_flag = race_argonian
+					is_adult = yes
+				}
+				save_scope_as = possible_argonian_ruler
+			}
+		}
+		else_if = { #Argonian guest next
+			limit = {
+				any_courtier_or_guest = {
+					has_character_flag = race_argonian #So we get a _proper_ argonian
+					is_adult = yes
+				}
+			}
+			random_courtier_or_guest = {
+				limit = {
+					has_character_flag = race_argonian
+					is_adult = yes
+				}
+				save_scope_as = possible_argonian_ruler
+			}
+		}
+		else = { #Else, we generate a new argonian character		
+			create_character = {
+				age = { 20 40 }
+				gender_female_chance = 50
+				dynasty = generate
+				faith = root.capital_province.faith
+				culture = root.capital_province.culture
+				location = root.capital_province
+				trait = peasant_leader
+				random_traits = yes
+
+				after_creation = {
+					ek_character_setup_effect = yes
+				}
+
+				save_scope_as = possible_argonian_ruler
+			}
+		}
+	}
+
+	option = { #Try to find your people, resettle them in your capital
+		name = ek_knahaten_events_bm.0002.a
+		flavor = ek_knahaten_events_bm.0002.a.tt
+
+		remove_short_term_gold = medium_gold_value
+		
+		random_list = {
+			25 = {
+				modifier = {
+					factor = list_size:formerly_rulers_culture_counties
+				}
+				capital_province.county = {
+					set_county_culture = root.culture
+					set_county_faith = root.faith
+					change_development_level = 3
+				}
+				if = { #If it brings the culture back to life, we need to run the proper effect
+					limit = { root.culture = { culture_is_alive = no } }
+					root.culture = { culture_become_alive_effect = yes }
+				}
+			}
+			75 = {
+				add_stress = minor_stress_gain
+			}
+		}
+
+		ai_chance = {
+			base = 80
+		}
+	}
+	
+	option = { #I shall claim the next best county of my culture!
+		name = ek_knahaten_events_bm.0002.b
+		trigger = { exists = scope:same_culture_county }
+		add_pressed_claim = scope:same_culture_county
+
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_greed = 5
+			}
+			modifier = {
+				add = 5
+				has_trait = ambitious
+			}
+		}
+	}
+	option = { #A county is not enough, I shall claim the whole duchy!
+		name = ek_knahaten_events_bm.0002.c
+		trigger = { exists = scope:same_culture_county }
+
+		add_pressed_claim = scope:same_culture_county
+		add_pressed_claim = scope:same_culture_county.duchy
+
+		add_prestige = medium_prestige_loss
+		add_legitimacy = minor_legitimacy_loss
+
+		ai_chance = {
+			base = 30
+			ai_value_modifier = {
+				ai_greed = 10
+			}
+			modifier = {
+				add = 10
+				has_trait = ambitious
+			}
+		}
+	}
+	#EK TODO EP3: Option to become an unlanded adventurer
+	option = { #Abdicate in favor of an argonian (existing vassal, existing courtier, new character)
+		name = ek_knahaten_events_bm.0002.d
+		flavor = ek_knahaten_events_bm.0002.d.tt
+		trigger = { exists = scope:possible_argonian_ruler }
+
+		root = {
+			create_title_and_vassal_change = {
+				type = granted
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			every_held_title = {
+				change_title_holder = {
+					holder = scope:possible_argonian_ruler
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+		}
+
+		ai_chance = {
+			base = 10
+			ai_value_modifier = {
+				ai_honor = 1
+				ai_compassion = 0.5
+				ai_sociability = 0.25
+				ai_vengefulness = -0.25
+				ai_zeal = -0.5
+				ai_greed = -0.5
+			}
+		}
+	}
+
+	option = { #Guess I'll rule over lizards now
+		name = ek_knahaten_events_bm.0002.e
+		capital_province.county = {
+			add_county_modifier = {
+				modifier = embraced_argonian_population
+				years = 10
+			}
+		}
+
+		ai_chance = {
+			base = 20
+			modifier = {
+				add = 5
+				has_trait = compassionate
+			}
+		}
+	}
+}
+
+#Followup event for the most important ruler of the former culture (or player, preferred), if the county was the last of the culture in total
+ek_knahaten_events_bm.0003 = { #EK TODO Post-Knahaten activity
+	type = character_event
+	title = ek_knahaten_events_bm.0003.t
+	desc = {
+		desc = ek_knahaten_events_bm.0003.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					root.capital_province = { geographical_region = mundus_tamriel_black_marsh }
+				}
+				desc = ek_knahaten_events_bm.0002.desc_inside_black_marsh
+			}
+			triggered_desc = {
+				trigger = {
+					root.capital_province = { NOT = { geographical_region = mundus_tamriel_black_marsh }}
+				}
+				desc = ek_knahaten_events_bm.0002.desc_outside_black_marsh
+			}
+		}
+		desc = ek_knahaten_events_bm.0003.desc2
+	}
+
+	content_source = dlc_ek
+	theme = knahaten
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+
+	trigger = {
+		culture = { culture_is_alive = no } #To make sure that if between firing the event and now, the culture wasn't revived by any other means
+	}
+
+	immediate = {
+		#We find every county in realm that was formerly of the culture
+		if = {
+			limit = {
+				any_county_in_region = {
+					region = mundus_tamriel_black_marsh
+					has_variable = former_culture
+				}
+			}
+			every_county_in_region = {
+				region = mundus_tamriel_black_marsh
+				limit = {
+					has_variable = former_culture
+					NOT = { culture = root.culture }
+				}
+				if = {
+					limit = { var:former_culture = root.culture }
+					add_to_list = formerly_rulers_culture_counties_bm
+				}
+			}
+		}
+	}
+
+	option = { #EK TODO Post-Knahaten activity
+		name = ek_knahaten_events_bm.0003.a
+
+		random_list = {
+			20 = { #You attempt resettle your people in your capital
+				modifier = {
+					add = {
+						value = list_size:formerly_rulers_culture_counties_bm
+						add = 5
+					}
+				}
+				capital_province.county = {
+					set_county_culture = root.culture
+					set_county_faith = root.faith
+					change_development_level = 3
+				}
+				if = { #If it brings the culture back to life, we need to run the proper effect
+					limit = { root.culture = { culture_is_alive = no } }
+					root.culture = { culture_become_alive_effect = yes }
+				}
+				send_interface_toast = {
+					type = event_toast_text_and_effect_good
+					title = ek_knahaten_events_bm.0003.a.success
+					desc = ek_knahaten_events_bm.0003.a.success_desc
+					right_icon = root
+				}
+			}
+			80 = { #You don't find enough people
+				send_interface_toast = {
+					type = event_toast_text_and_effect_bad
+					title = ek_knahaten_events_bm.0003.a.failure
+					desc = ek_knahaten_events_bm.0003.a.failure_desc
+					right_icon = root
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 50
+				has_trait = ambitious
+			}
+		}
+	}
+	option = { #I shall be the last of my people
+		name = ek_knahaten_events_bm.0003.b
+
+		add_prestige = 1000 #Ruler gets very famous for being the last
+		root.dynasty = { add_dynasty_prestige = 500 } #Dynasty gets some renown too
+
+		# Everyone disliked that.
+		every_courtier = {
+			limit = {
+				culture = root.culture
+			}
+			add_opinion = {
+				modifier = abandoned_our_people_opinion
+				target = root
+			}
+		}
+		every_vassal_or_below = {
+			limit = {
+				culture = root.culture
+			}
+			add_opinion = {
+				modifier = abandoned_our_people_opinion
+				target = root
+			}
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 50
+				has_trait = shy
+			}
+			modifier = {
+				add = 50
+				has_trait = lazy
+			}
+		}
+	}
+}
+
+# Soulrest Emporium falls into chaos
+# by TheynT & Ymeidor
+ek_knahaten_events_bm.0004 = {
+	type = character_event
+    content_source = dlc_ek
+    title = ek_knahaten_events_bm.0004.t
+    desc = ek_knahaten_events_bm.0004.desc
+
+    theme = knahaten
+
+    left_portrait = {
+        character = root
+        animation = stress
+    }
+
+    trigger = {
+        has_title = title:c_soulrest
+		any_held_county = { #Knahaten has to be around
+			any_county_province = {
+				any_province_epidemic = {
+					this = global_var:black_death
+				}
+				has_building = soulrest_port_01
+			}
+		}
+    }
+
+    immediate = {
+		random_held_county = {
+			limit = {
+				any_county_province = {
+					has_building = soulrest_port_01
+				}
+			}
+
+			random_county_province = {
+				limit = {
+					has_building = soulrest_port_01
+				}
+				remove_building = soulrest_port_01
+           		add_special_building = soulrest_port_02
+			}
+		}
+    }
+
+    #It's anarchy 
+    option = {
+        name = ek_knahaten_events_bm.0004.a
+
+        stress_impact = {
+            base = major_stress_gain
+        }
+    }
+}
+
+############################
+## Elsweyr Knahaten/Post-Knahaten Events
+## 0001-1000
+## by TheynT & Ymeidor
+############################
+namespace = ek_knahaten_events_els
+
+# Orcrest Bazaar Devastated
+# by Ymeidor
+ek_knahaten_events_els.0001 = {
+	type = character_event
+	title = ek_knahaten_events_els.0001.t
+	desc = ek_knahaten_events_els.0001.desc
+	content_source = dlc_ek
+	theme = knahaten
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+
+	trigger = {
+		has_title = title:c_orcrest #You're the owner of Orcrest
+		any_held_county = { #Knahaten has to be around
+			any_county_province = {
+				any_province_epidemic = {
+					this = global_var:black_death
+				}
+				has_building = orcrest_bazaar_01
+			}
+		}
+	}
+
+	immediate = {
+		random_held_county = {
+			limit = {
+				any_county_province = {
+					has_building = orcrest_bazaar_01
+				}
+			}
+
+			random_county_province = {
+				limit = {
+					has_building = orcrest_bazaar_01
+				}
+				remove_building = orcrest_bazaar_01
+				add_special_building = orcrest_bazaar_02
+			}
+		}
+	}
+
+	option = { #Oh no
+		name = ek_knahaten_events_els.0001.a
+	}
+}
+
+#Senchal Port falls into chaos
+# by Ymeidor
+ek_knahaten_events_els.0002 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_knahaten_events_els.0002.t
+    desc = ek_knahaten_events_els.0002.desc
+
+    theme = knahaten
+
+    left_portrait = {
+        character = root
+        animation = stress
+    }
+
+    trigger = {
+        has_title = title:c_senchal
+		any_held_county = { #Knahaten has to be around
+			any_county_province = {
+				any_province_epidemic = {
+					this = global_var:black_death
+				}
+				has_building = lucky_cat_port_01
+			}
+		}
+    }
+
+    immediate = {
+		random_held_county = {
+			limit = {
+				any_county_province = {
+					has_building = lucky_cat_port_01
+				}
+			}
+
+			random_county_province = {
+				limit = {
+					has_building = lucky_cat_port_01
+				}
+				remove_building = lucky_cat_port_01
+           		add_special_building = lucky_cat_port_02
+			}
+		}
+    }
+
+    #It's anarchy 
+    option = {
+        name = ek_knahaten_events_els.0002.a
+
+        stress_impact = {
+            base = major_stress_gain
+        }
+    }
+
+	after = {
+		hidden_effect = {
+			trigger_event = { id = ek_knahaten_events_els.0003 days = { 21 35 } }
+		}
+	}
+}
+#Senchal burns
+# by Ymeidor
+ek_knahaten_events_els.0003 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_knahaten_events_els.0003.t
+    desc = ek_knahaten_events_els.0003.desc
+    theme = knahaten
+
+	override_background = {
+		reference = ep3_constantinople_riot
+	}
+
+	override_effect_2d = {
+		reference = smoke	
+	}
+
+    left_portrait = {
+        character = root
+        animation = stress
+    }
+
+    trigger = {
+        has_title = title:c_senchal
+		any_held_county = { #Knahaten has to be around
+			any_county_province = {
+				any_province_epidemic = {
+					this = global_var:black_death
+				}
+				has_building = lucky_cat_port_02
+			}
+			any_county_province = {
+				has_building = senchal_palace_01
+			}
+		}
+    }
+
+    immediate = {
+		random_held_county = {
+			limit = {
+				any_county_province = {
+					has_building = senchal_palace_01
+				}
+			}
+
+			random_county_province = {
+				limit = {
+					has_building = senchal_palace_01
+				}
+				remove_building = senchal_palace_01
+            	add_special_building = senchal_palace_02
+				save_scope_as = senchal_palace_prov
+			}
+		}
+		if = {
+			limit = {
+				title:c_senchal = { development_level >= medium_development_level } #40
+			}
+			title:c_senchal = { change_development_level = -10 }
+		}
+		else_if = {
+			limit = {
+				title:c_senchal = { development_level >= bad_development_level } #20
+			}
+			title:c_senchal = { change_development_level = -5 }
+		}
+		else_if = {
+			limit = {
+				title:c_senchal = { development_level >= terrible_development_level } #10
+			}
+			title:c_senchal = { change_development_level = -2 }
+		}
+    }
+
+    #Run for your life
+    option = {
+        name = ek_knahaten_events_els.0003.a
+        add_internal_flag = dangerous
+        flavor = ek_knahaten_events_els.0003.a.fl
+
+		duel = {
+			skill = prowess
+			value = average_skill_rating
+			25 = {
+				desc = ek_knahaten_events_els.0003.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 0.5
+				}
+				send_interface_toast = {		
+					title = ek_knahaten_events_els.0003.a.success
+					type = event_toast_effect_good
+					add_stress = medium_stress_gain
+				}
+			}
+			50 = {
+				desc = ek_knahaten_events_els.0003.a.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -1
+				}
+				send_interface_toast = {
+					title = ek_knahaten_events_els.0003.a.failure
+                    type = event_toast_effect_bad                    
+                    increase_wounds_effect = { REASON = senchal_fire }
+					add_stress = major_stress_gain
+                }
+			}
+			25 = {
+				desc = ek_knahaten_events_els.0003.a.critical_failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.5
+				}
+				death = {
+                    death_reason = death_senchal_fire
+                }
+			}
+		}
+    }
+
+	#Use magic for your safety
+    option = {
+        name = ek_knahaten_events_els.0003.b
+        add_internal_flag = dangerous
+        flavor = ek_knahaten_events_els.0003.b.fl
+		trigger = {
+			has_magic_perk_trigger = yes
+		}
+
+		random_list = { # Fake Duel
+			10 = {
+				desc = ek_knahaten_events_els.0003.b.success
+				modifier = {
+					factor = arcana
+				}
+				send_interface_toast = {		
+					title = ek_knahaten_events_els.0003.b.success
+					type = event_toast_effect_good
+					add_stress = medium_stress_gain
+				}
+			}
+			20 = {
+				desc = ek_knahaten_events_els.0003.b.failure
+				compare_modifier = {
+					factor = arcana
+					multiplier = 0.5
+				}
+				send_interface_toast = {
+					title = ek_knahaten_events_els.0003.b.failure
+                    type = event_toast_effect_bad                    
+                    increase_wounds_effect = { REASON = senchal_fire }
+					add_stress = major_stress_gain
+                }
+			}
+			50 = {
+				desc = ek_knahaten_events_els.0003.b.critical_failure
+				death = {
+                    death_reason = death_senchal_fire
+                }
+			}
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			scope:senchal_palace_prov = {
+				every_character_in_location = {
+					limit = { NOT = { this = root } }
+					random_list = {
+						25 = {
+							add_stress = medium_stress_gain
+						}
+						50 = { 
+							send_interface_toast = {
+								type = event_toast_effect_bad
+								title = senchal_fire_notification
+								increase_wounds_effect = { REASON = senchal_fire }
+								add_stress = major_stress_gain
+							}
+						}
+						25 = { 
+							modifier = {
+								has_game_rule = bd_occurrence_historical
+								add = 75
+							}
+							death = {
+								death_reason = death_senchal_fire
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+# Altmer offer assistance / find the appropriate ruler
+# by TheynT
+ek_knahaten_events_els.0004 = {
+	hidden = yes
+
+	trigger = {
+		exists = global_var:ek_knahaten_broadcasted_elsweyr #The news of the plague must have reached Altmer properly
+		NOT = { exists = global_var:ek_knahaten_aldmeri_assistance_happened }
+		NOT = { exists = global_var:ek_knahaten_aldmeri_assistance_fired }
+	}
+	immediate = {
+		hidden_effect = {
+			set_global_variable = {
+				name = ek_knahaten_aldmeri_assistance_fired
+				value = yes
+			}
+			ordered_independent_ruler = {
+				limit = {
+					is_landed = yes
+					capital_province = { #Capital in the Summerset Isles
+						geographical_region = mundus_tamriel_summerset_isles
+					}
+					culture = { has_cultural_pillar = heritage_aldmeri }
+					OR = {
+						is_ai = no #Players can spend whatever
+						short_term_gold >= minor_gold_value #AI needs gold at hand
+						has_title = title:e_summerset #No matter how in debt, we consider Summerset
+					}
+				}
+				order_by = sub_realm_size
+				position = 0
+				save_scope_as = ruler_with_biggest_realm
+			}	
+		}
+		scope:ruler_with_biggest_realm = {
+			save_scope_as = altmer_ruler
+			trigger_event = { id = ek_knahaten_events_els.0005 }
+		}
+	}
+}
+
+scripted_effect generosity_piety_stress_effect = {
+	if = {
+		limit = {
+			faith = {
+				OR = {
+					trait_is_virtue = generous
+					trait_is_virtue = compassionate
+				}
+			}
+		}
+		pious_type_option_effect = yes
+		add_piety = miniscule_piety_gain
+	}
+	else_if = {
+		limit = {
+			faith = { trait_is_sin = generous }
+		}
+		add_piety = minor_piety_loss
+	}
+
+	stress_impact = {
+		greedy = minor_stress_gain
+		callous = minor_stress_gain
+		arrogant = minor_stress_gain
+		vengeful = minor_stress_gain
+	}	
+}
+
+scripted_effect monetary_relief_effect = {
+	if = {
+		limit = {
+			short_term_gold >= major_gold_value
+		}
+		remove_short_term_gold = medium_gold_value
+		save_scope_value_as = {
+			name = ek_knahaten_aldmeri_monetary_relief_amount
+			value = medium_gold_value
+		}
+	}
+	else_if = {
+		limit = {
+			short_term_gold >= medium_gold_value
+		}
+		remove_short_term_gold = minor_gold_value
+		save_scope_value_as = {
+			name = ek_knahaten_aldmeri_monetary_relief_amount
+			value = minor_gold_value
+		}
+	}
+	else= {
+		remove_short_term_gold = tiny_gold_value
+		save_scope_value_as = {
+			name = ek_knahaten_aldmeri_monetary_relief_amount
+			value = tiny_gold_value
+		}
+	}
+}
+
+scripted_effect altmer_send_relief_opinions = {
+	#every parochial & zealot vassal dislikes this slightly
+	every_vassal = {
+		limit = {
+			has_vassal_stance = parochial 
+		}
+		custom = every_parochial_vassal
+		add_opinion = {
+			modifier = disrespect_opinion
+			opinion = -15
+			target = root
+		}
+	}
+	every_vassal = {
+		limit = {
+			has_vassal_stance = zealot 
+		}
+		custom = every_zealot_vassal
+		add_opinion = {
+			modifier = disrespect_opinion
+			opinion = -15
+			target = root
+		}
+	}
+	# every minorty & courtly vassal likes this moderately
+	every_vassal = {
+		limit = {
+			has_vassal_stance = minority
+		}
+		custom = every_minority_vassal
+		add_opinion = {
+			modifier = respect_opinion
+			opinion = 25
+			target = root
+		}
+	}
+	every_vassal = {
+		limit = {
+			has_vassal_stance = courtly
+		}
+		custom = every_courtly_vassal
+		add_opinion = {
+			modifier = respect_opinion
+			opinion = 25
+			target = root
+		}
+	}
+	#every khajiit vassal likes this moderately
+	every_vassal = {
+		limit = {
+			culture = { has_cultural_pillar = heritage_khajiiti }
+		}
+		custom = every_khajiit_vassal
+		add_opinion = {
+			modifier = respect_opinion
+			opinion = 25
+			target = root
+		}
+	}
+	#every Khajiit courtier likes this moderately
+	every_courtier = {
+		limit = {
+			culture = { has_cultural_pillar = heritage_khajiiti }
+		}
+		custom = every_khajiit_courtier
+		add_opinion = {
+			modifier = respect_opinion
+			opinion = 25
+			target = root
+		}
+	}
+}
+
+# News of the plague reaches the ears of the most important Altmer
+# by TheynT
+ek_knahaten_events_els.0005 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_knahaten_events_els.0005.t
+    desc = ek_knahaten_events_els.0005.desc
+
+    theme = court
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_knahaten_flu.dds"
+	}
+
+    right_portrait = {
+        character = root
+        animation = personality_rational
+    }
+	lower_left_portrait = {
+		trigger = {
+			exists = title:d_mane.holder
+		}
+		character = title:d_mane.holder
+	}
+	lower_center_portrait = scope:khajiit_with_biggest_realm
+
+	immediate = {
+		save_scope_as = root_scope #save scope for loc
+		if = {
+			limit = {
+				exists = title:d_mane.holder
+			}
+			title:d_mane.holder = {
+				save_scope_as = the_mane
+				every_sub_realm_county = {
+					add_to_list = mane_counties
+				}
+			}
+		}
+		ordered_ruler = {
+			limit = {
+				NOT = { has_title = title:d_mane }
+				capital_province = { #Capital in the Summerset Isles
+					geographical_region = mundus_tamriel_elsweyr
+				}
+				culture = { has_cultural_pillar = heritage_khajiiti }
+			}
+			order_by = sub_realm_size
+			position = 0
+			save_scope_as = khajiit_with_biggest_realm
+		}
+		scope:khajiit_with_biggest_realm = {
+			every_sub_realm_county = {
+				add_to_list = khajiit_ruler_counties
+			}
+		}
+	}
+	
+
+	#What do we care about those cats?
+	option = {
+		name = ek_knahaten_events_els.0005.a
+
+		add_prestige = medium_prestige_value
+		add_piety = minor_piety_loss
+		#every parochial & zealot vassal likes this slightly
+		every_vassal = {
+			limit = { has_vassal_stance = parochial }
+			custom = every_parochial_vassal
+			add_opinion = {
+				modifier = respect_opinion
+				opinion = 15
+				target = root
+			}
+		}
+		every_vassal = {
+			limit = { has_vassal_stance = zealot }
+			custom = every_zealot_vassal
+			add_opinion = {
+				modifier = respect_opinion
+				opinion = 15
+				target = root
+			}
+		}
+
+		stress_impact = {
+			greedy = minor_stress_impact_gain
+			callous = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 10
+
+			ai_value_modifier = {
+				ai_compassion = -2
+				ai_sociability = -1
+				ai_greed = 1
+			}
+		}
+
+	}
+
+	#That's a good idea, offer assistance to the Mane
+	option = {
+		name = ek_knahaten_events_els.0005.b
+
+		trigger = {
+			exists = scope:the_mane
+		}
+		
+		monetary_relief_effect = yes
+		generosity_piety_stress_effect = yes
+		altmer_send_relief_opinions = yes
+
+		#EK TODO KNAHATEN: makes the knahaten spread faster in summerset. you send healers? the plague goes both ways
+
+		scope:the_mane = {
+			trigger_event = { id = ek_knahaten_events_els.0006 days = 14 }
+		}
+
+		stress_impact = {
+			greedy = major_stress_impact_gain
+			generous = major_stress_impact_loss
+			compassionate = minor_stress_impact_loss
+			paranoid = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				add = 50
+				scope:the_mane = {
+					has_title = title:e_elsweyr
+				}
+			}
+			modifier = {
+				add = 50
+				OR = {
+					has_relation_friend = scope:the_mane
+					has_relation_best_friend = scope:the_mane
+					has_relation_soulmate = scope:the_mane
+				}
+			}
+			modifier = {
+				add = 50
+				is_allied_to = scope:the_mane
+			}
+			modifier = {
+				add = 50
+				list_size:mane_counties > list_size:khajiit_ruler_counties
+			}
+		}
+	}
+
+	#That's a good idea, offer assistance to the highest hereditary ruler
+	option = {
+		name = ek_knahaten_events_els.0005.c
+
+		monetary_relief_effect = yes
+		generosity_piety_stress_effect = yes
+		altmer_send_relief_opinions = yes
+
+		#EK TODO KNAHATEN: makes the knahaten spread faster in summerset. you send healers? the plague goes both ways
+	
+		scope:khajiit_with_biggest_realm = {
+			trigger_event = { id = ek_knahaten_events_els.0006 days = 14 }
+		}
+
+		stress_impact = {
+			greedy = major_stress_impact_gain
+			generous = major_stress_impact_loss
+			compassionate = minor_stress_impact_loss
+			paranoid = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				add = 50
+				OR = {
+					has_relation_friend = scope:khajiit_with_biggest_realm
+					has_relation_best_friend = scope:khajiit_with_biggest_realm
+					has_relation_soulmate = scope:khajiit_with_biggest_realm
+				}
+			}
+			modifier = {
+				add = 50
+				is_allied_to = scope:khajiit_with_biggest_realm
+			}
+			modifier = {
+				add = -50
+				list_size:mane_counties > list_size:khajiit_ruler_counties
+			}
+		}
+	}
+}
+
+#Chosen Elsweyr ruler gets the missive
+# by TheynT
+ek_knahaten_events_els.0006 = {
+	type = character_event
+    content_source = dlc_ek
+    title = ek_knahaten_events_els.0006.t
+    desc = ek_knahaten_events_els.0006.desc
+
+    theme = diplomacy
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_knahaten_flu.dds"
+	}
+
+	left_portrait = {
+		character = scope:altmer_ruler
+		animation = personality_rational
+	}
+	right_portrait = {
+        character = root
+        animation = personality_rational
+    }
+
+	#Accept the offer
+	option = {
+		name = ek_knahaten_events_els.0006.a
+
+		#money converted to relief: modifier for develop, plague resistance modifier....
+		#altmer gets a hook on you, depending on the monetary value of the relief
+		if = {
+			limit = {
+				scope:ek_knahaten_aldmeri_monetary_relief_amount >= medium_gold_value
+			}
+			custom_tooltip = {
+				text = EVERY_PROVINCE_IN_REALM_RELIEF_MODIFIER_MAJOR
+				every_sub_realm_county = {
+					every_county_province = {
+						add_province_modifier = {
+							modifier = ek_knahaten_altmer_relief_major
+							years = 5
+						}
+					}
+				}
+			}
+			scope:altmer_ruler = {
+				add_hook = {
+					target = root
+					type = sent_knahaten_relief_strong
+				}
+			}
+			root = {
+				add_opinion = {
+					modifier = thankful_opinion
+					opinion = 100
+					target = scope:altmer_ruler
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:ek_knahaten_aldmeri_monetary_relief_amount >= minor_gold_value
+			}
+			custom_tooltip = {
+				text = EVERY_PROVINCE_IN_REALM_RELIEF_MODIFIER_MEDIUM
+				every_sub_realm_county = {
+					every_county_province = {
+						add_province_modifier = {
+							modifier = ek_knahaten_altmer_relief_medium
+							years = 5
+						}
+					}
+				}
+			}
+			scope:altmer_ruler = {
+				add_hook = {
+					target = root
+					type = sent_knahaten_relief_strong
+				}
+			}
+			root = {
+				add_opinion = {
+					modifier = thankful_opinion
+					opinion = 50
+					target = scope:altmer_ruler
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:ek_knahaten_aldmeri_monetary_relief_amount >= tiny_gold_value
+			}
+			custom_tooltip = {
+				text = EVERY_PROVINCE_IN_REALM_RELIEF_MODIFIER_MINOR
+				every_sub_realm_county = {
+					every_county_province = {
+						add_province_modifier = {
+							modifier = ek_knahaten_altmer_relief_minor
+							years = 5
+						}
+					}
+				}
+			}
+			scope:altmer_ruler = {
+				add_hook = {
+					target = root
+					type = sent_knahaten_relief
+				}
+			}
+			root = {
+				add_opinion = {
+					modifier = thankful_opinion
+					opinion = 25
+					target = scope:altmer_ruler
+				}
+			}
+		}
+		else = { #Fallback, very tiny modifier
+			custom_tooltip = {
+				text = EVERY_PROVINCE_IN_REALM_RELIEF_MODIFIER_TINY
+				every_sub_realm_county = {
+					every_county_province = {
+						add_province_modifier = {
+							modifier = ek_knahaten_altmer_relief_tiny
+							years = 5
+						}
+					}
+				}
+			}
+			scope:altmer_ruler = {
+				add_hook = {
+					target = root
+					type = sent_knahaten_relief
+				}
+			}
+			root = {
+				add_opinion = {
+					modifier = thankful_opinion
+					opinion = 10
+					target = scope:altmer_ruler
+				}
+			}
+		}
+		#everyone, but parochial & zealot vassals, like this moderately
+		every_vassal = {
+			limit = {
+				NOT = {
+					OR = {
+						has_vassal_stance = zealot 
+						has_vassal_stance = parochial 
+					}
+				}	
+			}
+			add_opinion = {
+				modifier = respect_opinion
+				opinion = 25
+				target = root
+			}
+		}
+		save_scope_value_as = { #For followup event
+			name = ek_knahaten_aldmeri_relief_accepted
+			value = yes
+		}
+		#Altmer guy also likes you more for accepting
+		scope:altmer_ruler = {
+			add_opinion = {
+				modifier = respect_opinion
+				opinion = 15
+				target = root
+			}
+			root = { save_scope_as = khajiit_relief_ruler }
+			trigger_event = { id = ek_knahaten_events_els.0007 days = 14 }
+		}
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_compassion = 2
+				ai_sociability = 1
+			}
+			modifier = {
+				add = 50
+				OR = {
+					has_relation_friend = scope:altmer_ruler
+					has_relation_best_friend = scope:altmer_ruler
+					has_relation_soulmate = scope:altmer_ruler
+				}
+			}
+			modifier = {
+				add = 50
+				is_allied_to = scope:altmer_ruler
+			}
+			modifier = {
+				add = 50
+				has_trait = trusting
+			}
+			modifier = {
+				add = 50
+				has_trait = compassionate
+			}
+			modifier = {
+				has_game_rule = bd_occurrence_historical
+				add = 50
+			}
+		}
+	}
+
+	#Decline the offer
+	option = {
+		name = ek_knahaten_events_els.0006.b
+		add_character_modifier = {
+			modifier = ek_knahaten_relief_refused
+			years = 10
+		}
+		#parochial & zealot vassals like this slightly
+		every_vassal = {
+			limit = { has_vassal_stance = parochial }
+			custom = every_parochial_vassal
+			add_opinion = {
+				modifier = respect_opinion
+				opinion = 15
+				target = root
+			}
+		}
+		every_vassal = {
+			limit = { has_vassal_stance = zealot  }
+			custom = every_zealot_vassal
+			add_opinion = {
+				modifier = respect_opinion
+				opinion = 15
+				target = root
+			}
+		}
+		save_scope_value_as = { #For followup event
+			name = ek_knahaten_aldmeri_relief_declined
+			value = yes
+		}
+		scope:altmer_ruler = {
+			root = { save_scope_as = khajiit_relief_ruler }
+			trigger_event = { id = ek_knahaten_events_els.0007 days = 14 }
+		}
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_zeal = 1
+				ai_vengefulness = 0.5
+			}
+			modifier = {
+				add = 50
+				OR = {
+					has_relation_rival = scope:altmer_ruler
+					has_relation_nemesis = scope:altmer_ruler
+				}
+			}
+			modifier = {
+				add = 50
+				has_trait = ambitious
+			}
+		}
+	}
+
+	#Accept the offer - but pocket the money
+	#altmer gets a hook on you, depending on the monetary value of the relief
+	option = {
+		name = ek_knahaten_events_els.0006.c
+
+		if = {
+			limit = {
+				scope:ek_knahaten_aldmeri_monetary_relief_amount >= medium_gold_value
+			}
+			add_short_term_gold = scope:ek_knahaten_aldmeri_monetary_relief_amount
+			scope:altmer_ruler = {
+				add_hook = {
+					target = root
+					type = sent_knahaten_relief_strong
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:ek_knahaten_aldmeri_monetary_relief_amount >= minor_gold_value
+			}
+			add_short_term_gold = scope:ek_knahaten_aldmeri_monetary_relief_amount
+			scope:altmer_ruler = {
+				add_hook = {
+					target = root
+					type = sent_knahaten_relief
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:ek_knahaten_aldmeri_monetary_relief_amount >= tiny_gold_value
+			}
+			add_short_term_gold = scope:ek_knahaten_aldmeri_monetary_relief_amount
+			scope:altmer_ruler = {
+				add_hook = {
+					target = root
+					type = sent_knahaten_relief
+				}
+			}
+		}
+		else = { #Fallback, very tiny modifier
+			add_short_term_gold = 5
+			scope:altmer_ruler = {
+				add_hook = {
+					target = root
+					type = sent_knahaten_relief
+				}
+			}
+		}
+		#everyone, but parochial & zealot vassals, dislike this slightly
+		every_vassal = {
+			limit = {
+				NOT = {
+					OR = {
+						has_vassal_stance = zealot 
+						has_vassal_stance = parochial 
+					}
+				}	
+			}
+			add_opinion = {
+				modifier = disrespect_opinion
+				opinion = -15
+				target = root
+			}
+		}
+		save_scope_value_as = { #For followup event
+			name = ek_knahaten_aldmeri_relief_pocketed
+			value = yes
+		}
+		#Altmer guy dislikes you for not properly using the funds
+		scope:altmer_ruler = {
+			add_opinion = {
+				modifier = disrespect_opinion
+				opinion = -15
+				target = root
+			}
+			root = { save_scope_as = khajiit_relief_ruler }
+			trigger_event = { id = ek_knahaten_events_els.0007 days = 14 }
+		}
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_greed = 3
+				ai_honor = -2
+			}
+			modifier = {
+				add = 50
+				has_trait = greedy
+			}
+		}
+	}
+}
+
+# Altmer guy gets a response
+# by TheynT
+ek_knahaten_events_els.0007 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_knahaten_events_els.0007.t
+	desc = {
+		desc = ek_knahaten_events_els.0007.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = scope:ek_knahaten_aldmeri_relief_declined
+				}
+				desc = ek_knahaten_events_els.0007.desc_declined
+			}
+			triggered_desc = {
+				trigger = {
+					exists = scope:ek_knahaten_aldmeri_relief_accepted
+				}
+				desc = ek_knahaten_events_els.0007.desc_accepted
+			}
+			triggered_desc = {
+				trigger = {
+					exists = scope:ek_knahaten_aldmeri_relief_pocketed
+				}
+				desc = ek_knahaten_events_els.0007.desc_pocketed
+			}
+		}
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = scope:knahaten_els_007_already_happened
+					exists = scope:ek_knahaten_aldmeri_relief_declined
+				}
+				desc = ek_knahaten_events_els.0007.desc_already_happened_decline
+			}
+			triggered_desc = {
+				trigger = {
+					exists = scope:knahaten_els_007_already_happened
+					exists = scope:ek_knahaten_aldmeri_relief_accepted
+				}
+				desc = ek_knahaten_events_els.0007.desc_already_happened_accept
+			}
+		}
+	}
+
+	theme = diplomacy
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_knahaten_flu.dds"
+	}
+
+	lower_left_portrait = {
+		trigger = {
+			exists = scope:ek_knahaten_aldmeri_relief_declined
+			NOT = { exists = scope:knahaten_els_007_already_happened }
+		}
+		character = scope:second_khajiit_ruler
+	}
+	lower_center_portrait = {
+		trigger = {
+			exists = scope:ek_knahaten_aldmeri_relief_declined
+			NOT = { exists = scope:knahaten_els_007_already_happened }
+		}
+		character = scope:khajiit_relief_ruler	
+	}
+	left_portrait = {
+		trigger = {
+			OR = {
+				NOT = { exists = scope:ek_knahaten_aldmeri_relief_declined }
+				exists = scope:knahaten_els_007_already_happened
+			}
+		}
+		character = scope:khajiit_relief_ruler
+	}
+	right_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				scope:khajiit_relief_ruler = scope:the_mane
+				exists = scope:ek_knahaten_aldmeri_relief_declined
+			}
+			scope:khajiit_with_biggest_realm = {
+				save_scope_as = second_khajiit_ruler
+			}
+		}
+		else_if = {
+			limit = {
+				scope:khajiit_relief_ruler = scope:khajiit_with_biggest_realm
+				exists = scope:ek_knahaten_aldmeri_relief_declined
+			}
+			scope:the_mane = {
+				save_scope_as = second_khajiit_ruler
+			}
+		}
+		if = {
+			limit = {
+				exists = scope:ek_knahaten_aldmeri_relief_declined
+			}
+			add_short_term_gold = scope:ek_knahaten_aldmeri_monetary_relief_amount
+		}
+	}
+
+	option = { #They accepted, yay
+		trigger = {
+			exists = scope:ek_knahaten_aldmeri_relief_accepted
+			NOT = { exists = scope:knahaten_els_007_already_happened }
+		}
+		name = ek_knahaten_events_els.0007.a
+	}
+	option = { #They declined, boo
+		trigger = {
+			exists = scope:ek_knahaten_aldmeri_relief_declined
+			NOT = { exists = scope:knahaten_els_007_already_happened }
+		}
+		name = ek_knahaten_events_els.0007.b
+
+	}
+	option = { #They declined, boo + so we send it to the other eligible ruler
+		name = ek_knahaten_events_els.0007.c
+		trigger = {
+			exists = scope:ek_knahaten_aldmeri_relief_declined
+			NOT = { exists = scope:knahaten_els_007_already_happened }
+		}
+		remove_short_term_gold = scope:ek_knahaten_aldmeri_monetary_relief_amount
+		save_scope_value_as = { #so this option may only happen once
+			name = knahaten_els_007_already_happened
+			value = yes
+		}
+		scope:second_khajiit_ruler = {
+			trigger_event = { id = ek_knahaten_events_els.0006 days = 14 }
+		}
+	}
+	option = { #They pocketed the money, boo
+		trigger = {
+			exists = scope:ek_knahaten_aldmeri_relief_pocketed
+			NOT = { exists = scope:knahaten_els_007_already_happened }
+		}
+		name = ek_knahaten_events_els.0007.d
+	}
+
+	option = { #fallback
+		name = ek_knahaten_events_els.0007.e
+	}
+
+	after = { #May only happen once
+		set_global_variable = {
+			name = ek_knahaten_aldmeri_assistance_happened
+			value = yes
+		}
+	}
+
+}
+
+# Stricken - we find any khajiiti monastery holders in northern Elsweyr
+# by TheynT
+ek_knahaten_events_els.0010 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_knahaten_events_els.0010.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:councillor = { has_council_position = councillor_marshal }}
+				desc = ek_knahaten_events_els.0010.desc_marshal
+			}
+		}
+		desc = ek_knahaten_events_els.0010.desc
+	}
+
+	theme = court
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_knahaten_flu.dds"
+	}
+
+	left_portrait = {
+		character = root
+	}
+	right_portrait = {
+		character = scope:councillor
+		animation = worry
+	}
+	lower_left_portrait = scope:theocracy_vassal
+
+	trigger = {
+		NOT = { has_character_flag = knahaten_els_0010_happened }
+		any_vassal = {
+			government_has_flag = government_is_theocracy
+		}
+	}
+
+	immediate = {
+		save_scope_as = liege
+		every_vassal = {
+			limit = {
+				government_has_flag = government_is_theocracy
+			}
+			add_to_list = theocracy_vassals
+		}
+		if = {
+			limit = {
+				any_in_list = {
+					list = theocracy_vassals
+					has_title = title:c_srendarr_cradle #Lore setting for the inspiration of this event
+				}
+			}
+			random_in_list = {
+				list = theocracy_vassals
+				limit = {
+					has_title = title:c_srendarr_cradle #Lore setting for the inspiration of this event
+				}
+				save_scope_as = theocracy_vassal
+			}
+		}
+		else_if = {
+			limit = {
+				any_in_list = {
+					list = theocracy_vassals
+					has_trait = p_dv_stendarr
+				}
+			}
+			random_in_list = {
+				list = theocracy_vassals
+				limit = {
+					has_trait = p_dv_stendarr
+				}
+				save_scope_as = theocracy_vassal
+			}
+		}
+		else = {
+			random_in_list = {
+				list = theocracy_vassals
+				save_scope_as = theocracy_vassal
+			}
+		}
+		
+		scope:theocracy_vassal.capital_county = {
+			add_county_modifier = {
+				modifier = ek_harbouring_knahaten_infected
+				years = 10
+			}
+			save_scope_as = theocracy_vassal_county
+		}
+
+		# Pick a councillor, preferrably the marshal
+		if = {
+			limit = {
+				any_councillor = {
+					is_available = yes
+					has_council_position = councillor_marshal
+					NOT = { this = scope:theocracy_vassal }
+				}
+			}
+			random_councillor = {
+				limit = {
+					is_available = yes
+					has_council_position = councillor_marshal
+					NOT = { this = scope:theocracy_vassal }
+				}
+				save_scope_as = councillor
+			}
+		}
+		else_if = {
+			limit = {
+				any_councillor = {
+					is_available = yes
+					NOT = { has_trait = compassionate }
+					NOT = { this = scope:theocracy_vassal }
+				}
+			}
+			random_councillor = {
+				limit = {
+					is_available = yes
+					NOT = { has_trait = compassionate }
+					NOT = { this = scope:theocracy_vassal }
+				}
+				save_scope_as = councillor
+			}
+		}
+		else_if = {
+			limit = {
+				any_councillor = {
+					is_available = yes
+					NOT = { this = scope:theocracy_vassal }
+				}
+			}
+			random_councillor = {
+				limit = {
+					is_available = yes
+					NOT = { this = scope:theocracy_vassal }
+				}
+				save_scope_as = councillor
+			}
+		}
+		else_if = {
+			limit = {
+				any_knight = {
+					is_available = yes
+					NOT = { this = scope:theocracy_vassal }
+				}
+			}
+			random_knight = {
+				limit = {
+					is_available = yes
+					NOT = { this = scope:theocracy_vassal }
+				}
+				save_scope_as = councillor
+			}
+		}
+		else = {
+			random_courtier = {
+				save_scope_as = councillor
+			}
+		}
+	}
+
+	option = { # Order the refugees killed
+		name = ek_knahaten_events_els.0010.a
+		custom_tooltip = ek_knahaten_events_els.0010.a.tt
+		add_piety = medium_piety_loss
+		random_list = {
+			15 = { #They refuse, making your councillor burn the monastery
+				show_chance = no
+				desc = ek_knahaten_events_els.0010.a.a
+				custom_tooltip = {
+					text = ek_knahaten_events_els.0010.a.a.tt
+					scope:theocracy_vassal_county.title_province = {
+						every_character_in_location = {
+							random_list = {
+								25 = {
+									add_stress = medium_stress_gain
+								}
+								25 = { 
+									increase_wounds_effect = { REASON = burned }
+									add_stress = major_stress_gain
+								}
+								50 = { 
+									death = {
+										death_reason = death_burned
+									}
+								}
+							}
+						}
+						
+						if = {
+							limit = {
+								scope:theocracy_vassal = { is_alive = no }
+							}
+							scope:liege = {
+								send_interface_toast = {
+									type = event_toast_effect_bad
+									title = ek_knahaten_events_els.0010.a_toast_title
+									left_icon = scope:theocracy_vassal
+									add_tyranny = low_tyranny
+									add_dread = minor_dread_gain
+									custom_tooltip = ek_knahaten_events_els.0010.a.a_toast_vassal
+								}
+							}
+						}
+						else = {
+							scope:liege = {
+								send_interface_toast = {
+									type = event_toast_effect_bad
+									title = ek_knahaten_events_els.0010.a_toast_title
+									left_icon = scope:theocracy_vassal
+									add_dread = miniscule_dread_gain
+									custom_tooltip = ek_knahaten_events_els.0010.a.a_toast
+								}
+							}
+						}
+					}
+				}
+				
+				modifier = {
+					scope:theocracy_vassal = { has_trait = compassionate }
+					add = 50
+				}
+			}
+			25 = { #They accept
+				show_chance = no
+				desc = ek_knahaten_events_els.0010.a.b
+				scope:theocracy_vassal_county = {
+					remove_county_modifier = ek_harbouring_knahaten_infected
+					add_county_modifier = {
+						modifier = ek_killed_knahaten_infected
+						years = 5
+					}
+				}
+				scope:theocracy_vassal = { add_piety = massive_piety_loss }
+
+				modifier = {
+					scope:theocracy_vassal = {
+						OR = {
+							has_trait = sadistic
+							has_trait = callous
+						}
+					}
+					add = 50
+				}
+			}
+			60 = { #They pretend to accept, but secretly send the refugees away
+			 	show_chance = no
+				desc = ek_knahaten_events_els.0010.a.c
+				scope:theocracy_vassal_county = {
+					remove_county_modifier = ek_harbouring_knahaten_infected
+					add_county_modifier = {
+						modifier = ek_turned_away_knahaten_infected
+						years = 5
+					}
+				}
+				scope:theocracy_vassal = { add_piety = major_piety_loss }
+				trigger_event = {
+					id = ek_knahaten_events_els.0011
+					years = { 20 25 }
+				}
+
+				modifier = {
+					has_game_rule = bd_occurrence_historical
+					add = 40
+				}
+				modifier = { #Player should be more likely to see this play out
+					scope:liege = {
+						is_ai = no
+					}
+					add = 20
+				}
+			}
+		}
+	}
+	option = { # Leave them be
+		name = ek_knahaten_events_els.0010.b
+	}
+	option = { # Help the monastery
+		name = ek_knahaten_events_els.0010.c
+		remove_short_term_gold = minor_gold_value
+		add_piety = medium_piety_gain
+		scope:theocracy_vassal = {
+			add_short_term_gold = minor_gold_value
+		}
+	}
+
+	after = {
+		add_character_flag = knahaten_els_0010_happened
+	}
+}
+
+# Stricken - The Afflicted return
+# 20 to 25 years after the Knahaten Flu ended, the Afflicted return as the Stricken, starting a peasant revolt
+# by TheynT
+ek_knahaten_events_els.0011 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_knahaten_events_els.0011.t
+	desc = ek_knahaten_events_els.0011.desc
+
+	theme = court
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_knahaten_flu.dds"
+	}
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+	right_portrait = {
+		character = scope:stricken_peasant
+		animation = aggressive_spear
+	}
+
+	immediate = {
+		save_scope_as = former_liege
+		scope:former_liege.capital_county = { save_scope_as = former_liege_capital_county }
+		
+		# This throws a bunch of errors, but this is 1:1 copied from a vanilla fp2 event. It works. -T
+		scope:former_liege_capital_county = { # Create faction
+			title_create_faction  = {
+				type = peasant_faction
+				target = scope:former_liege_capital_county.holder
+			}
+			holder = {
+				every_targeting_faction = {  # go through all existing factions
+					if = {
+						limit = {
+							any_faction_county_member = { this = scope:former_liege_capital_county } # check if least one member belongs to the county
+						}
+						save_scope_as = stricken_faction
+					}
+				}
+			}
+		}
+
+		create_character = {
+			location = scope:former_liege_capital_county.title_province
+			template = peasant_faction_leader_template
+			faith = scope:former_liege_capital_county.faith
+			culture = scope:former_liege_capital_county.culture
+			gender_female_chance = 50
+			health = 5
+			save_scope_as = peasant_leader
+		}
+
+		scope:peasant_leader = {
+			add_trait = physique_good_1
+			add_trait = stricken
+			add_trait = lunatic_1
+			hidden_effect = {
+				add_opinion = {
+					target = scope:former_liege
+					modifier = hate_opinion
+					opinion = -50
+				}
+			}
+		}
+		scope:former_liege_capital_county = { save_scope_as = peasant_county }	
+	}
+
+	option = {
+		name = ek_knahaten_events_els.0011.a
+	}
+
+	after = {
+		scope:stricken_faction = {
+			setup_peasant_leader_effect = yes
+
+			faction_start_war = {}
+			faction_spawn_member_county_armies_effect = {
+				FACTION = scope:stricken_faction
+				ARMY_OWNER = scope:peasant_leader
+				PEASANT_ARMY_NAME = peasant_faction_event_troops
+			}
+		}
+	}
+}
+
+# Stricken - Travel (faux) Danger event: Stricken encounter
+ek_knahaten_events_els.0012 = {
+	type = character_event
+	title = ek_knahaten_events_els.0012.t
+	desc = {
+		desc = ek_knahaten_events_els.0012.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						learning >= 10
+						has_trait = scholar
+					}
+				}
+				desc = ek_knahaten_events_els.0012.desc_learning
+			}
+		}
+	}
+	theme = travel
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_knahaten_flu.dds"
+	}
+	override_background = { reference = wilderness_scope }
+	cooldown = { years = 5 }
+
+	left_portrait = {
+        character = scope:travel_leader
+       	animation = aggressive_sword
+    }
+    right_portrait = {
+        character = scope:stricken_peasant
+        animation = beg
+    }
+
+	trigger = {
+		exists = global_var:black_death
+		is_available_travelling_adult = yes
+		is_location_valid_for_travel_event_on_land = yes
+		location = {
+			geographical_region = mundus_tamriel_elsweyr
+			OR = {
+				AND = {
+					has_game_rule = bd_occurrence_historical
+					current_year > 3486 #5 years into the knahaten
+					current_year < 3511 #30 years after the knahaten started
+				}
+				#Or any province in elsweyr is still infected
+				any_county_in_region = {
+					region = mundus_tamriel_elsweyr
+					any_county_province = {
+						any_province_epidemic = {
+							this = global_var:black_death
+						}
+					}
+				}
+			}
+		}
+		NOT = { has_character_flag = had_stricken_encounter_knahaten_events_els_0012 }
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 30 }
+		create_character = {
+			gender_female_chance = 0.5
+			random_traits = yes
+			location = root.location
+			faith = root.location.faith
+			culture = root.location.culture
+			trait = stricken
+			save_scope_as = stricken_peasant
+		}
+		traveler_danger_xp_effect = {
+			MIN = 1
+			MAX = 3
+		}
+		add_character_flag = {
+        	flag = had_stricken_encounter_knahaten_events_els_0012
+        	years = 7.5
+        }
+	}
+
+	option = {
+		name = ek_knahaten_events_els.0012.a
+
+		if = {
+			limit = {
+				NOR = {
+					learning >= 10
+					has_trait = scholar
+				}
+			}
+			custom_tooltip = ek_knahaten_events_els.0012.a_infection
+		}
+
+		#EK TODO RtP: provision loss, if adventurer
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_greed = -3
+				ai_honor = 3
+			}
+			modifier = {
+				add = 50
+				has_trait = compassionate
+			}
+		}
+	}
+
+	option = { #kill them
+		name = ek_knahaten_events_els.0012.b
+		trigger = {
+			NOR = {
+				learning >= 10
+				has_trait = scholar
+			}
+		}
+
+		add_piety = medium_piety_loss
+		scope:stricken_peasant = {
+			death = { death_reason = death_fight }
+		}
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_greed = 3
+				ai_honor = -2
+			}
+			modifier = {
+				add = 50
+				has_trait = greedy
+			}
+			modifier = {
+				add = 50
+				has_trait = callous
+			}
+			modifier = {
+				add = 50
+				has_trait = sadistic
+			}
+		}
+	}
+
+	option = {
+		name = ek_knahaten_events_els.0012.c
+		trigger = {
+			OR = {
+				OR = {
+					learning >= 10
+					has_trait = scholar
+				}
+				ek_is_county_faith_likes_diseases = yes #just faith check, not actually county
+			}
+		}
+
+		current_travel_plan = {
+			add_companion = scope:stricken_peasant
+		}
+		scope:stricken_peasant = {
+			add_character_flag = stricken_not_recruited
+			add_opinion = {
+				modifier = recruited_me_opinion
+				target = root
+				opinion = 60
+			}
+		}
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_greed = -3
+				ai_honor = 3
+			}
+			modifier = {
+				add = 50
+				has_trait = compassionate
+			}
+		}
+	}
+
+	after = {
+		mp_resume_travel_plan = yes
+		if = {
+			limit = {
+				exists = scope:stricken_peasant
+				scope:stricken_peasant = {
+					is_alive = yes
+					has_character_flag = stricken_not_recruited
+				}
+			}
+			scope:stricken_peasant = { silent_disappearance_effect = yes }
+		}
+	}
+}
+
+############################
+## Hammerfell Knahaten/Post-Knahaten Events
+## 0001-1000
+## by TheynT & Ymeidor
+############################
+namespace = ek_knahaten_events_hfl
+
+# Systres Isolationism
+# Lore: Systres isolated their isle when the flu hit, making them fall into disfavour with their (far away) liege in Wayrest
+# by TheynT
+ek_knahaten_events_hfl.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_knahaten_events_hfl.0001.t
+	desc = {
+		desc = ek_knahaten_events_hfl.0001.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					is_independent_ruler = no
+					liege.capital_county.title_province = { NOT = { geographical_region = mundus_tamriel_hammerfell_systres_main_isles } }
+				}
+				desc = ek_knahaten_events_hfl.0001.desc_vassal
+			}
+		}
+	}
+	theme = knahaten
+	override_background = { reference = throne_room }
+	cooldown = { years = 20 } #Basically, it won't reappear
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:councillor
+		animation = stress
+	}
+
+	trigger = {
+		NOT = { has_character_flag = knahaten_hfl_0001_happened }
+		capital_province = { geographical_region = mundus_tamriel_hammerfell_systres_main_isles } #Your capital has to be in the Systres
+		is_available = yes
+		#If any of the springboard counties is infected
+		any_county_in_region = {
+			region = ek_knahaten_systres_springboard
+			any_county_province = {
+				any_province_epidemic = {
+					this = global_var:black_death
+				}
+			}
+		}
+
+		OR = {
+			exists = cp:councillor_steward
+			exists = cp:councillor_chancellor
+		}
+		OR = {
+			cp:councillor_steward = { is_available_healthy_ai_adult = yes }
+			cp:councillor_chancellor = { is_available_healthy_ai_adult = yes }
+		}
+	}
+
+	immediate = {
+		save_scope_as = systres_ruler
+		scope:epidemic = { save_scope_as = knahaten }
+
+		random_county_in_region = {
+			region = ek_knahaten_systres_springboard
+			limit = {
+				any_county_province = {
+					any_province_epidemic = {
+						this = global_var:black_death
+					}
+				}
+			}
+			save_scope_as = springboard_county
+		}
+
+		every_sub_realm_county = {
+			limit = {
+				any_county_province = {
+					is_coastal = yes
+				}
+			}
+			every_county_province = {
+				limit = { is_coastal = yes }
+				add_to_list = coastal_list
+			}
+		}
+
+		if = {
+			limit = {
+				cp:councillor_chancellor = { is_available_healthy_ai_adult = yes }
+			}
+			cp:councillor_chancellor = { save_scope_as = councillor }
+		}
+		else_if = { #If the chancellor is not available, the steward will do
+			limit = {
+				cp:councillor_steward = { is_available_healthy_ai_adult = yes }
+			}
+			cp:councillor_chancellor = { save_scope_as = councillor }
+		}
+
+		if = {
+			limit = { is_independent_ruler = no }
+			liege = { save_scope_as = liege }
+		}
+	}
+
+	option = { #If you're ambitious, why not go fully independent
+		name = ek_knahaten_events_hfl.0001.z
+		trigger = {
+			has_trait = ambitious
+			is_independent_ruler = no
+			liege.capital_county.title_province = { NOT = { geographical_region = mundus_tamriel_hammerfell_systres_main_isles } }
+		}
+		add_character_modifier = {
+			modifier = ek_totally_isolated_systres
+			years = 15
+		}
+		every_in_list = {
+			list = coastal_list
+			custom = ek_knahaten_events_hfl.0001_isolation
+			add_province_modifier = {
+				modifier = ek_total_coastal_quarantine
+				years = 15
+			}
+		}
+		every_ruler = {
+			limit = {
+				capital_province = { geographical_region = mundus_tamriel_hammerfell_systres_main_isles }
+				is_landed = yes
+				NOT = { this = root }
+				NOT = { this = scope:councillor }
+			}
+			add_character_modifier = {
+				modifier = ek_totally_isolated_systres
+				years = 15
+			}
+			if = {
+				limit = { is_vassal_of = root }
+				add_opinion = {
+					modifier = enforces_isolation_on_us_opinion
+					opinion = -15
+					target = root
+				}
+			}
+			else = {
+				add_opinion = {
+					modifier = enforces_isolation_on_us_opinion
+					target = root
+				}
+			}	
+		}
+		scope:liege = {
+			send_interface_message = {
+				type = event_generic_bad_text
+				title = systres_isolated.notification
+				desc = systres_went_independent.notification_tooltip
+				tooltip = historical_event_notification_tooltip
+	
+				left_icon = scope:systres_ruler
+				right_icon = scope:systres_ruler.capital_county
+
+				scope:systres_ruler = {
+					create_title_and_vassal_change = {
+						type = independency
+						save_scope_as = change
+						add_claim_on_loss = no
+					}
+					becomes_independent = { change = scope:change }
+					resolve_title_and_vassal_change = scope:change
+					add_truce_one_way = {
+						character = scope:liege
+						years = 15
+						name = DECLARED_INDEPENDENCE_TRUCE
+					}
+				}
+				add_unpressed_claim = title:c_systres
+				add_unpressed_claim = title:d_systres
+			}
+			add_opinion = {
+				modifier = declared_independence_opinion
+				target = root
+			}
+		}
+
+		ai_chance = {
+			base = 25000
+			ai_value_modifier = {
+				ai_boldness = 2
+				ai_energy = 2
+			}
+		}
+	}
+
+	option = { #Complete Isolation, effective immediately
+		name = ek_knahaten_events_hfl.0001.a
+
+		add_character_modifier = {
+			modifier = ek_totally_isolated_systres
+			years = 15
+		}
+		every_in_list = {
+			list = coastal_list
+			custom = ek_knahaten_events_hfl.0001_isolation
+			add_province_modifier = {
+				modifier = ek_total_coastal_quarantine
+				years = 15
+			}
+		}
+		every_ruler = {
+			limit = {
+				capital_province = { geographical_region = mundus_tamriel_hammerfell_systres_main_isles }
+				is_landed = yes
+				NOT = { this = root }
+				NOT = { this = scope:councillor }
+			}
+			add_character_modifier = {
+				modifier = ek_totally_isolated_systres
+				years = 15
+			}
+			if = {
+				limit = { is_vassal_of = root }
+				add_opinion = {
+					modifier = enforces_isolation_on_us_opinion
+					opinion = -15
+					target = root
+				}
+			}
+			else = {
+				add_opinion = {
+					modifier = enforces_isolation_on_us_opinion
+					target = root
+				}
+			}	
+		}
+
+		if = {
+			limit = { is_independent_ruler = no }
+			#Total isolation means total isolation. Liege is not happy.
+			scope:liege = {
+				send_interface_message = {
+					type = event_generic_bad_text
+					title = systres_isolated.notification
+					desc = systres_fully_isolated.notification_tooltip
+					tooltip = historical_event_notification_tooltip
+		
+					left_icon = scope:systres_ruler
+					right_icon = scope:systres_ruler.capital_county
+
+					scope:systres_ruler = {
+						if = {
+							limit = {
+								OR = {
+									government_has_flag = government_is_feudal
+								}
+							}
+							if = {
+								limit = { vassal_contract_obligation_level_can_be_decreased = feudal_government_taxes }
+								vassal_contract_set_obligation_level = { type = feudal_government_taxes level = 0 }
+							}
+							if = {
+								limit = { vassal_contract_obligation_level_can_be_decreased = feudal_government_levies }
+								vassal_contract_set_obligation_level = { type = feudal_government_levies level = 0 }
+							}
+						}
+						else_if = {
+							limit = { government_has_vassal_contract = yes }
+							vassal_contract_set_obligation_level = { type = vassal_contribution_group level = 0 }
+						}
+					}
+				}
+				add_opinion = {
+					modifier = abandoned_realm_opinion
+					target = root
+				}
+			}
+		}
+
+		reverse_add_opinion = {
+			modifier = relieved_opinion
+			opinion = 15
+			target = scope:councillor
+		}
+
+		stress_impact = {
+			paranoid = minor_stress_impact_loss
+			sadistic = minor_stress_impact_loss
+			callous = minor_stress_impact_loss
+			arbitrary = miniscule_stress_impact_loss
+			stubborn = miniscule_stress_impact_loss
+			trusting = medium_stress_impact_gain
+			compassionate = medium_stress_impact_gain
+			greedy = medium_stress_impact_gain
+			just = miniscule_stress_impact_gain
+			fickle = miniscule_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_compassion = -1
+				ai_greed = -1
+			}
+			modifier = {
+				AND = {
+					has_trait = ambitious
+					is_independent_ruler = no
+				}
+				add = -50
+			}
+		}
+	}
+
+	option = { #Partial Isolation, effective immediately
+		name = ek_knahaten_events_hfl.0001.b
+
+		add_character_modifier = {
+			modifier = ek_isolated_systres
+			years = 15
+		}
+		every_in_list = {
+			list = coastal_list
+			custom = ek_knahaten_events_hfl.0001_isolation
+			add_province_modifier = {
+				modifier = strict_coastal_quarantine
+				years = 15
+			}
+		}
+		every_ruler = {
+			limit = {
+				capital_province = { geographical_region = mundus_tamriel_hammerfell_systres_main_isles }
+				is_landed = yes
+				NOT = { this = root }
+				NOT = { this = scope:councillor }
+			}
+			add_character_modifier = {
+				modifier = ek_isolated_systres
+				years = 15
+			}
+			if = {
+				limit = { is_vassal_of = root }
+				add_opinion = {
+					modifier = enforces_isolation_on_us_opinion
+					opinion = -10
+					target = root
+				}
+			}
+			else = {
+				add_opinion = {
+					modifier = enforces_isolation_on_us_opinion
+					opinion = -20
+					target = root
+				}
+			}
+		}
+
+		if = {
+			limit = { is_independent_ruler = no }
+			#Less money & people make it to liege. Liege is not happy.
+			scope:liege = {
+				send_interface_message = {
+					type = event_generic_bad_text
+					title = systres_isolated.notification
+					desc = systres_isolated.notification_tooltip
+					tooltip = historical_event_notification_tooltip
+		
+					left_icon = scope:systres_ruler
+					right_icon = scope:systres_ruler.capital_county
+
+					scope:systres_ruler = {
+						if = {
+							limit = {
+								OR = {
+									government_has_flag = government_is_feudal
+								}
+							}
+							if = {
+								limit = { vassal_contract_obligation_level_can_be_decreased = feudal_government_taxes }
+								vassal_contract_decrease_obligation_level = feudal_government_taxes
+							}
+							if = {
+								limit = { vassal_contract_obligation_level_can_be_decreased = feudal_government_levies }
+								vassal_contract_decrease_obligation_level = feudal_government_levies
+							}
+						}
+						else_if = {
+							limit = { government_has_vassal_contract = yes }
+							vassal_contract_set_obligation_level = { type = vassal_contribution_group level = 0 }
+						}
+					}
+				}
+				add_opinion = {
+					modifier = abandoned_realm_opinion
+					opinion = -20
+					target = root
+				}
+			}
+		}
+
+		stress_impact = {
+			paranoid = minor_stress_impact_loss
+			sadistic = minor_stress_impact_loss
+			callous = minor_stress_impact_loss
+			arbitrary = miniscule_stress_impact_loss
+			stubborn = miniscule_stress_impact_loss
+			trusting = medium_stress_impact_gain
+			compassionate = medium_stress_impact_gain
+			greedy = medium_stress_impact_gain
+			just = miniscule_stress_impact_gain
+			fickle = miniscule_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_compassion = -0.5
+				ai_vengefulness = 0.5
+			}
+			modifier = {
+				AND = {
+					has_trait = ambitious
+					is_independent_ruler = no
+				}
+				add = -25
+			}
+		}
+	}
+
+	option = { #We cannot afford to isolate ourselves
+		name = ek_knahaten_events_hfl.0001.c
+
+		custom_tooltip = ek_knahaten_events_hfl.0001.c.tt
+		trigger_event = ek_knahaten_events_hfl.0002
+
+		reverse_add_opinion = {
+			modifier = worried_opinion
+			opinion = -15
+			target = scope:councillor
+		}
+		add_legitimacy = miniscule_legitimacy_loss
+
+		stress_impact = {
+			paranoid = medium_stress_impact_gain
+			sadistic = minor_stress_impact_gain
+			callous = minor_stress_impact_gain
+			trusting = minor_stress_impact_loss
+			compassionate = miniscule_stress_impact_loss
+			greedy = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_compassion = 0.5
+				ai_greed = 1
+			}
+		}
+	}
+
+	after = {
+		add_character_flag = knahaten_hfl_0001_happened
+	}
+}
+
+ek_knahaten_events_hfl.0002 = {
+	hidden = yes
+
+	trigger = {
+		#If any of the springboard counties is infected
+		any_county_in_region = {
+			region = ek_knahaten_systres_springboard
+			any_county_province = {
+				any_province_epidemic = {
+					this = global_var:black_death
+				}
+			}
+		}
+	}
+
+	immediate = {
+		random_county_in_region = {
+			region = mundus_tamriel_hammerfell_systres
+			save_temporary_scope_as = selected_county
+		}
+		scope:selected_county.title_province = {
+			random_list = {
+				5 = {
+					random_character_in_location = {
+						infect_with_epidemic = scope:knahaten
+						save_scope_as = infected_character_1
+					}
+					random_character_in_location = {
+						limit = { NOT = { this = scope:infected_character_1 } }
+						infect_with_epidemic = scope:knahaten
+					}
+				}
+				10 = {
+					random_character_in_location = {
+						infect_with_epidemic = scope:knahaten
+					}
+				}
+				5 = {
+					create_character = {
+						template = generic_peasant_character
+						employer = scope:selected_county.holder
+						culture = scope:selected_county.culture
+						faith = scope:selected_county.faith
+						trait = bubonic_plague
+						save_scope_as = sick_peasant
+					}
+				}
+				80 = {}
+			}
+		}
+		trigger_event = {
+			id = ek_knahaten_events_hfl.0002
+			days = { 30 90 }
+		}
+	}
+}
+
+# City Redguards flee to the Alik'r
+# by TheynT
+ek_knahaten_events_hfl.0003 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_knahaten_events_hfl.0003.t
+	desc = ek_knahaten_events_hfl.0003.desc
+	theme = knahaten
+	override_background = { reference = throne_room }
+	cooldown = { years = 20 } #Basically, it won't reappear
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+	right_portrait = {
+		character = scope:sick_peasant_1
+		animation = sick_stomach
+	}
+	lower_right_portrait = scope:sick_peasant_2
+
+	trigger = {
+		culture = { #You're an Alikr
+			OR = {
+				this = culture:alikr
+				any_parent_culture_or_above = {
+					this = culture:alikr
+				}
+			}
+		}
+		government_has_flag = government_is_tribal #A tribal/nomad
+		any_held_title = {
+			tier = tier_county
+			any_neighboring_county = { #And the Knahaten is nearby
+				any_county_province = {
+					any_province_epidemic = {
+						this = global_var:black_death
+					}
+				}
+				culture = { #And they are actually redguards
+					has_cultural_pillar = heritage_yokudan
+					NOT = {
+						this = culture:alikr
+						any_parent_culture_or_above = {
+							this = culture:alikr
+						}
+					}
+				} 
+			}
+		}
+		is_available = yes
+	}
+
+	immediate = {
+		every_held_title = {
+			limit = {
+				tier = tier_county
+			}
+			random_neighboring_county = {
+				limit = {
+					any_county_province = {
+						any_province_epidemic = {
+							this = global_var:black_death
+						}
+					}
+					culture = {
+						has_cultural_pillar = heritage_yokudan
+						NOT = {
+							this = culture:alikr
+							any_parent_culture_or_above = {
+								this = culture:alikr
+							}
+						}
+					}
+				} 
+				save_scope_as = neighbouring_county
+			}
+		}
+
+		create_character = {
+			template = peasant_character
+			dynasty = none
+			location = root.location
+			culture = scope:neighbouring_county.culture
+			faith = scope:neighbouring_county.faith
+			gender_female_chance = 50
+			save_scope_as = sick_peasant_1
+		}
+		
+		create_character = {
+			template = peasant_character
+			dynasty = none
+			location = root.location
+			culture = scope:neighbouring_county.culture
+			faith = scope:neighbouring_county.faith
+			gender_female_chance = 50
+			save_scope_as = sick_peasant_2
+		}
+		scope:sick_peasant_2 = {
+			remove_trait = peasant_leader
+		}
+	}
+
+	option = {
+		name = ek_knahaten_events_hfl.0003.a
+		flavor = ek_knahaten_events_hfl.0003.a.flavor
+
+		scope:neighbouring_county.culture = {
+			change_cultural_acceptance = {
+				target = root.culture
+				value = miniscule_positive_culture_acceptance
+				desc = ek_knahaten_events_hfl.0003.a_culture_acceptance_gain
+			}
+		}
+
+		scope:sick_peasant_1 = {
+			set_employer = root
+		}
+		scope:sick_peasant_2 = {
+			set_employer = root
+		}
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_greed = -1
+				ai_compassion = 1
+			}
+			modifier = {
+				ek_is_county_faith_likes_diseases = yes #just faith check, not actually county
+				add = 250
+			}
+		}
+	}
+	option = {
+		name = ek_knahaten_events_hfl.0003.b
+
+		add_dread = miniscule_dread_gain
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_greed = 1
+				ai_compassion = -1
+			}
+		}
+	}
+
+
+	after = {
+		if = {
+			limit = {
+				scope:sick_peasant_1 = { is_courtier_of = root }
+			}
+			random_list = {
+				70 = {}
+				30 = {
+					scope:sick_peasant_1 = { add_trait = bubonic_plague }
+				}
+			}
+			random_list = { #they also infect someone else
+				80 = {}
+				20 = {
+					random_courtier_or_guest = {
+						limit = {
+							NOT = { has_trait = bubonic_plague }
+						}
+						add_trait = bubonic_plague
+					}
+				}
+			}
+		}
+		else = {
+			scope:sick_peasant_1 = { silent_disappearance_effect = yes }
+		}
+		if = {
+			limit = {
+				scope:sick_peasant_2 = { is_courtier_of = root }
+			}
+			random_list = {
+				80 = {}
+				20 = {
+					scope:sick_peasant_2 = { add_trait = bubonic_plague }
+				}
+			}
+		}
+		else = {
+			scope:sick_peasant_2 = { silent_disappearance_effect = yes }
+		}
+		
+	}
+}
+
+#EK TODO KNAHATEN BLACKMARSH: The Journey of the Crimson Ship
+
+#EK TODO KNAHATEN HIGHROCK: lore-wise, the royal family of Wayrest was hit hard. maybe we should highten their chances of getting the flu?
+
+
+############################
+## Knahaten Global Outbreak Broadcasts (inspired by ck2 Reaper's Due/EK2 Knahaten announcements)
+## 0001-1000
+## by TheynT
+############################
+namespace = ek_knahaten_events_global
+
+#Announcement to every player, except those in Black Marsh, that Black Marsh is ravaged by the Flu (triggered in ek_knahaten_global_broadcasts)
+ek_knahaten_events_global.0001 = {
+	type = letter_event
+	opening = ek_knahaten_events_global.0001.t
+	desc = ek_knahaten_events_global.0001.desc
+	sender = scope:gwylim_press_author
+
+	content_source = dlc_ek
+
+	immediate = {
+		generate_gwylim_popular_press_author = yes # Check if the Gwylim Popular Press author exists, or if we need to generate one
+	}
+	option = { name = ek_knahaten_events_global.0001.a }
+}
+
+#Elsweyr
+ek_knahaten_events_global.0002 = {
+	type = letter_event
+	opening = ek_knahaten_events_global.0002.t
+	desc = ek_knahaten_events_global.0002.desc
+	sender = scope:gwylim_press_author
+
+	content_source = dlc_ek
+
+	immediate = {
+		generate_gwylim_popular_press_author = yes # Check if the Gwylim Popular Press author exists, or if we need to generate one
+	}
+	option = { name = ek_knahaten_events_global.0002.a }
+}
+
+#Morrowind
+ek_knahaten_events_global.0003 = {
+	type = letter_event
+	opening = ek_knahaten_events_global.0003.t
+	desc = ek_knahaten_events_global.0003.desc
+	sender = scope:gwylim_press_author
+
+	content_source = dlc_ek
+
+	immediate = {
+		generate_gwylim_popular_press_author = yes # Check if the Gwylim Popular Press author exists, or if we need to generate one
+	}
+	option = { name = ek_knahaten_events_global.0003.a }
+}
+
+#Cyrodiil
+ek_knahaten_events_global.0004 = {
+	type = letter_event
+	opening = ek_knahaten_events_global.0004.t
+	desc = ek_knahaten_events_global.0004.desc
+	sender = scope:gwylim_press_author
+
+	content_source = dlc_ek
+
+	immediate = {
+		generate_gwylim_popular_press_author = yes # Check if the Gwylim Popular Press author exists, or if we need to generate one
+	}
+	option = { name = ek_knahaten_events_global.0004.a }
+}
+
+#Skyrim
+ek_knahaten_events_global.0005 = {
+	type = letter_event
+	opening = ek_knahaten_events_global.0005.t
+	desc = ek_knahaten_events_global.0005.desc
+	sender = scope:gwylim_press_author
+
+	content_source = dlc_ek
+
+	immediate = {
+		generate_gwylim_popular_press_author = yes # Check if the Gwylim Popular Press author exists, or if we need to generate one
+	}
+	option = { name = ek_knahaten_events_global.0005.a }
+}
+
+#High Rock
+ek_knahaten_events_global.0006 = {
+	type = letter_event
+	opening = ek_knahaten_events_global.0006.t
+	desc = ek_knahaten_events_global.0006.desc
+	sender = scope:gwylim_press_author
+
+	content_source = dlc_ek
+
+	immediate = {
+		generate_gwylim_popular_press_author = yes # Check if the Gwylim Popular Press author exists, or if we need to generate one
+	}
+	option = { name = ek_knahaten_events_global.0006.a }
+}
+
+#Hammerfell
+ek_knahaten_events_global.0007 = {
+	type = letter_event
+	opening = ek_knahaten_events_global.0007.t
+	desc = ek_knahaten_events_global.0007.desc
+	sender = scope:gwylim_press_author
+
+	content_source = dlc_ek
+
+	immediate = {
+		generate_gwylim_popular_press_author = yes # Check if the Gwylim Popular Press author exists, or if we need to generate one
+	}
+	option = { name = ek_knahaten_events_global.0007.a }
+}
+
+#Valenwood
+ek_knahaten_events_global.0008 = {
+	type = letter_event
+	opening = ek_knahaten_events_global.0008.t
+	desc = ek_knahaten_events_global.0008.desc
+	sender = scope:gwylim_press_author
+
+	content_source = dlc_ek
+
+	immediate = {
+		generate_gwylim_popular_press_author = yes # Check if the Gwylim Popular Press author exists, or if we need to generate one
+	}
+	option = { name = ek_knahaten_events_global.0008.a }
+}
+
+#Summerset Isles
+ek_knahaten_events_global.0009 = {
+	type = letter_event
+	opening = ek_knahaten_events_global.0009.t
+	desc = ek_knahaten_events_global.0009.desc
+	sender = scope:gwylim_press_author
+
+	content_source = dlc_ek
+
+	immediate = {
+		generate_gwylim_popular_press_author = yes # Check if the Gwylim Popular Press author exists, or if we need to generate one
+	}
+	option = { name = ek_knahaten_events_global.0009.a }
+}
+
+#Yokuda
+ek_knahaten_events_global.0010 = {
+	type = letter_event
+	opening = ek_knahaten_events_global.0010.t
+	desc = ek_knahaten_events_global.0010.desc
+	sender = scope:gwylim_press_author
+
+	content_source = dlc_ek
+
+	immediate = {
+		generate_gwylim_popular_press_author = yes # Check if the Gwylim Popular Press author exists, or if we need to generate one
+	}
+	option = { name = ek_knahaten_events_global.0010.a }
+}
+#EK THEYN TODO: check that this works
+# Announcement of a culture having died because of the Knahaten
+ek_knahaten_events_global.0011 = {
+	type = letter_event
+	opening = ek_knahaten_events_global.0011.t
+	desc = {
+		desc = ek_knahaten_events_global.0011.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = global_var:knahaten_wipeout_broadcast_happened_before } }
+				desc = ek_knahaten_events_global.0011.desc_first
+			}
+		}
+	}
+	sender = scope:gwylim_press_author
+
+	content_source = dlc_ek
+	immediate = {
+		generate_gwylim_popular_press_author = yes # Check if the Gwylim Popular Press author exists, or if we need to generate one
+	}
+	option = { name = ek_knahaten_events_global.0011.a }
+	after = {
+		set_global_variable = {
+			name = knahaten_wipeout_broadcast_happened_before
+			value = yes
+		}
+	}
+}
+#EK THEYN TODO: this doesn't trigger 
+# Announcement that the Flu has finally left Elsweyr
+#EK NOTE: Commenting this one out for now, since it's orphaned. Can be reenabled once this gets fixed.
+#ek_knahaten_events_global.0012 = {
+#	type = letter_event
+#	opening = ek_knahaten_events_global.0012.t
+#	desc = ek_knahaten_events_global.0012.desc
+#	sender = scope:gwylim_press_author
+
+#	content_source = dlc_ek
+
+#	immediate = {
+#		generate_gwylim_popular_press_author = yes # Check if the Gwylim Popular Press author exists, or if we need to generate one
+#	}
+#	option = { name = ek_knahaten_events_global.0012.a }
+#}

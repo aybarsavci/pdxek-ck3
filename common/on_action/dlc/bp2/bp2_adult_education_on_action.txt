@@ -1,0 +1,65 @@
+﻿#EK NOTE: plugged in new on actions for arcane education
+
+#EK EDIT: changed on actions to add arcane actvity
+adult_education_arrival_events = {
+	first_valid_on_action = {
+		adult_education_mundane_travel_events
+		adult_education_arcane_travel_events
+	}
+}
+
+adult_education_mundane_travel_events = {
+	trigger = { involved_activity = { activity_has_mundane_education_type_trigger = yes } }
+	events = {
+		bp2_adult_education.0010
+	}
+}
+
+adult_education_arcane_travel_events = {
+	trigger = { involved_activity = { activity_has_arcane_education_type_trigger = yes } }
+	events = {
+		ek_arcane_education.0010
+	}
+}
+#EK EDIT END
+
+adult_education_destination_events = {
+	random_events = {
+		100 = bp2_adult_education.1000
+		100 = bp2_adult_education.1010
+		100 = bp2_adult_education.1011
+		100 = bp2_adult_education.1012
+		100 = bp2_adult_education.1020
+		100 = bp2_adult_education.1030
+		100 = bp2_adult_education.1040
+		100 = bp2_adult_education.1050
+		100 = bp2_adult_education.1060
+		100 = bp2_adult_education.1070
+		100 = bp2_adult_education.1080
+		100 = bp2_adult_education.1090
+		100 = bp2_adult_education.9000 # Clerical Guest Speaker
+		100 = bp2_adult_education.9100 # Peasant Break-in
+		100 = bp2_adult_education.9200 # Romantic Tensions in the Library
+		100 = bp2_adult_education.9300 # Manic Student pitches Insane Idea
+		100 = bp2_adult_education.9400 # Local Ruler Pays a Visit
+		#EK ADDITION: new events
+		200 = ek_arcane_education.1000 # Assist in Experiment
+		200 = ek_arcane_education.1001 # Learn Alchemy
+		200 = ek_arcane_education.1002 # Encounter Hidden Necromant
+		200 = ek_arcane_education.1003 # Try Some Enchanting
+		200 = ek_arcane_education.1004 # Training Duel
+		100 = ek_arcane_education.1005 # Read Mysterious Tome
+		200 = ek_arcane_education.1006 # Alteration Class
+		200 = ek_arcane_education.1007 # Destruction Class
+		200 = ek_arcane_education.1008 # Restoration Class
+		200 = ek_arcane_education.1009 # Illusion Class
+		200 = ek_arcane_education.1010 # Conjuration Class
+		500 = ek_arcane_education.1011 # Train with Imperial Battlemages (Arcane Univerity)		
+		500 = ek_arcane_education.1012 # Watch the Firedancers (Skaven College)		
+		500 = ek_arcane_education.1013 # Talk with a Sapiarch (Sapiarch College)
+		500 = ek_arcane_education.1014 # Ghosts of the Past (Norg Tzel)
+		500 = ek_arcane_education.1015 # Explore the Midden (Winterhold College)
+		500 = ek_arcane_education.1016 # Stand on Top of the Tower (Tel Aruhn)		
+		#EK ADDITION END
+	}
+}

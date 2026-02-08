@@ -1,0 +1,76 @@
+﻿do_a_magic_interaction = {
+	common_interaction = yes
+	desc = do_a_magic_interaction_desc
+	category = interaction_category_magic
+	icon = icon_spellbook
+	use_diplomatic_range = yes
+	ignores_pending_interaction_block = yes
+	is_shown = {
+		#debug_only = yes
+	}
+	redirect = {
+		scope:actor = {save_scope_as = secondary_actor}
+	}
+	populate_actor_list = {
+		scope:actor = {
+			add_to_list = characters
+			every_court_position_holder = {
+				type = court_mage_court_position
+				add_to_list = characters
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		custom_tooltip = {
+			text = magic_or_court_mage
+			scope:actor = {
+				OR = {				
+					can_magic_trigger = yes
+					employs_court_position = court_mage_court_position
+				}
+			}
+		}
+		custom_tooltip = {
+			text = spell_out_of_range
+			OR = {
+				"scope:actor.location.squared_distance(scope:recipient.location)" <= "scope:actor.spell_range"
+				"scope:actor.location.squared_distance(scope:recipient.location)" <= "scope:actor.court_position:court_mage_court_position.spell_range"
+			}
+		}		
+	}
+
+	on_accept = { #observer in hud.gui actually triggers spellbook widget
+		scope:actor = {
+			set_variable = spells_open
+			remove_variable = spell_recipient_old
+			set_variable = { name = spell_recipient value = scope:recipient }
+			set_variable = { name = spell_caster value = scope:secondary_actor }
+			set_variable = { name = spell_school value = flag:conjuration }
+			init_conjuration = yes
+			set_variable = { name = spell_selected value = flag:no_spell }
+		}
+		if = {
+			limit = { NOT = { scope:secondary_actor = scope:recipient } }
+			scope:recipient = {
+				custom_description_no_bullet = {
+					text = spell_castee
+					object = scope:secondary_actor
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:recipient = scope:actor
+				scope:actor = scope:secondary_actor
+			}
+			custom_description_no_bullet = {
+				subject = scope:secondary_actor
+				text = spell_caster
+				object = scope:recipient
+			}
+		}
+	}
+
+	auto_accept = yes
+}

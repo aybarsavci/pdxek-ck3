@@ -1,0 +1,287 @@
+﻿ek_nedic_old_headgear = {
+
+	usage = game
+	selection_behavior = weighted_random
+	priority = 1
+
+##############################
+#							 #	
+#			NEDIC OLD		 #
+#							 #
+##############################
+
+	ek_nedic_old_commoners = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = byzantine_common
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 80
+                portrait_commoner_headgear_fallback_trigger = {
+                    CULTURE_INPUT = ek_nedic_old
+                }
+			}
+			modifier = {
+				add = 20
+                portrait_commoner_clothing_trigger = {
+                    CULTURE_INPUT = ek_nedic_old
+                }
+			}
+		}
+	}
+
+	ek_nedic_old_low_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = byzantine_nobility
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_low_nobles_clothing_trigger = {  
+                    CULTURE_INPUT = ek_nedic_old 
+                }
+			}
+		}
+	}
+
+	ek_nedic_old_high_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = byzantine_high_nobility
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_high_nobles_headgear_trigger = {
+                    CULTURE_INPUT = ek_nedic_old
+                }   
+			}
+		}
+	}
+
+	ek_nedic_old_royalty = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = byzantine_royalty
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 0
+                portrait_royalty_trigger = {
+                    CULTURE_INPUT = ek_nedic_old
+                }   
+			}
+			modifier = {
+				factor = 0
+				has_dlc_feature = legacy_of_persia	
+            }
+		}
+	}
+
+	ek_nedic_old_imperial = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = byzantine_royalty
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 0
+				portrait_imperial_trigger = {
+                    CULTURE_INPUT = ek_nedic_old 
+                }
+			}
+			modifier = {
+				factor = 0
+				has_dlc_feature = legacy_of_persia	
+            }
+		}
+	}
+
+	ek_nedic_old_royalty_fp3 = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = fp3_iranian_royalty
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 55
+				has_dlc_feature = legacy_of_persia	
+                portrait_royalty_trigger = {
+                    CULTURE_INPUT = ek_nedic_old
+                }   
+			}
+		}
+	}
+
+	ek_nedic_old_imperial_fp3 = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = fp3_iranian_imperial
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 55
+				has_dlc_feature = legacy_of_persia	
+				portrait_imperial_trigger = {
+                    CULTURE_INPUT = ek_nedic_old 
+                }
+			}
+			modifier = {
+				add = 500
+				has_dlc_feature = legacy_of_persia	
+				exists = character:alessian_100
+				this = character:alessian_100
+			}
+			modifier = {
+				add = 500
+				has_dlc_feature = legacy_of_persia	
+				exists = character:alessian_103
+				this = character:alessian_103
+			}
+			modifier = {
+				add = 500
+				has_dlc_feature = legacy_of_persia	
+				exists = character:alessian_104
+				this = character:alessian_104
+			}
+			modifier = {
+				add = 500
+				has_dlc_feature = legacy_of_persia	
+				exists = character:alessian_105
+				this = character:alessian_105
+			}
+			modifier = {
+				add = 500
+				exists = character:alessian_contest_1
+				this = character:alessian_contest_1
+			}
+			modifier = {
+				add = 500
+				has_dlc_feature = legacy_of_persia	
+				exists = character:alessian_107
+				this = character:alessian_107
+			}
+			modifier = {
+				add = 500
+				has_dlc_feature = legacy_of_persia	
+				exists = character:alessian_109
+				this = character:alessian_109
+			}
+		}
+	}
+
+}
+
+ek_nedic_old_war_headgear = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 4
+	
+    ek_nedic_old_war_low_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = ek_south_nedic_war
+                accessory = headgear_south_nedic_male_war_02_low
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+				is_lowborn = yes
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_nedic_old
+                }
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_old
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_old
+                    }
+					portrait_high_nobles_armor_trigger = {
+						CULTURE_INPUT = ek_nedic_old
+					}					
+                }
+            }
+        }
+    }
+
+    ek_nedic_old_war_high_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = ek_south_nedic_war
+                accessory = headgear_south_nedic_male_war_01_high
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_nedic_old
+                }				
+                OR = {
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_old
+                    }
+					portrait_high_nobles_armor_trigger = {
+						CULTURE_INPUT = ek_nedic_old
+					}					
+                }				
+            }
+            modifier = {
+                add = 50 
+					is_lowborn = no
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_old
+                    }
+            }
+        }
+    }
+
+}

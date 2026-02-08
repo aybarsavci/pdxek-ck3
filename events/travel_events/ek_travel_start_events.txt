@@ -1,0 +1,35 @@
+﻿namespace = ek_travel_start_event
+
+#Travelling to a Hist Communion
+ek_travel_start_event.1000 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_start_event.1000.t_hist_communion
+	desc = ek_travel_start_event.1000.desc_hist_communion
+
+	theme = travel_pilgrimage
+	left_portrait = {
+		character = root
+		animation = personality_compassionate
+	}
+	#Show our Travel Leader
+	right_portrait = {
+		character = scope:saved_travel_leader
+	}
+	trigger = {
+		is_available_travelling = yes
+		exists = involved_activity
+		involved_activity = { has_activity_type = activity_hist_communion }
+	}
+	immediate = {
+		play_music_cue = mx_cue_travel_start
+
+		current_travel_plan.travel_leader ?= {
+			save_scope_as = saved_travel_leader
+		}
+	}
+	#Giddy up!
+	option = {
+		name = travel_start_event.1000.a
+	}
+}

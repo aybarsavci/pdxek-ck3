@@ -1,0 +1,44 @@
+pdxmesh = {
+	name = "male_headgear_special_eye_patch_01_mesh"
+	file = "m_headgear_special_eye_patch_01.mesh"
+
+	#EK2	
+	blend_shape = { id = "male_headgear_special_eye_patch_01_bs_browmax"		type = "m_headgear_special_eye_patch_01_bs_browmax.mesh" }
+	blend_shape = { id = "male_headgear_special_eye_patch_01_bs_browforward"		type = "m_headgear_special_eye_patch_01_bs_browforward.mesh" }
+
+	blend_shape = { id = "male_argonian_blendshape"		type = "m_headgear_special_eye_patch_01_bs_argonian.mesh" }
+	blend_shape = { id = "male_khajiit_blendshape"		type = "m_headgear_special_eye_patch_01_bs_khajiit.mesh" }
+	#EK2
+	meshsettings = {
+		name = "male_headgear_special_eye_patch_0Shape1"
+		index = 0
+		texture_diffuse = "m_headgear_special_eye_patch_01_diffuse.dds"
+		texture_normal = "m_headgear_special_eye_patch_01_normal.dds"
+		texture_specular = "m_headgear_special_eye_patch_01_properties.dds"
+		shader = "portrait_attachment_pattern"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+
+entity = {
+
+#EK2
+attribute = { name = "bs_forehead_brow_width_max"								blend_shape = "male_headgear_special_eye_patch_01_bs_browmax" }
+attribute = { name = "bs_forehead_brow_forward_max"								blend_shape = "male_headgear_special_eye_patch_01_bs_browforward" }
+
+attribute = { name = "argonian_head_bs"					blend_shape = "male_argonian_blendshape" }
+attribute = { name = "khajiit_head_bs"					blend_shape = "male_khajiit_blendshape" }
+#EK2
+
+	name = "male_headgear_special_eye_patch_01_entity"
+	pdxmesh = "male_headgear_special_eye_patch_01_mesh"
+
+	game_data = {
+        portrait_entity_user_data = {
+			portrait_accessory = {
+				pattern_mask = "gfx/models/portraits/m_headgear/eye_patch_01/m_headgear_special_eye_patch_01_masks.dds"	#Any 4-channel texture. Each channel will be used to mask a pattern from the variation object
+				variation = "western_eye_patch_01"	#A "variation" object in gfx/portraits/accessory_variations/
+			}
+        }
+	}
+}

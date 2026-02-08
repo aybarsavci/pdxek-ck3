@@ -1,0 +1,65 @@
+﻿@camp_building_main_slot_construction_duration_t1 = 180
+@camp_building_main_slot_construction_duration_t2 = 210
+@camp_building_main_slot_construction_duration_t3 = 240
+@camp_building_main_slot_construction_duration_t4 = 300
+@camp_building_main_slot_construction_duration_t5 = 360
+@camp_building_main_slot_construction_duration_t6 = 420
+
+@camp_building_internal_slot_construction_duration_t1 = 180
+@camp_building_internal_slot_construction_duration_t2 = 240
+@camp_building_internal_slot_construction_duration_t3 = 300
+
+proving_grounds_mages_study = { 
+	slot_type = internal
+	construction_time = @camp_building_internal_slot_construction_duration_t3
+	allowed_domicile_types = { camp }
+	previous_building = proving_grounds_01
+
+	cost = { gold = proving_grounds_the_stump_domicile_building_gold_cost_value }
+	refund = {
+		gold = {
+			value = proving_grounds_the_stump_domicile_building_gold_cost_value
+			multiply = camp_refund_mult_value
+			floor = yes
+		}
+	}
+
+	character_modifier = {
+		spellblades_damage_mult = 0.3
+		spellblades_toughness_mult = 0.2
+		mages_damage_mult = 0.3
+		mages_toughness_mult = 0.2
+		spellblades_screen_mult = 0.4
+	}
+
+	parameters = {
+		camp_unlocks_arcanist_captain_officer = yes
+	}
+	
+	ai_value = {
+		value = camp_building_ai_base_t3
+		if = {
+			limit = {
+				owner = { has_lifestyle = martial_lifestyle }
+			}
+			add = camp_building_ai_lifestyle_bias_value
+		}
+		multiply = 10
+		if = {
+			limit = {
+				owner = {
+					number_maa_regiments_of_base_type:mages <= 0
+					number_maa_regiments_of_base_type:spellblades <= 0
+				}
+			}
+			multiply = 0
+		}
+	}
+	
+	asset = {
+		icon = "gfx/interface/icons/building_types/icon_building_battlemage_school.dds"
+		texture = "gfx/interface/window_domiciles/laamp_building_proving_grounds.dds"
+		intersectionmask_texture = "gfx/interface/window_domiciles/laamp_building_proving_grounds_mask.png"
+		soundeffect = "event:/DLC/EP3/SFX/UI/camp_buildings/ep3_ui_domicile_buildings_proving_ground"
+	}
+}

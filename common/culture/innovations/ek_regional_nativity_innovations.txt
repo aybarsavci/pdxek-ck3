@@ -1,0 +1,1061 @@
+﻿#### Local Types ####
+# Cyrodiil
+@colovian_highlands = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_colovian_highlands.dds"
+@gold_coast = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_gold_coast.dds"
+@heartlands = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_heartlands.dds"
+@jerall_mountains = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_jerall_mountains.dds"
+@nibenay_basin = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_nibenay_basin.dds"
+@nibenese_lowlands = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_nibenese_lowlands.dds"
+@west_weald = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_west_weald.dds"
+# Elsweyr
+@anequina = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_anequina.dds"
+@pellitine = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_pellitine.dds"
+# Hammerfell
+@abecee = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_abecee.dds"
+@alikr = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_alikr.dds"
+@brena = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_brena.dds"
+@craglorn = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_craglorn.dds"
+@sunforge = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_sunforge.dds"
+# High Rock
+@bangkorai = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_bangkorai.dds"
+@glenumbra = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_glenumbra.dds"
+@greater_wrothgar = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_greater_wrothgar.dds"
+@rivenspire = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_rivenspire.dds"
+@stormhaven = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_stormhaven.dds"
+# Skyrim
+@dark_water = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_dark_water.dds"
+@east_ghost = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_east_ghost.dds"
+@karth = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_karth.dds"
+@solstheim = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_solstheim.dds"
+@west_ghost = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_west_ghost.dds"
+@white_river = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_white_river.dds"
+# Summerset
+@summerset = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_summerset.dds"
+@auridon = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_auridon.dds"
+# Valenwood
+@grahtwood = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_grahtwood.dds"
+@greenshade = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_greenshade.dds"
+@malabal_tor = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_malabal_tor.dds"
+@reaper_march = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_reaper_march.dds"
+# Yokuda
+@yokuda = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_yokuda.dds"
+# Morrowind
+@vvardenfell = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_vvardenfell.dds"
+@velothi_range = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_velothi_range.dds"
+@greater_deshaan = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_greater_deshaan.dds"
+@padomay_coast = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_padomay_coast.dds"
+@southern_marshes = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_southern_marshes.dds"
+# Black Marsh
+@middle_argonia = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_middle_argonia.dds"
+@onkobra = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_onkobra.dds"
+@black_bays = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_black_bays.dds"
+@padomaic_marshes = "gfx/interface/icons/culture_innovations/nativity/innovation_nativity_padomaic_marshes.dds"
+
+@dead_culture = "gfx/interface/icons/culture_innovations/ai_innovation_dead_culture.dds"
+@nomadic = "gfx/interface/icons/culture_innovations/ai_innovation_native_nomadic.dds"
+@dremora = "gfx/interface/icons/culture_innovations/ai_innovation_dremora.dds"
+#EK TODO: Change modifiers to more relevant ones like Vassal Stance Opinion, chance of having a Stance and so on...
+
+### Nativity innovations
+## Special - not native from anywhere, nomadic
+## Note: "nomadic" has been renamed to "migratory" in loc
+# Can bypass some of the non-nativity penalty, but can be very easily displaced too
+innovation_native_nomadic = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	can_progress = {
+		always = no
+	}
+	icon = @nomadic
+	
+	custom = negate_non_native_penalty
+	custom = easily_displaced_culture
+	custom = cannot_get_regional_innovations
+	flag = nativity_innovation
+}
+## High Rock
+innovation_native_glenumbra = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = glenumbra }
+			is_in_list_native_to = { REGION = rivenspire }
+			is_in_list_native_to = { REGION = stormhaven }
+			is_in_list_native_to = { REGION = greater_wrothgar }
+			is_in_list_native_to = { REGION = bangkorai }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @glenumbra
+	
+	custom = faster_culture_convert_glenumbra
+	flag = nativity_innovation
+	flag = nativity_innovation_high_rock
+}
+innovation_native_rivenspire = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = glenumbra }
+			is_in_list_native_to = { REGION = rivenspire }
+			is_in_list_native_to = { REGION = stormhaven }
+			is_in_list_native_to = { REGION = greater_wrothgar }
+			is_in_list_native_to = { REGION = bangkorai }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @rivenspire
+	
+	custom = faster_culture_convert_rivenspire
+	flag = nativity_innovation
+	flag = nativity_innovation_high_rock
+}
+innovation_native_stormhaven = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = glenumbra }
+			is_in_list_native_to = { REGION = rivenspire }
+			is_in_list_native_to = { REGION = stormhaven }
+			is_in_list_native_to = { REGION = greater_wrothgar }
+			is_in_list_native_to = { REGION = bangkorai }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @stormhaven
+	
+	custom = faster_culture_convert_stormhaven
+	flag = nativity_innovation
+	flag = nativity_innovation_high_rock
+}
+innovation_native_greater_wrothgar = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = glenumbra }
+			is_in_list_native_to = { REGION = rivenspire }
+			is_in_list_native_to = { REGION = stormhaven }
+			is_in_list_native_to = { REGION = greater_wrothgar }
+			is_in_list_native_to = { REGION = bangkorai }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @greater_wrothgar
+	
+	custom = faster_culture_convert_wrothgar
+	flag = nativity_innovation
+	flag = nativity_innovation_high_rock
+}
+innovation_native_bangkorai = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = glenumbra }
+			is_in_list_native_to = { REGION = rivenspire }
+			is_in_list_native_to = { REGION = stormhaven }
+			is_in_list_native_to = { REGION = greater_wrothgar }
+			is_in_list_native_to = { REGION = bangkorai }
+			
+			is_in_list_native_to = { REGION = craglorn }
+			is_in_list_native_to = { REGION = abecee }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @bangkorai
+	
+	custom = faster_culture_convert_bangkorai
+	flag = nativity_innovation
+	flag = nativity_innovation_high_rock
+	flag = nativity_innovation_hammerfell
+}
+
+## Hammerfell
+innovation_native_craglorn = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = craglorn }
+			is_in_list_native_to = { REGION = alikr }
+			is_in_list_native_to = { REGION = brena }
+			is_in_list_native_to = { REGION = sunforge }
+			is_in_list_native_to = { REGION = abecee }
+			
+			is_in_list_native_to = { REGION = bangkorai }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @craglorn
+	
+	custom = faster_culture_convert_craglorn
+	flag = nativity_innovation
+	flag = nativity_innovation_hammerfell
+}
+innovation_native_alikr = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = craglorn }
+			is_in_list_native_to = { REGION = alikr }
+			is_in_list_native_to = { REGION = brena }
+			is_in_list_native_to = { REGION = sunforge }
+			is_in_list_native_to = { REGION = abecee }
+			
+			is_in_list_native_to = { REGION = bangkorai }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @alikr
+	
+	custom = faster_culture_convert_alikr
+	flag = nativity_innovation
+	flag = nativity_innovation_hammerfell
+}
+innovation_native_brena = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = craglorn }
+			is_in_list_native_to = { REGION = alikr }
+			is_in_list_native_to = { REGION = brena }
+			is_in_list_native_to = { REGION = sunforge }
+			is_in_list_native_to = { REGION = abecee }
+			
+			is_in_list_native_to = { REGION = bangkorai }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @brena
+	
+	custom = faster_culture_convert_brena
+	flag = nativity_innovation
+	flag = nativity_innovation_hammerfell
+}
+innovation_native_sunforge = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = craglorn }
+			is_in_list_native_to = { REGION = alikr }
+			is_in_list_native_to = { REGION = brena }
+			is_in_list_native_to = { REGION = sunforge }
+			is_in_list_native_to = { REGION = abecee }
+			
+			is_in_list_native_to = { REGION = bangkorai }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @sunforge
+	
+	custom = faster_culture_convert_sunforge
+	flag = nativity_innovation
+	flag = nativity_innovation_hammerfell
+}
+innovation_native_abecee = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = craglorn }
+			is_in_list_native_to = { REGION = alikr }
+			is_in_list_native_to = { REGION = brena }
+			is_in_list_native_to = { REGION = sunforge }
+			is_in_list_native_to = { REGION = abecee }
+			
+			is_in_list_native_to = { REGION = bangkorai }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @abecee
+	
+	custom = faster_culture_convert_abecee
+	flag = nativity_innovation
+	flag = nativity_innovation_hammerfell
+}
+
+## Cyrodiil
+innovation_native_heartlands = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = heartlands }
+			is_in_list_native_to = { REGION = gold_coast }
+			is_in_list_native_to = { REGION = west_weald }
+			is_in_list_native_to = { REGION = colovian_highlands }
+			is_in_list_native_to = { REGION = jerall_mountains }
+			is_in_list_native_to = { REGION = nibenay_basin }
+			is_in_list_native_to = { REGION = nibenese_lowlands }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @heartlands
+	
+	custom = faster_culture_convert_heartlands
+	flag = nativity_innovation
+	flag = nativity_innovation_cyrodiil
+}
+innovation_native_gold_coast = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = heartlands }
+			is_in_list_native_to = { REGION = gold_coast }
+			is_in_list_native_to = { REGION = west_weald }
+			is_in_list_native_to = { REGION = colovian_highlands }
+			is_in_list_native_to = { REGION = jerall_mountains }
+			is_in_list_native_to = { REGION = nibenay_basin }
+			is_in_list_native_to = { REGION = nibenese_lowlands }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @gold_coast
+	
+	custom = faster_culture_convert_gold_coast
+	flag = nativity_innovation
+	flag = nativity_innovation_cyrodiil
+}
+innovation_native_west_weald = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = heartlands }
+			is_in_list_native_to = { REGION = gold_coast }
+			is_in_list_native_to = { REGION = west_weald }
+			is_in_list_native_to = { REGION = colovian_highlands }
+			is_in_list_native_to = { REGION = jerall_mountains }
+			is_in_list_native_to = { REGION = nibenay_basin }
+			is_in_list_native_to = { REGION = nibenese_lowlands }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @west_weald
+	
+	custom = faster_culture_convert_west_weald
+	flag = nativity_innovation
+	flag = nativity_innovation_cyrodiil
+}
+innovation_native_colovian_highlands = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = heartlands }
+			is_in_list_native_to = { REGION = gold_coast }
+			is_in_list_native_to = { REGION = west_weald }
+			is_in_list_native_to = { REGION = colovian_highlands }
+			is_in_list_native_to = { REGION = jerall_mountains }
+			is_in_list_native_to = { REGION = nibenay_basin }
+			is_in_list_native_to = { REGION = nibenese_lowlands }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @colovian_highlands
+	
+	custom = faster_culture_convert_colovian_highlands
+	flag = nativity_innovation
+	flag = nativity_innovation_cyrodiil
+}
+innovation_native_jerall_mountains = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = heartlands }
+			is_in_list_native_to = { REGION = gold_coast }
+			is_in_list_native_to = { REGION = west_weald }
+			is_in_list_native_to = { REGION = colovian_highlands }
+			is_in_list_native_to = { REGION = jerall_mountains }
+			is_in_list_native_to = { REGION = nibenay_basin }
+			is_in_list_native_to = { REGION = nibenese_lowlands }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @jerall_mountains
+	
+	custom = faster_culture_convert_jerall_mountains
+	flag = nativity_innovation
+	flag = nativity_innovation_cyrodiil
+}
+innovation_native_nibenay_basin = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = heartlands }
+			is_in_list_native_to = { REGION = gold_coast }
+			is_in_list_native_to = { REGION = west_weald }
+			is_in_list_native_to = { REGION = colovian_highlands }
+			is_in_list_native_to = { REGION = jerall_mountains }
+			is_in_list_native_to = { REGION = nibenay_basin }
+			is_in_list_native_to = { REGION = nibenese_lowlands }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @nibenay_basin
+	
+	custom = faster_culture_convert_nibenay_basin
+	flag = nativity_innovation
+	flag = nativity_innovation_cyrodiil
+}
+innovation_native_nibenese_lowlands = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = heartlands }
+			is_in_list_native_to = { REGION = gold_coast }
+			is_in_list_native_to = { REGION = west_weald }
+			is_in_list_native_to = { REGION = colovian_highlands }
+			is_in_list_native_to = { REGION = jerall_mountains }
+			is_in_list_native_to = { REGION = nibenay_basin }
+			is_in_list_native_to = { REGION = nibenese_lowlands }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @nibenese_lowlands
+	
+	custom = faster_culture_convert_nibenese_lowlands
+	flag = nativity_innovation
+	flag = nativity_innovation_cyrodiil
+}
+
+## Skyrim
+innovation_native_karth = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = karth }
+			is_in_list_native_to = { REGION = white_river }
+			is_in_list_native_to = { REGION = west_ghost }
+			is_in_list_native_to = { REGION = east_ghost }
+			is_in_list_native_to = { REGION = dark_water }
+			is_in_list_native_to = { REGION = solstheim }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @karth
+	
+	custom = faster_culture_convert_karth
+	flag = nativity_innovation
+	flag = nativity_innovation_skyrim
+}
+innovation_native_white_river = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = karth }
+			is_in_list_native_to = { REGION = white_river }
+			is_in_list_native_to = { REGION = west_ghost }
+			is_in_list_native_to = { REGION = east_ghost }
+			is_in_list_native_to = { REGION = dark_water }
+			is_in_list_native_to = { REGION = solstheim }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @white_river
+	
+	custom = faster_culture_convert_white_river
+	flag = nativity_innovation
+	flag = nativity_innovation_skyrim
+}
+innovation_native_west_ghost = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = karth }
+			is_in_list_native_to = { REGION = white_river }
+			is_in_list_native_to = { REGION = west_ghost }
+			is_in_list_native_to = { REGION = east_ghost }
+			is_in_list_native_to = { REGION = dark_water }
+			is_in_list_native_to = { REGION = solstheim }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @west_ghost
+	
+	custom = faster_culture_convert_west_ghost
+	flag = nativity_innovation
+	flag = nativity_innovation_skyrim
+}
+innovation_native_east_ghost = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = karth }
+			is_in_list_native_to = { REGION = white_river }
+			is_in_list_native_to = { REGION = west_ghost }
+			is_in_list_native_to = { REGION = east_ghost }
+			is_in_list_native_to = { REGION = dark_water }
+			is_in_list_native_to = { REGION = solstheim }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @east_ghost
+	
+	custom = faster_culture_convert_east_ghost
+	flag = nativity_innovation
+	flag = nativity_innovation_skyrim
+}
+innovation_native_dark_water = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = karth }
+			is_in_list_native_to = { REGION = white_river }
+			is_in_list_native_to = { REGION = west_ghost }
+			is_in_list_native_to = { REGION = east_ghost }
+			is_in_list_native_to = { REGION = dark_water }
+			is_in_list_native_to = { REGION = solstheim }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @dark_water
+	
+	custom = faster_culture_convert_dark_water
+	flag = nativity_innovation
+	flag = nativity_innovation_skyrim
+}
+innovation_native_solstheim = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = karth }
+			is_in_list_native_to = { REGION = white_river }
+			is_in_list_native_to = { REGION = west_ghost }
+			is_in_list_native_to = { REGION = east_ghost }
+			is_in_list_native_to = { REGION = dark_water }
+			is_in_list_native_to = { REGION = solstheim }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @solstheim
+	
+	custom = faster_culture_convert_solstheim
+	flag = nativity_innovation
+	flag = nativity_innovation_skyrim
+}
+
+## Yokuda
+innovation_native_yokuda = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = yokuda }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @yokuda
+	
+	custom = faster_culture_convert_yokuda
+	flag = nativity_innovation
+	flag = nativity_innovation_yokuda
+}
+
+## Summerset Isles
+innovation_native_auridon = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = auridon }
+			is_in_list_native_to = { REGION = summerset }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @auridon
+	
+	custom = faster_culture_convert_auridon
+	flag = nativity_innovation
+	flag = nativity_innovation_summerset_isles
+}
+innovation_native_summerset = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = auridon }
+			is_in_list_native_to = { REGION = summerset }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @summerset
+	
+	custom = faster_culture_convert_summerset
+	flag = nativity_innovation
+	flag = nativity_innovation_summerset_isles
+}
+
+## Valenwood
+innovation_native_grahtwood = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = grahtwood }
+			is_in_list_native_to = { REGION = greenshade }
+			is_in_list_native_to = { REGION = malabal_tor }
+			is_in_list_native_to = { REGION = reaper_march }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @grahtwood
+	
+	custom = faster_culture_convert_grahtwood
+	flag = nativity_innovation
+	flag = nativity_innovation_valenwood
+}
+innovation_native_greenshade = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = grahtwood }
+			is_in_list_native_to = { REGION = greenshade }
+			is_in_list_native_to = { REGION = malabal_tor }
+			is_in_list_native_to = { REGION = reaper_march }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @greenshade
+	
+	custom = faster_culture_convert_greenshade
+	flag = nativity_innovation
+	flag = nativity_innovation_valenwood
+}
+innovation_native_malabal_tor = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = grahtwood }
+			is_in_list_native_to = { REGION = greenshade }
+			is_in_list_native_to = { REGION = malabal_tor }
+			is_in_list_native_to = { REGION = reaper_march }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @malabal_tor
+	
+	custom = faster_culture_convert_malabal_tor
+	flag = nativity_innovation
+	flag = nativity_innovation_valenwood
+}
+innovation_native_reaper_march = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = grahtwood }
+			is_in_list_native_to = { REGION = greenshade }
+			is_in_list_native_to = { REGION = malabal_tor }
+			is_in_list_native_to = { REGION = reaper_march }
+			
+			is_in_list_native_to = { REGION = anequina }
+			is_in_list_native_to = { REGION = pellitine }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @reaper_march
+	
+	custom = faster_culture_convert_reaper_march
+	flag = nativity_innovation
+	flag = nativity_innovation_valenwood
+	flag = nativity_innovation_elsweyr
+}
+
+## Elsweyr
+innovation_native_anequina = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = anequina }
+			is_in_list_native_to = { REGION = pellitine }
+			
+			is_in_list_native_to = { REGION = reaper_march }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @anequina
+	
+	custom = faster_culture_convert_anequina
+	flag = nativity_innovation
+	flag = nativity_innovation_elsweyr
+}
+innovation_native_pellitine = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = anequina }
+			is_in_list_native_to = { REGION = pellitine }
+			
+			is_in_list_native_to = { REGION = reaper_march }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @pellitine
+	
+	custom = faster_culture_convert_pellitine
+	flag = nativity_innovation
+	flag = nativity_innovation_elsweyr
+}
+
+## Morrowind
+innovation_native_vvardenfell = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = vvardenfell }
+			is_in_list_native_to = { REGION = velothi_range }
+			is_in_list_native_to = { REGION = greater_deshaan }
+			is_in_list_native_to = { REGION = thir }
+			is_in_list_native_to = { REGION = padomay_coast }
+			is_in_list_native_to = { REGION = southern_marshes }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @vvardenfell
+	
+	custom = faster_culture_convert_vvardenfell
+	flag = nativity_innovation
+	flag = nativity_innovation_morrowind
+}
+innovation_native_velothi_range = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = vvardenfell }
+			is_in_list_native_to = { REGION = velothi_range }
+			is_in_list_native_to = { REGION = greater_deshaan }
+			is_in_list_native_to = { REGION = thir }
+			is_in_list_native_to = { REGION = padomay_coast }
+			is_in_list_native_to = { REGION = southern_marshes }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @velothi_range
+	
+	custom = faster_culture_convert_velothi_range
+	flag = nativity_innovation
+	flag = nativity_innovation_morrowind
+}
+innovation_native_greater_deshaan = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = vvardenfell }
+			is_in_list_native_to = { REGION = velothi_range }
+			is_in_list_native_to = { REGION = greater_deshaan }
+			is_in_list_native_to = { REGION = thir }
+			is_in_list_native_to = { REGION = padomay_coast }
+			is_in_list_native_to = { REGION = southern_marshes }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @greater_deshaan
+	
+	custom = faster_culture_convert_greater_deshaan
+	flag = nativity_innovation
+	flag = nativity_innovation_morrowind
+}
+innovation_native_thir = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = vvardenfell }
+			is_in_list_native_to = { REGION = velothi_range }
+			is_in_list_native_to = { REGION = thir }
+			is_in_list_native_to = { REGION = thir }
+			is_in_list_native_to = { REGION = padomay_coast }
+			is_in_list_native_to = { REGION = southern_marshes }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @greater_deshaan
+	
+	custom = faster_culture_convert_thir
+	flag = nativity_innovation
+	flag = nativity_innovation_morrowind
+}
+innovation_native_padomay_coast = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = vvardenfell }
+			is_in_list_native_to = { REGION = velothi_range }
+			is_in_list_native_to = { REGION = greater_deshaan }
+			is_in_list_native_to = { REGION = thir }
+			is_in_list_native_to = { REGION = padomay_coast }
+			is_in_list_native_to = { REGION = southern_marshes }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @padomay_coast
+	
+	custom = faster_culture_convert_padomay_coast
+	flag = nativity_innovation
+	flag = nativity_innovation_morrowind
+}
+innovation_native_southern_marshes = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = vvardenfell }
+			is_in_list_native_to = { REGION = velothi_range }
+			is_in_list_native_to = { REGION = greater_deshaan }
+			is_in_list_native_to = { REGION = thir }
+			is_in_list_native_to = { REGION = padomay_coast }
+			is_in_list_native_to = { REGION = southern_marshes }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @southern_marshes
+	
+	custom = faster_culture_convert_southern_marshes
+	flag = nativity_innovation
+	flag = nativity_innovation_morrowind
+}
+
+## Black Marsh
+innovation_native_middle_argonia = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = middle_argonia }
+			is_in_list_native_to = { REGION = onkobra }
+			is_in_list_native_to = { REGION = black_bays }
+			is_in_list_native_to = { REGION = padomaic_marshes }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @middle_argonia
+	
+	custom = faster_culture_convert_middle_argonia
+	flag = nativity_innovation
+	flag = nativity_innovation_black_marsh
+}
+innovation_native_onkobra = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = middle_argonia }
+			is_in_list_native_to = { REGION = onkobra }
+			is_in_list_native_to = { REGION = black_bays }
+			is_in_list_native_to = { REGION = padomaic_marshes }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @onkobra
+	
+	custom = faster_culture_convert_onkobra
+	flag = nativity_innovation
+	flag = nativity_innovation_black_marsh
+}
+innovation_native_black_bays = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = middle_argonia }
+			is_in_list_native_to = { REGION = onkobra }
+			is_in_list_native_to = { REGION = black_bays }
+			is_in_list_native_to = { REGION = padomaic_marshes }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @black_bays
+	
+	custom = faster_culture_convert_black_bays
+	flag = nativity_innovation
+	flag = nativity_innovation_black_marsh
+}
+innovation_native_padomaic_marshes = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	potential = {
+		OR = {
+			is_in_list_native_to = { REGION = middle_argonia }
+			is_in_list_native_to = { REGION = onkobra }
+			is_in_list_native_to = { REGION = black_bays }
+			is_in_list_native_to = { REGION = padomaic_marshes }
+		}
+	}
+	can_progress = {
+		custom_description = { text = nativity_region_hack_tooltip always = no }
+	}
+	icon = @padomaic_marshes
+	
+	custom = faster_culture_convert_padomaic_marshes
+	flag = nativity_innovation
+	flag = nativity_innovation_black_marsh
+}
+
+### Special innovations
+# They aren't really innovations to be researched, but more about the general state of your culture
+innovation_dead_culture = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	icon = @dead_culture
+	
+	can_progress = { always = no }
+	
+	custom = no_county_culture_conversion
+	custom = culture_cannot_be_educated
+	custom = culture_can_be_revived
+}
+
+# Similar to Dead Culture and Pariah Folk, given to Dremora
+innovation_daedric_race = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	icon = @dremora
+	
+	potential = {
+		has_cultural_pillar = heritage_dremora
+	}
+	
+	custom = no_county_culture_conversion
+	custom = culture_cannot_be_educated
+	custom = innovation_cannot_be_removed
+	custom = innovation_daedric_race_persecution
+	custom = innovation_daedric_race_revocation
+
+	flag = global_regional
+	flag = tribal_era_regional
+}
+
+# For when we want a culture to be extra dead, unrevivable by regular means
+innovation_extinct_race = {
+	group = culture_group_regional
+	culture_era = culture_era_nativity
+	icon = @dead_culture
+
+	potential = {
+		OR = { #let's here list all cultures that start with the innovation at game start
+			this = culture:falmer
+			this = culture:amz_vtharden
+			this = culture:amz_kagren
+			this = culture:amz_vtholften
+		}	
+	}
+
+	can_progress = { 
+		culture_is_alive = no
+	}	
+
+	custom = no_county_culture_conversion
+	custom = culture_cannot_be_educated
+	custom = culture_cannot_be_revived
+
+	flag = global_regional
+	flag = tribal_era_regional
+}

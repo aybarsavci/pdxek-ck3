@@ -1,0 +1,219 @@
+﻿reclaim_reman_heritage_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds" }
+
+	decision_group_type = major
+	ai_check_interval = 60
+
+	is_shown = {
+		faith = { has_doctrine_parameter = can_become_cyrodiil }
+		highest_held_title_tier >= tier_kingdom
+		NOT = { exists = character:reman_100.house.house_head }
+	}
+
+	is_valid = {
+		is_independent_ruler = yes
+		piety_level >= 5
+		prestige_level >= 4
+		legitimacy_level >= 4
+		has_cyrodilic_empire_trigger = yes
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		is_landed = yes
+	}
+	
+	cost = {
+		piety = 1000
+		prestige = 1000
+	}
+
+	effect = {
+		join_cyrodiil_dynasty_scripted_effect = yes
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+
+		modifier = {
+			add = -50
+			has_trait = humble
+		}
+	}
+}
+
+reclaim_eplear_heritage_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds" }
+	desc = reclaim_eplear_heritage_decision_desc
+	selection_tooltip = reclaim_eplear_heritage_decision_tooltip
+
+	decision_group_type = major
+	ai_check_interval = 60
+
+	is_shown = {
+		dynasty = dynasty:dyn_camoran #Camoran Dynasty
+		NOT = { house = character:camoran_1.house } #Not a member of the OG Camoran House
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:reclaim_eplear_heritage_decision
+			}
+		}
+	}
+
+	is_valid = {
+		is_independent_ruler = yes
+		prestige_level >= 4
+		completely_controls = title:e_valenwood
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		is_landed = yes
+	}
+	
+	cost = {
+		prestige = 1000
+		gold = 500
+		piety = 250
+	}
+
+	effect = {
+		hidden_effect = { 
+			ROOT.house = { every_house_member = { set_house = character:camoran_1.house } }
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:reclaim_eplear_heritage_decision
+			}
+		}
+		set_house = character:camoran_1.house
+		save_scope_as = founder
+		trigger_event = {
+			id = camoran_decision_event.0001
+		}
+		custom_tooltip = { #Unlock Hegemon legacy
+            text = unlocks_hegemony_dynasty_legacy
+            dynasty = {
+                set_variable = {
+                    name = can_get_hegemon_legacy_track
+                    value = yes
+                }
+            }
+        }
+		#Notify other Camorans
+		every_player = {
+			limit = { 
+				dynasty = dynasty:dyn_camoran 
+				NOT = { this = root }
+			}
+			trigger_event = camoran_decision_event.0002
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+
+		modifier = {
+			add = -50
+			has_trait = humble
+		}
+	}
+}
+
+# Zero Stone
+zero_stone_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds" }
+	decision_group_type = major
+	ai_check_interval = 12
+
+	desc = zero_stone_decision_desc
+	selection_tooltip = zero_stone_decision_tooltip
+
+	is_shown = {
+		NOT = {
+			has_character_flag = zero_stone
+		}
+		dynasty = dynasty:dyn_direnni # Direnni
+	}
+
+	is_valid = {
+		is_adult = yes
+	}
+
+	effect = {
+		custom_tooltip = zero_stone_decision_effect_tt
+		add_character_flag = zero_stone
+		if = {
+			limit = {
+				capital_province.barony = title:b_adamantine
+			}
+			trigger_event = ek_coming_of_age.0022
+		}
+		else = {
+			start_travel_plan = {
+				destination = title:b_adamantine.title_province
+				on_travel_planner_cancel_on_action = zero_stone_decision_travel_planner_exit
+				on_arrival_event = ek_coming_of_age.0022
+				on_arrival_destinations = all_but_last
+			}
+		}
+	}
+
+	ai_potential = {
+		always = yes
+	}
+}
+
+# Zero Stone Again
+zero_stone_again_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds" }
+	decision_group_type = major
+	ai_check_interval = 12
+
+	desc = zero_stone_again_decision_desc
+	selection_tooltip = zero_stone_again_decision_tooltip
+
+	is_shown = {
+		has_character_flag = zero_stone
+		dynasty = dynasty:dyn_direnni # Direnni
+		NOT = {
+			has_character_flag = zero_stone_again
+		}
+	}
+
+	is_valid = {
+		is_adult = yes
+		prestige_level >= 4
+	}
+
+	effect = {
+		custom_tooltip = zero_stone_again_decision_effect_tt
+		add_character_flag = zero_stone_again
+		if = {
+			limit = {
+				capital_province.barony = title:b_adamantine
+			}
+			trigger_event = ek_coming_of_age.0023
+		}
+		else = {
+			start_travel_plan = {
+				destination = title:b_adamantine.title_province
+				on_travel_planner_cancel_on_action = zero_stone_again_decision_travel_planner_exit
+				on_arrival_event = ek_coming_of_age.0023
+				on_arrival_destinations = all_but_last
+			}
+		}
+	}
+
+	ai_potential = {
+		always = yes
+	}
+} 

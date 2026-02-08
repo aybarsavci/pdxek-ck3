@@ -1,0 +1,368 @@
+﻿ek_northmen_clothes = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 1
+
+##############################
+#							 #	
+#			NORTHMEN		 #
+#							 #
+##############################
+
+    northmen_clothing_lowborn = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+	            template = northern_commoner_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = western_common_legwear
+	            range = { 0 1 }
+	        }	
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 20
+                portrait_commoner_clothing_trigger = {
+                    CULTURE_INPUT = ek_northmen
+                }
+            }
+        }
+    }
+
+    northmen_clothing_low_nobles = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = northern_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = western_common_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_northmen
+                }
+            }
+        }
+    }
+
+    northmen_clothing_high_nobles = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = northern_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = western_common_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                portrait_high_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_northmen
+                }
+            }
+        }
+    }
+	
+    northmen_clothing_royalty = {
+        dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = northern_high_nobility_clothes
+	            range = { 0 1 }
+	        }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = western_common_legwear
+	            range = { 0 1 }
+	        }		
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+                portrait_royalty_trigger = {
+                    CULTURE_INPUT = ek_northmen
+                }
+            }
+        }
+    }	
+
+}
+
+ek_northmen_armor = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 4
+
+
+    ek_northmen_war = {
+        dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+                template = northern_war_nobility_clothes
+				range = { 0 1 }
+			}
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = western_war_legwear
+	            range = { 0 1 }
+	        }			
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+				add = 60
+				is_lowborn = yes
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_northmen
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_northmen
+                    }					
+					portrait_high_nobles_armor_trigger = {
+						CULTURE_INPUT = ek_northmen
+					}
+                }
+            }
+            modifier = {
+                add = 21        # So priests who are actively serving in a raised army as a commander or knight wear armor instead of priest robes
+				is_lowborn = yes
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_northmen
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_northmen
+                    }					
+					portrait_high_nobles_armor_trigger = {
+						CULTURE_INPUT = ek_northmen
+					}
+                }
+            }
+        }
+    }
+
+	
+    ep2_northmen_war = {
+        dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+                template = ep2_western_era1_war_nobility_clothes
+                accessory = m_clothes_sec_ep2_western_era1_war_nob_01_lo
+			}
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = western_war_legwear
+	            range = { 0 1 }
+	        }			
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+				add = 60
+				is_lowborn = yes
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_northmen
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_northmen
+                    }					
+					portrait_high_nobles_armor_trigger = {
+						CULTURE_INPUT = ek_northmen
+					}
+                }
+            }
+            modifier = {
+                add = 21        # So priests who are actively serving in a raised army as a commander or knight wear armor instead of priest robes
+				is_lowborn = yes
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_northmen
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_northmen
+                    }					
+					portrait_high_nobles_armor_trigger = {
+						CULTURE_INPUT = ek_northmen
+					}
+                }
+            }
+			modifier = {					# this is a better way of doing the dlc thing, i dont think it matters too much but its a bit cleaner, maybe we should consider switching to this
+				factor = 0
+				has_ep2_dlc_trigger = no	# basically, if you have the dlc, multiply the result of all previous modifiers by zero - so that it uses the other one instead
+            }			
+        }
+    }
+	
+    ep2_northmen_war_low = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = ep2_western_era1_war_nobility_clothes
+                accessory = m_clothes_sec_ep2_western_era1_war_nob_01_hi
+            }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = western_war_legwear
+				range = { 0 1 }
+	            
+	        }	
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 60
+				is_lowborn = no
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_northmen
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_northmen
+                    }					
+                }
+            }
+            modifier = {
+                add = 21    # So priests who are actively serving in a raised army as a commander or knight wear armor instead of priest robes
+				is_lowborn = no
+                OR = {
+                    portrait_commoner_armor_in_army_trigger = { 
+                        CULTURE_INPUT = ek_northmen
+                    }
+                    portrait_low_nobles_armor_in_army_trigger = { 
+                        CULTURE_INPUT = ek_northmen
+                    }
+					
+                }
+            }
+			modifier = {					# this is a better way of doing the dlc thing, i dont think it matters too much but its a bit cleaner, maybe we should consider switching to this
+				factor = 0
+				has_ep2_dlc_trigger = no	# basically, if you have the dlc, multiply the result of all previous modifiers by zero - so that it uses the other one instead
+            }
+        }
+    }
+	
+    ep2_northmen_war_high = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = ep2_western_era2_war_nobility_clothes
+                accessory = m_clothes_sec_ep2_western_era2_war_nob_01_hi
+				
+            }
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = western_war_legwear
+	            range = { 0 1 }
+	        }	
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 60
+                portrait_high_nobles_armor_trigger = {
+                    CULTURE_INPUT = ek_northmen
+                }
+            }
+            modifier = {
+                add = 21    # So priests who are actively serving in a raised army as a commander or knight wear armor instead of priest robes
+                portrait_high_nobles_armor_in_army_trigger = {
+                    CULTURE_INPUT = ek_northmen
+                }
+            }
+			modifier = {					# this is a better way of doing the dlc thing, i dont think it matters too much but its a bit cleaner, maybe we should consider switching to this
+				factor = 0
+				has_ep2_dlc_trigger = no	# basically, if you have the dlc, multiply the result of all previous modifiers by zero - so that it uses the other one instead
+            }
+        }
+    }
+
+	northmen_war_accolade_clothing = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = ek_breton_noble_armor_clothes
+				range = { 0 1 }
+			}
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = ek_breton_noble_armor_legwear
+	            range = { 0 1 }
+	        }	
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				AND = {
+					is_acclaimed = yes
+					exists = liege
+					liege = { highest_held_title_tier >= tier_duchy	 }				
+					portrait_commoner_armor_trigger = { 
+						CULTURE_INPUT = ek_northmen
+					}
+				}
+			}
+            modifier = {
+                add = 100
+				is_lowborn = no
+				has_ep2_dlc_trigger = no
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_northmen
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_northmen
+                    }					
+					portrait_high_nobles_armor_trigger = {
+						CULTURE_INPUT = ek_northmen
+					}
+                }
+            }			
+		}		
+	}
+}

@@ -1,0 +1,1695 @@
+﻿#Decisions related to de jure drift
+
+##############
+#  Silgrad   #
+##############
+
+## Decisions regarding the de jure ownership of Silgrad: Cheydinhal/Rift/Velothis
+
+#to bring Silgrad into Rift
+silgrad_rift_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = silgrad_rift_decision_desc
+	selection_tooltip = silgrad_rift_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		exists = capital_province
+		
+		OR = { #if you or a vassal controls Leyawiin
+			has_title = title:k_riften
+			any_vassal_or_below = {
+				has_title = title:k_riften
+			}
+		}
+		NOR = { #to prevent getting two available decisions should you/vassals hold several kingdoms
+			has_title = title:k_cheydinhal
+			any_vassal_or_below = {
+				has_title = title:k_cheydinhal
+			}
+			has_title = title:k_velothis
+			any_vassal_or_below = {
+				has_title = title:k_velothis
+			}
+			has_title = title:k_redoran
+			any_vassal_or_below = {
+				has_title = title:k_redoran
+			}
+		}
+
+		#only shown if d_silgrad isn't part of k_riften
+		NOT = { title:k_riften = { is_de_jure_liege_or_above_target = title:d_silgrad } }
+	}
+
+	is_valid = {
+		completely_controls = title:d_silgrad
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		title:d_silgrad = { set_de_jure_liege_title = title:k_riften }
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+#to bring Silgrad into Cheydinhal
+silgrad_cheydinhal_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = silgrad_cheydinhal_decision_desc
+	selection_tooltip = silgrad_cheydinhal_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		exists = capital_province
+		
+		OR = { #if you or a vassal controls Cheydinhal
+			has_title = title:k_cheydinhal
+			any_vassal_or_below = {
+				has_title = title:k_cheydinhal
+			}
+		}	
+		NOR = { #to prevent getting two available decisions should you/vassals hold several kingdoms
+			has_title = title:k_riften
+			any_vassal_or_below = {
+				has_title = title:k_riften
+			}
+			has_title = title:k_velothis
+			any_vassal_or_below = {
+				has_title = title:k_velothis
+			}
+			has_title = title:k_redoran
+			any_vassal_or_below = {
+				has_title = title:k_redoran
+			}
+		}
+
+		#only shown if d_silgrad isn't part of k_cheydinhal
+		NOT = { title:k_cheydinhal = { is_de_jure_liege_or_above_target = title:d_silgrad } }
+	}
+
+	is_valid = {
+		completely_controls = title:d_silgrad
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		title:d_silgrad = { set_de_jure_liege_title = title:k_cheydinhal }
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+#to bring Silgrad into Velothis
+silgrad_velothis_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = silgrad_velothis_decision_desc
+	selection_tooltip = silgrad_velothis_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		exists = capital_province
+		
+		is_great_house_head = yes
+		NOR = { #to prevent getting two available decisions should you/vassals hold several kingdoms
+			has_title = title:k_cheydinhal
+			any_vassal_or_below = {
+				has_title = title:k_cheydinhal
+			}
+			has_title = title:k_riften
+			any_vassal_or_below = {
+				has_title = title:k_riften
+			}
+		}
+
+		#only shown if d_silgrad isn't part of k_senchal
+		NOT = { title:e_morrowind = { is_de_jure_liege_or_above_target = title:d_silgrad } }
+	}
+
+	is_valid = {
+		completely_controls = title:d_silgrad
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		title:d_silgrad = { set_de_jure_liege_title = root.primary_title }
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+#####################
+# Valenwood/Elsweyr #
+#####################
+
+# The Xylo Border Incident
+xylo_border_bosmer_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = xylo_border_bosmer_decision_desc
+	selection_tooltip = xylo_border_bosmer_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		exists = capital_province
+		
+		culture = { has_cultural_pillar = heritage_bosmeri }
+		
+		OR = { #if you or a vassal controls haven
+			has_title = title:k_haven
+			any_vassal_or_below = {
+				has_title = title:k_haven
+			}
+		}
+		NOR = { #to prevent getting two available decisions should you/vassals hold several kingdoms
+			has_title = title:k_torval
+			any_vassal_or_below = {
+				has_title = title:k_torval
+			}
+		}
+
+		#only shown, if d_xylo isn't part of e_valenwood
+		NOT = { title:e_valenwood = { is_de_jure_liege_or_above_target = title:d_xylo } }
+	}
+
+	is_valid = {
+		completely_controls_region = mundus_tamriel_xylo
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		title:c_durres = { set_de_jure_liege_title = title:d_xylo } #let's first make Xylo itself bigger
+		title:c_helune = { set_de_jure_liege_title = title:d_xylo }
+		title:d_xylo = { set_de_jure_liege_title = title:k_haven } #then add all of that into Haven
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+#Khajiit can retake it
+xylo_border_khajiit_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = xylo_border_khajiit_decision_desc
+	selection_tooltip = xylo_border_khajiit_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		exists = capital_province
+		
+		culture = { has_cultural_pillar = heritage_khajiiti }
+		
+		OR = { #if you or a vassal controls haven
+			has_title = title:k_torval
+			any_vassal_or_below = {
+				has_title = title:k_torval
+			}
+		}
+		NOR = { #to prevent getting two available decisions should you/vassals hold several kingdoms
+			has_title = title:k_haven
+			any_vassal_or_below = {
+				has_title = title:k_haven
+			}
+		}
+
+		#only shown, if d_xylo isn't part of e_elsweyr or e_pellitine
+		NOR = { 
+			title:e_elsweyr = { is_de_jure_liege_or_above_target = title:d_xylo }
+			title:e_pellitine = { is_de_jure_liege_or_above_target = title:d_xylo } 
+		}
+	}
+
+	is_valid = {
+		completely_controls_region = mundus_tamriel_xylo
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		title:c_durres = { set_de_jure_liege_title = title:d_verkaht } #let's first return the counties to their original duchies
+		title:c_helune = { set_de_jure_liege_title = title:d_anequina }
+		title:d_xylo = { set_de_jure_liege_title = title:k_torval } #then add all of that back into Torval
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+#Return Arenthia for Elsweyr and Anequina
+return_arenthia_khajiit_decision = {
+    picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+    desc = return_arenthia_khajiit_decision_desc
+    selection_tooltip = return_arenthia_khajiit_decision_tooltip
+    decision_group_type = major
+
+    ai_check_interval = 120
+
+    is_shown = {
+        is_ruler = yes
+        is_landed = yes
+        OR = {
+            has_title = title:e_elsweyr
+            has_title = title:e_anequina
+        }
+        culture = { has_cultural_pillar = heritage_khajiiti }
+        NOR = { 
+            title:e_elsweyr = { is_de_jure_liege_or_above_target = title:k_arenthia }
+            title:e_anequina = { is_de_jure_liege_or_above_target = title:k_arenthia } 
+        }
+	}
+
+    is_valid = {
+        prestige_level >= 3
+        completely_controls = title:k_arenthia #Need to fully control title of Arenthia
+        custom_tooltip = { #Need capital of Arenthia to be of your culture
+            text = return_arenthia_khajiit_decision_custom_tooltip
+            title:c_arenthia = { culture = { has_cultural_pillar = heritage_khajiiti } }
+        }
+	}
+
+    is_valid_showing_failures_only = {
+        is_capable_adult = yes
+        is_available = yes
+        is_at_war = no
+        is_imprisoned = no
+    }
+
+    cost = {
+        gold = 300
+        prestige = 500
+    }
+
+    effect = {
+        custom_tooltip = return_arenthia_khajiit_decision_effect_tooltip
+        root.culture = { #Get negative cultural acceptance with Arenthian bosmers
+            change_cultural_acceptance = {
+                target = culture:arenthi
+                value = medium_negative_culture_acceptance
+                desc = cultural_acceptance_gain_hold_court_event_outcome
+            }
+        }
+        trigger_event = elsweyr.0003
+        if = {
+            limit = { root = { has_title = title:e_elsweyr } }
+            title:k_arenthia = { set_de_jure_liege_title = title:e_elsweyr }
+        }
+        if = {
+            limit = { root = { has_title = title:e_anequina } }
+            title:k_arenthia = { set_de_jure_liege_title = title:e_anequina }
+        }
+    }
+    ai_potential = { always = yes }
+
+	ai_will_do = { base = 100 }
+}
+
+#Return Arenthia Bosmer version
+return_arenthia_bosmer_decision = {
+    picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = return_arenthia_bosmer_decision_desc
+	selection_tooltip = return_arenthia_bosmer_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+    is_shown = {
+        is_ruler = yes
+        is_landed = yes
+        culture = { has_cultural_pillar = heritage_bosmeri } #Bosmers only
+        NOT = { title:e_valenwood = { is_de_jure_liege_or_above_target = title:k_arenthia } }
+    }
+
+    is_valid = {
+        completely_controls = title:k_arenthia
+        custom_tooltip = {
+            text = return_arenthia_bosmer_decision_custom_tooltip
+            title:c_arenthia = { culture = { has_cultural_pillar = heritage_bosmeri } }
+        }
+    }
+
+    is_valid_showing_failures_only = {
+        is_capable_adult = yes
+        is_available = yes
+        is_at_war = no
+        is_imprisoned = no
+    }
+
+    effect = {
+        title:k_arenthia = { set_de_jure_liege_title = title:e_valenwood }
+    }
+
+    ai_potential = { always = yes }
+
+	ai_will_do = { base = 100 }
+}
+
+##############
+# Transniben #
+##############
+
+#Integrate Leyawiin decision for Khajiiti empire-tier realms
+integrate_leyawiin_decision = {
+    picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+    desc = integrate_leyawiin_decision_desc
+    selection_tooltip = integrate_leyawiin_decision_tooltip
+    decision_group_type = major
+
+    ai_check_interval = 120
+
+    is_shown = {
+        is_ruler = yes
+        is_landed = yes
+        OR = { #Only for Empire-Tier Khajiiti realms
+            has_title = title:e_elsweyr
+            has_title = title:e_anequina
+            has_title = title:e_pellitine
+        }
+        culture = { has_cultural_pillar = heritage_khajiiti } #Can be any Khajiit culture
+        NOR = {
+            title:e_elsweyr = { is_de_jure_liege_or_above_target = title:d_nomore }
+            title:e_elsweyr = { is_de_jure_liege_or_above_target = title:d_leyawiin } 
+            title:e_anequina = { is_de_jure_liege_or_above_target = title:d_nomore }
+            title:e_anequina = { is_de_jure_liege_or_above_target = title:d_leyawiin } 
+            title:e_pellitine = { is_de_jure_liege_or_above_target = title:d_nomore }
+            title:e_pellitine = { is_de_jure_liege_or_above_target = title:d_leyawiin }  
+        }
+    }
+
+    is_valid = {
+        prestige_level >= 3
+        completely_controls = title:d_nomore
+        completely_controls = title:d_leyawiin
+    }
+
+    is_valid_showing_failures_only = {
+        is_capable_adult = yes
+        is_available = yes
+        is_at_war = no
+        is_imprisoned = no
+    }
+
+    cost = { gold = 200 }
+
+    effect = {
+        custom_tooltip = integrate_leyawiin_decision_effect_tooltip
+        trigger_event = elsweyr.0002
+        if = {
+            limit = { root = { has_title = title:e_elsweyr } }
+            title:d_nomore = { set_de_jure_liege_title = title:k_rimmen }
+            title:d_leyawiin = { set_de_jure_liege_title = title:k_alabaster }
+        }
+        if = {
+            limit = { root = { has_title = title:e_anequina } }
+            title:d_nomore = { set_de_jure_liege_title = title:k_rimmen }
+            title:d_leyawiin = { set_de_jure_liege_title = title:k_rimmen }
+        }
+        if = {
+            limit = { root = { has_title = title:e_pellitine } }
+            title:d_nomore = { set_de_jure_liege_title = title:k_alabaster }
+            title:d_leyawiin = { set_de_jure_liege_title = title:k_alabaster }
+        }
+    }
+
+    ai_potential = { always = yes }
+
+	ai_will_do = { base = 100 }
+}
+
+#Return Leyawiin for Imperials
+return_leyawiin_imperial_decision = {
+    picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = return_leyawiin_imperial_decision_desc
+	selection_tooltip = return_leyawiin_imperial_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+    is_shown = {
+        is_ruler = yes
+        is_landed = yes
+        culture = { has_cultural_pillar = heritage_cyrodiilic }
+        OR = { #Only for important people
+            has_title = title:e_nibenay
+            has_title = title:e_cyrodiil
+            has_title = title:k_leyawiin
+        }
+        NOR = { #Leyawiin doesn't hold Leyawiin
+            title:k_leyawiin = { is_de_jure_liege_or_above_target = title:d_leyawiin }
+            title:k_leyawiin = { is_de_jure_liege_or_above_target = title:d_nomore} 
+        }
+    }
+
+    is_valid = {
+        completely_controls = title:d_leyawiin
+        completely_controls = title:d_nomore
+    }
+
+    is_valid_showing_failures_only = {
+        is_capable_adult = yes
+        is_available = yes
+        is_at_war = no
+        is_imprisoned = no
+    }
+
+    effect = {
+        title:d_leyawiin = { set_de_jure_liege_title = title:k_leyawiin }
+        title:d_nomore = { set_de_jure_liege_title = title:k_leyawiin }
+    }
+
+    ai_potential = { always = yes }
+
+	ai_will_do = { base = 100 }
+}
+
+##############
+# Topal Isle #
+##############
+
+## Decisions regarding the de jure ownership of Topal Isle
+
+#to bring Topal into Leyawiin
+topal_isle_leyawiin_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = topal_isle_decision_desc
+	selection_tooltip = topal_isle_leyawiin_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		exists = capital_province
+		
+		OR = { #if you or a vassal controls Leyawiin
+			has_title = title:k_leyawiin
+			any_vassal_or_below = {
+				has_title = title:k_leyawiin
+			}
+		}
+		NOR = { #to prevent getting two available decisions should you/vassals hold several kingdoms
+			has_title = title:k_soulrest
+			any_vassal_or_below = {
+				has_title = title:k_soulrest
+			}
+			has_title = title:k_senchal
+			any_vassal_or_below = {
+				has_title = title:k_senchal
+			}
+
+		}
+
+		#only shown if d_topal isn't part of k_leyawiin
+		NOT = { title:k_leyawiin = { is_de_jure_liege_or_above_target = title:d_topal } }
+	}
+
+	is_valid = {
+		completely_controls = title:d_topal
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		title:d_topal = { set_de_jure_liege_title = title:k_leyawiin }
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+#to bring Topal into Soulrest
+topal_isle_soulrest_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = topal_isle_decision_desc
+	selection_tooltip = topal_isle_soulrest_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		exists = capital_province
+		
+		OR = { #if you or a vassal controls Soulrest
+			has_title = title:k_soulrest
+			any_vassal_or_below = {
+				has_title = title:k_soulrest
+			}
+		}	
+		NOR = { #to prevent getting two available decisions should you/vassals hold several kingdoms
+			has_title = title:k_senchal
+			any_vassal_or_below = {
+				has_title = title:k_senchal
+			}
+			has_title = title:k_leyawiin
+			any_vassal_or_below = {
+				has_title = title:k_leyawiin
+			}
+		}
+
+		#only shown if d_topal isn't part of k_soulrest
+		NOT = { title:k_soulrest = { is_de_jure_liege_or_above_target = title:d_topal } }
+	}
+
+	is_valid = {
+		completely_controls = title:d_topal
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		title:d_topal = { set_de_jure_liege_title = title:k_soulrest }
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+#to bring Topal into Senchal
+topal_isle_senchal_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = topal_isle_decision_desc
+	selection_tooltip = topal_isle_senchal_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		exists = capital_province
+		
+		OR = { #if you or a vassal controls Senchal
+			has_title = title:k_senchal
+			any_vassal_or_below = {
+				has_title = title:k_senchal
+			}
+		}	
+		NOR = { #to prevent getting two available decisions should you/vassals hold several kingdoms
+			has_title = title:k_soulrest
+			any_vassal_or_below = {
+				has_title = title:k_soulrest
+			}
+			has_title = title:k_leyawiin
+			any_vassal_or_below = {
+				has_title = title:k_leyawiin
+			}
+		}
+
+		#only shown if d_topal isn't part of k_senchal
+		NOT = { title:k_senchal = { is_de_jure_liege_or_above_target = title:d_topal } }
+	}
+
+	is_valid = {
+		completely_controls = title:d_topal
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		title:d_topal = { set_de_jure_liege_title = title:k_senchal }
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+
+##############
+#  Systres   #
+##############
+
+#Decisions regarding de jure ownernship of Systres
+
+systres_high_rock_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = systres_high_rock_decision_desc
+	selection_tooltip = systres_high_rock_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		is_ruler = yes
+		has_title = title:e_high_rock
+
+		#only shown if Systres isn't part of High Rock
+		NOT = { title:e_high_rock = { is_de_jure_liege_or_above_target = title:k_systres } }
+
+		#Checking for de jure land because Systres can lose it if Abecean kingdom is formed
+		title:k_systres = { any_in_de_jure_hierarchy = { tier = tier_county } } #Has de jure land
+
+		NOR = { #to prevent getting two available decisions should you hold several empires
+			has_title = title:e_yokuda
+			has_title = title:e_hammerfell
+			has_title = title:e_summerset
+		}
+	}
+
+	is_valid = {
+		completely_controls = title:k_systres
+		OR = {
+			custom_tooltip = { #Need capital of Systres to be of your culture
+				text = drift_systres_decision_custom_tooltip
+				title:c_systres = { culture = { has_same_culture_heritage = root.culture } }
+			}
+			title:c_systres.culture = {
+				cultural_acceptance = {
+					target = root.culture
+					value >= 60
+				}
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		title:k_systres = { set_de_jure_liege_title = title:e_high_rock }
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+systres_hammerfell_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = systres_hammerfell_decision_desc
+	selection_tooltip = systres_hammerfell_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		is_ruler = yes
+		has_title = title:e_hammerfell
+
+		#only shown if Systres isn't part of High Rock
+		NOT = { title:e_hammerfell = { is_de_jure_liege_or_above_target = title:k_systres } }
+
+		#Checking for de jure land because Systres can lose it if Abecean kingdom is formed
+		title:k_systres = { any_in_de_jure_hierarchy = { tier = tier_county } } #Has de jure land
+
+		NOR = { #to prevent getting two available decisions should you hold several empires
+			has_title = title:e_yokuda
+			has_title = title:e_high_rock
+			has_title = title:e_summerset
+		}
+	}
+
+	is_valid = {
+		completely_controls = title:k_systres
+		OR = {
+			custom_tooltip = { #Need capital of Systres to be of your culture
+				text = drift_systres_decision_custom_tooltip
+				title:c_systres = { culture = { has_same_culture_heritage = root.culture } }
+			}
+			title:c_systres.culture = {
+				cultural_acceptance = {
+					target = root.culture
+					value >= 60
+				}
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		title:k_systres = { set_de_jure_liege_title = title:e_hammerfell }
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+systres_alinor_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = systres_alinor_decision_desc
+	selection_tooltip = systres_alinor_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		is_ruler = yes
+		has_title = title:e_summerset
+
+		#only shown if Systres isn't part of High Rock
+		NOT = { title:e_summerset = { is_de_jure_liege_or_above_target = title:k_systres } }
+		culture = { has_cultural_pillar = heritage_aldmeri }
+
+		#Checking for de jure land because Systres can lose it if Abecean kingdom is formed
+		title:k_systres = { any_in_de_jure_hierarchy = { tier = tier_county } } #Has de jure land
+
+		NOR = { #to prevent getting two available decisions should you hold several empires
+			has_title = title:e_yokuda
+			has_title = title:e_hammerfell
+			has_title = title:e_high_rock
+		}
+	}
+
+	is_valid = {
+		completely_controls = title:k_systres
+		OR = {
+			custom_tooltip = { #Need capital of Systres to be of your culture
+				text = drift_systres_decision_custom_tooltip
+				title:c_systres = { culture = { has_same_culture_heritage = root.culture } }
+			}
+			title:c_systres.culture = {
+				cultural_acceptance = {
+					target = root.culture
+					value >= 60
+				}
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		title:k_systres = { set_de_jure_liege_title = title:e_summerset }
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+systres_yokuda_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = systres_yokuda_decision_desc
+	selection_tooltip = systres_yokuda_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		is_ruler = yes
+		has_title = title:e_yokuda
+
+		#only shown if Systres isn't part of High Rock
+		NOT = { title:e_yokuda = { is_de_jure_liege_or_above_target = title:k_systres } }
+
+		#Checking for de jure land because Systres can lose it if Abecean kingdom is formed
+		title:k_systres = { any_in_de_jure_hierarchy = { tier = tier_county } } #Has de jure land
+
+		NOR = { #to prevent getting two available decisions should you hold several empires
+			has_title = title:e_high_rock
+			has_title = title:e_hammerfell
+			has_title = title:e_summerset
+		}
+	}
+
+	is_valid = {
+		completely_controls = title:k_systres
+		OR = {
+			custom_tooltip = { #Need capital of Systres to be of your culture
+				text = drift_systres_decision_custom_tooltip
+				title:c_systres = { culture = { has_same_culture_heritage = root.culture } }
+			}
+			title:c_systres.culture = {
+				cultural_acceptance = {
+					target = root.culture
+					value >= 60
+				}
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		title:k_systres = { set_de_jure_liege_title = title:e_yokuda }
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+##############
+#  Solstheim   #
+##############
+
+#Decisions regarding de jure ownernship of Solstheim
+
+solstheim_morrowind_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = solstheim_morrowind_decision_desc
+	selection_tooltip = solstheim_morrowind_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		is_ruler = yes
+		has_title = title:e_morrowind
+
+		#only shown if Solstheim isn't part of Morrowind
+		NOT = { title:e_morrowind = { is_de_jure_liege_or_above_target = title:k_solstheim } }
+		culture = { has_cultural_pillar = heritage_dunmeri }
+
+		NOR = { #to prevent getting two available decisions should you hold several empires
+			has_title = title:e_skyrim
+			has_title = title:e_eastern_skyrim
+		}
+	}
+
+	is_valid = {
+		completely_controls = title:k_solstheim
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		title:k_solstheim = { set_de_jure_liege_title = title:e_morrowind }
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+solstheim_skyrim_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = solstheim_skyrim_decision_desc
+	selection_tooltip = solstheim_skyrim_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		is_ruler = yes
+		OR = {
+			has_title = title:e_skyrim
+			has_title = title:e_eastern_skyrim
+		}
+
+		culture = { has_cultural_pillar = heritage_atmoran }
+
+		#only shown if Solstheim isn't part of Skyrim
+		NOR = { 
+			title:e_skyrim = { is_de_jure_liege_or_above_target = title:k_solstheim }
+			title:e_eastern_skyrim = { is_de_jure_liege_or_above_target = title:k_solstheim }  
+		}
+
+		NOT = { #to prevent getting two available decisions should you hold several empires
+			has_title = title:e_morrowind
+		}
+	}
+
+	is_valid = {
+		completely_controls = title:k_solstheim
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	cost = {
+		prestige = 1000
+	}
+
+	effect = {
+		if = {
+			limit = { has_title = title:e_skyrim }
+			title:k_solstheim = { set_de_jure_liege_title = title:e_skyrim }
+		}
+		else = {
+			title:k_solstheim = { set_de_jure_liege_title = title:e_eastern_skyrim }
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+###############
+###Tearmarsh###
+################
+# Tearmarsh - Black Marsh
+integrate_tearmarsh_black_marsh_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = integrate_tearmarsh_black_marsh_decision_desc
+	selection_tooltip = integrate_tearmarsh_black_marsh_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		exists = dynasty # Everyone should have a dynasty, but in case they don't...
+		
+		# Tearmarsh must not be under Black Marsh
+		NOT = { title:e_black_marsh = { is_de_jure_liege_or_above_target = title:k_tearmarsh } }
+		
+		# Your capital must be under Black Marsh
+		title:e_black_marsh = { is_de_jure_liege_or_above_target = root.capital_county }
+		
+		# At least be a duke
+		primary_title = { tier >= tier_kingdom }
+	}
+	
+	is_valid = {
+		is_independent_ruler = yes
+		
+		has_title = title:e_black_marsh
+		completely_controls = title:k_tearmarsh
+		
+		prestige_level >= 3
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+	}
+
+	cost = {
+		prestige = 500
+	}
+
+	effect = {
+		show_as_tooltip = { integrate_tearmarsh_black_marsh_decision_scripted_effect = yes }
+		trigger_event = south_tamriel.0011
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+# Tearmarsh - Cantemiris
+integrate_tearmarsh_cantemiris_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = integrate_tearmarsh_cantemiris_decision_desc
+	selection_tooltip = integrate_tearmarsh_cantemiris_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		exists = dynasty # Everyone should have a dynasty, but in case they don't...
+
+		exists = title:e_cantemiris.holder #no use if Cantemiris hasn't been formed yet
+		
+		# Tearmarsh must not be under Cantemiris
+		NOT = { title:e_cantemiris = { is_de_jure_liege_or_above_target = title:k_tearmarsh } }
+		
+		# Your capital must be under Black Marsh
+		title:e_cantemiris = { is_de_jure_liege_or_above_target = root.capital_county }
+		
+		# At least be a duke
+		primary_title = { tier >= tier_kingdom }
+	}
+	
+	is_valid = {
+		is_independent_ruler = yes
+		
+		has_title = title:e_cantemiris
+		completely_controls = title:k_tearmarsh
+		
+		prestige_level >= 3
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+	}
+
+	cost = {
+		prestige = 500
+	}
+
+	effect = {
+		show_as_tooltip = { integrate_tearmarsh_cantemiris_decision_scripted_effect = yes }
+		trigger_event = south_tamriel.0012
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+# Tearmarsh - Morrowind
+integrate_tearmarsh_morrowind_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = integrate_tearmarsh_morrowind_decision_desc
+	selection_tooltip = integrate_tearmarsh_morrowind_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		exists = dynasty # Everyone should have a dynasty, but in case they don't...
+
+		# Tearmarsh must not be under Cantemiris
+		NOT = { title:e_morrowind = { is_de_jure_liege_or_above_target = title:k_tearmarsh } }
+		
+		# Your capital must be under Black Marsh
+		title:e_morrowind = { is_de_jure_liege_or_above_target = root.capital_county }
+		
+		# At least be a duke
+		primary_title = { tier >= tier_kingdom }
+	}
+	
+	is_valid = {
+		is_independent_ruler = yes
+		
+		has_title = title:e_morrowind
+		completely_controls = title:k_tearmarsh
+		
+		prestige_level >= 3
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+	}
+
+	cost = {
+		prestige = 500
+	}
+
+	effect = {
+		show_as_tooltip = { integrate_tearmarsh_morrowind_decision_scripted_effect = yes }
+		trigger_event = south_tamriel.0013
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+##############
+#  NIBENAY   #
+##############
+
+# Form the kingdom of Cis-Niben
+establish_new_nibenay_kingdom_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+	
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+	 	# capital in the area
+		capital_province.county = { target_is_de_jure_liege_or_above = title:k_nibenay }
+		#k_nibenay hasn't been formed already
+		NOT = { exists = title:k_nibenay.holder }
+		# k_nibenay hasn't been formed *before*. if it has, it can be formed the regular way
+		NOT = { exists = title:k_nibenay.previous_holder }
+		# cannot hold other kingdoms or above already
+		highest_held_title_tier = tier_duchy
+		#cis-niben has not been entirely integrated into other kingdoms
+		title:k_nibenay = { is_titular = no }
+		# ayleids can form it using the Nenalata decision
+		NOT = { culture = { has_cultural_pillar = heritage_ayleid }}
+	}
+	
+	is_valid = {
+		#FAME LEVEL
+		prestige_level >= 2
+		#If you're a vassal, your liege can't hold Bravil or Leyawiin
+		trigger_if = {
+			limit = { is_independent_ruler = no }
+			liege = { 
+				NOT = {
+					has_title = title:k_bravil
+					has_title = title:k_leyawiin
+				}
+			}
+		}
+		#Otherwise, just be independent
+		trigger_if = {
+			limit = { is_independent_ruler = yes }
+			is_independent_ruler = yes
+		}
+		#Holds minimum of two duchy titles, like for regular kingdom formation
+		custom_tooltip = {
+			text = hold_two_duchies
+			any_held_title = {
+				tier = tier_duchy
+				count >= 2
+			}
+		}
+		#Holds at least half the kingdom
+		custom_tooltip = {
+			text = establish_new_nibenay_kingdom_ct
+			title:k_nibenay = {
+				any_in_de_jure_hierarchy = {
+					filter = {
+						tier = tier_county
+					}
+					continue = {
+						tier > tier_county
+					}
+					OR = {
+						holder = root
+						holder = {
+							target_is_liege_or_above = root
+						}
+					}
+					percent >= 0.51 #so apparently to form the kingdom normally you need 18 of 34 counties, which amounts to more than 50%
+					# gonna ignore the variable de jure required due to legitimacy
+				}
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+	}
+	
+	cost = {
+		gold = { value = 500 }
+	}
+
+	effect = {
+		trigger_event = ek_major_decisions.0010
+		get_title = title:k_nibenay
+		custom_tooltip = establish_new_nibenay_kingdom_decision_ce
+		#equivalent to forming the title normally
+		add_prestige = 400
+		add_legitimacy = 50
+	}
+
+	ai_potential = {
+		always = yes 
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+# Cis-Niben can reclaim Artemon if it was integrated into Leyawiin
+reclaim_artemon_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+	
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		# must be king of Nibenay
+		has_title = title:k_nibenay
+		NOT = { 
+			title:k_nibenay = { is_de_jure_liege_or_above_target = title:d_artemon }
+		}
+	}
+	
+	is_valid = {
+		#YOU'RE PRIMARILY KING OF NIBENAY
+		has_primary_title = title:k_nibenay
+		#FAME LEVEL
+		prestige_level >= 2
+		# completely controls Artemon
+		completely_controls = title:d_artemon
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+	}
+	
+	cost = {
+		gold = { value = 500 }
+		prestige = { value = 500 }
+	}
+
+	effect = {
+		title:d_artemon = { set_de_jure_liege_title = title:k_nibenay }
+	}
+
+	ai_potential = {
+		always = yes 
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+# To encourage Bravil to cross the Niben to fulfill their destiny of not being a shithole forever
+cross_niben_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/decision_realm.dds" }
+	
+	decision_group_type = major
+
+	ai_check_interval = 60
+
+	is_shown = {
+		# must be king of bravil
+		has_title = title:k_bravil
+		# Must not already hold the eastern bank
+		NOT = {
+			has_title = title:d_caer_suvio
+			has_title = title:d_grief
+			any_vassal_or_below = {
+				OR = {
+					has_title = title:d_caer_suvio
+					has_title = title:d_grief
+				}
+			}
+			completely_controls = title:d_caer_suvio
+			completely_controls = title:d_grief
+		}
+		# doesn't already have claims
+		NOT = {
+			has_claim_on = title:d_caer_suvio
+			has_claim_on = title:d_grief
+		}
+		# Bravil must not already be de jure liege
+		NOT = {
+			title:k_bravil = { is_de_jure_liege_or_above_target = title:d_caer_suvio }
+			title:k_bravil = { is_de_jure_liege_or_above_target = title:d_grief }
+		}
+	}
+	
+	is_valid = {
+		#YOU'RE PRIMARILY KING OF BRAVIL
+		has_primary_title = title:k_bravil
+		#FAME LEVEL
+		prestige_level >= 2
+		#if you don't hold all of Bravil, don't go expanding it
+		completely_controls = title:k_bravil
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+	}
+	
+	cost = {
+		gold = { value = 500 }
+		prestige = { value = 500 }
+	}
+
+	effect = {
+		add_pressed_claim = title:d_caer_suvio
+		add_pressed_claim = title:d_grief
+	}
+
+	ai_potential = {
+		always = yes 
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+# Bravil and Leyawiin can integrate parts of Cis-Niben
+integrate_nibenay_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	# triggered desc reflecting who uses this decision
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { 
+					has_title = title:k_bravil
+					NOT = { has_title = title:k_leyawiin }
+				}	
+				desc = integrate_nibenay_decision_desc_bravil
+			}
+			triggered_desc = {
+				trigger = { 
+					has_title = title:k_leyawiin
+					NOT = { has_title = title:k_bravil }
+				}	
+				desc = integrate_nibenay_decision_desc_leyawiin
+			}	
+			desc = integrate_nibenay_decision_desc_neutral #neutral option for when you hold both titles
+		}
+	}
+	
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	# available to kings of bravil and leyawiin who haven't integrated their "part" yet
+	is_shown = {
+		NOT = { has_title = title:k_nibenay } #annoying if this keeps showing when you already hold cis-niben. destroy it if you wanna integrate it elsewhere
+		OR = {
+			AND = {
+				# you hold Bravil
+				has_title = title:k_bravil
+				# don't show if all that could be claimed by bravil has already been so
+				NOT = {
+					any_county_in_region = {
+						region = mundus_tamriel_cyrodiil_cisniben_north
+						target_is_de_jure_liege_or_above = title:k_nibenay
+						count = 0
+					}
+				}
+			}
+			AND = {
+				# you hold Leyawiin
+				has_title = title:k_leyawiin
+				# don't show if all that could be claimed by leyawiin has already been so
+				NOT = {
+					any_county_in_region = {
+						region = mundus_tamriel_cyrodiil_cisniben_south
+						target_is_de_jure_liege_or_above = title:k_nibenay
+						count = 0
+					}
+				}
+			}
+		}
+		# Cis-Niben hasn't been fully integrated already
+		title:k_nibenay = { is_titular = no }
+	}
+	
+	is_valid = {
+		#FAME LEVEL
+		prestige_level >= 3
+		#if you only hold Bravil, you must hold the territory north of the Panther River
+		trigger_if = {
+			limit = {
+				has_title = title:k_bravil
+				NOT = { has_title = title:k_leyawiin }
+			}
+			completely_controls_region = mundus_tamriel_cyrodiil_cisniben_north
+		}
+		# if you only hold Leyawiin, you must hold the territory south of the Panther River
+		trigger_if = {
+			limit = {
+				has_title = title:k_leyawiin
+				NOT = { has_title = title:k_bravil }
+			}
+			completely_controls_region = mundus_tamriel_cyrodiil_cisniben_south
+		}
+		# if you hold both, you must hold the whole territory
+		trigger_if = {
+			limit = {
+				has_title = title:k_bravil
+				has_title = title:k_leyawiin
+			}
+			completely_controls_region = mundus_tamriel_cyrodiil_cisniben_north
+			completely_controls_region = mundus_tamriel_cyrodiil_cisniben_south
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+	}
+	
+	cost = {
+		gold = { value = 500 }
+		prestige = { value = 500 }
+	}
+
+	effect = {
+		#Integrates into Bravil
+		if = {
+			limit = {
+				has_title = title:k_bravil
+				NOT = { has_title = title:k_leyawiin }
+			}
+			# tooltipping this since the list is so long
+			custom_tooltip = {
+				text = integrate_nibenay_bravil_effect_de_jure_tt
+				every_duchy = {
+					limit = {
+						is_titular = no
+						title_capital_county.title_province = {
+							geographical_region = mundus_tamriel_cyrodiil_cisniben_north
+						}
+					}
+					set_de_jure_liege_title = title:k_bravil
+				}
+			}
+		}
+		# or Leyawiin
+		if = {
+			limit = {
+				has_title = title:k_leyawiin
+				NOT = { has_title = title:k_bravil }
+			}
+			every_duchy = {
+				limit = {
+					is_titular = no
+					title_capital_county.title_province = {
+						geographical_region = mundus_tamriel_cyrodiil_cisniben_south
+					}
+				}
+				set_de_jure_liege_title = title:k_leyawiin
+			}
+		}
+		# or both!
+		if = {
+			limit = { 
+				has_title = title:k_bravil
+				has_title = title:k_leyawiin
+			}
+			custom_tooltip = {
+				text = integrate_nibenay_decision_effect
+				# Bravil gets northern Cis-Niben
+				every_duchy = {
+					limit = {
+						is_titular = no
+						title_capital_county.title_province = {
+							geographical_region = mundus_tamriel_cyrodiil_cisniben_north
+						}
+					}
+					set_de_jure_liege_title = title:k_bravil
+				}
+				# Leyawiin gets southern Cis-Niben
+				every_duchy = {
+					limit = {
+						is_titular = no
+						title_capital_county.title_province = {
+							geographical_region = mundus_tamriel_cyrodiil_cisniben_south
+						}
+					}
+					set_de_jure_liege_title = title:k_leyawiin
+				}
+			}
+		}
+	}
+
+	ai_potential = {
+		always = yes 
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}

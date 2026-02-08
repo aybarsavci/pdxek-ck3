@@ -1,0 +1,1244 @@
+﻿##################
+# Valenwood Special Buildings
+##################
+# Eldenroot Palace
+# Vinedusk Lookout
+# Labyrinth Ruin
+# Elden Grove
+# Cathedral of the Golden Path
+# Palace of the Silvenar
+# Treehenge Resting Place
+# Haven Docks
+# Heart of Valenwood
+# Tower of the Wilderkings Throne
+# Bone Orchard
+# Abamath Caverns
+# Redfur Trading Post
+# Velyn Lighthouse
+# Gil Var Delle Ruins
+# Arenthia Citadel
+# Starstone Lake
+# Rootwater Grove
+# Remans Bluff
+##################
+
+##########
+# Vinedusk Lookout: Founding place, barrack and fort of the famous Vindedusk rangers. Important location in the fight over Reapers Mash
+##########
+vinedusk_lookout_01 = {
+	
+	construction_time = very_slow_construction_time
+
+	type_icon = "lugo_walls.dds"
+	
+	can_construct_potential = {
+	}
+
+	cost_gold = 1000
+
+	max_garrison = normal_building_max_garrison_tier_1
+	province_modifier = {
+		defender_holding_advantage = normal_building_advantage_tier_3
+		fort_level = normal_building_fort_level_tier_1
+		stationed_archers_damage_mult = high_maa_damage_tier_1
+		stationed_archers_toughness_mult = high_maa_toughness_tier_1
+		stationed_archers_pursuit_mult = high_maa_pursuit_tier_1
+		stationed_skirmishers_damage_mult = high_maa_damage_tier_1
+		stationed_skirmishers_toughness_mult = high_maa_toughness_tier_1
+		stationed_skirmishers_pursuit_mult = high_maa_pursuit_tier_1
+		travel_danger = -15
+	}
+		
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+##########
+# Labyrinth Ruin - mysterious old elven ruin
+##########
+labyrinth_ruin_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_stonehenge.dds"
+			
+	can_construct_potential = {
+	}
+
+	cost_gold = 1000
+
+	# Temple Holding
+	county_holder_character_modifier = {
+		stress_gain_mult = 0.1
+		monthly_lifestyle_xp_gain_mult = 0.1
+		prowess_per_stress_level = 2
+	}
+
+	county_modifier = {
+		development_growth_factor = -0.10
+		county_opinion_add = 10
+	}
+
+	max_garrison = 150 
+
+	province_modifier = {
+		defender_holding_advantage = normal_building_advantage_tier_2
+		fort_level = normal_building_fort_level_tier_1
+	}
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+#########
+# Eldenroot Palace - one of the centers of the wood elven nation, major trade and diplomacy hub
+#########
+eldenroot_palace_01 = {
+	effect_desc = feast_cost_discount_max_desc
+
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_temple_of_uppsala.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	cost_gold = 3000
+
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth_factor = 0.3
+		development_growth = 0.1
+	}
+	
+	max_garrison = good_building_max_garrison_tier_1
+
+	province_modifier = {
+		defender_holding_advantage = normal_building_advantage_tier_1
+		fort_level = normal_building_fort_level_tier_1
+		stationed_maa_damage_mult = normal_maa_damage_tier_1
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+		monthly_income = 1
+	}
+
+	character_modifier = {
+		tax_mult = 0.05
+		courtly_opinion = 5
+	}
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+#########
+# Palace of the Silvenar
+#########
+silvenar_palace_01 = {
+	effect_desc = feast_cost_discount_max_desc
+
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_brihadeeswarar_temple.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	cost_gold = 3000
+
+	county_modifier = {
+		development_growth_factor = 0.2
+		development_growth = 0.1
+		county_opinion_add = 10
+	}
+	
+	max_garrison = good_building_max_garrison_tier_2
+
+	province_modifier = {
+		defender_holding_advantage = good_building_advantage_tier_2
+		fort_level = 2
+		stationed_mages_damage_mult = high_maa_damage_tier_1
+		stationed_mages_toughness_mult = high_maa_toughness_tier_1
+	}
+
+	character_modifier = {
+		clergy_opinion = 5
+		zealot_opinion = 10
+	}
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+##########
+# Treehenge Resting Place - the spirits of the green ladies are laid to rest here
+##########
+treehenge_resting_place_01 = {
+
+	type_icon = "icon_structure_petra.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	is_enabled = {
+		custom_tooltip = {
+			text = must_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = yes }
+		}
+	}
+
+	cost_gold = 1000
+	construction_time = very_slow_construction_time
+
+	county_modifier = {
+		county_opinion_add = -10
+		defender_holding_advantage = 5
+	}
+
+	province_modifier = {
+		travel_danger = 10
+	}
+
+	# Temple Holding
+	county_holder_character_modifier = {
+		monthly_dark_arts_lifestyle_xp_gain_mult = 0.1
+		monthly_piety_gain_per_knight_add = 0.1
+		knight_limit = 2
+		knight_effectiveness_mult = 0.2
+	}
+
+	type = special
+
+	flag = travel_point_of_interest_dark_arts
+
+	next_building = treehenge_resting_place_02
+}
+
+treehenge_resting_place_02 = {
+
+	construction_time = very_slow_construction_time
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+
+	can_construct = {
+		custom_tooltip = {
+			text = must_not_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = no }
+		}
+		custom_tooltip = {
+			text = green_pact_or_bosmeri
+			OR = {
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_green_pact } }
+				scope:holder.culture = { has_cultural_pillar = heritage_bosmeri }
+			}
+		}	
+	}
+
+	is_enabled = {
+		custom_tooltip = {
+			text = green_pact_or_bosmeri
+			OR = {
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_green_pact } }
+				scope:holder.culture = { has_cultural_pillar = heritage_bosmeri }
+			}
+		}	
+	}
+
+	cost_gold = 1000
+
+	max_garrison = 300
+
+	# Temple Holding
+	county_holder_character_modifier = {
+		monthly_piety_gain_per_knight_add = 0.05
+		knight_limit = 1
+		knight_effectiveness_mult = 0.1
+		levy_maintenance = -0.1
+	}
+
+	county_modifier = {
+		defender_holding_advantage = 3
+		levy_size = 0.2
+	}
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+##########
+# Haven Docks - the gateway into Valenwood, influenced by the Altmer and the imperials
+##########
+haven_docks_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_special_port.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	cost_gold = 1000
+
+	character_modifier = {
+		different_culture_opinion = 5
+	}
+
+	province_modifier = {
+		monthly_income = 2
+		epidemic_resistance = -20
+	}
+
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth = 0.1
+		development_growth_factor = 0.2
+	}
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+		
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+##########
+# Heart of Valenwood - mystical tree symbol of the forest itself, protected by a magic barrier
+##########
+# Defiled
+heart_of_valenwood_01 = {
+	type_icon = "icon_structure_beldama_wyrd_tree.dds"
+
+	is_enabled = {
+		custom_tooltip = {
+			text = must_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = yes }
+		}
+	}
+
+	effect_desc = {
+		desc = heart_of_valenwood_effect_desc
+	}
+	
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+
+	character_modifier = {
+		monthly_dark_arts_lifestyle_xp_gain_mult = 0.1
+	}
+
+	province_modifier = {
+		travel_danger = 25
+	}
+
+	county_modifier = {
+		county_opinion_add = -10
+	}	
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	next_building = heart_of_valenwood_02
+
+	type = special
+
+	flag = travel_point_of_interest_dark_arts
+}
+
+# Sealed
+heart_of_valenwood_02 = {
+	
+	construction_time = 30
+	
+	cost_gold = 250
+
+	can_construct = {
+		custom_tooltip = {
+			text = must_not_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = no }
+		}
+	}
+
+	on_complete = {
+		county.holder = {
+			trigger_event = ek_special_buildings_events.0107
+		}
+	}
+
+	character_modifier = {
+		health = 0.2
+		fertility = 0.1
+		stress_gain_mult = 0.1
+	}
+
+	province_modifier = {
+		supply_limit_mult = 0.5
+		levy_reinforcement_rate = 0.5
+	}
+
+	county_modifier = {
+		development_growth = 0.15
+		development_growth = 0.1
+	}	
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	next_building = heart_of_valenwood_03
+	
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+# Unsealed
+heart_of_valenwood_03 = {
+	
+	construction_time = 30
+	
+	can_construct = {
+		OR = {
+			custom_tooltip = {
+				text = has_staff_of_magnus
+				scope:holder = { any_character_artifact = { has_artifact_modifier = staff_magnus_modifier } }
+			}
+			scope:holder = { has_arcana >= { VALUE = 30 } }
+		}
+	}
+
+	cost_gold = 100
+
+	character_modifier = {
+		health = 0.4
+		fertility = 0.2
+		stress_gain_mult = 0.2
+	}
+
+	province_modifier = {
+		supply_limit_mult = 1
+		levy_reinforcement_rate = 1
+	}
+
+	county_modifier = {
+		development_growth = 0.3
+		development_growth = 0.2
+	}	
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+##########
+# Tower of the Wilderkings Throne
+##########
+wilderkings_throne_01 = {
+	effect_desc = wilderkings_throne_effect_desc
+	
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_iron_pillar_of_dhar.dds"
+	
+	can_construct_potential = {
+	}
+
+	is_enabled = {
+		custom_tooltip = {
+			text = wilderking
+			scope:holder = { faith = { has_doctrine = doctrine_pantheon_wilderking } }
+		}
+	}
+
+	cost_gold = 1000
+
+	character_modifier = {
+		build_gold_cost = -0.1
+		build_speed = -0.1
+		monthly_piety_from_buildings_mult = 0.25
+	}
+
+	max_garrison = 300
+
+	province_modifier = {
+		fort_level = 1
+		defender_holding_advantage = normal_building_advantage_tier_1
+	}
+
+	county_modifier = {
+		development_growth = 0.1
+		development_growth_factor = 0.2
+		tax_mult = 0.1
+	}	
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+##########
+# Abamath Caverns
+##########
+abamath_01 = { #Wood Orcs rebuild/excavate caverns under Abamath
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_cave.dds"
+
+	can_construct = {
+		OR = { #Only Wood Orcs culture or descendants
+            scope:holder.culture = culture:wood_orc
+            scope:holder.culture = { any_parent_culture_or_above = { this = culture:wood_orc }}
+        }
+		scope:holder = { faith = { has_doctrine = doctrine_pantheon_malacath } }
+		#building_requirement_tribal = no
+	}
+	
+	is_enabled = {
+		OR = { #Only Wood Orcs culture or descendants
+            scope:holder.culture = culture:wood_orc
+            scope:holder.culture = { any_parent_culture_or_above = { this = culture:wood_orc }}
+        }
+		scope:holder = { faith = { has_doctrine = doctrine_pantheon_malacath } }
+	}
+
+	cost_gold = 800
+
+	character_modifier = {
+		prowess_per_piety_level = 1
+		martial_per_piety_level = 1
+		stress_gain_mult = 0.15
+	}
+
+	province_modifier = {
+		#EK ToDo: if Wood Orcs get special maa, buff them especially
+		stationed_maa_damage_mult = high_maa_damage_tier_3
+		stationed_maa_toughness_mult = high_maa_toughness_tier_3
+		stationed_maa_screen_mult = high_maa_pursuit_tier_3
+		travel_danger = 15
+	}
+
+	county_modifier = {
+		monthly_county_control_decline_factor = 0.2
+	}	
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+##########
+# Bone Orchard
+# Graveyard Buidling
+##########
+bone_orchard_01 = {
+	type_icon = "icon_structure_beldama_wyrd_tree.dds"
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	is_enabled = {
+		custom_tooltip = {
+			text = must_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = yes }
+		}
+	}
+
+	effect_desc = {
+		desc = bone_orchard_effect_desc
+	}
+	
+	cost_gold = 1000
+	construction_time = very_slow_construction_time
+
+	county_modifier = {
+		county_opinion_add = -10
+	}
+
+	province_modifier = {
+		epidemic_resistance = -20
+		travel_danger = 10
+		stationed_mages_damage_mult = normal_maa_damage_tier_1
+		stationed_mages_toughness_mult = normal_maa_toughness_tier_1
+	}
+
+	# Temple Holding
+	county_holder_character_modifier = {
+		monthly_dark_arts_lifestyle_xp_gain_mult = 0.1
+		monthly_learning_lifestyle_xp_gain_mult = 0.05
+		dread_gain_mult = 0.1
+		valenwood_travel_danger = 10
+	}
+
+	next_building = bone_orchard_02
+
+	type = special
+
+	flag = travel_point_of_interest_dark_arts
+}
+
+bone_orchard_02 = {
+	effect_desc = {
+		triggered_desc = {
+			trigger = { has_dlc_feature = legends_of_the_dead }
+			desc = ek_funeral_cost_discount_max_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = legends_of_the_dead }
+			desc = ek_funeral_stress_outcome_effect_desc
+		}
+	}
+
+	can_construct = {
+		custom_tooltip = {
+			text = must_not_have_necromantic_faith
+			scope:holder.faith = { malevolent_necromantic_faith = no }
+		}
+		OR = {
+			custom_tooltip = {
+				text = burial_funeral_building_trigger_desc
+				scope:holder.faith = { building_requirement_funeral_doctrine = yes }
+			}
+			custom_tooltip = {
+				text = green_pact_funeral_building_trigger_desc
+				scope:holder.faith = { has_doctrine_parameter = green_pact_funeral }
+			}
+		}
+	}
+
+	cost_gold = 500
+	construction_time = slow_construction_time
+
+	is_enabled = {	
+		OR = {
+			custom_tooltip = {
+				text = burial_funeral_building_trigger_desc
+				scope:holder.faith = { building_requirement_funeral_doctrine = yes }
+			}
+			custom_tooltip = {
+				text = green_pact_funeral_building_trigger_desc
+				scope:holder.faith = { has_doctrine_parameter = green_pact_funeral }
+			}
+		}
+	}
+	
+	# Temple Holding
+	county_holder_character_modifier = {
+		monthly_piety = 0.25
+		monthly_dynasty_prestige_mult = 0.1
+		legitimacy_gain_mult = 0.1
+		valenwood_travel_danger = -10
+	}
+
+	county_modifier = {
+		county_opinion_add = 5
+	}
+
+	province_modifier = {
+		epidemic_resistance = 20
+	}
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Cathedral of the Golden Path - Nice cathedral built in the Second Empire
+##########
+cathedral_of_the_golden_path_01 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"imperial_chapel_01_mesh"
+		}
+	}
+
+	type_icon = "icon_structure_canterbury_cathedral.dds"
+
+	construction_time = very_slow_construction_time
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+
+	can_construct = {
+		custom_tooltip = {
+			text = green_pact_or_bosmeri
+			OR = {
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_green_pact } }
+				scope:holder.culture = { has_cultural_pillar = heritage_bosmeri }
+			}
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = green_pact_or_bosmeri
+			OR = {
+				scope:holder = { faith = { has_doctrine = doctrine_pantheon_green_pact } }
+				scope:holder.culture = { has_cultural_pillar = heritage_bosmeri }
+			}
+		}
+	}
+
+	show_disabled = yes
+	
+	cost_gold = 1000
+
+	# Temple Holding
+	county_holder_character_modifier = {
+		monthly_piety = 0.2
+		clergy_opinion = 5
+		monthly_county_control_growth_factor = 0.05
+		zealot_levy_contribution_mult = 0.05
+	}
+
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth_factor = 0.1
+		development_growth = 0.05
+	}
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	type = special
+
+	next_building = cathedral_of_the_golden_path_02
+
+	flag = travel_point_of_interest_religious
+}
+
+cathedral_of_the_golden_path_02 = {
+	asset = {
+		type = pdxmesh
+		names = {
+			"imperial_chapel_01_mesh"
+		}
+	}
+
+	construction_time = very_slow_construction_time
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+
+	can_construct = { # I guess it's just a big cathedral that could be repurposed by other cathedral users
+		scope:holder = { faith = { has_doctrine_parameter = faith_uses_grand_cathedral } }
+	}
+	
+	is_enabled = {
+		scope:holder = { faith = { has_doctrine_parameter = faith_uses_grand_cathedral } }
+	}
+
+	show_disabled = yes
+	
+	cost_gold = 1000
+
+	# Temple Holding
+	county_holder_character_modifier = {
+		monthly_piety = 0.25
+		monthly_dynasty_prestige_mult = 0.05
+		clergy_opinion = 10
+		monthly_county_control_growth_factor = 0.05
+		zealot_levy_contribution_mult = 0.1
+	}
+
+	province_modifier = {
+		fort_level = 1
+		defender_holding_advantage = 1
+	}
+	
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Redfur Trading Post
+# Tradehub Building
+##########
+redfur_trading_post_01 = {
+	type_icon = "icon_building_market_villages.dds"
+
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time
+	
+	province_modifier = {
+		monthly_income = 1
+		epidemic_resistance = -10
+	}
+
+	# City Holding
+	county_holder_character_modifier = {
+		monthly_intrigue_lifestyle_xp_gain_mult = 0.1
+	}
+
+	county_modifier = {
+		tax_mult = 0.15
+		development_growth = 0.1
+		development_growth_factor = 0.2
+		monthly_county_control_growth_add = -0.1
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+#########
+# Velyn Lighthouse
+#########
+velyn_lighthouse_01 = {
+	asset = {
+		type = pdxmesh
+		name = "fp2_building_special_tower_of_hercules_mesh"
+	}
+
+	construction_time = very_slow_construction_time
+	
+	type_icon = "icon_building_legendary_watchtower.dds" 
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	cost_gold = 1000
+
+	character_modifier = {
+		coastal_sea_travel_danger = -10
+	}
+
+	county_modifier = {		
+		tax_mult = 0.1
+		development_growth_factor = 0.1
+	}
+	
+	province_modifier = {
+		monthly_income = 1
+		travel_danger = -10
+	}
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+##########
+# Gil-Var-Delle Ruins
+##########
+gil_var_delle_ruins_01 = {
+
+construction_time = very_slow_construction_time
+
+    type_icon = "icon_structure_great_fire_temple.dds"
+    
+    can_construct_potential = {
+        building_requirement_tribal = no
+    }
+    
+    cost_gold = 1000
+
+    county_modifier = {
+        county_opinion_add = -10
+        monthly_county_control_decline_factor = 0.5
+        development_growth_factor = -0.2
+        tax_mult = -0.2
+    }
+    
+    province_modifier = {
+        travel_danger = 50
+    }
+    
+    ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+    
+    type = special
+
+    flag = travel_point_of_interest_dark_arts
+}
+
+##########
+# Arenthia Citadel
+##########
+arenthia_citadel_01 = {
+    asset = {
+		type = pdxmesh
+		name = "fp3_building_special_falak_ol_aflak_citadel_01_a_mesh"
+	}
+
+	type_icon = "icon_structure_falak_ol_aflak_citadel.dds" 
+
+    ai_value = {
+        base = 100
+        ai_special_building_modifier = yes
+    }
+ 
+    cost_gold = 1000
+
+    construction_time = very_slow_construction_time 
+    
+    max_garrison = 500
+
+	character_modifier = {
+		parochial_opinion = 10
+		parochial_tax_contribution_mult = 0.1
+	}
+
+    county_modifier = {
+        hostile_raid_time = 0.1
+    }
+
+    province_modifier = {
+        fort_level = 2
+        defender_holding_advantage = 5
+        stationed_maa_damage_mult = normal_maa_damage_tier_1
+        stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+    }
+    
+    type = special
+
+    flag = travel_point_of_interest_martial
+}
+
+##########
+# Starstone Lake
+##########
+star_stone_lake_01 = {
+    type_icon = "icon_structure_maharloo_lake.dds" 
+
+    ai_value = {
+        base = 100
+        ai_special_building_modifier = yes
+    }
+ 
+    cost_gold = 1000
+
+    construction_time = very_slow_construction_time 
+
+	effect_desc = mines_effect_desc
+    
+	character_modifier = {
+		monthly_magic_lifestyle_xp_gain_mult = 0.1
+		stress_gain_mult = -0.1
+	}
+
+    province_modifier = {
+		monthly_income = 0.5
+		stationed_spellblades_damage_mult = normal_maa_damage_tier_1
+		stationed_spellblades_toughness_mult = normal_maa_toughness_tier_1
+        stationed_mages_damage_mult = normal_maa_damage_tier_1
+        stationed_mages_toughness_mult = normal_maa_toughness_tier_1
+    }
+    
+    type = special
+
+    flag = travel_point_of_interest_natural_feature
+}
+
+#########
+# Rootwater Grove
+# University Building
+#########
+rootwater_grove_01 = {
+	asset = {
+		type = pdxmesh
+		name = ep3_fairy_chimneys_01_a_mesh
+	}
+
+	type_icon = "icon_structure_fairy_chimneys.dds"
+
+	ai_value = {
+        base = 100
+        ai_special_building_modifier = yes
+    }
+
+	effect_desc = {
+		desc = unlocks_building_desc
+		triggered_desc = {
+			trigger = { has_dlc_feature = wards_and_wardens }
+			desc = ek_university_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = tours_and_tournaments }
+			desc = university_toto_effect_desc
+		}
+		triggered_desc = {
+			trigger = { has_dlc_feature = royal_court }
+			desc = university_roco_effect_desc
+		}
+		desc = university_effect_desc
+	}
+
+	cost_gold = 1000
+
+	construction_time = very_slow_construction_time		
+
+	# Temple Holding
+	county_holder_character_modifier = {
+		monthly_lifestyle_xp_gain_mult = 0.1
+		cultural_head_fascination_mult = 0.1		
+		learning_per_piety_level = 1
+		different_faith_opinion = 5
+	}
+
+	province_modifier = {
+		defender_holding_advantage = 5
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_learning
+	flag = mundane_education_location
+}
+
+##########
+# Woodheart Sewers
+##########
+woodheart_sewers_01 = {
+    type_icon = "icon_building_qanats.dds"
+
+    ai_value = {
+        base = 100
+        ai_special_building_modifier = yes
+    }
+
+	can_construct = {
+		custom_tooltip = {
+			text = has_pirate_government
+			scope:holder = { has_government = pirate_government }
+		}
+	}
+	
+	is_enabled = {
+		custom_tooltip = {
+			text = has_pirate_government
+			scope:holder = { has_government = pirate_government }
+		}
+	}
+ 
+    cost_gold = 1000
+
+	max_garrison = 100
+
+    construction_time = very_slow_construction_time 
+    
+    province_modifier = {
+		fort_level = 1
+		defender_holding_advantage = 2
+		monthly_income = 1
+    }
+
+	county_modifier = {
+		supply_limit_mult = 0.25
+		tax_mult = 0.15
+		development_growth_factor = 0.15
+		monthly_county_control_decline_factor = 0.2
+		monthly_county_control_growth_factor = -0.2
+	}
+
+	next_building = woodheart_sewers_02
+    
+    type = special
+
+    flag = travel_point_of_interest_economic
+}
+
+woodheart_sewers_02 = {
+    ai_value = {
+        base = 100
+        ai_special_building_modifier = yes
+    }
+
+	can_construct = {
+		custom_tooltip = {
+			text = not_has_pirate_government
+			NOT = { scope:holder = { has_government = pirate_government } }
+		}	
+	}
+ 
+    cost_gold = 1000
+
+	max_garrison = 100
+
+    construction_time = very_slow_construction_time 
+    
+    province_modifier = {
+		fort_level = 1
+		defender_holding_advantage = 2
+		monthly_income = 0.5
+    }
+
+	county_modifier = {
+		supply_limit_mult = 0.25
+		tax_mult = 0.1
+		development_growth_factor = 0.1
+	}
+    
+    type = special
+
+    flag = travel_point_of_interest_economic
+}
+
+##########
+# Stronghold of Barkbite - wood orc stronghold builded on top of old imperial fort in Reman's Bluff
+##########
+fort_of_reman_bluff_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_building_warcamps.dds"
+
+	cost_gold = 1000
+
+	max_garrison = 250
+
+	province_modifier = {
+		fort_level = 1
+		stationed_skirmishers_damage_mult = 0.15
+		stationed_skirmishers_toughness_mult = 0.15		
+		monthly_income = 0.5
+		build_gold_cost = -0.15
+	}
+
+	county_modifier = {	
+		levy_size = 0.15
+	}
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	next_building = fort_of_reman_bluff_02
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+fort_of_reman_bluff_02 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_building_warcamps.dds"
+
+	can_construct_potential = {
+		scope:holder.culture = { has_cultural_pillar = heritage_orcish }
+	}
+
+	cost_gold = 1000
+
+	max_garrison = 500
+
+	effect_desc = {
+		triggered_desc = {
+			trigger = { has_dlc_feature = tours_and_tournaments }
+			desc = tournament_duel_cost_discount_effect_toto_desc
+		}
+	}		
+
+	province_modifier = {
+		fort_level = 2
+		stationed_skirmishers_damage_mult = 0.3
+		stationed_skirmishers_toughness_mult = 0.3
+		monthly_income = 1.5
+		build_gold_cost = -0.15
+	}
+
+	county_modifier = {
+		levy_size = 0.25		
+	}
+	
+	ai_value = {
+		base = 100
+		ai_special_building_modifier = yes
+	}
+
+	
+	type = special
+
+	flag = travel_point_of_interest_martial
+}

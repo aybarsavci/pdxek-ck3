@@ -1,0 +1,881 @@
+﻿#EK NOTE: removed irl people, replaced with tes people
+spawn_historical_characters_effect = {
+	
+	if = { #Razum-Dar
+		limit = {
+			current_year >= 3496
+			current_year <= 3502
+			NOT = { exists = global_var:hchar_razum_dar }
+			NOT = { character:merryvale_razum_dar = { is_alive = yes } }
+		}
+		set_global_variable = { name = hchar_razum_dar value = yes }
+		title:b_meryvale = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 20
+				name = "Razum_dar"
+				dynasty = none
+				gender_female_chance = 0
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = culture:anequinan
+				trait = education_intrigue_5
+				trait = loyal
+				trait = deceitful
+				trait = ambitious
+				trait = lustful
+				diplomacy = { min_template_decent_skill max_template_decent_skill }
+				martial = { min_template_decent_skill max_template_decent_skill }
+				stewardship = { min_template_low_skill max_template_low_skill }
+				intrigue = { min_template_high_skill max_template_high_skill }
+				learning = { min_template_low_skill max_template_low_skill }
+				prowess = { min_template_high_skill max_template_high_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				set_variable = razum_dar
+			}
+			if = { limit = { has_variable = razum_dar 	 } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+
+	if = { #Gor Felim, AKA Marobar Sul AKA Anthil Morvir
+		limit = {
+			current_year >= 3585
+			current_year <= 3595
+			NOT = { exists = global_var:hchar_gor_felim }
+		}
+		set_global_variable = { name = hchar_gor_felim value = yes }
+		title:b_nobles_district = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 35
+				name = "Gor"
+				dynasty_house = house:house_felim
+				gender_female_chance = 0
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = scope:birth_location.title_province.culture
+				trait = education_diplomacy_4
+				trait = poet
+				trait = gregarious
+				random_traits_list = {
+					count = 2
+					arbitrary = {}
+					arrogant = {}
+					lustful = {}
+					fickle = {}
+				}
+				diplomacy = { min_template_decent_skill max_template_high_skill }
+				martial = { min_template_low_skill min_template_low_skill }
+				stewardship = { min_template_low_skill max_template_decent_skill }
+				intrigue = { min_template_low_skill max_template_decent_skill }
+				learning = { min_template_decent_skill max_template_decent_skill }
+				prowess = { min_template_low_skill min_template_low_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				set_variable = gor_felim
+				save_scope_as = major
+				set_variable = legendary_author
+				create_inspiration = book_inspiration
+			}
+			if = { limit = { has_variable = gor_felim 	 } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+
+	if = { #Lady Cinnabar of Taneth
+		limit = {
+			current_year >= 3487
+			current_year <= 3497
+			NOT = { exists = global_var:hchar_cinnabar }
+		}
+		set_global_variable = { name = hchar_cinnabar value = yes }
+		title:b_taneth = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 35
+				name = "Cinnabar"
+				dynasty = none
+				gender_female_chance = 100
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = culture:forebear
+				trait = education_learning_4
+				trait = scholar
+				trait = diligent
+				trait = patient
+				trait = cynical
+				trait = shrewd
+				diplomacy = { min_template_decent_skill min_template_decent_skill }
+				martial = { min_template_low_skill min_template_low_skill }
+				stewardship = { min_template_low_skill max_template_decent_skill }
+				intrigue = { min_template_low_skill max_template_decent_skill }
+				learning = { max_template_high_skill max_template_high_skill }
+				prowess = { min_template_low_skill min_template_low_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				set_variable = cinnabar
+				save_scope_as = major
+				set_variable = legendary_author
+				create_inspiration = book_inspiration
+			}
+			if = { limit = { has_variable = cinnabar 	 } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+
+	if = { #Phrastus of Elinhir
+		limit = {
+			current_year >= 3482
+			current_year <= 3492
+			NOT = { exists = global_var:hchar_phrastus}
+		}
+		set_global_variable = { name = hchar_phrastus value = yes }
+		title:b_elinhir = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 35
+				name = "Phrastus"
+				dynasty = none
+				gender_female_chance = 0
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = culture:nibenese
+				trait = education_learning_4
+				trait = scholar
+				trait = diligent
+				trait = arrogant
+				trait = zealous
+				trait = shrewd
+				diplomacy = { min_template_low_skill max_template_decent_skill }
+				martial = { min_template_low_skill min_template_low_skill }
+				stewardship = { min_template_low_skill max_template_decent_skill }
+				intrigue = { min_template_low_skill max_template_decent_skill }
+				learning = { max_template_high_skill max_template_high_skill }
+				prowess = { min_template_low_skill min_template_low_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				set_variable = phrastus
+				save_scope_as = major
+				set_variable = legendary_author
+				create_inspiration = book_inspiration
+			}
+			if = { limit = { has_variable = phrastus 	 } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+
+	if = { #The Unveiled Azadiyeh
+		limit = {
+			current_year >= 3475
+			current_year <= 3495
+			NOT = { exists = global_var:hchar_azadiyeh}
+		}
+		set_global_variable = { name = hchar_azadiyeh value = yes }
+		title:b_satakalaam = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 40
+				name = "Azadiyeh"
+				dynasty = none
+				gender_female_chance = 100
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = faith:tall_papa		#Yokudan traditionalist
+				culture = culture:crown_culture
+				trait = education_learning_4
+				trait = education_magic_2
+				trait = theologian
+				trait = diligent
+				trait = brave
+				trait = zealous
+				trait = lifestyle_mystic
+				diplomacy = { max_template_decent_skill max_template_high_skill }
+				martial = { min_template_low_skill min_template_low_skill }
+				stewardship = { min_template_low_skill max_template_decent_skill }
+				intrigue = { min_template_low_skill max_template_decent_skill }
+				learning = { max_template_high_skill max_template_high_skill }
+				prowess = { min_template_low_skill min_template_low_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				add_arcana_skill = { VALUE = 5 }
+				set_variable = azadiyeh
+				save_scope_as = major
+				give_nickname = nick_the_unveiled
+				set_variable = legendary_author
+				create_inspiration = book_inspiration
+				add_character_flag = ai_will_not_convert
+				hidden_effect = {
+					add_trait_xp = {
+						trait = lifestyle_mystic
+						value = 100
+					}
+				}
+			}
+			if = { limit = { has_variable = azadiyeh 	 } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+
+	if = { #Razotha Tale-Teller
+		limit = {
+			current_year >= 3400
+			current_year <= 3420
+			NOT = { exists = global_var:hchar_razotha}
+		}
+		set_global_variable = { name = hchar_razotha value = yes }
+		title:b_fharun = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 30
+				name = "Razotha"
+				dynasty = none
+				gender_female_chance = 100
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = culture:mountain_orc
+				trait = education_diplomacy_4
+				trait = violet_poet
+				trait = gregarious
+				trait = ambitious
+				trait = diligent
+				diplomacy = { max_template_high_skill max_template_high_skill }
+				martial = { min_template_low_skill min_template_low_skill }
+				stewardship = { min_template_low_skill max_template_decent_skill }
+				intrigue = { min_template_low_skill max_template_decent_skill }
+				learning = { max_template_decent_skill max_template_high_skill }
+				prowess = { min_template_low_skill max_template_decent_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				set_variable = razotha
+				save_scope_as = major
+				give_nickname = nick_tale_teller
+				set_variable = legendary_author
+				create_inspiration = book_inspiration
+			}
+			if = { limit = { has_variable = razotha 	 } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+
+	# Well known ESO characters
+	if = { #Lyris Titanborn
+		limit = {
+			current_year >= 3496
+			current_year <= 3502
+			NOT = { exists = global_var:hchar_lyris_titanborn }
+		}
+		set_global_variable = { name = hchar_lyris_titanborn value = yes }
+		title:b_winterway = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 45
+				name = "Lyris"
+				dynasty = none
+				gender_female_chance = 100
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = culture:eastmarcher
+				trait = education_martial_3
+				trait = education_martial_prowess_2
+				trait = loyal
+				trait = brave
+				trait = diligent
+				trait = gregarious
+				trait = giant
+				trait = physique_good_1
+				trait = varangian
+				diplomacy = { min_template_decent_skill max_template_decent_skill }
+				martial = { min_template_high_skill max_template_high_skill }
+				stewardship = { min_template_low_skill max_template_low_skill }
+				intrigue = { min_template_low_skill min_template_low_skill }
+				learning = { min_template_low_skill max_template_low_skill }
+				prowess = { min_template_decent_skill max_template_decent_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				set_variable = lyris_titanborn
+				hidden_effect = { learn_language_of_culture = culture:heartlander }
+			}
+			if = { limit = { has_variable = lyris_titanborn 	 } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+	
+	if = { #Sai Sahan
+		limit = {
+			current_year >= 3496
+			current_year <= 3502
+			NOT = { exists = global_var:hchar_sai_sahan }
+		}
+		set_global_variable = { name = hchar_sai_sahan value = yes }
+		title:b_bangkorai = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 51
+				name = "Sai"
+				dynasty_house = house:leki_sahan
+				gender_female_chance = 0
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = culture:forebear
+				trait = education_martial_4
+				trait = education_martial_prowess_1
+				trait = loyal
+				trait = humble
+				trait = patient
+				trait = compassionate
+				trait = lifestyle_blademaster
+				diplomacy = { min_template_decent_skill max_template_decent_skill }
+				martial = { min_template_decent_skill max_template_decent_skill }
+				stewardship = { min_template_low_skill max_template_low_skill }
+				intrigue = { min_template_low_skill min_template_low_skill }
+				learning = { min_template_decent_skill max_template_decent_skill }
+				prowess = { min_template_decent_skill max_template_decent_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				set_variable = sai_sahan
+				hidden_effect = {
+					learn_language_of_culture = culture:heartlander
+					add_trait_xp = {
+						trait = lifestyle_blademaster
+						value = 100
+					}
+				}
+			}
+			if = { limit = { has_variable = sai_sahan 	 } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+	
+	if = { #Alchemy
+		limit = {
+			current_year >= 3496
+			current_year <= 3502
+			NOT = { exists = global_var:hchar_alchemy }
+		}
+		set_global_variable = { name = hchar_alchemy value = yes }
+		title:b_rellenthil = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 67
+				name = "Alchemy"
+				dynasty = none
+				gender_female_chance = 100
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = culture:alinor
+				trait = education_diplomacy_3
+				trait = content
+				trait = gregarious
+				trait = patient
+				trait = compassionate
+				trait = house_of_reveries
+				diplomacy = { min_template_decent_skill max_template_decent_skill }
+				martial = { min_template_low_skill max_template_low_skill }
+				stewardship = { min_template_low_skill max_template_low_skill }
+				intrigue = { min_template_high_skill max_template_high_skill }
+				learning = { min_template_high_skill max_template_high_skill }
+				prowess = { min_template_low_skill max_template_low_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				set_variable = alchemy_character
+			}
+			if = { limit = { has_variable = alchemy_character 	 } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+
+	if = { #Naryu Virian - young	& Odral Virian
+		limit = {
+			current_year >= 3396
+			current_year <= 3402
+			NOT = { character:virian_naryu = { is_alive = yes } }
+			NOT = { exists = global_var:hchar_naryu_virian_young }
+			NOT = { exists = global_var:hchar_naryu_virian_old }
+		}
+		set_global_variable = { name = hchar_naryu_virian_young value = yes }
+		title:b_balmora = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 44
+				name = "Naryu"
+				dynasty = none
+				gender_female_chance = 100
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = culture:chuzei
+				trait = education_intrigue_5
+				trait = education_martial_prowess_3
+				trait = deceitful
+				trait = compassionate
+				trait = arrogant
+				trait = beauty_good_2
+				diplomacy = { min_template_decent_skill max_template_decent_skill }
+				martial = { min_template_low_skill max_template_low_skill }
+				stewardship = { min_template_low_skill max_template_low_skill }
+				intrigue = { min_template_decent_skill max_template_high_skill }
+				learning = { min_template_low_skill max_template_low_skill }
+				prowess = { min_template_decent_skill max_template_decent_skill }
+				save_scope_as = historical_character
+			}
+			create_character = {
+				age = 41
+				name = "Odral"
+				dynasty = none
+				gender_female_chance = 0
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = culture:chuzei
+				trait = education_learning_3
+				trait = deceitful
+				trait = diligent
+				trait = ambitious
+				trait = lifestyle_herbalist
+				diplomacy = { min_template_decent_skill max_template_decent_skill }
+				martial = { min_template_low_skill max_template_low_skill }
+				stewardship = { min_template_low_skill max_template_low_skill }
+				intrigue = { min_template_decent_skill max_template_decent_skill }
+				learning = { max_template_decent_skill max_template_decent_skill }
+				prowess = { min_template_decent_skill max_template_decent_skill }
+				save_scope_as = historical_character_2
+			}
+			scope:historical_character ?= {	#Naryu
+				historical_character_finalization_effect = yes
+				set_variable = naryu_virian_young
+				set_relation_friend = { reason = friend_generic_history TARGET = scope:historical_character_2 }
+				set_father = character:virian_mjahlar
+				set_house = character:virian_mjahlar.house
+				set_sexuality = bisexual
+			}
+			if = { limit = { has_variable = naryu_virian_young 	 } } # Error suppression
+			scope:historical_character_2 ?= {	#Odral
+				historical_character_finalization_effect = yes
+				set_variable = odral_virian
+				set_father = character:virian_mjahlar
+				set_house = character:virian_mjahlar.house
+				hidden_effect = {
+					add_trait_xp = {
+						trait = lifestyle_herbalist
+						value = 100
+					}
+				}
+			}
+			if = { limit = { has_variable = odral_virian } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+
+	if = { #Naryu Virian - old
+		limit = {
+			current_year >= 3496
+			current_year <= 3502
+			NOT = { character:virian_naryu = { is_alive = yes } }
+			NOT = { exists = global_var:hchar_naryu_virian_young }
+			NOT = { exists = global_var:hchar_naryu_virian_old }
+		}
+		set_global_variable = { name = hchar_naryu_virian_old value = yes }
+		title:b_balmora = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 144
+				name = "Naryu"
+				dynasty = none
+				gender_female_chance = 100
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = culture:chuzei
+				trait = education_intrigue_5
+				trait = deceitful
+				trait = compassionate
+				trait = arrogant
+				trait = beauty_good_2
+				diplomacy = { min_template_decent_skill max_template_decent_skill }
+				martial = { min_template_low_skill max_template_low_skill }
+				stewardship = { min_template_low_skill max_template_low_skill }
+				intrigue = { min_template_high_skill max_template_high_skill }
+				learning = { min_template_decent_skill max_template_decent_skill }
+				prowess = { min_template_decent_skill max_template_decent_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				set_variable = naryu_virian_old
+				set_father = character:virian_mjahlar
+				set_house = character:virian_mjahlar.house
+				set_sexuality = bisexual
+			}
+			if = { limit = { has_variable = naryu_virian_old 	 } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+
+	if = { #Rigurt the Brash
+		limit = {
+			current_year >= 3496
+			current_year <= 3502
+			NOT = { exists = global_var:hchar_rigurt_the_brash }
+			NOT = { character:blackthorn_106 = { is_alive = yes } }
+		}
+		set_global_variable = { name = hchar_rigurt_the_brash value = yes }
+		title:b_riften = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 37
+				name = "Rigurt"
+				dynasty = none
+				gender_female_chance = 0
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = culture:eastmarcher
+				trait = education_diplomacy_1
+				trait = diplomat
+				trait = trusting
+				trait = fickle
+				trait = eccentric
+				trait = drunkard
+				trait = intellect_bad_1
+				diplomacy = { min_template_low_skill max_template_low_skill }
+				martial = { min_template_high_skill max_template_high_skill }
+				stewardship = { min_template_low_skill max_template_low_skill }
+				intrigue = { min_template_low_skill max_template_low_skill }
+				learning = { min_template_low_skill max_template_low_skill }
+				prowess = { min_template_decent_skill max_template_decent_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				set_variable = rigurt_the_brash
+				give_nickname = nick_the_brash
+			}
+			if = { limit = { has_variable = rigurt_the_brash 	 } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+
+	if = { #Gabrielle & Sara Benele
+		limit = {
+			current_year >= 3496
+			current_year <= 3502
+			NOT = { exists = global_var:hchar_gabrielle_benele }
+		}
+		set_global_variable = { name = hchar_gabrielle_benele value = yes }
+		title:b_wayrest = {
+			save_scope_as = birth_location
+			create_character = {	#made-up father of the Benele sisters
+				age = 58
+				name = "Alberic"
+				dynasty_house = house:house_benele
+				gender_female_chance = 0
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = culture:iliac
+				trait = education_learning_2
+				trait = education_magic_2
+				save_scope_as = historical_character_3
+			}
+			create_character = {
+				age = 33
+				name = "Gabrielle"
+				dynasty_house = house:house_benele
+				gender_female_chance = 100
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = culture:iliac
+				trait = education_learning_3
+				trait = education_magic_3
+				trait = arrogant
+				trait = diligent
+				trait = cynical
+				trait = intellect_good_1
+				diplomacy = { min_template_decent_skill max_template_decent_skill }
+				martial = { min_template_high_skill max_template_high_skill }
+				stewardship = { min_template_decent_skill max_template_decent_skill }
+				intrigue = { min_template_low_skill max_template_low_skill }
+				learning = { min_template_high_skill max_template_high_skill }
+				prowess = { min_template_low_skill max_template_low_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				add_arcana_skill = { VALUE = 5 }
+				set_variable = gabrielle_benele
+				set_variable = legendary_author
+				create_inspiration = book_inspiration
+				hidden_effect = { learn_language_of_culture = culture:heartlander }
+				set_father = scope:historical_character_3
+			}
+			if = { limit = { has_variable = gabrielle_benele 	 } } # Error suppression
+			create_character = {
+				age = 30
+				name = "Sara"
+				dynasty_house = house:house_benele
+				gender_female_chance = 100
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = culture:iliac
+				trait = education_learning_3
+				trait = education_magic_3
+				trait = compassionate
+				trait = diligent
+				trait = brave
+				diplomacy = { min_template_decent_skill max_template_decent_skill }
+				martial = { min_template_low_skill min_template_low_skill }
+				stewardship = { min_template_decent_skill max_template_decent_skill }
+				intrigue = { min_template_low_skill max_template_low_skill }
+				learning = { max_template_decent_skill max_template_high_skill }
+				prowess = { min_template_low_skill max_template_low_skill }
+				save_scope_as = historical_character_2
+			}
+			scope:historical_character_2 ?= {
+				historical_character_finalization_effect = yes
+				add_arcana_skill = { VALUE = 5 }
+				set_variable = sara_benele
+				set_father = scope:historical_character_3
+			}
+			if = { limit = { has_variable = sara_benele 	 } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+
+	if = { #Lady Arabelle Davaux, famous author of the Inspector Vale series
+		limit = {
+			current_year >= 3496
+			current_year <= 3502
+			NOT = { exists = global_var:hchar_arabelle_davaux }
+		}
+		set_global_variable = { name = hchar_arabelle_davaux value = yes }
+		title:b_wayrest = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 54
+				name = "Arabelle"
+				dynasty_house = house:house_davaux
+				gender_female_chance = 100
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = culture:iliac
+				trait = education_intrigue_3
+				trait = poet
+				trait = generous
+				trait = diligent
+				trait = humble
+				trait = intellect_good_1
+				trait = shrewd
+				diplomacy = { min_template_high_skill max_template_high_skill }
+				martial = { min_template_low_skill max_template_low_skill }
+				stewardship = { min_template_low_skill max_template_low_skill }
+				intrigue = { min_template_decent_skill max_template_decent_skill }
+				learning = { min_template_decent_skill max_template_decent_skill }
+				prowess = { min_template_low_skill max_template_low_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				set_variable = arabelle_davaux
+				set_variable = legendary_author
+				create_inspiration = book_inspiration
+				hidden_effect = {
+					learn_language_of_culture = culture:heartlander
+					learn_language_of_culture = culture:iliac
+				}
+			}
+			if = { limit = { has_variable = arabelle_davaux 	 } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+
+	#EK TODO: Veya Releth
+	# ESO Companions
+	#EK TODO: Bastian Hallix
+	#EK TODO: Mirri Elendis
+	#EK TODO: Ember
+	#EK TODO: Isobel Veloise
+	#EK TODO: Azandar al-Cybiades
+	#EK TODO: Sharp-as-Night
+	#EK TODO: Tanlorin
+	#EK TODO: Zerith-var
+	# Other ESO based characters
+	#EK TODO: Baz Swordbreaker / guy who attacked kvatch in 2E 480
+	#EK TODO: Shazah / lunar champion & possible mane
+	#EK TODO: Khali / lunar champion & possible mane
+
+	# Other characters
+	if = { #Brother Annulus / Monk who copied the Annals of the Dragonguard / 2E 560s
+		limit = {
+			current_year >= 3480
+			current_year <= 3490
+			NOT = { exists = global_var:hchar_brother_annulus }
+		}
+		set_global_variable = { name = hchar_brother_annulus value = yes }
+		title:b_weynon = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 41
+				name = "Annulus"
+				dynasty = none
+				gender_female_chance = 0
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = culture:colovian
+				trait = education_learning_3
+				trait = order_member
+				trait = diligent
+				trait = humble
+				trait = patient
+				diplomacy = { min_template_decent_skill max_template_decent_skill }
+				martial = { min_template_low_skill max_template_low_skill }
+				stewardship = { min_template_decent_skill max_template_decent_skill }
+				intrigue = { min_template_low_skill max_template_low_skill }
+				learning = { min_template_high_skill max_template_high_skill }
+				prowess = { min_template_low_skill max_template_low_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				set_variable = brother_annulus
+				create_inspiration = book_inspiration
+
+			}
+			if = { limit = { has_variable = brother_annulus 	 } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+	if = { #Rangidil Ketil / dunmer ordinator captain / 2E 830s
+		limit = {
+			current_year >= 3753
+			current_year <= 3880
+			NOT = { exists = global_var:hchar_rangidil_ketil }
+		}
+		set_global_variable = { name = hchar_rangidil_ketil value = yes }
+		title:b_mournhold = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 30
+				name = "Rangidil"
+				dynasty_house = house:house_ketil
+				gender_female_chance = 0
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = faith:tribunal_temple
+				culture = culture:chuzei
+				trait = education_learning_3
+				trait = education_martial_prowess_3
+				trait = order_member
+				trait = holy_warrior
+				trait = diligent
+				trait = zealous
+				trait = brave
+				diplomacy = { min_template_decent_skill max_template_decent_skill }
+				martial = { min_template_high_skill max_template_high_skill }
+				stewardship = { min_template_low_skill max_template_low_skill }
+				intrigue = { min_template_low_skill max_template_low_skill }
+				learning = { min_template_high_skill max_template_high_skill }
+				prowess = { min_template_decent_skill max_template_decent_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				set_variable = rangidil_ketil
+				add_character_flag = ai_will_not_convert
+			}
+			if = { limit = { has_variable = rangidil_ketil 	 } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+	#EK TODO: Dram / 2E 640s	Dram 2 / 2E 750s	Dram 3 / 2E 810s
+	#EK TODO: Cyrus / 2E 870s
+	#EK TODO: Iszara / 2E 870s
+}
+
+historical_character_finalization_effect = {
+	add_trait = historical_character
+	house ?= {
+		generate_coa = yes
+	}
+	dynasty ?= {
+		set_coa = scope:historical_character.house
+	}
+	set_variable = {
+		name = show_historical_gui
+		value = 1
+	}
+	ek_character_setup_effect = yes		#EK Edit
+	add_arcana_skill = { VALUE = "{ 0 8 }" }	#EK Edit
+}
+
+spawn_historical_characters_boilerplate_effect = {
+	county = { save_scope_as = county_scope }
+	county.holder = {
+		if = {
+			limit = {
+				is_ai = no
+			}
+			trigger_event = historical_char_creation_events.1
+		}
+		else_if = {
+			limit = {
+				OR = {
+					exists = scope:major
+					has_game_rule = all_historical_characters
+				}
+				any_liege_or_above = {
+					is_ai = no
+				}
+			}
+			random_liege_or_above = {
+				limit = {
+					is_ai = no
+				}
+				trigger_event = historical_char_creation_events.1
+			}
+		}
+		else_if = {
+			limit = {
+				exists = scope:county_scope.duchy.holder
+			}
+			scope:county_scope.duchy.holder = {
+				trigger_event = historical_char_creation_events.1
+			}
+		}
+		else = {
+			top_liege = {
+				trigger_event = historical_char_creation_events.1
+			}
+		}
+	}
+}

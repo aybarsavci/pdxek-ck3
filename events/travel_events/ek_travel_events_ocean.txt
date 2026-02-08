@@ -1,0 +1,2676 @@
+﻿namespace = ek_travel_events_ocean
+
+############################
+## Travel Ocean Flavor Events
+## 0001-3999
+############################
+
+# Underwater Lights
+ek_travel_events_ocean.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_ocean.0001.t
+	desc = ek_travel_events_ocean.0001.desc
+	theme = travel
+
+	override_background = { reference = ocean_night }
+	
+	left_portrait = {
+		character = root
+		animation = admiration 
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = { geographical_region = sea_of_pearls }
+	}
+
+	immediate = {
+		play_music_cue = mx_cue_travel_arrival
+	}
+
+	option = { # What a beautiful sight
+		name = ek_travel_events_ocean.0001.a
+
+		add_stress = minor_stress_loss
+	}
+
+	option = { # I wonder what cultures might dwell in those depths
+		name = ek_travel_events_ocean.0001.b
+
+		add_learning_lifestyle_xp = travel_medium_xp
+	}
+}
+
+############################
+## Travel Ocean Danger Events
+## 4000-7999
+############################
+
+# The Scaled Elves
+ek_travel_events_ocean.4000 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_ocean.4000.t
+	desc = ek_travel_events_ocean.4000.desc
+	theme = travel_danger
+
+	#Check if you're in the Inner Sea Region, then use the inner_sea background
+	override_background = {
+		trigger = {
+			location = {
+				is_sea_province = yes
+				geographical_region = sea_inner_sea
+			}
+		}
+		reference = ek_inner_sea
+	}
+	#Otherwise, use the default ocean background
+	override_background = { reference = fp1_ocean }
+	
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	right_portrait = {
+		character = scope:leviathan
+		animation = marshal
+	}
+
+	cooldown = { years = 2 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = {
+			OR = {
+				geographical_region = sea_aldmeric_ocean
+				geographical_region = sea_summer_sea
+				geographical_region = sea_southern_sea
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+
+		current_travel_plan = {
+			ordered_entourage_character = {
+				order_by = stewardship
+				save_scope_as = travel_leader
+			}
+			current_location = { save_scope_as = current_location }
+		}
+		# find head leviathan
+		random_pool_character = {
+			province = root.location
+			limit = {
+				is_available_ai_adult = yes
+				culture = {	has_cultural_pillar = heritage_maormeri	}
+				has_trait = giant
+			}
+			weight = {
+				base = 10
+				modifier = {
+					can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = THIS }
+					add = 100
+				}
+			}
+			save_scope_as = leviathan
+		}
+		if = { #As a backup create the character
+			limit = {
+				NOT = { exists = scope:leviathan }
+			}
+			create_character = {
+				template = bandit_character
+				location = root.location
+				culture = culture:beyonder
+				faith = faith:mehrunes_cult
+				dynasty = none
+				trait = giant
+				trait = scaly
+				save_scope_as = leviathan
+			}
+			hidden_effect = {
+				scope:leviathan = {
+					move_to_pool = yes
+				}
+			}
+		}
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 6
+		}
+	}
+
+	# Attempt to fight the leviathan
+	option = {
+		name = ek_travel_events_ocean.4000.a
+		duel = {
+			skill = prowess
+			target = scope:leviathan
+			45 = { # You beat up the viking captain
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 0.5
+				}
+				send_interface_toast = {
+					title = ek_travel_events_ocean.4000.defeated_leviathan
+					type = event_toast_effect_good
+					left_icon = scope:leviathan
+					add_prestige = medium_prestige_gain
+					create_character_memory = {
+						type = won_duel
+						participants = {
+							duel_loser = scope:leviathan
+						}
+					}
+					if = {
+						limit = {
+							OR = {
+								has_any_nickname = no
+								has_bad_nickname = yes
+							}
+						}
+						random = {
+							chance = 5
+							ek_give_nickname_effect = { NICKNAME = nick_leviathan_slayer }
+						}
+					}
+				}
+			}
+			45 = { # You get beaten up by the leviathan
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.5
+				}
+				send_interface_toast = {
+					title = ek_travel_events_ocean.4000.defeated_by_leviathan
+					type = event_toast_effect_bad
+					left_icon = scope:leviathan
+					increase_wounds_effect = { REASON = fight }
+					remove_short_term_gold = medium_gold_value
+					create_character_memory = {
+						type = lost_duel
+						participants = {
+							duel_winner = scope:leviathan
+						}
+					}
+				}
+			}
+			10 = { # You get beaten up by the leviathan and die
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.5
+				}
+				send_interface_toast = {
+					title = ek_travel_events_ocean.4000.defeated_by_leviathan
+					type = event_toast_effect_bad
+					left_icon = scope:leviathan
+					death = {
+						killer = scope:leviathan
+						death_reason = death_fight
+					}
+				}
+			}
+		}
+		stress_impact = {
+			calm = medium_stress_impact_gain
+			craven = major_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				OR = {
+					has_trait = calm
+					has_trait = craven
+				}
+			}
+		}
+	}
+	# Attempt to bribe the leviathan
+	option = {
+		name = ek_travel_events_ocean.4000.b
+		remove_short_term_gold = medium_gold_value
+		stress_impact = {   
+			greedy = medium_stress_impact_gain
+			wrathful = medium_stress_impact_gain
+			brave = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				OR = {
+					has_trait = greedy
+					has_trait = wrathful
+					has_trait = brave
+				}
+			}
+			modifier = {
+				factor = 0
+				short_term_gold < medium_gold_value
+			}
+		}
+	}
+	# Attempt to outmanuever the leviathan
+	option = {
+		name = ek_travel_events_ocean.4000.c
+		duel = {
+			skills = { martial learning }
+			target = scope:leviathan
+			50 = { # You outmanuever the leviathan
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 0.5
+				}
+				modifier = {
+					factor = 2
+					has_trait = strategist
+				}
+				send_interface_toast = {
+					title = ek_travel_events_ocean.4000.defeated_leviathan
+					type = event_toast_effect_good
+					left_icon = scope:leviathan
+					add_prestige = medium_prestige_gain
+				}
+			}
+			50 = { # You get beaten up by the leviathan
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.5
+				}
+
+				send_interface_toast = {
+					title = ek_travel_events_ocean.4000.defeated_by_leviathan
+					type = event_toast_effect_bad
+					left_icon = scope:leviathan
+					increase_wounds_effect = { REASON = fight }
+					remove_short_term_gold = medium_gold_value
+				}
+				create_character_memory = {
+					type = lost_duel
+					participants = {
+						duel_winner = scope:leviathan
+					}
+				}
+			}
+			5 = { # You get beaten up by the leviathan and die
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.5
+				}
+				death = {
+					killer = scope:leviathan
+					death_reason = death_fight
+				}
+			}
+		}
+		stress_impact = {   
+			arrogant = medium_stress_impact_gain
+			brave = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				OR = {
+					has_trait = arrogant
+					has_trait = brave
+				}
+			}
+		}
+	}
+	# Attempt to hire the leviathan as your personal guard
+	option = {
+		name = ek_travel_events_ocean.4000.d
+		duel = {
+			skills = { diplomacy stewardship }
+			target = scope:leviathan
+			50 = { # You convince them to join you
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 0.5
+				}
+				send_interface_toast = {
+					title = ek_travel_events_ocean.4000.offer_accepted
+					left_icon = scope:leviathan
+					pay_short_term_gold = {
+						target = scope:leviathan
+						gold = minor_gold_value
+					}
+					add_courtier = scope:leviathan
+					root.current_travel_plan = {
+						add_companion = scope:leviathan
+					}
+				}
+				hidden_effect = {
+					scope:leviathan = {
+						add_character_flag = {
+							flag = blocked_from_leaving
+							years = 5
+						}
+					}
+				}
+			}
+			50 = { # You get beaten up by the leviathan
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.5
+				}
+				send_interface_toast = {
+					title = ek_travel_events_ocean.4000.offer_refused
+					left_icon = scope:leviathan
+					increase_wounds_effect = { REASON = fight }
+					remove_short_term_gold = medium_gold_value
+				}
+				create_character_memory = {
+					type = lost_duel
+					participants = {
+						duel_winner = scope:leviathan
+					}
+				}
+			}
+			5 = { # You get beaten up by the leviathan and die
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.5
+				}
+				death = {
+					killer = scope:leviathan
+					death_reason = death_fight
+				}
+			}
+		}
+		stress_impact = {   
+			greedy = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = greedy
+				add = -50
+			}
+			modifier = {
+				factor = 0
+				short_term_gold < minor_gold_value
+			}
+		}
+	}
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						scope:leviathan = { is_courtier_of = root }
+					}
+					scope:leviathan = { is_alive = yes }
+					is_alive = no # Allow the player to get revenge if they were killed by the viking
+				}
+				scope:leviathan = {
+					if = {
+						limit = {
+							root = { is_ai = yes }
+						}
+						silent_disappearance_effect = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+# The Myth of the Sea Sloads
+ek_travel_events_ocean.4005 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_ocean.4005.t
+	desc = ek_travel_events_ocean.4005.desc
+	theme = travel_danger
+
+	#Check if you're in the Inner Sea Region, then use the inner_sea background
+	override_background = {
+		trigger = {
+			location = {
+				is_sea_province = yes
+				geographical_region = sea_inner_sea
+			}
+		}
+		reference = ek_inner_sea
+	}
+	#Otherwise, use the default ocean background
+	override_background = { reference = fp1_ocean }
+	
+	left_portrait = {
+		character = root
+		animation = disbelief
+	}
+
+	right_portrait = {
+		character = scope:char_next_in_line
+		animation = shock
+	}
+
+	lower_right_portrait = {
+		character = scope:fallen_victim
+	}
+
+	cooldown = { years = 2 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = {
+			geographical_region = sea_of_pearls
+		}
+		current_travel_plan = {
+			any_entourage_character = {
+				NOT = {
+					this = root
+				}
+				is_ai = yes
+				is_adult = yes
+				count >= 2
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 7
+			MAX = 14
+		}
+
+		current_travel_plan = {
+			hidden_effect = {
+				every_entourage_character = {
+					limit = {
+						is_ai = yes
+						NOT = {
+							this = root
+						}
+					}
+					traveler_danger_xp_effect = {
+						MIN = 7
+						MAX = 14
+					}
+				}
+			}
+
+			ordered_entourage_character = {
+				limit = {
+					is_ai = yes
+					NOT = {
+						this = root
+					}
+				}
+				order_by = { #low prowess makes chars fall more easily. That makes older and more frail characters more likely to fall.
+					value = prowess
+					multiply = -1
+
+					if = { #more impactful narrative
+						limit = {
+							has_any_relation_trigger = { CHARACTER = root }
+						}
+						add = 10
+					}
+					if = { #rivals falling down is funni. stacks with any_relation_trigger above
+						limit = {
+							OR = {
+								has_relation_rival = root
+								has_relation_nemesis = root
+							}
+						}
+						add = 20
+					}
+					if = { #since children have low prowess, we don't want only them falling down and dying, that's what meet peers is for. children are actually very nimble. 
+						limit = {
+							is_adult = no
+						}
+						add = -25
+					}
+				}
+				save_scope_as = fallen_victim
+			}
+
+			ordered_entourage_character = {
+				limit = {
+					is_ai = yes
+					is_adult = yes
+					NOR = {
+						this = scope:fallen_victim
+						this = root
+					}
+				}
+				order_by = { #highest arcana char makes the rescue operation a bit more viable
+					value = arcana
+				}
+				save_scope_as = char_next_in_line
+			}
+
+		}
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 6
+		}
+	}
+
+	# Attempt to Ward Against the Shadows
+	option = {
+		add_internal_flag = dangerous
+		name = ek_travel_events_ocean.4005.a
+		fake_duel = {
+			skill = arcana
+			target = this
+			value = extremely_high_skill_rating
+		}
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = 3.5
+				}
+				modifier = {
+					add = 50
+					has_perk = restoration_master_perk
+				}
+				desc = ek_travel_events_ocean.4005.a.success
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_travel_events_ocean.4005.a.success
+					scope:fallen_victim = {
+						increase_wounds_no_death_effect = { REASON = sload_attack }
+					}
+					add_hook = {
+						target = scope:fallen_victim
+						type = saved_my_life_hook
+					}
+
+					traveler_danger_xp_effect = {
+						MIN = 15
+						MAX = 30
+					}
+
+					left_icon = scope:char_next_in_line
+					right_icon = scope:fallen_victim
+
+					create_character_memory = {
+						type = rescued_sload_victim_memory
+			
+						participants = {
+							rescued_victim = scope:fallen_victim
+						}
+					}	
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:fake_duel_value
+					multiplier = -3.5
+				}
+				desc = ek_travel_events_ocean.4005.a.failure
+				send_interface_toast = {
+					title = ek_travel_events_ocean.4005.a.failure
+					increase_wounds_no_death_effect = { REASON = sload_attack }
+					scope:char_next_in_line = {
+						death = { 
+							death_reason = death_sload_attack
+						}
+					}
+					scope:fallen_victim = {
+						death = {
+							death_reason = death_sload_attack
+						}
+					}
+					left_icon = scope:char_next_in_line
+					right_icon = scope:fallen_victim
+				}
+			}
+		}
+		stress_impact = {
+			calm = medium_stress_impact_gain
+			craven = major_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				OR = {
+					has_trait = calm
+					has_trait = craven
+				}
+				can_magic_trigger = no
+			}
+			modifier = {
+				factor = 200
+				OR = {
+					has_trait = brave
+					has_trait = diligent
+				}
+			}
+		}
+	}
+
+	# Tell best mage around to ward against the shadow magic
+	option = {
+		add_internal_flag = dangerous
+		name = ek_travel_events_ocean.4005.d
+		scope:char_next_in_line = {
+			fake_duel = {
+				skill = arcana
+				target = this
+				value = extremely_high_skill_rating
+			}
+			random_list = {
+				50 = {
+					compare_modifier = {
+						value = scope:fake_duel_value
+						multiplier = 3.5
+					}
+					modifier = {
+						add = 50
+						has_perk = restoration_master_perk
+					}
+					desc = ek_travel_events_ocean.4005.d.success
+					send_interface_toast = {
+						type = event_toast_effect_good
+						title = ek_travel_events_ocean.4005.d.success
+						left_icon = scope:char_next_in_line
+						right_icon = scope:fallen_victim
+						scope:fallen_victim = {
+							increase_wounds_no_death_effect = { REASON = sload_attack }
+						}
+						
+						add_hook = {
+							target = scope:fallen_victim
+							type = saved_my_life_hook
+						}
+
+						traveler_danger_xp_effect = {
+							MIN = 15
+							MAX = 30
+						}
+
+						create_character_memory = {
+							type = rescued_sload_victim_memory
+				
+							participants = {
+								rescued_victim = scope:fallen_victim
+							}
+						}	
+					}
+				}
+				50 = {
+					compare_modifier = {
+						value = scope:fake_duel_value
+						multiplier = -3.5
+					}
+					desc = ek_travel_events_ocean.4005.d.failure
+					send_interface_toast = {
+						title = ek_travel_events_ocean.4005.d.failure
+						increase_wounds_no_death_effect = { REASON = sload_attack }
+						scope:char_next_in_line = {
+							death = { 
+								death_reason = death_sload_attack
+							}
+						}
+						scope:fallen_victim = {
+							death = {
+								death_reason = death_sload_attack
+							}
+						}
+						left_icon = scope:char_next_in_line
+						right_icon = scope:fallen_victim
+					}
+				}
+			}
+		}
+		stress_impact = {
+			calm = medium_stress_impact_gain
+			craven = major_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				root.arcana > scope:char_next_in_line.arcana
+			}
+		}
+	}
+
+	# Pray away
+	option = { 
+		trigger = {
+			OR = {
+				has_trait = zealous
+				piety_level >= 2
+			}
+		}
+		name = ek_travel_events_ocean.4005.b
+
+		scope:fallen_victim = {
+			death = {
+				death_reason = death_sload_attack
+			}
+		}
+
+		add_piety = minor_piety_gain
+		current_travel_plan = {
+			every_entourage_character = {
+				custom = every_entourage_tt
+				limit = {
+					has_faith = root.faith
+				}
+				add_opinion = {
+					target = root
+					modifier = pious_opinion
+					opinion = 20
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+
+	}
+
+	# Embrace the Darkness
+	option = { 
+		name = ek_travel_events_ocean.4005.c
+		scope:fallen_victim = {
+			death = {
+				death_reason = death_sload_attack
+			}
+		}
+		add_dark_arts_lifestyle_xp = medium_lifestyle_xp
+		current_travel_plan = {
+			delay_travel_plan = { days = 20 }
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+# Danger Event: Sea Serpent
+ek_travel_events_ocean.4010 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_ocean.4010.t
+	desc = ek_travel_events_ocean.4010.desc
+	theme = travel
+
+	#Check if you're in the Inner Sea Region, then use the inner_sea background
+	override_background = {
+		trigger = {
+			location = {
+				is_sea_province = yes
+				geographical_region = sea_inner_sea
+			}
+		}
+		reference = ek_inner_sea
+	}
+	#Otherwise, use the default ocean background
+	override_background = { reference = fp1_ocean }
+	
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = {
+			OR = {
+				geographical_region = sea_aldmeric_ocean
+				geographical_region = sea_summer_sea
+				geographical_region = sea_southern_sea
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+	}	
+
+    option = { # You are a Maormer
+		name = ek_travel_events_ocean.4010.a
+
+		trigger = { culture = { has_cultural_pillar = heritage_maormeri } }
+
+		add_piety = medium_prestige_gain
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # Gather everyone
+		name = ek_travel_events_ocean.4010.b
+
+		trigger = {
+			current_travel_plan = {
+				any_entourage_character = {
+					NOT = { this = root }
+					count > 3
+				}
+			}
+		}
+
+		duel = {
+			skill = martial
+			value = medium_skill_rating
+			10 = {
+				desc = ek_travel_events_ocean.4010.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events_ocean.4010.b.success
+					add_prestige = medium_prestige_gain
+				}
+			}
+			
+			5 = {
+				desc = ek_travel_events_ocean.4010.b.failure
+				hidden_effect = {
+					send_interface_toast = {
+						left_icon = scope:sea_serpent_food
+						type = event_toast_effect_bad
+						title = ek_travel_events_ocean.4010.b.failure
+						current_travel_plan = {
+							random_entourage_character = {
+								limit = { NOT = { this = root } }
+								death = { death_reason = death_sea_serpent }
+								save_scope_as = sea_serpent_food
+							}
+						}
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 50
+		}
+	}
+
+	option = { # Slay the Serpent
+		name = ek_travel_events_ocean.4010.c
+
+		duel = {
+			skill = prowess
+			value = very_high_skill_rating
+			10 = {
+				desc = ek_travel_events_ocean.4010.c.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events_ocean.4010.c.success
+					add_prestige = major_prestige_gain
+					ek_give_nickname_effect = { NICKNAME = nick_the_serpent_slayer }
+				}
+			}
+			
+			5 = {
+				desc = ek_travel_events_ocean.4010.c.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = ek_travel_events_ocean.4010.c.failure
+					death = { death_reason = death_sea_serpent }
+				}
+			}
+		}
+		stress_impact = {
+			craven = major_stress_impact_gain
+			brave = medium_stress_impact_loss			
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				has_trait = brave
+				add = 90				
+			}
+		}
+	}
+}
+
+# Danger Event: Sea Dragon
+ek_travel_events_ocean.4015 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_ocean.4015.t
+	desc = ek_travel_events_ocean.4015.desc
+	theme = travel
+
+	#Check if you're in the Inner Sea Region, then use the inner_sea background
+	override_background = {
+		trigger = {
+			location = {
+				is_sea_province = yes
+				geographical_region = sea_inner_sea
+			}
+		}
+		reference = ek_inner_sea
+	}
+	#Otherwise, use the default ocean background
+	override_background = { reference = fp1_ocean }
+	
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	right_portrait = {
+		character = scope:unlucky_character
+		animation = fear 
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = { geographical_region = sea_southern_padomaic_coast }
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+		current_travel_plan = {
+			ordered_entourage_character = {
+				limit = {
+					is_ai = yes
+					NOT = {
+						this = root
+					}
+				}
+				order_by = { #low prowess makes chars are easier to push
+					value = prowess
+					multiply = -1
+
+					if = { #feed your rival to a sea monster
+						limit = {
+							OR = {
+								has_relation_rival = root
+								has_relation_nemesis = root
+							}
+						}
+						add = 50
+					}
+					if = { #don't push people you like
+						limit = {
+							OR = {
+								has_relation_soulmate = root
+								has_relation_friend = root
+								has_relation_best_friend = root
+							}
+						}
+						add = -50
+					}
+					if = { #don't kill children unlesss your sadistic
+						limit = {
+							is_adult = no
+							NOT = { root = { has_trait = sadistic } }
+						}
+						add = -50
+					}
+				}
+				save_scope_as = unlucky_character
+			}
+		}
+	}	
+
+    option = { # Feed someone to the beast
+		name = ek_travel_events_ocean.4015.a
+		trigger = { exists = scope:unlucky_character }
+
+		scope:unlucky_character = {
+			death = { death_reason = death_sea_dragon }
+		}
+
+		add_secret = {
+			type = secret_murder
+			target = scope:unlucky_character
+		}
+
+		stress_impact = {
+			compassionate = major_stress_impact_gain
+			just = medium_stress_impact_gain
+			callous = minor_stress_impact_loss
+			sadistic = medium_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				has_trait = sadistic
+				add = 90				
+			}
+		}
+	}
+
+	option = { # Take a safer route
+		name = ek_travel_events_ocean.4015.b
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+
+		stress_impact = {
+			impatient = minor_stress_impact_gain
+			craven = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # If we ignore it it will ignore us, right?
+		name = ek_travel_events_ocean.4015.c
+
+		random_list = {
+			60 = {
+				custom_tooltip = ek_travel_events_ocean.4015.c.success
+					send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events_ocean.4015.c.success
+				}
+			}
+			30 = {
+				custom_tooltip = ek_travel_events_ocean.4015.c.failure
+					send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = ek_travel_events_ocean.4015.c.failure
+					current_travel_plan = {
+						delay_travel_plan = { days = 14 }
+					}
+				}
+			}
+			10 = {
+				custom_tooltip = ek_travel_events_ocean.4015.c.critical_failure
+					send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = ek_travel_events_ocean.4015.c.critical_failure
+					current_travel_plan = {
+						every_entourage_character = {
+							death = { death_reason = death_sea_dragon }
+						}
+					}
+					death = { death_reason = death_sea_dragon }
+					hidden_effect = { mp_resume_travel_plan = yes }
+				}
+			}
+		}
+
+		stress_impact = {
+			craven = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 50
+		}
+	}	
+}
+
+# Danger Event: Sea Giants
+ek_travel_events_ocean.4020 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_ocean.4020.t
+	desc = ek_travel_events_ocean.4020.desc
+	theme = travel
+
+	#Check if you're in the Inner Sea Region, then use the inner_sea background
+	override_background = {
+		trigger = {
+			location = {
+				is_sea_province = yes
+				geographical_region = sea_inner_sea
+			}
+		}
+		reference = ek_inner_sea
+	}
+	#Otherwise, use the default ocean background
+	override_background = { reference = fp1_ocean }
+	
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = { geographical_region = sea_of_ghosts_skyrim }
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+	}	
+
+	option = { # Avoid them at all cost
+		name = ek_travel_events_ocean.4020.a
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 10 }
+		}
+
+		stress_impact = {
+			brave = minor_stress_impact_gain
+			impatient = minor_stress_impact_gain
+			craven = medium_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # Take your chances
+		name = ek_travel_events_ocean.4020.b
+
+		random_list = {
+			80 = {
+				custom_tooltip = ek_travel_events_ocean.4020.b.success
+					send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events_ocean.4020.b.success
+				}
+			}
+			20 = {
+				custom_tooltip = ek_travel_events_ocean.4020.b.failure
+					send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = ek_travel_events_ocean.4020.b.failure
+					current_travel_plan = {
+						every_entourage_character = {
+							death = { death_reason = death_sea_giants }
+						}
+					}
+					death = { death_reason = death_sea_giants }
+					hidden_effect = { mp_resume_travel_plan = yes }
+				}
+			}
+		}
+
+		stress_impact = {
+			craven = medium_stress_impact_gain
+			brave = minor_stress_impact_loss
+			impatient = minor_stress_impact_loss			
+		}
+
+		ai_chance = {
+			base = 50
+		}
+	}	
+}
+
+# Danger Event: Ithguleoir - Day
+ek_travel_events_ocean.4025 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_ocean.4025.t
+	desc = ek_travel_events_ocean.4025.desc
+	theme = travel
+
+	#Check if you're in the Inner Sea Region, then use the inner_sea background
+	override_background = {
+		trigger = {
+			location = {
+				is_sea_province = yes
+				geographical_region = sea_inner_sea
+			}
+		}
+		reference = ek_inner_sea
+	}
+	#Otherwise, use the default ocean background
+	override_background = { reference = fp1_ocean }
+	
+	left_portrait = {
+		character = root
+		animation = disbelief
+	}
+
+	right_portrait = {
+		character = scope:sailor_character
+		animation = worry
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = { geographical_region = sea_eltheric_ocean_waters }
+		NOT = { has_character_flag = ithguleoir_sighting }
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+		create_character = {
+			template = sailor_character
+			culture = culture:abecean
+			faith = faith:tall_papa
+			location = root.location
+			save_scope_as = sailor_character
+		}
+		add_character_flag = {
+			flag = ithguleoir_sighting
+			years = 5
+		}
+	}	
+
+	option = { # I dont believe you
+		name = ek_travel_events_ocean.4025.a
+		trait = cynical
+
+		trigger = { has_trait = cynical }
+
+		scope:sailor_character = {
+			add_opinion = {
+				target = root
+				modifier = insult_opinion
+				opinion = -30
+			}
+		}
+
+		current_travel_plan = {
+			every_entourage_character = {
+				add_stress = major_stress_gain
+			}
+		}
+
+		stress_impact = {
+			humble = medium_stress_impact_gain
+			cynical = minor_stress_impact_loss
+			arrogant = minor_stress_impact_loss			
+		}
+
+		ai_chance = {
+			base = 50
+		}
+	}
+
+	option = { # There has to be another explanation for this
+		name = ek_travel_events_ocean.4025.b
+		trait = scholar
+
+		trigger = { has_trait = scholar }
+
+		duel = {
+			skill = learning
+			value = average_skill_rating
+			50 = {
+				desc = ek_travel_events_ocean.4025.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+				}
+				root = {
+					send_interface_toast = {
+						title = ek_travel_events_ocean.4025.b.success
+						type = event_toast_effect_good
+						left_icon = root
+						add_learning_lifestyle_xp = travel_medium_xp
+					}
+				}
+			}
+			50 = {
+				desc = ek_travel_events_ocean.4025.b.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+				}
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events_ocean.4025.b.failure
+					left_icon = root
+					current_travel_plan = {
+						every_entourage_character = {
+							add_stress = major_stress_gain
+						}
+					}
+					add_stress = major_stress_gain
+				}
+			}
+		}
+
+		stress_impact = {
+			humble = medium_stress_impact_gain
+			cynical = minor_stress_impact_loss
+			arrogant = minor_stress_impact_loss			
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # Frightening!
+		name = ek_travel_events_ocean.4025.c
+
+		current_travel_plan = {
+			every_entourage_character = {
+				add_stress = major_stress_gain
+			}
+		}
+		add_stress = major_stress_gain
+
+		ai_chance = {
+			base = 10
+		}
+	}
+}
+
+# Danger Event: Ithguleoir - Night
+ek_travel_events_ocean.4026 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_ocean.4026.t
+	desc = ek_travel_events_ocean.4026.desc
+	theme = travel
+
+	override_background = { reference = ocean_night }
+	
+	left_portrait = {
+		character = root
+		animation = paranoia
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = { geographical_region = sea_eltheric_ocean_waters }
+		NOT = { has_character_flag = ithguleoir_sighting }
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 2
+			MAX = 6
+		}
+		add_character_flag = {
+			flag = ithguleoir_sighting
+			years = 5
+		}
+	}	
+
+	option = { # What in Oblivion was that?
+		name = ek_travel_events_ocean.4026.a
+		
+		add_stress = major_stress_gain
+	}
+}
+
+# Danger Event: Ithguleoir - Attack!
+ek_travel_events_ocean.4027 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_ocean.4027.t
+	desc = ek_travel_events_ocean.4027.desc
+	theme = travel
+
+	#Check if you're in the Inner Sea Region, then use the inner_sea background
+	override_background = {
+		trigger = {
+			location = {
+				is_sea_province = yes
+				geographical_region = sea_inner_sea
+			}
+		}
+		reference = ek_inner_sea
+	}
+	#Otherwise, use the default ocean background
+	override_background = { reference = fp1_ocean }
+	
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = { geographical_region = sea_eltheric_ocean_waters }
+		has_character_flag = ithguleoir_sighting
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 2
+			MAX = 6
+		}
+		add_character_flag = {
+			flag = ithguleoir_sighting
+			years = 5
+		}
+	}	
+
+	option = { # All dead
+		name = ek_travel_events_ocean.4027.a
+		
+		current_travel_plan = {
+			every_entourage_character = {
+				death = { death_reason = death_ithguleoir }
+			}
+		}
+		death = { death_reason = death_ithguleoir }
+		hidden_effect = { mp_resume_travel_plan = yes }
+	}
+}
+
+# Danger Event: Sea Ghosts of the Sea of Ghosts
+ek_travel_events_ocean.4030 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_ocean.4030.t
+	desc = ek_travel_events_ocean.4030.desc
+	theme = travel
+
+	override_background = { reference = ocean_night }
+	
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+
+	right_portrait = {
+		trigger = { exists = scope:resto_mage }
+		character = scope:resto_mage
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = { geographical_region = sea_of_ghosts_waters }
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+		current_travel_plan = {
+			if = { 
+				limit = {
+					any_entourage_character = {
+						NOT = { this = root }
+						has_perk = restoration_novice_perk
+					}
+				}
+				random_entourage_character = {
+					limit = {
+						NOT = { this = root }
+						has_perk = restoration_novice_perk
+					}
+					save_scope_as = resto_mage
+				}
+			}
+		}
+	}	
+
+	option = { # Shield the ship with restoration magic
+		name = ek_travel_events_ocean.4030.a
+
+		trigger = { has_perk = restoration_novice_perk }
+
+		ai_chance = {
+			base = 50
+		}
+	}
+
+	option = { # There is a resto mage on board
+		name = ek_travel_events_ocean.4030.b
+
+		trigger = { 
+			NOT = { has_perk = restoration_novice_perk }
+			exists = scope:resto_mage
+		}
+
+		ai_chance = {
+			base = 50
+		}
+	}
+
+	option = { # You are a necromancer
+		name = ek_travel_events_ocean.4030.c
+		trait = necromancer
+	
+		trigger = { has_trait = necromancer }
+
+		add_character_modifier = {
+			modifier = subdued_sea_ghosts_modifier
+			years = 5
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # Fight those wraiths
+		name = ek_travel_events_ocean.4030.d
+
+		duel = {
+			skill = prowess
+			value = high_skill_rating
+			50 = {
+				desc = ek_travel_events_ocean.4030.d.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+				}
+				root = {
+					send_interface_toast = {
+						title = ek_travel_events_ocean.4030.d.success
+						type = event_toast_effect_good
+						left_icon = root
+						add_prestige = medium_prestige_gain
+						ek_give_nickname_effect = { NICKNAME = nick_wraith_bane }
+					}
+				}
+			}
+			50 = {
+				desc = ek_travel_events_ocean.4030.d.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+				}
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events_ocean.4030.d.failure
+					left_icon = root
+					death = { death_reason = death_sea_ghosts }
+				}
+			}
+		}
+
+		stress_impact = {
+			craven = medium_stress_impact_gain
+			diligent = minor_stress_impact_loss
+			brave = minor_stress_impact_loss			
+		}
+
+		ai_chance = {
+			base = 10
+		}
+	}
+
+	option = { # Hide under deck
+		name = ek_travel_events_ocean.4030.e
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 3 }
+		}
+
+		hidden_effect = {
+			send_interface_toast = {
+				left_icon = scope:ghost_victim
+				type = event_toast_effect_bad
+				title = ek_travel_events_ocean.4030.e.t
+				current_travel_plan = {
+					random_entourage_character = {
+						limit = { NOT = { this = root } }
+						death = { death_reason = death_sea_ghosts }
+						save_scope_as = ghost_victim
+					}
+				}
+			}
+		}
+
+		stress_impact = {			
+			diligent = medium_stress_impact_gain
+			brave = major_stress_impact_gain
+			craven = medium_stress_impact_loss	
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				has_trait = craven
+				add = 40				
+			}
+		}
+	}
+}
+
+# Danger Event: Collision with something big
+ek_travel_events_ocean.4035 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_ocean.4035.t
+	desc = ek_travel_events_ocean.4035.desc
+	theme = travel
+
+	#Check if you're in the Inner Sea Region, then use the inner_sea background
+	override_background = {
+		trigger = {
+			location = {
+				is_sea_province = yes
+				geographical_region = sea_inner_sea
+			}
+		}
+		reference = ek_inner_sea
+	}
+	#Otherwise, use the default ocean background
+	override_background = { reference = fp1_ocean }
+	
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = { is_sea_province = yes }
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 1
+			MAX = 5
+		}
+	}	
+
+	option = { # Close call
+		name = ek_travel_events_ocean.4035.a
+		
+		add_stress = minor_stress_gain
+
+		current_travel_plan = {
+			delay_travel_plan = { days = 3 }
+		}
+	}
+}
+
+# Danger Event: What a storm
+ek_travel_events_ocean.4040 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_ocean.4040.t
+	desc = ek_travel_events_ocean.4040.desc
+	theme = travel
+
+	#Check if you're in the Inner Sea Region, then use the inner_sea background
+	override_background = {
+		trigger = {
+			location = {
+				is_sea_province = yes
+				geographical_region = sea_inner_sea
+			}
+		}
+		reference = ek_inner_sea
+	}
+	#Otherwise, use the default ocean background
+	override_background = { reference = fp1_ocean }
+	
+	left_portrait = {
+		character = root
+		animation = paranoia
+	}
+
+	right_portrait = {
+		character = scope:mora_character
+		animation = beg
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = { is_sea_province = yes }
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+		current_travel_plan = {
+			if = {
+				limit = { 
+					any_entourage_character = {
+						OR = {
+							faith = { has_doctrine = doctrine_pantheon_hermaeus }
+							secret_faith ?= { has_doctrine = doctrine_pantheon_hermaeus }
+							has_trait = champion_hermaeus													
+						}
+					}
+				}
+				random_entourage_character = {
+					limit = { 
+						OR = {
+							faith = { has_doctrine = doctrine_pantheon_hermaeus }
+							secret_faith ?= { has_doctrine = doctrine_pantheon_hermaeus }
+							has_trait = champion_hermaeus													
+						}
+					}
+					save_scope_as = mora_character
+				}
+			}
+			else_if = {
+				limit = { 
+					any_entourage_character = {
+						has_trait = forder
+						is_lowborn = yes									
+					}
+				}
+				random_entourage_character = {
+					limit = { 
+						has_trait = forder
+						is_lowborn = yes	
+					}
+					hidden_effect = { 
+						make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:hermaeus_cult }
+					}
+					save_scope_as = mora_character
+				}
+			}
+			else = {
+				create_character = {
+					template = mora_worshipper
+					location = root.location
+					save_scope_as = mora_character
+				}
+			}
+		}
+		if = {
+			limit = {
+				scope:mora_character = { 
+					any_secret = { secret_type = secret_crypto_religionist }
+				}
+			}
+			scope:mora_character = { 
+                random_secret = {
+                    limit = { secret_type = secret_crypto_religionist }
+                    reveal_to = root
+                }
+			}
+		}
+	}	
+
+	# Already a Mora worshipper
+	option = {
+		name = ek_travel_events_ocean.4040.a
+
+		trigger = { 
+			OR = {
+				faith = { has_doctrine = doctrine_pantheon_hermaeus }
+				secret_faith ?= { has_doctrine = doctrine_pantheon_hermaeus }
+				has_trait = champion_hermaeus													
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Get secret
+	option = { 
+		name = ek_travel_events_ocean.4040.b
+
+		trigger = { 
+			NOR = {
+				faith = { has_doctrine = doctrine_pantheon_hermaeus }
+				secret_faith ?= { has_doctrine = doctrine_pantheon_hermaeus }	
+				has_trait = champion_hermaeus													
+			}
+		}
+
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:hermaeus_cult }
+
+		stress_impact = {			
+			zealous = major_stress_impact_gain
+			craven = minor_stress_impact_loss	
+		}		
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = zealous
+				factor = 0				
+			}
+		}
+	}
+
+	# Take your chances
+	option = { 
+		name = ek_travel_events_ocean.4040.c
+		random_list = {
+			30 = {
+				custom_tooltip = ek_travel_events_ocean.4040.c.success
+					send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events_ocean.4040.c.success
+				}
+			}
+			50 = {
+				custom_tooltip = ek_travel_events_ocean.4040.c.failure
+					send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = ek_travel_events_ocean.4040.c.failure
+					current_travel_plan = {
+						delay_travel_plan = { days = 14 }
+					}
+				}
+			}
+			20 = {
+				custom_tooltip = ek_travel_events_ocean.4040.c.critical_failure
+					send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = ek_travel_events_ocean.4040.c.critical_failure
+					current_travel_plan = {
+						every_entourage_character = {
+							death = { death_reason = death_sea_storm }
+						}
+					}
+					death = { death_reason = death_sea_storm }
+					hidden_effect = { mp_resume_travel_plan = yes }
+				}
+			}
+		}
+
+		stress_impact = {
+			craven = medium_stress_impact_gain
+			zealous = medium_stress_impact_loss	
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = craven
+				factor = 0				
+			}
+		}
+	}
+}
+
+# Danger Event: Maelstrom of Bal
+ek_travel_events_ocean.4045 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_ocean.4045.t
+	desc = ek_travel_events_ocean.4045.desc
+	theme = travel
+
+	#Check if you're in the Inner Sea Region, then use the inner_sea background
+	override_background = {
+		trigger = {
+			location = {
+				is_sea_province = yes
+				geographical_region = sea_inner_sea
+			}
+		}
+		reference = ek_inner_sea
+	}
+	#Otherwise, use the default ocean background
+	override_background = { reference = fp1_ocean }
+	
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = { geographical_region = sea_western_abecean_sea }
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+	}	
+
+	option = { # Bal protects me!
+		name = ek_travel_events_ocean.4045.a
+		
+		trigger = { 
+			OR = {
+				faith = { has_doctrine = doctrine_pantheon_molag }
+				secret_faith ?= { has_doctrine = doctrine_pantheon_molag }
+				has_trait = champion_molag												
+			}
+		}
+
+		add_piety = medium_piety_gain
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Trust your guide leader's judgement
+	option = {
+		name = ek_travel_events_ocean.4045.b
+		current_travel_plan.travel_leader = {
+			duel = {
+				skill = martial
+				value = high_skill_rating
+				50 = { # They manage to navigate out of the maelstrom
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = 0.5
+					}
+					custom_tooltip = ek_travel_events_ocean.4045.success
+					hidden_effect = {
+						root = {
+							send_interface_toast = {
+								title = ek_travel_events_ocean.4045.success
+								left_icon = root
+								add_prestige = 10
+							}
+						}
+					}
+				}
+				50 = { # They mess up and everyone falls into the maelstrom
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = -0.5
+					}
+					custom_tooltip = ek_travel_events_ocean.4045.failure
+					root = {
+						send_interface_toast = {
+							title = ek_travel_events_ocean.4045.failure
+							left_icon = root
+							current_travel_plan = {
+								every_entourage_character = {
+									death = { death_reason = death_maelstrom }
+								}
+							}
+							death = { death_reason = death_maelstrom }
+							hidden_effect = { mp_resume_travel_plan = yes }
+						}
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			arrogant = medium_stress_impact_gain
+			brave = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 20
+			modifier = {
+				factor = 0
+				OR = {
+					has_trait = arrogant
+					has_trait = brave
+				}
+			}
+		}
+	}
+
+	# Take the helm yourself!
+	option = {
+		name = ek_travel_events_ocean.4045.c
+		stress_impact = {
+			arrogant = minor_stress_impact_loss
+			craven = medium_stress_impact_gain
+		}
+		progress_towards_rival_effect = {
+			REASON = rival_upstaged_at_sea
+			CHARACTER = root.current_travel_plan.travel_leader
+			OPINION = default_rival_opinion
+		}
+		duel = {
+			skill = martial
+			value = high_skill_rating
+			50 = { # You manage to navigate out of the maelstrom
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 0.5
+				}
+				custom_tooltip = ek_travel_events_ocean.4045.success
+				send_interface_toast = {
+					title = ek_travel_events_ocean.4045.success
+					left_icon = root
+					add_prestige = medium_prestige_gain
+				}
+			}
+			50 = { # You mess up and everyone falls into the maelstrom
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.5
+				}
+				custom_tooltip = ek_travel_events_ocean.4045.failure
+				send_interface_toast = {
+					title = ek_travel_events_ocean.4045.failure
+					left_icon = root
+					current_travel_plan = {
+						every_entourage_character = {
+							death = { death_reason = death_maelstrom }
+						}
+					}
+					death = { death_reason = death_maelstrom }
+					hidden_effect = { mp_resume_travel_plan = yes }
+				}
+			}
+		}
+		ai_chance = {
+			base = 10
+			modifier = {
+				add = 20
+				has_trait = arrogant
+			}
+			modifier = {
+				factor = 0
+				has_trait = craven
+			}
+		}
+	}
+}
+
+# Danger Event: Pirates! Arrr!
+ek_travel_events_ocean.4050 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_ocean.4050.t
+	desc = ek_travel_events_ocean.4050.desc
+	theme = travel
+
+	#Check if you're in the Inner Sea Region, then use the inner_sea background
+	override_background = {
+		trigger = {
+			location = {
+				is_sea_province = yes
+				geographical_region = sea_inner_sea
+			}
+		}
+		reference = ek_inner_sea
+	}
+	#Otherwise, use the default ocean background
+	override_background = { reference = fp1_ocean }
+	
+	left_portrait = {
+		character = root
+		animation = war_defender
+	}
+
+	right_portrait = {
+		character = scope:pirate_character
+		animation = aggressive_sword
+	}
+
+	cooldown = { years = 2 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = { is_sea_province = yes }
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+		if = {
+			limit = {
+				any_pool_character = {
+					province = root.location
+						is_available_ai_adult = yes
+						has_trait = pirate
+					}
+			}
+			random_pool_character = {
+				province = root.location
+				limit = {
+					is_available_ai_adult = yes
+					has_trait = pirate
+				}
+				save_scope_as = pirate_character
+			}
+		}
+		else = {
+			random_list = {
+				10 = { # Maormer Pirate
+					modifier = { 
+						location = { geographical_region = sea_aldmeric_ocean }
+						add = 90
+					}
+					create_character = {
+						template = pirate_character
+						culture = culture:beyonder
+						faith = faith:mehrunes_cult
+						location = root.location
+						save_scope_as = pirate_character
+					}
+				}
+				10 = { # Yoku Pirate
+					modifier = { 
+						location = { geographical_region = sea_yokudan_sea }
+						add = 90
+					}
+					create_character = {
+						template = pirate_character
+						culture = culture:yokudan
+						faith = faith:satakal
+						location = root.location
+						save_scope_as = pirate_character
+					}
+				}
+				10 = { # Skaal Pirate
+					modifier = { 
+						location = { geographical_region = sea_sea_of_ghosts }
+						add = 90
+					}
+					create_character = {
+						template = pirate_character
+						culture = culture:skaal
+						faith = faith:mehrunes_cult
+						location = root.location
+						save_scope_as = pirate_character
+					}
+				}
+				10 = { # Abecean Pirate
+					modifier = { 
+						location = { geographical_region = sea_abecean_sea }
+						add = 90
+					}
+					create_character = {
+						template = pirate_character
+						culture = culture:abecean
+						faith = faith:tall_papa
+						location = root.location
+						save_scope_as = pirate_character
+					}
+				}
+				10 = { # Argonian Pirate
+					modifier = { 
+						location = { geographical_region = sea_padomaic_ocean }
+						add = 90
+					}
+					create_character = {
+						template = pirate_character
+						culture = culture:naga
+						faith = faith:hist
+						location = root.location
+						save_scope_as = pirate_character
+					}
+				}
+				20 = { # Generic Pirate
+					create_character = {
+						template = pirate_character
+						culture = root.culture
+						faith = root.faith
+						location = root.location
+						save_scope_as = pirate_character
+					}
+				}
+			}
+		}
+	}
+
+	# Hire the pirates
+	option = { 
+		name = ek_travel_events_ocean.4050.a
+		trait = pirate
+
+		trigger = { has_trait = pirate }
+		
+		duel = {
+			skill = diplomacy
+			value = medium_skill_rating
+			50 = {
+				desc = ek_travel_events_ocean.4050.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+				}
+				root = {
+					send_interface_toast = {
+						title = ek_travel_events_ocean.4050.a.success
+						type = event_toast_effect_good
+						left_icon = root
+						right_icon = scope:pirate_character
+						add_courtier = scope:pirate_character
+						root.current_travel_plan = {
+							add_companion = scope:pirate_character
+						}
+					}
+				}
+			}
+			50 = {
+				desc = ek_travel_events_ocean.4050.a.failure
+				compare_modifier = {
+					value = high_skill_rating
+					multiplier = -3.5
+				}
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events_ocean.4050.a.failure
+					left_icon = root
+					right_icon = scope:pirate_character
+					pay_short_term_gold = {
+						target = scope:pirate_character
+						gold = major_gold_value
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			paranoid = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Threaten to sink the pirates
+	option = { 
+		name = ek_travel_events_ocean.4050.b
+		reason = destruction
+
+		trigger = { has_perk = destruction_master_perk }
+
+		stress_impact = {
+			wrathful = medium_stress_impact_loss	
+		}
+
+		ai_chance = {
+			base = 100
+		}	
+	}
+
+	# Pay the pirates
+	option = { 
+		name = ek_travel_events_ocean.4050.c
+		
+		pay_short_term_gold = {
+			target = scope:pirate_character
+			gold = major_gold_value
+		}
+
+		stress_impact = {
+			greedy = major_stress_impact_gain
+			brave = medium_stress_impact_gain
+			craven = medium_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 10
+		}
+	}
+
+	# Fight the pirates
+	option = { 
+		name = ek_travel_events_ocean.4050.d
+		
+		duel = {
+			skill = prowess
+			value = high_skill_rating
+			50 = {
+				desc = ek_travel_events_ocean.4050.d.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+				}
+				root = {
+					send_interface_toast = {
+						title = ek_travel_events_ocean.4050.d.success
+						type = event_toast_effect_good
+						left_icon = root
+						right_icon = scope:pirate_character
+						add_prestige = medium_prestige_gain
+					}
+				}
+			}
+			30 = {
+				desc = ek_travel_events_ocean.4050.d.failure
+				compare_modifier = {
+					value = high_skill_rating
+					multiplier = -3.5
+				}
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events_ocean.4050.d.failure
+					left_icon = root
+					right_icon = scope:pirate_character
+					increase_wounds_effect = { REASON = pirates }
+					pay_short_term_gold = {
+						target = scope:pirate_character
+						gold = major_gold_value
+					}
+				}
+			}
+			20 = {
+				desc = ek_travel_events_ocean.4050.d.critical_failure
+				compare_modifier = {
+					value = high_skill_rating
+					multiplier = -3.5
+				}
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_travel_events_ocean.4050.d.critical_failure
+					left_icon = root
+					right_icon = scope:pirate_character
+					death = { death_reason = death_pirates }
+					pay_short_term_gold = {
+						target = scope:pirate_character
+						gold = major_gold_value
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			craven = major_stress_impact_gain
+			greedy = medium_stress_impact_loss
+			brave = medium_stress_impact_loss			
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				prowess >= high_skill_rating
+				add = 40
+			}
+			modifier = {
+				has_trait = craven
+				factor = 0				
+			}
+		}
+	}
+}
+
+############################
+## Travel Ocean Province Events
+## 8000-9999
+############################
+
+# To See My Systres
+ek_travel_events_ocean.8005 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_ocean.8005.t
+	desc = ek_travel_events_ocean.8005.desc
+	theme = travel
+	
+	left_portrait = {
+		character = root
+		animation = personality_content
+	}
+
+	#Check if you're in the Inner Sea Region, then use the inner_sea background
+	override_background = {
+		trigger = {
+			location = {
+				is_sea_province = yes
+				geographical_region = sea_inner_sea
+			}
+		}
+		reference = ek_inner_sea
+	}
+	#Otherwise, use the default ocean background
+	override_background = { reference = fp1_ocean }
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = province:778 #Systres Sea
+	}
+
+	immediate = {
+		play_music_cue = mx_cue_travel_arrival
+	}
+
+	option = { # just chill
+		name = ek_travel_events_ocean.8005.a
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+		stress_impact = {
+			base = medium_stress_impact_loss
+		}
+	}
+
+	option = { # no thanks
+		name = ek_travel_events_ocean.8005.b
+		current_travel_plan = {
+			add_destination_progress = { days = 5 }
+		}
+	}
+}
+
+# On Artaeum
+ek_travel_events_ocean.8000 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_ocean.8000.t
+	desc = ek_travel_events_ocean.8000.desc
+	theme = travel
+
+	#Check if you're in the Inner Sea Region, then use the inner_sea background
+	override_background = {
+		trigger = {
+			location = {
+				is_sea_province = yes
+				geographical_region = sea_inner_sea
+			}
+		}
+		reference = ek_inner_sea
+	}
+	#Otherwise, use the default ocean background
+	override_background = { reference = fp1_ocean }
+	
+	left_portrait = {
+		character = root
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = province:1947 #Sea of Lost Artaeum
+	}
+
+	immediate = {
+		play_music_cue = mx_cue_travel_arrival
+	}
+
+	option = { # very cool
+		name = ek_travel_events_ocean.8000.a
+		skill = learning
+		add_learning_lifestyle_xp = medium_lifestyle_xp
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}
+
+	option = { # very cool
+		name = ek_travel_events_ocean.8000.b
+		add_magic_lifestyle_xp = medium_lifestyle_xp
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}
+
+	option = { # just go
+		name = ek_travel_events_ocean.8000.c
+	}
+}

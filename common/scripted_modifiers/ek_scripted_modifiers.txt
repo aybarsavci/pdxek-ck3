@@ -1,0 +1,1525 @@
+﻿# Ek EDIT: Added ontent for the arcane clash
+
+crown_verity_judgement_modifier = {
+	modifier = { #Heir is unable to sire another heir.
+		add = -50
+		NOT = {
+			any_child = {
+				is_alive = yes
+			}
+		}
+		OR = {
+			has_trait = celibate
+			has_trait = eunuch
+			has_trait = infertile
+			has_trait = incapable
+		}
+	}
+	#Sexism
+	modifier = { #Gender weights
+		OR = {
+			primary_title = { #Title might have different law than realm's.
+			has_title_law = male_preference_law
+			}
+			AND = { #If title has neither the required law nor its opposites, check for realm law.
+				has_realm_law = male_preference_law
+				primary_title = {
+					NOR = {
+						has_title_law = female_preference_law
+						has_title_law = equal_law
+					}
+				}
+			}
+			faith = { has_doctrine = doctrine_gender_male_dominated }
+		}
+		is_female = yes
+		add = {
+			subtract = 100
+			if = { #Increase if both.
+				limit = {
+					OR = {
+						primary_title = { #Title might have different law than realm's.
+							has_title_law = male_preference_law
+						}
+						AND = { #If title has neither the required law nor its opposites, check for realm law.
+							has_realm_law = male_preference_law
+								primary_title = {
+								NOR = {
+									has_title_law = female_preference_law
+									has_title_law = equal_law
+								}
+							}
+						}
+					}
+					faith = { has_doctrine = doctrine_gender_male_dominated }
+				}
+				multiply = 1.5
+			}
+		}
+	}
+	modifier = { #Gender weights
+		OR = {
+			primary_title = { #Title might have different law than realm's.
+				has_title_law = female_preference_law
+			}
+			AND = { #If title has neither the required law nor its opposites, check for realm law.
+				has_realm_law = female_preference_law
+				primary_title = {
+					NOR = {
+						has_title_law = male_preference_law
+						has_title_law = equal_law
+					}
+				}
+			}
+			faith = { has_doctrine = doctrine_gender_female_dominated }
+		}
+		is_female = no
+		add = {
+			subtract = 100
+			if = { #Increase if both.
+				limit = {
+					OR = {
+						primary_title = { #Title might have different law than realm's.
+							has_title_law = female_preference_law
+						}
+						AND = { #If title has neither the required law nor its opposites, check for realm law.
+							has_realm_law = female_preference_law
+							primary_title = {
+								NOR = {
+									has_title_law = male_preference_law
+									has_title_law = equal_law
+								}
+							}
+						}
+					}
+					faith = { has_doctrine = doctrine_gender_female_dominated }
+				}
+				multiply = 1.5
+			}
+		}
+	}
+	#Ageism
+	modifier = {
+		add = -30
+		ek_human_age_equivalent < 5
+	}
+	modifier = { #Still too young for older rulers
+		add = -10
+		ek_human_age_equivalent > 16
+		ek_human_age_equivalent < 25
+	}
+	modifier = { #Or simply too old overall.
+		add = -15
+		ek_human_age_equivalent > 50
+	}
+	#Culturism
+	modifier = {
+		primary_title.culture = culture
+		add = 20
+	}
+	modifier = {
+		NOT = { culture = primary_title.culture }
+		culture = { has_same_culture_heritage = primary_title.culture }
+		add = {
+			subtract = 3
+		}
+	}
+	modifier = { #Candidate is a foreigner's pet
+		NOT = { this.culture = primary_title.culture }
+		culture = { has_same_culture_heritage = primary_title.culture }
+		this.culture = primary_title.culture
+		add = {
+			subtract = 20
+		}
+	}
+	#modifier = { #If candidate is elected, he will rule from a capital outside this de jure.
+	#	is_landed = yes
+	#	exists = capital_county
+	#	capital_county = { primary_title = { is_de_jure_liege_or_above_target = prev } }
+	#	OR = { # If the current holder is reigning from within the title, there is no reason to believe a lower tier candidate would not.
+	#		capital_county = {
+	#			primary_title = {
+	#				NOT = { is_de_jure_liege_or_above_target = prev }
+	#			}
+	#		}
+	#	}
+	#	add = {
+	#		subtract = 30
+	#	}
+	#}
+	# Borked modifier, commented for now, relevant coders are invited to fix this. - He9
+	# error: Invalid scope types for event target link, link: primary_title 
+
+	#Educational preferences
+	modifier = { # Warrior society prefers warriors
+		this_is_martial_society_trigger = yes
+		martial >= 10
+		OR = {
+			has_trait = education_martial
+			has_lifestyle = martial_lifestyle
+			has_trait = lifestyle_blademaster
+			has_martial_lifestyle_trait_trigger = yes
+		}
+		add = 30
+	}
+	modifier = { # Diplomatic society prefers stewards and diplomats
+		add = 15
+		this_is_diplomatic_society_trigger = yes
+		OR = {
+			AND = {
+				diplomacy >= 10
+				OR = {
+					has_trait = education_diplomacy
+					has_lifestyle = diplomacy_lifestyle
+					has_diplomacy_lifestyle_trait_trigger = yes
+					has_trait = lifestyle_reveler
+					has_trait = gallant
+				}
+			}
+			AND = {
+				stewardship >= 10
+				OR = {
+					has_trait = education_stewardship
+					has_lifestyle = stewardship_lifestyle
+					has_stewardship_lifestyle_trait_trigger = yes
+				}
+			}
+		}
+	}
+	modifier = { # Spiritual society prefers scholars
+		add = 15
+		this_is_spiritual_society_trigger = yes
+		learning >= 10
+		OR = {
+			has_trait = education_learning
+			has_lifestyle = learning_lifestyle
+			has_learning_lifestyle_trait_trigger = yes
+			has_trait = lifestyle_mystic
+			has_trait = lifestyle_physician
+		}
+	}
+	#Prestige
+	modifier = {
+		add = -10
+		prestige_level < 1
+	}
+	modifier = {
+		add = {
+			value = prestige_level
+			subtract = 1
+			multiply = 5
+		}
+		prestige_level >= 2
+	}
+	#Dynasty Prestige
+	modifier = {
+		add = {
+			value = 20
+			if = {
+				limit = {
+					dynasty = { dynasty_prestige_level >= 10 }
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					dynasty = { dynasty_prestige_level >= 7 }
+				}
+				add = 20
+			}
+		}
+		dynasty = {
+			dynasty_prestige_level >= 4
+		}
+	}
+	#Piety
+	modifier = { #More extreme for Moot Elective
+		add = {
+			value = piety_level
+			subtract = 1
+			multiply = 10
+		}
+		piety_level >= 2
+	}
+	modifier = {
+		num_sinful_traits >= 1
+		add = {
+			subtract = 10
+			if = { #Check specific number...
+				limit = {
+					num_sinful_traits >= 2
+				}
+				subtract = 10
+			}
+			if = { #Check specific number...
+				limit = {
+					num_sinful_traits >= 3
+				}
+				subtract = 10
+			}
+			if = { #Check specific number...
+				limit = {
+					num_sinful_traits >= 4
+				}
+				subtract = 10
+			}
+			if = { #Check specific number...
+				limit = {
+					num_sinful_traits >= 5
+				}
+				subtract = 10
+			}
+		}
+	}
+	modifier = {
+		num_virtuous_traits >= 1
+		add = {
+			add = 10
+			if = { #Check specific number...
+				limit = {
+					num_virtuous_traits >= 2
+				}
+				add = 10
+			}
+			if = { #Check specific number...
+				limit = {
+					num_virtuous_traits >= 3
+				}
+				add = 10
+			}
+			if = { #Check specific number...
+				limit = {
+					num_virtuous_traits >= 4
+				}
+				add = 10
+			}
+			if = { #Check specific number...
+				limit = {
+					num_virtuous_traits >= 5
+				}
+				add = 10
+			}
+		}
+	}
+	#Excommunication
+	modifier = {
+		faith = { has_doctrine_parameter = excommunication_active }
+		has_trait = excommunicated
+		add = {
+			subtract = 50
+		}
+	}
+	#Illegitimate children (excepting the children of consorts, which filter separately)
+	modifier = {
+		NOT = {
+			faith = { has_doctrine = doctrine_bastardry_none }
+		}
+		OR = {
+			has_trait = bastard
+			has_trait = legitimized_bastard
+			has_trait = wild_oat
+		}
+		add = {
+			subtract = 15
+			if = { #Religious gradients.
+				limit = {
+					faith = { has_doctrine = doctrine_bastardry_legitimization }
+				}
+				subtract = 10
+			}
+			if = { #Religious gradients.
+				limit = {
+					faith = { has_doctrine = doctrine_bastardry_all }
+				}
+				subtract = 15
+			}
+		}
+	}
+	#Children of Consorts
+	modifier = {
+		NOR = {
+			allowed_concubines = yes
+			faith = { has_doctrine = doctrine_bastardry_none } #Unlikely to be fussed about such kids
+		}
+		has_trait = child_of_concubine
+		add = {
+			subtract = 15
+			if = { #Religious gradients.
+				limit = {
+					faith = { has_doctrine = doctrine_bastardry_legitimization }
+				}
+				subtract = 10
+			}
+			if = { #Religious gradients.
+				limit = {
+					faith = { has_doctrine = doctrine_bastardry_all }
+				}
+				subtract = 15
+			}
+		}
+	}
+	#Sodomy Crime
+	modifier = {
+		faith = { has_doctrine = doctrine_homosexuality_accepted }
+		has_trait = sodomite
+		add = {
+			subtract = 15
+			if = { #Religious gradients.
+				limit = {
+					faith = { has_doctrine = doctrine_homosexuality_shunned }
+				}
+				subtract = 10
+			}
+			else_if = { #Religious gradients.
+				limit = {
+					faith = { has_doctrine = doctrine_homosexuality_crime }
+				}
+				subtract = 15
+			}
+		}
+	}
+	#Kinslayer Crime
+	modifier = {
+		NOT = {
+			faith = { has_doctrine = doctrine_kinslaying_accepted }
+		}
+		has_trait = kinslayer
+		add = {
+			value = 0
+			if = { #Check specific trait, multiply depending on religious doctrine.
+				limit = {
+					has_trait = kinslayer_1
+				}
+				subtract = 10
+				if = {
+					limit = {
+						faith = { has_doctrine = doctrine_kinslaying_any_dynasty_member_crime }
+					}
+					multiply = 2
+				}
+			}
+			else_if = {
+				limit = {
+					has_trait = kinslayer_2
+				}
+				subtract = 15
+				if = {
+					limit = {
+						faith = {
+							OR = {
+								has_doctrine = doctrine_kinslaying_any_dynasty_member_crime
+								has_doctrine = doctrine_kinslaying_extended_family_crime
+							}
+						}
+					}
+					multiply = 2
+				}
+			}
+			else_if = {
+				limit = {
+					has_trait = kinslayer_3
+				}
+				subtract = 20
+				if = {
+					limit = {
+						faith = {
+							OR = {
+								has_doctrine = doctrine_kinslaying_any_dynasty_member_crime
+								has_doctrine = doctrine_kinslaying_extended_family_crime
+								has_doctrine = doctrine_kinslaying_close_kin_crime
+							}
+						}
+					}
+					multiply = 2
+				}
+			}
+		}
+	}
+	#Deviancy
+	modifier = {
+		NOT = {
+			faith = { has_doctrine = doctrine_deviancy_accepted }
+		}
+		has_trait = deviant
+		add = {
+			subtract = 15
+			if = {
+				limit = {
+					faith = { has_doctrine = doctrine_deviancy_shunned }
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					faith = { has_doctrine_parameter = deviancy_illegal }
+				}
+				subtract = 15
+			}
+		}
+	}
+	#Cannibalism
+	modifier = {
+		NOT = {
+			faith = { has_doctrine_parameter = cannibalism_legal }
+		}
+		has_trait = cannibal
+		add = {
+			subtract = 30
+		}
+	}
+	#Incest
+	modifier = {
+		NOT = {
+			faith = { has_doctrine = doctrine_consanguinity_unrestricted }
+		}
+		has_trait = incestuous
+		add = {
+			subtract = 25
+		}
+	}
+	#Adultery - males
+	modifier = {
+		NOT = {
+			faith = { has_doctrine = doctrine_adultery_men_accepted }
+		}
+		has_trait = adulterer
+		is_female = no
+		add = {
+			subtract = 15
+			if = {
+				limit = {
+					faith = { has_doctrine = doctrine_adultery_men_shunned }
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					faith = { has_doctrine = doctrine_adultery_men_crime }
+				}
+				subtract = 15
+			}
+		}
+	}
+	#Adultery - females
+	modifier = {
+		NOT = {
+			faith = { has_doctrine = doctrine_adultery_women_accepted }
+		}
+		has_trait = adulterer
+		is_female = yes
+		add = {
+			subtract = 15
+			if = {
+				limit = {
+					faith = { has_doctrine = doctrine_adultery_women_shunned }
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					faith = { has_doctrine = doctrine_adultery_women_crime }
+				}
+				subtract = 15
+			}
+		}
+	}
+	#Special cases (ex. deformities, disfigured for Byzantines)
+	modifier = {
+		add = -35
+		this_is_martial_society_trigger = no
+		has_trait = incapable
+	}
+	modifier = {
+		this_is_martial_society_trigger = yes
+		has_trait = incapable
+		add = {
+			subtract = 50
+		}
+	}
+	modifier = {
+		add = -15
+		this_is_diplomatic_society_trigger = no
+		has_trait = infirm
+	}
+	modifier = {
+		add = -30
+		this_is_diplomatic_society_trigger = yes
+		has_trait = infirm
+	}
+	modifier = {
+		this_is_martial_society_trigger = no
+		NOT = { culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance } }
+		has_trait = disfigured
+		add = -15
+	}
+	modifier = {
+		culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance }
+		has_trait = disfigured
+		add = -100
+	}
+	modifier = {
+		this_is_martial_society_trigger = yes
+		has_trait = disfigured
+		add = {
+			subtract = 5
+			if = {
+				limit = { culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance } }
+				subtract = 45
+			}
+		}
+	}
+	modifier = {
+		add = -10
+		this_is_martial_society_trigger = no
+		has_trait = maimed
+	}
+	modifier = {
+		this_is_martial_society_trigger = yes
+		has_trait = maimed
+		add = {
+			subtract = 15
+		}
+	}
+	modifier = {
+		culture = { has_cultural_parameter = children_can_be_born_in_the_purple }
+		has_trait = born_in_the_purple
+		add = 50
+	}
+	modifier = {
+		OR = {
+			this_is_diplomatic_society_trigger = yes
+			this_is_spiritual_society_trigger = yes
+		}
+		OR = {
+			has_trait = intellect_good
+			has_trait = shrewd
+		}
+		add = {
+			value = 10
+			if = {
+				limit = {
+					has_trait = intellect_good_1
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					OR = {
+						has_trait = intellect_good_2
+						has_trait = shrewd
+					}
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_trait = intellect_good_3
+				}
+				add = 15
+			}
+		}
+	}
+	modifier = {
+		NOR = {
+			this_is_diplomatic_society_trigger = yes
+			this_is_spiritual_society_trigger = yes
+		}
+		OR = {
+			has_trait = intellect_good
+			has_trait = shrewd
+		}
+		add = {
+			value = 0
+			if = {
+				limit = {
+					has_trait = intellect_good_1
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					OR = {
+						has_trait = intellect_good_2
+						has_trait = shrewd
+					}
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_trait = intellect_good_3
+				}
+				add = 15
+			}
+		}
+	}
+	modifier = {
+		this_is_martial_society_trigger = no
+		OR = {
+			has_trait = physique_good
+			has_trait = strong
+		}
+		add = {
+			value = 0
+			if = {
+				limit = {
+					has_trait = physique_good_1
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					OR = {
+						has_trait = strong
+						has_trait = physique_good_2
+					}
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_trait = physique_good_3
+				}
+				add = 15
+			}
+		}
+	}
+	modifier = {
+		this_is_martial_society_trigger = yes
+		OR = {
+			has_trait = physique_good
+			has_trait = strong
+		}
+		add = {
+			value = 10
+			if = {
+				limit = {
+					has_trait = physique_good_1
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					OR = {
+						has_trait = strong
+						has_trait = physique_good_2
+					}
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					has_trait = physique_good_3
+				}
+				add = 15
+			}
+		}
+	}
+	modifier = {
+		this_is_diplomatic_society_trigger = no
+		OR = {
+			has_trait = intellect_bad
+			has_trait = dull
+		}
+		add = {
+			value = 0
+			if = {
+				limit = {
+					has_trait = intellect_bad_1
+				}
+				subtract = 5
+			}
+			if = {
+				limit = {
+					OR = {
+						has_trait = intellect_bad_2
+						has_trait = dull
+					}
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_trait = intellect_bad_3
+				}
+				subtract = 15
+			}
+		}
+	}
+	modifier = {
+		this_is_diplomatic_society_trigger = yes
+		OR = {
+			has_trait = intellect_bad
+			has_trait = dull
+		}
+		add = {
+			subtract = 10
+			if = {
+				limit = {
+					has_trait = intellect_bad_1
+				}
+				subtract = 5
+			}
+			if = {
+				limit = {
+					OR = {
+						has_trait = intellect_bad_2
+						has_trait = dull
+					}
+				}
+				subtract = 10
+			}
+			if = {
+				limit = {
+					has_trait = intellect_bad_3
+				}
+				subtract = 15
+			}
+		}
+	}
+	modifier = {
+		has_trait = clubfooted
+		add = {
+			subtract = 5
+			if = {
+				limit = { culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance } }
+				subtract = 10
+			}
+		}
+	}
+	modifier = {
+		this_is_martial_society_trigger = no
+		has_trait = dwarf
+		add = {
+			subtract = 15
+			if = {
+				limit = { culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance } }
+				subtract = 20
+			}
+		}
+	}
+	modifier = {
+		this_is_martial_society_trigger = yes
+		has_trait = dwarf
+		add = {
+			subtract = 30
+			if = {
+				limit = { culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance } }
+				subtract = 30
+			}
+		}
+	}
+	modifier = {
+		this_is_martial_society_trigger = no
+		has_trait = hunchbacked
+		add = {
+			subtract = 15
+			if = {
+				limit = { culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance } }
+				subtract = 30
+			}
+		}
+	}
+	modifier = {
+		this_is_martial_society_trigger = yes
+		has_trait = hunchbacked
+		add = {
+			subtract = 30
+			if = {
+				limit = { culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance } }
+				subtract = 30
+			}
+		}
+	}
+	modifier = {
+		OR = {
+			has_trait = inbred
+			has_trait = spindly
+			has_trait = scaly
+			has_trait = albino
+			has_trait = wheezing
+			has_trait = bleeder
+		}
+		add = {
+			subtract = 15
+			if = {
+				limit = { culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance } }
+				subtract = 60
+			}
+		}
+	}
+	modifier = {
+		has_trait = lisping
+		add = {
+			subtract = 5
+			if = {
+				limit = { culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance } }
+				subtract = 10
+			}
+		}
+	}
+	modifier = {
+		add = -5
+		has_trait = stuttering
+	}
+	modifier = { #Shunned for being Evil
+		add = -25
+		has_personality_malicious_trigger = yes
+	}
+	modifier = { #Shunned for being a lunatic
+		add = -15
+		has_trait = lunatic
+	}
+	modifier = { #Shunned for being possessed
+		add = -15
+		has_trait = possessed
+	}
+	modifier = { #Praised for being possessed
+		add = 35
+		faith = { has_doctrine_parameter = spirit_possession_active }
+		has_trait = possessed
+	}
+	modifier = { #Praised for being Pilgrim
+		add = 10
+		has_trait = pilgrim
+	}
+	modifier = { #Praised for being Crusader
+		add = 10
+		has_trait = faith_warrior
+	}
+	modifier = { #Praised for being Adventurer
+		add = 10
+		this_is_martial_society_trigger = yes
+		has_trait = adventurer
+	}
+	modifier = { #Shunned for being Adventurer
+		add = -10
+		this_is_martial_society_trigger = no
+		has_trait = adventurer
+	}
+	modifier = { #Praised for being Berserker
+		add = 5
+		this_is_martial_society_trigger = yes
+		has_trait = berserker
+	}
+	modifier = { #Shunned for being Berserker
+		add = -20
+		this_is_martial_society_trigger = no
+		has_trait = berserker
+	}
+	modifier = { #Shunned for being blind
+		this_is_martial_society_trigger = no
+		has_trait = blind
+		add = {
+			subtract = 10
+			if = {
+				limit = { culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance } }
+				subtract = 140
+			}
+		}
+	}
+	modifier = { #Shunned for being blind
+		this_is_martial_society_trigger = yes
+		has_trait = blind
+		add = {
+			subtract = 20
+			if = {
+				limit = { culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance } }
+				subtract = 130
+			}
+		}
+	}
+	modifier = { #Shunned for being eunuch
+		this_is_martial_society_trigger = no
+		NOR = {
+			culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance }
+		}
+		has_trait = eunuch
+		add = -25
+	}
+	modifier = { #Shunned for being eunuch
+		this_is_martial_society_trigger = yes
+		NOR = {
+			culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance }
+		}
+		has_trait = eunuch
+		add = -50
+	}
+	modifier = { #Shunned for being eunuch
+		OR = {
+			culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance }
+		}
+		has_trait = eunuch
+		add = -150
+	}
+	modifier = { #Praised for being Giant
+		add = 10
+		this_is_martial_society_trigger = yes
+		has_trait = giant
+	}
+	modifier = { #Shunned for being Giant
+		add = -10
+		this_is_martial_society_trigger = no
+		has_trait = giant
+	}
+	modifier = { #Martial score
+		prowess >= 10
+		add = {
+			value = 5
+			if = {
+				limit = {
+					prowess > 12
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					prowess > 16
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					prowess > 18
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					prowess > 20
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					prowess > 25
+				}
+				add = 5
+			}
+			if = {
+				limit = {
+					prowess > 30
+				}
+				add = 5
+			}
+		}
+	}
+	modifier = { #Electors favour a "Nordic" personality
+		add = 15
+		OR = {
+			has_trait = brave
+			has_trait = honest
+			has_trait = just
+		}
+	}
+	modifier = { #Electors dislike someone who doesn't fit Nordic ideals
+		add = -20
+		OR = {
+			has_trait = sadistic
+			has_trait = arbitrary
+			has_trait = craven
+		}
+	}
+}
+
+ek_county_create_faction_score = {
+	compare_modifier = {
+		value = county_control
+		multiplier = -1.5
+	}
+	compare_modifier = {
+		value = development_level
+		multiplier = -2.0
+	}
+	# Reduced weight for a character's own capital to join a revolt against them.
+	modifier = {
+		add = -50
+		this.title_province = county.holder.capital_province
+	}
+	legalism_virtue_and_sin_modifier = {
+		TARGET = scope:target
+		SCORE_PER_TRAIT = 10 # Worth 10 opinion per virtue.
+	}
+	# Difficulty Settings
+	modifier = { # Easy
+		add = -50
+		has_game_rule = easy_difficulty
+		scope:target = {
+			is_ai = no
+		}
+	}
+	modifier = { # Very Easy
+		add = -150
+		has_game_rule = very_easy_difficulty
+		scope:target = {
+			is_ai = no
+		}
+	}
+	
+	# Realm Stability Settings
+	modifier = {
+		add = 25
+		has_game_rule = lesser_realm_stability
+	}
+	modifier = {
+		add = -50
+		has_game_rule = higher_realm_stability
+	}
+	modifier = {
+		add = -100
+		has_game_rule = extreme_realm_stability
+	}
+
+	# More likely during a war
+	modifier = { 
+		add = 25
+		county.holder = { is_at_war = yes }
+	}
+	# less likely if there is a protecting top liege
+	modifier = { 
+		add = -100
+		NOT = { county.holder = county.holder.top_liege }
+	}
+	# a legitimate ruler is less likely to get a crisis
+	modifier = { 
+		add = 10
+		county.holder = { legitimacy_level = 0 }
+	}
+	modifier = { 
+		add = -10
+		county.holder = { legitimacy_level = 1 }
+	}
+	modifier = { 
+		add = -20
+		county.holder = { legitimacy_level = 2 }
+	}
+	modifier = { 
+		add = -30
+		county.holder = { legitimacy_level = 3 }
+	}
+	modifier = { 
+		add = -40
+		county.holder = { legitimacy_level = 4 }
+	}
+	modifier = { 
+		add = -50
+		county.holder = { legitimacy_level = 5 }
+	}
+	modifier = { 
+		add = -60
+		county.holder = { legitimacy_level = 6 }
+	}
+}
+
+ek_county_join_faction_score = {
+	compare_modifier = {
+		value = county_opinion
+		multiplier = -1.0
+	}
+	compare_modifier = {
+		value = development_level
+		multiplier = -1.0
+	}	
+	# Reduced weight for a character's own capital to join a revolt against them.
+	modifier = {
+		add = -50
+		this.title_province = scope:faction.faction_target.capital_province
+	}
+	# Difficulty Settings
+	modifier = { # Easy
+		add = -50
+		has_game_rule = easy_difficulty
+		scope:faction.faction_target = {
+			is_ai = no
+		}
+	}
+	modifier = { # Very Easy
+		add = -150
+		has_game_rule = very_easy_difficulty
+		scope:faction.faction_target = {
+			is_ai = no
+		}
+	}
+	# Realm Stability Settings
+	modifier = {
+		add = 25
+		has_game_rule = lesser_realm_stability
+	}
+	modifier = {
+		add = -50
+		has_game_rule = higher_realm_stability
+	}
+	modifier = {
+		add = -100
+		has_game_rule = extreme_realm_stability
+	}
+	modifier = {
+		add = 100
+		has_county_modifier = county_corruption_peryite_rampant_modifier
+	}
+}
+
+ai_mages_modifier = {
+	modifier = {
+		add = stationed_maa_bonus
+		has_stationed_regiment_of_base_type = mages
+	}
+	modifier = { # If the holder has a preference for the MaA
+		add = likes_maa_value
+		scope:holder = {
+			highest_held_title_tier >= tier_county
+			culture = {	culture_has_mage_maa = yes }
+		}
+	}
+	modifier = { # If the holder really likes the MaA type and is suited for it
+		add = really_likes_maa_value
+		scope:holder = {
+			highest_held_title_tier >= tier_county
+			max_number_maa_soldiers_of_base_type = {
+				type = mages
+				value >= 400
+			}
+		}
+	}
+	modifier = { # If the holder doesn't care for the MaA type
+		add = dislikes_maa_value
+		scope:holder = {
+			highest_held_title_tier >= tier_county
+			OR = {
+				number_maa_regiments_of_base_type = {
+					type = mages
+					value <= 0
+				}
+			}
+		}
+	}
+}
+
+ai_spellblades_modifier = {
+	modifier = {
+		add = stationed_maa_bonus
+		has_stationed_regiment_of_base_type = spellblades
+	}
+	modifier = { # If the holder has a preference for the MaA
+		add = likes_maa_value
+		scope:holder = {
+			highest_held_title_tier >= tier_county
+			culture = { culture_has_spellblades_maa  = yes }
+		}
+	}
+	modifier = { # If the holder really likes the MaA type and is suited for it
+		add = really_likes_maa_value
+		scope:holder = {
+			highest_held_title_tier >= tier_county
+			max_number_maa_soldiers_of_base_type = {
+				type = spellblades
+				value >= 400
+			}
+		}
+	}
+	modifier = { # If the holder doesn't care for the MaA type
+		add = dislikes_maa_value
+		scope:holder = {
+			highest_held_title_tier >= tier_county
+			OR = {
+				number_maa_regiments_of_base_type = {
+					type = spellblades
+					value <= 0
+				}
+			}
+		}
+	}
+}
+
+# Tournament Stuff
+tournament_magic_contest_trait_pivotal_modifier = {
+	modifier = {
+		involved_activity = {
+			has_current_phase = tournament_phase_arcane_clash
+		}
+		has_trait = tourney_participant
+		has_trait_xp = {
+			trait = tourney_participant
+			track = magic
+			value > 0
+		}
+		add = 2.5
+	}
+	modifier = {
+		involved_activity = {
+			has_current_phase = tournament_phase_arcane_clash
+		}
+		has_trait = tourney_participant
+		has_trait_xp = {
+			trait = tourney_participant
+			track = magic
+			value >= 25
+		}
+		add = 2.5
+	}
+	modifier = {
+		involved_activity = {
+			has_current_phase = tournament_phase_arcane_clash
+		}
+		has_trait = tourney_participant
+		has_trait_xp = {
+			trait = tourney_participant
+			track = magic
+			value >= 50
+		}
+		add = 2.5
+	}
+	modifier = {
+		involved_activity = {
+			has_current_phase = tournament_phase_arcane_clash
+		}
+		has_trait = tourney_participant
+		has_trait_xp = {
+			trait = tourney_participant
+			track = magic
+			value >= 75
+		}
+		add = 2.5
+	}
+}
+
+# AI Magic modifiers
+ai_necromancy_magic_modifier = {
+	modifier = { 
+        has_perk = necromancy_apprentice_perk
+        add = 50
+    }                
+    modifier = { 
+        has_perk = necromancy_journeyman_perk
+        add = 50
+    }
+    modifier = { 
+        has_perk = necromancy_expert_perk
+        add = 50
+    }
+    modifier = { 
+        has_perk = necromancy_master_perk
+        add = 50
+    } 
+	modifier = {
+        faith = { has_doctrine = tenet_necromancy_worship }
+        add = 50
+    }
+    modifier = {
+        has_trait = lich_character
+        add = 100
+    }
+	modifier = {
+		has_character_flag = focus_necromancy
+		factor = 2
+	}
+}
+
+ai_alteration_magic_modifier = {
+	modifier = { 
+        has_perk = alteration_apprentice_perk
+        add = 10
+    }                
+    modifier = { 
+        has_perk = alteration_journeyman_perk
+        add = 10
+    }
+    modifier = { 
+        has_perk = alteration_expert_perk
+        add = 10
+    }
+    modifier = { 
+        has_perk = alteration_master_perk
+        add = 10
+    }	
+    modifier = {
+        has_trait = education_stewardship
+        add = 10
+    }
+	modifier = {
+		has_character_flag = focus_alteration
+		factor = 2
+	} 
+}
+
+ai_conjuration_magic_modifier = {
+	modifier = { 
+        has_perk = conjuration_apprentice_perk
+        add = 10
+    }                
+    modifier = { 
+        has_perk = conjuration_journeyman_perk
+        add = 10
+    }
+    modifier = { 
+        has_perk = conjuration_expert_perk
+        add = 10
+	}
+    modifier = { 
+        has_perk = conjuration_master_perk
+        add = 10
+    }	  
+    modifier = {
+        has_trait = education_diplomacy
+        add = 10
+    }
+	modifier = {
+		has_character_flag = focus_conjuration
+		factor = 2
+	}
+}
+
+ai_destruction_magic_modifier = {
+	modifier = { 
+        has_perk = destruction_apprentice_perk
+        add = 10
+    }                
+    modifier = { 
+        has_perk = destruction_journeyman_perk
+        add = 10
+    }
+    modifier = { 
+        has_perk = destruction_expert_perk
+        add = 10
+    }
+    modifier = { 
+        has_perk = destruction_master_perk
+        add = 10
+    }	 
+    modifier = {
+        has_trait = education_martial
+        add = 10
+    }
+	modifier = {
+		has_character_flag = focus_destruction
+		factor = 2
+	} 
+}
+
+ai_illusion_magic_modifier = {
+	modifier = { 
+        has_perk = illusion_apprentice_perk
+        add = 10
+    }                
+    modifier = { 
+        has_perk = illusion_journeyman_perk
+        add = 10
+    }
+    modifier = { 
+        has_perk = illusion_expert_perk
+        add = 10
+    }
+    modifier = { 
+        has_perk = illusion_master_perk
+        add = 10
+    }	 
+    modifier = {
+        has_trait = education_intrigue
+        add = 10
+    }
+	modifier = {
+		has_character_flag = focus_illusion
+		factor = 2
+	} 
+}
+
+ai_restoration_magic_modifier = {
+	modifier = { 
+        has_perk = restoration_apprentice_perk
+        add = 10
+    }                
+    modifier = { 
+        has_perk = restoration_journeyman_perk
+        add = 10
+    }
+    modifier = { 
+        has_perk = restoration_expert_perk
+        add = 10
+    }
+    modifier = { 
+        has_perk = restoration_master_perk
+        add = 10
+    } 	
+    modifier = {
+        has_trait = education_learning
+        add = 10
+    }
+	modifier = {
+		has_character_flag = focus_restoration
+		factor = 2
+	}
+}
+
+ai_special_building_modifier = {
+    # Fill all building slots before going for special buildings
+    modifier = { 
+		factor = 0
+		free_building_slots > 0
+	}
+	# Don't build during an epidemic
+	modifier = {
+		factor = 0
+		any_province_epidemic = {
+			count >= 1
+		}
+	}
+}
+
+hist_communion_success_chance = {
+	modifier = {
+		num_virtuous_traits = 1
+		add = 10
+	}
+	modifier = {
+		num_virtuous_traits = 2
+		add = 20
+	}
+	modifier = {
+		num_virtuous_traits >= 3
+		add = 30
+	}
+	modifier = {
+		num_sinful_traits = 1
+		add = -10
+	}
+	modifier = {
+		num_sinful_traits = 2
+		add = -20
+	}
+	modifier = {
+		num_sinful_traits >= 3
+		add = -30
+	}
+	modifier = {
+		location = { has_building = hist_03 }
+		add = 10
+	}
+	modifier = {
+		location = { has_building = hist_04 }
+		add = 20
+	}
+	modifier = {
+		location = { has_building = hist_05 }
+		add = 30
+	}
+	modifier = {
+		faith = { has_doctrine = tenet_sunhist }
+		add = arcana
+	}
+	modifier = {
+		faith = { has_doctrine = tenet_amberhist }
+		add = prowess
+	}
+	modifier = {
+		faith = { has_doctrine = tenet_ghosthist }
+		add = intrigue
+	}
+	modifier = {	
+		NOR = { 
+			faith = { has_doctrine = tenet_ghosthist }
+			faith = { has_doctrine = tenet_sunhist }
+			faith = { has_doctrine = tenet_amberhist }
+		}
+		add = learning
+	}
+}

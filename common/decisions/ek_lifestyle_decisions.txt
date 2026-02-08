@@ -1,0 +1,236 @@
+﻿### Commune with a loved one
+commune_with_loved_one_best_friend_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_personal_religious.dds" }
+
+	desc = commune_with_loved_one_best_friend_decision_desc
+	selection_tooltip = commune_with_loved_one_best_friend_decision_tooltip
+
+	is_shown = {
+		OR = {
+			# has_perk = soul_release_perk
+			culture = { has_cultural_parameter = commune_with_departed_soul }
+		}	
+		has_variable = best_friend_to_commune
+	}
+
+	is_valid = {
+	}
+
+	is_valid_showing_failures_only = {
+
+	}
+
+	effect = {
+		custom_tooltip = commune_with_loved_one_best_friend_tooltip
+		trigger_event = ek_lifestyles.0002
+	}
+
+	ai_check_interval = 36
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+commune_with_loved_one_soulmate_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_personal_religious.dds" }
+
+	desc = commune_with_loved_one_soulmate_decision_desc
+	selection_tooltip = commune_with_loved_one_soulmate_decision_tooltip
+
+	is_shown = {
+		OR = {
+			#has_perk = soul_release_perk
+			culture = { has_cultural_parameter = commune_with_departed_soul }
+		}	
+		has_variable = soulmate_to_commune
+	}
+
+	is_valid = {
+	}
+
+	is_valid_showing_failures_only = {
+
+	}
+
+	effect = {
+		custom_tooltip = commune_with_loved_one_soulmate_tooltip
+		trigger_event = ek_lifestyles.0003
+	}
+
+	ai_check_interval = 36
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+use_extra_perk_decision = {
+	decision_group_type = major
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_misc.dds" }
+
+	desc = use_extra_perk_decision_desc
+	selection_tooltip = use_extra_perk_decision_tooltip
+
+	is_shown = {
+		OR = {
+			AND = {
+				has_perk = diplomat_perk
+				has_perk = august_perk
+				has_perk = family_man_perk
+				diplomacy_lifestyle_perk_points > 0
+			}
+			AND = {
+				has_perk = schemer_perk
+				has_perk = seducer_perk
+				has_perk = torturer_perk
+				has_perk = crimeboss_perk
+				intrigue_lifestyle_perk_points > 0
+			}
+			AND = {
+				has_perk = whole_of_body_perk
+				has_perk = scholar_perk
+				has_perk = theologian_perk
+				learning_lifestyle_perk_points > 0
+			}
+			AND = {
+				has_perk = strategist_perk
+				has_perk = overseer_perk
+				has_perk = gallant_perk
+				has_perk = plunderer_perk
+				martial_lifestyle_perk_points > 0
+			}
+			AND = {
+				has_perk = avaricious_perk
+				has_perk = architect_perk
+				has_perk = administrator_perk
+				stewardship_lifestyle_perk_points > 0
+			}
+			AND = {
+				has_perk = surveyor_perk
+				has_perk = wayfarer_perk
+				has_perk = voyager_perk
+				wanderer_lifestyle_perk_points > 0
+			}
+			AND = {
+				has_perk = conjuration_master_perk
+				has_perk = destruction_master_perk
+				has_perk = alteration_master_perk
+				has_perk = illusion_master_perk
+				has_perk = restoration_master_perk
+				magic_lifestyle_perk_points > 0
+			}
+			AND = {
+				has_perk = necromancy_master_perk
+				dark_arts_lifestyle_perk_points > 0
+			}
+		}	
+	}
+
+	is_valid = {
+		OR = {
+			AND = {
+				custom_tooltip = {
+					text = diplomacy_all_perks
+					has_perk = diplomat_perk
+					has_perk = august_perk
+					has_perk = family_man_perk
+				}
+				custom_tooltip = diplomacy_extra_perk_points
+			}
+			AND = {
+				custom_tooltip = {
+					text = intrigue_all_perks
+					has_perk = schemer_perk
+					has_perk = seducer_perk
+					has_perk = torturer_perk
+					has_perk = crimeboss_perk
+				}
+				custom_tooltip = intrigue_extra_perk_points
+			}
+			AND = {
+				custom_tooltip = {
+					text = learning_all_perks
+					has_perk = whole_of_body_perk
+					has_perk = scholar_perk
+					has_perk = theologian_perk
+				}
+				custom_tooltip = learning_extra_perk_points
+			}
+			AND = {
+				custom_tooltip = {
+					text = martial_all_perks
+					has_perk = strategist_perk
+					has_perk = overseer_perk
+					has_perk = gallant_perk
+					has_perk = plunderer_perk
+				}
+				custom_tooltip = martial_extra_perk_points
+			}
+			AND = {
+				custom_tooltip = {
+					text = stewardship_all_perks
+					has_perk = avaricious_perk
+					has_perk = architect_perk
+					has_perk = administrator_perk
+				}
+				custom_tooltip = stewardship_extra_perk_points
+			}
+			AND = {
+				custom_tooltip = {
+					text = wanderer_all_perks
+					has_perk = surveyor_perk
+					has_perk = wayfarer_perk
+					has_perk = voyager_perk
+				}
+				custom_tooltip = wanderer_extra_perk_points
+			}
+			AND = {
+				custom_tooltip = {
+					text = magic_all_perks
+					has_perk = conjuration_master_perk
+					has_perk = destruction_master_perk
+					has_perk = alteration_master_perk
+					has_perk = illusion_master_perk
+					has_perk = restoration_master_perk
+				}
+				custom_tooltip = magic_extra_perk_points
+			}
+			AND = {
+				custom_tooltip = {
+					text = dark_arts_all_perks
+					has_perk = necromancy_master_perk
+				}
+				custom_tooltip = dark_arts_extra_perk_points
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+        is_capable_adult = yes
+        is_available = yes
+        is_imprisoned = no
+	}
+
+	effect = {
+		custom_tooltip = use_extra_perk_decision_tooltip
+		trigger_event = ek_lifestyles.0050
+	}
+
+	ai_check_interval = 36
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}

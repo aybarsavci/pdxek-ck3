@@ -1,0 +1,31 @@
+pdxmesh = {
+	name = "building_gahjulan_city_01_mesh"
+	file = "building_gahjulan_city_01.mesh"
+	scale = 1.0
+
+	meshsettings = {
+		name = "city_01_LOD0"
+		index = 0
+		texture_diffuse = "building_gahjulan_atlas_diffuse.dds"
+		texture_normal = "building_gahjulan_atlas_normal.dds"
+		texture_specular = "building_gahjulan_atlas_properties.dds"
+		texture = { file = "building_gahjulan_city_01_unique.dds" index = 5 }
+		shader = "snap_to_terrain_atlas"
+		shader_file = "gfx/FX/pdxmesh.shader"
+	}
+	meshsettings = {
+		name = "citydecal01"
+		index = 0
+		texture_diffuse = "building_dunmer_city_01_decal_diffuse.dds"
+		texture_normal = "building_mena_city_01_decal_normal.dds"
+		texture_specular = "building_mena_city_01_decal_properties.dds"
+		shader = "decal_local"
+		shader_file = "gfx/FX/pdxmesh_decal.shader"
+		subpass = "LocalDecals"
+	}
+}
+
+entity = {
+	name = "building_gahjulan_city_01_entity"
+	pdxmesh = "building_gahjulan_city_01_mesh"
+}

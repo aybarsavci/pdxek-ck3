@@ -1,0 +1,639 @@
+﻿namespace = central_tamriel
+
+### Cyrodiil
+
+
+#Split of Cyrodiil
+central_tamriel.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = central_tamriel.0001.t
+	
+	desc = central_tamriel.0001.desc
+	
+	theme = diplomacy_foreign_affairs_focus
+
+	override_background = { reference = cyrodiil_white_gold }
+	
+	left_portrait = {
+		character = title:e_colovian_estates.holder
+		animation = personality_rational
+	}
+	
+	right_portrait = {
+		character = title:e_nibenay.holder
+		animation = personality_rational
+	}
+	
+	immediate = {
+		title:e_colovian_estates.holder = { save_scope_as = ce_holder }
+		title:e_nibenay.holder = { save_scope_as = cn_holder }
+		character:reman_100 = { save_scope_as = reman_cyrodiil }
+	}
+
+	option = {
+		name = central_tamriel.0001.a
+		
+		custom_tooltip = accept_colovia_nibenay_divide_decision.colovia_vassals.tt
+		custom_tooltip = accept_colovia_nibenay_divide_decision.nibenay_vassals.tt
+		custom_tooltip = accept_colovia_nibenay_divide_decision.create_de_jure_empires.tt
+		custom_tooltip = accept_colovia_nibenay_divide_decision.reunite_cyrodiil.tt
+	}
+}
+
+# Colovia and Nibenay held by the same person
+# Did Colovia inherit the other part, or the opposite?
+# Was it by war, inheritance, or other?
+central_tamriel.0002 = {
+	type = character_event
+	content_source = dlc_ek
+	title = central_tamriel.0002.t
+	desc = central_tamriel.0002.desc
+	
+	theme = diplomacy_foreign_affairs_focus
+
+	override_background = { reference = cyrodiil_white_gold }
+	
+	right_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	
+	immediate = {		
+		root = { save_scope_as = new_emperor }
+	
+		every_player = { 
+			limit = { NOT = { this = root } }
+			trigger_event = {
+				days = 5 
+				id = central_tamriel.0003
+			}
+		}
+	}
+
+	option = {
+		name = central_tamriel.0002.a
+	}
+}
+
+# Event to inform player of Cyrodiil being united
+central_tamriel.0003 = {
+	type = character_event
+	content_source = dlc_ek
+	title = central_tamriel.0003.t
+	desc = central_tamriel.0003.desc
+	
+	theme = diplomacy_foreign_affairs_focus
+
+	override_background = { reference = cyrodiil_white_gold }
+	
+	right_portrait = {
+		character = title:e_cyrodiil.holder
+		animation = personality_rational
+	}
+
+	option = {
+		name = central_tamriel.0003.a
+	}
+}
+
+# If nobody held any of the major cyrodiilic titles for x years, e_cyrodiil will de_jure split
+#Triggered via title_on_action
+central_tamriel.0004 = {
+	hidden = yes
+	orphan = yes # Disabled for now, causes several issues
+
+	trigger = {
+		OR = {
+			title:e_cyrodiil = {
+				NOT = {
+					any_in_de_jure_hierarchy = {
+						NOT = { this = title:e_cyrodiil }
+						
+						exists = this
+					}
+				}
+			}
+			title:e_cyrodiilic_potentate = {
+				NOT = {
+					any_in_de_jure_hierarchy = {
+						NOT = { this = title:e_cyrodiilic_potentate }
+						
+						exists = this
+					}
+				}
+			}
+		}
+		#was e_cyrodiil last held over 500 years ago? - could happen in 2E 500 at the earliest
+		#EK TODO: check history whenever the longhouse emps take over, then make a switch here so it only takes 50 years destroyed after that point in history
+		title:e_cyrodiil = {
+			NOT = { recent_history = { type = destroyed years = 500 } }
+		}
+		#was e_cyrodiilic_potentate last held over 50 years ago? - could happen in 2E 498 at the earliest
+		title:e_cyrodiilic_potentate = {
+			NOT = { recent_history = { type = destroyed years = 50 } }
+		}
+	}
+
+	immediate = {
+		#do the split
+		hidden_effect = {
+			break_up_cyrodiil_scripted_effect = yes
+
+			#tell every player the tragedy of empire of cyrodiil the great
+			every_player = {
+				trigger_event = central_tamriel.0005 
+			} 
+		}
+	}
+}
+
+#telling the player
+central_tamriel.0005 = {
+	type = character_event
+	content_source = dlc_ek
+	title = central_tamriel.0005.t
+
+	desc = central_tamriel.0005.desc
+	
+	immediate = {
+		#save some stuff as scopes for loc ref
+		character:reman_100 = { save_scope_as = reman_cyrodiil }
+		character:alessian_100 = { save_scope_as = alessia_alessia }
+		title:e_nibenay = { save_scope_as = nibenay }
+		title:e_colovian_estates = { save_scope_as = colovia }
+		title:e_cyrodiil = { save_scope_as = cyrodiil }
+		
+		show_as_tooltip = {
+			# Break up Cyrodiil!
+			# e_colovian_estates get Colovia
+			title:k_anvil = { set_de_jure_liege_title = title:e_colovian_estates }
+			title:k_kvatch = { set_de_jure_liege_title = title:e_colovian_estates }
+			title:k_skingrad = { set_de_jure_liege_title = title:e_colovian_estates }
+			title:k_chorrol = { set_de_jure_liege_title = title:e_colovian_estates }
+			title:k_bruma = { set_de_jure_liege_title = title:e_colovian_estates }
+
+			# e_nibenay gets the Nibenay + the Imperial Isle
+			title:k_heartlands = { set_de_jure_liege_title = title:e_nibenay }
+			title:k_cheydinhal = { set_de_jure_liege_title = title:e_nibenay }
+			title:k_nibenay = { set_de_jure_liege_title = title:e_nibenay }
+			title:k_bravil = { set_de_jure_liege_title = title:e_nibenay }
+			title:k_leyawiin = { set_de_jure_liege_title = title:e_nibenay }
+			
+			# Since Nibenay gets the IC, we set it as its capital (assuming it doesn't exist)
+			title:e_nibenay = { set_capital_county = title:c_imperial_city }
+		}
+	}
+
+	theme = war
+
+	override_background = { reference = cyrodiil_white_gold }
+
+	option = {
+		name = central_tamriel.0005.a
+
+		custom_tooltip = central_tamriel.explanation.tt
+	}
+}
+
+# Event to inform players that a Warlord Emperor has risen in Cyrodiil
+central_tamriel.0006 = {
+	type = character_event
+	content_source = dlc_ek
+	title = central_tamriel.0006.t
+	desc = central_tamriel.0006.desc
+	theme = realm
+
+	override_background = { reference = cyrodiil_white_gold }
+
+	right_portrait = {
+		character = scope:founder
+		animation = war_attacker
+	}
+
+	immediate = {
+		#Empires get rivalry music.
+		if = {
+			limit = { highest_held_title_tier = tier_empire }
+			play_music_cue = "mx_cue_combat_2"
+		}
+	}
+
+	option = {
+		name = { # Cyrodiilic option
+			trigger = { 
+				capital_province = { geographical_region = mundus_tamriel_cyrodiil }
+			}
+			text = central_tamriel.0006a
+		}
+
+		name = { # Others
+			text = central_tamriel.0006b
+		}
+	}
+}
+
+# Restoration of Nenalata events
+namespace = nenalata_restore
+nenalata_restore.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = nenalata_restore.0001.t
+	desc = nenalata_restore.0001.desc
+
+	theme = realm
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	immediate = {
+		character:dynar_1000 = { save_scope_as = laloriaran_dynar }
+	}
+	option = { #Begin the restoration effort!
+		name = nenalata_restore.0001.option
+		title:c_nenalata = {
+			add_county_modifier = {
+				modifier = ayleid_ruin_excavation
+				days = 3650
+				}
+		}		
+		#hinting at further events
+		flavor = nenalata_restore.0001.option.flavor
+		trigger_event = { #the first further event, trigger 1-2 years after.
+			id = nenalata_restore.0002 
+			months = { 12 24 }
+		}
+		trigger_event = { #the second further event, trigger 1-2 years after the first.
+			id = nenalata_restore.0003 
+			months = { 36 48 }
+		}
+	}	
+}	
+
+# Faith of Nenalata
+nenalata_restore.0002 = {
+	type = character_event
+	content_source = dlc_ek
+	title = nenalata_restore.0002.t
+	desc = nenalata_restore.0002.desc
+
+	theme = faith
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+	trigger = { # Can't already be Ilpenada otherwise the event makes little sense
+		NOT = {
+			faith = faith:ilpenada
+		}
+	}
+	option = { #Embrace the Ten Ancestors
+		name = nenalata_restore.0002.option1
+		set_character_faith_with_conversion = faith:ilpenada
+		trigger = { # Can't be Zealous
+			NOT = {
+				has_trait = zealous
+			}
+		}
+		show_as_unavailable = { #show players why they can't pick this option
+			has_trait = zealous
+		}
+	}
+	option = { #Embrace Meridia specifically
+		name = nenalata_restore.0002.option2
+		set_character_faith_with_conversion = faith:meridia_cult
+		trigger = { # Can't be Zealous
+			NOT = {
+				has_trait = zealous
+				faith = faith:meridia_cult
+			}
+		}
+		show_as_unavailable = { #show players why they can't pick this option
+			has_trait = zealous
+		}
+	}
+	option = { #Embrace Meridia but in secret
+		name = nenalata_restore.0002.option3
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:meridia_cult}
+		trigger = {
+			# You can't be allowed to openly worship Meridia
+			can_secretly_worship_meridia = yes
+		}	
+		show_as_unavailable = { #show players why they can't pick this option
+			OR = {
+				has_trait = zealous
+			}	
+		}
+	}	
+	option = { #Scholars study religious texts
+		name = nenalata_restore.0002.option4
+		add_piety = medium_piety_loss
+		add_learning_skill  = 1
+		add_learning_lifestyle_xp = 500
+		trigger = { #only available when Cynical or Scholar
+			OR = {
+				has_trait = cynical
+				has_trait = scholar
+			}
+		}	
+	}
+	option = { #Begone Daedra
+		name = nenalata_restore.0002.option5
+		add_piety = medium_piety_gain
+		stress_impact = {
+			zealous = major_stress_impact_loss
+		}
+	}
+}
+
+# A Visiting Collector
+nenalata_restore.0003 = {
+	type = character_event
+	content_source = dlc_ek
+	title = nenalata_restore.0003.t
+	desc = nenalata_restore.0003.desc
+	
+	theme = realm
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	right_portrait = {
+		character = scope:altmer_collector
+		animation = scheme
+	}
+	immediate = {
+		create_character = {
+			age = { 100 200 }
+			dynasty = none
+			gender_female_chance = 50
+			faith = faith:auriel
+			culture = culture:alinor
+			trait = lifespan_3
+			trait = greedy
+			trait = deceitful
+			trait = cynical
+			trait = scholar
+			location = root.capital_province
+			#EK EDIT
+			after_creation = {
+				ek_character_setup_effect = yes
+			}
+			#EK EDIT END
+			save_scope_as = altmer_collector			
+		}
+		scope:altmer_collector = { visit_court_of = root }
+	}
+	option = { #Yes, I'll buy the Crown
+		name = nenalata_restore.0003.option1
+		#you gain the Crown of Nenalata
+		create_artifact_crown_nenalata_effect = { OWNER = ROOT }
+		#through honest means
+		remove_short_term_gold = 300
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+			deceitful = minor_stress_impact_gain
+			generous = medium_stress_impact_loss
+			honest = medium_stress_impact_loss	
+		}	
+		trigger_event = {
+			id = nenalata_restore.0004
+			days = 7 
+		}	 
+		flavor = nenalata_restore.0003.option.flavor
+	}	
+	option = { #Yes, I'll TAKE the Crown
+		name = nenalata_restore.0003.option2	
+		#you gain the Crown of Nenalata
+		create_artifact_crown_nenalata_effect = { OWNER = ROOT }
+		#by murdering the collector!
+		scope:altmer_collector = { 
+			death = {
+				killer = root 
+				death_reason = death_murder
+			}	
+		}	
+		#this is a terrible thing to do
+		add_dread = medium_dread_gain
+		add_tyranny = medium_tyranny_gain
+		#fun with stress impact setup
+		stress_impact = {
+			generous = medium_stress_impact_gain
+			just = medium_stress_impact_gain
+			compassionate = major_stress_impact_gain
+			honest = medium_stress_impact_gain
+			greedy = medium_stress_impact_loss
+			arbitrary = minor_stress_impact_loss
+			sadistic = major_stress_impact_loss
+			callous = medium_stress_impact_loss
+			arrogant = medium_stress_impact_loss
+		}	
+		trigger_event = {
+			id = nenalata_restore.0004
+			days = 7 
+		}	
+		flavor = nenalata_restore.0003.option.flavor
+	}
+	option = { #Begone with your trinket // End of event chain
+		name = nenalata_restore.0003.option3
+		stress_impact = {
+			content = major_stress_impact_loss
+			lazy = medium_stress_impact_loss
+			ambitious = medium_stress_impact_gain
+		}
+	}
+}
+
+# The Crown of Nenalata
+nenalata_restore.0004 = {
+	type = character_event
+	content_source = dlc_ek
+	title = nenalata_restore.0004.t
+	desc = nenalata_restore.0004.desc
+	
+	theme = crown
+	left_portrait = {
+		character = root
+		animation = idle
+	}	
+	immediate = {
+		character:dynar_1000 = { save_scope_as = laloriaran_dynar }
+	}	
+	option = { #Let's wear it!
+		name = nenalata_restore.0004.option
+		flavor = nenalata_restore.0004.option.flavor
+		trigger_event = nenalata_restore.0005
+	}
+}
+# King of Nenalata - possession!
+nenalata_restore.0005 = {
+	type = character_event
+	content_source = dlc_ek
+	title = nenalata_restore.0005.t
+	desc = nenalata_restore.0005.desc
+	
+	theme = mental_break
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+	right_portrait = {
+		character = scope:ayleid_lich
+		animation = rage
+	}	
+	immediate = {
+		create_character = {
+			age = 3056 
+			dynasty = none
+			location = root.capital_province
+			save_scope_as = ayleid_lich
+			gender_female_chance = 0
+			faith = faith:ilpenada 
+			culture = culture:ayleid
+			trait = callous
+			trait = ambitious
+			trait = patient
+			trait = lich_character
+			trait = p_ob_molag #to ensure it doesn't spawn as Meridia I guess
+			random_traits_list = {
+				count = 1
+				education_learning_2 = {}
+				education_learning_3 = {}
+				education_learning_4 = {}
+				education_martial_2 = {}
+				education_martial_3 = {}
+				education_martial_4 = {}
+				education_intrigue_2 = {}
+				education_intrigue_3 = {}
+				education_intrigue_4 = {}
+			}
+			random_traits_list = {
+				count = 1 
+				education_magic_2 = {}
+				education_magic_3 = {}
+			}
+			after_creation = {
+				add_character_flag = fleshy_undead
+				ek_character_setup_effect = yes
+			}
+		}	
+	}	
+	option = { #Oh no, I am being possessed!
+		name = nenalata_restore.0005.option1
+		flavor = nenalata_restore.0005.option1.flavor
+		trigger_event = nenalata_restore.0006
+		
+	}
+	option = { #No, I will resist him!
+		name = nenalata_restore.0005.option2
+		flavor = nenalata_restore.0005.option2.flavor
+		add_internal_flag = special
+		trigger = { #available to powerful sorcerers
+				has_arcana = { VALUE = 16 }
+		}
+		trigger_event = nenalata_restore.0007
+	}
+}
+# King of Nenalata - defeated
+nenalata_restore.0006 = {
+	type = character_event
+	content_source = dlc_ek
+	title = nenalata_restore.0006.t
+	desc = nenalata_restore.0006.desc
+	
+	theme = secret
+	left_portrait = {
+		character = root
+		animation = paranoia
+	}
+	lower_right_portrait = {
+		character = scope:ayleid_lich
+	}		
+	#Possession in this case also involves losing your own personality traits
+	immediate = {
+		hidden_effect = {
+			remove_trait = brave
+			remove_trait = craven
+			remove_trait = calm
+			remove_trait = wrathful
+			remove_trait = chaste
+			remove_trait = lustful
+			remove_trait = content
+			remove_trait = diligent
+			remove_trait = lazy
+			remove_trait = fickle
+			remove_trait = stubborn
+			remove_trait = forgiving
+			remove_trait = vengeful
+			remove_trait = generous
+			remove_trait = greedy
+			remove_trait = gregarious
+			remove_trait = shy
+			remove_trait = honest
+			remove_trait = deceitful
+			remove_trait = humble
+			remove_trait = arrogant
+			remove_trait = just
+			remove_trait = arbitrary
+			remove_trait = impatient
+			remove_trait = temperate
+			remove_trait = gluttonous
+			remove_trait = trusting
+			remove_trait = paranoid
+			remove_trait = zealous
+			remove_trait = cynical
+			remove_trait = compassionate
+			remove_trait = sadistic	
+		}
+	}	
+	option = { #//End of event chain
+		name = nenalata_restore.0006.option
+		flavor = nenalata_restore.0006.option.flavor
+		give_nickname = nick_the_restorer
+		add_trait = possessed_1
+		add_trait = ambitious
+		add_trait = callous
+		add_trait = patient
+		add_stress = 100
+		add_prestige = 1000
+		add_piety = 500
+		#yeets the lich NPC, would probably be best not to have him wandering about
+		hidden_effect = {
+			scope:ayleid_lich = { 
+				death = {
+					death_reason = death_disappearance
+				}	
+			}
+		}
+	}	
+}	
+
+# King of Nenalata - victorious
+nenalata_restore.0007 = {
+	type = character_event
+	content_source = dlc_ek
+	title = nenalata_restore.0007.t
+	desc = nenalata_restore.0007.desc
+	
+	theme = recovery
+	left_portrait = {
+		character = root
+		animation = war_over_win
+	}
+	option = { #//End of event chain
+		name = nenalata_restore.0007.option
+		flavor = nenalata_restore.0007.option.flavor
+		give_nickname = nick_the_restorer
+		add_prestige = 1000
+		add_piety = 500
+		#yeets the lich NPC, would probably be best not to have him wandering about
+		hidden_effect = {
+			scope:ayleid_lich = { 
+				death = {
+					death_reason = death_disappearance
+				}	
+			}
+		}	
+	}	
+}

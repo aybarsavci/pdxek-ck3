@@ -1,0 +1,1426 @@
+﻿#Effects used in animal events
+
+
+#####################################################################
+# EFFECT LIST
+#####################################################################
+# !!! Remember to add all new effects here !!!
+#
+
+# PARROT
+#start_parrot_story_cycle_effect
+#assign_name_options_parrot_story_cycle_effect
+#assign_parrot_gender_effect
+#assign_parrot_plumage_color_effect
+#remove_parrot_story_modifiers_effect
+
+# SCORPION
+#start_scorpion_story_cycle_effect
+#assign_name_options_scorpion_story_cycle_effect
+#assign_scorpion_gender_effect
+#assign_scorpion_color_effect
+#remove_scorpion_story_modifiers_effect
+
+# SCRIB
+#start_scrib_story_cycle_effect
+#assign_name_options_scrib_story_cycle_effect
+#assign_scrib_gender_effect
+#assign_scrib_color_effect
+#remove_scrib_story_modifiers_effect
+
+# BANTAM GUAR
+#start_bantam_story_cycle_effect
+#assign_name_options_bantam_story_cycle_effect
+#assign_bantam_gender_effect
+#assign_bantam_color_effect
+#remove_bantam_story_modifiers_effect
+
+# VVARDVARK
+#start_vvardvark_story_cycle_effect
+#assign_name_options_vvardvark_story_cycle_effect
+#assign_vvardvark_gender_effect
+#assign_vvardvark_color_effect
+#remove_vvardvark_story_modifiers_effect
+
+# MUDCRAB
+#start_mudcrab_story_cycle_effect
+#assign_name_options_mudcrab_story_cycle_effect
+#assign_mudcrab_gender_effect
+#assign_mudcrab_color_effect
+#remove_mudcrab_story_modifiers_effect
+
+# SKEEVER
+#start_skeever_story_cycle_effect
+#assign_name_options_skeever_story_cycle_effect
+#assign_skeever_gender_effect
+#assign_skeever_color_effect
+#remove_skeever_story_modifiers_effect
+
+######################################################################
+# EFFECTS
+######################################################################
+
+########
+# PARROT
+########
+
+#Effect to start the story and show the right modifier
+start_parrot_story_cycle_effect = {
+	show_as_tooltip = {
+		add_character_modifier = {
+			modifier = parrot_story_modifier
+		}
+	}
+	hidden_effect = {
+		create_story = story_cycle_pet_parrot
+	}
+}
+
+#Pick out name options to show
+assign_name_options_parrot_story_cycle_effect = {
+	random_list = {
+		10 = { # Parrot shown in Redguard
+			trigger = { NOT = { has_character_flag = name_orsone } }
+			add_character_flag = name_orsone
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_coco } }
+			add_character_flag = name_coco
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_abby } }
+			add_character_flag = name_abby
+		}
+		10 = {
+			trigger = {
+				NOT = { has_character_flag = name_flint } 
+				scope:story.var:parrot_plumage_color = flag:red
+				scope:story.var:parrot_gender = flag:male
+			}
+			add_character_flag = name_flint
+		}
+	}
+}
+
+#Assign the gender of the parrot
+assign_parrot_gender_effect = {
+	save_temporary_scope_value_as = {
+		name = gender
+		value = flag:$GENDER$
+	}
+	if = {
+		limit = { scope:gender = flag:random }
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = parrot_gender
+						value = flag:female
+					}
+				}
+				50 = {
+					set_variable = {
+						name = parrot_gender
+						value = flag:male
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:gender = flag:male
+				scope:gender = flag:female
+			}
+		}
+		set_variable = {
+			name = parrot_gender
+			value = flag:$GENDER$
+		}
+	}
+}
+
+#Assign the plumage-color of the parrot
+assign_parrot_plumage_color_effect = {
+	save_temporary_scope_value_as = {
+		name = plumage_color
+		value = flag:$COLOR$
+	}
+	if = {
+		limit = { scope:plumage_color = flag:random }
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = parrot_plumage_color
+						value = flag:red
+					}
+				}
+				50 = {
+					set_variable = {
+						name = parrot_plumage_color
+						value = flag:green
+					}
+				}
+				50 = {
+					set_variable = {
+						name = parrot_plumage_color
+						value = flag:blue
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:plumage_color = flag:red
+				scope:plumage_color = flag:green
+				scope:plumage_color = flag:blue
+			}
+		}
+		set_variable = {
+			name = parrot_plumage_color
+			value = flag:$COLOR$
+		}
+	}
+}
+
+#Remove everything related to the story
+remove_parrot_story_modifiers_effect = {
+	if = {
+		limit = {
+			has_character_modifier = parrot_story_modifier
+		}
+		remove_character_modifier = parrot_story_modifier
+	}
+	if = {
+		limit = {
+			has_character_modifier = parrot_story_eating_fruit_modifier
+		}
+		remove_character_modifier = parrot_story_eating_fruit_modifier
+	}
+	if = {
+		limit = {
+			has_character_modifier = parrot_story_fighting_with_you_modifier
+		}
+		remove_character_modifier = parrot_story_fighting_with_you_modifier
+	}
+}
+
+remove_parrot_name_effect = {
+	remove_variable = story_cycle_parrot_name
+	remove_localized_text = story_cycle_parrot_name
+}
+
+########
+# SCORPION
+########
+
+#Effect to start the story and show the right modifier
+start_scorpion_story_cycle_effect = {
+	show_as_tooltip = {
+		add_character_modifier = {
+			modifier = scorpion_story_modifier
+		}
+	}
+	hidden_effect = {
+		create_story = story_cycle_pet_scorpion
+	}
+}
+
+#Pick out name options to show
+assign_name_options_scorpion_story_cycle_effect = {
+	random_list = {
+		10 = { # Rihad Coffee Scorpion
+			trigger = { 
+				NOT = { has_character_flag = name_kaveh } 
+				scope:story.var:scorpion_color = flag:coffee
+			}
+			add_character_flag = name_kaveh
+		}
+		10 = { # Cerulean Scorpion
+			trigger = { 
+				NOT = { has_character_flag = name_clamper } 
+				scope:story.var:scorpion_color = flag:cerulean
+			}
+			add_character_flag = name_clamper
+		}
+		10 = { # Red Scorpion
+			trigger = { 
+				NOT = { has_character_flag = name_stinger } 
+				scope:story.var:scorpion_color = flag:red
+			}
+			add_character_flag = name_stinger
+		}
+		10 = { # Fullerton's toy scorpion
+			trigger = { 
+				NOT = { has_character_flag = name_kopyo } 
+				scope:story.var:scorpion_color = flag:brown
+			}
+			add_character_flag = name_kopyo
+		}
+	}
+}
+
+#Assign the gender of the scorpion
+assign_scorpion_gender_effect = {
+	save_temporary_scope_value_as = {
+		name = gender
+		value = flag:$GENDER$
+	}
+	if = {
+		limit = { scope:gender = flag:random }
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = scorpion_gender
+						value = flag:female
+					}
+				}
+				50 = {
+					set_variable = {
+						name = scorpion_gender
+						value = flag:male
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:gender = flag:male
+				scope:gender = flag:female
+			}
+		}
+		set_variable = {
+			name = scorpion_gender
+			value = flag:$GENDER$
+		}
+	}
+}
+
+#Assign the color of the scorpion
+assign_scorpion_color_effect = {
+	save_temporary_scope_value_as = {
+		name = color
+		value = flag:$COLOR$
+	}
+	if = {
+		limit = { scope:color = flag:random }
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = scorpion_color
+						value = flag:coffee
+					}
+				}
+				50 = {
+					set_variable = {
+						name = scorpion_color
+						value = flag:red
+					}
+				}
+				50 = {
+					set_variable = {
+						name = scorpion_color
+						value = flag:cerulean
+					}
+				}
+				50 = {
+					set_variable = {
+						name = scorpion_color
+						value = flag:brown
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:color = flag:coffee
+				scope:color = flag:red
+				scope:color = flag:cerulean
+				scope:color = flag:brown
+			}
+		}
+		set_variable = {
+			name = scorpion_color
+			value = flag:$COLOR$
+		}
+	}
+}
+
+#Remove everything related to the story
+remove_scorpion_story_modifiers_effect = {
+	if = {
+		limit = {
+			has_character_modifier = scorpion_story_modifier
+		}
+		remove_character_modifier = scorpion_story_modifier
+	}
+	if = {
+		limit = {
+			has_character_modifier = scorpion_story_observing_modifier
+		}
+		remove_character_modifier = scorpion_story_observing_modifier
+	}
+	if = {
+		limit = {
+			has_character_modifier = scorpion_story_fighting_with_you_modifier
+		}
+		remove_character_modifier = scorpion_story_fighting_with_you_modifier
+	}
+}
+
+remove_scorpion_name_effect = {
+	remove_variable = story_cycle_scorpion_name
+	remove_localized_text = story_cycle_scorpion_name
+}
+
+########
+# SCRIB
+########
+
+#Effect to start the story and show the right modifier
+start_scrib_story_cycle_effect = {
+	show_as_tooltip = {
+		add_character_modifier = {
+			modifier = scrib_story_modifier
+		}
+	}
+	hidden_effect = {
+		create_story = story_cycle_pet_scrib
+	}
+}
+
+#Pick out name options to show
+assign_name_options_scrib_story_cycle_effect = {
+	random_list = {
+		10 = { # Crony Scrib
+			trigger = { 
+				NOT = { has_character_flag = name_grubchum } 
+			}
+			add_character_flag = name_grubchum
+		}
+		10 = { # Frisky Scrib
+			trigger = { 
+				NOT = { has_character_flag = name_larvie } 
+			}
+			add_character_flag = name_larvie
+		}
+		10 = { # Bert
+			trigger = { 
+				NOT = { has_character_flag = name_bert } 
+				scope:story.var:scrib_color = flag:yellow
+				scope:story.var:scrib_gender = flag:male
+			}
+			add_character_flag = name_bert
+		}
+		10 = { # Ernie
+			trigger = { 
+				NOT = { has_character_flag = name_ernie } 
+				scope:story.var:scrib_color = flag:orange
+				scope:story.var:scrib_gender = flag:male
+			}
+			add_character_flag = name_ernie
+		}
+		10 = { # Brave
+			trigger = { 
+				NOT = { has_character_flag = name_brave } 
+			}
+			add_character_flag = name_brave
+		}
+	}
+}
+
+#Assign the gender of the scrib
+assign_scrib_gender_effect = {
+	save_temporary_scope_value_as = {
+		name = gender
+		value = flag:$GENDER$
+	}
+	if = {
+		limit = { scope:gender = flag:random }
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = scrib_gender
+						value = flag:female
+					}
+				}
+				50 = {
+					set_variable = {
+						name = scrib_gender
+						value = flag:male
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:gender = flag:male
+				scope:gender = flag:female
+			}
+		}
+		set_variable = {
+			name = scrib_gender
+			value = flag:$GENDER$
+		}
+	}
+}
+
+#Assign the color of the scrib
+assign_scrib_color_effect = {
+	save_temporary_scope_value_as = {
+		name = color
+		value = flag:$COLOR$
+	}
+	if = {
+		limit = { scope:color = flag:random }
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = scrib_color
+						value = flag:blue
+					}
+				}
+				50 = {
+					set_variable = {
+						name = scrib_color
+						value = flag:black
+					}
+				}
+				100 = {
+					set_variable = {
+						name = scrib_color
+						value = flag:caramel
+					}
+				}
+				100 = {
+					set_variable = {
+						name = scrib_color
+						value = flag:yellow
+					}
+				}
+				100 = {
+					set_variable = {
+						name = scrib_color
+						value = flag:orange
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:color = flag:blue
+				scope:color = flag:black
+				scope:color = flag:caramel
+				scope:color = flag:yellow
+				scope:color = flag:orange
+			}
+		}
+		set_variable = {
+			name = scrib_color
+			value = flag:$COLOR$
+		}
+	}
+}
+
+#Remove everything related to the story
+remove_scrib_story_modifiers_effect = {
+	if = {
+		limit = {
+			has_character_modifier = scrib_story_modifier
+		}
+		remove_character_modifier = scrib_story_modifier
+	}
+	if = {
+		limit = {
+			has_character_modifier = scrib_story_observing_modifier
+		}
+		remove_character_modifier = scrib_story_observing_modifier
+	}
+	if = {
+		limit = {
+			has_character_modifier = scrib_story_fighting_with_you_modifier
+		}
+		remove_character_modifier = scrib_story_fighting_with_you_modifier
+	}
+}
+
+remove_scrib_name_effect = {
+	remove_variable = story_cycle_scrib_name
+	remove_localized_text = story_cycle_scrib_name
+}
+
+#Effect to transfer the story to another character
+transfer_scrib_story_cycle_to_effect = {
+	remove_scrib_story_modifiers_effect = yes
+
+	save_scope_as = original_owner
+
+	$CHARACTER$ = {
+		set_variable = {
+			name = story_cycle_scrib_name
+			value = $STORY$.var:story_cycle_scrib_name
+		}
+		if = {
+			limit = {
+				scope:original_owner = { is_alive = yes }
+			}
+			copy_localized_text = {
+				key = story_cycle_scrib_name
+				target = scope:original_owner
+			}
+		}
+		add_character_modifier = {
+			modifier = scrib_story_modifier
+		}
+		add_character_flag = had_scrib_story
+	}
+
+	remove_scrib_name_effect = yes
+
+	$STORY$ = {
+		make_story_owner = $CHARACTER$
+	}
+}
+
+###############
+# BANTAM GUAR #
+###############
+
+#Effect to start the story and show the right modifier
+start_bantam_story_cycle_effect = {
+	show_as_tooltip = {
+		add_character_modifier = {
+			modifier = bantam_story_modifier
+		}
+	}
+	hidden_effect = {
+		create_story = story_cycle_pet_bantam
+	}
+}
+
+#Pick out name options to show
+assign_name_options_bantam_story_cycle_effect = {
+	random_list = {
+		10 = {
+			trigger = { NOT = { has_character_flag = name_drooler } }
+			add_character_flag = name_drooler
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_honor } }
+			add_character_flag = name_honor
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_indring } }
+			add_character_flag = name_indring
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_mogi } }
+			add_character_flag = name_mogi
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_puddles } }
+			add_character_flag = name_puddles
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_small_one } }
+			add_character_flag = name_small_one
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_spriggan_bane } }
+			add_character_flag = name_spriggan_bane
+		}
+		10 = {
+			trigger = {
+				scope:story.var:bantam_gender = flag:male
+				NOT = { has_character_flag = name_sir_scratch_scales } 
+			}
+			add_character_flag = name_sir_scratch_scales
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_pouncer } }
+			add_character_flag = name_pouncer
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_tasty_legs } }
+			add_character_flag = name_tasty_legs
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_wobble_claw } }
+			add_character_flag = name_wobble_claw
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_squee } }
+			add_character_flag = name_squee
+		}
+	}
+}
+
+#Assign the gender of the bantam guar
+assign_bantam_gender_effect = {
+	save_temporary_scope_value_as = {
+		name = gender
+		value = flag:$GENDER$
+	}
+	if = {
+		limit = { scope:gender = flag:random }
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = bantam_gender
+						value = flag:female
+					}
+				}
+				50 = {
+					set_variable = {
+						name = bantam_gender
+						value = flag:male
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:gender = flag:male
+				scope:gender = flag:female
+			}
+		}
+		set_variable = {
+			name = bantam_gender
+			value = flag:$GENDER$
+		}
+	}
+}
+
+#Assign the color of the bantam guar
+assign_bantam_color_effect = {
+	save_temporary_scope_value_as = {
+		name = color
+		value = flag:$COLOR$
+	}
+	if = {
+		limit = { scope:color = flag:random }
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = bantam_color
+						value = flag:tan
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:color = flag:tan
+			}
+		}
+		set_variable = {
+			name = bantam_color
+			value = flag:$COLOR$
+		}
+	}
+}
+
+#Remove everything related to the story
+remove_bantam_story_modifiers_effect = {
+	if = {
+		limit = {
+			has_character_modifier = bantam_story_modifier
+		}
+		remove_character_modifier = bantam_story_modifier
+	}
+	if = {
+		limit = {
+			has_character_modifier = bantam_story_eating_fruit_modifier
+		}
+		remove_character_modifier = bantam_story_eating_fruit_modifier
+	}
+	if = {
+		limit = {
+			has_character_modifier = bantam_story_fighting_with_you_modifier
+		}
+		remove_character_modifier = bantam_story_fighting_with_you_modifier
+	}
+}
+
+remove_bantam_name_effect = {
+	remove_variable = story_cycle_bantam_name
+	remove_localized_text = story_cycle_bantam_name
+}
+
+#Effect to transfer the story to another character
+transfer_bantam_story_cycle_to_effect = {
+	remove_bantam_story_modifiers_effect = yes
+
+	save_scope_as = original_owner
+
+	$CHARACTER$ = {
+		set_variable = {
+			name = story_cycle_bantam_name
+			value = $STORY$.var:story_cycle_bantam_name
+		}
+		if = {
+			limit = {
+				scope:original_owner = { is_alive = yes }
+			}
+			copy_localized_text = {
+				key = story_cycle_bantam_name
+				target = scope:original_owner
+			}
+		}
+		add_character_modifier = {
+			modifier = bantam_story_modifier
+		}
+		add_character_flag = had_bantam_story
+	}
+
+	remove_bantam_name_effect = yes
+
+	$STORY$ = {
+		make_story_owner = $CHARACTER$
+	}
+}
+
+#############
+# VVARDVARK #
+#############
+
+#Effect to start the story and show the right modifier
+start_vvardvark_story_cycle_effect = {
+	show_as_tooltip = {
+		add_character_modifier = {
+			modifier = vvardvark_story_modifier
+		}
+	}
+	hidden_effect = {
+		create_story = story_cycle_pet_vvardvark
+	}
+}
+
+#Pick out name options to show
+assign_name_options_vvardvark_story_cycle_effect = {
+	random_list = {
+		10 = {
+			trigger = { NOT = { has_character_flag = name_anbanmil } }
+			add_character_flag = name_anbanmil
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_sebystii } }
+			add_character_flag = name_sebystii
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_serjo_licky } }
+			add_character_flag = name_serjo_licky
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_stibbons } }
+			add_character_flag = name_stibbons
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_lickspittle } }
+			add_character_flag = name_lickspittle
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_master_scaly_tale } }
+			add_character_flag = name_master_scaly_tale
+		}
+	}
+}
+
+#Assign the gender of the vvardvark
+assign_vvardvark_gender_effect = {
+	save_temporary_scope_value_as = {
+		name = gender
+		value = flag:$GENDER$
+	}
+	if = {
+		limit = { scope:gender = flag:random }
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = vvardvark_gender
+						value = flag:female
+					}
+				}
+				50 = {
+					set_variable = {
+						name = vvardvark_gender
+						value = flag:male
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:gender = flag:male
+				scope:gender = flag:female
+			}
+		}
+		set_variable = {
+			name = vvardvark_gender
+			value = flag:$GENDER$
+		}
+	}
+}
+
+#Assign the color of the vvardvark
+assign_vvardvark_color_effect = {
+	save_temporary_scope_value_as = {
+		name = color
+		value = flag:$COLOR$
+	}
+	if = {
+		limit = { scope:color = flag:random }
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = vvardvark_color
+						value = flag:tan
+					}
+				}
+				50 = {
+					set_variable = {
+						name = vvardvark_color
+						value = flag:tuxedo
+					}
+				}
+				50 = {
+					set_variable = {
+						name = vvardvark_color
+						value = flag:dozen_banded
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:color = flag:tan
+				scope:color = flag:tuxedo
+				scope:color = flag:dozen_banded
+			}
+		}
+		set_variable = {
+			name = vvardvark_color
+			value = flag:$COLOR$
+		}
+	}
+}
+
+#Remove everything related to the story
+remove_vvardvark_story_modifiers_effect = {
+	if = {
+		limit = {
+			has_character_modifier = vvardvark_story_modifier
+		}
+		remove_character_modifier = vvardvark_story_modifier
+	}
+	if = {
+		limit = {
+			has_character_modifier = vvardvark_story_eating_fruit_modifier
+		}
+		remove_character_modifier = vvardvark_story_eating_fruit_modifier
+	}
+	if = {
+		limit = {
+			has_character_modifier = vvardvark_story_fighting_with_you_modifier
+		}
+		remove_character_modifier = vvardvark_story_fighting_with_you_modifier
+	}
+}
+
+remove_vvardvark_name_effect = {
+	remove_variable = story_cycle_vvardvark_name
+	remove_localized_text = story_cycle_vvardvark_name
+}
+
+#Effect to transfer the story to another character
+transfer_vvardvark_story_cycle_to_effect = {
+	remove_vvardvark_story_modifiers_effect = yes
+
+	save_scope_as = original_owner
+
+	$CHARACTER$ = {
+		set_variable = {
+			name = story_cycle_vvardvark_name
+			value = $STORY$.var:story_cycle_vvardvark_name
+		}
+		if = {
+			limit = {
+				scope:original_owner = { is_alive = yes }
+			}
+			copy_localized_text = {
+				key = story_cycle_vvardvark_name
+				target = scope:original_owner
+			}
+		}
+		add_character_modifier = {
+			modifier = vvardvark_story_modifier
+		}
+		add_character_flag = had_vvardvark_story
+	}
+
+	remove_vvardvark_name_effect = yes
+
+	$STORY$ = {
+		make_story_owner = $CHARACTER$
+	}
+}
+
+###########
+# MUDCRAB #
+###########
+
+#Effect to start the story and show the right modifier
+start_mudcrab_story_cycle_effect = {
+	show_as_tooltip = {
+		add_character_modifier = {
+			modifier = mudcrab_story_modifier
+		}
+	}
+	hidden_effect = {
+		create_story = story_cycle_pet_mudcrab
+	}
+}
+
+#Pick out name options to show
+assign_name_options_mudcrab_story_cycle_effect = {
+	random_list = {
+		10 = {
+			trigger = { NOT = { has_character_flag = name_clatterclaw } }
+			add_character_flag = name_clatterclaw
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_jagged_claw } }
+			add_character_flag = name_jagged_claw
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_shellcracker } }
+			add_character_flag = name_shellcracker
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_titanclaw } }
+			add_character_flag = name_titanclaw
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_witherhope } }
+			add_character_flag = name_witherhope
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_crabcakes } }
+			add_character_flag = name_crabcakes
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_scissors } }
+			add_character_flag = name_scissors
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_pincer } }
+			add_character_flag = name_pincer
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_toetugger } }
+			add_character_flag = name_toetugger
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_grasper } }
+			add_character_flag = name_grasper
+		}
+	}
+}
+
+#Assign the gender of the mudcrab
+assign_mudcrab_gender_effect = {
+	save_temporary_scope_value_as = {
+		name = gender
+		value = flag:$GENDER$
+	}
+	if = {
+		limit = { scope:gender = flag:random }
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = mudcrab_gender
+						value = flag:female
+					}
+				}
+				50 = {
+					set_variable = {
+						name = mudcrab_gender
+						value = flag:male
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:gender = flag:male
+				scope:gender = flag:female
+			}
+		}
+		set_variable = {
+			name = mudcrab_gender
+			value = flag:$GENDER$
+		}
+	}
+}
+
+#Assign the color of the mudcrab
+assign_mudcrab_color_effect = {
+	save_temporary_scope_value_as = {
+		name = color
+		value = flag:$COLOR$
+	}
+	if = {
+		limit = { scope:color = flag:random }
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = mudcrab_color
+						value = flag:blue
+					}
+				}
+				50 = {
+					set_variable = {
+						name = mudcrab_color
+						value = flag:coral
+					}
+				}
+				50 = {
+					set_variable = {
+						name = mudcrab_color
+						value = flag:brown
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:color = flag:blue
+				scope:color = flag:coral
+				scope:color = flag:brown
+			}
+		}
+		set_variable = {
+			name = mudcrab_color
+			value = flag:$COLOR$
+		}
+	}
+}
+
+#Remove everything related to the story
+remove_mudcrab_story_modifiers_effect = {
+	if = {
+		limit = {
+			has_character_modifier = mudcrab_story_modifier
+		}
+		remove_character_modifier = mudcrab_story_modifier
+	}
+	if = {
+		limit = {
+			has_character_modifier = mudcrab_story_eating_fruit_modifier
+		}
+		remove_character_modifier = mudcrab_story_eating_fruit_modifier
+	}
+	if = {
+		limit = {
+			has_character_modifier = mudcrab_story_fighting_with_you_modifier
+		}
+		remove_character_modifier = mudcrab_story_fighting_with_you_modifier
+	}
+}
+
+remove_mudcrab_name_effect = {
+	remove_variable = story_cycle_mudcrab_name
+	remove_localized_text = story_cycle_mudcrab_name
+}
+
+#Effect to transfer the story to another character
+transfer_mudcrab_story_cycle_to_effect = {
+	remove_mudcrab_story_modifiers_effect = yes
+
+	save_scope_as = original_owner
+
+	$CHARACTER$ = {
+		set_variable = {
+			name = story_cycle_mudcrab_name
+			value = $STORY$.var:story_cycle_mudcrab_name
+		}
+		if = {
+			limit = {
+				scope:original_owner = { is_alive = yes }
+			}
+			copy_localized_text = {
+				key = story_cycle_mudcrab_name
+				target = scope:original_owner
+			}
+		}
+		add_character_modifier = {
+			modifier = mudcrab_story_modifier
+		}
+		add_character_flag = had_mudcrab_story
+	}
+
+	remove_mudcrab_name_effect = yes
+
+	$STORY$ = {
+		make_story_owner = $CHARACTER$
+	}
+}
+
+###########
+# SKEEVER #
+###########
+
+#Effect to start the story and show the right modifier
+start_skeever_story_cycle_effect = {
+	show_as_tooltip = {
+		add_character_modifier = {
+			modifier = skeever_story_modifier
+		}
+	}
+	hidden_effect = {
+		create_story = story_cycle_pet_skeever
+	}
+}
+
+#Pick out name options to show
+assign_name_options_skeever_story_cycle_effect = {
+	random_list = {
+		10 = {
+			trigger = { NOT = { has_character_flag = name_nibble } }
+			add_character_flag = name_nibble
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_scurry } }
+			add_character_flag = name_scurry
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_rotfang } }
+			add_character_flag = name_rotfang
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_whisker } }
+			add_character_flag = name_whisker
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_squeak } }
+			add_character_flag = name_squeak
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_filthpaw } }
+			add_character_flag = name_filthpaw
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_moldtail } }
+			add_character_flag = name_moldtail
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_scab } }
+			add_character_flag = name_scab
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_scritch } }
+			add_character_flag = name_scritch
+		}
+		10 = {
+			trigger = { NOT = { has_character_flag = name_pestle } }
+			add_character_flag = name_pestle
+		}
+	}
+}
+
+#Assign the gender of the skeever
+assign_skeever_gender_effect = {
+	save_temporary_scope_value_as = {
+		name = gender
+		value = flag:$GENDER$
+	}
+	if = {
+		limit = { scope:gender = flag:random }
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = skeever_gender
+						value = flag:female
+					}
+				}
+				50 = {
+					set_variable = {
+						name = skeever_gender
+						value = flag:male
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:gender = flag:male
+				scope:gender = flag:female
+			}
+		}
+		set_variable = {
+			name = skeever_gender
+			value = flag:$GENDER$
+		}
+	}
+}
+
+#Assign the color of the skeever
+assign_skeever_color_effect = {
+	save_temporary_scope_value_as = {
+		name = color
+		value = flag:$COLOR$
+	}
+	if = {
+		limit = { scope:color = flag:random }
+		hidden_effect = {
+			random_list = {
+				50 = {
+					set_variable = {
+						name = skeever_color
+						value = flag:grey
+					}
+				}
+				50 = {
+					set_variable = {
+						name = skeever_color
+						value = flag:white
+					}
+				}
+				50 = {
+					set_variable = {
+						name = skeever_color
+						value = flag:black
+					}
+				}
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			OR = {
+				scope:color = flag:grey
+				scope:color = flag:white
+				scope:color = flag:black
+			}
+		}
+		set_variable = {
+			name = skeever_color
+			value = flag:$COLOR$
+		}
+	}
+}
+
+#Remove everything related to the story
+remove_skeever_story_modifiers_effect = {
+	if = {
+		limit = {
+			has_character_modifier = skeever_story_modifier
+		}
+		remove_character_modifier = skeever_story_modifier
+	}
+	else_if = {
+		limit = {
+			has_character_modifier = skeever_story_pack_skeever_modifier
+		}
+		remove_character_modifier = skeever_story_pack_skeever_modifier
+	}
+	else_if = {
+		limit = {
+			has_character_modifier = skeever_story_diseased_skeever_modifier
+		}
+		remove_character_modifier = skeever_story_diseased_skeever_modifier
+	}
+	else_if = {
+		limit = {
+			has_character_modifier = skeever_story_healthy_skeever_modifier
+		}
+		remove_character_modifier = skeever_story_diseased_skeever_modifier
+	}
+	else_if = {
+		limit = {
+			has_character_modifier = skeever_story_diseased_pack_skeever_modifier
+		}
+		remove_character_modifier = skeever_story_diseased_skeever_modifier
+	}
+	else_if = {
+		limit = {
+			has_character_modifier = skeever_story_healthy_pack_skeever_modifier
+		}
+		remove_character_modifier = skeever_story_healthy_pack_skeever_modifier
+	}
+}
+
+remove_skeever_name_effect = {
+	remove_variable = story_cycle_skeever_name
+	remove_localized_text = story_cycle_skeever_name
+}
+
+#Effect to transfer the story to another character
+transfer_skeever_story_cycle_to_effect = {
+	remove_skeever_story_modifiers_effect = yes
+
+	save_scope_as = original_owner
+
+	$CHARACTER$ = {
+		set_variable = {
+			name = story_cycle_skeever_name
+			value = $STORY$.var:story_cycle_skeever_name
+		}
+		if = {
+			limit = {
+				scope:original_owner = { is_alive = yes }
+			}
+			copy_localized_text = {
+				key = story_cycle_skeever_name
+				target = scope:original_owner
+			}
+		}
+		add_character_modifier = {
+			modifier = skeever_story_modifier
+		}
+		add_character_flag = had_skeever_story
+	}
+
+	remove_skeever_name_effect = yes
+
+	$STORY$ = {
+		make_story_owner = $CHARACTER$
+	}
+}

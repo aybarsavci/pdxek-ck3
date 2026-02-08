@@ -1,0 +1,352 @@
+﻿### Argonian weird Hist stuff
+
+# Normal Hist
+argonian_behemoth_1 = {
+	
+	diplomacy = -2
+	learning = -2
+	prowess = 4
+	dread_baseline_add = 10
+	negate_health_penalty_add = 0.25
+
+	group = argonian_behemoth
+	level = 1
+
+	shown_in_ruler_designer = no
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_argonian_behemoth_1_desc
+			}
+			desc = trait_argonian_behemoth_1_character_desc
+		}
+	}
+
+	ai_rationality = low_negative_ai_value
+	ai_energy = 10
+	ai_boldness = low_positive_ai_value
+}
+
+argonian_behemoth_2 = {
+	
+	diplomacy = -4
+	learning = -4
+	prowess = 8
+	dread_baseline_add = 20
+	negate_health_penalty_add = 0.5
+
+	group = argonian_behemoth
+	level = 2
+	
+	shown_in_ruler_designer = no
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_argonian_behemoth_2_desc
+			}
+			desc = trait_argonian_behemoth_2_character_desc
+		}
+	}
+
+	ai_rationality = medium_negative_ai_value
+	ai_energy = 20
+	ai_boldness = medium_positive_ai_value
+}
+
+argonian_behemoth_3 = {
+	
+	diplomacy = -6
+	learning = -6
+	prowess = 12
+	dread_baseline_add = 30
+	negate_health_penalty_add = 1
+
+	group = argonian_behemoth
+	level = 3
+
+	flag = mindless_character
+	
+	shown_in_ruler_designer = no
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_argonian_behemoth_3_desc
+			}
+			desc = trait_argonian_behemoth_3_character_desc
+		}
+	}
+
+	ai_rationality = high_negative_ai_value
+	ai_energy = 30
+	ai_boldness = high_positive_ai_value
+}
+
+# Ghost Hist
+ghost_scale_1 = {
+	shown_in_ruler_designer = no
+
+	intrigue = 2
+	owned_hostile_scheme_success_chance_add = 5
+	dread_baseline_add = 5
+	fertility = -0.1
+	different_faith_opinion = -10
+
+	group = ghost_scale
+	level = 1
+
+	opposites = {
+		amber_blessed
+		sun_blessed
+	}
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_ghost_scale_1_desc
+			}
+			desc = trait_ghost_scale_1_character_desc
+		}
+	}
+}
+
+ghost_scale_2 = {
+	shown_in_ruler_designer = no
+
+	intrigue = 4
+	owned_hostile_scheme_success_chance_add = 10
+	dread_baseline_add = 10
+	fertility= -0.2
+	different_faith_opinion = -20
+
+	group = ghost_scale
+	level = 2
+
+	opposites = {
+		amber_blessed
+		sun_blessed
+	}
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_ghost_scale_2_desc
+			}
+			desc = trait_ghost_scale_2_character_desc
+		}
+	}
+}
+
+ghost_scale_3 = {
+	shown_in_ruler_designer = no
+
+	intrigue = 6
+	owned_hostile_scheme_success_chance_add = 15
+	dread_baseline_add = 15
+	fertility = -0.3
+	different_faith_opinion = -30
+
+	group = ghost_scale
+	level = 3
+
+	opposites = {
+		amber_blessed
+		sun_blessed
+	}
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_ghost_scale_3_desc
+			}
+			desc = trait_ghost_scale_3_character_desc
+		}
+	}
+}
+
+# Amber Hist
+amber_blessed_1 = {
+	shown_in_ruler_designer = no
+
+	prowess = 2
+	stress_gain_mult = 0.05
+
+	group = amber_blessed
+	level = 1
+
+	opposites = {
+		sun_blessed
+		ghost_scale
+	}	
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_amber_blessed_1_desc
+			}
+			desc = trait_amber_blessed_1_character_desc
+		}
+	}
+}
+
+amber_blessed_2 = {
+	shown_in_ruler_designer = no
+
+	prowess = 4
+	stress_gain_mult = 0.1
+
+	group = amber_blessed
+	level = 2
+	
+	opposites = {
+		sun_blessed
+		ghost_scale
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_amber_blessed_2_desc
+			}
+			desc = trait_amber_blessed_2_character_desc
+		}
+	}
+}
+
+amber_blessed_3 = {
+	shown_in_ruler_designer = no
+
+	prowess = 8
+	stress_gain_mult = 0.2
+
+	group = amber_blessed
+	level = 3
+
+	opposites = {
+		sun_blessed
+		ghost_scale
+	}
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_amber_blessed_3_desc
+			}
+			desc = trait_amber_blessed_3_character_desc
+		}
+	}
+}
+
+# Sun Hist
+sun_blessed_1 = {
+	shown_in_ruler_designer = no
+
+	flag = add_arcana_2
+	learning = 1
+	intrigue = -1
+
+	group = sun_blessed
+	level = 1
+
+	opposites = {
+		amber_blessed
+		ghost_scale
+	}
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_sun_blessed_1_desc
+			}
+			desc = trait_sun_blessed_1_character_desc
+		}
+	}
+}
+
+sun_blessed_2 = {
+	shown_in_ruler_designer = no
+
+	flag = add_arcana_4
+	learning = 2
+	intrigue = -2
+
+	group = sun_blessed
+	level = 2
+
+	opposites = {
+		amber_blessed
+		ghost_scale
+	}
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_sun_blessed_2_desc
+			}
+			desc = trait_sun_blessed_2_character_desc
+		}
+	}
+}
+
+sun_blessed_3 = {
+	shown_in_ruler_designer = no
+
+	flag = add_arcana_6
+	learning = 3
+	intrigue = -3
+
+	group = sun_blessed
+	level = 3
+
+	opposites = {
+		amber_blessed
+		ghost_scale
+	}
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_sun_blessed_3_desc
+			}
+			desc = trait_sun_blessed_3_character_desc
+		}
+	}
+}

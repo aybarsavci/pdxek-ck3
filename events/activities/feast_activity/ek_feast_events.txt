@@ -1,0 +1,520 @@
+﻿# EK Events for the Feast activity
+
+namespace = ek_feast
+
+# A Night to Remember
+ek_feast.0001 = {
+
+	type = activity_event
+	
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { current_month = 1 }
+				desc = ek_feast.0001.new_life.t 
+			} 
+			desc = ek_feast.0001.t
+		}
+	}
+	
+	desc = ek_feast.0001.desc
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:sam_guevenne
+	}
+
+	theme = feast_activity
+	
+	trigger = {
+		is_alive = yes
+		is_imprisoned = no
+		OR = {
+			AND = {
+				has_trait = lifestyle_reveler
+				has_trait_xp = {
+					trait = lifestyle_reveler
+					value >= 100
+				}
+			}
+			has_character_modifier = sanguines_attention
+		}
+	}
+
+	cooldown = { years = yearly_cooldown }
+
+	immediate = {
+		create_character = {
+				template = sam_guevenne_template
+				name = "Sam_G"
+				dynasty = none
+				location = scope:host.capital_province
+				gender_female_chance = 0
+				save_scope_as = sam_guevenne
+		}
+		scope:sam_guevenne = {
+			add_to_list = feast_participants
+		}
+	}
+
+	option = { # Challenge accepted
+		name = ek_feast.0001.a
+		add_stress = medium_stress_impact_loss
+		trait = drunkard
+		hidden_effect = {
+			random_list = {
+				50 = {
+					trigger = {
+						has_trait = drunkard
+					}
+					trigger_event = ek_feast.0002
+				}
+				25 = {
+					trigger_event = ek_feast.0002
+				}
+				25 = {
+					trigger_event = ek_feast.0003
+				}
+			}
+
+		}
+	}
+
+	option = { #Ew no
+		name = ek_feast.0001.b
+		add_stress = medium_stress_impact_gain
+		hidden_effect = {
+			scope:sam_guevenne = {
+				silent_disappearance_effect = yes
+			}
+		}
+	}
+}
+
+ek_feast.0002 = {
+	type = activity_event
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { current_month = 1 }
+			desc = ek_feast.0001.new_life.t } 
+			desc = ek_feast.0001.t }
+	}
+	desc = ek_feast.0002.desc
+	
+	left_portrait = {
+		character = root
+		animation = ecstasy
+	}
+
+	right_portrait = {
+		character = scope:sam_guevenne
+		animation = admiration
+	}
+
+	theme = feast_activity
+
+	option = { # seduce any mortal
+		name = ek_feast.0002.a
+		add_character_modifier = beat_guevenne
+		add_prestige = medium_prestige_gain
+		hidden_effect ={
+			random_list = {
+				80 = {}
+				10 = { add_trait = rakish }
+				10 = { 
+					save_scope_value_as = { name = daedric_prince value = flag:sanguine }
+					crypto_religion_cultural_variant_effect = yes	
+					make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith } 
+				}
+			}
+		}
+	}
+
+	option = { # just gold
+		name = ek_feast.0002.b
+		add_gold = massive_gold_value
+		add_prestige = medium_prestige_gain
+		hidden_effect ={
+			random_list = {
+				80 = {}
+				10 = { add_trait = greedy }
+				10 = { 
+					save_scope_value_as = { name = daedric_prince value = flag:sanguine }
+					crypto_religion_cultural_variant_effect = yes	
+					make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith } 
+				}
+			}
+		}
+	}
+
+	option = { # with all my heart!
+		trigger = {
+			any_artifact = {
+				count < 1
+				has_artifact_modifier = staff_sanguine_modifier
+			}
+			is_daedric_champion = no
+		}
+		name = ek_feast.0002.c
+		stress_impact = { zealous = major_stress_impact_gain }
+		add_trait = champion_sanguine
+		add_character_flag = sanguine_conversion
+		create_artifact_staff_sanguine_effect = { OWNER = root }
+		save_scope_as = sanguines_champion
+		every_player = {
+			limit = {
+				is_of_major_or_minor_interest_trigger = { CHARACTER = scope:sanguines_champion }
+			}
+			trigger_event = ek_daedric_artifacts.0048 # Someone has become Sanguine's Champion
+		}
+		custom_tooltip = ek_feast.0002.c.tt
+	}
+	after = {
+		scope:sam_guevenne = {
+			silent_disappearance_effect = yes
+		}
+	}
+}
+
+ek_feast.0003 = {
+	type = activity_event
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { current_month = 1 }
+			desc = ek_feast.0001.new_life.t } 
+			desc = ek_feast.0001.t }
+	}
+	desc = ek_feast.0003.desc
+	
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+
+	right_portrait = {
+		character = scope:sam_guevenne
+	}
+
+	theme = feast_activity
+	
+	immediate = {
+		create_character = {
+				template = dremora_guevenne_template
+				name = "Sam_G"
+				dynasty = none
+				location = scope:host.capital_province
+				gender_female_chance = 0
+				save_scope_as = sam_guevenne
+		}
+	}
+
+	option = { # as you wish
+		name = ek_feast.0003.a
+		add_prestige = medium_prestige_loss
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:sanguine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		custom_tooltip = ek_feast.0003.a.tt
+	}
+
+	option = { # never!
+		name = ek_feast.0003.b
+		add_prestige = medium_prestige_loss
+		add_piety = minor_piety_gain
+		add_character_modifier = sanguines_wrath
+		add_character_flag = make_suicide_available
+		custom_tooltip = ek_feast.0003.b.tt
+	}
+}	
+
+# Feast of the Dead
+ek_feast.0004 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_feast.0004.t
+	desc = ek_feast.0004.desc
+	theme = feast_activity
+	
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		NOT = { exists = local_var:had_feast_of_the_dead }
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+			current_month = 2
+			culture = { 
+				has_cultural_pillar = heritage_atmoran
+			}
+			location = {
+				geographical_region = mundus_tamriel_skyrim
+			}
+		}
+	}
+
+	immediate = {
+		set_local_variable = {
+			name = had_feast_of_the_dead
+			value = yes
+		}
+	}
+
+	option = { # nord option
+		name = ek_feast.0004.a
+		trigger = { 
+			culture = { 
+				has_cultural_pillar = heritage_atmoran
+			} 
+		}
+		add_prestige = medium_prestige_gain
+		stress_impact = { 
+			cynical = medium_stress_impact_gain
+		}
+	}
+
+	option = { # non nord nice option
+		name = ek_feast.0004.b
+		trigger = { 
+			culture = { 
+				NOT = { has_cultural_pillar = heritage_atmoran }
+			} 
+		}
+		add_prestige = medium_prestige_loss
+		add_character_modifier = {
+			modifier = hold_court_8130_tolerance_modifier
+			years = 5
+		}
+		stress_impact = { 
+			arrogant = medium_stress_impact_gain
+			impatient = medium_stress_impact_gain 
+			cynical = medium_stress_impact_gain
+		}
+	}
+
+	option = { # rude option
+		name = ek_feast.0004.c
+		add_prestige = minor_prestige_gain
+		stress_impact = { 
+			humble = medium_stress_impact_gain
+		}
+		scope:activity = {
+			every_attending_character = {
+				custom = ek_feast.0004.nords
+				limit = {
+					feast_default_participant_trigger = yes
+					NOT = { this = root }
+					culture = { 
+						has_cultural_pillar = heritage_atmoran
+					}
+				}
+				add_opinion = {
+					target = root
+					modifier = refused_feast_of_the_dead_opinion
+				}
+			}
+		}
+	}
+}
+
+# Spirits Away
+ek_feast.0005 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_feast.0005.t
+	desc = ek_feast.0005.desc
+	theme = feast_activity
+	
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+
+	right_portrait = {
+		character = scope:drunk_guest
+		animation = wedding_drunk
+	}
+
+	cooldown = { months = 6 }
+
+	trigger = {
+		drinks_alcohol_trigger = yes
+		scope:activity = {
+			any_attending_character = {
+				count > 2
+				NOT = { this = root }
+				drinks_alcohol_trigger = yes
+			}
+		}
+		location = {
+			OR = {
+				is_riverside_province = yes
+				is_coastal = yes
+			}
+		}
+	}
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					NOT = { this = root }
+					exists = scope:activity.special_guest:honorary_guest_regular
+					this = scope:activity.special_guest:honorary_guest_regular
+					drinks_alcohol_trigger = yes
+				}
+				alternative_limit = {
+					NOT = { this = root }
+					drinks_alcohol_trigger = yes
+				}
+				save_scope_as = drunk_guest
+			}
+		}
+	}
+
+	option = { # I will fish it
+		name = ek_feast.0005.a
+		random_list = {
+			5 = {
+				trigger = {
+					any_artifact = {
+						count < 1
+						has_artifact_modifier = khajiiti_ring_modifier
+					}
+				}
+				desc = ek_feast.0005.a.crit_success
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_feast.0005.a.crit_success
+					create_artifact_khajiiti_ring_effect = {
+						OWNER = root
+					}
+				}
+			}
+			40 = {
+				desc = ek_feast.0005.a.success
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_feast.0005.a.success
+					scope:activity = {
+						every_attending_character = {
+							limit = {
+								NOT = { this = root }
+								feast_default_participant_trigger = yes
+							}
+							custom = every_guest_scope_tt
+							add_opinion = {
+								target = root
+								modifier = pleased_opinion
+								opinion = 10
+							}
+						}
+						if = {
+							limit = {
+								any_attending_character = {
+									NOT = { this = root }
+									has_trait = drunkard
+								}
+							}
+							every_attending_character = {
+								limit = {
+									NOT = { this = root }
+									feast_default_participant_trigger = yes
+									has_trait = drunkard
+								}
+								custom = every_drunkard_guest_scope_tt
+								add_opinion = {
+									target = root
+									modifier = grateful_opinion
+									opinion = 20
+								}
+							}
+						}
+					}
+					add_prestige = medium_prestige_gain
+				}
+			}
+			60 = {
+				desc = ek_feast.0005.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = ek_feast.0005.a.failure
+					add_prestige = medium_prestige_loss
+				}
+			}
+		}
+		stress_impact = {
+			lazy = medium_stress_impact_gain
+		}
+	}
+
+	option = { #nope
+		name = ek_feast.0005.b
+		add_prestige = minor_prestige_loss
+		stress_impact = {
+			diligent = medium_stress_impact_gain
+			generous = medium_stress_impact_gain
+		}
+	}
+
+	option = { #I have a private stash!
+		name = ek_feast.0005.c
+		trigger = {
+			has_trait = lifestyle_reveler
+		}
+		scope:activity = {
+			every_attending_character = {
+				limit = {
+					NOT = { this = root }
+					feast_default_participant_trigger = yes
+				}
+				custom = every_guest_scope_tt
+				add_opinion = {
+					target = root
+					modifier = pleased_opinion
+					opinion = 10
+				}
+			}
+			if = {
+				limit = {
+					any_attending_character = {
+						NOT = { this = root }
+						has_trait = drunkard
+					}
+				}
+				every_attending_character = {
+					limit = {
+						NOT = { this = root }
+						feast_default_participant_trigger = yes
+						has_trait = drunkard
+					}
+					custom = every_drunkard_guest_scope_tt
+					add_opinion = {
+						target = root
+						modifier = grateful_opinion
+						opinion = 20
+					}
+				}
+			}
+		}
+		trait = lifestyle_reveler
+		add_prestige = medium_prestige_gain
+		stress_impact = {
+			greedy = minor_stress_impact_gain
+		}
+		ai_chance = {
+			base = 500
+		}
+	}
+}

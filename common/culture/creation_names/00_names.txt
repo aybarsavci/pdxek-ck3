@@ -1,0 +1,507 @@
+﻿### EK NOTE: Replaced vanilla names with our own
+# These are used when creating a new culture
+
+# Used in definition order
+
+# Example name
+#tangmo_placeholder = {
+#	name = tangmo_placeholder_name # Optional. Defaults to <key>_name
+#	collective_noun = tangmo_placeholder_collective_noun # Optional. Defaults to <key>_collective_noun
+#	prefix = tangmo_placeholder_prefix # Optional. Defaults to <key>_trigger
+#	
+#	trigger = { is_ai = no }
+#
+#	hybrid = no # Is this for hybridization? Defaults to no
+#}
+
+
+###### BLACK MARSH ######
+black_marsh_orc = { #Marsh Orc
+	trigger = {
+		capital_county = {
+			title_province = { 
+				geographical_region = mundus_tamriel_black_marsh 
+			}
+		}	
+		NOT = { 
+			capital_county = { 
+				title_province = { 
+					geographical_region = mundus_islands 
+				} 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_orcish }
+	}
+}
+
+blackmarcher = { #Blackmarcher
+	trigger = {
+		capital_county = {
+			title_province = { 
+				geographical_region = mundus_tamriel_black_marsh 
+			}
+		}
+		scope:culture = { has_cultural_pillar = heritage_atmoran }
+	}
+}
+
+gideonese = { #Gideonese
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_black_marsh_gideon 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_cyrodiilic } #Nibenese typically
+	}
+}
+
+###### CYRODIIL ######
+cyrodiil_orc = { #Ruby Orc
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_cyrodiil 
+			}
+		}	
+		NOT = { 
+			capital_county = { 
+				title_province = {
+					geographical_region = mundus_islands 
+				} 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_orcish }
+	}
+}
+
+cyrodiil_khajiit = { #Renada(empire) + iit
+	trigger = {
+		scope:culture = { has_cultural_pillar = heritage_khajiiti }
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_cyrodiil 
+			}
+		}
+		NOT = { 
+			capital_county = { 
+				title_province = { #Malapiit live here
+					geographical_region = mundus_tamriel_cyrodiil_nibenese_lowlands
+				} 
+			}
+		}
+	}
+}
+
+###### ELSWEYR ######
+anequina_orc = { #Dune Orc
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_elsweyr_anequina 
+			}
+		}	
+		NOT = { 
+			capital_county = { 
+				title_province = {
+					geographical_region = mundus_islands 
+				} 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_orcish }
+	}
+}
+
+pellitine_orc = { #Tenmar Orc
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_elsweyr_pellitine 
+			}
+		}	
+		NOT = { 
+			capital_county = { 
+				title_province = {
+					geographical_region = mundus_islands 
+				} 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_orcish }
+	}
+}
+
+###### HAMMERFELL ######
+belkarther = { #Belkarther
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_hammerfell_craglorn
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_yokudan }
+	}
+}
+
+bendmarcher = { #Bendmarcher
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_hammerfell_craglorn 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_atmoran }
+	}
+}
+
+elinhiri = { #Elinhiri
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_hammerfell_craglorn 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_cyrodiilic } #Colovian typically
+	}
+}
+
+###### HIGH ROCK ######
+byulsa = { #Byulsa
+	trigger = {
+		capital_county = { 
+			OR = {
+				title_province = { geographical_region = mundus_tamriel_border_greater_bangkorai }
+				title_province = { geographical_region = mundus_tamriel_hammerfell_hallin }
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_yokudan }
+	}
+}
+
+orsinium_orc = { #City Orc
+	trigger = {
+		OR = {
+			has_primary_title = title:k_orsinium
+			has_primary_title = title:e_orsinium
+		}
+		NOT = { 
+			capital_county = { 
+				title_province = {
+					geographical_region = mundus_islands 
+				} 
+			}
+		}	
+		culture = { has_cultural_pillar = heritage_orcish }
+	}
+}
+
+rhaltic = { #Rhaltic
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_high_rock_glenumbra 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_tsaesci } #Ilniviri typically
+	}
+}
+
+westreach_nord = { #Jhahennish
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_high_rock_greater_wrothgar 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_atmoran }
+	}
+}
+
+###### MORROWIND ######
+mabrigashi = { #Mabrigashi
+	trigger = {
+		faith.religion = religion:sithis_religion
+		scope:culture = culture:ashlander
+	}
+}
+
+velothese = { #Velothese
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_morrowind 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_cyrodiilic } #Nibenese typically
+	}
+}
+
+velothis_nord = { #Dunkreathi
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_morrowind_velothis 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_atmoran }
+	}
+}
+
+vvardenfell_nord = { #Thundholmar
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_morrowind_vvardenfell 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_atmoran }
+	}
+}
+
+vvardenfell_orc = { #Ash Orc
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_morrowind_vvardenfell 
+			}
+		}	
+		NOT = { 
+			capital_county = { 
+				title_province = {
+					geographical_region = mundus_islands 
+				} 
+			}
+		}
+		scope:culture = { has_cultural_pillar = heritage_orcish }
+		capital_province = { geographical_region = mundus_tamriel_morrowind_vvardenfell }
+	}
+}
+
+morrowind_khajiit = { #Saf(ash) + iit
+	trigger = {
+		scope:culture = { has_cultural_pillar = heritage_khajiiti }
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_morrowind 
+			}
+		}
+	}
+}
+
+###### SKYRIM ######
+reachmarcher = { #Karthalder
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_skyrim_karth 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_atmoran }
+	}
+}
+
+skyrim_orc = { #Snow Orc
+	trigger = {
+		capital_county = { 
+			title_province = { 
+				geographical_region = mundus_tamriel_skyrim 
+			}
+		}	
+		NOR = {
+			capital_county = { title_province = { geographical_region = mundus_tamriel_skyrim_solstheim }}
+			capital_county = { title_province = { geographical_region = mundus_islands }}
+		}
+		scope:culture = { has_cultural_pillar = heritage_orcish }
+	}
+}
+
+snowlander = { #Snowlander
+	trigger = {
+		capital_county = { 
+			title_province = { 
+				geographical_region = mundus_tamriel_skyrim_solstheim 
+			}
+		}	
+		scope:culture = culture:ashlander
+	}
+}
+
+solstheim_orc = { #Stalhrim Orc
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_skyrim_solstheim 
+			}
+		}	
+		NOT = { 
+			capital_county = { 
+				title_province = {
+					geographical_region = mundus_islands 
+				} 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_orcish }
+	}
+}
+
+skyrim_khajiit = { #Owaz(snow) + iit
+	trigger = {
+		scope:culture = { has_cultural_pillar = heritage_khajiiti }
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_skyrim 
+			}
+		}
+	}
+}
+
+###### VALENWOOD ######
+grahthleel = { #Grahtleel
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_valenwood 
+			}
+		}	
+		NOT = { 
+			capital_county = { 
+				title_province = {
+					duchy = title:d_southpoint 
+				} 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_argonian }
+	}
+}
+
+graymire = { #Graymire Hleel
+	trigger = {
+		capital_county = { 
+			title_province = {
+				duchy = title:d_southpoint 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_argonian }
+	}
+}
+
+south_wealder = { #Wealdish
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_valenwood_arenthia 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_cyrodiilic } #Colovian typically
+	}
+}
+
+valenwood_khajiit = { #Drena(wood) + iit
+	trigger = {
+		scope:culture = { has_cultural_pillar = heritage_khajiiti }
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_valenwood 
+			}
+		}
+	}
+}
+
+###### SUMMERSET ISLES ######
+crystal_orc = { #Crystal-Like-Orc
+	trigger = {
+		scope:culture = { has_cultural_pillar = heritage_orcish }
+		capital_county = { 
+			title_province = {
+				duchy = title:d_crystal 
+			}
+		}	
+	}
+}
+
+summerset_isles_orc = { #Summer Orc
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_summerset_isles 
+			}
+		}	
+		NOR = {
+			capital_county = { 
+				title_province = {
+					duchy = title:d_crystal 
+				}
+			}	
+			capital_county = { 
+				title_province = {
+					geographical_region = mundus_islands 
+				}
+			}		
+		}
+		scope:culture = { has_cultural_pillar = heritage_orcish }
+		NOT = { capital_province = { duchy = title:d_crystal } }
+	}
+}
+
+summerset_isles_khajiit = { #Shij(crystal) + iit
+	trigger = {
+		scope:culture = { has_cultural_pillar = heritage_khajiiti }
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_summerset_isles 
+			}
+		}
+	}
+}
+
+###### YOKUDA ######
+yokublin = { #Yokublin
+	trigger = {
+		scope:culture = { has_cultural_pillar = heritage_goblinken }
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_yokuda 
+			}
+		}	
+	}
+}
+
+yokuda_orc = { #Orichalc Orc
+	trigger = {
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_yokuda 
+			}
+		}	
+		NOT = { 
+			capital_county = { 
+				title_province = {
+					geographical_region = mundus_islands 
+				} 
+			}
+		}	
+		scope:culture = { has_cultural_pillar = heritage_orcish }
+	}
+}
+
+yokuda_khajiit = { #Yokud + iit
+	trigger = {
+		scope:culture = { has_cultural_pillar = heritage_khajiiti }
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_tamriel_yokuda
+			}
+		}
+	}
+}
+
+###### MISC ######
+sea_orc = {	#Sea Orc
+	trigger = {
+		culture = { has_cultural_pillar = heritage_orcish }
+		capital_county = { 
+			title_province = {
+				geographical_region = mundus_islands 
+			}
+		}
+	}
+}

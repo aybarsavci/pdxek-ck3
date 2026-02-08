@@ -1,0 +1,159 @@
+﻿debug_change_grand_council = {
+	category = interaction_debug_mpo
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+	common_interaction = yes
+	icon = travel_mixed
+
+	interface_priority = -1
+	auto_accept = yes
+
+	is_shown = {
+		debug_only = yes
+		scope:actor = {
+			any_character_situation = {
+				this = situation:grand_council
+			}
+		}
+	}
+	send_option = {
+		flag = autonomy
+		localization = debug_change_gcm_autonomy
+	}
+	send_option = {
+		flag = centralisation
+		localization = debug_change_gcm_centralisation
+	}
+	send_option = {
+		flag = balanced
+		localization = debug_change_gcm_balanced
+	}
+	on_accept = {
+		switch = {
+			trigger = yes
+			scope:autonomy = {
+				if = {
+					limit = {
+						NOT = { exists = situation:grand_council }
+					}
+					start_situation = {
+						type = grand_council
+						start_phase = gcm_autonomy
+					}
+				}
+				else = {
+					situation:grand_council = {
+						every_situation_sub_region = {
+							change_phase = { phase = gcm_autonomy }
+						}
+					}
+				}
+			}
+			scope:centralisation = {
+				if = {
+					limit = {
+						NOT = { exists = situation:grand_council }
+					}
+					start_situation = {
+						type = grand_council
+						start_phase = gcm_centralised
+					}
+				}
+				else = {
+					situation:grand_council = {
+						every_situation_sub_region = {
+							change_phase = { phase = gcm_centralised }
+						}
+					}
+				}
+			}
+			scope:balanced = {
+				if = {
+					limit = {
+						NOT = { exists = situation:grand_council }
+					}
+					start_situation = {
+						type = grand_council
+						start_phase = gcm_balanced
+					}
+				}
+				else = {
+					situation:grand_council = {
+						every_situation_sub_region = {
+							change_phase = { phase = gcm_balanced }
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+debug_change_alinor = {
+	category = interaction_debug_mpo
+	use_diplomatic_range = no
+	ignores_pending_interaction_block = yes
+	common_interaction = yes
+	icon = travel_mixed
+
+	interface_priority = -1
+	auto_accept = yes
+
+	is_shown = {
+		debug_only = yes
+		scope:actor = {
+			any_character_situation = {
+				this = situation:alinor_isolationism
+			}
+		}
+	}
+	send_option = {
+		flag = open
+		localization = debug_change_alinor_open
+	}
+	send_option = {
+		flag = closed
+		localization = debug_change_alinor_closed
+	}
+	on_accept = {
+		switch = {
+			trigger = yes
+			scope:open = {
+				if = {
+					limit = {
+						NOT = { exists = situation:alinor_isolationism }
+					}
+					start_situation = {
+						type = alinor_isolationism
+						start_phase = alinor_open
+					}
+				}
+				else = {
+					situation:alinor_isolationism = {
+						every_situation_sub_region = {
+							change_phase = { phase = alinor_open }
+						}
+					}
+				}
+			}
+			scope:closed = {
+				if = {
+					limit = {
+						NOT = { exists = situation:alinor_isolationism }
+					}
+					start_situation = {
+						type = alinor_isolationism
+						start_phase = alinor_closed
+					}
+				}
+				else = {
+					situation:alinor_isolationism = {
+						every_situation_sub_region = {
+							change_phase = { phase = alinor_closed }
+						}
+					}
+				}
+			}
+		}
+	}
+}

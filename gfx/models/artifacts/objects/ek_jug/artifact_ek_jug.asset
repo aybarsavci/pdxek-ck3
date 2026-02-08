@@ -1,0 +1,53 @@
+pdxmesh = {
+	name = "ek_jug_mesh"
+	file = "ek_jug.mesh"
+
+	lod_percentages = {
+		lod = { index = 1 percent = 12.0 }
+		lod = { index = 2 percent = 5.0 }
+	}
+
+	meshsettings = {
+		name = "ek_jug_LOD0Shape"
+		index = 0
+		texture_diffuse = "ek_jug_diffuse.dds"
+		texture_normal = "ek_jug_normal.dds"
+		texture_specular = "ek_jug_properties.dds"
+		shader = "portrait_artifact_pattern"
+		shader_file = "gfx/FX/court_scene.shader"
+	}
+
+	meshsettings = {
+		name = "ek_jug_LOD1Shape"
+		index = 0
+		texture_diffuse = "ek_jug_diffuse.dds"
+		texture_normal = "ek_jug_normal.dds"
+		texture_specular = "ek_jug_properties.dds"
+		shader = "portrait_artifact_pattern"
+		shader_file = "gfx/FX/court_scene.shader"
+	}
+
+	meshsettings = {
+		name = "ek_jug_LOD2Shape"
+		index = 0
+		texture_diffuse = "ek_jug_diffuse.dds"
+		texture_normal = "ek_jug_normal.dds"
+		texture_specular = "ek_jug_properties.dds"
+		shader = "portrait_artifact_pattern"
+		shader_file = "gfx/FX/court_scene.shader"
+	}
+}
+
+entity = {
+	name = "ek_jug_entity"
+	pdxmesh = "ek_jug_mesh"
+       		
+    game_data = {
+       	portrait_entity_user_data = {
+			portrait_accessory = {
+				pattern_mask = "gfx/models/artifacts/objects/ek_jug/ek_jug_mask.dds"
+				variation = "ek_jug_metal"
+			}
+        }
+	}
+}

@@ -1,0 +1,339 @@
+﻿activity_hist_communion_progression_tiny = {
+	if = {
+		limit = { exists = var:activity_special_type_progression }
+		change_variable = {
+			name = activity_special_type_progression
+			add = 10
+		}
+	}
+}
+
+activity_hist_communion_progression_medium = {
+	if = {
+		limit = { exists = var:activity_special_type_progression }
+		change_variable = {
+			name = activity_special_type_progression
+			add = 20
+		}
+	}
+}
+
+activity_hist_communion_progression_major = {
+	if = {
+		limit = { exists = var:activity_special_type_progression }
+		change_variable = {
+			name = activity_special_type_progression
+			add = 30
+		}
+	}
+}
+
+activity_hist_communion_progression_massive = {
+	if = {
+		limit = { exists = var:activity_special_type_progression }
+		change_variable = {
+			name = activity_special_type_progression
+			add = 40
+		}
+	}
+}
+
+set_hist_communion_variable_effect = {
+	if = {
+		limit = {
+			scope:activity.activity_location = {
+				has_building = hist_05
+			}
+		}
+		scope:activity = {
+			set_variable = {
+				name = hist_age
+				value = flag:ancient_hist
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			scope:activity.activity_location = {
+				has_building = hist_04
+			}
+		}
+		scope:activity = {
+			set_variable = {
+				name = hist_age
+				value = flag:old_hist
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			scope:activity.activity_location = {
+				has_building = hist_03
+			}
+		}
+		scope:activity = {
+			set_variable = {
+				name = hist_age
+				value = flag:mature_hist
+			}
+		}
+	}
+	else = {
+		scope:activity = {
+			set_variable = {
+				name = hist_age
+				value = flag:young_hist
+			}
+		}
+	}
+}
+
+set_hist_communion_initial_level_effect = {
+	#Young Hist reward
+	if = {
+		limit = { scope:activity.var:hist_age = flag:young_hist }
+		scope:activity = { activity_hist_communion_progression_tiny = yes }
+	}
+	#Mature Hist reward
+	else_if = {
+		limit = { scope:activity.var:hist_age = flag:mature_hist }
+		scope:activity = { activity_hist_communion_progression_medium = yes }
+	}
+	#Old Hist reward
+	else_if = {
+		limit = { scope:activity.var:hist_age = flag:old_hist }
+		scope:activity = { activity_hist_communion_progression_major = yes }
+	}
+	#Ancient Hist reward
+	else_if = {
+		limit = { scope:activity.var:hist_age = flag:ancient_hist }
+		scope:activity = { activity_hist_communion_progression_massive = yes }
+	}
+	if = {
+		limit = { num_virtuous_traits = 1 }
+		scope:activity = { activity_hist_communion_progression_tiny = yes }
+	}
+	else_if = {
+		limit = { num_virtuous_traits = 2 }
+		scope:activity = { activity_hist_communion_progression_medium = yes }
+	}
+	else_if = {
+		limit = { num_virtuous_traits >= 3 }
+		scope:activity = { activity_hist_communion_progression_major = yes }
+	}
+	if = {
+		limit = { num_sinful_traits >= 1 }
+		scope:activity = { activity_special_type_progression_negative = yes }
+	}
+}
+
+resolve_hist_communion_success_reward_effect = {
+	involved_activity ?= {
+		# Gain Piety
+		if = {
+			limit = { var:activity_special_type_progression >= 75 }
+			scope:host = { add_character_flag = major_hist_reward }
+		}
+        else_if = {
+            limit = { 
+				var:activity_special_type_progression < 75
+				var:activity_special_type_progression >= 50
+			}
+			scope:host = { add_character_flag = medium_hist_reward }
+        }
+        else_if = {
+            limit = { 
+				var:activity_special_type_progression < 50
+				var:activity_special_type_progression >= 25
+			}
+			scope:host = { add_character_flag = minor_hist_reward }
+        }
+        else = { 
+            scope:host = { add_character_flag = miniscule_hist_reward }
+        }        
+    }
+}
+
+give_hist_communion_reward_effect = {
+	#Young Hist reward
+	if = {
+		limit = { location = { has_building = hist_02 } }
+		give_hist_reward_effect = { LENGTH = short }
+	}
+	#Mature Hist reward
+	else_if = {
+		limit = { location = { has_building = hist_03 } }
+		give_hist_reward_effect = { LENGTH = medium }
+	}
+	#Old Hist reward
+	else_if = {
+		limit = { location = { has_building = hist_04 } }
+		give_hist_reward_effect = { LENGTH = long }
+	}
+	#Ancient Hist reward
+	else_if = {
+		limit = { location = { has_building = hist_05 } }
+		give_hist_reward_effect = { LENGTH = very_long }
+	}
+	if = {
+		limit = { has_character_flag = increase_hist_blessing }
+		create_character_memory = {
+			type = hist_blessing_memory
+		}
+		increase_hist_blessing_effect = yes
+	}
+	if = {
+		limit = { has_character_flag = increase_argonian_behemoth }
+		create_character_memory = {
+			type = hist_behemoth_memory
+		}
+		increase_argonian_behemoth_effect = yes
+	}
+	if = {
+		limit = { has_character_flag = hist_limb_healing_reward }
+		hist_limb_healing_effect = yes
+	}
+	if = {
+		limit = { has_character_flag = hist_mental_healing_reward }
+		hist_mental_healing_effect = yes
+	}
+	if = {
+		limit = { has_character_flag = hist_disrupted_healing_reward }
+		remove_trait = disrupted
+	}
+	if = {
+		limit = { has_character_flag = hist_infirm_healing_reward }
+		remove_trait = infirm
+	}
+	# LEGITIMACY GAIN FOR STANDARD ACTIVITY PARTICIPATION - PILGRIMAGE
+	standard_activity_participation_legitimacy_effect = yes
+}
+
+give_hist_reward_effect = {
+    add_piety = {
+		value = $LENGTH$_pilgrimage_piety_gain
+		# Multipliers
+		## Depending on how well you clung to your intent, you may get a higher reward.
+		if = {
+			limit = { has_character_flag = major_hist_reward }
+			multiply = pilgrimage_perfect_pious_multiplier
+		}
+		else_if = {
+			limit = { has_character_flag = medium_hist_reward }
+			multiply = pilgrimage_high_pious_multiplier
+		}
+		else_if = {
+			limit = { has_character_flag = minor_hist_reward}
+			multiply = pilgrimage_mid_pious_multiplier
+		}
+		else_if = {
+			limit = { has_character_flag = miniscule_hist_reward }
+			multiply = pilgrimage_low_pious_multiplier
+		}
+		## Certain activity options may give you more piety also.
+		if = {
+			limit = {
+				has_activity_intent = devotion_intent
+			}
+			add = medium_piety_gain
+		}
+		multiply = 0.5
+	}
+}
+
+increase_hist_blessing_effect = {
+	if = { 
+		limit = {
+			faith = { has_doctrine = tenet_amberhist }
+			has_character_flag = race_argonian
+		}
+		increase_amber_blessed_effect = yes
+	}
+	if = { 
+		limit = {
+			faith = { has_doctrine = tenet_sunhist }
+			has_character_flag = race_argonian
+		}
+		increase_sun_blessed_effect = yes
+	}
+	if = { 
+		limit = {
+			faith = { has_doctrine = tenet_ghosthist }
+			has_character_flag = race_argonian
+		}
+		increase_ghost_scale_effect = yes
+	}
+}
+
+hist_limb_healing_effect = {
+	if = { 
+		limit = { has_trait = maimed }
+		remove_trait = maimed
+	}
+	if = { 
+		limit = { has_trait = one_legged }
+		remove_trait = one_legged
+	}
+	if = { 
+		limit = { has_trait = one_eyed }
+		remove_trait = one_eyed
+	}
+	if = { 
+		limit = { has_trait = maimed }
+		remove_trait = maimed
+	}
+	if = { 
+		limit = { has_trait = blind }
+		remove_trait = blind
+	}
+}
+
+hist_mental_healing_effect = {
+	if = { 
+		limit = { has_trait = depressed_1 }
+		remove_trait = depressed_1
+	}
+	if = { 
+		limit = { has_trait = lunatic_1 }
+		remove_trait = lunatic_1
+	}
+	if = { 
+		limit = { has_trait = possessed_1 }
+		remove_trait = possessed_1
+	}
+}
+
+hist_communion_completed_log_entry_effect = {
+	if = {
+		limit = { exists = involved_activity }
+		involved_activity = {
+			add_activity_log_entry = {
+				key = hist_communion_completed_log
+				tags = { completed }
+				score = 100
+				show_in_conclusion = yes
+				character = root
+				#Effects
+				root = {
+					#This effect applies traits/xp as appropriate and also calls give_pilgrimage_reward_effect
+					give_hist_communion_reward_effect = yes
+				}
+			}
+		}
+	}
+}
+
+#Clean up the flags
+clean_up_hist_communion_type_reward_flags_effect = {
+	remove_character_flag = major_hist_reward
+	remove_character_flag = medium_hist_reward
+	remove_character_flag = minor_hist_reward
+	remove_character_flag = miniscule_hist_reward
+	remove_character_flag = increase_hist_blessing
+	remove_character_flag = increase_argonian_behemoth
+	remove_character_flag = hist_limb_healing_reward
+	remove_character_flag = hist_disrupted_healing_reward
+	remove_character_flag = hist_infirm_healing_reward
+}
+
+		

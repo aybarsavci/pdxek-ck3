@@ -1,0 +1,217 @@
+﻿is_in_morrowind_council = {
+	any_character_situation = {
+		any_participant_group = {
+			participant_group_type = grand_council_members
+			participant_group_has_character = root
+		}
+	}
+}
+is_great_house_leader = {
+	OR = {
+		has_title = title:k_redoran
+		has_title = title:k_hlaalu
+		has_title = title:k_dres
+		has_title = title:k_telvanni
+		has_title = title:k_indoril
+	}
+}
+is_morrowind_high_councilor = {
+	$CHARACTER$ = { this = global_var:morrowind_high_councilor }
+}
+is_allowed_to_vote = {
+	OR = {
+		is_great_house_leader = yes
+		has_primary_title = title:k_archcanon_vivec
+		has_primary_title = title:k_archcanon_almalexia
+		has_primary_title = title:k_archcanon_sotha_sil
+		has_primary_title = title:e_tribunal_temple
+	}
+}
+ek_vvardenfell_temple_reserve = {
+	trigger_if = {
+		limit = {
+			county.holder = { has_realm_law = vvardenfell_temple_reserve }
+		}	
+		custom_tooltip = {
+			text = vvardenfell_temple_reserve_holdings
+			NOT = { geographical_region = mundus_tamriel_morrowind_vvardenfell }
+		}
+	}	
+}
+ek_war_stance_trigger = {
+	#GCM outlaws all war against other dunmer
+	trigger_if = {
+		limit = {
+			scope:actor = {
+				any_character_situation = {
+					any_participant_group = {
+						participant_group_type = grand_council_members
+						participant_group_has_character = scope:actor
+					}
+				}
+			}
+			scope:recipient = {
+				any_character_situation = {
+					any_participant_group = {
+						participant_group_type = grand_council_members
+						participant_group_has_character = scope:recipient
+					}
+				}
+			}
+		}
+		custom_tooltip = {
+			text = forbid_internal_wars_tooltip
+			scope:recipient = {
+				NOT = {
+					any_character_situation = {
+						any_participant_group = {
+							participant_group_type = grand_council_members
+							participant_group_has_character = scope:recipient
+						}
+					}
+				}
+			}
+		}	
+	}
+	trigger_if = {
+		limit = {
+			any_character_situation = {
+				any_situation_sub_region = {
+					has_sub_region_phase_parameter = only_high_councilor_can_wage_external_wars
+				}
+				any_participant_group = {
+					participant_group_type = grand_council_members
+					participant_group_has_character = scope:actor
+				}
+			}
+			scope:recipient = {
+				NOT = {		
+					any_character_situation = {
+						this = situation:grand_council
+					}
+				}
+			}
+		}
+		custom_tooltip = {
+			text = only_hc_external_wars_tooltip
+			is_morrowind_high_councilor = { CHARACTER = this }
+		}
+	}
+	#Writ of war required for external wars
+	trigger_if = {
+		limit = {
+			any_character_situation = {
+				any_participant_group = {
+					participant_group_type = grand_council_members
+					participant_group_has_character = scope:actor
+				}
+			}
+			scope:recipient = {
+				NOT = {		
+					any_character_situation = {
+						this = situation:grand_council
+					}
+				}
+			}
+		}
+		custom_tooltip = {
+			text = writ_of_war_required_tooltip
+			has_character_flag = has_writ_of_war
+		}	
+	}
+	# GCM forbidding war against Ashlanders specifically on Vvardenfell
+	trigger_if = {
+		limit = {
+			has_realm_law = vvardenfell_temple_reserve
+			scope:recipient = {
+				capital_province = { geographical_region = mundus_tamriel_morrowind_vvardenfell }
+			}
+		}
+		custom_tooltip = {
+			text = forbid_ashlander_wars_vvardenfell_tooltip
+			scope:recipient.culture = {
+				NOR = {
+					this = culture:ashlander
+					any_parent_culture_or_above = {
+						this = culture:ashlander
+					}
+				}
+			}
+		}	
+	}
+}
+ek_gcm_diplomacy_trigger = {
+	trigger_if = {
+		limit = {
+			scope:actor = {
+				any_character_situation = {
+					any_situation_sub_region = {
+						has_sub_region_phase_parameter = unable_to_negotiate_alliance_outside_gcm
+						any_situation_sub_region_participant_group = {
+							participant_group_type = grand_council_members
+							participant_group_has_character = scope:actor
+						}
+					}
+				}
+			}
+		}
+		custom_tooltip = {
+			text = unable_to_negotiate_alliance_outside_gcm_tt
+			scope:recipient = {
+				any_character_situation = {
+					any_situation_sub_region = {
+						any_situation_sub_region_participant_group = {
+							participant_group_type = grand_council_members
+							participant_group_has_character = scope:recipient
+						}
+					}
+				}
+			}
+		}
+	}
+}
+#Triggers for voting patterns
+is_temple_faction = { #Archcanons and Alma Rula
+	OR = {
+		has_primary_title = title:k_archcanon_vivec
+		has_primary_title = title:k_archcanon_almalexia
+		has_primary_title = title:k_archcanon_sotha_sil
+		has_primary_title = title:e_tribunal_temple
+	}
+}
+can_ban_slavery_gcm = {
+	OR = {		
+		AND = { #Can ban during autonomous phase
+			custom_tooltip = {
+				text = gcm_has_ban_slavery_parameter
+				any_character_situation = {
+					any_situation_sub_region = {
+						has_sub_region_phase_parameter = can_ban_slavery
+						any_situation_sub_region_participant_group = {
+							participant_group_type = grand_council_members
+							participant_group_has_character = root
+						}
+					}
+				}
+			}
+		}
+		AND = { #HC can ban it during centralised others can follow their lead
+			custom_tooltip = {
+				text = gcm_hc_or_others_can_ban_slavery
+				any_character_situation = {
+					any_situation_sub_region = {
+						has_sub_region_phase_parameter = high_councilor_can_ban_slavery
+						any_situation_sub_region_participant_group = {
+							participant_group_type = grand_council_members
+							participant_group_has_character = root
+						}
+					}
+				}
+				OR = {
+					is_morrowind_high_councilor = { CHARACTER = this }
+					exists = global_var:hc_banned_slavery
+				}
+			}
+		}
+	}
+}

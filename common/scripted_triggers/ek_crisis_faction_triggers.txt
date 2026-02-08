@@ -1,0 +1,250 @@
+﻿ek_crisis_faction_county_has_relevant_modifier = {
+	$FACTION$ = {
+		trigger_if = {
+			limit = { has_variable = crisis_type }
+			switch = {
+				trigger = var:crisis_type
+				flag:bandits_flag = { $COUNTY$ = { has_county_modifier = county_corruption_bandits_rampant_modifier } }
+				flag:goblinken_flag = { $COUNTY$ = { has_county_modifier = county_corruption_goblinken_rampant_modifier } }
+				flag:necromancers_flag = { $COUNTY$ = { has_county_modifier = county_corruption_necromancers_rampant_modifier } }
+				flag:vampires_flag = { $COUNTY$ = { has_county_modifier = county_corruption_vampires_rampant_modifier } }
+				flag:werewolves_flag = { $COUNTY$ = { has_county_modifier = county_corruption_werewolves_rampant_modifier } }
+				flag:falmer_flag = { $COUNTY$ = { has_county_modifier = county_corruption_falmer_rampant_modifier } }
+				flag:imga_flag = { $COUNTY$ = { has_county_modifier = county_corruption_imga_rampant_modifier } }
+				flag:peryite_flag = { $COUNTY$ = { has_county_modifier = county_corruption_peryite_rampant_modifier } }
+				flag:daedra_flag = { $COUNTY$ = { has_county_modifier = county_corruption_daedra_rampant_modifier } }
+				flag:ashlanders_flag = { $COUNTY$ = { has_county_modifier = county_corruption_ashlanders_rampant_modifier } }
+				flag:slaves_flag = { $COUNTY$ = { has_county_modifier = county_corruption_slaves_rampant_modifier } }
+			}
+		}
+	}
+}
+
+ek_crisis_faction_county_can_have_relevant_modifier = {
+	$FACTION$ = {
+		trigger_if = {
+			limit = { has_variable = crisis_type }
+			switch = {
+				trigger = var:crisis_type
+				flag:bandits_flag = { $COUNTY$ = { can_have_bandits_crisis_modifier_trigger = { TARGET = $TARGET$ } } }
+				flag:goblinken_flag = { $COUNTY$ = { can_have_goblinken_crisis_modifier_trigger = { TARGET = $TARGET$ } } }
+				flag:necromancers_flag = { $COUNTY$ = { can_have_necromancers_crisis_modifier_trigger = { TARGET = $TARGET$ } } }
+				flag:vampires_flag = { $COUNTY$ = { can_have_vampires_crisis_modifier_trigger = { TARGET = $TARGET$ } } }
+				flag:werewolves_flag = { $COUNTY$ = { can_have_werewolves_crisis_modifier_trigger = { TARGET = $TARGET$ } } }
+				flag:falmer_flag = { $COUNTY$ = { can_have_falmer_crisis_modifier_trigger = { TARGET = $TARGET$ } } }
+				flag:imga_flag = { $COUNTY$ = { can_have_imga_crisis_modifier_trigger = { TARGET = $TARGET$ } } }
+				flag:peryite_flag = { $COUNTY$ = { can_have_peryite_crisis_modifier_trigger = { TARGET = $TARGET$ } } }
+				flag:daedra_flag = { $COUNTY$ = { can_have_daedra_crisis_modifier_trigger = { TARGET = $TARGET$ } } }
+				flag:ashlanders_flag = { $COUNTY$ = { can_have_ashlanders_crisis_modifier_trigger = { TARGET = $TARGET$ } } }
+				flag:slaves_flag = { $COUNTY$ = { can_have_slaves_crisis_modifier_trigger = { TARGET = $TARGET$ } } }
+			}
+		}
+	}
+}
+
+ek_county_can_have_additional_crisis_modifier = {
+	NOT = { ek_county_has_crisis_faction_modifier = yes }
+	NOT = { has_variable = ek_block_further_county_corruption_spread }
+	NOT = { has_county_modifier = recent_crisis_revolt }
+}
+
+ek_county_has_crisis_faction_modifier = {
+	OR = {
+		has_county_modifier = county_corruption_bandits_rampant_modifier
+		has_county_modifier = county_corruption_goblinken_rampant_modifier
+		has_county_modifier = county_corruption_imga_rampant_modifier
+		has_county_modifier = county_corruption_vampires_rampant_modifier
+		has_county_modifier = county_corruption_werewolves_rampant_modifier
+		has_county_modifier = county_corruption_necromancers_rampant_modifier
+		has_county_modifier = county_corruption_peryite_rampant_modifier
+		has_county_modifier = county_corruption_falmer_rampant_modifier
+		has_county_modifier = county_corruption_daedra_rampant_modifier
+		has_county_modifier = county_corruption_ashlanders_rampant_modifier
+		has_county_modifier = county_corruption_slaves_rampant_modifier
+	}
+}
+
+can_have_daedra_crisis_modifier_trigger = {
+	NOT = { can_character_join_daedra_faction_trigger = { TARGET = $TARGET$ } }
+}
+
+can_have_bandits_crisis_modifier_trigger = {
+	NOT = { can_character_join_bandits_faction_trigger = { TARGET = $TARGET$ } }
+}
+
+can_have_goblinken_crisis_modifier_trigger = {
+	NOT = { can_character_join_goblinken_faction_trigger = { TARGET = $TARGET$ } }
+	title_province = { geographical_region = ek_goblinkin_crisis_region	}
+}
+
+can_have_imga_crisis_modifier_trigger = {
+	title_province = { geographical_region = ek_imga_crisis_region }
+	NOT = { can_character_join_imga_faction_trigger = { TARGET = $TARGET$ } }
+}
+
+can_have_vampires_crisis_modifier_trigger = {
+	NOT = { can_character_join_vampires_faction_trigger = { TARGET = $TARGET$ } }
+}
+
+can_have_falmer_crisis_modifier_trigger = {
+	title_province = { geographical_region = ek_falmer_crisis_region }
+	NOT = { can_character_join_falmer_faction_trigger = { TARGET = $TARGET$ } }
+}
+
+can_have_necromancers_crisis_modifier_trigger = {
+	NOT = { can_character_join_necromancers_faction_trigger = { TARGET = $TARGET$ } }
+}
+
+can_have_werewolves_crisis_modifier_trigger = {
+	NOT = { can_character_join_werewolves_faction_trigger = { TARGET = $TARGET$ } }
+}
+
+can_have_peryite_crisis_modifier_trigger = {
+	NOR = { 
+		$TARGET$.religion = religion:peryite_religion
+		$TARGET$.faith = { has_doctrine = tenet_veneration_of_diseases }
+	}
+}
+
+can_have_ashlanders_crisis_modifier_trigger = {
+	always = no # EK TODO for AnarchAz - reenable on MW branch. when activating this, please remember to add it to the list in game_concept_crisis_faction_desc
+	title_province = { geographical_region = ek_ashlanders_crisis_region }
+	NOT = { can_character_join_ashlanders_faction_trigger = { TARGET = $TARGET$ } }
+	# EK TODO for AnarchAz: above is placeholder condition
+}
+
+can_have_slaves_crisis_modifier_trigger = {
+	always = no # EK TODO for AnarchAz - reenable on MW branch. when activating this, please remember to add it to the list in game_concept_crisis_faction_desc
+	NOT = { can_character_join_slaves_faction_trigger = { TARGET = $TARGET$ } }
+	 # EK TODO for AnarchAz: add any additional conditions (e.g. must have slave pens building)
+}
+
+ek_crisis_faction_can_character_join = {
+	OR = {
+		has_variable = rebel_leader_peasants
+		scope:faction = {
+			trigger_if = {
+				limit = { has_variable = crisis_type }
+				switch = {
+					trigger = var:crisis_type
+					flag:bandits_flag = { can_character_join_bandits_faction_trigger = { TARGET = root } }
+					flag:goblinken_flag = { can_character_join_goblinken_faction_trigger = { TARGET = root } }
+					flag:necromancers_flag = { can_character_join_necromancers_faction_trigger = { TARGET = root } }
+					flag:vampires_flag = { can_character_join_vampires_faction_trigger = { TARGET = root } }
+					flag:werewolves_flag = { can_character_join_werewolves_faction_trigger = { TARGET = root } }
+					flag:falmer_flag = { can_character_join_falmer_faction_trigger = { TARGET = root } }
+					flag:imga_flag = { can_character_join_imga_faction_trigger = { TARGET = root } }
+					flag:peryite_flag = { can_character_join_peryite_faction_trigger = { TARGET = root } }
+					flag:daedra_flag = { can_character_join_daedra_faction_trigger = { TARGET = root } }
+					flag:ashlanders_flag = { can_character_join_ashlanders_faction_trigger = { TARGET = root } }
+					flag:slaves_flag = { can_character_join_slaves_faction_trigger = { TARGET = root } }
+				}
+			}
+		}
+	}
+}
+
+can_character_join_bandits_faction_trigger = {
+	$TARGET$ = { 
+		OR = {
+			has_government = pirate_government 
+			has_trait = gallowsbait
+		}
+	}
+}
+
+can_character_join_goblinken_faction_trigger = {
+	$TARGET$.culture = { has_cultural_pillar = heritage_goblinken }
+}
+
+can_character_join_necromancers_faction_trigger = {
+	$TARGET$ = { 
+		OR = {
+			is_necromancer = yes
+			has_religion = religion:necromantic_religion 
+			faith = { malevolent_necromantic_faith = yes }
+		} 
+	}
+}
+
+can_character_join_vampires_faction_trigger = {
+	$TARGET$ = {
+		OR = {
+			is_vampire = yes
+			faith = {
+				OR = {
+					has_doctrine = doctrine_vampirism_virtuous
+				}
+			}
+		}
+	}
+}
+
+can_character_join_werewolves_faction_trigger = {
+	$TARGET$ = { 
+		OR = {
+			is_lycan = yes
+			faith = { 
+				OR = {
+					has_doctrine = doctrine_lycanthropy_virtuous
+				}
+			}
+		}
+	}
+}
+
+can_character_join_falmer_faction_trigger = {
+	$TARGET$.culture = { has_cultural_pillar = heritage_falmeri }
+}
+
+can_character_join_imga_faction_trigger = {
+	$TARGET$.culture = { has_cultural_pillar = heritage_imgan }
+}
+
+can_character_join_peryite_faction_trigger = {
+	$TARGET$.faith = {
+		OR = {
+			has_doctrine = tenet_divine_disease
+			has_doctrine = tenet_veneration_of_diseases
+			has_doctrine = doctrine_peryite_pantheon
+		}
+	}
+}
+
+can_character_join_daedra_faction_trigger = {
+	$TARGET$.culture = { has_cultural_pillar = heritage_dremora }
+}
+
+can_character_join_ashlanders_faction_trigger = {
+	$TARGET$.culture = culture:ashlander
+	# EK TODO for AnarchAz: above is placeholder condition
+}
+
+can_character_join_slaves_faction_trigger = {
+	$TARGET$.culture = { NOT = { has_cultural_pillar = heritage_dunmeri } } 
+	# EK TODO for AnarchAz: above is placeholder condition
+}
+
+ek_crisis_faith_cultural_identity_matches = {
+	trigger_if = {
+		limit = {
+			OR = {
+				has_doctrine = doctrine_cultural_identity_heritage
+				has_doctrine = doctrine_cultural_identity_heritage_exclusive
+			}
+		}
+		has_variable = associated_culture
+		var:associated_culture = { has_same_culture_heritage = $TARGET_CULTURE$ }
+	}
+	trigger_else_if = {
+		limit = {
+			OR = {
+				has_doctrine = doctrine_cultural_identity_culture
+				has_doctrine = doctrine_cultural_identity_culture_exclusive
+			}
+		}
+		has_variable = associated_culture
+		$TARGET_CULTURE$ = var:associated_culture
+	}
+	trigger_else = { always = yes }
+}

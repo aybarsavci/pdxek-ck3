@@ -1,0 +1,209 @@
+﻿
+clothes_decay = {
+	usage = game
+	
+		#Clothes decay for indebted rulers.
+		indebted_gradient = {
+			dna_modifiers = {
+				morph = {
+					mode = add				
+					gene = clothes_decay
+					template = clothes_decaying
+					value = {
+						value = gold
+						multiply = -0.005 # so gene strength is 1 at -200 gold.
+					}
+				}
+			}
+			 weight = {
+			 	base = 0
+			 	modifier = {
+			 		add = 200
+					AND = {
+						gold < 0
+						gold > -200
+					}
+			 	}
+			}
+		}
+
+		indebted_clamped = {
+			dna_modifiers = {
+				morph = {
+					mode = add				
+					gene = clothes_decay
+					template = clothes_decaying
+					value = {
+						value = 1
+					}
+				}
+			}
+			 weight = {
+			 	base = 0
+			 	modifier = {
+			 		add = 200
+					AND = {
+						gold < -200
+					}
+			 	}
+			}
+		}
+	
+	#Clothes decay for unlanded spouses of indebted rulers. Their personal gold gets added to the calculation so they aren't as affected by ruler's poverty if they have their own money.
+	indebted_spouse_gradient = {
+		dna_modifiers = {
+			morph = {
+				mode = add				
+				gene = clothes_decay
+				template = clothes_decaying
+				value = {
+					value = primary_spouse.gold
+					add = gold
+					add = 1
+					multiply = -0.005 # so gene strength is 1 at -200 gold.
+
+				}
+			}
+		}
+		weight = {
+		 	base = 0
+			modifier = {
+				add = 200
+				exists = primary_spouse
+				AND = {
+					primary_spouse.gold < 0
+					primary_spouse.gold > -200
+					is_landed = no
+					gold > -1
+				}
+			}
+		}	
+	}
+
+	indebted_spouse_clamped = {
+		dna_modifiers = {
+			morph = {
+				mode = add				
+				gene = clothes_decay
+				template = clothes_decaying
+				value = {
+					value = -199
+					add = gold
+					multiply = -0.005 # so gene strength is 1 at -200 gold.
+				}
+			}
+		}
+		weight = {
+		 	base = 0
+			modifier = {
+				add = 200
+				exists = primary_spouse
+				AND = {
+					primary_spouse.gold < -200
+					is_landed = no
+					gold > -1
+					gold < 200
+				}
+			}
+		}	
+	}
+
+	indebted_liege_gradient = {
+		dna_modifiers = {
+			morph = {
+				mode = add				
+				gene = clothes_decay
+				template = clothes_decaying
+				value = {
+					value = liege.gold
+					add = gold
+					add = 1
+					multiply = -0.005 # so gene strength is 1 at -200 gold.
+				}
+			}
+		}
+		weight = {
+		 	base = 0
+			modifier = {
+				add = 200
+				exists = liege
+				AND = {
+					liege.gold < 0
+					liege.gold > -200
+					is_landed = no
+					gold > -1
+				}
+				}
+		}	
+	}
+
+	indebted_liege_clamped = {
+		dna_modifiers = {
+			morph = {
+				mode = add				
+				gene = clothes_decay
+				template = clothes_decaying
+				value = {
+					value = -199
+					add = gold
+					multiply = -0.005 # so gene strength is 1 at -200 gold.
+
+				}
+			}
+		}
+		weight = {
+		 	base = 0
+			modifier = {
+				add = 200
+				exists = liege
+				AND = {
+					liege.gold < -200
+					is_landed = no
+					gold > -1
+					gold < 200
+				}
+				}
+		}	
+	}
+
+	in_prisoner = {
+		dna_modifiers = {
+			morph = {
+				mode = add				
+				gene = clothes_decay
+				template = clothes_decaying
+				value = {
+					value = 0.4
+				}
+			}
+		}
+		weight = {
+		 	base = 0
+			modifier = {
+				add = 200
+				is_imprisoned = yes
+			}
+		}	
+	}
+
+	vow_of_poverty = {
+		dna_modifiers = {
+			morph = {
+				mode = add				
+				gene = clothes_decay
+				template = clothes_decaying
+				value = {
+					value = 0.4
+				}
+			}
+		}
+		weight = {
+		 	base = 0
+			modifier = {
+				add = 200
+				has_character_modifier = vow_of_poverty_modifier
+			}
+		}	
+	}
+	
+}

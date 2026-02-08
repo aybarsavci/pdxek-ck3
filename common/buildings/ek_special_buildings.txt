@@ -1,0 +1,738 @@
+﻿##################
+# Systres Special Buildings
+##################
+# Bendu Olo Statue
+# Amenos Station
+##################
+
+#########
+# Bendu Olo Statue
+#########
+bendu_olo_statue_01 = {
+	asset = {
+		type = pdxmesh
+		name = "fp2_building_special_tower_of_hercules_mesh"
+	}
+
+	construction_time = very_slow_construction_time
+	
+	type_icon = "hercules.dds" 
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	cost_gold = 1000
+
+	character_modifier = {
+		naval_movement_speed_mult = 0.1
+		different_culture_opinion = 5
+	}
+
+	county_modifier = {		
+		development_growth_factor = 0.1
+		development_growth = 0.05
+	}
+	
+	province_modifier = {
+		monthly_income = 1
+		travel_danger = -5
+	}
+	
+	ai_value = {
+		base = 100
+		culture_likely_to_fortify_modifier = yes
+		modifier = { # Fill all building slots before going for special buildings
+			factor = 0
+			free_building_slots > 0
+		}
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+##########
+# Amenos Station
+##########
+amenos_station_01 = {
+	effect_desc = special_prison_effect_desc
+
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_tower_of_london.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	cost_gold = 1000
+
+	character_modifier = {
+		dread_gain_mult = 0.1
+		monthly_county_control_growth_factor = 0.1
+		monthly_county_control_growth_add = 0.05
+	}
+	max_garrison = good_building_max_garrison_tier_1
+	province_modifier = {
+		defender_holding_advantage = normal_building_advantage_tier_1
+		fort_level = good_building_fort_level_tier_1
+		stationed_maa_damage_mult = normal_maa_damage_tier_1
+		stationed_maa_toughness_mult = normal_maa_toughness_tier_1
+		travel_danger = 15
+	}
+
+	county_modifier = {
+		monthly_county_control_decline_factor = -0.5
+	}
+	
+	ai_value = {
+		base = 100
+	}
+		
+	type = special
+
+	flag = travel_point_of_interest_martial
+}
+
+##################
+# Yokuda Special Buildings
+##################
+# Hira Free Port
+# Temple of Ansu-Gurleht
+##################
+
+##########
+# Hira Free Port
+##########
+hira_free_port_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_special_port.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	cost_gold = 1000
+
+	character_modifier = {
+		naval_movement_speed_mult = 0.1
+		diplomatic_range_mult = 0.25
+	}
+
+	# this is just enough to reach Tamriel from Yokuda on restricted diplo range setting
+	county_holder_character_modifier = {
+		naval_movement_speed_mult = 0.1
+		diplomatic_range_mult = 0.25
+	}
+
+	province_modifier = {
+		monthly_income = 1.5
+	}
+
+	county_modifier = {
+		tax_mult = 0.1
+		development_growth = 0.1
+		development_growth_factor = 0.2
+		monthly_county_control_decline_factor = -0.1
+	}
+	
+	ai_value = {
+		base = 100
+	}
+		
+	type = special
+
+	flag = travel_point_of_interest_economic
+}
+
+##########
+# Temple of Ansu-Gurleht
+##########
+ansu_gurleht_temple_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_great_mosque_of_djenne.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	cost_gold = 1000
+
+	character_modifier = {
+		fertility = 0.1
+		dread_gain_mult = 0.1
+	}
+
+	province_modifier = {
+		monthly_income = 0.5
+	}
+
+	county_modifier = {
+		development_growth = 0.1
+		development_growth_factor = 0.2
+		monthly_county_control_growth_factor = 0.1
+	}
+	
+	ai_value = {
+		base = 100
+	}
+		
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+################################
+#            TOWERS            #
+################################
+
+##########
+# White-Gold Tower
+##########
+white_gold_tower_01 = {
+
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_white_gold.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+
+	effect_desc = white_gold_tower_effect_desc
+	
+	show_disabled = yes
+	
+	cost_gold = 1000
+	
+	county_modifier = {
+		county_opinion_add = 10
+	}
+
+	max_garrison = 300
+
+	province_modifier = {
+		fort_level = 2
+		defender_holding_advantage = 5
+	}
+
+	character_modifier = {
+		vassal_limit = 10
+		legitimacy_gain_mult = 0.1
+		monthly_dynasty_prestige_mult = 0.1
+		monthly_prestige_gain_mult = 0.1
+		monthly_influence_mult = 0.1
+		development_growth_factor = 0.1
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+##########
+# Adamantine Tower
+##########
+adamantine_tower_01 = {
+
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_white_gold.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+
+	effect_desc = adamantine_tower_effect_desc
+	
+	show_disabled = yes
+	
+	cost_gold = 1000
+	
+	county_modifier = {
+		county_opinion_add = 10
+	}
+
+	max_garrison = 300
+
+	province_modifier = {
+		fort_level = 2
+		defender_holding_advantage = 5
+	}
+
+	character_modifier = {
+		domain_limit = 1
+		legitimacy_gain_mult = 0.1
+		monthly_dynasty_prestige_mult = 0.1
+		monthly_prestige_gain_mult = 0.1
+		monthly_influence_mult = 0.1
+		monthly_lifestyle_xp_gain_mult = 0.1
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+##########
+# Crystal-Like-Law
+##########
+crystal_tower_01 = {
+
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_white_gold.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+
+	effect_desc = crystal_tower_effect_desc
+	
+	show_disabled = yes
+	
+	cost_gold = 1000
+	
+	county_modifier = {
+		county_opinion_add = 10
+	}
+
+	max_garrison = 300
+
+	province_modifier = {
+		fort_level = 2
+		defender_holding_advantage = 5
+	}
+
+	character_modifier = {
+		general_opinion = 10
+		legitimacy_gain_mult = 0.1
+		monthly_dynasty_prestige_mult = 0.1
+		monthly_prestige_gain_mult = 0.1
+		monthly_influence_mult = 0.1
+		monthly_county_control_growth_factor = 0.1
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_wonder
+}
+
+############
+# Generic  #
+############
+### Grand Temples are holy_site_other_grand_temple_01, in 00_special_buildings.txt
+
+##########
+# Grand Cathedral
+##########
+grand_cathedral_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_cologne_cathedral.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		always = no
+	}
+	
+	is_enabled = {
+		custom_description = {
+			text = holy_site_building_trigger
+			barony = {
+				is_holy_site_of = scope:holder.faith
+			}
+		}
+		scope:holder = { faith = { has_doctrine_parameter = faith_uses_grand_cathedral } }
+	}
+	
+	show_disabled = yes
+	
+	cost_gold = 1000
+
+	character_modifier = {
+		monthly_piety = 0.25
+		monthly_dynasty_prestige_mult = 0.05
+		holy_order_hire_cost_mult = -0.15
+		clergy_opinion = 5
+		monthly_county_control_growth_factor = 0.05
+	}
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+	province_modifier = {
+		monthly_income = 2
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Daedric Shrines
+##########
+daedric_shrine_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_brihadeeswarar_temple.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		always = no
+	}
+	
+	is_enabled = {
+		custom_description = {
+			text = holy_site_building_trigger
+			barony = {
+				is_holy_site_of = scope:holder.faith
+			}
+		}
+		scope:holder = { faith = { has_doctrine_parameter = faith_uses_daedric_shrine } }
+	}
+	
+	show_disabled = yes
+	
+	cost_gold = 1000
+
+	character_modifier = {
+		monthly_piety = 0.25
+		monthly_dynasty_prestige_mult = 0.05
+		levy_reinforcement_rate = 0.1
+		monthly_county_control_growth_factor = 0.05
+	}
+	county_modifier = {
+		tax_mult = 0.1
+		levy_size = 0.1
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+	province_modifier = {
+		monthly_income = 1
+	}
+	
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Great Wyrd Tree
+##########
+great_wyrd_tree_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_beldama_wyrd_tree.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		always = no
+	}
+	
+	is_enabled = {
+		custom_description = {
+			text = holy_site_building_trigger
+			barony = {
+				is_holy_site_of = scope:holder.faith
+			}
+		}
+		scope:holder = { faith = { has_doctrine_parameter = faith_uses_great_wyrd_tree } }
+	}
+	
+	show_disabled = yes
+	
+	cost_gold = 1000
+
+	character_modifier = {
+		monthly_piety = 0.25
+		same_faith_opinion = 5
+	}
+	county_modifier = {
+		development_growth_factor = 0.2
+		development_growth = 0.1
+		county_opinion_add = 5
+	}
+	ai_value = {
+		base = 100
+	}
+	
+	type = special
+	
+	flag = is_used_for_cath_bedraud_burial
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Dragon Temple
+##########
+dragon_temple_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_brihadeeswarar_temple.dds"
+	
+	can_construct_potential = {
+		building_requirement_tribal = no
+	}
+	
+	can_construct = {
+		always = no
+	}
+	
+	is_enabled = {
+		custom_description = {
+			text = holy_site_building_trigger
+			barony = {
+				is_holy_site_of = scope:holder.faith
+			}
+		}
+		scope:holder = { faith = { has_doctrine_parameter = faith_uses_dragon_temple } }
+	}
+	
+	show_disabled = yes
+	
+	cost_gold = 1000
+
+	character_modifier = {
+		monthly_piety = 0.25
+		monthly_dynasty_prestige_mult = 0.05
+		short_reign_duration_mult = -0.1
+		monthly_county_control_growth_add = 0.1
+	}
+	county_modifier = {
+		tax_mult = 0.2
+		development_growth_factor = 0.2
+		development_growth = 0.1
+	}
+	province_modifier = {
+		monthly_income = 2
+	}
+	
+	ai_value = {
+		base = 100
+	}
+
+	effect_desc = dragon_temple
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+}
+
+##########
+# Generic Holy Site building - exists to get around the inability to change holy site type slot. This is the only buildable type of holy site building, which is then switched out with the appropriate one for your faith upon completion
+##########
+generic_holy_site_01 = {
+	construction_time = very_slow_construction_time
+
+	type_icon = "icon_structure_cathedral_zoroastric.dds"
+	
+	# can_construct_potential = { Tribals should be able to build holy sites
+	# 	building_requirement_tribal = no
+	# }
+
+	can_construct_showing_failures_only = {
+		# this prevents an exploit where for whatever reason, you can build holy site buildings in all such slots in a county where your faith has a holy site - even if only one of the baronies is your HS. 
+		# This should prevent stacking
+		# a hypothetical scenario is that another faith has already built their HS in another barony than your own faith's, in that case you can convert the building type and at the very least have a building in the proper county, if not the proper barony
+		NOT = { holy_site_already_present_trigger = yes } 
+	}
+	can_construct = {
+		custom_description = {
+			text = holy_site_building_trigger
+			barony = {
+				is_holy_site_of = scope:holder.faith
+			}
+		}
+		scope:holder = {
+			culture = {
+				has_innovation = innovation_crop_rotation
+			}
+		}
+		# can't build these if your faith has no gods and cannot use holy sites anyways
+		NOT = {
+			scope:holder = {
+				faith = {
+					has_doctrine = doctrine_pantheon_no_monolatry_pantheon
+				}
+			}
+		}
+	}
+	
+	is_enabled = {
+		custom_description = {
+			text = holy_site_building_trigger
+			barony = {
+				is_holy_site_of = scope:holder.faith
+			}
+		} 
+	}
+	
+	show_disabled = no
+	
+	cost_gold = 1000
+	
+	ai_value = {
+		base = 100
+	}
+
+	effect_desc = generic_holy_site_01_flip
+	
+	type = special
+
+	flag = travel_point_of_interest_religious
+
+	on_complete = {
+		remove_building = generic_holy_site_01 # remove the generic version of the building	
+		# then add the appropriate type for your faith
+		if = {
+			limit = { county.holder.faith = { has_doctrine_parameter = faith_uses_grand_cathedral } }
+			add_special_building = grand_cathedral_01
+		}
+		else_if = {
+			limit = { county.holder.faith = { has_doctrine_parameter = faith_uses_daedric_shrine } }
+			add_special_building = daedric_shrine_01
+		}
+		else_if = {
+			limit = { county.holder.faith = { has_doctrine_parameter = faith_uses_great_wyrd_tree } }
+			add_special_building = great_wyrd_tree_01
+		}
+		else_if = {
+			limit = { county.holder.faith = { has_doctrine_parameter = faith_uses_dragon_temple } }
+			add_special_building = dragon_temple_01
+		}
+		else_if = {
+			limit = { county.holder.faith = { has_doctrine_parameter = faith_uses_holy_site_other_grand_temple } }
+			add_special_building = holy_site_other_grand_temple_01
+		}
+		county.holder = { add_piety = 1000 }
+	}
+}
+
+################################
+#          MISCELLANEOUS       #
+################################
+
+###########
+# Arena Building
+##########
+arena_01 = {
+	type_icon = "icon_structure_arena.dds"
+	construction_time = quick_construction_time
+
+	effect_desc = tournament_cost_effect_desc
+
+	can_construct_potential = {
+		building_arena_requirement = yes
+		building_requirement_castle_city_church = { LEVEL = 01 }
+		NOT = {
+			scope:county = {
+			   any_county_province = {			
+					has_building_or_higher = arena_01
+			   }
+			}
+		}
+	}
+
+	can_construct_showing_failures_only = {
+		building_requirement_tribal = no
+	}
+   
+	cost_gold = normal_building_tier_1_cost
+   
+	province_modifier = {
+		monthly_income = normal_building_tax_tier_1
+	}
+	county_modifier = {
+		county_opinion_add = 5
+	}
+	character_modifier = {
+		monthly_prestige = 0.5
+	}
+   
+	next_building = arena_02
+   
+	ai_value = {
+		base = 10
+	}
+
+	type = special
+
+	flag = travel_point_of_interest_martial_minor
+
+}
+
+arena_02 = {
+	construction_time = slow_construction_time
+
+	effect_desc = tournament_cost_medium_effect_desc
+
+	can_construct_potential = {
+		building_requirement_castle_city_church = { LEVEL = 02 }
+		NOT = {
+			scope:county = {
+			   any_county_province = {			
+					has_building_or_higher = arena_02
+			   }
+			}
+		}
+	}
+
+	can_construct_showing_failures_only = {
+		building_requirement_tribal = no
+	}
+   
+	cost_gold = expensive_building_tier_2_cost
+   
+	province_modifier = {
+		monthly_income = good_building_tax_tier_1
+	}
+	county_modifier = {
+		county_opinion_add = 10
+	}
+	character_modifier = {
+		monthly_prestige = 2
+	}
+   
+	ai_value = {
+		base = 10
+	}
+
+	type = special
+
+	flag = travel_point_of_interest_martial_minor
+
+}
+

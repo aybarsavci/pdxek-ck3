@@ -1,0 +1,42 @@
+pdxmesh = {
+	name = "male_hair_western_baby_01_mesh"
+	file = "m_hair_western_baby_01.mesh"
+
+	#EK2
+	blend_shape = { id = "male_bs_hair_receding"					type = "m_hair_western_baby_01_bs_receding.mesh"  }
+	blend_shape = { id = "male_bs_hair_wp"							type = "m_hair_western_baby_01_bs_wp.mesh"  }
+	blend_shape = { id = "male_bs_hair_khajiit"						type = "m_hair_western_baby_01_bs_khajiit.mesh"  }
+	#EK2
+
+
+	meshsettings = {
+		name = "male_hair_western_baby_01Shape"
+		index = 0
+		texture_diffuse = "m_hair_western_baby_01_diffuse.dds"
+		texture_normal = "m_hair_western_baby_01_normal.dds"
+		texture_specular = "m_hair_western_baby_01_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+
+}
+
+entity = {
+	name = "male_hair_western_baby_01_entity"
+	pdxmesh = "male_hair_western_baby_01_mesh"
+
+#EK2
+attribute = { name = "bs_hair_receding"						blend_shape = "male_bs_hair_receding" }
+attribute = { name = "bs_hair_wp"							blend_shape = "male_bs_hair_wp" }
+attribute = { name = "bs_hair_khajiit"						blend_shape = "male_bs_hair_khajiit" }
+#EK2
+
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 1.0}
+			}
+		}
+	}
+}

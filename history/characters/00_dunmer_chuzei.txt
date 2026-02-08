@@ -1,0 +1,10255 @@
+﻿##Alma rulas and Archcanons
+alma_rula_llothis = { #Saint Llothis the Pious
+	name = "Llothis" #Lore
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple 
+
+	trait = education_learning_4
+	trait = lifespan_3
+	trait = brave
+	trait = honest
+	trait = saint
+	trait = theologian
+	trait = zealous
+	
+	350.1.1 = { birth = yes }
+	700.1.1 = { give_nickname = nick_the_pious }
+	731.7.8 = { death = yes }
+		
+	portrait_override = {	# Will override the character's appearance
+		portrait_modifier_overrides={
+				custom_clothes=male_clothes_religious_almarula_robe
+				custom_headgear=male_headgear_religious_almarula
+				custom_cloaks=male_clothes_religious_almarula
+		}
+	}
+}
+
+alma_rula_olms = { #Saint Olms the Just, founder of ordinators
+	name = "Olms" #Lore
+	dynasty = olms
+	culture = chuzei
+	religion = tribunal_temple
+
+	trait = education_martial_3
+	trait = lifespan_3
+	trait = stubborn
+	trait = organizer
+	trait = saint
+	trait = just
+	trait = zealous
+
+	598.1.1 = { birth = yes }
+	800.1.1 = {	give_nickname = nick_the_just }
+	839.12.8 = { death = yes }
+
+		portrait_override = {	# Will override the character's appearance
+		portrait_modifier_overrides={
+				custom_clothes=male_clothes_religious_almarula_robe
+				custom_headgear=male_headgear_religious_almarula
+				custom_cloaks=male_clothes_religious_almarula
+		}
+	}
+}
+
+indoril_alma_rula = { #BETTER NOT TO CHANGE ID!!!
+	name = "Farwil" #Alma-Rula
+	dynasty = dyn_indoril
+	dna = alma_rula_1_dna_entry
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indoril_99b
+	mother = seras_99b
+
+	trait = just
+	trait = zealous
+	trait = stubborn
+	trait = education_learning_3
+	trait = scarred
+	trait = lifestyle_blademaster
+	trait = arcana_good_1
+	trait = lifespan_3
+	trait = sign_warrior
+
+	3215.8.7 = { birth = yes }
+	3206.1.1 = { effect = { add_character_flag = has_scripted_appearance } }
+	3221.8.7 = {
+		effect = {
+			learn_language = language_daedric
+		}
+	}
+	3433.9.5 = { death = { death_reason = death_natural_causes } }
+
+	portrait_override = {	# Will override the character's appearance
+		portrait_modifier_overrides={
+			custom_beards=male_beard_western_10
+			custom_hair=male_hair_western_04
+		}
+	}
+}
+
+indoril_alma_rula2 = { #Alma Rula after Farwil and kamals
+	name = "Serila"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = verelnim_101b
+	mother = indoril_100b1
+
+	trait = pensive
+	trait = zealous
+	trait = diligent
+	trait = devoted
+	trait = sign_lady
+	disallow_random_traits = yes
+
+	3346.9.19 = { birth = yes }
+	3359.1.1 = {
+		employer = indoril_alma_rula #Farwil's protege
+		effect = {
+			if = {
+				limit = { character:indoril_alma_rula = { is_alive = yes } }
+				set_relation_friend = { target = character:indoril_alma_rula reason = friend_generic_history } 
+			}
+		} 
+	}
+	3362.9.19 = {
+		remove_trait = pensive
+		trait = just
+		trait = education_learning_4
+		trait = lifestyle_physician
+	}
+	3569.1.1 = { death = yes }
+}
+
+indoril_ayem = { #Archcanon of Almalexia
+	name = "Amili"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = delyn_99b
+
+	trait = lifespan_3
+	trait = p_tr_almalexia
+	trait = education_learning_4
+	trait = generous
+	trait = just
+	trait = calm
+	trait = whole_of_body
+
+	3197.1.1 = { birth = yes }	
+	3442.12.20 = { death = yes } 
+}
+
+indoril_vehk = { #Archcanon of Vivec
+	name = "Valen"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = meris_98b
+
+	trait = lifespan_3
+	trait = p_tr_vivec
+
+	3220.1.1 = { birth = yes }
+	3363.8.26 = { death = { death_reason = death_disappearance } } 
+}
+
+indoril_vehk1 = { #Archcanon of Vivec
+	name = "Donus"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indoril_vehk
+
+	trait = lifespan_3
+	trait = bastard
+
+	3296.1.1 = { birth = yes }
+	3297.1.1 = { death = { death_reason = death_plotting } }
+}
+
+archcanon_vehk2 = { #Archcanon in ESO
+	name = "Tarvus" #Lore
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indoril_100
+	mother = dorom_100c
+
+	trait = lifespan_3
+	trait = p_tr_vivec
+	trait = devoted
+	trait = zealous
+	trait = trusting
+	trait = generous
+	trait = education_learning_4
+
+	3282.1.1 = { birth = yes }
+	3506.3.20 = { death = yes }
+}
+
+#Indoril dynasty
+#Main branch, rulers of House Indoril in 440 and 450
+indoril_1 = { #Almalexia's mother
+	name = "Indrele"
+	dynasty = dyn_indoril
+	religion = old_velothi
+	culture = chimer
+	female = yes
+
+	245.1.1 = { birth = yes }
+	390.4.9 = { death = { death_reason = death_battle } } #Nords
+}
+indoril_almalexia = { #Pre-Ascension Almalexia
+	name = "Alma_laesa"
+	dynasty = dyn_indoril
+	culture = chimer
+	religion = old_velothi
+	female = yes
+	dna = almalexia_dna_entry
+	
+	mother = indoril_1
+
+	trait = education_diplomacy_5
+	trait = ambitious
+	trait = compassionate
+	trait = zealous
+	trait = family_first
+	trait = p_ob_boethiah
+	trait = lifespan_6
+
+	341.1.1 = { birth = yes } #Generation younger than Nerevar
+	699.1.1 = {
+		give_nickname = nick_the_warden_alma
+		effect = { set_immortal_age = 20 }
+	}
+	700.1.1 = {
+		religion = tribunal_temple
+		death = { death_reason = death_ascended }
+	}
+}
+indoril_2 = {
+	name = "Derayna"
+	dynasty = dyn_indoril
+	religion = old_velothi
+	culture = chimer
+	female = yes
+
+	mother = indoril_1
+
+	358.1.1 = { birth = yes }
+	599.1.1 = { death = yes }
+}
+indoril_3 = {
+	name = "Suvryn"
+	dynasty = dyn_indoril
+	religion = old_velothi
+	culture = chimer
+
+	mother = indoril_2
+
+	448.1.1 = { birth = yes }
+	659.1.1 = { death = yes }
+}
+indoril_4 = {
+	name = "Idoris"
+	dynasty = dyn_indoril
+	dna = kaid_arbul_dna_entry
+	religion = tribunal_temple
+	culture = chuzei
+
+	father = indoril_3
+
+	573.1.1 = { birth = yes }
+	700.1.1 = {
+		effect = { set_ethnicity = race_dunmer }
+	}
+	846.6.2 = { death = yes }
+}
+
+indoril_5 = {
+	name = "Bera"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	father = indoril_4
+
+	718.1.1 = { birth = yes }
+	965.4.18 = { death = yes }
+}
+
+indoril_5b = { #Alma Rula
+	name = "Alvela"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	father = indoril_4
+
+	trait = lifespan_3
+	trait = education_learning_4
+
+	723.1.1 = { birth = yes }
+	978.1.19 = { death = yes }
+}
+
+indoril_6 = {
+	name = "Velam"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = indoril_5
+
+	838.1.1 = { birth = yes }
+	1079.3.6 = { death = yes }
+}
+
+indoril_7 = {
+	name = "Mireli"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	father = indoril_6
+
+	915.1.1 = { birth = yes }
+	1159.3.4 = { death = yes }
+}
+
+indoril_8 = {
+	name = "Rothis"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = indoril_7
+
+	1033.1.1 = { birth = yes }
+	1150.1.1 = { death = yes }
+}
+indoril_8b = {
+	name = "Milyn"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = indoril_7
+
+	1049.1.1 = { birth = yes }
+	1287.2.15 = { death = yes }
+}
+indoril_8c = {
+	name = "Tels"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+
+	father = indoril_8
+
+	1111.1.1 = { birth = yes }
+	1344.8.7 = { death = yes }
+}
+indoril_9 = {
+	name = "Seras"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+
+	father = indoril_8b
+
+	1166.1.1 = { birth = yes }
+	1372.4.29 = { death = yes }
+}
+indoril_10 = {
+	name = "Mathesa"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	father = indoril_9
+
+	trait = education_learning_3
+	trait = education_magic_3
+	trait = lifespan_magic_4
+
+	1245.1.1 = { birth = yes }
+	1606.11.2 = { death = yes }
+}
+indoril_10b = { #Alma Rula
+	name = "Ervyni"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	father = indoril_9
+
+	1249.1.1 = { birth = yes }
+	1511.7.30 = { death = yes }
+}
+indoril_11 = {
+	name = "Rythe"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = indoril_10
+
+	1339.1.1 = { birth = yes }
+	1563.1.1 = { death = yes }
+}
+indoril_11b = {
+	name = "Dreyla"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	mother = indoril_10
+
+	1342.1.1 = { birth = yes }
+	1574.1.1 = { death = yes }
+}
+indoril_11b1 = { 
+	name = "Brara"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	mother = indoril_11b
+
+	trait = lifespan_3
+
+	1414.1.1 = { birth = yes }
+	1633.1.14 = { death = yes }
+}
+indoril_12 = {
+	name = "Serul"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+
+	father = indoril_11
+
+	trait = lifespan_3
+
+	1462.1.1 = { birth = yes }
+	1691.4.12 = { death = yes }
+}
+indoril_13 = {
+	name = "Breves"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+
+	father = indoril_12
+
+	trait = lifespan_3
+
+	1511.1.1 = { birth = yes }
+	1733.1.1 = { death = yes }
+}
+indoril_13b = {
+	name = "Vadyne"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	father = indoril_12
+
+	trait = lifespan_3
+
+	1528.1.1 = { birth = yes }
+	1746.10.17 = { death = yes }
+}
+indoril_14 = {
+	name = "Nelvana"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	father = indoril_13
+
+	trait = lifespan_3
+
+	1602.1.1 = { birth = yes }
+	1825.5.24 = { death = yes }
+}
+indoril_15 = {
+	name = "Nurara"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	mother = indoril_13b
+
+	trait = lifespan_3
+
+	1617.1.1 = { birth = yes }
+	1849.9.13 = { death = yes }
+}
+indoril_16 = {
+	name = "Droval"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = indoril_15
+
+	trait = lifespan_3
+
+	1701.1.1 = { birth = yes }
+	1945.6.28 = { death = yes }
+}
+indoril_17 = {
+	name = "Ervona"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	father = indoril_16
+
+	trait = lifespan_3
+
+	1799.1.1 = { birth = yes }
+	2009.9.26 = { death = yes }
+}
+indoril_17b = { #Alma Rula
+	name = "Elneri"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	father = indoril_16
+
+	trait = lifespan_3
+
+	1805.1.1 = { birth = yes }
+	2036.4.17 = { death = yes }
+}
+indoril_17c = {
+	name = "Aluri"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	father = indoril_16
+
+	trait = lifespan_3
+
+	1814.1.1 = { birth = yes }
+	2038.1.1 = { death = yes }
+}
+indoril_17c1 = {
+	name = "Tiras"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = indoril_17c
+
+	1932.1.1 = { birth = yes }
+	2177.1.1 = { death = yes }
+}
+indoril_17c2 = {
+	name = "Sirilu"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	father = indoril_17c1
+
+	2069.1.1 = { birth = yes }
+	2234.1.1 = { death = yes }
+}
+indoril_17c3 = { #Alma Rula
+	name = "Narisa"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	mother = indoril_17c2
+
+	2155.1.1 = { birth = yes }
+	2396.8.25 = { death = yes }
+}
+indoril_18 = {
+	name = "Favona"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	mother = indoril_17
+
+	1902.1.1 = { birth = yes }
+	2138.4.14 = { death = yes }
+}
+indoril_19 = {
+	name = "Nevon"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = indoril_18
+
+	1983.1.1 = { birth = yes }
+	2216.3.21 = { death = yes }
+}
+indoril_19b = {
+	name = "Relyn"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = indoril_18
+
+	1997.1.1 = { birth = yes }
+	2255.9.4 = { death = yes }
+}
+indoril_20 = {
+	name = "Nemyn"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+
+	father = indoril_19
+
+	2055.1.1 = { birth = yes }
+	2282.9.3 = { death = yes }
+}
+indoril_20b = {
+	name = "Llovys"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+
+	father = indoril_19
+
+	2078.1.1 = { birth = yes }
+	2304.1.4 = { death = yes }
+}
+indoril_21 = {
+	name = "Darane"
+	dynasty = dyn_indoril
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	father = indoril_20b
+
+	2166.1.1 = { birth = yes }
+	2227.1.1 = { death = { death_reason = death_childbirth } }
+}
+indoril_91 = {
+	name = "Breves"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = indoril_21
+
+	trait = education_learning_4
+	trait = education_magic_3 #Good at restoration magic
+
+	2227.1.1 = { birth = yes }
+	2598.4.29 = { death = yes }
+}
+indoril_92 = {
+	name = "Fendel"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indoril_91
+
+	2402.1.1 = { birth = yes }
+	2627.9.24 = { death = yes }
+}
+indoril_92b = {
+	name = "Valana"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = indoril_91
+
+	2416.1.1 = { birth = yes }
+	2644.1.1 = { death = yes }
+}
+indoril_93 = {
+	name = "Golven"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indoril_92
+
+	2516.1.1 = { birth = yes }
+	2680.3.23 = { death = yes }
+}
+indoril_93b = {
+	name = "Lorara"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = indoril_92
+
+	2553.1.1 = { birth = yes }
+	2790.12.26 = { death = yes }
+}
+indoril_94 = {
+	name = "Tedur"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = indoril_93b
+
+	2648.1.1 = { birth = yes }
+	2851.2.16 = { death = yes }
+}
+indoril_94b = {
+	name = "Milia"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = indoril_93b
+
+	2660.1.1 = { birth = yes }
+	2896.1.8 = { death = yes }
+}
+indoril_95 = {
+	name = "Rothis"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indoril_94
+
+	trait = education_martial_2
+
+	2734.1.1 = { birth = yes }
+	2858.6.1 = { death = { death_reason = death_battle } } #Four-score war
+}
+indoril_96 = {
+	name = "Taldyn"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indoril_95
+
+	2816.1.1 = { birth = yes }
+	2920.11.12 = { death = { death_reason = death_mehrunes } } #Dagon's destruction of Mournhold
+}
+indoril_97 = {
+	name = "Llaalsa"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = indoril_96
+
+	2889.1.1 = { birth = yes }
+	3122.10.27 = { death = yes }
+}
+
+indoril_98 = {
+	name = "Mathesa"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = indoril_97
+
+	2981.1.1 = { birth = yes }
+	3080.1.1 = { add_matrilineal_spouse = sedroth_97b }
+	3234.5.12 = { death = yes }
+}
+
+indoril_98b = {
+	name = "Alma"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = indoril_97
+
+	2995.1.1 = { birth = yes }
+	3198.1.1 = { death = yes }
+}
+
+indoril_99 = {
+	name = "Nam"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = indoril_98
+	father = sedroth_97b
+
+	3094.1.1 = { birth = yes }
+	3150.1.1 = { add_spouse = salvu_99b }
+	3316.8.31 = { death = yes }
+}
+
+indoril_99b = {
+	name = "Braynos"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = indoril_98
+	father = sedroth_97b
+
+	trait = lifespan_3
+	trait = education_martial_4 #General
+
+	3113.1.1 = { birth = yes }
+	3210.1.1 = { add_spouse = seras_99b }
+	3304.1.1 = { death = yes }
+}
+
+indoril_99b1 = { #Leader of Ordinators
+	name = "Nalvyna"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = indoril_99b
+	mother = seras_99b
+
+	trait = lifespan_3
+	trait = education_martial_4
+
+	3229.1.1 = { birth = yes }
+	3441.1.1 = { death = yes }
+}
+
+indoril_99c = { #Archcanon of Almalexia
+	name = "Favona"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = indoril_98
+	father = sedroth_97b
+
+	trait = lifespan_3
+	trait = p_tr_almalexia
+
+	3119.1.1 = { birth = yes }
+	3300.2.10 = { death = { death_reason = death_heart_attack } }
+}
+
+indoril_100 = { #Head of House Indoril in 440
+	name = "Mathyn"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indoril_99
+	mother = salvu_99b
+
+	trait = patient
+	trait = diligent
+	trait = humble
+	trait = education_learning_3
+	trait = lifespan_3
+	trait = sign_ritual
+
+	diplomacy = 10
+	martial = 6
+	stewardship = 3
+	intrigue = 3
+	learning = 10
+
+	3185.1.2 = { birth = yes }
+	3250.1.1 = { add_spouse = dorom_100c }
+	3350.1.1 = { #Knows clerical language
+		effect = {
+			learn_language = language_daedric
+		}
+	}
+	3363.3.21 = { death = { death_reason = death_heart_attack } }
+}
+
+indoril_100b = { #Head of House Indoril in 450
+	name = "Rela"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = indoril_99
+	mother = salvu_99b
+
+	trait = education_learning_2
+	trait = generous
+	trait = arrogant
+	trait = calm
+	trait = lifespan_3
+	trait = sign_mage
+
+	diplomacy = 5
+	martial = 7
+	stewardship = 4
+	intrigue = 5
+	learning = 8
+
+	3196.4.3 = { birth = yes }
+	3260.1.1 = { add_matrilineal_spouse = raathim_100c }
+	3350.1.1 = { #Knows clerical language
+		effect = {
+			learn_language = language_daedric
+		}
+	}
+	3360.1.1 = { employer = indoril_100 }
+	3408.7.10 = { death = yes }
+}
+
+indoril_100b1 = {
+	name = "Bronosa"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = indoril_100b
+	father = raathim_100c
+
+	trait = lifespan_3
+
+	3266.1.1 = { birth = yes }
+	3325.1.1 = { add_matrilineal_spouse = verelnim_101b }
+	3483.1.1 = { death = yes }
+}
+
+indoril_100b1b = { #Married to dorom_101b
+	name = "Turil"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = indoril_100b
+	father = raathim_100c
+
+	trait = lifespan_3
+
+	3275.1.1 = { birth = yes }
+	3485.1.1 = { death = yes }
+}
+
+indoril_101 = { #Head Indoril in 527
+	name = "Saril"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indoril_100
+	mother = dorom_100c
+
+	trait = just #Very just
+	trait = callous #Very cruel
+	trait = generous #Actually generous to his subjects
+	trait = education_learning_3
+	trait = lifespan_3
+	trait = sign_shadow
+
+	3267.5.28 = { birth = yes }
+	3320.1.1 = { add_spouse = balver_100c }
+	3350.1.1 = { #Knows clerical language
+		effect = {
+			learn_language = language_daedric
+		}
+	}
+	3489.5.19 = { death = { death_reason = death_natural_causes } }
+}
+
+indoril_101b = {
+	name = "Irileth"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = indoril_100
+	mother = dorom_100c
+
+	trait = lustful
+	trait = lifespan_3
+
+	3275.1.1 = { birth = yes }
+	3354.1.1 = { 
+		#Lover with Sadras, who went on pilgrimage to Mournhold and stayed there
+		effect = {
+			if = {
+				limit = { character:sadras_101c = { is_alive = yes } }
+				set_relation_lover = { reason = lover_history target = character:sadras_101c }
+			}
+		}
+	}
+	#Gets pregnant, marries sadras
+	3366.1.1 = { add_matrilineal_spouse = sadras_101c }
+	3498.1.1 = { death = yes }
+}
+
+indoril_102 = {
+	name = "Ralvas"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indoril_101
+	mother = balver_100c
+
+	trait = lifespan_3
+
+	3329.1.1 = { birth = yes }
+	3434.1.1 = { death = { death_reason = death_drowned } }
+}
+
+indoril_102b = { #Head Indoril in 572
+	name = "Fathis"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indoril_101
+	mother = balver_100c
+
+	trait = brave #Ready to fight
+	trait = forgiving
+	trait = calm
+	trait = education_learning_2
+	trait = lifespan_3
+	trait = sign_ritual
+
+	martial = 1 #Unfortunately quite bad at fighting
+
+	3335.1.30 = { birth = yes }
+	3410.1.1 = { 
+		add_spouse = delyn_101c
+		effect = {
+			if = {
+				limit = {
+					character:delyn_101c = { is_alive = yes }
+				}
+				set_relation_soulmate = { reason = soulmate_wedding_accepting_partner target = character:delyn_101c }
+			}
+		} 
+	}
+	3493.1.1 = { death = { death_reason = death_battle } } #Kamals
+}
+
+indoril_103 = { #Head of House Indoril in eso
+	name = "Tanval" #Lore
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indoril_102b
+	mother = delyn_101c
+
+	trait = zealous
+	trait = impatient #First action in war is to resurrect big skeleton guy
+	trait = brave #War hero
+	trait = education_martial_3 #War hero
+	trait = lifespan_3
+
+	3420.1.1 = { birth = yes }
+	3502.8.15 = { death = { death_reason = death_battle } }
+}
+
+indoril_104 = { #Son of Tanval, dies during events of eso
+	name = "Garyn" #Lore
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indoril_103
+
+	trait = lifespan_3
+
+	3473.1.1 = { birth = yes }
+	3502.8.10 = { death = { death_reason = death_battle } }
+}
+
+indoril_105 = { #Head Indoril after eso
+	name = "Ildari"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = indoril_102b
+	mother = delyn_101c
+
+	trait = lifespan_3
+
+	3422.1.1 = { birth = yes }
+	3638.11.3 = { death = yes }
+}
+
+indoril_106 = {
+	name = "Gelds"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = indoril_105
+
+	trait = lifespan_3
+
+	3485.1.1 = { birth = yes }
+	3710.1.1 = { death = yes }
+}
+
+indoril_107 = {
+	name = "Murdyn"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indoril_106
+
+	trait = lifespan_3
+
+	3552.1.1 = { birth = yes }
+	3798.1.1 = { death = yes }
+}
+
+indoril_107b = {
+	name = "Naddu"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indoril_106
+
+	trait = lifespan_3
+
+	3555.1.1 = { birth = yes }
+	3778.1.1 = { death = yes }
+}
+
+indoril1_100 = {
+	name = "Nam"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = indoril_101b
+	father = sadras_101c
+
+	trait = lifespan_3
+
+	3364.8.9 = { birth = yes }
+	3578.1.1 = { death = yes }
+}
+
+indoril1_100b = {
+	name = "Llaari"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = indoril_101b
+	father = sadras_101c
+
+	trait = lifespan_3
+
+	3371.1.1 = { birth = yes }
+	3400.1.1 = { trait = devoted }
+	3599.1.1 = { death = yes }
+}
+
+indoril1_100c = {
+	name = "Irvama"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = indoril_101b
+	father = sadras_101c
+
+	trait = lifespan_3
+
+	3373.1.1 = { birth = yes }
+	3493.1.1 = { death = { death_reason = death_battle } } #Kamals
+}
+
+indoril2_100 = { #Married to llothis_100b
+	name = "Mirili"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = verelnim_101b
+	mother = indoril_100b1
+
+	trait = lifespan_3
+
+	3331.1.1 = { birth = yes }
+	3546.1.1 = { death = yes }
+}
+
+#Ivulan branch
+indoril_ivulan = { #Rejected the Tribunal, escaped to the Ashlanders of the Amber Forest, returns in 2nd Bookmark to rebel against Indoril
+	name = "Ivulan"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indoril_99
+	mother = salvu_99b
+
+	trait = lifespan_3
+	trait = education_learning_3
+	trait = education_martial_prowess_3
+	trait = ambitious
+	trait = patient
+	trait = zealous
+	trait = sign_warrior
+
+	3210.8.17 = { birth = yes }
+	3260.1.1 = { religion = old_velothi } #Dove too deep into Indoril archives and Temple Apographa, figured out the truth of the Tribunal's divinity
+	3260.1.1 = { trait = heresiarch }
+	3260.1.1 = { give_nickname = nick_the_apostate }
+	3260.2.1 = { employer = shashmassamsi_100 } #Fled to live with the Ashlanders
+	3268.1.1 = { add_spouse = shashmassamsi_101b }
+	3355.1.1 = { trait = champion_boethiah } #Chosen by Boethiah to lead a rebellion against the Tribunal
+	3369.1.1 = {
+		create_maa_regiment = {
+			type = ashlander_champions
+			check_can_recruit = no
+			size = 4
+		}
+	}
+	3371.3.3 = { death = { death_reason = death_execution killer = indoril_100b } } #Defeated and executed for his heresy
+}
+
+indoril_ivulan_1 = {
+	name = "Sul"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = old_velothi
+
+	father = indoril_ivulan
+	mother = shashmassamsi_101b
+
+	trait = lifespan_3
+	trait = zealous
+
+	3280.1.1 = { birth = yes }
+	3363.1.1 = { add_spouse = indoril_ivulan_1_wife }
+	3371.3.3 = { death = { death_reason = death_execution killer = indoril_100b } } #Defeated and executed for his heresy
+}
+
+indoril_ivulan_1_wife = {
+	name = "Assimusa"
+	culture = ashlander
+	religion = old_velothi
+	female = yes
+
+	trait = lifespan_3
+
+	3301.1.1 = { birth = yes }
+	3370.6.19 = { death = { death_reason = death_siege } } #Dies during war
+}
+
+indoril_ivulan_1b = {
+	name = "Hassour"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = old_velothi
+
+	father = indoril_ivulan
+	mother = shashmassamsi_101b
+
+	trait = lifespan_3
+	trait = zealous
+
+	3310.1.1 = { birth = yes }
+	#Not captured by Indorils but kills himself anyway
+	3371.3.5 = { death = { death_reason = death_responsible_suicide_crime } }
+}
+
+indoril_ivulan_2 = {
+	name = "Ivulan"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = old_velothi
+
+	father = indoril_ivulan_1
+	mother = indoril_ivulan_1_wife
+
+	trait = lifespan_3
+
+	3364.1.1 = { birth = yes }
+	#Reeducated by Indoril Seras
+	3373.3.3 = { employer = seras_100 }
+	3375.1.1 = { 
+		religion = tribunal_temple
+		name = "Hlaren" #Name changed to soemthing that doesn't remind of heresy
+		#Actually becomes friends with Seras
+		effect = {
+			if = { #Friends with his cousin
+				limit = { character:seras_100 = { is_alive = yes } }
+				set_relation_friend = { target = character:seras_100 reason = friend_generic_history } 
+			}
+		}
+	}
+	#Married matrilineally to Seras's bastard daughter
+	3530.1.1 = { death = yes }
+}
+
+#Vampire branch
+indoril_vamp_1 = {
+	name = "Sava"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = indoril_4
+
+	trait = lifespan_3
+
+	720.1.1 = { birth = yes }
+	940.1.1 = { death = yes }
+}
+
+indoril_vamp_2 = {
+	name = "Nurara"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = indoril_vamp_1
+	
+	trait = lifespan_3
+
+	874.1.1 = { birth = yes }
+	1012.1.1 = { death = yes }
+}
+
+indoril_vamp_3 = { #Vampire in Rada's court
+	name = "Kovan" #Lore
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = molag_cult
+
+	mother = indoril_vamp_2
+	
+	trait = lifespan_3
+	trait = vampire_character
+
+	928.1.1 = { birth = yes }
+	1029.1.1 = { death = { death_reason = death_battle } } #Gray Host defeated
+}
+
+#Vandas dynasty, landless in Mournhold, cadets of Indoril
+vandas_line = {
+	name = "Valana"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	mother = indoril_92b
+	trait = line_of_x
+	disallow_random_traits = yes
+	diplomacy = 0
+	martial = 0
+	stewardship = 0
+	intrigue = 0
+	learning = 0
+	prowess = 0
+	2644.1.1 = { birth = yes }
+	2700.1.1 = { give_nickname = nick_line_of }
+	3067.1.1 = { death = yes }
+}
+vandas_98 = {
+	name = "Marila"
+	dynasty_house = dyn_vandas
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	mother = vandas_line
+
+	trait = lifespan_3
+
+	3067.1.1 = { birth = yes }
+	3120.1.1 = { add_spouse = hlaavus_98b }
+	3283.1.1 = { death = yes }
+}
+vandas_99 = {
+	name = "Movis"
+	dynasty_house = dyn_vandas
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = vandas_98
+	father = hlaavus_98b
+
+	trait = lifespan_3
+
+	3133.1.1 = { birth = yes }
+	3200.1.1 = { add_spouse = llathsa_99b }
+	3345.1.1 = { death = yes }
+}
+vandas_99b = { #Married to salvu_100
+	name = "Nilos"
+	dynasty_house = dyn_vandas
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = vandas_98
+	father = hlaavus_98b
+
+	trait = lifespan_3
+
+	3141.1.1 = { birth = yes }
+	3356.1.1 = { death = yes }
+}
+vandas_100 = {
+	name = "Revyn"
+	dynasty_house = dyn_vandas
+	religion = tribunal_temple
+	culture = chuzei
+	
+	father = vandas_99
+	mother = llathsa_99b
+
+	trait = lifespan_3
+	trait = sign_mage
+
+	3215.4.25 = { birth = yes }
+	3290.1.1 = { add_spouse = narusa1_100c }
+	3414.1.1 = { death = yes }
+}
+vandas_100b = { #Married to meris_99
+	name = "Daynila"
+	dynasty_house = dyn_vandas
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+	
+	father = vandas_99
+	mother = llathsa_99b
+
+	trait = lifespan_3
+
+	3228.1.1 = { birth = yes }
+	#Dies at sea with her husband
+	3322.1.1 = { death = { death_reason = death_sea_storm } }
+}
+vandas_100c = {
+	name = "Sanvyn"
+	dynasty_house = dyn_vandas
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+	
+	father = vandas_99
+	mother = llathsa_99b
+
+	trait = lifespan_3
+
+	3233.1.1 = { birth = yes }
+	3442.1.1 = { death = yes }
+}
+vandas_100d = { #Bisandryon
+	name = "Vulyne"
+	dynasty_house = dyn_vandas
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = vandas_99
+	mother = llathsa_99b
+
+	trait = lifespan_3
+	trait = devoted
+
+	3236.1.1 = { birth = yes }
+	3445.1.1 = { death = yes }
+}
+
+vandas_101 = {
+	name = "Alma"
+	dynasty_house = dyn_vandas
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	father = vandas_100
+	mother = narusa1_100c
+
+	trait = lifespan_3
+
+	3302.1.1 = { birth = yes }
+	3509.1.1 = { death = yes }
+}
+
+vandas_101b = { #Married to seras_101
+	name = "Vedam"
+	dynasty_house = dyn_vandas
+	religion = tribunal_temple
+	culture = chuzei
+
+	father = vandas_100
+	mother = narusa1_100c
+
+	trait = lifespan_3
+
+	3319.1.1 = { birth = yes }
+	3505.1.1 = { death = yes }
+}
+
+#Balver, Ebonheart branch of Indorils, TR
+balver_1 = {
+	name = "Balver"
+	dynasty = dyn_indoril
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indoril_20b
+
+	#Very smart and zealous
+	trait = education_learning_5
+	trait = intellect_good_2
+	trait = zealous
+	trait = arrogant
+	trait = brave
+	trait = lifespan_3
+
+	2179.1.1 = { birth = yes }
+	#Unfortunately for him hungry peasants didn't care much for his speeches. Becomes somewhat of a martyr
+	2274.1.1 = { death = { death_reason = death_torn_to_pieces_by_mob } }
+}
+
+balver_2 = {
+	name = "Alarvyne"
+	dynasty_house = dyn_balver #His daughter starts new house. Doesn't inherit position of head Indoril because she's a child when her grandfather dies
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = balver_1
+
+	trait = lifespan_3
+
+	2270.1.1 = { birth = yes }
+	2483.1.1 = { death = yes }
+}
+
+balver_line = {
+	name = "Alarvyne"
+	dynasty_house = dyn_balver
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	mother = balver_2
+	trait = line_of_x
+	disallow_random_traits = yes
+	diplomacy = 0
+	martial = 0
+	stewardship = 0
+	intrigue = 0
+	learning = 0
+	prowess = 0
+	2483.1.1 = { birth = yes }
+	2500.1.1 = { give_nickname = nick_line_of }
+	3243.1.1 = { death = yes }
+}
+
+balver_98 = {
+	name = "Alarvyne"
+	dynasty_house = dyn_balver
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = balver_line
+
+	3025.1.1 = { birth = yes }
+	3100.1.1 = { add_matrilineal_spouse = balver_98_husband }
+	3244.1.1 = { death = yes }
+}
+
+balver_98_husband = {
+	name = "Reron"
+	culture = chuzei
+	religion = tribunal_temple
+	trait = lifespan_3
+	3039.1.1 = { birth = yes }
+	3246.1.1 = { death = yes }
+}
+
+balver_99 = {
+	name = "Rol"
+	dynasty_house = dyn_balver
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = balver_98
+	father = balver_98_husband
+
+	3112.1.1 = { birth = yes }
+	3230.1.1 = { add_spouse = karath1_100b }
+	3338.1.1 = { death = yes }
+}
+
+balver_99b = { #Married to andrano_99
+	name = "Alvila"
+	dynasty_house = dyn_balver
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = balver_98
+	father = balver_98_husband
+
+	3125.1.1 = { birth = yes }
+	3338.1.1 = { death = yes }
+}
+
+balver_100 = {
+	name = "Erila"
+	dynasty_house = dyn_balver
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = balver_99
+	mother = karath1_100b
+
+	trait = education_diplomacy_3
+	trait = calm
+	trait = ambitious
+	trait = just
+	trait = lifespan_3
+	trait = sign_ritual
+
+	3243.1.30 = { birth = yes }
+	3310.1.1 = { add_matrilineal_spouse = llothis1_100 }
+	3460.1.1 = { death = yes }
+}
+
+balver_100b = { #Abbot of Veloth's Rest
+	name = "Baladas"
+	dynasty_house = dyn_balver
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = balver_99
+	mother = karath1_100b
+
+	trait = lifespan_3
+
+	3258.1.1 = { birth = yes }
+	3485.1.1 = { death = yes }
+}
+
+balver_100c = { #Married to indoril_101
+	name = "Mehra"
+	dynasty_house = dyn_balver
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = balver_99
+	mother = karath1_100b
+
+	trait = lifespan_3
+
+	3261.1.1 = { birth = yes }
+	3471.1.1 = { death = yes }
+}
+
+balver_101 = {
+	name = "Alvila"
+	dynasty_house = dyn_balver
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = balver_100
+	father = llothis1_100
+
+	3322.1.1 = { birth = yes }
+	3526.1.1 = { death = yes }
+}
+
+balver_101b = {
+	name = "Relyn" 
+	dynasty_house = dyn_balver
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = balver_100
+	father = llothis1_100
+	
+	trait = lifespan_3
+
+	3333.1.1 = { birth = yes }
+	3540.1.1 = { death = yes } 
+}
+
+#Llothis dynasty, descendants of saint
+llothis_line = {
+	name = "Llothis"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+	father = alma_rula_llothis
+	trait = line_of_x
+	disallow_random_traits = yes
+	diplomacy = 0
+	martial = 0
+	stewardship = 0
+	intrigue = 0
+	learning = 0
+	prowess = 0
+	731.1.1 = { birth = yes }
+	1300.1.1 = { give_nickname = nick_line_of }
+	1590.1.1 = { death = yes }
+}
+llothis_82 = {
+	name = "Gariasa"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = llothis_line
+
+	1590.1.1 = { birth = yes }
+	1800.4.6 = { death = yes }
+}
+llothis_83 = {
+	name = "Ralden"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = llothis_82
+
+	1684.1.1 = { birth = yes }
+	1908.11.17 = { death = yes }
+}
+
+llothis_83b = { #Alma Rula
+	name = "Odral"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = llothis_82
+	
+	1703.1.1 = { birth = yes }
+	1944.6.21 = { death = yes }
+}
+
+llothis_84 = {
+	name = "Tarel"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = llothis_83
+
+	1796.1.1 = { birth = yes }
+	2001.5.27 = { death = yes }
+}
+llothis_85 = {
+	name = "Dinere"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = llothis_84
+
+	1883.1.1 = { birth = yes }
+	2095.3.13 = { death = yes }
+}
+llothis_86 = {
+	name = "Trevyn"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = llothis_85
+
+	1976.1.1 = { birth = yes }
+	2205.4.15 = { death = yes }
+}
+llothis_87 = {
+	name = "Delmene"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = llothis_86
+
+	trait = education_learning_4
+	trait = intellect_good_1
+
+	2084.1.1 = { birth = yes }
+	2376.5.24 = { death = yes }
+}
+llothis_88 = {
+	name = "Llero"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = llothis_87
+
+	2185.1.1 = { birth = yes }
+	2403.1.26 = { death = yes }
+}
+llothis_89 = {
+	name = "Sendel"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = llothis_88
+
+	2300.1.1 = { birth = yes }
+	2514.8.21 = { death = yes }
+}
+llothis_90 = {
+	name = "Mehra"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = llothis_89
+
+	2377.1.1 = { birth = yes }
+	2599.9.3 = { death = yes }
+}
+llothis_91 = {
+	name = "Gorvas"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = llothis_90
+
+	2469.1.1 = { birth = yes }
+	2671.7.30 = { death = yes }
+}
+llothis_92 = {
+	name = "Llirala"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = llothis_91
+
+	2546.1.1 = { birth = yes }
+	2770.7.2 = { death = yes }
+}
+llothis_93 = {
+	name = "Ravila"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = llothis_92
+
+	2630.1.1 = { birth = yes }
+	2849.2.27 = { death = yes }
+}
+llothis_94 = {
+	name = "Llarar"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = llothis_93
+
+	2711.1.1 = { birth = yes }
+	2936.3.6 = { death = yes }
+}
+llothis_95 = {
+	name = "Drelis"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = llothis_94
+
+	2822.1.1 = { birth = yes }
+	3044.7.15 = { death = yes }
+}
+llothis_96 = {
+	name = "Fevasa"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = llothis_95
+
+	2914.1.1 = { birth = yes }
+	3165.4.13 = { death = yes }
+}
+llothis_97 = {
+	name = "Tharys"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = llothis_96
+
+	3026.1.1 = { birth = yes }
+	3080.1.1 = { add_spouse = indoril_98b }
+	3268.3.8 = { death = yes }
+}
+llothis_98 = {
+	name = "Talvur"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = llothis_97
+	mother = indoril_98b
+
+	3104.1.1 = { birth = yes }
+	3150.1.1 = { add_spouse = sedroth_98b }
+	3328.1.21 = { death = yes }
+}
+llothis_98b = {
+	name = "Gadris"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = llothis_97
+	mother = indoril_98b
+
+	3138.1.1 = { birth = yes }
+	3250.1.1 = { add_spouse = llothis_98b_wife }
+	3354.1.1 = { death = yes }
+}
+llothis_98b_wife = {
+	name = "Indrasi"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	3144.1.1 = { birth = yes }
+	3361.1.1 = { death = yes }
+}
+llothis_99 = {
+	name = "Iirila"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = llothis_98
+	mother = sedroth_98b
+
+	trait = weak
+	trait = intellect_good_2
+	trait = chaste
+	trait = generous
+	trait = content
+	trait = reclusive
+	trait = education_diplomacy_4
+	trait = lifespan_3
+	trait = sign_shadow
+
+	3173.5.12 = { birth = yes }
+	3250.1.1 = { add_matrilineal_spouse = salvu_100b }
+	3350.1.1 = { #Knows clerical language
+		effect = {
+			learn_language = language_daedric
+		}
+	}
+	3364.1.15 = { death = { death_reason = death_natural_causes } }	
+}
+
+llothis_99b = { #Married to sandil_100b
+	name = "Seryn"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = llothis_98
+	mother = sedroth_98b
+	
+	3179.1.1 = { birth = yes }
+	3388.1.1 = { death = yes }
+}
+
+llothis_99c = { #Abbot of Sinramen
+	name = "Malkur"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = llothis_98
+	mother = sedroth_98b
+
+	trait = lifespan_3
+	trait = devoted
+
+	3193.1.1 = { birth = yes }
+	3407.11.7 = { death = yes }
+}
+
+llothis_100 = {
+	name = "Lathisa"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = llothis_99
+	father = salvu_100b
+
+	trait = zealous #Strong believer
+	trait = humble #Humble before Tribunal
+	trait = wrathful #Wrathful against heretics
+	trait = reclusive #Takes after her mother
+	trait = education_learning_3
+	trait = lifespan_3
+	trait = sign_tower
+
+	3299.10.15 = { birth =yes }
+	3340.1.1 = { #Knows clerical language
+		effect = {
+			learn_language = language_daedric
+		}
+	}
+	3350.1.1 = { add_matrilineal_spouse = ieneth_100c }
+	#Ivulan rebels with ashlanders
+	3369.1.1 = {
+		effect = {
+			if = {
+				limit = { character:indoril_ivulan = { is_alive = yes } }
+				set_relation_rival = { target = character:indoril_ivulan reason = rival_historical }
+			}
+		}
+	}
+	#Ivulan loses and dies, but other Indorils spare his grandson, she doesn't like that
+	3380.1.1 = {
+		effect = {
+			if = { #Hates Ivulan's grandson
+				limit = { character:indoril_ivulan_2 = { is_alive = yes } }
+				set_relation_grudge = character:indoril_ivulan_2 #Grudge because he isn't aware of that
+			}
+			if = { #Her brother was one of the biggest advocates for sparing him
+				limit = { character:llothis_100b = { is_alive = yes } }
+				set_relation_rival = { target = character:llothis_100b reason = rival_historical }
+			}
+		} 
+	}
+	#Stays in power the entire time even with all disagreements
+	3491.4.28 = { death = { death_reason = death_bubonic_plague } }
+}
+
+llothis_100b = {
+	name = "Thoryn"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = llothis_99
+	father = salvu_100b
+
+	trait = compassionate #Advocates for sparing Ivulan's grandson
+	trait = just #Advocates for sparing Ivulan's grandson
+	trait = stubborn
+	trait = education_diplomacy_3
+	trait = lifespan_3
+	trait = sign_atronach
+
+	3305.11.27 = { birth = yes }
+	3375.1.1 = { add_spouse = indoril2_100 }
+	3519.12.26 = { death = yes }
+}
+
+llothis_101 = { #Really takes on zealous part personality of her mother
+	name = "Irvama"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = llothis_100
+	father = ieneth_100c
+
+	trait = bossy
+	disallow_random_traits = yes
+	trait = lifespan_3
+
+	3357.1.1 = { birth = yes }
+	3369.1.1 = {
+		trait = zealous
+		trait = brave
+	}
+	3373.1.1 = {
+		remove_trait = bossy
+		trait = vengeful
+		trait = education_martial_3
+	}
+	3420.1.1 = { #Joins Ordinators
+		trait = order_member
+		employer = indoril_alma_rula
+	}
+	3493.1.1 = { death = { death_reason = death_battle } } #Kamals
+}
+
+llothis_101b = {
+	name = "Varvur"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = llothis_100
+	father = ieneth_100c
+
+	trait = lifespan_3
+
+	3363.1.1 = { birth = yes }
+	3410.1.1 = { add_spouse = salvu_103b }
+	3491.1.1 = { death = { death_reason = death_bubonic_plague } }
+}
+
+llothis_101c = { #Married to dorom_102
+	name = "Maedini"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = llothis_100
+	father = ieneth_100c
+
+	trait = lifespan_3
+
+	3376.1.1 = { birth = yes }
+	3595.1.1 = { death = yes }
+}
+
+
+llothis_101b1 = {
+	name = "Vadethes"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = llothis_101b
+	mother = salvu_103b
+
+	trait = lifespan_3
+
+	3419.1.1 = { birth = yes }
+	3491.1.1 = { death = { death_reason = death_bubonic_plague } }
+}
+
+llothis_101b2 = {
+	name = "Bivala"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = llothis_101b
+	mother = salvu_103b
+
+	trait = lifespan_3
+
+	3428.1.1 = { birth = yes }
+	3491.1.1 = { death = { death_reason = death_bubonic_plague } }
+}
+
+llothis_102 = {
+	name = "Elynea"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = llothis_100b
+	mother = indoril2_100
+
+	trait = lifespan_3
+
+	3378.1.1 = { birth = yes }
+	3460.1.1 = { add_matrilineal_spouse = seras_102c }
+	3604.8.22 = { death = yes }
+}
+
+llothis_102b = {
+	name = "Trels"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = llothis_100b
+	mother = indoril2_100
+
+	trait = lifespan_3
+
+	3384.1.1 = { birth = yes }
+	3592.1.1 = { death = yes }
+}
+
+llothis_103 = {
+	name = "Telare"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = llothis_102
+	father = seras_102c
+
+	trait = lifespan_3
+
+	3465.1.1 = { birth = yes }
+	3535.1.1 = { add_matrilineal_spouse = sedroth1_102f }
+	3687.1.1 = { death = yes }
+}
+
+llothis_103b = {
+	name = "Nemyn"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = llothis_102
+	father = seras_102c
+
+	3472.1.1 = { birth = yes }
+	3696.1.1 = { death = yes }
+}
+
+#Start from llothis_98b
+llothis1_100 = { #Married to balver_100
+	name = "Sanvyn"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = llothis_98b
+	mother = llothis_98b_wife
+
+	trait = lifespan_3
+
+	3252.1.1 = { birth = yes }
+	3463.1.1 = { death = yes }
+}
+
+llothis1_100b = { #Married to beroth_101
+	name = "Galvene"
+	dynasty = dyn_llothis
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = llothis_98b
+	mother = llothis_98b_wife
+
+	trait = lifespan_3
+
+	3264.1.1 = { birth = yes }
+	3478.1.1 = { death = yes }
+}
+
+#Salvu dynasty
+salvu_1 = { #Velothi Warlord who submitted to Tribunal
+	name = "Salvu" #TR
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+
+	trait = education_martial_4
+	trait = fickle
+	trait = shrewd
+	trait = lifespan_3
+
+	620.1.1 = { birth = yes }
+	#Submits in 733, 4 years after Aamul is conquered
+	833.11.25 = { death = yes }
+}
+salvu_2 = {
+	name = "Brema"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = salvu_1
+
+	734.1.1 = { birth = yes }
+	948.5.16 = { death = yes }
+}
+salvu_3 = {
+	name = "Aryvena"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = salvu_2
+
+	816.1.1 = { birth = yes }
+	1044.1.1 = { death = yes }
+}
+salvu_3b = {
+	name = "Threvul"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = salvu_2
+
+	825.1.1 = { birth = yes }
+	1067.1.1 = { death = yes }
+}
+salvu_3b1 = { #Alma Rula
+	name = "Sildras"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = salvu_3b
+
+	trait = lifespan_3
+
+	944.1.1 = { birth = yes }
+	1180.5.24 = { death = yes }
+}
+salvu_line = {
+	name = "Aryvena"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+	mother = salvu_3
+	female = yes
+	trait = line_of_x
+	disallow_random_traits = yes
+	diplomacy = 0
+	martial = 0
+	stewardship = 0
+	intrigue = 0
+	learning = 0
+	prowess = 0
+	1044.1.1 = { birth = yes }
+	1300.1.1 = { give_nickname = nick_line_of }
+	2936.1.1 = { death = yes }
+}
+salvu_98 = {
+	name = "Riivel"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = salvu_line
+
+	2936.1.1 = { birth = yes }
+	3020.1.1 = { add_spouse = meris_96b }
+	3168.1.13 = { death = yes }
+}
+salvu_99 = {
+	name = "Orval"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = salvu_98
+	mother = meris_96b
+
+	3058.1.1 = { birth = yes }
+	3120.1.1 = { add_spouse = saryoni_98b }
+	3273.12.22 = { death = yes }
+}
+salvu_99b = {
+	name = "Elynea"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = salvu_98
+	mother = meris_96b
+
+	3073.1.1 = { birth = yes }
+	3307.1.1 = { death = yes }
+}
+salvu_99c = {
+	name = "Nervyna"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = salvu_98
+	mother = meris_96b
+
+	3078.1.1 = { birth = yes }
+	3306.1.1 = { death = yes }
+}
+salvu_100 = {
+	name = "Nervyna"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = salvu_99
+	mother = saryoni_98b
+
+	trait = education_learning_3
+	trait = zealous
+	trait = generous
+	trait = arrogant
+	trait = lifespan_3
+	trait = sign_atronach
+
+	3140.11.24 = { birth = yes }
+	3200.1.1 = { add_matrilineal_spouse = vandas_99b }
+	3350.1.1 = { #Knows clerical language
+		effect = {
+			learn_language = language_daedric
+		}
+	}
+	3367.9.23 = { death = { death_reason = death_mysterious } }
+}
+
+salvu_100b = {
+	name = "Velms"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = salvu_99
+	mother = saryoni_98b
+
+	trait = lifespan_3
+
+	3153.1.1 = { birth = yes }
+	3359.1.1 = { death = yes }
+}
+
+salvu_101 = { #Ambitious and ruthless, wants to absorb Nethril, taken out by Morag Tong
+	name = "Galdasa"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = salvu_100
+	father = vandas_99b
+
+	trait = education_intrigue_3
+	trait = ambitious
+	trait = deceitful
+	trait = callous
+	trait = lifespan_3
+	trait = sign_lady
+
+	3211.9.19 = { birth = yes }
+	3280.1.1 = { add_matrilineal_spouse = seras1_100c }
+	3390.8.4 = { death = { death_reason = death_morag_tong } }
+}
+
+salvu_101b = {
+	name = "Sovor"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = salvu_100
+	father = vandas_99b
+
+	trait = education_learning_3
+	trait = content
+	trait = temperate
+	trait = diligent
+	trait = lifespan_3
+	trait = sign_tower
+
+	3216.10.3 = { birth = yes }
+	3300.1.1 = { add_spouse = karath_101c }
+	3438.9.30 = { death = yes }
+}
+
+salvu_101c = { #Abbot of Molag Mar
+	name = "Maluril"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = salvu_100
+	father = vandas_99b
+
+	trait = zealous
+	trait = lifespan_3
+
+	3227.1.1 = { birth = yes }
+	3433.2.10 = { death = yes }
+}
+
+salvu_102 = {
+	name = "Braynas"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = salvu_101
+	father = seras1_100c
+
+	trait = trusting #Didn't what his parents were up to
+	trait = generous
+	trait = gregarious
+	trait = education_diplomacy_2
+	trait = lifespan_3
+	trait = sign_atronach
+
+	3284.11.24 = { birth = yes }
+	3340.1.1 = { add_spouse = karath_102b }
+	3494.3.19 = { death = { death_reason = death_bubonic_plague } }
+}
+
+salvu_102b = { #Married to sedroth1_100
+	name = "Nervyna"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = salvu_101
+	father = seras1_100c
+
+	trait = lifespan_3
+
+	3301.1.1 = { birth = yes }
+	3514.1.1 = { death = yes }
+}
+
+salvu_103 = {
+	name = "Farare"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = salvu_102
+	mother = karath_102b
+
+	trait = lifespan_3
+
+	3359.1.1 = { birth = yes }
+	3400.1.1 = { add_matrilineal_spouse = ornavel_101b }
+	3494.3.11 = { death = { death_reason = death_bubonic_plague } }
+}
+
+salvu_103b = { #Married to llothis_101b
+	name = "Galori"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = salvu_102
+	mother = karath_102b
+
+	trait = lifespan_3
+
+	3367.1.1 = { birth = yes }
+	3491.3.24 = { death = { death_reason = death_bubonic_plague } }
+}
+
+salvu_104 = {
+	name = "Galmis"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = salvu_103
+	father = ornavel_101b
+
+	trait = lifespan_3
+
+	3426.1.1 = { birth = yes }
+	3494.3.6 = { death = { death_reason = death_bubonic_plague } }
+}
+
+salvu_104b = {
+	name = "Thanelen"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = salvu_103
+	father = ornavel_101b
+
+	trait = lifespan_3
+
+	3430.1.1 = { birth = yes }
+	3494.3.9 = { death = { death_reason = death_bubonic_plague } }
+}
+
+salvu_104c = {
+	name = "Avrusa"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = salvu_103
+	father = ornavel_101b
+
+	trait = lifespan_3
+
+	3438.1.1 = { birth = yes }
+	3494.3.8 = { death = { death_reason = death_bubonic_plague } }
+}
+
+salvu1_100 = {
+	name = "Endryn"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+	sexuality = asexual
+
+	father = salvu_101b
+	mother = karath_101c
+
+	trait = lifespan_3
+
+	3323.1.1 = { birth = yes }
+	3545.8.6 = { death = yes }
+}
+
+salvu1_100b = {
+	name = "Drel"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = salvu_101b
+	mother = karath_101c
+
+	trait = lifespan_3
+
+	3341.1.1 = { birth = yes }
+	3568.11.26 = { death = yes }
+}
+
+salvu1_101 = {
+	name = "Dulenil"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = salvu1_100b
+
+	trait = lifespan_3
+
+	3413.1.1 = { birth = yes }
+	3638.7.11 = { death = yes }
+}
+
+salvu1_101b = {
+	name = "Thervam"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = salvu1_100b
+
+	3419.1.1 = { birth = yes }
+	3611.1.1 = { death = yes }
+}
+
+salvu1_101c = {
+	name = "Nilera"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = salvu1_100b
+
+	3428.1.1 = { birth = yes }
+	3645.1.1 = { death = yes }
+}
+
+salvu1_102 = {
+	name = "Nervyna"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = salvu1_101
+
+	trait = lifespan_3
+
+	3526.1.1 = { birth = yes }
+	3739.1.1 = { death = yes }
+}
+
+salvu1_102b = {
+	name = "Faldrus"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = salvu1_101
+
+	trait = lifespan_3
+
+	3541.1.1 = { birth = yes }
+	3762.1.1 = { death = yes }
+}
+
+#Seras dynasty, TR
+seras_93 = {
+	name = "Anara"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	2669.1.1 = { birth = yes }
+	2891.4.4 = { death = yes }
+}
+seras_94 = {
+	name = "Seler"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = seras_93
+
+	trait = lifespan_3
+
+	2758.1.1 = { birth = yes }
+	2954.3.29 = { death = yes }
+}
+seras_94b = {
+	name = "Drala"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = seras_93
+	
+	trait = lifespan_3
+
+	2761.1.1 = { birth = yes }
+	3002.1.1 = { death = yes }
+}
+seras_95 = {
+	name = "Felsa"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	
+	father = seras_94
+
+	trait = lifespan_3
+
+	2862.1.1 = { birth = yes }
+	3094.12.7 = { death = yes }
+}
+seras_96 = {
+	name = "Hlaren"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = seras_95
+
+	trait = lifespan_3
+
+	2955.1.1 = { birth = yes }
+	3030.1.1 = { add_spouse = seras_96_wife }
+	3177.3.20 = { death = yes }
+}
+seras_96_wife = {
+	name = "Arara"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	2972.1.1 = { birth = yes }
+	3198.1.1 = { death = yes }
+}
+seras_96b = { #Alma Rula
+	name = "Medila"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = seras_95
+
+	trait = lifespan_3
+
+	2963.1.1 = { birth = yes }
+	3201.3.27 = { death = yes }
+}
+seras_97 = {
+	name = "Llovys"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = seras_96
+	mother = seras_96_wife
+
+	trait = lifespan_3
+
+	3040.1.1 = { birth = yes }
+	3266.11.17 = { death = yes }
+}
+seras_97b = { #Married to karath_99
+	name = "Feduria"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = seras_96
+	mother = seras_96_wife
+
+	trait = lifespan_3
+
+	3046.1.1 = { birth = yes }
+	3258.1.1 = { death = yes }
+}
+seras_98 = {
+	name = "Seras" #Named after progenitor
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = seras_97
+
+	trait = lifespan_3
+
+	3112.1.1 = { birth = yes }
+	3180.1.1 = { add_spouse = seras_98_wife }
+	3326.10.1 = { death = { death_reason = death_natural_causes } }
+}
+
+seras_98_wife = {
+	name = "Danis"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	3107.1.1 = { birth = yes }
+	3319.1.1 = { death = yes }
+}
+
+seras_99 = {
+	name = "Davilia"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = seras_98
+	mother = seras_98_wife
+
+	trait = lifespan_3
+
+	3166.1.1 = { birth = yes }
+	3240.1.1 = { add_matrilineal_spouse = parys_99b }
+	3338.5.24 = { death = { death_reason = death_ill } }
+}
+
+seras_99b = { #Married to indoril_99b
+	name = "Bolnora"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = seras_98
+	mother = seras_98_wife
+
+	3169.1.1 = { birth = yes }
+	3374.1.1 = { death = yes }
+}
+
+seras_100 = { #Normal person, a bit too lustful though
+	name = "Tralas"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = seras_99
+	father = parys_99b
+
+	trait = education_diplomacy_3
+	trait = just
+	trait = humble
+	trait = lustful
+	trait = lifespan_3
+	trait = sign_thief
+
+	3259.12.3 = { birth = yes }
+	3280.1.1 = {
+		effect = {
+			if = {
+				limit = { character:seras_100_lover1 = { is_alive = yes } }
+				set_relation_lover = { reason = lover_history target = character:seras_100_lover1 }
+			}
+		}
+	}
+	3340.1.1 = {
+		effect = {
+			if = {
+				limit = { character:seras_100_lover2 = { is_alive = yes } }
+				set_relation_lover = { reason = lover_history target = character:seras_100_lover2 }
+			}
+		}
+	}
+	3310.1.1 = { add_spouse = llori_100b }
+	3477.7.19 = { death = yes }
+}
+
+seras_100_lover1 = {
+	name = "Berari"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = beauty_good_3
+	trait = lifespan_3
+
+	3214.1.1 = { birth = yes }
+	3389.1.1 = { death = yes }
+}
+
+seras_100_lover2 = {
+	name = "Malsa"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	3296.1.1 = { birth = yes }
+	3471.1.1 = { death = yes }
+}
+
+seras_100b = { #Married to ornvael_100
+	name = "Sanvyn"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = seras_99
+	father = parys_99b
+
+	3266.1.1 = { birth = yes }
+	3453.1.1 = { death = yes }
+}
+
+seras_100c = {
+	name = "Drissa"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = seras_99
+	father = parys_99b
+
+	trait = devoted
+	trait = lifespan_3
+
+	3276.1.1 = { birth = yes }
+	3495.1.1 = { death = yes }
+}
+
+seras_101 = {
+	name = "Alvela"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = seras_100
+	mother = llori_100b
+
+	trait = lifespan_3
+	trait = sign_apprentice
+
+	3314.7.10 = { birth = yes }
+	3369.1.1 = { add_matrilineal_spouse = vandas_101b }
+	3480.1.1 = { trait = consumption }
+	3481.6.14 = { death = { death_reason = death_consumption } }
+}
+
+seras_101b = { #Competent, but didn't really have any ambitions for rule
+	name = "Savure"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = seras_100
+	mother = llori_100b
+
+	trait = education_diplomacy_3
+	trait = content
+	trait = calm
+	trait = honest
+	trait = lifespan_3
+	trait = sign_lord
+
+	3332.3.21 = { birth = yes }
+	3410.1.1 = { add_spouse = llathsa1_102b }
+	3558.10.28 = { death = yes }
+}
+
+seras_101_bastard1 = { #Married to llethan_101
+	name = "Varam"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = seras_100
+	mother = seras_100_lover1
+
+	trait = bastard
+
+	3286.1.1 = { birth = yes }
+	3462.1.1 = { death = yes }
+}
+
+seras_101_bastard2 = {
+	name = "Artisa"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = seras_100
+	mother = seras_100_lover2
+
+	trait = bastard
+
+	3343.1.1 = { birth = yes }
+	#Married to reeducated Indoril
+	3410.1.1 = { add_matrilineal_spouse = indoril_ivulan_2 }
+	3418.1.1 = {
+		effect = {
+			remove_trait = bastard
+			add_trait = bastard_founder
+		}
+		dynasty = dyn_drin
+	}
+	3534.1.1 = { death = yes }
+}
+
+seras_101_bastard3 = { #Joins temple
+	name = "Mivryna"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = seras_100
+	mother = seras_100_lover1
+
+	trait = bastard
+	trait = devoted
+
+	3298.1.1 = { birth = yes }
+	3507.1.1 = { death = yes }
+}
+
+seras_102 = {
+	name = "Hlanas"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = seras_101
+	father = vandas_101b
+
+	trait = lifespan_3
+
+	3376.1.1 = { birth = yes }
+	3491.1.1 = { death = { death_reason = death_bubonic_plague } }
+}
+
+seras_102b = {
+	name = "Berela"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = seras_101
+	father = vandas_101b
+
+	trait = education_learning_4
+	trait = devoted
+
+	3383.1.1 = { birth = yes }
+	3420.1.1 = { trait = devoted }
+	#3442 - gets appointed to Yed Neyn temple
+	3608.1.1 = { death = yes }
+}
+
+seras_102c = { #Married to llothis_102
+	name = "Sevus"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = seras_101
+	father = vandas_101b
+
+	3386.1.1 = { birth = yes }
+	3489.1.1 = { death = { death_reason = death_drowned } }
+}
+
+seras_103 = { #Judged too young to rule when his father dies, governorship goes to seras_101b
+	name = "Thiran"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = seras_102
+
+	trait = lifespan_3
+
+	3465.1.1 = { birth = yes }
+	3674.1.1 = { death = yes }
+}
+
+#History ToDo: show some conflict based on the fact that seras_101b was fine with governoship going to seras_103, but his own kids had different opinion
+#Branch starting from seras_101b
+seras1_102 = {
+	name = "Cindiri"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = seras_101b
+	mother = llathsa1_102b
+
+	3418.1.1 = { birth = yes }
+	3636.1.1 = { death = yes }
+}
+
+seras1_102b = {
+	name = "Domi"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = seras_101b
+	mother = llathsa1_102b
+
+	3423.1.1 = { birth = yes }
+	3493.1.1 = { death = { death_reason = death_battle } } #Kamals
+}
+
+#Second branch, were Nethril previously
+seras1_98 = {
+	name = "Zanath"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = seras_96
+	mother = seras_96_wife
+
+	3052.1.1 = { birth = yes }
+	3263.1.1 = { death = yes }
+}
+seras1_99 = {
+	name = "Zanath"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = seras1_98
+
+	trait = lifespan_3
+
+	3135.1.1 = { birth = yes }
+	3220.1.1 = { add_spouse = seras1_99_wife }
+	3359.1.1 = { death = yes }
+}
+
+seras1_99_wife = {
+	name = "Aralosea"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	3146.1.1 = { birth = yes }
+	3363.1.1 = { death = yes }
+}
+
+seras1_100 = {
+	name = "Salume"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+	
+	father = seras1_99
+	mother = seras1_99_wife
+
+	trait = lifespan_3
+
+	3229.1.1 = { birth = yes }
+	3290.1.1 = { add_spouse = seras1_100_wife }
+	3368.5.26 = { death = { death_reason = death_poison } }
+}
+
+seras1_100_wife = {
+	name = "Danaronea"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_3
+	3238.1.1 = { birth = yes }
+	3452.1.1 = { death = yes }
+}
+
+seras1_100b = {
+	name = "Draren"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = seras1_99
+	mother = seras1_99_wife
+
+	trait = lifespan_3
+
+	3233.1.1 = { birth = yes }
+	3442.1.1 = { death = yes }
+}
+
+seras1_100c = {
+	name = "Zanath"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = seras1_99
+	mother = seras1_99_wife
+
+	trait = education_intrigue_1
+	trait = ambitious
+	trait = deceitful
+	trait = callous
+	trait = lifespan_3
+
+	3238.1.1 = { birth = yes }
+	3390.8.4 = { death = { death_reason = death_morag_tong } }
+}
+
+seras1_101 = {
+	name = "Dreveni"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = seras1_100
+	mother = seras1_100_wife
+
+	trait = lifespan_3
+	trait = education_learning_3
+	trait = generous
+	trait = zealous
+	trait = calm
+
+	3301.1.1 = { birth = yes }
+	3368.5.26 = { death = { death_reason = death_poison } }
+}
+
+seras1_101b = {
+	name = "Elvasea"
+	dynasty = dyn_seras
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = seras1_100
+	mother = seras1_100_wife
+
+	trait = lifespan_3
+
+	3304.1.1 = { birth = yes }
+	#3361 - married off to sandil_102
+	3502.1.1 = { death = yes }
+}
+
+#Karath dynasty
+karath_1 = { #Founder of the dynasty, leads war against heretic in Aamul
+	name = "Karath"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+
+	trait = zealous
+	trait = brave
+	trait = humble
+	trait = education_martial_4
+	trait = holy_warrior
+	trait = lifespan_3
+
+	650.1.1 = { birth = yes }
+	874.1.1 = { death = yes }
+}
+karath_line = {
+	name = "Karath"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+	father = karath_1
+	trait = line_of_x
+	disallow_random_traits = yes
+	diplomacy = 0
+	martial = 0
+	stewardship = 0
+	intrigue = 0
+	learning = 0
+	prowess = 0
+	874.1.1 = { birth = yes }
+	950.1.1 = { give_nickname = nick_line_of }
+	2946.1.1 = { death = yes }
+}
+karath_98 = {
+	name = "Varon"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = karath_line
+
+	trait = lifespan_3
+
+	2946.1.1 = { birth = yes }
+	3020.1.1 = { add_spouse = karath_98_wife }
+	3184.3.4 = { death = yes }
+}
+karath_98_wife = {
+	name = "Galuro"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	2950.1.1 = { birth = yes }
+	3167.1.1 = { death = yes }
+}
+karath_99 = {
+	name = "Bervaso"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = karath_98
+	mother = karath_98_wife
+
+	3030.1.1 = { birth = yes }
+	3120.1.1 = { add_spouse = seras_97b }
+	3256.9.16 = { death = yes }
+}
+
+karath_100 = {
+	name = "Ulene"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = karath_99
+	mother = seras_97b
+
+	trait = education_intrigue_4
+	trait = education_magic_3
+	trait = calm
+	trait = callous
+	trait = just
+	trait = reclusive
+	trait = lifespan_3
+	trait = sign_apprentice
+
+	3127.7.7 = { birth = yes }
+	3200.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3190.1.1 = { add_matrilineal_spouse = ornavel_98b }
+	3459.7.12 = { death = { death_reason = death_old_age } }
+}
+
+karath_101 = {
+	name = "Dranos"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = karath_100
+	father = ornavel_98b
+
+	trait = lifespan_3
+	trait = reclusive
+
+	3195.1.1 = { birth = yes }
+	3270.1.1 = { add_spouse = salothran_100c }
+	3417.1.1 = { death = { death_reason = death_natural_causes } }
+}
+
+karath_101b = { #Married to karath1_101
+	name = "Ornis"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = karath_100
+	father = ornavel_98b
+
+	trait = lifespan_3
+
+	3208.1.1 = { birth = yes }
+	3422.1.1 = { death = yes }
+}
+
+karath_101c = { #Married to salvu_101b
+	name = "Midrasi"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = karath_100
+	father = ornavel_98b
+
+	trait = lifespan_3
+
+	3229.1.1 = { birth = yes }
+	3445.1.1 = { death = yes }
+}
+
+karath_102 = { #Inherits after her grandmother dies, not good at ruling
+	name = "Ethys"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = karath_101
+	mother = salothran_100c
+
+	#Note: the reason for her getting appointed (despite being bad at her job) is her grandmother's massive influence
+	trait = education_learning_1 #Despite her grandmother's attempt not a great student
+	trait = lazy
+	trait = humble
+	trait = trusting
+	trait = lifespan_3
+
+	3279.1.1 = { birth = yes }
+	#Gets killed by Morag Tong hired by her cousin
+	3466.8.21 = { death = { death_reason = death_morag_tong } }
+}
+
+karath_102b = { #Married to salvu_102
+	name = "Remasa"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = karath_101
+	mother = salothran_100c
+
+	trait = lifespan_3
+
+	3284.1.1 = { birth = yes }
+	3490.1.1 = { death = yes }
+}
+
+karath_103 = {
+	name = "Rendil"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = karath_102
+
+	3365.1.1 = { birth = yes }
+	3582.1.1 = { death = yes }
+}
+
+karath1_99 = {
+	name = "Gadila"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = karath_98
+	mother = karath_98_wife
+
+	3045.1.1 = { birth = yes }
+	3130.1.1 = { add_matrilineal_spouse = karath1_99_husband }
+	3278.1.1 = { death = yes }
+}
+
+karath1_99_husband = {
+	name = "Vanryth"
+	culture = chuzei
+	religion = tribunal_temple
+	3059.1.1 = { birth = yes }
+	3277.1.1 = { death = yes }
+}
+
+karath1_100 = {
+	name = "Eldrilu"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = karath1_99
+	father = karath1_99_husband
+
+	3136.1.1 = { birth = yes }
+	3220.1.1 = { add_matrilineal_spouse = karath1_100_husband }
+	3342.1.1 = { death = yes }
+}
+
+karath1_100_husband = {
+	name = "Endryn"
+	culture = chuzei
+	religion = tribunal_temple
+
+	3133.1.1 = { birth = yes }
+	3315.1.1 = { death = yes }
+}
+
+karath1_100b = {
+	name = "Daravis"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = karath1_99
+	father = karath1_99_husband
+
+	3148.1.1 = { birth = yes }
+	3365.1.1 = { death = yes }
+}
+
+karath1_101 = { #Her cousin's regent, actually interacting with subjects of Aamul
+	name = "Golvyni"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = karath1_100
+	father = karath1_100_husband
+
+	trait = education_diplomacy_3
+	trait = just
+	trait = content
+	trait = humble
+	trait = lifespan_3
+
+	3224.1.1 = { birth = yes }
+	3290.1.1 = { add_matrilineal_spouse = karath_101b }
+	3430.1.1 = { death = yes }
+}
+
+karath1_101b = { #Married to llathsa_100
+	name = "Bertis"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = karath1_100
+	father = karath1_100_husband
+
+	3227.1.1 = { birth = yes }
+	3436.1.1 = { death = yes }
+}
+
+karath1_102 = { #Kills his cousin cause he thinks he would do better job (he would, it's not that hard)
+	name = "Urven"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = karath1_101
+	father = karath_101b
+
+	trait = deceitful
+	trait = zealous
+	trait = arbitrary
+	trait = education_learning_4
+	trait = lifespan_3
+	trait = sign_serpent
+
+	3309.5.14 = { birth = yes }
+	3380.1.1 = { add_spouse = dorom1_102b }
+	3530.11.5 = { death = yes }
+}
+
+karath1_102b = {
+	name = "Berela"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = karath1_101
+	father = karath_101b
+
+	trait = lifespan_3
+
+	3314.1.1 = { birth = yes }
+	3529.1.1 = { death = yes }
+}
+
+karath1_103 = {
+	name = "Berari"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = karath1_102
+	mother = dorom1_102b
+
+	trait = lifespan_3
+
+	3384.1.1 = { birth = yes }
+	3602.1.1 = { death = yes }
+}
+
+karath1_103b = {
+	name = "Sodres"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = karath1_102
+	mother = dorom1_102b
+
+	trait = lifespan_3
+
+	3395.1.1 = { birth = yes }
+	3599.1.1 = { death = yes }
+}
+
+karath1_103c = {
+	name = "Evul"
+	dynasty = dyn_karath
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = karath1_102
+	mother = dorom1_102b
+
+	trait = lifespan_3
+
+	3402.1.1 = { birth = yes }
+	3622.1.1 = { death = yes }
+}
+
+## Sathil Dynasty
+sathil_97 = { #Unlanded
+	name = "Navam"
+	dynasty = dyn_sathil
+	culture = chuzei
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	2945.1.1 = { birth = yes }
+	3133.1.1 = { death = yes }
+}
+sathil_98 = {
+	name = "Tavis"
+	dynasty = dyn_sathil
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = sathil_97
+
+	trait = lifespan_3
+
+	3012.1.1 = { birth = yes }
+	3140.1.1 = { add_spouse = sathil_98_wife }
+	3214.8.27 = { death = yes }
+}
+sathil_98_wife = {
+	name = "Areyne"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	3020.1.1 = { birth = yes }
+	3233.1.1 = { death = yes }
+}
+sathil_99 = {
+	name = "Idroni"
+	dynasty = dyn_sathil
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = sathil_98
+	mother = sathil_98_wife
+
+	trait = inappetetic
+	trait = lifespan_3
+
+	3144.1.1 = { birth = yes }
+	3200.1.1 = { add_matrilineal_spouse = ilvi1_99b }
+	3276.4.29 = { death = { death_reason = death_malnourishment } }
+}
+sathil_99b = { #Married to raran_99
+	name = "Idula"
+	dynasty = dyn_sathil
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = sathil_98
+	mother = sathil_98_wife
+
+	trait = lifespan_3
+
+	3149.1.1 = { birth = yes }
+	3363.1.1 = { death = yes }
+}
+sathil_100 = {
+	name = "Aurona"
+	dynasty = dyn_sathil
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = sathil_99
+	father = ilvi1_99b
+
+	trait = lifespan_3
+
+	3206.1.1 = { birth = yes }
+	3430.6.18 = { death = yes }
+}
+sathil_100b = { #Married to beroth1_100
+	name = "Ulvena"
+	dynasty = dyn_sathil
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = sathil_99
+	father = ilvi1_99b
+
+	trait = lifespan_3
+
+	3214.1.1 = { birth = yes }
+	3415.1.1 = { death = yes }
+}
+sathil_100c = {
+    name = "Tarania"
+	dynasty = dyn_sathil 
+    religion = tribunal_temple
+    culture = chuzei
+	female = yes
+	mother = sathil_99
+	father = ilvi1_99b
+    trait = lifespan_3
+    3245.12.6 = { birth = yes }
+    3451.5.17 = { death = { death_reason = death_natural_causes } }
+}
+sathil_101 = {
+	name = "Zanath"
+	dynasty = dyn_sathil
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = sathil_100
+
+	trait = lifespan_3
+
+	3283.1.1 = { birth = yes }
+	3489.9.9 = { death = yes }
+}
+sathil_101b = {
+	name = "Ivulen"
+	dynasty = dyn_sathil
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = sathil_100
+
+	trait = lifespan_3
+
+	3287.1.1 = { birth = yes }
+	3498.1.1 = { death = yes }
+}
+sathil_102 = {
+	name = "Hleryn"
+	dynasty = dyn_sathil
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = sathil_101
+
+	3347.1.1 = { birth = yes }
+	3560.1.1 = { death = yes }
+}
+sathil_102b = { #Abbot of Othrenis
+	name = "Irvsie"
+	dynasty = dyn_sathil
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = sathil_101
+
+	trait = lifespan_3
+
+	3354.1.1 = { birth = yes }
+	3400.1.1 = { trait = devoted }
+	3569.1.1 = { death = yes }
+}
+
+## Ornavel Dynasty
+ornavel_95 = { #Killed Reman II
+	name = "Vadramea"
+	dynasty = dyn_ornavel
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes 
+
+	trait = education_intrigue_4 #Dram's family are famous Nightblades
+	trait = education_martial_prowess_4
+
+	2808.1.1 = { birth = yes }
+	3016.1.1 = { death = yes }
+}
+ornavel_96 = {
+	name = "Ralam"
+	dynasty = dyn_ornavel
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = ornavel_95
+
+	trait = education_intrigue_4 #Dram's family are famous Nightblades
+	trait = education_martial_prowess_3
+
+	2923.1.1 = { birth = yes }
+	3000.1.1 = { add_spouse = ornavel_96_wife }
+	3146.11.6 = { death = yes }
+}
+ornavel_96_wife = {
+	name = "Arara"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	2934.1.1 = { birth = yes }
+	3165.1.1 = { death = yes }
+}
+ornavel_97 = {
+	name = "Marayn"
+	dynasty = dyn_ornavel
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = ornavel_96
+	mother = ornavel_96_wife
+
+	trait = education_intrigue_4 #Dram's family are famous Nightblades
+	trait = education_martial_prowess_3
+
+	3019.1.1 = { birth = yes }
+	3185.9.23 = { death = { death_reason = death_mysterious } }
+}
+ornavel_97b = { #Married to beroth_98
+	name = "Vavil"
+	dynasty = dyn_ornavel
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = ornavel_96
+	mother = ornavel_96_wife
+
+	3026.1.1 = { birth = yes }
+	3245.1.1 = { death = yes }
+}
+ornavel_98 = {
+	name = "Vatola"
+	dynasty = dyn_ornavel
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = ornavel_97
+
+	trait = education_intrigue_4 #Dram's family are famous Nightblades
+	trait = education_martial_prowess_3
+
+	3100.1.1 = { birth = yes }
+	3170.1.1 = { add_matrilineal_spouse = ornavel_98_husband }
+	3212.1.31 = { death = { death_reason = death_mysterious } }
+}
+ornavel_98_husband = {
+	name = "Mertis"
+	culture = chuzei
+	religion = tribunal_temple
+	3096.1.1 = { birth = yes }
+	3300.1.1 = { death = yes }
+}
+ornavel_98b = { #Married to karath1_100
+	name = "Nilos"
+	dynasty = dyn_ornavel
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = ornavel_97
+
+	3114.1.1 = { birth = yes }
+	3331.1.1 = { death = yes }
+}
+
+ornavel_99 = {
+	name = "Mundrila"
+	dynasty = dyn_ornavel
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = ornavel_98
+	father = ornavel_98_husband
+
+	trait = education_intrigue_4 #Dram's family are famous Nightblades
+	trait = education_martial_prowess_3
+
+	3177.1.1 = { birth = yes }
+	3260.1.1 = { add_matrilineal_spouse = saryoni_100b }
+	3359.4.29 = { death = { death_reason = death_disappearance } }
+}
+
+ornavel_99b = { #Archcanon of Vivec
+	name = "Sulis"
+	dynasty = dyn_ornavel
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = ornavel_98
+	father = ornavel_98_husband
+
+	3158.1.1 = { birth = yes }
+	3346.7.14 = { death = yes }
+}
+
+ornavel_99c = {
+	name = "Vadramea"
+	dynasty = dyn_ornavel
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = ornavel_98
+	father = ornavel_98_husband
+
+	trait = education_intrigue_4 #Dram's family are famous Nightblades
+	trait = education_martial_prowess_3
+
+	3185.1.1 = { birth = yes }
+	3396.1.1 = { death = yes }
+}
+
+ornavel_99d = { #Married to llori_99
+	name = "Dinuro"
+	dynasty = dyn_ornavel
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = ornavel_98
+	father = ornavel_98_husband
+
+	trait = education_intrigue_4 #Dram's family are famous Nightblades
+	trait = education_martial_prowess_3
+
+	3193.1.1 = { birth = yes }
+	3409.1.1 = { death = yes }
+}
+
+ornavel_100 = {
+	name = "Hekethys"
+	dynasty = dyn_ornavel
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = ornavel_99
+	father = saryoni_100b
+
+	#Dram's family are famous Nightbladess
+	trait = zealous
+	trait = humble
+	trait = education_intrigue_4
+	trait = education_martial_prowess_3
+	trait = lifespan_3
+	trait = sign_steed
+
+	3271.6.29 = { birth = yes }
+	3340.1.1 = { add_matrilineal_spouse = seras_100b }
+	3485.7.8 = { death = { death_reason = death_old_age } }
+}
+
+ornavel_100b = {
+	name = "Ornis"
+	dynasty = dyn_ornavel
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = ornavel_99
+	father = saryoni_100b
+
+	3275.1.1 = { birth = yes }
+	3486.1.1 = { death = yes }
+}
+
+ornavel_101 = { #Not very Indoril, doesn't inherit his mother's position
+	name = "Zanath"
+	dynasty = dyn_ornavel
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = ornavel_100
+	father = seras_100b
+
+	trait = lifespan_3
+	trait = ambitious
+	trait = greedy
+	trait = charming
+	disallow_random_traits = yes
+
+	3351.1.1 = { birth = yes }
+	3367.1.1 = {
+		remove_trait = charming
+		trait = deceitful
+		trait = education_stewardship_3
+	}
+	3576.1.1 = { death = { death_reason = death_old_age } }
+}
+
+ornavel_101b = { #Married to salvu_103
+	name = "Idros"
+	dynasty = dyn_ornavel
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = ornavel_100
+	father = seras_100b
+
+	trait = lifespan_3
+
+	3354.1.1 = { birth = yes }
+	3494.3.28 = { death = { death_reason = death_bubonic_plague } }
+}
+
+ornavel_102 = { #Thinks governroship belongs to her, assassinates Salothran, gets executed
+	name = "Bera"
+	dynasty = dyn_ornavel
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = ornavel_101
+
+	trait = vengeful
+	trait = ambitious
+	trait = education_intrigue_3
+	trait = education_martial_prowess_3
+	trait = lifespan_3
+
+	3442.1.1 = { birth = yes }
+	3615.1.1 = { death = { death_reason = death_execution killer = indoril_105 } }
+}
+
+ornavel_102b = {
+	name = "Nivama"
+	dynasty = dyn_ornavel
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = ornavel_101
+	
+	trait = lifespan_3
+
+	3449.1.1 = { birth = yes }
+	3615.1.1 = { death = { death_reason = death_execution killer = indoril_105 } }
+}
+
+#History ToDo: Dram's family gets executed according to Yriel's plans
+
+ornavel_dram = { #Dram!!!
+	name = "Dram" #Lore
+	dynasty = dyn_ornavel
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = ornavel_102
+
+	trait = education_intrigue_4
+	trait = education_martial_prowess_4
+	trait = schemer
+	trait = vengeful
+	trait = shy
+	trait = patient
+	trait = zealous #Continues worship of Sithis even in exile
+	trait = reincarnation #Reincarnates all the time
+	trait = sign_serpent
+	trait = lifespan_3
+
+	3532.1.1 = { birth = yes } #Lore date
+	#HistoryTODO: add him to Tiber Septim's Court
+	3784.1.1 = { death = { death_reason = death_duel } } #History ToDo: Cyrus
+}
+
+#Saryoni dynasty
+saryoni_1 = { #Founder of the dynasty, Alma Rula
+	name = "Talvur"
+	dynasty = dyn_saryoni
+	culture = chuzei
+	religion = tribunal_temple
+
+	trait = intellect_good_2
+	trait = zealous
+	trait = lifestyle_physician
+	trait = education_learning_4
+	trait = lifespan_3
+
+	1514.1.1 = { birth = yes }
+	1793.12.4 = { death = yes }
+}
+saryoni_2 = {
+	name = "Fadile"
+	dynasty = dyn_saryoni
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = saryoni_1
+
+	1685.1.1 = { birth = yes }
+	1918.1.1 = { death = yes }
+}
+saryoni_line = {
+	name = "Fadile"
+	dynasty = dyn_saryoni
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	mother = saryoni_2
+	trait = line_of_x
+	disallow_random_traits = yes
+	diplomacy = 0
+	martial = 0
+	stewardship = 0
+	intrigue = 0
+	learning = 0
+	prowess = 0
+	1918.1.1 = { birth = yes }
+	2000.1.1 = { give_nickname = nick_line_of }
+	2954.1.1 = { death = yes }
+}
+saryoni_97 = {
+	name = "Kireth"
+	dynasty = dyn_saryoni
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = saryoni_line
+
+	trait = lifespan_3
+
+	2954.1.1 = { birth = yes }
+	3000.1.1 = { add_matrilineal_spouse = saryoni_97_husband }
+	3178.3.26 = { death = yes }
+}
+saryoni_97_husband = {
+	name = "Telis"
+	culture = chuzei
+	religion = tribunal_temple
+	2960.1.1 = { birth = yes }
+	3176.1.1 = { death = yes }
+}
+saryoni_98 = {
+	name = "Oldis"
+	dynasty = dyn_saryoni
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = saryoni_97
+	father = saryoni_97_husband
+
+	trait = lifespan_3
+
+	3012.1.1 = { birth = yes }
+	3080.1.1 = { add_spouse = saryoni_98_wife }
+	3241.11.6 = { death = yes }
+}
+
+saryoni_98_wife = {
+	name = "Rarvela"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	3001.1.1 = { birth = yes }
+	3228.1.1 = { death = yes }
+}
+
+saryoni_98b = { #Married to salvu_99
+	name = "Idesa"
+	dynasty = dyn_saryoni
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = saryoni_97
+	father = saryoni_97_husband
+
+	trait = lifespan_3
+
+	3037.1.1 = { birth = yes }
+	3255.1.1 = { death = yes }
+}
+
+saryoni_99 = {
+	name = "Dovros"
+	dynasty = dyn_saryoni
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = saryoni_98
+	mother = saryoni_98_wife
+
+	trait = lifespan_3
+
+	3090.1.1 = { birth = yes }
+	3190.1.1 = { add_spouse = raviro_99b }
+	3336.2.2 = { death = yes }
+}
+
+saryoni_99b = {
+	name = "Arara"
+	dynasty = dyn_saryoni
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = saryoni_98
+	mother = saryoni_98_wife
+
+	3106.1.1 = { birth = yes }
+	3180.1.1 = { add_matrilineal_spouse = saryoni_99b_husband }
+	3328.1.1 = { death = yes }
+}
+
+saryoni_99b_husband = {
+	name = "Viros"
+	culture = chuzei
+	religion = tribunal_temple
+	3109.1.1 = { birth = yes }
+	3315.1.1 = { death = yes }
+}
+
+saryoni_99b1 = {
+	name = "Talym"
+	dynasty = dyn_saryoni
+	culture = chuzei
+	religion = tribunal_temple
+	
+	mother = saryoni_99b
+	father = saryoni_99b_husband
+
+	trait = lifespan_3
+	trait = devoted
+
+	3313.1.1 = { birth = yes }
+	3429.1.1 = { death = yes }
+}
+
+saryoni_99b2 = { #Married to salothran_100
+	name = "Elneri"
+	dynasty = dyn_saryoni
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	
+	mother = saryoni_99b
+	father = saryoni_99b_husband
+
+	trait = lifespan_3
+
+	3186.1.1 = { birth = yes }
+	3355.1.1 = { death = { death_reason = death_ill } }
+}
+
+
+saryoni_99c = { #Married to llethan_99
+	name = "Elneri"
+	dynasty = dyn_saryoni
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = saryoni_98
+	mother = saryoni_98_wife
+
+	trait = lifespan_3
+
+	3109.1.1 = { birth = yes }
+	3318.1.1 = { death = yes }
+}
+
+saryoni_100 = { #Can't have kids
+	name = "Andalor"
+	dynasty = dyn_saryoni
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = saryoni_99
+	mother = raviro_99b
+
+	trait = lifespan_3
+	trait = infertile
+	fertility = 0
+	trait = shy
+	trait = chaste
+	trait = calm
+	trait = education_learning_3
+	trait = sign_lord
+
+	3204.3.9 = { birth = yes }
+	3350.1.1 = { #Knows clerical language
+		effect = {
+			learn_language = language_daedric
+		}
+	}
+	3418.9.22 = { death = yes }
+}
+
+saryoni_100b = { #Married to ornavel_99
+	name = "Thervam"
+	dynasty = dyn_saryoni
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = saryoni_99
+	mother = raviro_99b
+
+	3211.1.1 = { birth = yes }
+	3359.1.1 = { death = { death_reason = death_disappearance } }
+}
+
+saryoni_101 = { #Adopted by 101 who can't have kids
+	name = "Idronea"
+	dynasty = dyn_saryoni
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = saryoni_100
+
+	trait = disputed_heritage #Adopted
+	trait = curious
+	trait = intellect_good_1 #Smart kid, part of how she attracted her father's attention
+	trait = lifespan_3
+	trait = sign_mage
+
+	3367.4.13 = { birth = yes }
+	3383.4.13 = {
+		trait = callous
+		trait = humble
+		trait = zealous
+		trait = education_learning_3
+	}
+	3430.1.1 = { add_matrilineal_spouse = ieneth_101b }
+	3440.1.1 = { #Knows clerical language
+		effect = {
+			learn_language = language_daedric
+		}
+	}
+	3591.7.18 = { death = yes }
+}
+
+saryoni_102 = {
+	name = "Sendel"
+	dynasty = dyn_saryoni
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = saryoni_101
+	father = ieneth_101b
+
+	trait = lifespan_3
+
+	3436.1.1 = { birth = yes }
+	3648.1.1 = { death = yes }
+}
+
+saryoni_102b = {
+	name = "Drissa"
+	dynasty = dyn_saryoni
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = saryoni_101
+	father = ieneth_101b
+
+	trait = lifespan_3
+
+	3444.1.1 = { birth = yes }
+	3655.1.1 = { death = yes }
+}
+
+#Sedroth dynasty, TR
+
+sedroth_1 = { #Married into Veloth family
+	name = "Favela"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	814.1.1 = { birth = yes }
+	860.1.1 = { add_matrilineal_spouse = veloth_101d }
+	1055.2.6 = { death = yes }
+}
+
+sedroth_2 = {
+	name = "Ivramia"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = sedroth_1
+	father = veloth_101d
+
+	878.1.1 = { birth = yes }
+	1103.1.30 = { death = yes }
+}
+
+sedroth_3 = {
+	name = "Dralasa"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = sedroth_2
+
+	940.1.1 = { birth = yes }
+	1214.6.24 = { death = yes }
+}
+
+sedroth_line = {
+	name = "Dralasa"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	mother = sedroth_3
+	trait = line_of_x
+	disallow_random_traits = yes
+	diplomacy = 0
+	martial = 0
+	stewardship = 0
+	intrigue = 0
+	learning = 0
+	prowess = 0
+	1214.6.24 = { birth = yes }
+	1250.1.1 = { give_nickname = nick_line_of }
+	3017.1.1 = { death = yes }
+}
+sedroth_96 = {
+	name = "Berela"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = sedroth_line
+
+	trait = lifespan_3
+
+	2904.1.1 = { birth = yes }
+	3122.12.2 = { death = yes }
+}
+sedroth_97 = {
+	name = "Tarvyn"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = sedroth_96
+
+	trait = lifespan_3
+
+	2987.1.1 = { birth = yes }
+	3080.1.1 = { add_spouse = dorom_98b }
+	3139.11.3 = { death = yes }
+}
+sedroth_97b = {
+	name = "Ondres"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = sedroth_96
+
+	trait = lifespan_3
+
+	2991.1.1 = { birth = yes }
+	3200.1.1 = { death = yes }
+}
+sedroth_98 = {
+	name = "Dulnea"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = sedroth_97
+	mother = dorom_98b
+
+	trait = lifespan_3
+
+	3094.1.1 = { birth = yes }
+	3140.1.1 = { add_matrilineal_spouse = llethan_99b }
+	3254.9.4 = { death = yes }
+}
+sedroth_98b = { #Married to salvu_100b
+	name = "Seryna"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = sedroth_97
+	mother = dorom_98b
+
+	trait = lifespan_3
+
+	3101.1.1 = { birth = yes }
+	3316.1.1 = { death = yes }
+}
+sedroth_99 = {
+	name = "Rilen"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = sedroth_98
+	father = llethan_99b
+
+	trait = lifespan_3
+
+	3156.1.1 = { birth = yes }
+	3220.1.1 = { add_spouse = arthalen_99c }
+	3341.11.21 = { death = yes }
+}
+
+sedroth_99b = {
+	name = "Nethis"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = sedroth_98
+	father = llethan_99b
+
+	trait = lifespan_3
+
+	3168.1.1 = { birth = yes }
+	3375.1.1 = { death = yes }
+}
+
+sedroth_99c = { #Married to raathim_100
+	name = "Dervera"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = sedroth_98
+	father = llethan_99b
+
+	trait = lifespan_3
+
+	3175.1.1 = { birth = yes }
+	3389.1.1 = { death = yes }
+}
+
+sedroth_100 = {
+	name = "Dreveni"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = sedroth_99
+	mother = arthalen_99c
+
+	trait = education_learning_3
+	trait = content #Ok person
+	trait = shy #Shut-in
+	trait = compassionate #Ok person
+	trait = reclusive #Shut-in
+	trait = journaller
+	trait = celibate #Husband died
+	trait = lifespan_3
+	trait = sign_apprentice
+
+	3234.7.8 = { birth = yes }
+	3280.1.1 = { add_spouse = sedroth_100_husband }
+	3445.9.23 = { death = { death_reason = death_natural_causes } }
+}
+
+sedroth_100_husband = {
+	name = "Meril"
+	culture = chuzei
+	religion = tribunal_temple
+	3231.1.1 = { birth = yes }
+	3316.1.1 = { death = { death_reason = death_ill } }
+}
+
+sedroth_101 = { #Ruler of Molag Mar in 527
+	name = "Feldsii"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = sedroth_100
+	father = sedroth_100_husband
+
+	trait = education_learning_4
+	trait = humble
+	trait = ambitious
+	trait = zealous
+	trait = pilgrim #Went on a lot of pilgrimages
+	trait = devoted #Joined Tribunal full-time
+	trait = lifespan_3
+
+	3301.1.1 = { birth = yes }
+	3359.1.1 = { employer = indoril_alma_rula } #Staying in Necrom
+	#3403 - becomes ruler of Molag Mar
+	3539.1.1 = { death = yes }
+}
+
+#Other branch
+sedroth1_98 = {
+	name = "Relosa"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = sedroth_97
+	mother = dorom_98b
+
+	3108.1.1 = { birth = yes }
+	3190.1.1 = { add_spouse = sedroth1_98_husband }
+	3331.1.1 = { death = yes }
+}
+
+sedroth1_98_husband = {
+	name = "Marolos"
+	culture = chuzei
+	religion = tribunal_temple
+
+	3101.1.1 = { birth = yes }
+	3316.1.1 = { death = yes }
+}
+
+sedroth1_99 = {
+	name = "Teldryn"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = sedroth1_98
+	father = sedroth1_98_husband
+
+	trait = lifespan_3
+
+	3199.1.1 = { birth = yes }
+	3406.1.1 = { death = yes }
+}
+
+sedroth1_991 = { #Very zealous and likes to fight, joins Ordinators
+	name = "Falen"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = sedroth1_99
+
+	trait = zealous
+	trait = wrathful
+	trait = brave
+	trait = education_martial_3
+	trait = education_martial_prowess_4
+	trait = lifespan_3
+
+	3291.1.1 = { birth = yes }
+	3359.1.1 = { employer = indoril_alma_rula }
+	3493.1.1 = { death = { death_reason = death_battle } } #Dies fighting Kamals
+}
+
+sedroth1_991b = { #Joins temple full-time, rules Sinramen in 527
+	name = "Halseth"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = sedroth1_99
+
+	trait = devoted
+	trait = lifespan_3
+
+	3304.1.1 = { birth = yes }
+	3513.1.1 = { death = yes }
+}
+
+sedroth1_99b = {
+	name = "Aerona"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = sedroth1_98
+	father = sedroth1_98_husband
+
+	trait = lifespan_3
+
+	3211.1.1 = { birth = yes }
+	3290.1.1 = { add_matrilineal_spouse = beroth_100b }
+	3360.1.1 = { employer = sedroth_100 }
+	3412.1.1 = { death = yes }
+}
+
+sedroth1_99c = { #Married to raviro_100b
+	name = "Hloris"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = sedroth1_98
+	father = sedroth1_98_husband
+
+	trait = lifespan_3
+
+	3206.1.1 = { birth = yes }
+	3371.1.1 = { death = { death_reason = death_mysterious } }
+}
+
+sedroth1_100 = {
+	name = "Rervam"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = sedroth1_99b
+	father = beroth_100b
+
+	trait = trusting
+	trait = zealous
+	trait = diligent
+	trait = education_diplomacy_2
+	trait = lifespan_3
+	trait = sign_lover
+
+	3299.2.19 = { birth = yes }
+	3365.1.1 = { add_spouse = salvu_102b }
+	3486.8.29 = { death = { death_reason = death_bandit_attack } }
+}
+
+sedroth1_101 = {
+	name = "Tedysa"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = sedroth1_100
+	mother = salvu_102b
+
+	trait = charming
+	trait = p_tr_almalexia
+	trait = lifespan_3
+	trait = sign_lord
+
+	3368.3.25 = { birth = yes }
+	3384.3.25 = {
+		remove_trait = charming
+		trait = lustful
+		trait = gregarious
+		trait = humble
+		trait = education_diplomacy_3
+	}
+	3430.1.1 = { add_matrilineal_spouse = drora_102b }
+	3574.1.26 = { death = yes }
+}
+
+sedroth1_102 = {
+	name = "Narvyn"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = sedroth1_101
+	father = drora_102b
+
+	trait = lifespan_3
+
+	3439.1.1 = { birth = yes }
+	3649.1.1 = { death = yes }
+}
+
+sedroth1_102b = { #Inherits governorship
+	name = "Larthas"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = sedroth1_101
+	father = drora_102b
+
+	trait = ambitious
+	trait = lifespan_3
+
+	3448.1.1 = { birth = yes }
+	3516.1.1 = { add_spouse = dorom1_104b }
+	3666.1.1 = { death = yes }
+}
+
+sedroth1_102c = {
+	name = "Relosa"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = sedroth1_101
+	father = drora_102b
+
+	trait = lifespan_3
+
+	3453.1.1 = { birth = yes }
+	3608.1.1 = { death = yes }
+}
+
+sedroth1_102d = {
+	name = "Nethis"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = sedroth1_101
+	father = drora_102b
+
+	trait = lifespan_3
+	trait = education_learning_4
+	trait = devoted
+
+	3464.1.1 = { birth = yes }
+	3695.1.1 = { death = yes }
+}
+
+sedroth1_102e = {
+	name = "Llavana"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = sedroth1_101
+	father = drora_102b
+
+	trait = lifespan_3
+
+	3469.1.1 = { birth = yes }
+	3703.1.1 = { death = yes }
+}
+
+sedroth1_102f = { #Married to llothis_103
+	name = "Noris"
+	dynasty = dyn_sedroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = sedroth1_101
+	father = drora_102b
+
+	trait = lifespan_3
+
+	3472.1.1 = { birth = yes }
+	3711.1.1 = { death = yes }
+}
+
+#Llori dynasty
+llori_97 = { #Founder of the dynasty.
+	name = "Llorayna"
+	dynasty = dyn_llori
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	2993.1.1 = { birth = yes }
+	3080.1.1 = { add_matrilineal_spouse = llori_97_husband }
+	3246.7.1 = { death = yes }
+}
+llori_97_husband = {
+	name = "Savor"
+	culture = chuzei
+	religion = tribunal_temple
+
+	3009.1.1 = { birth = yes }
+	3216.1.1 = { death = yes }
+}
+llori_98 = {
+	name = "Drathyra"
+	dynasty = dyn_llori
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = llori_97
+	father = llori_97_husband
+
+	trait = lifespan_3
+
+	3091.1.1 = { birth = yes }
+	3160.1.1 = { add_matrilineal_spouse = llori_98_husband }
+	3305.12.29 = { death = yes }
+}
+llori_98_husband = {
+	name = "Surilen"
+	culture = chuzei
+	religion = tribunal_temple
+	3108.1.1 = { birth = yes }
+	3314.1.1 = { death = yes }
+}
+llori_98b = {
+	name = "Ranosa"
+	dynasty = dyn_llori
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = llori_97
+	father = llori_97_husband
+
+	trait = lifespan_3
+
+	3096.1.1 = { birth = yes }
+	3255.1.1 = { death = { death_reason = death_ill } }
+}
+llori_99 = {
+	name = "Seron"
+	dynasty = dyn_llori
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = llori_98
+	father = llori_98_husband
+
+	trait = lifespan_3
+
+	3184.1.1 = { birth = yes }
+	3270.1.1 ={ add_spouse = ornavel_99d }
+	3327.11.16 = { death = yes }
+}
+llori_99b = {
+	name = "Dronos"
+	dynasty = dyn_llori
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = llori_98
+	father = llori_98_husband
+
+	trait = lifespan_3
+
+	3192.1.1 = { birth = yes }
+	3250.1.1 = { add_spouse = llori_99b_wife }
+	3396.1.1 = { death = yes }
+}
+llori_99b_wife = {
+	name = "Nirasa"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	3201.1.1 = { birth = yes }
+	3409.1.1 = { death = yes }
+}
+llori_100 = { #Ruler of Bal Foyen
+	name = "Fervis"
+	dynasty = dyn_llori
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = llori_99
+	mother = ornavel_99d
+
+	trait = ambitious
+	trait = diligent
+	trait = gregarious
+	trait = education_diplomacy_3
+	trait = lifespan_3
+	trait = sign_warrior
+
+	3272.8.26 = { birth = yes }
+	3310.1.1 = { add_spouse = delyn_100d }
+	3430.5.1 = { death = { death_reason = death_mysterious } }
+}
+
+llori_100b = {
+	name = "Alvura"
+	dynasty = dyn_llori
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = llori_99
+	mother = ornavel_99d
+
+	trait = lifespan_3
+
+	3276.1.1 = { birth = yes }
+	3495.1.1 = { death = yes }
+}
+
+llori_100c = {
+	name = "Veros"
+	dynasty = dyn_llori
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = llori_99
+	mother = ornavel_99d
+
+	trait = lifespan_3
+	trait = devoted
+
+	3278.1.1 = { birth = yes }
+	3482.1.1 = { death = yes }
+}
+
+llori_101 = {
+	name = "Saden"
+	dynasty = dyn_llori
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = llori_100
+	mother = delyn_100d
+
+	3316.1.1 = { birth = yes }
+	3530.1.1 = { death = yes }
+}
+
+llori_101b = { #Married to parys_100b
+	name = "Arela"
+	dynasty = dyn_llori
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = llori_100
+	mother = delyn_100d
+
+	3320.1.1 = { birth = yes }
+	3539.1.1 = { death = yes }
+}
+
+llori1_100 = {
+	name = "Nerari"
+	dynasty = dyn_llori
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = llori_99b
+	mother = llori_99b_wife
+
+	3268.1.1 = { birth = yes }
+	3476.1.1 = { death = yes }
+}
+
+llori1_100b = {
+	name = "Llasi"
+	dynasty = dyn_llori
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = llori_99b
+	mother = llori_99b_wife
+
+	3279.1.1 = { birth = yes }
+	3486.1.1 = { death = yes }
+}
+
+## Ieneth Dynasty
+ieneth_97 = { #Unlanded
+	name = "Llivas"
+	dynasty = dyn_ieneth
+	culture = chuzei
+	religion = tribunal_temple
+
+	3001.1.1 = { birth = yes }
+	3060.1.1 = { add_spouse = ieneth_97_wife }
+	3213.1.1 = { death = yes }
+}
+ieneth_97_wife = {
+	name = "Nalsie"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	3013.1.1 = { birth = yes }
+	3219.1.1 = { death = yes }
+}
+ieneth_98 = {
+	name = "Nephonah"
+	dynasty = dyn_ieneth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = ieneth_97
+	mother = ieneth_97_wife
+
+	trait = lifespan_3
+
+	3073.1.1 = { birth = yes }
+	3130.1.1 = { add_matrilineal_spouse = ieneth_98_husband }
+	3281.11.27 = { death = yes }
+}
+
+ieneth_98_husband = {
+	name = "Ivulen"
+	culture = chuzei
+	religion = tribunal_temple
+
+	3080.1.1 = { birth = yes }
+	3295.1.1 = { death = yes }
+}
+
+ieneth_98b = { #Married to salothran_99
+	name = "Garvas"
+	dynasty = dyn_ieneth
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = ieneth_97
+	mother = ieneth_97_wife
+
+	trait = lifespan_3
+
+	3078.1.1 = { birth = yes }
+	3286.1.1 = { death = yes }
+}
+
+ieneth_99 = {
+	name = "Ruram"
+	dynasty = dyn_ieneth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = ieneth_98
+	father = ieneth_98_husband
+
+	trait = lifespan_3
+
+	3149.1.1 = { birth = yes }
+	3270.1.1 = { add_spouse = ieneth_99_wife }
+	3351.5.29 = { death = yes }
+}
+
+ieneth_99_wife = {
+	name = "Orama"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	3194.1.1 = { birth = yes }
+	3406.1.1 = { death = yes }
+}
+
+ieneth_99b = { #Married to sandil_99
+	name = "Naril"
+	dynasty = dyn_ieneth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = ieneth_98
+	father = ieneth_98_husband
+
+	trait = lifespan_3
+
+	3158.1.1 = { birth = yes }
+	3369.1.1 = { death = yes }
+}
+
+ieneth_100 = {
+	name = "Felisa"
+	dynasty = dyn_ieneth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = ieneth_99
+	mother = ieneth_99_wife
+
+	trait = content
+	trait = craven
+	trait = trusting
+	trait = education_learning_2
+	trait = reckless
+	trait = lifespan_3
+	trait = sign_tower
+
+	3278.10.10 = { birth = yes }
+	3369.11.19 = { death = { death_reason = death_battle killer = indoril_ivulan } }
+}
+
+ieneth_100b = {
+	name = "Nels"
+	dynasty = dyn_ieneth
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = ieneth_99
+	mother = ieneth_99_wife
+
+	trait = education_martial_2
+	trait = gregarious
+	trait = brave
+	trait = stubborn
+	trait = lifespan_3
+	trait = sign_lover
+
+	3284.2.22 = { birth = yes }
+	3369.1.1 = {
+		trait = scarred
+	}
+	3372.1.1 = { add_spouse = ilvi1_101b }
+	3501.7.14 = { death = yes }
+}
+
+ieneth_100c = {
+	name = "Neldris"
+	dynasty = dyn_ieneth
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = ieneth_99
+	mother = ieneth_99_wife
+
+	trait = lifespan_3
+
+	3291.1.1 = { birth = yes }
+	3495.1.1 = { death = yes }
+}
+
+ieneth_101 = {
+	name = "Fyrona"
+	dynasty = dyn_ieneth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = ieneth_100b
+	mother = ilvi1_101b
+
+	trait = lifespan_3
+
+	3375.1.1 = { birth = yes }
+	3597.1.1 = { death = yes }
+}
+
+ieneth_101b = { #Married to saryoni_101
+	name = "Garvas"
+	dynasty = dyn_ieneth
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = ieneth_100b
+	mother = ilvi1_101b
+
+	trait = lifespan_3
+
+	3379.1.1 = { birth = yes }
+	3565.1.1 = { death = yes }
+}
+
+#History ToDO: Ieneths get appointed somewhere during/after eso
+
+#Verelnim Dynasty
+verelnim_98 = {
+	name = "Vermivah"
+	dynasty = dyn_verelnim
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	3031.1.1 = { birth = yes }
+	3080.1.1 = { add_matrilineal_spouse = verelnim_98_husband }
+	3219.1.24 = { death = yes }
+}
+
+verelnim_98_husband = {
+	name = "Ienas"
+	culture = chuzei
+	religion = tribunal_temple
+	trait = lifespan_3
+	3022.1.1 = { birth = yes }
+	3221.1.1 = { death = yes }
+}
+
+verelnim_99 = {
+	name = "Madrus"
+	dynasty = dyn_verelnim
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = verelnim_98
+	father = verelnim_98_husband
+
+	trait = lifespan_3
+
+	3100.1.1 = { birth = yes }
+	3190.1.1 = { add_spouse = verelnim_99_wife }
+	3314.1.12 = { death = yes }
+}
+
+verelnim_99_wife = {
+	name = "Ulvena"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	3116.1.1 = { birth = yes }
+	3330.1.1 = { death = yes }
+}
+
+verelnim_100 = {
+	name = "Ithis"
+	dynasty = dyn_verelnim
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = verelnim_99
+	mother = verelnim_99_wife
+
+	trait = lifespan_3
+
+	3191.1.1 = { birth = yes }
+	3280.1.1 = { add_spouse = verelnim_100_wife }
+	3364.1.1 = { trait = consumption }
+	3365.8.26 = { death = { death_reason = death_consumption } }
+}
+
+verelnim_100_wife = {
+	name = "Mari"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_3
+	3199.1.1 = { birth = yes }
+	3404.1.1 = { death = yes }
+}
+
+verelnim_101 = {
+	name = "Tharas"
+	dynasty = dyn_verelnim
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = verelnim_100
+	mother = verelnim_100_wife
+
+	trait = lifespan_3
+
+	3285.1.1 = { birth = yes }
+	3358.1.1 = { add_spouse = andas_101b }
+	3489.1.1 = { death = yes }
+}
+
+verelnim_101b = { #Married to indoril_100b1
+	name = "Trels"
+	dynasty = dyn_verelnim
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = verelnim_100
+	mother = verelnim_100_wife
+
+	trait = lifespan_3
+
+	3289.1.1 = { birth = yes }
+	3498.1.1 = { death = yes }
+}
+
+verelnim_101c = { #Married to hlaavus_100
+	name = "Ulvena"
+	dynasty = dyn_verelnim
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = verelnim_100
+	mother = verelnim_100_wife
+
+	trait = lifespan_3
+
+	3292.1.1 = { birth = yes }
+	3504.1.1 = { death = yes }
+}
+
+verelnim_102 = {
+	name = "Gilse"
+	dynasty = dyn_verelnim
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = verelnim_101
+	mother = andas_101b
+
+	trait = lifespan_3
+
+	3362.1.1 = { birth = yes }
+	3575.1.1 = { death = yes }
+}
+
+verelnim_102b = {
+	name = "Ivela"
+	dynasty = dyn_verelnim
+	culture = chuzei
+	religion = tribunal_temple
+
+	female = yes
+
+	father = verelnim_101
+	mother = andas_101b
+
+	trait = lifespan_3
+
+	3375.1.1 = { birth = yes }
+	3599.1.1 = { death = yes }
+}
+
+## Drora Dynasty
+drora_97 = {
+	name = "Edryn"
+	dynasty = dyn_drora
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	2994.1.1 = { birth = yes }
+	3080.1.1 = { add_matrilineal_spouse = drora_97_husband }
+	3223.11.5 = { death = yes }
+}
+drora_97_husband = {
+	name = "Sedam"
+	culture = chuzei
+	religion = tribunal_temple
+	trait = lifespan_3
+	3002.1.1 = { birth = yes }
+	3229.1.1 = { death = yes }
+}
+drora_98 = {
+	name = "Thanys"
+	dynasty = dyn_drora
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = drora_97
+	father = drora_97_husband
+
+	trait = lifespan_3
+
+	3090.1.1 = { birth = yes }
+	3140.1.1 = { add_spouse = drora_98_wife }
+	3283.4.19 = { death = yes }
+}
+drora_98_wife = {
+	name = "Dilvene"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_3
+	3100.1.1 = { birth = yes }
+	3318.1.1 = { death = yes }
+}
+drora_98b = {
+	name = "Veros"
+	dynasty = dyn_drora
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = drora_97
+	father = drora_97_husband
+
+	trait = lifespan_3
+
+	3103.1.1 = { birth = yes }
+	3287.3.28 = { death = yes }
+}
+drora_98c = { #Married to meris_97
+	name = "Larthas"
+	dynasty = dyn_drora
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = drora_97
+	father = drora_97_husband
+
+	trait = lifespan_3
+
+	3094.1.1 = { birth = yes }
+	3314.1.1 = { death = yes }
+}
+drora_99 = {
+	name = "Avrusa"
+	dynasty = dyn_drora
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = drora_98
+	mother = drora_98_wife
+
+	trait = lifespan_3
+
+	3150.1.1 = { birth = yes }
+	3200.1.1 = { add_matrilineal_spouse = drora_99_husband }
+	3353.3.22 = { death = yes }
+}
+drora_99_husband = {
+	name = "Marlyn"
+	culture = chuzei
+	religion = tribunal_temple
+	trait = lifespan_3
+	3155.1.1 = { birth = yes }
+	3359.1.1 = { death = yes }
+}
+drora_100 = {
+	name = "Larthas"
+	dynasty = dyn_drora
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = drora_99
+	father = drora_99_husband
+
+	trait = lifespan_3
+	trait = education_learning_2
+	trait = sign_apprentice
+
+	3216.7.18 = { birth = yes }
+	3280.1.1 = { add_spouse = delyn_100c }
+	3420.11.6 = { death = yes }
+}
+drora_101 = {
+	name = "Marlyn"
+	dynasty = dyn_drora
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = drora_100
+	mother = delyn_100c
+
+	trait = lifespan_3
+
+	3287.1.1 = { birth = yes }
+	3355.1.1 = { add_matrilineal_spouse = ornavel_100b }
+	3494.10.18 = { death = yes }
+}
+
+drora_102 = { #Appointed to be governor of Nanaav
+	name = "Raryn"
+	dynasty = dyn_drora
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = drora_101
+	father = ornavel_100b
+
+	trait = lifespan_3
+
+	3363.1.1 = { birth = yes }
+	3570.11.6 = { death = yes }
+}
+
+drora_102b = { #Married to sedroth1_101
+	name = "Seldus"
+	dynasty = dyn_drora
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = drora_101
+	father = ornavel_100b
+
+	trait = lifespan_3
+
+	3374.1.1 = { birth = yes }
+	3595.1.1 = { death = yes }
+}
+
+drora_103 = {
+	name = "Dilyne"
+	dynasty = dyn_drora
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = drora_102
+
+	trait = lifespan_3
+
+	3429.1.1 = { birth = yes }
+	3616.10.11 = { death = { death_reason = death_archery_accident } }
+}
+
+#Raviro Dynasty
+#Note: were Vermethys perviously, but that's a first name, not family name
+raviro_98 = {
+	name = "Dandera"
+	dynasty = dyn_raviro
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_3
+	3018.1.1 = { birth = yes }
+	3080.1.1 = { add_matrilineal_spouse = raviro_98_husband }
+	3221.2.10 = { death = yes }
+}
+raviro_98_husband = {
+	name = "Gindas"
+	culture = chuzei
+	religion = tribunal_temple
+	trait = lifespan_3
+	3030.1.1 = { birth = yes }
+	3209.1.1 = { death = yes }
+}
+raviro_99 = {
+	name = "Salvas"
+	dynasty = dyn_raviro
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = raviro_98
+	father = raviro_98_husband
+
+	trait = lifespan_3
+
+	3101.1.1 = { birth = yes }
+	3170.1.1 = { add_spouse = salvu_99c }
+	3312.7.13 = { death = yes }
+}
+raviro_99b = { #Married to saryoni_99
+	name = "Sava"
+	dynasty = dyn_raviro
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = raviro_98
+	father = raviro_98_husband
+
+	trait = lifespan_3
+
+	3109.1.1 = { birth = yes }
+	3326.1.1 = { death = yes }
+}
+raviro_100 = {
+	name = "Tarvus"
+	dynasty = dyn_raviro
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = raviro_99
+	mother = salvu_99c
+
+	trait = education_stewardship_2
+	trait = content
+	trait = temperate
+	trait = shy
+	trait = lifespan_3
+	trait = sign_thief
+
+	3184.12.1 = { birth = yes }
+	3300.1.1 = { add_spouse = arthalen_100b }
+	3394.11.30 = { death = yes }
+}
+raviro_100b = {
+	name = "Salora"
+	dynasty = dyn_raviro
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = raviro_99
+	mother = salvu_99c
+
+	trait = lifespan_3
+
+	3190.1.1 = { birth = yes }
+	3280.1.1 = { add_matrilineal_spouse = sedroth1_99c }
+	3404.1.1 = { death = yes }
+}
+raviro_101 = {
+	name = "Berol"
+	dynasty = dyn_raviro
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = raviro_100
+	mother = arthalen_100b
+
+	trait = education_martial_3
+	trait = education_martial_prowess_4
+	trait = zealous
+	trait = lifespan_3
+	trait = p_tr_almalexia
+
+	3302.1.1 = { birth = yes }
+	3365.1.1 = { #Decides to join ordinators, more specifically - hands of Almalexia
+		trait = order_member
+		employer = indoril_ayem #Hand of Almalexia
+	}
+	3442.1.1 = { employer = dorom1_102 } #New Archcanon
+	3493.1.1 = { death = { death_reason = death_battle } } #Kamals
+}
+raviro_101b = {
+	name = "Dovesi"
+	dynasty = dyn_raviro
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = raviro_100
+	mother = arthalen_100b
+
+	trait = education_learning_4
+	trait = shy
+	trait = gluttonous
+	trait = diligent
+	trait = shrewd
+	trait = experimentalist
+	trait = p_tr_sotha
+	trait = lifespan_3
+	trait = sign_shadow
+
+	#Note: doesn't have kids, lands go to cousin
+
+	3305.5.27 = { birth = yes }
+	3538.5.10 = { death = yes }
+}
+raviro_102 = {
+	name = "Lliryn"
+	dynasty = dyn_raviro
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = raviro_100b
+	father = sedroth1_99c
+
+	trait = lifespan_3
+
+	3281.1.1 = { birth = yes }
+	3487.1.1 = { death = yes }
+}
+
+raviro_103 = {
+	name = "Merano"
+	dynasty = dyn_raviro
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = raviro_102
+
+	trait = lifespan_3
+
+	3377.1.1 = { birth = yes }
+	3583.1.1 = { death = yes }
+}
+
+## Sandil Dynasty
+sandil_triffith = { #Triffith from Poison Song, book is obvious fiction but this guy could have been real
+	name = "Triffith" #Lore
+	dynasty = dyn_sandil
+	culture = chuzei
+	religion = tribunal_temple
+
+	trait = education_martial_4
+	trait = lifespan_3
+
+	560.1.1 = { birth = yes }
+	802.1.1 = { death = yes } #Old TR lore
+}
+
+sandil_baynarah = { #Trffith's niece from Poison Song, turned into daughter cause Posion Song is fake!!!
+	name = "Baynarah" #Lore
+	dynasty = dyn_sandil
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = sandil_triffith
+
+	trait = education_martial_4
+	trait = lifespan_3
+	
+	618.1.1 = { birth = yes }
+	874.1.1 = { death = yes }
+}
+
+sandil_line = {
+	name = "Baynarah"
+	dynasty = dyn_sandil
+	culture = chuzei
+	religion = tribunal_temple
+	mother = sandil_baynarah
+	trait = line_of_x
+	disallow_random_traits = yes
+	diplomacy = 0
+	martial = 0
+	stewardship = 0
+	intrigue = 0
+	learning = 0
+	prowess = 0
+	874.1.1 = { birth = yes }
+	950.1.1 = { give_nickname = nick_line_of }
+	3087.1.1 = { death = yes }
+}
+
+sandil_98 = {
+	name = "Vatola"
+	dynasty = dyn_sandil
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = sandil_line
+
+	trait = lifespan_3
+
+	3087.1.1 = { birth = yes }
+	3140.1.1 = { add_matrilineal_spouse = sandil_98_husband }
+	3269.10.14 = { death = yes }
+}
+
+sandil_98_husband = {
+	name = "Furon"
+	culture = chuzei
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	3100.1.1 = { birth = yes }
+	3303.1.1 = { death = yes }
+}
+
+sandil_99 = {
+	name = "Alvela"
+	dynasty = dyn_sandil
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = sandil_98
+	father = sandil_98_husband
+
+	trait = lifespan_3
+
+	3144.1.1 = { birth = yes }
+	3200.1.1 = { add_matrilineal_spouse = ieneth_99b }
+	3358.3.16 = { death = yes }
+}
+
+sandil_100 = { #Cautious and patient ruler, watches out for threats from Telvanni and the east
+	name = "Vatola"
+	dynasty = dyn_sandil
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = sandil_99
+	father = ieneth_99b
+
+	trait = lifespan_3
+	trait = education_martial_2
+	trait = patient
+	trait = stubborn
+	trait = calm
+	trait = sign_steed
+
+	3213.6.18 = { birth = yes }
+	3260.1.1 = { add_matrilineal_spouse = parys_99c }
+	3368.7.8 = { death = { death_reason = death_responsible_suicide_crime } } #Kills herself after her son is captured by Telvanni slavers
+}
+
+sandil_100b = {
+	name = "Drerel"
+	dynasty = dyn_sandil
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = sandil_99
+	father = ieneth_99b
+
+	trait = sign_lady
+	trait = lifespan_3
+
+	3216.9.25 = { birth = yes }
+	3280.1.1 = { add_spouse = llothis_99b }
+	3391.1.1 = { death = { death_reason = death_duel killer = sandil_101b } }
+}
+
+sandil_101 = { #Captured by Telvanni slavers
+	name = "Vivul"
+	dynasty = dyn_sandil
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = sandil_100
+	father = parys_99c
+	
+	trait = sign_lord
+	trait = lifespan_3
+
+	3285.3.29 = { birth = yes }
+	3368.1.1 = { death = { death_reason = death_raid } } #Telvanni slave raid
+}
+
+sandil_101b = {
+	name = "Veresa"
+	dynasty = dyn_sandil
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = sandil_100
+	father = parys_99c
+
+	trait = lifespan_3
+	#Calm person
+	trait = calm
+	trait = patient
+	trait = fickle
+	trait = education_learning_3
+	trait = sign_shadow
+
+	prowess = 3
+
+	3292.5.26 = { birth = yes }
+	3368.1.1 = {
+		#Not such a calm person after her brother is taken by slavers
+		effect = {
+			remove_trait = calm
+			add_trait = vengeful
+			remove_trait = patient
+			add_trait = wrathful
+		}
+	}
+	#3391 - situation deteriorates, Veresa gets worse, her uncle asks her to step down
+	#Challenges her uncle to a duel, kills him
+	#Her cousin challenges her to a duel, she dies
+	3391.6.15 = { death = { death_reason = death_duel killer = sandil_102 } }
+}
+
+sandil_102 = {
+	name = "Belvin"
+	dynasty = dyn_sandil
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = sandil_100b
+	mother = llothis_99b
+
+	trait = calm
+	trait = just
+	trait = vengeful
+	trait = education_martial_3
+	trait = lifespan_3
+	trait = twin
+	trait = sign_steed
+
+	prowess = 8
+
+	3294.6.8 = { birth = yes }
+	3361.1.1 = { add_spouse = seras1_101b }
+	3501.8.20 = { death = yes }
+}
+
+sandil_102b = {
+	name = "Llandris"
+	dynasty = dyn_sandil
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = sandil_100b
+	mother = llothis_99b
+
+	trait = lifespan_3
+	trait = twin
+
+	3294.6.8 = { birth = yes }
+	3360.1.1 = { add_spouse = llori1_100b }
+	3525.1.1 = { death = yes }
+}
+
+sandil_103 = {
+	name = "Iveri"
+	dynasty = dyn_sandil
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = sandil_102
+	mother = seras1_101b
+
+	trait = lifespan_3
+
+	3376.1.1 = { birth = yes }
+	3584.1.1 = { death = yes }
+}
+
+sandil_103b = { #Married to salothran_103b
+	name = "Dendras"
+	dynasty = dyn_sandil
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = sandil_102
+	mother = seras1_101b
+
+	trait = lifespan_3
+
+	3382.1.1 = { birth = yes }
+	3599.1.1 = { death = yes }
+}
+
+sandil1_103 = {
+	name = "Marise"
+	dynasty = dyn_sandil
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = sandil_102b
+	mother = llori1_100b
+
+	trait = lifespan_3
+
+	3366.1.1 = { birth = yes }
+	3579.1.1 = { death = yes }
+}
+
+#Meris dynasty, TR
+meris_1 = { #Saint Meris, unknown when she lived, put her in late 1E
+	name = "Meris" #Lore
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = education_magic_4 #Great healer
+	trait = education_diplomacy_4 #Peacemaker
+	trait = lifestyle_physician #Great healer
+	trait = saint #Saint
+	trait = compassionate
+	trait = lifespan_3
+
+	2306.1.1 = { birth = yes }
+	2400.1.1 = { give_nickname = nick_the_peacemaker_meris }
+	2548.1.1 = { death = yes }
+}
+
+meris_line = {
+	name = "Meris"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+	mother = meris_1
+	trait = line_of_x
+	disallow_random_traits = yes
+	diplomacy = 0
+	martial = 0
+	stewardship = 0
+	intrigue = 0
+	learning = 0
+	prowess = 0
+	2548.1.1 = { birth = yes }
+	2600.1.1 = { give_nickname = nick_line_of }
+	2695.1.1 = { death = yes }
+}
+
+meris_93 = {
+	name = "Girva"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = meris_line
+
+	trait = lifespan_3
+
+	2695.1.1 = { birth = yes }
+	2858.11.14 = { death = { death_reason = death_battle } } #Four-score war
+}
+meris_94 = {
+	name = "Edrasa"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = meris_93
+
+	trait = lifespan_3
+
+	2784.1.1 = { birth = yes }
+	2995.6.11 = { death = yes }
+}
+
+meris_94b = { #Alma Rula
+	name = "Nilos"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = meris_93
+
+	trait = lifespan_3
+
+	2791.1.1 = { birth = yes }
+	3025.10.20 = { death = yes }
+}
+
+meris_95 = {
+	name = "Mivryna"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = meris_94
+
+	trait = lifespan_3
+
+	2876.1.1 = { birth = yes }
+	3089.5.20 = { death = yes }
+}
+
+meris_96 = {
+	name = "Tethal"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = meris_95
+
+	trait = lifespan_3
+
+	2951.1.1 = { birth = yes }
+	3050.1.1 = { add_spouse = meris_96_wife }
+	3195.2.23 = { death = yes }
+}
+
+meris_96_wife = {
+	name = "Ninla"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	2973.1.1 = { birth = yes }
+	3198.1.1 = { death = yes }
+}
+
+meris_96b = {
+	name = "Mivani"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = meris_95
+
+	trait = lifespan_3
+
+	2958.1.1 = { birth = yes }
+	3166.1.1 = { death = yes }
+}
+
+meris_97 = {
+	name = "Darvasa"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = meris_96
+	mother = meris_96_wife
+
+	trait = lifespan_3
+
+	3067.1.1 = { birth = yes }
+	3130.1.1 = { add_matrilineal_spouse = drora_98c }
+	3280.7.2 = { death = yes }
+}
+
+meris_98 = {
+	name = "Mivani"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = meris_97
+	father = drora_98c
+
+	trait = calm
+	trait = patient
+	trait = forgiving
+	trait = intellect_good_1
+	trait = education_learning_3
+	trait = lifespan_3
+	trait = sign_thief
+
+	3145.9.12 = { birth = yes }
+	3220.1.1 = { add_matrilineal_spouse = indalas_98b }
+	3350.1.1 = { #Knows clerical language
+		effect = {
+			learn_language = language_daedric
+		}
+	}
+	3362.11.8 = { death = { death_reason = death_natural_causes } }
+}
+
+meris_98b = {
+	name = "Ulyn"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = meris_97
+	father = drora_98c
+
+	trait = lifespan_3
+
+	3168.1.1 = { birth = yes }
+	3379.1.1 = { death = yes }
+}
+
+meris_98c = { #Married to dorom_100
+	name = "Dayas"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = meris_97
+	father = drora_98c
+
+	trait = lifespan_3
+
+	3173.1.1 = { birth = yes }
+	3396.1.1 = { death = yes }
+}
+
+meris_99 = {
+	name = "Urvan"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = meris_98
+	father = indalas_98b
+
+	trait = lifespan_3
+
+	3234.1.1 = { birth = yes }
+	3300.1.1 = { add_spouse = vandas_100b }
+	#Dies at sea with his father and wife
+	3322.1.1 = { death = { death_reason = death_sea_storm } }
+}
+
+meris_99b = {
+	name = "Alavesa"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = meris_98
+	father = indalas_98b
+
+	trait = education_learning_4
+	trait = devoted
+	trait = lifespan_3
+
+	3238.1.1 = { birth = yes }
+	3462.1.1 = { death = yes }
+}
+
+meris_100 = {
+	name = "Mivani"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = meris_99
+	mother = vandas_100b
+
+	trait = beauty_good_1
+	trait = intellect_good_1
+	trait = education_diplomacy_3
+	trait = depressed_1 #Lost parents
+	trait = humble
+	trait = compassionate
+	trait = craven
+	trait = lifespan_3
+	trait = sign_apprentice
+
+	3321.7.6 = { birth = yes }
+	3375.1.1 = { add_matrilineal_spouse = ilvi_101c }
+	3390.1.1 = { #Knows clerical language
+		effect = {
+			learn_language = language_daedric
+		}
+	}
+	3493.1.1 = { death = { death_reason = death_battle } } #Kamals
+}
+
+meris_101 = {
+	name = "Llaalam"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = meris_100
+	father = ilvi_101c
+
+	trait = lifespan_3
+
+	3394.1.1 = { birth = yes }
+	3440.1.1 = { add_spouse = dorom_103b }
+	3493.1.1 = {
+		trait = scarred #Survives Kamals
+		trait = one_eyed
+	}
+	3609.10.30 = { death = yes }
+}
+
+meris_101b = { #Gets Senie
+	name = "Girvas" #Lore - name of ruler of Senie in eso
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = meris_100
+	father = ilvi_101c
+
+	trait = lifespan_3
+
+	3398.1.1 = { birth = yes }
+	3614.1.1 = { death = yes }
+}
+
+meris_102 = {
+	name = "Mivani"
+	dynasty = dyn_meris
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = meris_101
+	mother = dorom_103b
+
+	trait = lifespan_3
+
+	3452.1.1 = { birth = yes }
+	3676.1.1 = { death = yes }
+}
+
+#Delyn dynasty, TR
+delyn_1 = { #Saint Delyn, ruled house Indoril after 2920
+	name = "Delyn" #Lore
+	dynasty = dyn_dorom #Still Dorom
+	culture = chuzei
+	religion = tribunal_temple
+	
+	mother = dorom_96b #Cousin of Brindisi Dorom
+	
+	trait = saint
+	trait = education_stewardship_4
+	trait = just
+	trait = diligent
+	trait = zealous
+	trait = lifespan_3
+	
+	2790.1.1 = { birth = yes }
+	3009.1.1 = { give_nickname = nick_the_wise }
+	3010.5.24 = { death = yes }
+}
+
+delyn_97 = {
+	name = "Arela"
+	dynasty_house = dyn_delyn #Descendants form separate house
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = delyn_1
+
+	trait = lifespan_3
+
+	2941.1.1 = { birth = yes }
+	3187.4.5 = { death = yes }
+}
+
+delyn_98 = {
+	name = "Nethyn"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = delyn_97
+
+	trait = lifespan_3
+
+	3018.1.1 = { birth = yes }
+	3120.1.1 = { add_spouse = delyn_98_wife }
+	3225.12.28 = { death = yes }
+}
+
+delyn_98_wife = {
+	name = "Rayna"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_3
+	3054.1.1 = { birth = yes }
+	3275.1.1 = { death = yes }
+}
+
+delyn_99 = {
+	name = "Saden"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = delyn_98
+	mother = delyn_98_wife
+
+	trait = lifespan_3
+
+	3126.1.1 = { birth = yes }
+	3180.1.1 = { add_spouse = ilvi_99b }
+	3348.7.8 = { death = yes }
+}
+
+delyn_99b = {
+	name = "Baleni"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = delyn_98
+	mother = delyn_98_wife
+
+	trait = lifespan_3
+
+	3136.1.1 = { birth = yes }
+	3348.1.1 = { death = yes }
+}
+
+delyn_99c = { #Married to raathim_99
+	name = "Arela"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = delyn_98
+	mother = delyn_98_wife
+
+	trait = lifespan_3
+
+	3130.1.1 = { birth = yes }
+	3338.1.1 = { death = yes }
+}
+
+delyn_100 = {
+	name = "Salvas"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = delyn_99
+	mother = ilvi_99b
+
+	trait = education_diplomacy_3
+	trait = generous
+	trait = lifespan_3
+	trait = sign_ritual
+
+	3209.1.3 = { birth = yes }
+	3300.1.1 = { add_spouse = hlaarys_100d }
+	3436.12.8 = { death = yes }
+}
+
+delyn_100b = {
+	name = "Thathas"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = delyn_99
+	mother = ilvi_99b
+
+	trait = lifespan_3
+
+	3218.1.1 = { birth = yes }
+	3290.1.1 = { add_spouse = salothran_100b }
+	3445.1.1 = { death = yes }
+}
+
+delyn_100c = { #Married to drora_100
+	name = "Arela"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = delyn_99
+	mother = ilvi_99b
+
+	trait = lifespan_3
+
+	3225.1.1 = { birth = yes }
+	3398.1.1 = { death = yes }
+}
+
+delyn_100d = { #Married to llori_100
+	name = "Tulsa"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = delyn_99
+	mother = ilvi_99b
+
+	trait = lifespan_3
+
+	3251.1.1 = { birth = yes }
+	3468.1.1 = { death = yes }
+}
+
+delyn_101 = {
+	name = "Delyna"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = delyn_100
+	mother = hlaarys_100d
+
+	trait = education_stewardship_3
+	trait = generous
+	trait = arrogant
+	trait = trusting
+	trait = lifespan_3
+	trait = sign_lady
+
+	3318.9.14 = { birth = yes }
+	3494.1.1 = {
+		trait = depressed_1 #Only child died
+		trait = inappetetic
+	}
+	3501.3.16 = { death = { death_reason = death_malnourishment } }
+}
+
+delyn_101b = { #Ruler of Romithren Monastery
+	name = "Daryn"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = delyn_100
+	mother = hlaarys_100d
+
+	trait = education_learning_3
+	trait = lifespan_3
+
+	3326.1.1 = { birth = yes }
+	3540.1.1 = { death = yes }
+}
+
+delyn_101c = { #Married to indoril_102b
+	name = "Girvani"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = delyn_100
+	mother = hlaarys_100d
+
+	trait = lifespan_3
+
+	3329.1.1 = { birth = yes }
+	3490.1.1 = { death = { death_reason = death_bubonic_plague } }
+}
+
+delyn_102 = {
+	name = "Sarthis"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = delyn_101
+
+	trait = lifespan_3
+
+	3389.1.1 = { birth = yes }
+	3493.1.1 = { death = { death_reason = death_battle } } #Kamals
+}
+
+#Become main  laine of Delyns after delyn_101 and 102 die
+delyn_103 = {
+	name = "Farena"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = delyn_100b
+	mother = salothran_100b
+
+	trait = education_learning_1 #Bad Indoril
+	trait = lifespan_3
+
+	3293.1.1 = { birth = yes }
+	3499.1.1 = { death = yes }
+}
+
+delyn_103b = {
+	name = "Llorayna"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = delyn_100b
+	mother = salothran_100b
+
+	trait = lifespan_3
+
+	3305.1.1 = { birth = yes }
+	3434.1.1 = { death = { death_reason = death_hunting_accident } }
+}
+
+delyn_103c = {
+	name = "Ervyna"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = delyn_100b
+	mother = salothran_100b
+
+	trait = lifespan_3
+
+	3313.1.1 = { birth = yes }
+	3519.1.1 = { death = yes }
+}
+
+delyn_104 = {
+	name = "Idroni"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = delyn_103
+
+	trait = ambitious #Wants to get her family's governorship, but doesn't manage to do it
+	trait = lifespan_3
+
+	3365.1.1 = { birth = yes }
+	3569.12.29 = { death = yes }
+}
+
+delyn_105 = {
+	name = "Mathyn"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = delyn_104
+	trait = lifespan_3
+
+	3452.1.1 = { birth = yes }
+	3677.2.17 = { death = yes }
+}
+
+#Start from delyn_103b
+delyn1_104 = {
+	name = "Nemyn"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = delyn_103b
+
+	trait = lifespan_3
+
+	3401.1.1 = { birth = yes }
+	3612.1.1 = { death = yes }
+}
+
+delyn1_105 = {
+	name = "Aryvena"
+	dynasty_house = dyn_delyn
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = delyn1_104
+
+	trait = ambitious
+	trait = lifespan_3
+
+	3472.1.1 = { birth = yes }
+	3683.1.1 = { death = yes }
+}
+
+#Ilvi dynasty, TR
+ilvi_94 = {
+	name = "Llaalam"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+
+	2651.1.1 = { birth = yes }
+	2841.2.10 = { death = { death_reason = death_murder } } #Imperial sabotage
+}
+ilvi_95 = {
+	name = "Sarthis"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = ilvi_94
+
+	2769.1.1 = { birth = yes }
+	2849.8.7 = { death = { death_reason = death_battle } }
+}
+ilvi_95b = {
+	name = "Daliina"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = ilvi_94
+
+	2776.1.1 = { birth = yes }
+	2999.1.4 = { death = yes }
+}
+ilvi_96 = {
+	name = "Reron"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = ilvi_95b
+
+	trait = lifespan_3
+
+	2879.1.1 = { birth = yes }
+	3083.12.14 = { death = yes }
+}
+ilvi_96b = {
+	name = "Trels"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = ilvi_95b
+
+	trait = education_learning_4
+	trait = lifespan_3
+
+	2884.1.1 = { birth = yes }
+	3096.5.27 = { death = yes }
+}
+ilvi_97 = {
+	name = "Luryne"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = ilvi_96
+
+	trait = lifespan_3
+
+	2973.1.1 = { birth = yes }
+	3184.1.28 = { death = yes }
+}
+ilvi_98 = {
+	name = "Sanvyno"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = ilvi_97
+
+	trait = lifespan_3
+
+	3065.1.1 = { birth = yes }
+	3120.1.1 = { add_spouse = ilvi_98_wife }
+	3281.3.7 = { death = yes }
+}
+ilvi_98_wife = {
+	name = "Nabari" #Velothi
+	culture = ashlander
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	3075.1.1 = { birth = yes }
+	3262.1.1 = { death = yes }
+}
+ilvi_98b = {
+	name = "Tenisi"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = ilvi_97
+
+	trait = lifespan_3
+
+	3070.1.1 = { birth = yes }
+	3130.1.1 = { add_matrilineal_spouse = ilvi_98b_husband }
+	3294.1.1 = { death = yes }
+}
+ilvi_98b_husband = {
+	name = "Tiras"
+	culture = chuzei
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	3083.1.1 = { birth = yes }
+	3280.1.1 = { death = yes }
+}
+ilvi_99 = {
+	name = "Bera"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = ilvi_98
+	mother = ilvi_98_wife
+
+	trait = lifespan_3
+
+	3138.1.1 = { birth = yes }
+	3200.1.1 = { add_matrilineal_spouse = raran_99b }
+	3357.7.25 = { death = yes }
+}
+ilvi_99b = { #Married to delyn_99
+	name = "Salora"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = ilvi_98
+	mother = ilvi_98_wife
+
+	trait = lifespan_3
+
+	3144.1.1 = { birth = yes }
+	3359.1.1 = { death = yes }
+}
+ilvi_100 = {
+	name = "Torolon"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+	sexuality = asexual
+
+	mother = ilvi_99
+	father = raran_99b
+
+	trait = zealous
+	trait = wrathful
+	trait = honest
+	trait = education_martial_3
+	trait = lifespan_3
+	trait = sign_lady
+
+	3231.9.17 = { birth = yes }
+	3408.6.4 = { death = { death_reason = death_battle } } #Small skirmish with ashlanders
+}
+
+ilvi_100b = {
+	name = "Balsa"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	
+	mother = ilvi_99
+	father = raran_99b
+	
+	trait = lifespan_3
+
+	3246.1.1 = { birth = yes }
+	3320.1.1 = { add_matrilineal_spouse = seras1_100b }
+	3442.1.1 = { trait = typhus }
+	3443.3.13 = { death = { death_reason = death_typhus } }
+}
+
+ilvi_100c = { #Married to arano_100
+	name = "Norus"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+	
+	mother = ilvi_99
+	father = raran_99b
+	
+	trait = lifespan_3
+
+	3249.1.1 = { birth = yes }
+	3458.1.1 = { death = yes }
+}
+
+ilvi_101 = {
+	name = "Thandon"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+	
+	mother = ilvi_100b
+	father = seras1_100b
+
+	trait = lifespan_3
+
+	3328.1.1 = { birth = yes }
+	3442.1.1 = { trait = typhus }
+	3443.3.11 = { death = { death_reason = death_typhus } }
+}
+
+ilvi_101b = {
+	name = "Bera"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	
+	mother = ilvi_100b
+	father = seras1_100b
+
+	#Just doesn't do much stuff
+	trait = calm
+	trait = temperate
+	trait = content
+	trait = education_learning_2
+	trait = lifespan_3
+	trait = sign_ritual
+
+	3333.1.16 = { birth = yes }
+	3380.1.1 = { add_matrilineal_spouse = llathsa1_102 }
+	3493.1.1 = { death = { death_reason = death_battle } } #Kamals
+}
+
+ilvi_101c = {
+	name = "Norus"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+	
+	mother = ilvi_100b
+	father = seras1_100b
+
+	trait = lifespan_3
+
+	3336.1.1 = { birth = yes }
+	3528.1.1 = { death = yes }
+}
+
+ilvi_102 = {
+	name = "Laureva"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	
+	mother = ilvi_101b
+	father = llathsa1_102
+
+	trait = lifespan_3
+
+	3406.1.1 = { birth = yes }
+	3619.1.1 = { death = yes }
+}
+
+ilvi1_99 = {
+	name = "Valveli"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = ilvi_98b
+	father = ilvi_98b_husband
+
+	trait = lifespan_3
+
+	3133.1.1 = { birth = yes }
+	3200.1.1 = { add_matrilineal_spouse = ilvi1_99_husband }
+	3356.1.1 = { death = yes }
+}
+
+ilvi1_99_husband = {
+	name = "Bevin"
+	culture = chuzei
+	religion = tribunal_temple
+	trait = lifespan_3
+	3140.1.1 = { birth = yes }
+	3362.1.1 = { death = yes }
+}
+
+ilvi1_99b = { #Married to sathil_99
+	name = "Tens"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = ilvi_98b
+	father = ilvi_98b_husband
+
+	trait = lifespan_3
+
+	3139.1.1 = { birth = yes }
+	3355.1.1 = { death = yes }
+}
+
+ilvi1_100 = { #Married to arthalen_100
+	name = "Suvryn"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = ilvi1_99
+	father = ilvi1_99_husband
+
+	trait = lifespan_3
+
+	3211.1.1 = { birth = yes }
+	3419.1.1 = { death = yes }
+}
+
+ilvi1_100b = {
+	name = "Elvasea"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = ilvi1_99
+	father = ilvi1_99_husband
+
+	trait = lifespan_3
+
+	3217.1.1 = { birth = yes }
+	3270.1.1 = { add_matrilineal_spouse = ilvi1_100b_husband }
+	3433.1.1 = { death = yes }
+}
+
+ilvi1_100b_husband = {
+	name = "Rhavil"
+	culture = chuzei
+	religion = tribunal_temple
+	trait = lifespan_3
+	3225.1.1 = { birth = yes }
+	3430.1.1 = { death = yes }
+}
+
+ilvi1_101 = {
+	name = "Nals"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = ilvi1_100b
+	father = ilvi1_100b_husband
+
+	trait = lifespan_3
+
+	3276.1.1 = { birth = yes }
+	3340.1.1 = { add_spouse = ilvi1_101_wife }
+	3489.1.1 = { death = yes }
+}
+
+ilvi1_101_wife = {
+	name = "Llavana"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_3
+	3287.1.1 = { birth = yes }
+	3499.1.1 = { death = yes }
+}
+
+ilvi1_101b = {
+	name = "Alvesi"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = ilvi1_100b
+	father = ilvi1_100b_husband
+
+	trait = lifespan_3
+
+	3281.1.1 = { birth = yes }
+	3496.1.1 = { death = yes }
+}
+
+ilvi1_102 = {
+	name = "Ienasa"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = ilvi1_101
+	mother = ilvi1_101_wife
+
+	trait = lifespan_3
+
+	3348.1.1 = { birth = yes }
+	3562.1.1 = { death = yes }
+}
+
+ilvi1_102b = {
+	name = "Ienasa"
+	dynasty = dyn_ilvi
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = ilvi1_101
+	mother = ilvi1_101_wife
+
+	trait = lifespan_3
+
+	3348.1.1 = { birth = yes }
+	3562.1.1 = { death = yes }
+}
+
+#Beroth dynasty, TR
+beroth_95 = { #Leader of House Indoril for a while during four score war
+	name = "Daliina"
+	dynasty = dyn_beroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = education_martial_4
+	trait = brave
+	trait = zealous
+	trait = stubborn
+	trait = lifespan_3
+
+	2796.1.1 = { birth = yes }
+	2887.5.24 = { death = { death_reason = death_battle } }
+}
+beroth_96 = {
+	name = "Llivas"
+	dynasty = dyn_beroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = beroth_95
+
+	2875.1.1 = { birth = yes }
+	3096.7.20 = { death = yes }
+}
+beroth_97 = {
+	name = "Bolayn"
+	dynasty = dyn_beroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = beroth_96
+
+	2961.1.1 = { birth = yes }
+	3189.12.22 = { death = yes }	
+}
+beroth_98 = {
+	name = "Drulene"
+	dynasty = dyn_beroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = beroth_97
+
+	3045.1.1 = { birth = yes }
+	3100.1.1 = { add_matrilineal_spouse = ornavel_97b }
+	3248.4.13 = { death = yes }
+}
+
+beroth_99 = {
+	name = "Bilsa"
+	dynasty = dyn_beroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = beroth_98
+	father = ornavel_97b
+
+	3106.1.1 = { birth = yes }
+	3170.1.1 = { add_matrilineal_spouse = arthalen_99b }
+	3329.12.18 = { death = yes }
+}
+
+#Main branch, rulers of Taldeic
+beroth_100 = {
+	name = "Llevas"
+	dynasty = dyn_beroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = beroth_99
+	father = arthalen_99b
+
+	trait = patient
+	trait = zealous
+	trait = honest
+	trait = education_martial_3 #Watch over the border
+	trait = lifespan_3
+	trait = sign_mage
+
+	3198.4.1 = { birth = yes }
+	3270.1.1 = { add_spouse = beleran_100b }
+	3402.10.21 = { death = yes }
+}
+
+beroth_100b = { #Married to sedroth1_99b
+	name = "Unel"
+	dynasty = dyn_beroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = beroth_99
+	father = arthalen_99b
+
+	3213.1.1 = { birth = yes }
+	3418.1.1 = { death = yes }
+}
+
+beroth_101 = {
+	name = "Marolos"
+	dynasty = dyn_beroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = beroth_100
+	mother = beleran_100b
+
+	trait = greedy
+	trait = calm
+	trait = sadistic
+	trait = education_martial_2
+	trait = lifespan_3
+	trait = sign_steed
+
+	3275.6.12 = { birth = yes }
+	3350.1.1 = {
+		effect = {
+			if = { #Friends with his cousin
+				limit = { character:beroth1_101 = { is_alive = yes } }
+				set_relation_friend = { target = character:beroth1_101 reason = friend_generic_history } 
+			}
+		} 
+	}
+	3350.1.1 = { add_spouse = llothis1_100b }
+	3476.9.7 = { death = yes }
+}
+beroth_101b = { #Married to othrelas_100
+	name = "Vavil"
+	dynasty = dyn_beroth
+	religion = tribunal_temple
+	culture = chuzei
+
+	father = beroth_100
+	mother = beleran_100b
+
+	trait = lifespan_3
+
+	3284.1.1 = { birth = yes }
+	3492.1.1 = { death = yes }
+}
+beroth_102 = {
+	name = "Daliina"
+	dynasty = dyn_beroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = beroth_101
+	mother = llothis1_100b
+
+	trait = zealous
+
+	3382.1.1 = { birth = yes }
+	3590.1.1 = { death = yes }
+}
+beroth_102b = { 
+	name = "Bilsa"
+	dynasty = dyn_beroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = beroth_101
+	mother = llothis1_100b
+
+	trait = zealous
+	trait = education_learning_3
+	trait = devoted
+
+	3386.1.1 = { birth = yes }
+	#3482 - appointed to temple of Sassinabat
+	3594.1.1 = { death = yes }
+}
+#Part of the family governing land in Astula duchy
+beroth1_100 = {
+	name = "Thiran"
+	dynasty = dyn_beroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = beroth_99
+	father = arthalen_99b
+
+	trait = education_stewardship_2
+	trait = temperate
+	trait = generous
+	trait = humble
+	trait = lifespan_3
+	trait = sign_warrior
+
+	3207.8.15 = { birth = yes }
+	3285.1.1 = { add_spouse = sathil_100b }
+	3421.8.31 = { death = yes }
+}
+
+beroth1_101 = {
+	name = "Farena"
+	dynasty = dyn_beroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = beroth1_100
+	mother = sathil_100b
+
+	trait = education_stewardship_3
+	trait = greedy
+	trait = patient
+	trait = humble
+	trait = lifespan_3
+	trait = sign_lover
+
+	3293.2.21 = { birth = yes }
+	3364.1.1 = { add_matrilineal_spouse = andas_101d }
+	3517.1.1 = { death = yes }
+}
+
+beroth1_101b = { #Ruler of Veloth's rest
+	name = "Savila"
+	dynasty = dyn_beroth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = beroth1_100
+	mother = sathil_100b
+
+	trait = education_learning_4
+	trait = devoted
+
+	3298.1.1 = { birth = yes }
+	3533.1.1 = { death = yes }
+}
+
+beroth1_102 = {
+	name = "Kovan"
+	dynasty = dyn_beroth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = beroth1_101
+	father = andas_101d
+
+	trait = lifespan_3
+
+	3368.1.1 = { birth = yes }
+	3574.1.1 = { death = yes }
+}
+
+#Dorom dynasty, TR and lore, ancient, rule Vhul
+dorom_91 = {
+	name = "Fyrayn"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	2246.1.1 = { birth = yes }
+	2467.5.19 = { death = yes }
+}
+dorom_92 = {
+	name = "Sarvil"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = dorom_91
+
+	trait = twin
+
+	2332.1.1 = { birth = yes }
+	2574.1.13 = { death = yes }
+}
+dorom_92b = { #Alma Rula
+	name = "Dalam"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = dorom_91
+
+	trait = twin
+
+	2332.1.1 = { birth = yes }
+	2568.9.12 = { death = yes }
+}
+dorom_93 = {
+	name = "Irvama"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = dorom_92
+
+	2433.1.1 = { birth = yes }
+	2654.3.2 = { death = yes }
+}
+dorom_94 = {
+	name = "Thalas"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = dorom_93
+
+	2501.1.1 = { birth = yes }
+	2713.9.30 = { death = yes }
+}
+dorom_95 = {
+	name = "Avoni"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = dorom_94
+
+	trait = lifespan_3
+
+	2615.1.1 = { birth = yes }
+	2826.6.10 = { death = yes }
+}
+dorom_96 = {
+	name = "Sarvil"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = dorom_95
+
+	trait = lifespan_3
+
+	2672.1.1 = { birth = yes }
+	2874.1.18 = { death = yes }
+}
+dorom_96b = {
+	name = "Dasila"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = dorom_95
+
+	trait = lifespan_3
+
+	2683.1.1 = { birth = yes }
+	2901.11.26 = { death = yes }
+}
+dorom_brindisi = { #Leader of House Indoril during 2920
+	name = "Brindisi" #Lore
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = dorom_96
+
+	trait = lifespan_3
+	trait = education_intrigue_3
+	trait = deceitful
+	trait = ambitious
+	trait = impatient
+	trait = lustful
+
+	2750.1.1 = { birth = yes }
+	2920.11.12 = { death = { death_reason = death_mehrunes } } #Dagon's destruction of Mournhold
+}
+
+dorom_97 = {
+	name = "Valam"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = dorom_brindisi
+
+	trait = lifespan_3
+
+	2866.1.1 = { birth = yes }
+	3104.2.18 = { death = yes }
+}
+
+dorom_98 = {
+	name = "Tharys"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = dorom_97
+
+	trait = lifespan_3
+
+	2958.1.1 = { birth = yes }
+	3040.1.1 = { add_spouse = dorom_98_wife }
+	3179.5.15 = { death = yes }
+}
+
+dorom_98_wife = {
+	name = "Dilami"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	2971.1.1 = { birth = yes }
+	3195.1.1 = { death = yes }
+}
+
+dorom_98b = {
+	name = "Dasila"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = dorom_97
+
+	trait = lifespan_3
+
+	2975.1.1 = { birth = yes }
+	3166.1.1 = { death = yes }
+}
+
+dorom_99 = {
+	name = "Sevros"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = dorom_98
+	mother = dorom_98_wife
+
+	trait = lifespan_3
+
+	3047.1.1 = { birth = yes }
+	3150.1.1 = { add_spouse = llori_98b }
+	3280.11.3 = { death = yes }
+}
+
+dorom_100 = {
+	name = "Gilyn"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = dorom_99
+	mother = llori_98b
+
+	trait = chaste
+	trait = shy
+	trait = just
+	trait = education_learning_2
+	trait = lifestyle_physician
+	trait = lifespan_3
+	trait = sign_lady
+
+	3172.9.1 = { birth = yes }
+	3280.1.1 = { add_spouse = meris_98c }
+	3350.1.1 = { #Knows clerical language
+		effect = {
+			learn_language = language_daedric
+		}
+	}
+	3431.8.22 = { death = yes }
+}
+
+dorom_100b = {
+	name = "Delmene"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = dorom_99
+	mother = llori_98b
+
+	trait = lifespan_3
+
+	3184.1.1 = { birth = yes }
+	3230.1.1 = { add_matrilineal_spouse = sedroth_99b }
+	3395.1.1 = { death = yes }
+}
+
+dorom_100b1 = {
+	name = "Karethys"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = dorom_100b
+	father = sedroth_99b
+
+	trait = lifespan_3
+
+	3240.1.1 = { birth = yes }
+	3460.1.1 = { death = yes }
+}
+
+dorom_100b2 = {
+	name = "Hleryn"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = dorom_100b
+	father = sedroth_99b
+
+	trait = lifespan_3
+	trait = education_learning_3
+	trait = devoted
+
+	3267.1.1 = { birth = yes }
+	3480.1.1 = { death = yes }
+}
+
+dorom_100c = { #Married to indoril_100
+	name = "Dirara"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = dorom_99
+	mother = llori_98b
+
+	trait = lifespan_3
+
+	3191.1.1 = { birth = yes }
+	3406.1.1 = { death = yes }
+}
+
+dorom_101 = {
+	name = "Sevros"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = dorom_100
+	mother = meris_98c
+
+	trait = ambitious
+	trait = diligent
+	trait = trusting
+	trait = education_learning_3
+	trait = lifespan_3
+	trait = sign_lord
+
+	3287.3.20 = { birth = yes }
+	3370.1.1 = { add_spouse = llathsa_101b }
+	3444.3.28 = { death = { death_reason = death_morag_tong } }
+}
+
+dorom_101b = {
+	name = "Ranosa"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = dorom_100
+	mother = meris_98c
+
+	trait = ambitious
+	trait = deceitful
+	trait = zealous
+	trait = education_learning_2
+	trait = lifespan_3
+	trait = sign_thief
+
+	3297.5.14 = { birth = yes }
+	3355.1.1 = {
+		effect = {
+			if = {
+				limit = { character:dorom_101 = { is_alive = yes } }
+				set_relation_rival = { target = character:dorom_101 reason = rival_historical }
+			}
+		}
+	}
+	3380.1.1 = { add_matrilineal_spouse = indoril_100b1b }
+	3491.6.9 = { death = { death_reason = death_bubonic_plague } }
+}
+
+dorom_102 = {
+	name = "Sadas"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = dorom_101
+	mother = llathsa_101b
+
+	trait = vengeful #Can guess that his father was killed by his aunt
+	trait = patient #Waits for the right moment
+	trait = just #All of this is just for him
+	trait = education_intrigue_3
+	trait = lifespan_3
+	trait = sign_tower
+
+	3374.10.7 = { birth = yes }
+	3450.1.1 = { add_spouse = llothis_101c }
+	3599.1.13 = { death = yes }
+}
+
+dorom_103 = {
+	name = "Dilyne"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = dorom_101b
+	father = indoril_100b1b
+
+	trait = lifespan_3
+
+	3384.1.1 = { birth = yes }
+	3440.1.1 = { add_matrilineal_spouse = parys_101b }
+	3498.1.1 = { death = { death_reason = death_morag_tong } } #Order by cousin
+}
+
+dorom_103b = { #Married to meris_101
+	name = "Llevana"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = dorom_101b
+	father = indoril_100b1b
+
+	trait = lifespan_3
+
+	3392.1.1 = { birth = yes }
+	3504.1.1 = { death = yes } #Spared because she is far away and married
+}
+
+dorom_104 = {
+	name = "Tarvus"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = dorom_102
+	mother = llothis_101c
+
+	trait = lifespan_3
+
+	3453.1.1 = { birth = yes }
+	3664.1.1 = { death = yes }
+}
+
+dorom_104b = {
+	name = "Tanval"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = dorom_102
+	mother = llothis_101c
+
+	trait = lifespan_3
+
+	3462.1.1 = { birth = yes }
+	3594.1.1 = { death = yes }
+}
+
+dorom1_97 = { #Descendants of 96b
+	name = "Sodres"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = dorom_96b
+
+	2777.1.1 = { birth = yes }
+	3016.7.4 = { death = yes }
+}
+
+dorom1_98 = {
+	name = "Berari"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = dorom1_97
+
+	2914.1.1 = { birth = yes }
+	3138.1.1 = { death = yes }
+}
+
+dorom1_99 = {
+	name = "Edrisi"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = dorom1_98
+
+	3033.1.1 = { birth = yes }
+	3269.1.1 = { death = yes }
+}
+
+dorom1_100 = {
+	name = "Rornas"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = dorom1_99
+
+	3148.1.1 = { birth = yes }
+	3230.1.1 = { add_spouse = dorom1_100_wife }
+	3354.1.1 = { death = yes }
+}
+
+dorom1_100_wife = {
+	name = "Bedena"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	3144.1.1 = { birth = yes }
+	3357.1.1 = { death = yes }
+}
+
+dorom1_101 = {
+	name = "Berari"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = dorom1_100
+	mother = dorom1_100_wife
+
+	3233.1.1 = { birth = yes }
+	3290.1.1 = { add_matrilineal_spouse = dorom1_101_husband }
+	3457.1.1 = { death = yes }
+}
+
+dorom1_101_husband = {
+	name = "Belvin"
+	culture = chuzei
+	religion = tribunal_temple
+
+	3240.1.1 = { birth = yes }
+	3445.1.1 = { death = yes }
+}
+
+dorom1_101b = { #Married to salothran_101
+	name = "Sodres"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = dorom1_100
+	mother = dorom1_100_wife
+
+	3248.1.1 = { birth = yes }
+	3479.1.1 = { death = yes }
+}
+
+dorom1_102 = { #Archanon of Almalexia
+	name = "Tervur"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = dorom1_101
+	father = dorom1_101_husband
+
+	trait = p_tr_almalexia
+	trait = lifespan_3
+	trait = education_learning_4
+
+	3301.1.1 = { birth = yes }
+	3538.1.1 = { death = yes }
+}
+
+dorom1_102b = { #Married to karath1_102
+	name = "Dolsa"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = dorom1_101
+	father = dorom1_101_husband
+
+	trait = lifespan_3
+
+	3309.1.1 = { birth = yes }
+	3514.1.1 = { death = yes }
+}
+
+#Descendants of dorom_103
+dorom1_104 = {
+	name = "Ivramie"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = dorom_103
+	father = parys_101b
+		
+	trait = lifespan_3
+
+	3451.1.1 = { birth = yes }
+	3666.1.1 = { death = yes }
+}
+
+dorom1_104b = { #Married to sedroth1_102b
+	name = "Galeri"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = dorom_103
+	father = parys_101b
+	
+	trait = lifespan_3
+
+	3457.1.1 = { birth = yes }
+	3673.1.1 = { death = yes }
+}
+
+dorom1_105 = { #Appointed to Kemel after Salothran get killed
+	name = "Ralam"
+	dynasty = dyn_dorom
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = dorom1_104
+
+	trait = lifespan_3
+
+	3529.1.1 = { birth = yes }
+	3746.1.1 = { death = yes }
+}
+
+#Indalas dynasty, TR. Usually rulers of Bal Foyen, but got passed over in 440/450 because ruler is a child
+indalas_1 = {
+	name = "Ivela"
+	dynasty = dyn_indalas
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	2409.1.1 = { birth = yes }
+	2633.1.30 = { death = yes }
+}
+indalas_2 = { #Alma Rula
+	name = "Mals"
+	dynasty = dyn_indalas
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = indalas_1
+
+	trait = lifespan_3
+
+	2486.1.1 = { birth = yes }
+	2749.7.24 = { death = yes }
+}
+indalas_2b = {
+	name = "Balsia"
+	dynasty = dyn_indalas
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = indalas_1
+
+	trait = lifespan_3
+
+	2495.1.1 = { birth = yes }
+	2700.1.1 = { death = yes }
+}
+indalas_line = {
+	name = "Balsia"
+	dynasty = dyn_indalas
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	mother = indalas_2b
+	trait = line_of_x
+	disallow_random_traits = yes
+	diplomacy = 0
+	martial = 0
+	stewardship = 0
+	intrigue = 0
+	learning = 0
+	prowess = 0
+	2700.1.1 = { birth = yes }
+	2800.1.1 = { give_nickname = nick_line_of }
+	3082.1.1 = { death = yes }
+}
+indalas_97 = {
+	name = "Viros"
+	dynasty = dyn_indalas
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = indalas_line
+
+	trait = lifespan_3
+	
+	3082.1.1 = { birth = yes }
+	3160.1.1 = { add_spouse = indalas_97_wife }
+	3291.4.10 = { death = yes }
+}
+indalas_97_wife = {
+	name = "Olvyne"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+	
+	3075.1.1 = { birth = yes }
+	3286.1.1 = { death = yes }
+}
+indalas_98 = {
+	name = "Vavil"
+	dynasty = dyn_indalas
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indalas_97
+	mother = indalas_97_wife
+
+	trait = lifespan_3
+	
+	3167.1.1 = { birth = yes }
+	3280.1.1 = { add_spouse = indalas_98_wife }
+	3322.5.31 = { death = { death_reason = death_accident } }
+}
+indalas_98_wife = {
+	name = "Bivale"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	
+	trait = lifespan_3
+	
+	3171.1.1 = { birth = yes }
+	3376.1.1 = { death = yes }
+}
+indalas_98b = { #Married to meris_98
+	name = "Mals"
+	dynasty = dyn_indalas
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indalas_97
+	mother = indalas_97_wife
+	
+	trait = lifespan_3
+
+	3174.1.1 = { birth = yes }
+	#Dies at sea with his son
+	3322.1.1 = { death = { death_reason = death_sea_storm } }
+}
+indalas_99 = {
+	name = "Aranea"
+	dynasty = dyn_indalas
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = indalas_98
+	mother = indalas_98_wife
+
+	trait = lifespan_3
+	
+	3286.1.1 = { birth = yes }
+	3350.1.1 = { add_matrilineal_spouse = raathim_101c }
+	3356.8.22 = { death = { death_reason = death_childbirth } }
+}
+indalas_100 = { #Small child in 440/450, Bal Foyen granted to adult Llori
+	name = "Mals"
+	dynasty = dyn_indalas
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = indalas_99
+	father = raathim_101c
+
+	trait = rowdy
+	disallow_random_traits = yes
+	trait = lifespan_3
+	trait = sign_warrior
+
+	3356.8.22 = { birth = yes }
+	3369.1.1 = {
+		trait = deceitful
+		trait = ambitious
+	}
+	3372.8.22 = {
+		remove_trait = rowdy
+		trait = education_intrigue_3
+		trait = just #Suprisingly just to everyone, except for Llori guy
+	}
+	3430.1.1 = { add_spouse = verelnim_102b }
+	3589.5.13 = { death = yes }
+}
+
+indalas_101 = {
+	name = "Aranea"
+	dynasty = dyn_indalas
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = indalas_100
+	mother = verelnim_102b
+
+	trait = lifespan_3
+
+	3439.1.1 = { birth = yes }
+	3644.1.1 = { death = yes }
+}
+
+indalas_101b = {
+	name = "Murilen"
+	dynasty = dyn_indalas
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = indalas_100
+	mother = verelnim_102b
+
+	trait = lifespan_3
+
+	3442.1.1 = { birth = yes }
+	3655.1.1 = { death = yes }
+}
+
+#Llathsa dynasty, TR. Compete with Raathims for Ebonheart
+llathsa_1 = { #Founder of the dynasty, ordinator, stopped Bad Daedra cult in Ebonheart
+	name = "Llathsa"
+	dynasty = dyn_llathsa
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = order_member
+	trait = zealous
+	trait = stubborn
+	trait = diligent
+	trait = education_martial_prowess_3
+	trait = education_martial_3
+	trait = intellect_good_1
+
+	1714.1.1 = { birth = yes }
+	1869.1.1 = { death = { death_reason = death_battle } } #Dies in some battle
+}
+
+llathsa_enemy = {
+	name = "Renvis"
+	culture = chuzei
+	religion = mehrunes_cult
+	trait = education_intrigue_4
+	trait = education_magic_4
+	trait = champion_mehrunes
+	trait = lifespan_magic_4
+	1503.1.1 = { birth = yes }
+	1805.1.1 = { death = { death_reason = death_battle killer = llathsa_1 } }
+}
+
+llathsa_2 = {
+	name = "Othrelos"
+	dynasty = dyn_llathsa
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = llathsa_1
+
+	1782.1.1 = { birth = yes }
+	2004.1.1 = { death = yes }
+}
+
+llathsa_3 = {
+	name = "Othrelos"
+	dynasty = dyn_llathsa
+	culture = chuzei
+	religion = tribunal_temple
+	father = llathsa_2
+	trait = line_of_x
+	disallow_random_traits = yes
+	diplomacy = 0
+	martial = 0
+	stewardship = 0
+	intrigue = 0
+	learning = 0
+	prowess = 0
+	2004.1.1 = { birth = yes }
+	2500.1.1 = { give_nickname = nick_line_of }
+	3013.1.1 = { death = yes }
+}
+
+llathsa_98 = {
+	name = "Ravam"
+	dynasty = dyn_llathsa
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = llathsa_3
+
+	3013.1.1 = { birth = yes }
+	3080.1.1 = { add_spouse = llathsa_98_wife }
+	3198.1.1 = { death = yes }
+}
+llathsa_98_wife = {
+	name = "Burila"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	3018.1.1 = { birth = yes }
+	3239.1.1 = { death = yes }
+}
+llathsa_99 = {
+	name = "Nurona"
+	dynasty = dyn_llathsa
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	
+	father = llathsa_98
+	mother = llathsa_98_wife
+
+	3096.1.1 = { birth = yes }
+	3180.1.1 = { add_matrilineal_spouse = sadras_99b }
+	3305.1.1 = { death = yes }
+}
+llathsa_99b = {
+	name = "Gandela"
+	dynasty = dyn_llathsa
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	
+	father = llathsa_98
+	mother = llathsa_98_wife
+
+	3111.1.1 = { birth = yes }
+	3325.1.1 = { death = yes }
+}
+llathsa_99c = {
+	name = "Felvos"
+	dynasty = dyn_llathsa
+	culture = chuzei
+	religion = tribunal_temple
+	
+	father = llathsa_98
+	mother = llathsa_98_wife
+
+	3116.1.1 = { birth = yes }
+	3303.1.1 = { death = yes }
+}
+
+llathsa_100 = {
+	name = "Drelyne"
+	dynasty = dyn_llathsa
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = llathsa_99
+	father = sadras_99b
+
+	trait = confider
+	trait = shy
+	trait = zealous
+	trait = ambitious
+	trait = education_intrigue_2
+	trait = lifespan_3
+	trait = sign_steed
+
+	3201.6.13 = { birth = yes }
+	3280.1.1 = { add_matrilineal_spouse = karath1_101b }
+	3350.1.1 = {
+		effect = {
+			if = { #Bond over disliking Raathims
+				limit = { character:balver_100 = { is_alive = yes } }
+				set_relation_friend = { target = character:balver_100 reason = friend_generic_history } 
+			}
+		} 
+	}
+	3418.1.1 = { death = yes }
+}
+
+llathsa_100b = {
+	name = "Naril"
+	dynasty = dyn_llathsa
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = llathsa_99
+	father = sadras_99b
+
+	trait = lifespan_3
+
+	3216.1.1 = { birth = yes }
+	3435.1.1 = { death = yes }
+}
+
+llathsa_101 = {
+	name = "Gandela"
+	dynasty = dyn_llathsa
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = llathsa_100
+	father = karath1_101b
+
+	trait = lifespan_3
+
+	3284.1.1 = { birth = yes }
+	3350.1.1 = { add_matrilineal_spouse = llethan_101b }
+	3489.3.25 = { death = { death_reason = death_bubonic_plague } }
+}
+
+llathsa_101b = {
+	name = "Indrele"
+	dynasty = dyn_llathsa
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = llathsa_100
+	father = karath1_101b
+
+	trait = lifespan_3
+
+	3289.1.1 = { birth = yes }
+	3504.1.1 = { death = yes }
+}
+
+llathsa_102 = {
+	name = "Tarir"
+	dynasty = dyn_llathsa
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = llathsa_101
+	father = llethan_101b
+
+	trait = lifespan_3
+
+	3353.1.1 = { birth = yes }
+	3489.1.1 = { death = { death_reason = death_bubonic_plague } }
+}
+
+llathsa_103 = {
+	name = "Furoni"
+	dynasty = dyn_llathsa
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = llathsa_102
+
+	trait = lifespan_3
+
+	3441.1.1 = { birth = yes }
+	3653.1.1 = { death = yes }
+}
+
+llathsa1_100 = {
+	name = "Fonus"
+	dynasty = dyn_llathsa
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = llathsa_99c
+
+	trait = lifespan_3
+
+	3197.1.1 = { birth = yes }
+	3270.1.1 = { add_spouse = llathsa1_100_wife }
+	3405.1.1 = { death = yes }
+}
+
+llathsa1_100_wife = {
+	name = "Laureva"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	3200.1.1 = { birth = yes }
+	3398.1.1 = { death = yes }
+}
+
+llathsa1_101 = {
+	name = "Falas"
+	dynasty = dyn_llathsa
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = llathsa1_100
+	mother = llathsa1_100_wife
+
+	trait = lifespan_3
+
+	3269.1.1 = { birth = yes }
+	3330.1.1 = { add_spouse = hleran_101b }
+	3486.1.1 = { death = yes }
+}
+
+llathsa1_102 = {
+	name = "Darvam"
+	dynasty = dyn_llathsa
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = llathsa1_101
+	mother = hleran_101b
+
+	trait = lifespan_3
+
+	3342.1.1 = { birth = yes }
+	3554.1.1 = { death = yes }
+}
+
+llathsa1_102b = { #Married to seras_101b
+	name = "Hlireni"
+	dynasty = dyn_llathsa
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = llathsa1_101
+	mother = hleran_101b
+
+	trait = lifespan_3
+
+	3349.1.1 = { birth = yes }
+	3568.1.1 = { death = yes }
+}
+
+#Parys, TR dynasty. Ruled Erethan in modern Telvanni territory, lost it in aftermath of four-score war
+parys_93 = {
+	name = "Drala"
+	dynasty = dyn_parys
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	2650.1.1 = { birth = yes }
+	2866.1.21 = { death = yes }
+}
+parys_94 = {
+	name = "Elethus"
+	dynasty = dyn_parys
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = parys_93
+
+	trait = lifespan_3
+	
+	2743.1.1 = { birth = yes }
+	2967.1.1 = { death = yes }
+}
+parys_95 = {
+	name = "Farena"
+	dynasty = dyn_parys
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = parys_94
+
+	trait = lifespan_3
+
+	2834.1.1 = { birth = yes }
+	3068.1.1 = { death = yes }
+}
+parys_96 = {
+	name = "Drala"
+	dynasty = dyn_parys
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = parys_95
+
+	trait = lifespan_3
+
+	2901.1.1 = { birth = yes }
+	3127.1.1 = { death = yes }
+}
+parys_97 = {
+	name = "Areyne"
+	dynasty = dyn_parys
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = parys_96
+
+	trait = lifespan_3
+
+	2986.1.1 = { birth = yes }
+	3193.1.1 = { death = yes }
+}
+parys_98 = {
+	name = "Trivon"
+	dynasty = dyn_parys
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = parys_97
+
+	trait = lifespan_3
+
+	3097.1.1 = { birth = yes }
+	3180.1.1 = { add_spouse = parys_98_wife }
+	3301.1.1 = { death = yes }
+}
+parys_98_wife = {
+	name = "Dinuro"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_3
+	3106.1.1 = { birth = yes }
+	3309.1.1 = { death = yes }
+}
+parys_98b = { #Alma Rula
+	name = "Saveri"
+	dynasty = dyn_parys
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = parys_97
+
+	trait = lifespan_3
+
+	3114.1.1 = { birth = yes }
+	3339.6.14 = { death = yes }
+}
+parys_99 = {
+	name = "Aren"
+	dynasty = dyn_parys
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = parys_98
+	mother = parys_98_wife
+
+	trait = lifespan_3
+
+	3185.1.1 = { birth = yes }
+	3290.1.1 = { add_spouse = ornavel_99c }
+	3338.1.1 = { death = yes }
+}
+
+parys_99b = { #Married to seras_99
+	name = "Elethus"
+	dynasty = dyn_parys
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = parys_98
+	mother = parys_98_wife
+
+	3189.1.1 = { birth = yes }
+	3393.1.1 = { death = yes }
+}
+
+parys_99c = { #Married to sandil_100
+	name = "Ferul"
+	dynasty = dyn_parys
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = parys_98
+	mother = parys_98_wife
+
+	3196.1.1 = { birth = yes }
+	3368.1.1 = { death = { death_reason = death_responsible_suicide_crime } }
+}
+
+parys_100 = { #Revanchist
+	name = "Hlura"
+	dynasty = dyn_parys
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = parys_99
+	mother = ornavel_99c
+
+	trait = ambitious
+	trait = vengeful
+	trait = zealous
+	trait = education_intrigue_3
+	trait = lifespan_3
+	trait = sign_shadow
+	
+	3294.5.27 = { birth = yes }
+	3360.1.1 = {
+		#Ancestral holdings under Telvanni control
+		effect = {
+			add_pressed_claim = title:c_erethan
+			add_pressed_claim = title:c_dushal
+		}
+	}
+	3495.1.1 = { death = yes }
+}
+
+parys_100b = {
+	name = "Taron"
+	dynasty = dyn_parys
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = parys_99
+	mother = ornavel_99c
+
+	trait = education_diplomacy_3
+	trait = loyal
+	trait = content
+	trait = gregarious
+	trait = lifespan_3
+	trait = sign_shadow
+
+	3300.5.27 = { birth = yes }
+	3350.1.1 = { add_spouse = llori_101b }
+	3433.1.1 = { death = { death_reason = death_sea_storm } }
+}
+
+parys_101 = { #Inherits family title
+	name = "Aren"
+	dynasty = dyn_parys
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = parys_100b
+	mother = llori_101b
+
+	trait = lifespan_3
+
+	3359.1.1 = { birth = yes }
+	3540.1.1 = { death = yes }
+}
+
+parys_101b = { #Married to dorom_103
+	name = "Dohna"
+	dynasty = dyn_parys
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = parys_100b
+	mother = llori_101b
+
+	3382.1.1 = { birth = yes }
+	3551.1.1 = { death = yes }
+}
+
+parys_101c = {
+	name = "Talsyne"
+	dynasty = dyn_parys
+	culture = chuzei
+	religion = tribunal_temple
+
+	female = yes
+
+	father = parys_100b
+	mother = llori_101b
+
+	3403.1.1 = { birth = yes }
+	3578.1.1 = { death = yes }
+}
+
+parys_102 = {
+	name = "Talnus"
+	dynasty = dyn_parys
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = parys_101c
+
+	3475.1.1 = { birth = yes }
+	3700.1.1 = { death = yes }
+}
+
+#Llethan dynasty, bureacrats in Morunhold, possibly switch to Hlaalu at some point in 2E (or just after Armistice with Tiber)
+llethan_98 = {
+	name = "Mirnilae"
+	dynasty = dyn_lletan
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	3008.1.1 = { birth = yes }
+	3090.1.1 = { add_matrilineal_spouse = llethan_98_husband }
+	3230.1.1 = { death = yes }
+}
+
+llethan_98_husband = {
+	name = "Merail"
+	religion = tribunal_temple
+	culture = chuzei
+	3011.1.1 = { birth = yes }
+	3219.1.1 = { death = yes }
+}
+
+llethan_99 = {
+	name = "Raryn"
+	dynasty = dyn_lletan
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = llethan_98
+	father = llethan_98_husband
+
+	3102.1.1 = { birth = yes }
+	3180.1.1 = { add_spouse = saryoni_99c }
+	3345.1.1 = { death = yes }
+}
+
+llethan_99b = {
+	name = "Movis"
+	dynasty = dyn_lletan
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = llethan_98
+	father = llethan_98_husband
+
+	3106.1.1 = { birth = yes }
+	3311.1.1 = { death = yes }
+}
+
+llethan_99c = { #Married to arthalen_99
+	name = "Athyn"
+	dynasty = dyn_lletan
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = llethan_98
+	father = llethan_98_husband
+
+	3110.1.1 = { birth = yes }
+	3322.1.1 = { death = yes }
+}
+
+llethan_100 = { #One of the most willing Hlaalu cooperators from Indorils, got rich from it
+	name = "Folvys"
+	dynasty = dyn_lletan
+	religion = tribunal_temple
+	culture = chuzei
+
+	father = llethan_99
+	mother = saryoni_99c
+
+	trait = education_stewardship_3
+	trait = diligent
+	trait = ambitious
+	trait = arrogant
+	trait = lifespan_3
+	trait = sign_lord
+
+	3183.3.30 = { birth = yes }
+	3240.1.1 = { add_spouse = raran_100b }
+	3399.1.1 = { death = yes }
+}
+
+llethan_101 = {
+	name = "Thelama"
+	dynasty = dyn_lletan
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	father = llethan_100
+	mother = raran_100b
+
+	trait = lifespan_3
+
+	3266.1.1 = { birth = yes }
+	3365.1.1 = { add_matrilineal_spouse = seras_101_bastard1 }
+	3482.1.1 = { death = yes }
+}
+
+llethan_101b = { #Married to llathsa_101
+	name = "Seras"
+	dynasty = dyn_lletan
+	religion = tribunal_temple
+	culture = chuzei
+
+	father = llethan_100
+	mother = raran_100b
+
+	trait = lifespan_3
+
+	3271.1.1 = { birth = yes }
+	3477.1.1 = { death = yes }
+}
+
+llethan_102 = {
+	name = "Dorisa"
+	dynasty = dyn_lletan
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	mother = llethan_101
+	father = seras_101_bastard1
+
+	trait = lifespan_3
+
+	3368.1.1 = { birth = yes }
+	3594.1.1 = { death = yes }
+}
+
+llethan_103 = {
+	name = "Rilver"
+	dynasty = dyn_lletan
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = llethan_102
+
+	3420.1.1 = { birth = yes }
+	3633.1.1 = { death = yes }
+}
+
+llethan_104 = {
+	name = "Lledesa"
+	dynasty = dyn_lletan
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	father = llethan_103
+
+	3509.1.1 = { birth = yes }
+	3719.1.1 = { death = yes }
+}
+
+llethan_105 = {
+	name = "Synda"
+	dynasty = dyn_lletan
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	mother = llethan_104
+
+	3604.1.1 = { birth = yes }
+	3799.1.1 = { death = yes }
+}
+
+llethan_106 = {
+	name = "Folvys"
+	dynasty = dyn_lletan
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = llethan_105
+
+	3685.1.1 = { birth = yes }
+	3760.1.1 = { add_spouse = hlaalu_119b }
+	3801.1.1 = { death = { death_reason = death_mysterious } }
+}
+
+llethan_107 = { #King of Morrowind, 3E 6 - 3E 427
+	name = "Athyn" #Lore
+	dynasty = dyn_lletan
+	religion = tribunal_temple
+	culture = chuzei
+
+	father = llethan_106
+	mother = hlaalu_119b
+
+	3709.1.1 = { birth = yes }
+	4243.1.1 = { death = { death_reason = death_mysterious } } #Events of TES3 Tribunal
+}
+
+#Arthalen dynasty, repurposed Redoril, rule county in Tal'deic
+arthalen_97 = {
+	name = "Deica"
+	dynasty = dyn_arthalen
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	2950.1.1 = { birth = yes }
+	3184.1.30 = { death = yes }
+}
+arthalen_98 = {
+	name = "Meram"
+	dynasty = dyn_arthalen
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	mother = arthalen_97
+
+	3030.1.1 = { birth = yes }
+	3100.1.1 = { add_matrilineal_spouse = arthalen_98_husband }
+	3244.5.5 = { death = yes }
+}
+arthalen_98_husband = {
+	name = "Nadras"
+	religion = tribunal_temple
+	culture = chuzei
+	3042.1.1 = { birth = yes }
+	3331.1.1 = { death = yes }
+}
+arthalen_99 = {
+	name = "Elynisi"
+	dynasty = dyn_arthalen
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	mother = arthalen_98
+	father = arthalen_98_husband
+
+	3120.1.1 = { birth = yes }
+	3180.1.1 = { add_matrilineal_spouse = llethan_99c }
+	3335.10.27 = { death = yes }
+}
+arthalen_99b = {
+	name = "Fedyn"
+	dynasty = dyn_arthalen
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = arthalen_98
+	father = arthalen_98_husband
+
+	3133.1.1 = { birth = yes }
+	3358.1.1 = { death = yes }
+}
+arthalen_99c = { #Married to sedroth_99
+	name = "Endroni"
+	dynasty = dyn_arthalen
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	mother = arthalen_98
+	father = arthalen_98_husband
+
+	3140.1.1 = { birth = yes }
+	3368.1.1 = { death = yes }
+}
+arthalen_100 = {
+	name = "Aurona"
+	dynasty = dyn_arthalen
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	mother = arthalen_99
+	father = llethan_99c
+
+	trait = lifespan_3
+	trait = sign_apprentice
+
+	3198.7.5 = { birth = yes }
+	3260.1.1 = { add_matrilineal_spouse = ilvi1_100 }
+	3414.9.16 = { death = yes }
+}
+arthalen_100b = { #Married to raviro_100
+	name = "Deica"
+	dynasty = dyn_arthalen
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	mother = arthalen_99
+	father = llethan_99c
+
+	trait = lifespan_3
+
+	3203.1.1 = { birth = yes }
+	3419.1.1 = { death = yes }
+}
+arthalen_101 = { #Beroth's lackey
+	name = "Bevin"
+	dynasty = dyn_arthalen
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = arthalen_100
+	father = ilvi1_100
+
+	trait = craven
+	trait = content
+	trait = deceitful
+	trait = education_intrigue_2
+	trait = lifespan_3
+	trait = sign_steed
+
+	3262.6.12 = { birth = yes }
+	3475.8.12 = { death = yes }
+}
+arthalen_101b = {
+	name = "Thadar"
+	dynasty = dyn_arthalen
+	religion = tribunal_temple
+	culture = chuzei
+
+	mother = arthalen_100
+	father = ilvi1_100
+
+	trait = lifespan_3
+	trait = devoted
+
+	3273.1.1 = { birth = yes }
+	3330.1.1 = { add_spouse = salothran_101b }
+	3495.1.1 = { death = yes }
+}
+arthalen_102 = {
+	name = "Orvana"
+	dynasty = dyn_arthalen
+	religion = tribunal_temple
+	culture = chuzei
+	female = yes
+
+	father = arthalen_101
+	mother = salothran_101b
+
+	trait = lifespan_3
+
+	3341.1.1 = { birth = yes }
+	3560.1.1 = { death = yes }
+}
+arthalen_102b = {
+	name = "Talyn"
+	dynasty = dyn_arthalen
+	religion = tribunal_temple
+	culture = chuzei
+
+	father = arthalen_101
+	mother = salothran_101b
+
+	trait = lifespan_3
+
+	3347.1.1 = { birth = yes }
+	3390.1.1 = { trait = devoted }
+	3493.1.1 = { death = { death_reason = death_battle } } #Kamals
+}
+
+arthalen_103 = {
+	name = "Tidyn"
+	dynasty = dyn_arthalen
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = arthalen_102b
+
+	trait = education_learning_2
+	trait = zealous
+	trait = lifespan_3
+
+	3410.1.1 = { birth = yes }
+	3501.12.29 = { death = yes }
+}
+
+#Salothran, unlanded in 440/450, held some governorships in the past
+#Were part of Indoril as chimers according to eso, can add ancient ancestors
+salothran_95 = {
+	name = "Gindrala"
+	dynasty = dyn_salothran
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	2733.1.1 = { birth = yes }
+	2946.1.5 = { death = yes }
+}
+
+salothran_96 = {
+	name = "Trilam"
+	dynasty = dyn_salothran
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = salothran_95
+
+	trait = lifespan_3
+
+	2819.1.1 = { birth = yes }
+	3049.9.24 = { death = yes }
+}
+
+salothran_97 = {
+	name = "Rornas"
+	dynasty = dyn_salothran
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = salothran_96
+
+	trait = lifespan_3
+
+	2934.1.1 = { birth = yes }
+	3155.7.11 = { death = yes }
+}
+
+salothran_98 = {
+	name = "Nurara"
+	dynasty = dyn_salothran
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = salothran_97
+
+	trait = lifespan_3
+
+	3015.1.1 = { birth = yes }
+	3090.1.1 = { add_matrilineal_spouse = salothran_98_husband }
+	3241.12.3 = { death = yes }
+}
+
+salothran_98_husband = {
+	name = "Nelmil"
+	culture = chuzei
+	religion = tribunal_temple
+
+	trait = lifespan_3
+	
+	3019.1.1 = { birth = yes }
+	3222.1.1 = { death = yes }
+}
+
+salothran_99 = {
+	name = "Irvama"
+	dynasty = dyn_salothran
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = salothran_98
+	father = salothran_98_husband
+
+	trait = lifespan_3
+
+	3103.1.1 = { birth = yes }
+	3190.1.1 = { add_matrilineal_spouse = ieneth_98b }
+	3339.8.19 = { death = yes }
+}
+
+salothran_100 = { #Likes gardening
+	name = "Ridras"
+	dynasty = dyn_salothran
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = salothran_99
+	father = ieneth_98b
+
+	trait = calm
+	trait = diligent
+	trait = greedy #Wants the best plants and doesn't share
+	trait = education_learning_2
+	trait = lifestyle_gardener
+	trait = lifespan_3
+	trait = sign_atronach
+
+	3198.11.25 = { birth = yes }
+	3270.1.1 = { add_spouse = saryoni_99b2 }
+	3406.6.10 = { death = yes }
+}
+
+salothran_100b = { #Married to delyn_100b
+	name = "Dinya"
+	dynasty = dyn_salothran
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = salothran_99
+	father = ieneth_98b
+
+	trait = lifespan_3
+	
+	3203.1.1 = { birth = yes}
+	3410.1.1 = { death = yes}
+}
+
+salothran_100c = { #Married to karath_101
+	name = "Falanu"
+	dynasty = dyn_salothran
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = salothran_99
+	father = ieneth_98b
+
+	trait = lifespan_3
+	
+	3209.1.1 = { birth = yes}
+	3416.1.1 = { death = yes}
+}
+
+salothran_101 = {
+	name = "Byla"
+	dynasty = dyn_salothran
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = salothran_100
+	mother = saryoni_99b2
+
+	trait = lifespan_3
+	
+	3274.1.1 = { birth = yes }
+	3360.1.1 = { add_matrilineal_spouse = dorom1_101b }
+	3480.12.12 = { death = yes }
+}
+
+salothran_101b = { #Married to arthalen_101b
+	name = "Ladrasa"
+	dynasty = dyn_salothran
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = salothran_100
+	mother = saryoni_99b2
+
+	trait = lifespan_3
+	
+	3283.1.1 = { birth = yes }
+	3495.1.1 = { death = yes }
+}
+
+salothran_102 = { #Appointed to Kemel
+	name = "Llotha"
+	dynasty = dyn_salothran
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = salothran_101
+	father = dorom1_101b
+
+	trait = lifespan_3
+
+	3364.1.1 = { birth = yes }
+	3440.1.1 = { add_matrilineal_spouse = sandil_103b }
+	3598.9.5 = { death = yes }
+}
+
+salothran_102b = {
+	name = "Sodres"
+	dynasty = dyn_salothran
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = salothran_101
+	father = dorom1_101b
+
+	trait = lifespan_3
+	
+	3368.1.1 = { birth = yes }
+	3572.1.1 = { death = yes }
+}
+
+salothran_103 = {
+	name = "Mirri"
+	dynasty = dyn_salothran
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = salothran_102
+	father = sandil_103b
+
+	trait = lifespan_3
+	
+	3455.1.1 = { birth = yes }
+	#Mephala's summoning day
+	3614.10.13 = { death = { death_reason = death_murder_known killer = ornavel_102 } }
+}
+
+salothran_103b = {
+	name = "Thalas"
+	dynasty = dyn_salothran
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = salothran_102
+	father = sandil_103b
+
+	trait = lifespan_3
+	
+	3463.1.1 = { birth = yes }
+	3614.1.1 = { death = { death_reason = death_murder_known killer = ornavel_102 } }
+}
+
+#History ToDo: salothrans don't die, but get weaker
+
+#Drin family, form from bastard Seras and reeducated apostate Indoril. Archcanon of Almalexia in Tribunal dlc
+drin_100 = {
+	name = "Taren"
+	culture = chuzei
+	religion = tribunal_temple
+	dynasty = dyn_drin
+
+	mother = seras_101_bastard2
+	father = indoril_ivulan_2
+
+	trait = zealous
+	trait = lifespan_3
+
+	3418.1.1 = { birth = yes }
+	3603.1.1 = { death = yes }
+}
+
+#Othrelas, vassals of temple near Vivec. Originally were Dres family (very ancient)
+othrelas_1 = {
+	name = "Fyrona"
+	dynasty = dyn_othrelas
+	culture = marduhn_oad
+	religion = tribunal_cult
+	female = yes
+
+	2671.1.1 = { birth = yes }
+	2883.3.23 = { death = yes }
+}
+othrelas_2 = {
+	name = "Ginur"
+	dynasty = dyn_othrelas
+	culture = marduhn_oad
+	religion = tribunal_cult
+
+	mother = othrelas_1
+
+	trait = education_martial_3
+
+	2768.1.1 = { birth = yes }
+	2931.6.8 = { death = { death_reason = death_morag_tong } }
+}
+othrelas_3 = {
+	name = "Maryl"
+	dynasty = dyn_othrelas
+	culture = marduhn_oad
+	religion = tribunal_cult
+
+	father = othrelas_2
+
+	2834.1.1 = { birth = yes }
+	2931.1.1 = { death = { death_reason = death_morag_tong } }
+}
+othrelas_3b = { #Ditches Dres, goes to Vivec
+	name = "Bili"
+	dynasty = dyn_othrelas
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = othrelas_2
+
+	2846.1.1 = { birth = yes }
+	3059.1.1 = { death = yes }
+}
+othrelas_4 = {
+	name = "Tirnur"
+	dynasty = dyn_othrelas
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = othrelas_3b
+
+	2952.1.1 = { birth = yes }
+	3164.1.1 = { death = yes }
+}
+othrelas_5 = {
+	name = "Brelyn"
+	dynasty = dyn_othrelas
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = othrelas_4
+
+	3019.1.1 = { birth = yes }
+	3235.1.1 = { death = yes }
+}
+othrelas_98 = {
+	name = "Olyn"
+	dynasty = dyn_othrelas
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = othrelas_5
+
+	3089.1.1 = { birth = yes }
+	3140.1.1 = { add_spouse = othrelas_98_wife }
+	3276.12.1 = { death = yes }
+}
+othrelas_98_wife = {
+	name = "Veya"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	3094.1.1 = { birth = yes }
+	3408.1.1 = { death  =yes }
+}
+othrelas_99 = {
+	name = "Suron"
+	dynasty = dyn_othrelas
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = othrelas_98
+	mother = othrelas_98_wife
+
+	3148.1.1 = { birth = yes }
+	3250.1.1 = { add_spouse = raathim_99b }
+	3354.6.21 = { death = yes }
+}
+othrelas_99b = { #Married to releth_bal_99
+	name = "Bathrone"
+	dynasty = dyn_othrelas
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = othrelas_98
+	mother = othrelas_98_wife
+
+	3172.1.1 = { birth = yes }
+	3379.1.1 = { death = yes }
+}
+othrelas_100 = {
+	name = "Galsa"
+	dynasty = dyn_othrelas
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = othrelas_99
+	mother = raathim_99b
+
+	trait = lifespan_3
+
+	3255.1.1 = { birth = yes }
+	3320.1.1 = { add_spouse = beroth_101b }
+	3463.7.8 = { death = yes }
+}
+othrelas_101 = {
+	name = "Andilu"
+	dynasty = dyn_othrelas
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = othrelas_100
+	father = beroth_101b
+
+	trait = lifespan_3
+
+	3326.1.1 = { birth = yes }
+	3539.1.1 = { death = yes }
+}
+othrelas_101b = {
+	name = "Bralsa"
+	dynasty = dyn_othrelas
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = othrelas_100
+	father = beroth_101b
+
+	trait = lifespan_3
+
+	3330.1.1 = { birth = yes }
+	3548.1.1 = { death = yes }
+}
+
+###########
+###Other###
+###########
+
+#History ToDo: add marriages into other families
+##Veloth Dynasty (dyn_veloth), mentioned in ancestral tomb in eso
+veloth_100 = { #"Her kindness and grace reflected good upon her family name"
+	name = "Llirala" #Lore
+	dynasty = dyn_veloth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = beauty_good_3
+	trait = family_first
+	trait = shrewd
+	trait = education_diplomacy_4
+	trait = zealous
+	trait = compassionate
+	trait = lifespan_magic_4
+
+	711.1.1 = { birth = yes }
+	1001.3.2 = { death = yes }
+}
+
+veloth_101 = {
+	name = "Aranea"
+	dynasty = dyn_veloth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = veloth_100
+
+	804.1.1 = { birth = yes }
+	1016.2.19 = { death = yes }
+}
+
+veloth_101b = {
+	name = "Valeyn"
+	dynasty = dyn_veloth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = veloth_100
+
+	811.1.1 = { birth = yes }
+	1033.1.1 = { death = yes }
+}
+
+veloth_101c = {
+	name = "Drala"
+	dynasty = dyn_veloth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = veloth_100
+
+	828.1.1 = { birth = yes }
+	1010.1.1 = { death = yes }
+}
+
+veloth_101d = {
+	name = "Dolyn"
+	dynasty = dyn_veloth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = veloth_100
+	
+	836.1.1 = { birth = yes }
+	1067.1.1 = { death = yes }
+}
+
+veloth_101e = {
+	name = "Gelana"
+	dynasty = dyn_veloth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = veloth_100
+
+	842.1.1 = { birth = yes }
+	1022.1.1 = { death = yes }
+}
+
+veloth_101f = { #Alma Rula
+	name = "Ulran"
+	dynasty = dyn_veloth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = veloth_100
+
+	848.1.1 = { birth = yes }
+	1089.7.28 = { death = yes }
+}
+
+veloth_102 = { #"Master Archer of Molag Amur"
+	name = "Ondre" #Lore
+	dynasty = dyn_veloth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = veloth_101
+
+	trait = zealous
+	trait = stubborn
+	trait = brave
+	trait = education_martial_3
+	trait = education_martial_prowess_3
+
+	902.1.1 = { birth = yes }
+	1059.6.10 = { death = { death_reason = death_battle } }
+}
+
+veloth_103 = {
+	name = "Thiran"
+	dynasty = dyn_veloth
+	culture = chuzei
+	religion = tribunal_temple
+
+	father = veloth_101b
+
+	934.1.1 = { birth = yes }
+	1090.8.7 = { death = { death_reason = death_murder_known killer = veloth_103_killer } }
+}
+
+veloth_103_killer = {
+	name = "Sathas"
+	culture = chuzei
+	religion = tribunal_temple
+
+	1010.1.1 = { birth = yes }
+	1113.4.6 = { death = { death_reason = death_poison killer = veloth_104 } }
+}
+
+veloth_104 = { #"Toasted her enemies, to their death and hers"
+	name = "Valyne" #Lore
+	dynasty = dyn_veloth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = veloth_103
+
+	trait = vengeful
+	trait = deceitful
+	trait = patient
+	trait = education_intrigue_4
+
+	1024.1.1 =  { birth = yes }
+	1112.1.1 = { add_spouse = veloth_103_killer }
+	1113.4.6 = { death = { death_reason = death_poison } }
+}
+
+veloth_105 = {
+	name = "Arvena"
+	dynasty = dyn_veloth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = veloth_101c
+
+	903.1.1 = { birth = yes }
+	1100.1.1 = { death = yes }
+}
+
+veloth_106 = {
+	name = "Dinere"
+	dynasty = dyn_veloth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	mother = veloth_105
+
+	1002.1.1 = { birth = yes }
+	1241.9.17 = { death = { death_reason = death_mysterious } }
+}
+
+veloth_107 = { #"Nourished all but himself during the Hunger Year"
+	name = "Elms" #Lore
+	dynasty = dyn_veloth
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = veloth_106
+
+	trait = inappetetic
+
+	1108.1.1 = { birth = yes }
+	1368.12.2 = { death = { death_reason = death_malnourishment } }
+}
+
+veloth_108 = {
+	name = "Llirala"
+	dynasty = dyn_veloth
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	father = veloth_107
+
+	1304.1.1 = { birth = yes }
+	1508.1.1 = { death = yes }
+}
+
+##Arys Dynasty
+arys_100 = { #Barilzar, we meet him as normal dunmer in eso and as lich in tes3
+	name = "Barilzar" #Lore
+	dynasty = dyn_arys
+	culture = chuzei
+	religion = tribunal_temple
+
+	trait = education_learning_4
+	trait = education_magic_3
+	trait = arcana_good_2
+	trait = diligent
+	trait = trusting
+	trait = fickle
+	trait = scholar
+	trait = shrewd
+	trait = lifespan_3
+
+	3240.1.1 = { birth = yes }
+	3350.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3600.1.1 = { add_trait = lich_character }
+	3600.1.1 = {
+		effect = {
+			set_predetermined_decay_effect = { DECAY = 0.3 }
+		}
+	}
+	4243.1.1 = { death = yes } #Nerevarine
+}
+
+#Virian dynasty
+virian_mjahlar = { #Naryu's father
+	name = "Mjahlar" #Lore - who chose this name???
+	dynasty = dyn_virian
+	culture = chuzei #Exact house affiliation not known
+	religion = tribunal_temple
+
+	trait = zealous #Enjoys his job
+	trait = diligent #Enjoys his job
+	trait = sadistic #Enjoys his job
+	trait = education_intrigue_4
+	trait = education_martial_prowess_3
+
+	trait = lifespan_3
+
+	3281.1.1 = { birth = yes }
+	3475.1.1 = { death = { death_reason = death_natural_causes } }
+}
+virian_naryu = { #Naryu)
+	name = "Naryu" #Lore
+	dynasty = dyn_virian
+	culture = chuzei #Exact house affiliation not known
+	religion = tribunal_temple
+	female = yes
+	sexuality = bisexual
+
+	father = virian_mjahlar
+
+	trait = beauty_good_2
+	trait = deceitful
+	trait = compassionate
+	trait = arrogant
+	trait = education_intrigue_5
+	trait = education_martial_prowess_3
+
+	trait = lifespan_3
+
+	3373.1.1 = { birth = yes } #Born in fifth century and served morag tong for a century by eso
+	3576.1.1 = { death = yes }
+}
+virian_odral = { #Naryu's adopted brother
+	name = "Odral" #Lore
+	dynasty = dyn_virian
+	culture = chuzei #Exact house affiliation not known
+	religion = tribunal_temple
+
+	father = virian_mjahlar
+
+	trait = disputed_heritage #Adopted
+	trait = lifespan_3
+	trait = education_learning_3
+	trait = deceitful
+	trait = diligent
+	trait = ambitious
+	trait = lifestyle_herbalist
+
+	3375.1.1 = { birth = yes }
+	3501.1.1 = { death = { death_reason = death_morag_tong } } #Executed by Naryu
+}
+
+#Ancient Aamul, refused to accept Tribunal, got killed
+aamul_ancient_1 = {
+	name = "Sanas"
+	culture = chuzei
+	religion = old_velothi
+
+	trait = zealous
+	trait = stubborn
+
+	511.1.1 = { birth = yes }
+	729.1.1 = { death = yes }
+}
+
+aamul_ancient_2 = {
+	name = "Drelyth"
+	culture = chuzei
+	religion = old_velothi
+
+	father = aamul_ancient_1
+
+	trait = zealous
+	trait = stubborn
+
+	615.1.1 = { birth = yes }
+	798.1.1 = { death = { death_reason = death_battle killer = karath_1 } }
+}
+
+##############
+###Lowborns###
+##############
+omani_1 = { #Holder of Omani
+	name = "Felara"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = education_magic_2
+	trait = lifespan_3
+
+	3191.1.1 = { birth = yes }
+	3432.1.1 = { death = yes }
+}
+
+omani_2 = {
+	name = "Brethis"
+	culture = chuzei
+	religion = tribunal_temple
+	3345.1.1 = { birth = yes }
+	3568.1.1 = { death = yes }
+}
+
+kummu_100 = { #Holder of Kummu
+	name = "Relyn"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	3233.1.1 = { birth = yes }
+	3540.1.1 = { death = yes }
+}
+
+holamayon_100 = { #Abbot of Holamayon
+	name = "Alaryne"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = education_learning_3
+	trait = lifespan_3
+
+	3270.1.1 = { birth = yes }
+	3478.1.1 = { death = yes } 
+}
+
+astula_100 = { #Archmage of Shad Astula
+	name = "Valeyn" #Lore
+	culture = chuzei
+	religion = tribunal_temple
+
+	trait = lifespan_3
+	trait = education_magic_3
+	trait = arrogant
+
+	3037.1.1 = { birth = yes }
+	3057.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_5
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3610.1.1 = { death = yes }
+}
+
+#Lowborn Alma Rulas
+almarula_lowborn_1 = {
+	name = "Trels"
+	culture = chuzei
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	1043.1.1 = { birth = yes }
+	1284.10.11 = { death = yes }
+}
+almarula_lowborn_2 = {
+	name = "Avoni"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	1212.1.1 = { birth = yes }
+	1439.11.16 = { death = yes }
+}
+almarula_lowborn_3 = {
+	name = "Relam"
+	culture = chuzei
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	1296.1.1 = { birth = yes }
+	1538.9.12 = { death = yes }
+}
+almarula_lowborn_4 = {
+	name = "Darili"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	1648.1.1 = { birth = yes }
+	1872.1.31 = { death = yes }
+}
+almarula_lowborn_5 = {
+	name = "Farusea"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	1872.1.1 = { birth = yes }
+	2099.7.25 = { death = yes }
+}
+almarula_lowborn_6 = {
+	name = "Saril"
+	culture = chuzei
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	1974.1.1 = { birth = yes }
+	2211.4.16 = { death = yes }
+}
+almarula_lowborn_7 = {
+	name = "Evessa"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	2078.1.1 = { birth = yes }
+	2302.3.16 = { death = yes }
+}
+almarula_lowborn_8 = {
+	name = "Nadras"
+	culture = chuzei
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	2229.1.1 = { birth = yes }
+	2456.12.10 = { death = yes }
+}
+almarula_lowborn_9 = {
+	name = "Duldresi"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	2401.1.1 = { birth = yes }
+	2632.6.6 = { death = yes }
+}
+almarula_lowborn_10 = {
+	name = "Nals"
+	culture = chuzei
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	2887.1.1 = { birth = yes }
+	3114.5.29 = { death = yes }
+}
+almarula_lowborn_11 = {
+	name = "Kareth"
+	culture = chuzei
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	3036.1.1 = { birth = yes }
+	3274.2.15 = { death = yes }
+}
+
+##############
+### Laamps ###
+##############
+
+#Relvel, dynasty of Gedna Relvel
+#History ToDo: can add war or smth for her in 576 if we're doing that and if it would work for laamp
+relvel_100 = { #Gedna Relvel, Lich of Mournhold, tries to do things with Knahaten after chaos with Kamals, dies in 574 
+	name = "Gedna" #Lore
+	dynasty = dyn_relvel
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = education_learning_4
+	trait = education_magic_3
+	trait = cynical
+	trait = arrogant
+	trait = diligent
+	trait = lifespan_3
+
+	3271.1.1 = { birth = yes }
+	3350.1.1 = {
+		trait = experimentalist_necromancer
+		add_secret = { type = secret_necromancer }
+	}
+	3377.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3490.1.1 = {
+		trait = lich_character
+		trait = necromancer #Revealed
+		effect = { 
+			set_immortal_age = 40
+			set_predetermined_decay_effect = { DECAY = 0.9 } 
+		}
+	}
+	3494.1.1 = { death = { death_reason = death_disappearance } } #Sealed under Mournhold
+}

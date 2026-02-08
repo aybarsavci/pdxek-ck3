@@ -1,0 +1,1260 @@
+﻿#Setup effect used for newly generated characters
+ek_character_setup_effect = {
+
+	#Undead decay fallback for undead characters that were not given decay or that use the old fleshy_undead flag setup
+	if = {
+		limit = {
+			NOT = { has_character_flag = has_decay_value }
+			is_undead = yes
+			has_character_flag = fleshy_undead
+		}
+		set_fleshy_decay_effect = yes
+	}
+	else_if = {
+		limit = {
+			NOT = { has_character_flag = has_decay_value }
+			is_undead = yes
+		}
+		set_skeleton_decay_effect = yes
+	}
+
+	#Race flags
+	if = {
+		limit = { 
+			NOR = { 
+				has_character_flag = race_khajiit
+				has_character_flag = race_argonian
+				has_character_flag = race_lilmothiit
+				has_character_flag = race_imga
+				has_character_flag = race_goblinken
+				has_character_flag = race_daedra
+				has_character_flag = unmourned_check
+			} 
+		}
+		race_traits_effect = yes
+	}
+	
+	#Orma and Falmer blindness
+	if = {
+		limit = {
+			OR = {
+				has_culture = culture:orma
+				culture = {
+					any_parent_culture_or_above = { this = culture:orma }
+				}
+				has_culture = culture:falmer_betrayed
+				culture = {
+					any_parent_culture_or_above = { this = culture:falmer_betrayed }
+				}
+			}
+		}
+		racial_blindness_effect = yes
+	}
+
+
+	#Argonian Naming
+	if = {
+		limit = {
+			OR = {
+				has_culture = culture:hleel
+				culture = { 
+					any_parent_culture_or_above = { this = culture:hleel }
+				}
+				has_culture = culture:naga
+				culture = { 				
+					any_parent_culture_or_above = { this = culture:naga }
+				}
+				has_culture = culture:paatru
+				culture = {
+					any_parent_culture_or_above = { this = culture:paatru }
+				}
+				has_culture = culture:agaceph
+				culture = { 
+					any_parent_culture_or_above = { this = culture:agaceph }
+				}
+				has_culture = culture:sarpa
+				culture = {
+					any_parent_culture_or_above = { this = culture:sarpa }
+				}
+				has_culture = culture:hapsleet
+				culture = {
+					any_parent_culture_or_above = { this = culture:hapsleet }
+				}
+			}
+			age < 16
+		}
+		change_first_name = Hatchling
+	}
+
+	if = {
+		limit = {
+			OR = {
+				has_culture = culture:hleel
+				culture = { 
+					any_parent_culture_or_above = { this = culture:hleel }
+				}
+				has_culture = culture:naga
+				culture = { 				
+					any_parent_culture_or_above = { this = culture:naga }
+				}
+				has_culture = culture:paatru
+				culture = {
+					any_parent_culture_or_above = { this = culture:paatru }
+				}
+				has_culture = culture:agaceph
+				culture = { 
+					any_parent_culture_or_above = { this = culture:agaceph }
+				}
+				has_culture = culture:sarpa
+				culture = {
+					any_parent_culture_or_above = { this = culture:sarpa }
+				}
+				has_culture = culture:hapsleet
+				culture = {
+					any_parent_culture_or_above = { this = culture:hapsleet }
+				}
+			}
+			age >= 16
+		}
+		add_character_flag = chukka-sei
+	}
+
+	#Hist traits
+	# Left out behemoth, because that could affect historical characters.
+	if = {
+		limit = {
+			is_from_ruler_designer = no
+			is_adult = yes # Kids dont do this stuff
+		}
+		if = {
+			limit = {
+				faith = { has_doctrine = tenet_amberhist }
+				culture = { has_cultural_pillar = heritage_argonian }
+				has_character_flag = race_argonian
+			}
+			random_list = {
+				90 = {}
+				10 = { increase_amber_blessed_effect = yes }
+			}
+		}
+		if = {
+			limit = {
+				faith = { has_doctrine = tenet_ghosthist }
+				culture = { has_cultural_pillar = heritage_argonian }
+				has_character_flag = race_argonian
+			}
+			random_list = {
+				90 = {}
+				10 = { increase_ghost_scale_effect = yes }
+			}
+		}
+		if = {
+			limit = {
+				faith = { has_doctrine = tenet_sunhist }
+				culture = { has_cultural_pillar = heritage_argonian }
+				has_character_flag = race_argonian
+			}
+			random_list = {
+				90 = {}
+				10 = { increase_sun_blessed_effect = yes }
+			}
+		}
+	}	
+	
+	#Lifespan traits
+	if = {
+		limit = { 
+			NOR = { 
+				has_trait = lifespan
+				has_trait = lifespan_magic
+			} 
+		}
+		lifespan_traits_effect = yes
+	}
+	
+	#Immortal characters don't need a lifespan trait
+	if = {
+		limit = { 
+			is_immortal = yes
+			#If you are immortal because you have lifespan_6, that's probably intentional
+			NOR = { 
+				has_trait = lifespan_6 
+				has_trait = lifespan_magic_6
+			}
+		}
+		substitute_lifespan_by_immortality_effect = yes
+	}
+	
+	#Birthsign traits
+	if = {
+		limit = { NOT = { has_trait = birthsign } }
+		assign_birthsign_start_effect = yes
+	}
+
+	# Magic Perks
+	if = { 
+		limit = {
+			can_magic_trigger = yes
+			is_adult = yes # Kids dont do this stuff
+		}
+		ek_dynasty_specialization_perks_effect = yes
+		ek_magic_perks_effect = yes
+	}
+	
+	add_character_flag = char_setup
+}	
+
+racial_blindness_effect = {
+	if = {
+		limit = {
+			NOR = {
+				has_trait = racial_blindness
+				has_character_flag = exclude_racial_blindness #for history or template characters with orma or betrayed culture that we want to not have this trait, or characters who already have the trait
+			}
+		}
+		remove_trait = one_eyed
+		remove_trait = blind
+		add_trait = racial_blindness
+		add_character_flag = exclude_racial_blindness
+	}
+	add_character_flag = char_setup
+}
+
+#Race traits
+race_traits_effect = {
+
+	# unmourned blood distribution
+	if = {
+		limit = {
+			OR = {
+				culture = { has_cultural_pillar = heritage_dunmeri } 
+				culture = { has_cultural_pillar = heritage_chimeri } 
+			}
+		}
+		add_character_flag = unmourned_check
+	}
+	
+	#Khajiit
+	if = {
+		limit = { culture = { has_cultural_pillar = heritage_khajiiti } }
+		add_character_flag = race_khajiit
+		random_furstock_traits_effect = yes
+	}
+	
+	#Lilmothit
+	else_if = {
+		limit = { culture = { has_cultural_pillar = heritage_lilmothiit } }
+		add_character_flag = race_lilmothiit
+	}
+	
+	#Goblinken
+	else_if = {
+		limit = { culture = { has_cultural_pillar = heritage_goblinken } }
+		add_character_flag = race_goblinken
+	}
+	
+	#Argonian
+	else_if = {
+		limit = { culture = { has_cultural_pillar = heritage_argonian } }
+		add_character_flag = race_argonian
+	}
+	
+	#Daedra
+	else_if = {
+		limit = { culture = { has_cultural_pillar = heritage_dremora } }
+		add_character_flag = race_daedra
+	}
+
+	#Imga
+	else_if = {
+		limit = { culture = { has_cultural_pillar = heritage_imgan } }
+		add_character_flag = race_imga
+	}
+
+	add_character_flag = char_setup
+}
+
+
+
+#Race flags inheritance
+race_traits_inheritance_effect = {
+	
+	#Khajiit
+	if = {
+		limit = { 
+			OR = {
+				scope:mother = { has_character_flag = race_khajiit }
+				scope:real_father = { has_character_flag = race_khajiit }
+			}
+		}
+		add_character_flag = race_khajiit
+		furstock_trait_effect = yes
+	}
+	
+	#Goblinken
+	else_if = {
+		limit = { 
+			OR = {
+				scope:mother = { has_character_flag = race_goblinken }
+				scope:real_father = { has_character_flag = race_goblinken }
+			}
+		}
+		add_character_flag = race_goblinken
+	}
+	
+	#Argonian
+	else_if = {
+		limit = { 
+			OR = {
+				scope:mother = { has_character_flag = race_argonian }
+				scope:real_father = { has_character_flag = race_argonian }
+			}
+		}
+		add_character_flag = race_argonian
+	}
+	
+	#Lilmothiit
+	else_if = {
+		limit = { 
+			OR = {
+				scope:mother = { has_character_flag = race_lilmothiit }
+				scope:real_father = { has_character_flag = race_lilmothiit }
+			}
+		}
+		add_character_flag = race_lilmothiit
+	}
+
+	# Imga
+	else_if = {
+		limit = { 
+			OR = {
+				scope:mother = { has_character_flag = race_imga }
+				scope:real_father = { has_character_flag = race_imga }
+			}
+		}
+		add_character_flag = race_imga
+	}
+
+	add_character_flag = char_setup
+}
+
+random_furstock_traits_effect = {
+	if = {
+		limit = { 
+			NOT = {
+				has_trait_with_flag = furstock
+			}
+		}
+		random_list = {
+			10 = { add_trait = furstock_ohmes }
+			10 = { add_trait = furstock_ohmes_raht }
+			10 = { add_trait = furstock_cathay }
+			10 = { add_trait = furstock_cathay_raht }
+			10 = { add_trait = furstock_suthay }
+			10 = { add_trait = furstock_suthay_raht }
+			10 = { add_trait = furstock_tojay }
+			10 = { add_trait = furstock_tojay_raht }
+			10 = { add_trait = furstock_dagi }
+			10 = { add_trait = furstock_dagi_raht }
+			10 = { add_trait = furstock_pahmar }
+			10 = { add_trait = furstock_pahmar_raht }
+			#1 = { add_trait = furstock_mane } # Left commented out to show that they're not forgotten but rather intentionally left out of the random generation effect
+		}
+	}
+}
+
+furstock_trait_effect = {
+	if = {
+		limit = {
+			NOT = {
+				has_trait_with_flag = furstock
+			}
+		}
+		#Third Moon = Mane
+		if = {
+			limit = { cycle_both_moons = 1 }
+			add_trait = furstock_mane
+		}
+		#Masser New - Secunda New = Suthay
+		else_if = {
+			limit = { cycle_both_moons = 2 }
+			add_trait = furstock_suthay
+		}
+		#Masser New - Secunda Waxing = Ohmes-raht
+		else_if = {
+			limit = { cycle_both_moons = 3 }
+			add_trait = furstock_ohmes_raht
+		}
+		#Masser New - Secunda Full = Ohmes
+		else_if = {
+			limit = { cycle_both_moons = 4 }
+			add_trait = furstock_ohmes
+		}
+		#Masser New - Secunda Waning = Suthay-raht 
+		else_if = {
+			limit = { cycle_both_moons = 5 }
+			add_trait = furstock_suthay_raht
+		}
+		#Masser Waxing - Secunda New = Tojay
+		else_if = {
+			limit = { cycle_both_moons = 6 }
+			add_trait = furstock_tojay
+		}
+		#Masser Waxing - Secunda Waxing = Cathay-raht
+		else_if = {
+			limit = { cycle_both_moons = 7 }
+			add_trait = furstock_cathay_raht
+		}
+		#Masser Waxing - Secunda Full = Cathay
+		else_if = {
+			limit = { cycle_both_moons = 8 }
+			add_trait = furstock_cathay
+		}
+		#Masser Waxing - Secunda Waning = Tojay-raht
+		else_if = {
+			limit = { cycle_both_moons = 9 }
+			add_trait = furstock_tojay_raht
+		}
+		#Masser Full - Secunda New = Pahmar
+		else_if = {
+			limit = { cycle_both_moons = 10 }
+			add_trait = furstock_pahmar
+		}
+		#Masser Full - Secunda Waxing = Senche-raht
+		# else_if = {
+			# limit = { cycle_both_moons = 11 }
+			# add_trait = furstock_senche_raht
+		# }
+		#Masser Full - Secunda Full = Senche
+		# else_if = {
+			# limit = { cycle_both_moons = 12 }
+			# add_trait = furstock_senche
+		# }
+		#Masser Full - Secunda Waning = Pahmar-raht
+		else_if = {
+			limit = { cycle_both_moons = 13 }
+			add_trait = furstock_pahmar_raht
+		}
+		#Masser Waning - Secunda New = Dagi
+		else_if = {
+			limit = { cycle_both_moons = 14 }
+			add_trait = furstock_dagi
+		}
+		#Masser Waning - Secunda Waxing = Alfiq-raht
+		# else_if = {
+			# limit = { cycle_both_moons = 15 }
+			# add_trait = furstock_alfiq_raht
+		# }
+		#Masser Waning - Secunda Full = Alfiq
+		# else_if = {
+			# limit = { cycle_both_moons = 16 }
+			# add_trait = furstock_alfiq
+		# }
+		#Masser Waning - Secunda Waning = Dagi-raht
+		else_if = {
+			limit = { cycle_both_moons = 17 }
+			add_trait = furstock_dagi_raht
+		}
+		else = {
+			random_furstock_traits_effect = yes
+		}
+	}
+}
+
+furstock_trait_clear_effect = { # for use with generated Mane candidates to ensure they only get the Mane furstock
+	if = {
+		limit = {
+			has_trait_with_flag = furstock
+		}
+		every_character_trait = {
+			limit = {
+				has_trait_flag = furstock
+			}
+			prev = {
+				remove_trait = prev
+			}
+		}
+	}
+}
+
+#Lifespan traits
+lifespan_traits_effect = {
+	
+	if = {
+		limit = { 
+			is_immortal = no
+			OR = { 
+				culture = { has_cultural_pillar = heritage_aldmeri }
+				culture = { has_cultural_pillar = heritage_bosmeri }
+				culture = { has_cultural_pillar = heritage_chimeri }
+				culture = { has_cultural_pillar = heritage_dunmeri }
+				culture = { has_cultural_pillar = heritage_ayleid }
+				culture = { has_cultural_pillar = heritage_dwemeri }
+				culture = { has_cultural_pillar = heritage_falmeri }
+				culture = { has_cultural_pillar = heritage_maormeri }
+			}
+		}
+		add_trait = lifespan_3
+	}
+	
+	else_if = {
+		limit = { 
+			is_immortal = yes # to ensure nothing wacky happens to RD immortals like vampires and liches
+			is_from_ruler_designer = yes # because for these characters we need the game to first give them a lifespan trait (natural lifespan, for genetic purposes), and then have it be removed in the next step of character setup if necessary
+			OR = { 
+				culture = { has_cultural_pillar = heritage_aldmeri }
+				culture = { has_cultural_pillar = heritage_bosmeri }
+				culture = { has_cultural_pillar = heritage_chimeri }
+				culture = { has_cultural_pillar = heritage_dunmeri }
+				culture = { has_cultural_pillar = heritage_ayleid }
+				culture = { has_cultural_pillar = heritage_dwemeri }
+				culture = { has_cultural_pillar = heritage_falmeri }
+				culture = { has_cultural_pillar = heritage_maormeri }
+			}
+		}
+		add_trait = lifespan_3
+	}
+	else_if = {
+		limit = { 
+			is_immortal = no
+			culture = { has_cultural_pillar = heritage_dremora }
+		}
+		add_trait = lifespan_6
+	}
+	
+	#FAILSAFE FOR HISTORICAL IMMORTAL CHARACTERS
+	else_if = {
+		limit = { 
+			is_immortal = yes
+			#If you are immortal because you have lifespan_6, that's probably intentional
+			NOR = { 
+				has_trait = lifespan_6 
+				has_trait = lifespan_magic_6
+			}
+		}
+		substitute_lifespan_by_immortality_effect = yes
+	}
+	
+	add_character_flag = char_setup
+}
+
+lifespan_traits_inheritance_effect = {
+	#>3 + >3 = 4 or 3
+	if = {
+		limit = {
+			scope:real_father = {
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_4
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_4
+					}
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_4
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_4
+					}
+				}
+			}
+		}
+		random_list = {
+			10 = { add_trait = lifespan_3 }
+			90 = { add_trait = lifespan_4 }
+		}
+	}
+
+	#3 + >3 = 4 or 3
+	if = {
+		limit = {
+			scope:real_father = {
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_3
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_3 
+					}
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_4
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_4
+					}
+				}
+			}
+		}
+		random_list = {
+			60 = { add_trait = lifespan_3 }
+			40 = { add_trait = lifespan_4 }
+		}
+	}
+
+	#>3 + 3 = 4 or 3
+	if = {
+		limit = {
+			scope:real_father = {
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_4
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_4 
+					}
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_3
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_3
+					}
+				}
+			}
+		}
+		random_list = {
+			60 = { add_trait = lifespan_3 }
+			40 = { add_trait = lifespan_4 }
+		}
+	}
+
+	#3 + 3 = 3 or 2 or 4
+	else_if = {
+		limit = {
+			scope:real_father = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_3
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_3
+					}	
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_3
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_3
+					}	
+				}
+			}
+		}
+		random_list = {
+			95 = { add_trait = lifespan_3 }
+			5 = { add_trait = lifespan_4 }
+		}
+	}
+	
+	#>2 + 2 = 2 or 3
+	else_if = {
+		limit = {
+			scope:real_father = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan 
+						NOT = { has_trait = lifespan_1 has_trait = lifespan_2 }
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						OR = {
+							has_character_flag = natural_lifespan_3
+							has_character_flag = natural_lifespan_4 
+						} 
+					}
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_2 
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_2
+					}	
+				}
+			}
+		}
+		random_list = {
+			60 = { add_trait = lifespan_2 }
+			40 = { add_trait = lifespan_3 }
+		}
+	}
+	
+	#2 + >2 = 2 or 3
+	else_if = {
+		limit = {
+			scope:real_father = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_2 
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_2
+					}	
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan 
+						NOT = { has_trait = lifespan_1 has_trait = lifespan_2 }
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						OR = {
+							has_character_flag = natural_lifespan_3
+							has_character_flag = natural_lifespan_4 
+						} 
+					}
+				}
+			}
+		}
+		random_list = {
+			60 = { add_trait = lifespan_2 }
+			40 = { add_trait = lifespan_3 }
+		}
+	}
+	
+	#>2 + 1 = 1, 2 or 3
+	else_if = {
+		limit = {
+			scope:real_father = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan 
+						NOT = { has_trait = lifespan_1 has_trait = lifespan_2 }
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						OR = {
+							has_character_flag = natural_lifespan_3
+							has_character_flag = natural_lifespan_4 
+						} 
+					}
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_1 
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_1
+					}	
+				}
+			}
+		}
+		random_list = {
+			20 = { add_trait = lifespan_1 }
+			60 = { add_trait = lifespan_2 }
+			20 = { add_trait = lifespan_3 }
+		}
+	}
+	
+	#1 + >2 = 1, 2 or 3
+	else_if = {
+		limit = {
+			scope:real_father = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_1 
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_1
+					}	
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan 
+						NOT = { has_trait = lifespan_1 has_trait = lifespan_2 }
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						OR = {
+							has_character_flag = natural_lifespan_3
+							has_character_flag = natural_lifespan_4 
+						} 
+					}
+				}
+			}
+		}
+		random_list = {
+			20 = { add_trait = lifespan_1 }
+			60 = { add_trait = lifespan_2 }
+			20 = { add_trait = lifespan_3 }
+		}
+	}
+	
+	#>2 + 0 = 0, 1, 2 or 3
+	else_if = {
+		limit = {
+			scope:real_father = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan 
+						NOT = { has_trait = lifespan_1 has_trait = lifespan_2 }
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						OR = {
+							has_character_flag = natural_lifespan_3
+							has_character_flag = natural_lifespan_4 
+						} 
+					}
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						NOT = { has_trait = lifespan }
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_0
+					}	
+				}
+			}
+		}
+		random_list = {
+			20 = { }
+			30 = { add_trait = lifespan_1 }
+			30 = { add_trait = lifespan_2 }
+			20 = { add_trait = lifespan_3 }
+		}
+	}
+	
+	#0 + >2 = 0, 1, 2 or 3
+	else_if = {
+		limit = {
+			scope:real_father = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						NOT = { has_trait = lifespan }
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_0
+					}	
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan 
+						NOT = { has_trait = lifespan_1 has_trait = lifespan_2 }
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						OR = {
+							has_character_flag = natural_lifespan_3
+							has_character_flag = natural_lifespan_4 
+						} 
+					}
+				}
+			}
+		}
+		random_list = {
+			20 = { }
+			30 = { add_trait = lifespan_1 }
+			30 = { add_trait = lifespan_2 }
+			20 = { add_trait = lifespan_3 }
+		}
+	}
+	
+	#2 + 2 = 2 or 3
+	else_if = {
+		limit = {
+			scope:real_father = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_2 
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_2
+					}	
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_2 
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_2
+					}	
+				}
+			}
+		}
+		random_list = {
+			90 = { add_trait = lifespan_2 }
+			10 = { add_trait = lifespan_3 }
+		}
+	}
+	
+	#2 + 1 = 1 or 2
+	else_if = {
+		limit = {
+			scope:real_father = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_2 
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_2
+					}	
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_1
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_1
+					}	
+				}
+			}
+		}
+		random_list = {
+			50 = { add_trait = lifespan_2 }
+			50 = { add_trait = lifespan_1 }
+		}
+	}
+	
+	#1 + 2 = 1 or 2
+	else_if = {
+		limit = {
+			scope:real_father = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_1 
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_1
+					}	
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_2 
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_2
+					}	
+				}
+			}
+		}
+		random_list = {
+			50 = { add_trait = lifespan_2 }
+			50 = { add_trait = lifespan_1 }
+		}
+	}
+	
+	#2 + 0 = 1
+	else_if = {
+		limit = {
+			scope:real_father = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_2 
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_2
+					}	
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						NOT = { has_trait = lifespan }
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_0
+					}	
+				}
+			}
+		}
+		random_list = {
+			20 = { }
+			60 = { add_trait = lifespan_1 }
+			20 = { add_trait = lifespan_2 }
+		}
+	}
+	
+	#0 + 2 = 1
+	else_if = {
+		limit = {
+			scope:real_father = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						NOT = { has_trait = lifespan }
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_0
+					}	
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_2 
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_2
+					}	
+				}
+			}
+		}
+		random_list = {
+			20 = { }
+			60 = { add_trait = lifespan_1 }
+			20 = { add_trait = lifespan_2 }
+		}
+	}
+	
+	#1 + 1 = 1 or 2
+	else_if = {
+		limit = {
+			scope:real_father = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_1 
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_1
+					}	
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_1 
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_1
+					}	
+				}
+			}
+		}
+		random_list = {
+			85 = { add_trait = lifespan_1 }
+			15 = { add_trait = lifespan_2 }
+		}
+	}
+	
+	#1 + 0 = 0 or 1
+	else_if = {
+		limit = {
+			scope:real_father = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_1 
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_1
+					}	
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						NOT = { has_trait = lifespan }
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_0
+					}	
+				}
+			}
+		}
+		random_list = {
+			50 = { add_trait = lifespan_1 }
+			50 = { }
+		}
+	}
+	
+	#0 + 1 = 0 or 1
+	else_if = {
+		limit = {
+			scope:real_father = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						NOT = { has_trait = lifespan }
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_0
+					}	
+				}
+			}
+			scope:mother = { 
+				OR = {
+					#Natural
+					AND = {
+						NOT = { has_character_flag = artificial_lifespan }
+						has_trait = lifespan_1 
+					}
+					#Artificial
+					AND = {
+						has_character_flag = artificial_lifespan
+						has_character_flag = natural_lifespan_1
+					}	
+				}
+			}
+		}
+		random_list = {
+			50 = { add_trait = lifespan_1 }
+			50 = { }
+		}
+	}
+	
+	add_character_flag = char_setup
+}
+	

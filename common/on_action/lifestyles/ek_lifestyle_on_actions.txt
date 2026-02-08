@@ -1,0 +1,220 @@
+﻿magic_lifestyle_progress_pulse = { # Fires 4 times per year
+	trigger = {
+		has_lifestyle = magic_lifestyle
+		is_landed = yes # Lifestyle events inherently assume you have one. Non-landed rulers shouldn't get lifestyle events, even if they still have a lifestyle.
+		exists = capital_province # Because in rare situations landed AI rulers can end up without a capital.
+		trigger_if = {
+			limit = {
+				is_ai = no
+			}
+			has_had_focus_for_days > 30
+		}
+		NOR = {
+			has_character_flag = had_recent_lifestyle_ongoing_event
+
+			# Must not currently be in a magical event chain.
+			has_character_flag = is_in_magic_special_event
+		}
+	}
+
+	first_valid_on_action = {
+		magic_lifestyle_ongoing_events # General event pool
+		magic_lifestyle_unavailable_events # Special event pool for unavailable characters (imprisoned, commanding an army, infirm, etc.)
+	}
+}
+
+#Ongoing events and story cycles
+magic_lifestyle_ongoing_events = {
+	trigger = {
+		is_available = yes
+	}
+
+	random_on_action = {
+		chance_to_happen = 10 # Roughly one event every 18 months
+
+		80 = magic_lifestyle_common_events
+		15 = magic_lifestyle_uncommon_events
+		5 = magic_lifestyle_rare_events		
+	}
+}
+
+# Characters get a Common event roughly once every 24 months (2 years). Most lifestyle events should be Common events.
+magic_lifestyle_common_events = {
+	random_events = {
+		#CONJURATION
+		100 = ek_lifestyles.0005 # Daedric Alphabet
+		#DESTRUCTION
+		100 = ek_lifestyles.0016 # Drain and Damage
+		100 = ek_lifestyles.0049 # Theory of Lightning
+		#ALTERATION
+		100 = ek_lifestyles.0020 # Feathers and Lead
+		#ILLUSION
+		100 = ek_lifestyles.0026 # Clairvoyant
+		#RESTORATION 
+		100 = ek_lifestyles.0029 # Living Energies
+		
+	}
+}
+
+# Characters get an Uncommon event roughly once every 120 months (10 years). Longer event chains and lucrative opporunities should be Uncommon events.
+magic_lifestyle_uncommon_events = {
+	random_events = {
+		#CONJURATION
+		100 = ek_lifestyles.0008 # Mapping the Planes
+		100 = ek_lifestyles.0043 # Where Magical Paths Meet
+		#DESTRUCTION
+		100 = ek_lifestyles.0017 # Emotional Magicka Response
+		#ALTERATION
+		100 = ek_lifestyles.0021 # Structural Integrity
+		#ILLUSION
+		100 = ek_lifestyles.0027 # Ontological Uncertainty
+		100 = ek_lifestyles.0039 # The Lantern Thief
+		#RESTORATION
+		100 = ek_lifestyles.0030 # The Shielding Hand
+		# MISC
+		100 = ek_lifestyles.0046 # Words and Power
+		
+	}
+	fallback = magic_lifestyle_common_events
+}
+
+# Characters get a Rare event roughly once every 360 months (30 years). Character-defining events and easter egg events should be Rare events.
+magic_lifestyle_rare_events = {
+	random_events = {
+		#CONJURATION
+		100 = ek_lifestyles.0009 # Communion with a Demiprince
+		#DESTRUCTION
+		100 = ek_lifestyles.0018 # Battle Magic
+		#ALTERATION
+		100 = ek_lifestyles.0022 # Icarian Flight
+		#ILLUSION
+		100 = ek_lifestyles.0028 # Shadow Magic
+		#RESTORATION
+		100 = ek_lifestyles.0031 # Before the Ages of Man
+
+	}
+	fallback = magic_lifestyle_uncommon_events
+}
+
+# Special event pool for unavailable characters (imprisoned, commanding an army, infirm, etc.)
+magic_lifestyle_unavailable_events = {
+	trigger = {
+		is_available = no
+	}
+
+	random_events = {
+ 		# WARNING: All events in this pool *MUST* have custom is_available triggers defined.
+ 		# Otherwise we can wind up with weird things like imprisoned characters having a strategy discussion with their army commanders out on the campaign trail.
+ 		chance_to_happen = 10
+
+	}
+}
+
+
+###############################
+# ONGOING EVENT ON_ACTIONS
+###############################
+
+#Hands out the correct event for when you have a magical accident
+#EK TODO: None of those events exist, not with those names at least
+# magic_accident_outcome = {
+	# events = {
+		# magic_practical.0007 #Die
+		# magic_practical.0006 #Become Near Death
+		# magic_practical.0005 #Become Severely Injured
+		# magic_practical.0004 #Become Wounded
+	# }
+# }
+
+dark_arts_lifestyle_progress_pulse = { # Fires 4 times per year
+	trigger = {
+		has_lifestyle = dark_arts_lifestyle
+		is_landed = yes # Lifestyle events inherently assume you have one. Non-landed rulers shouldn't get lifestyle events, even if they still have a lifestyle.
+		exists = capital_province # Because in rare situations landed AI rulers can end up without a capital.
+		trigger_if = {
+			limit = {
+				is_ai = no
+			}
+			has_had_focus_for_days > 30
+		}
+		NOR = {
+			has_character_flag = had_recent_lifestyle_ongoing_event
+
+			# Must not currently be in a magical event chain.
+			has_character_flag = is_in_magic_special_event
+		}
+	}
+
+	first_valid_on_action = {
+		dark_arts_lifestyle_ongoing_events # General event pool
+		dark_arts_lifestyle_unavailable_events # Special event pool for unavailable characters (imprisoned, commanding an army, infirm, etc.)
+	}
+}
+
+#Ongoing events and story cycles
+dark_arts_lifestyle_ongoing_events = {
+	trigger = {
+		is_available = yes
+	}
+
+	random_on_action = {
+		chance_to_happen = 10 # Roughly one event every 18 months
+
+		80 = dark_arts_lifestyle_common_events
+		15 = dark_arts_lifestyle_uncommon_events
+		5 = dark_arts_lifestyle_rare_events		
+	}
+}
+
+# Characters get a Common event roughly once every 24 months (2 years). Most lifestyle events should be Common events.
+dark_arts_lifestyle_common_events = {
+	random_events = {
+		100 = ek_ymis_events.0022 # Necromancy: Buy some sload soap
+		100 = ek_ymis_events.0023 # Necromancy: Train Necromancy on a poor prisoner
+		100 = ek_ymis_events.0024 # Necromancy: Rob some graves
+		#100 = ek_ymis_events.0032 # Necromancy: Teach your ward necromancy #EK TODO implement story cycle
+		100 = ek_ymis_events.0039 # Necromancy: One of your skeletons shall rest
+		100 = ek_ymis_events.0040 # Necromancy: A colossal project
+		100 = ek_lifestyles.0041 # Three Pretexts
+	}
+}
+
+# Characters get an Uncommon event roughly once every 120 months (10 years). Longer event chains and lucrative opporunities should be Uncommon events.
+dark_arts_lifestyle_uncommon_events = {
+	random_events = {
+		100 = ek_ymis_events.0026 # Necromancy: Stewardship Event
+		100 = ek_ymis_events.0027 # Necromancy: Intrigue Event
+		100 = ek_ymis_events.0028 # Necromancy: Martial Event
+		100 = ek_ymis_events.0029 # Necromancy: Learning Event
+		100 = ek_ymis_events.0030 # Necromancy: Diplomacy Event
+		100 = ek_ymis_events.0035 # Necromancy: Gain a bad nickname
+		100 = ek_ymis_events.0036 # Necromancy: Gain a good nickname
+		100 = ek_ymis_events.0037 # Necromancy: Gain the gravesinger nickname
+		100 = ek_ymis_events.0038 # Lichdom: Gain a nice nickname				
+	}
+	fallback = dark_arts_lifestyle_common_events
+}
+
+# Characters get a Rare event roughly once every 360 months (30 years). Character-defining events and easter egg events should be Rare events.
+dark_arts_lifestyle_rare_events = {
+	random_events = {
+		100 = ek_ymis_events.0021 # Necromancy: Change to a more necromantic faith
+		100 = ek_ymis_events.0025 # Necromancy: Turn your whole court into undead, only for mad necromancy masters
+		100 = ek_lifestyles.0044 # A Daedric Proposal
+	}
+	fallback = dark_arts_lifestyle_uncommon_events
+}
+
+# Special event pool for unavailable characters (imprisoned, commanding an army, infirm, etc.)
+dark_arts_lifestyle_unavailable_events = {
+	trigger = {
+		is_available = no
+	}
+
+	random_events = {
+ 		# WARNING: All events in this pool *MUST* have custom is_available triggers defined.
+ 		# Otherwise we can wind up with weird things like imprisoned characters having a strategy discussion with their army commanders out on the campaign trail.
+ 		chance_to_happen = 10
+
+	}
+}

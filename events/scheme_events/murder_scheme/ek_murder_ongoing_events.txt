@@ -1,0 +1,1426 @@
+﻿#EK TODO: enable Morag Tong events
+#Events for Custom Murder Schemes
+
+namespace = ek_murder_ongoing
+
+ek_murder_ongoing.0001 = {
+    type = character_event
+	title = ek_murder_ongoing.0001.t
+	desc = ek_murder_ongoing.0001.desc
+	theme = murder_scheme
+	override_background = { reference = relaxing_room }
+    widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+	
+	left_portrait = {
+		character = root
+	}
+
+    right_portrait = {
+        character = scope:assassin
+    }
+
+    lower_right_portrait = {
+		character = scope:target
+	}
+
+    trigger = {
+        scope:scheme = {
+            has_scheme_modifier = morag_tong_hired
+            NOT = { has_variable = met_morag_tong }
+        }
+        
+    }
+
+	immediate = {
+		create_character = {
+            location = scope:target.location
+            template = pool_repopulate_intrigue
+            culture = root.culture
+            faith = faith:mephala_cult
+            save_scope_as = assassin
+        }
+        if = {
+			limit = {
+				NOT = { exists = scope:scheme }
+			}
+			random_scheme = {
+                limit = {
+                    scheme_type = murder
+                    #has_scheme_modifier = morag_tong_hired
+                    #NOT = { has_variable = met_morag_tong }
+                }
+                save_scope_as = scheme
+                scheme_owner = {
+                    save_scope_as = owner
+                }
+                scheme_target_character = {
+                    save_scope_as = target
+                }
+            }
+		}
+        scope:scheme = {
+            scheme_target_character = { save_scope_as = target }
+			set_variable = {
+				name = met_morag_tong
+				value = yes
+			}
+			random_scheme_agent_slot = {
+				limit = {
+					is_filled = no
+				}
+				save_scope_as = assassin_slot
+			}
+		}
+        scope:assassin = {
+            add_character_flag = {
+                flag = use_stealth_clothes
+                days = 1
+            }
+            add_character_flag = {
+                flag = morag_tong_assassin
+            }
+			force_add_to_agent_slot = {
+				agent_slot = scope:assassin_slot
+				years = 100
+			}
+        }
+	}
+
+	
+	option = { # OK...
+		name = ek_murder_ongoing.0001.a
+		scope:scheme = { add_scheme_progress = scheme_progress_gain }
+	}
+}
+
+ek_murder_ongoing.0002 = {
+	type = character_event
+	title = ek_murder_ongoing.0002.t
+	desc = ek_murder_ongoing.0002.desc
+	theme = murder_scheme
+	override_background = { reference = relaxing_room }
+	left_portrait = scope:assassin
+	right_portrait = scope:target
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	#EK TODO: Remove once these events are properly hooked up again.
+	orphan = yes
+
+	trigger = {
+		is_available_adult = yes
+		scope:scheme = {
+            has_scheme_modifier = morag_tong_hired
+			NOT = { has_variable = had_poisonous_gold_event }
+		}
+		
+		scope:target = {
+			is_physically_able_adult = yes
+		}
+	}
+
+	immediate = {
+		scope:scheme = {
+			set_variable = {
+				name = had_poisonous_gold_event
+				value = yes
+				days = 3650
+			}
+			random_scheme_agent_slot = {
+				limit = {
+					is_filled = no
+				}
+				save_scope_as = assassin_slot
+			}
+		}
+        create_character = {
+            location = scope:target.location
+            template = pool_repopulate_intrigue
+            culture = root.culture
+            faith = faith:mephala_cult
+            save_scope_as = assassin
+        }
+        scope:assassin = {
+            add_character_flag = {
+                flag = use_stealth_clothes
+                days = 1
+            }
+            force_add_to_agent_slot = {
+				agent_slot = scope:assassin_slot
+				years = 100
+			}
+        }
+	}
+
+	# Give them poisonous gold
+	option = {
+		name = ek_murder_ongoing.0002.a
+		show_as_tooltip = { #Actually add it in their response event
+			scope:target = {
+				add_character_modifier = {
+					modifier = poisonous_gold_modifier
+					years = 7
+				}
+			}
+		}
+		scope:scheme = {
+			add_scheme_progress = scheme_progress_gain
+		}
+		scope:target = { #Response event
+			trigger_event = intrigue_scheme_ongoing.5006
+		}
+		#Risk of bad side effects
+		hidden_effect = {
+			if = {
+				limit = {
+					any_child = {
+						is_courtier_of = root
+						is_ai = yes
+					}
+				}
+				random = {
+					chance = 15
+					trigger_event = {
+						id = intrigue_scheme_ongoing.5007
+						days = { 10 30 }
+					}
+				}
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+ek_murder_ongoing.0003 = {
+	type = character_event
+	title = ek_murder_ongoing.0003.t
+	desc = ek_murder_ongoing.0003.desc
+	theme = murder_scheme
+	override_background = { reference = relaxing_room }
+	left_portrait = {
+		character = scope:assassin
+	}
+	right_portrait = scope:target
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	#EK TODO: Remove once these events are properly hooked up again.
+	orphan = yes
+
+	trigger = {
+		scope:scheme = {
+            has_scheme_modifier = morag_tong_hired
+		}
+		NOT = { exists = scope:scheme.var:had_talkative_agent_event }
+	}
+
+	immediate = {
+		scope:scheme = {
+			set_variable = {
+				name = had_talkative_agent_event
+				value = yes
+				days = 3650
+			}
+			random_scheme_agent_slot = {
+				limit = {
+					is_filled = no
+				}
+				save_scope_as = assassin_slot
+			}
+		}
+        create_character = {
+            location = scope:target.location
+            template = pool_repopulate_intrigue
+            culture = root.culture
+            faith = faith:mephala_cult
+            save_scope_as = assassin
+        }
+        scope:assassin = {
+            add_character_flag = {
+                flag = use_stealth_clothes
+                days = 1
+            }
+            force_add_to_agent_slot = {
+				agent_slot = scope:assassin_slot
+				years = 100
+			}
+        }
+	}
+
+	# Let them blabber on
+	option = {
+		name = ek_murder_ongoing.0003.a
+		scope:assassin = {
+			duel = {
+				skill = intrigue
+				value = 10
+				20 = {
+					desc = ek_murder_ongoing.0003.a.success
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = 0.75
+						min = 0
+					}
+					root = {
+						send_interface_toast = {
+							title = ek_murder_ongoing.0003.toast.success
+							left_icon = scope:assassin
+							scope:scheme = {
+								add_scheme_modifier = {
+									type = scheme_talking_agent_modifier
+								}
+							}
+						}
+					}
+				}
+				10 = {
+					desc = ek_murder_ongoing.0003.a.failure
+					compare_modifier = {
+						value = scope:duel_value
+						multiplier = -0.5
+						min = -14
+					}
+					root = {
+						send_interface_toast = {
+							title = ek_murder_ongoing.0003.toast.failure
+							left_icon = scope:assassin
+							if = {
+								limit = {
+									scope:scheme = {
+										is_scheme_exposed = no
+									}
+								}
+								scope:scheme = {
+									expose_scheme = yes
+								}
+							}
+							else = {
+								scope:scheme = {
+									expose_scheme_agent = scope:assassin
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 50
+				scope:assassin = {
+					intrigue >= medium_skill_rating
+				}
+			}
+			ai_value_modifier = {
+				ai_boldness = 0.5
+			}
+		}
+	}
+
+	# Make them stop
+	option = {
+		name = ek_murder_ongoing.0003.b
+		scope:scheme = {
+			add_scheme_modifier = { type = gregarious_demand_complete_silence_modifier days = 365 }
+		}
+		stress_impact = {
+			gregarious = minor_stress_impact_gain
+		}
+		ai_chance = {
+			base = 50
+			ai_value_modifier = {
+				ai_boldness = -0.25
+			}
+		}
+	}
+}
+
+ek_murder_ongoing.0004 = {
+	type = character_event
+	title = ek_murder_ongoing.0004.t
+	desc = ek_murder_ongoing.0004.desc
+	theme = murder_scheme
+	override_background = { reference = relaxing_room }
+	left_portrait = {
+		character = scope:assassin
+	}
+	right_portrait = scope:target
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	#EK TODO: Remove once these events are properly hooked up again.
+	orphan = yes
+
+	trigger = {
+		is_available_adult = yes
+		scope:target = {
+			is_landed = yes
+			NOT = { is_courtier_of = root }
+		}
+		scope:scheme = {
+			NOT = { has_variable = had_ek_pleasing_letter_event }
+            has_scheme_modifier = morag_tong_hired
+		}
+	}
+
+	immediate = {
+		scope:scheme = {
+			set_variable = {
+				name = had_ek_pleasing_letter_event
+				value = yes
+				days = 3650
+			}
+			random_scheme_agent_slot = {
+				limit = {
+					is_filled = no
+				}
+				save_scope_as = assassin_slot
+			}
+		}
+        create_character = {
+            location = scope:target.location
+            template = pool_repopulate_intrigue
+            culture = root.culture
+            faith = faith:mephala_cult
+            save_scope_as = assassin
+        }
+        scope:assassin = {
+            add_character_flag = {
+                flag = use_stealth_clothes
+                days = 1
+            }
+            force_add_to_agent_slot = {
+				agent_slot = scope:assassin_slot
+				years = 100
+			}
+        }
+	}
+
+	# Cool, let's use them!
+	option = {
+		name = ek_murder_ongoing.0004.a
+		scope:scheme = { add_scheme_progress = scheme_progress_gain }
+	}
+}
+
+# I deleted 0005 because I didn't like it so it's gonna be a blank space for now ok? ok
+
+#EK NOTE: This trigger is copied from intrigue_scheme_ongoing_events.
+scripted_trigger intrigue_scheme_ongoing_5026_pious_target_trigger = {
+	OR = {
+		has_trait = zealous
+		has_lifestyle = learning_lifestyle
+		piety_level >= high_piety_level
+	}
+}
+
+ek_murder_ongoing.0006 = {
+	type = character_event
+	title = ek_murder_ongoing.0006.t
+	desc = ek_murder_ongoing.0006.desc
+	theme = murder_scheme
+	override_background = { reference = temple }
+	left_portrait = scope:target
+	right_portrait = scope:assassin
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	#EK TODO: Remove once these events are properly hooked up again.
+	orphan = yes
+
+	trigger = {
+		is_available_adult = yes
+		scope:scheme = {
+			NOT = { has_variable = had_court_chaplain_scheme_event }
+            has_scheme_modifier = morag_tong_hired
+		}
+		scope:target = {
+			NOT = { has_trait = cynical }
+		}
+	}
+
+	weight_multiplier = {
+		base = 0.25
+		modifier = { #the target is pious
+			add = 0.5
+			scope:target = {
+				intrigue_scheme_ongoing_5026_pious_target_trigger = yes
+			}
+		}
+		modifier = {
+			add = 0.25
+			OR = {
+				has_trait = gregarious
+				has_trait = scholar
+			}
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				exists = capital_province
+			}
+			capital_province = { save_scope_as = province }
+		}
+		else = {
+			location = { save_scope_as = province }
+		}
+		create_character = {
+            location = scope:target.location
+            template = pool_repopulate_intrigue
+            culture = root.culture
+            faith = faith:mephala_cult
+            save_scope_as = assassin
+        }
+		scope:scheme = {
+			set_variable = {
+				name = had_court_chaplain_scheme_event
+				value = yes
+				days = 3650
+			}
+			random_scheme_agent_slot = {
+				limit = {
+					is_filled = no
+				}
+				save_scope_as = assassin_slot
+			}
+		}
+        scope:assassin = {
+            add_character_flag = {
+                flag = use_stealth_clothes
+                days = 1
+            }
+            force_add_to_agent_slot = {
+				agent_slot = scope:assassin_slot
+				years = 100
+			}
+        }
+	}
+
+	# Convince them through diplomacy
+	option = {
+		name = ek_murder_ongoing.0006.a
+		trigger = {
+			NOT = { has_trait = gregarious }
+		}
+        scope:assassin = {
+            duel = {
+                skill = diplomacy
+                target = scope:target
+                20 = {
+                    desc = ek_murder_ongoing.0006.a.success
+                    compare_modifier = {
+                        value = scope:duel_value
+                        multiplier = 0.75
+                        min = 0
+                    }
+                    root = {
+                        send_interface_toast = {
+                            title = ek_murder_ongoing.0006.a.success
+                            left_icon = scope:assassin
+                            scope:scheme = {
+                                if = {
+                                    limit = {
+                                        scope:target = {
+                                            intrigue_scheme_ongoing_5026_pious_target_trigger = yes
+                                        }
+                                    }
+                                    add_scheme_modifier = {
+                                        type = scheme_pious_target_court_chaplain_is_in_modifier
+                                    }
+                                }
+                                else = {
+                                    add_scheme_modifier = {
+                                        type = scheme_court_chaplain_is_in_modifier
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                10 = {
+                    desc = ek_murder_ongoing.0006.a.failure
+                    compare_modifier = {
+                        value = scope:duel_value
+                        multiplier = -0.5
+                        min = -14
+                    }
+                    root = {
+                        send_interface_toast = {
+                            title = ek_murder_ongoing.0006.a.failure
+                            left_icon = scope:assassin
+                            if = {
+                                limit = {
+                                    scope:scheme = {
+                                        scheme_is_character_agent = scope:assassin
+                                    }
+                                }
+                                scope:assassin = {
+                                    forbid_from_scheme = scope:scheme
+                                }
+                            }
+                            else = {
+                                scope:scheme = {
+                                    add_scheme_modifier = {
+                                        type = scheme_court_chaplain_is_working_against_modifier
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+		stress_impact = {
+			shy = medium_stress_impact_gain
+			zealous = minor_stress_impact_gain
+		}
+		ai_chance = {
+			base = 50
+
+			modifier = {
+				add = 25
+				diplomacy >= medium_skill_rating
+			}
+
+			modifier = {
+				add = -25
+				scope:assassin.diplomacy > scope:target.diplomacy
+			}
+		}
+	}
+
+	option = { #If you're cool you only get the good stuff
+		name = ek_murder_ongoing.0006.a_gregarious
+		trigger = { has_trait = gregarious }
+		trait = gregarious
+
+		scope:scheme = {
+			if = {
+				limit = {
+					scope:target = {
+						intrigue_scheme_ongoing_5026_pious_target_trigger = yes
+					}
+				}
+				add_scheme_modifier = {
+					type = scheme_pious_target_court_chaplain_is_in_modifier
+				}
+			}
+			else = {
+				add_scheme_modifier = {
+					type = scheme_court_chaplain_is_in_modifier
+				}
+			}
+		}
+		stress_impact = {
+			shy = medium_stress_impact_gain
+			zealous = minor_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Convince them through learning
+	option = {
+		name = ek_murder_ongoing.0006.b
+		trigger = {
+			NOT = { has_trait = scholar }
+		}
+        scope:assassin = {
+            duel = {
+                skill = learning
+                target = scope:target
+                20 = {
+                    desc = ek_murder_ongoing.0006.a.success
+                    compare_modifier = {
+                        value = scope:duel_value
+                        multiplier = 0.75
+                        min = 0
+                    }
+                    root = {
+                        send_interface_toast = {
+                            title = ek_murder_ongoing.0006.a.success
+                            left_icon = scope:assassin
+                            scope:scheme = {
+                                if = {
+                                    limit = {
+                                        scope:target = {
+                                            intrigue_scheme_ongoing_5026_pious_target_trigger = yes
+                                        }
+                                    }
+                                    add_scheme_modifier = {
+                                        type = scheme_pious_target_court_chaplain_is_in_modifier
+                                    }
+                                }
+                                else = {
+                                    add_scheme_modifier = {
+                                        type = scheme_court_chaplain_is_in_modifier
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                10 = {
+                    desc = ek_murder_ongoing.0006.a.failure
+                    compare_modifier = {
+                        value = scope:duel_value
+                        multiplier = -0.5
+                        min = -14
+                    }
+                    root = {
+                        send_interface_toast = {
+                            title = ek_murder_ongoing.0006.a.failure
+                            left_icon = scope:assassin
+                            if = {
+                                limit = {
+                                    scope:scheme = {
+                                        scheme_is_character_agent = scope:assasin
+                                    }
+                                }
+                                scope:assassin = {
+                                    forbid_from_scheme = scope:scheme
+                                }
+                            }
+                            else = {
+                                scope:scheme = {
+                                    add_scheme_modifier = {
+                                        type = scheme_court_chaplain_is_working_against_modifier
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+		stress_impact = {
+			zealous = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 50
+			modifier = {
+				add = 25
+				learning >= medium_skill_rating
+			}
+
+			modifier = {
+				add = -25
+				scope:assassin.learning > scope:target.learning
+			}
+		}
+	}
+
+	option = { #If you're cool you only get the good stuff
+		name = ek_murder_ongoing.0006.b_scholar
+		trigger = {
+			has_trait = scholar
+		}
+		trait = scholar
+		flavor = intrigue_scheme_ongoing.5026.b_scholar_tt
+
+		scope:scheme = {
+			if = {
+				limit = {
+					scope:target = {
+						intrigue_scheme_ongoing_5026_pious_target_trigger = yes
+					}
+				}
+				add_scheme_modifier = {
+					type = scheme_pious_target_court_chaplain_is_in_modifier
+				}
+			}
+			else = {
+				add_scheme_modifier = {
+					type = scheme_court_chaplain_is_in_modifier
+				}
+			}
+		}
+		stress_impact = {
+			zealous = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Nah
+	option = {
+		name = ek_murder_ongoing.0006.c
+		add_piety = minor_piety_gain
+		stress_impact = {
+			impatient = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+ek_murder_ongoing.0007 = {
+	type = character_event
+	title = ek_murder_ongoing.0007.t
+	desc = ek_murder_ongoing.0007.desc
+	theme = murder_scheme
+	override_background = { reference = relaxing_room }
+	left_portrait = {
+		character = scope:assassin
+	}
+	right_portrait = scope:right_portrait
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	#EK TODO: Remove once these events are properly hooked up again.
+	orphan = yes
+
+	trigger = {
+		scope:scheme = {
+			NOT = { has_variable = had_intrigue_scheme_ongoing_ek_0007_event }
+            has_scheme_modifier = morag_tong_hired
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			add = 1
+			has_character_modifier = modifier_hunt_friend_of_animal
+		}
+	}
+
+	immediate = {
+        create_character = {
+            location = scope:target.location
+            template = pool_repopulate_intrigue
+            culture = root.culture
+            faith = faith:mephala_cult
+            save_scope_as = assassin
+        }
+		scope:scheme = {
+			set_variable = {
+				name = had_intrigue_scheme_ongoing_ek_0007_event
+				value = yes
+			}
+			random_scheme_agent_slot = {
+				limit = {
+					is_filled = no
+				}
+				save_scope_as = assassin_slot
+			}
+		}
+        scope:assassin = {
+            add_character_flag = {
+                flag = use_stealth_clothes
+                days = 1
+            }
+            force_add_to_agent_slot = {
+				agent_slot = scope:assassin_slot
+				years = 100
+			}
+        }
+
+		scope:scheme = {
+            scope:target = { save_scope_as = right_portrait } # Just for the visuals
+        }
+
+		# Some more scopes
+		scope:target.host = {
+			save_scope_as = defender
+			if = {
+				limit = {
+					exists = capital_province
+				}
+				capital_province = { save_scope_as = target_location }
+			}
+		}
+		if = {
+			limit = { exists = capital_province } #Non-rulers can do these schemes too but it's only relevant for text
+			capital_province = { save_scope_as = root_location }
+		}
+	}
+
+	# Use an assassin
+	option = {
+		name = ek_murder_ongoing.0007.a
+
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = intrigue_scheme_messenger_pigeon_modifier
+			}
+		}
+	}
+}
+
+ek_murder_ongoing.0008 = {
+	type = character_event
+	title = ek_murder_ongoing.0008.t
+	desc = ek_murder_ongoing.0008.desc
+	theme = murder_scheme
+	override_background = { reference = relaxing_room }
+	left_portrait = {
+		character = scope:assassin
+	}
+	right_portrait = scope:right_portrait
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	#EK TODO: Remove once these events are properly hooked up again.
+	orphan = yes
+
+	trigger = {
+		scope:scheme = {
+			NOT = { has_variable = had_intrigue_scheme_ongoing_ek_0008_event }
+            has_scheme_modifier = morag_tong_hired
+		}
+	}
+
+	immediate = {
+        create_character = {
+            location = scope:target.location
+            template = pool_repopulate_intrigue
+            culture = root.culture
+            faith = faith:mephala_cult
+            save_scope_as = assassin
+        }
+		scope:scheme = {
+			set_variable = {
+				name = had_intrigue_scheme_ongoing_ek_0008_event
+				value = yes
+			}
+			random_scheme_agent_slot = {
+				limit = {
+					is_filled = no
+				}
+				save_scope_as = assassin_slot
+			}
+		}
+        scope:assassin = {
+            add_character_flag = {
+                flag = use_stealth_clothes
+                days = 1
+            }
+            force_add_to_agent_slot = {
+				agent_slot = scope:assassin_slot
+				years = 100
+			}
+        }
+
+		scope:scheme = {
+            scope:target = { save_scope_as = right_portrait } # Just for the visuals
+        }
+
+		# Some more scopes
+		scope:target.host = {
+			save_scope_as = defender
+			if = {
+				limit = {
+					exists = capital_province
+				}
+				capital_province = { save_scope_as = target_location }
+			}
+		}
+		if = {
+			limit = { exists = capital_province } #Non-rulers can do these schemes too but it's only relevant for text
+			capital_province = { save_scope_as = root_location }
+		}
+	}
+
+	# Use them
+	option = {
+		name = ek_murder_ongoing.0008.a
+
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = tong_associates
+			}
+		}
+	}
+
+	# Bad idea
+	option = {
+		name = ek_murder_ongoing.0008.b
+	}
+}
+
+ek_murder_ongoing.0009 = {
+	type = character_event
+	title = ek_murder_ongoing.0009.t
+	desc = ek_murder_ongoing.0009.desc
+	theme = murder_scheme
+	override_background = { reference = relaxing_room }
+	left_portrait = {
+		character = root
+	}
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	#EK TODO: Remove once these events are properly hooked up again.
+	orphan = yes
+
+	trigger = {
+		scope:scheme = {
+			NOT = { has_variable = had_intrigue_scheme_ongoing_ek_0009_event }
+            has_scheme_modifier = morag_tong_hired
+		}
+	}
+
+	immediate = {
+		scope:scheme = {
+			set_variable = {
+				name = had_intrigue_scheme_ongoing_ek_0009_event
+				value = yes
+			}
+		}
+	}
+
+	# Unacceptable
+	option = {
+		name = ek_murder_ongoing.0009.a
+		remove_short_term_gold = minor_gold_value
+	}
+
+	# Acceptable
+	option = {
+		name = ek_murder_ongoing.0009.b
+		scope:scheme = { add_scheme_progress = -1 }
+	}
+
+	# I demand a refund!
+	option = {
+		name = ek_murder_ongoing.0009.c
+		scope:scheme = { add_scheme_progress = -2 }
+		add_gold = minor_gold_value
+	}	
+}
+
+ek_murder_ongoing.0010 = {
+	type = character_event
+	title = ek_murder_ongoing.0010.t
+	desc = ek_murder_ongoing.0010.desc
+	theme = murder_scheme
+	override_background = { reference = relaxing_room }
+	right_portrait = root
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	#EK TODO: Remove once these events are properly hooked up again.
+	orphan = yes
+
+	trigger = {
+		scope:scheme = {
+			NOT = { has_variable = had_intrigue_scheme_ongoing_ek_0010_event }
+            has_scheme_modifier = morag_tong_hired
+		}
+	}
+
+	immediate = {
+		scope:scheme = {
+			set_variable = {
+				name = had_intrigue_scheme_ongoing_ek_0010_event
+				value = yes
+			}
+		}
+	}
+
+	# pay prestige
+	option = {
+		name = ek_murder_ongoing.0010.a
+		add_prestige = minor_prestige_loss
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = valued_client
+			}
+		}
+	}
+
+	# pay gold
+	option = {
+		name = ek_murder_ongoing.0010.b
+		remove_short_term_gold = minor_gold_value
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = valued_client
+			}
+		}
+	}
+
+	# lol nope
+	option = {
+		name = ek_murder_ongoing.0010.c
+	}
+	
+	# the tong actually sucks
+	option = {
+		name = ek_murder_ongoing.0010.d
+		scope:scheme = {
+			add_scheme_progress = -10
+			remove_scheme_modifier = morag_tong_hired
+		}
+	}	
+}
+
+# Grandmaster resigns
+ek_murder_ongoing.0011 = {
+	type = character_event
+	title = ek_murder_ongoing.0011.t
+	desc = ek_murder_ongoing.0011.desc
+	theme = murder_scheme
+	override_background = { reference = relaxing_room }
+	left_portrait = {
+		character = root
+	}
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	#EK TODO: Remove once these events are properly hooked up again.
+	orphan = yes
+
+	trigger = {
+		scope:scheme = {
+			NOT = { has_variable = had_intrigue_scheme_ongoing_ek_0011_event }
+            has_scheme_modifier = morag_tong_hired
+		}
+	}
+
+	immediate = {
+		scope:scheme = {
+			set_variable = {
+				name = had_intrigue_scheme_ongoing_ek_0011_event
+				value = yes
+			}
+		}
+	}
+
+	# restart scheme
+	option = {
+		name = ek_murder_ongoing.0011.a
+		scope:scheme = { add_scheme_progress = -10 }
+		add_gold = major_gold_value
+	}
+
+	# the tong actually sucks
+	option = {
+		name = ek_murder_ongoing.0011.b
+		scope:scheme = {
+			add_scheme_progress = -10
+			remove_scheme_modifier = morag_tong_hired
+		}
+	}
+
+	# i'm actually done
+	option = {
+		name = ek_murder_ongoing.0011.c
+		scope:scheme = {
+			end_scheme = yes
+		}
+	}
+		
+}
+
+# morag tong demands more money
+ek_murder_ongoing.0012 = {
+	type = character_event
+	title = ek_murder_ongoing.0012.t
+	desc = ek_murder_ongoing.0012.desc
+	theme = murder_scheme
+	override_background = { reference = relaxing_room }
+	left_portrait = {
+		character = root
+	}
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	#EK TODO: Remove once these events are properly hooked up again.
+	orphan = yes
+
+	trigger = {
+		scope:scheme = {
+			NOT = { has_variable = had_intrigue_scheme_ongoing_ek_0012_event }
+            has_scheme_modifier = morag_tong_hired
+		}
+	}
+
+	immediate = {
+		scope:scheme = {
+			set_variable = {
+				name = had_intrigue_scheme_ongoing_ek_0012_event
+				value = yes
+			}
+		}
+	}
+
+	# pay up and a bonus
+	option = {
+		name = ek_murder_ongoing.0012.a
+		remove_short_term_gold = major_gold_value
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = morag_bribe
+			}
+		}
+	}
+
+	# pay just a little bit
+	option = {
+		name = ek_murder_ongoing.0012.b
+		remove_short_term_gold = minor_gold_value
+	}
+
+	# hell no
+	option = {
+		name = ek_murder_ongoing.0012.c
+		flavor = ek_murder_ongoing.0012.c.flavor
+		scope:scheme = {
+			add_scheme_modifier = {
+				type = morag_upset
+			}
+		}
+	}
+		
+}
+
+# morag tong assassin arrested
+ek_murder_ongoing.0013 = {
+	type = character_event
+	title = ek_murder_ongoing.0013.t
+	desc = ek_murder_ongoing.0013.desc
+	theme = murder_scheme
+	override_background = { reference = relaxing_room }
+	left_portrait = {
+		character = root
+	}
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	#EK TODO: Remove once these events are properly hooked up again.
+	orphan = yes
+
+	trigger = {
+		scope:scheme = {
+			NOT = { has_variable = had_intrigue_scheme_ongoing_ek_0013_event }
+            has_scheme_modifier = morag_tong_hired
+		}
+	}
+
+	immediate = {
+		scope:scheme = {
+			set_variable = {
+				name = had_intrigue_scheme_ongoing_ek_0013_event
+				value = yes
+			}
+		}
+	}
+
+	# oh man
+	option = {
+		name = ek_murder_ongoing.0013.a
+		scope:scheme = { add_scheme_progress = -1 }
+	}
+		
+}
+
+# captured thrall
+ek_murder_ongoing.0014 = {
+	type = character_event
+	title = ek_murder_ongoing.0014.t
+	desc = ek_murder_ongoing.0014.desc
+	theme = murder_scheme
+	override_background = { reference = relaxing_room }
+	left_portrait = {
+		character = root
+	}
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	#EK TODO: Remove once these events are properly hooked up again.
+	orphan = yes
+
+	trigger = {
+		scope:scheme = {
+			NOT = { has_variable = had_intrigue_scheme_ongoing_ek_0014_event }
+            has_scheme_modifier = morag_tong_hired
+		}
+	}
+
+	immediate = {
+		scope:scheme = {
+			set_variable = {
+				name = had_intrigue_scheme_ongoing_ek_0014_event
+				value = yes
+			}
+		}
+	}
+
+	# i don't care, go ahead
+	option = {
+		name = ek_murder_ongoing.0014.a
+		random_list = {
+			75 = {
+				scope:scheme = {
+					add_scheme_modifier = {
+						type = morag_compromised
+					}
+				}
+			}
+			25 = {
+				scope:scheme = { add_scheme_progress = -1 }
+			}
+		}
+	}
+
+	# huh, better stop then
+	option = {
+		name = ek_murder_ongoing.0014.b
+		random_list = {
+			25 = {
+				scope:scheme = {
+					add_scheme_modifier = {
+						type = morag_compromised
+					}
+				}
+			}
+			75 = {
+				scope:scheme = { add_scheme_progress = -1 }
+			}
+		}
+	}
+		
+}
+
+# insanoprose fullertonism event
+ek_murder_ongoing.0015 = {
+	type = character_event
+	title = ek_murder_ongoing.0015.t
+	desc = ek_murder_ongoing.0015.desc
+	theme = murder_scheme
+	override_background = { reference = relaxing_room }
+	left_portrait = {
+		character = root
+	}
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	#EK TODO: Remove once these events are properly hooked up again.
+	orphan = yes
+
+	trigger = {
+		scope:scheme = {
+			NOT = { has_variable = had_intrigue_scheme_ongoing_ek_0015_event }
+            has_scheme_modifier = morag_tong_hired
+		}
+	}
+
+	immediate = {
+		scope:scheme = {
+			set_variable = {
+				name = had_intrigue_scheme_ongoing_ek_0015_event
+				value = yes
+			}
+		}
+	}
+
+	# what
+	option = {
+		name = ek_murder_ongoing.0015.a
+		custom_tooltip = mephalic_boon
+		hidden_effect = {
+			random_list = {
+				10 = {
+					scope:scheme = {
+						add_scheme_modifier = {
+							type = mephalic_boon_1
+						}
+					}
+				}
+				10 = {
+					scope:scheme = {
+						add_scheme_modifier = {
+							type = mephalic_boon_2
+						}
+					}
+				}
+				10 = {
+					scope:scheme = {
+						add_scheme_modifier = {
+							type = mephalic_boon_3
+						}
+					}
+				}
+				10 = {
+					scope:scheme = {
+						add_scheme_modifier = {
+							type = mephalic_boon_4
+						}
+					}
+				}
+				10 = {
+					scope:scheme = { add_scheme_progress = -1 }
+				}
+				10 = {
+					scope:scheme = { add_scheme_progress = 1 }
+				}
+				10 = {
+					add_gold = minor_gold_value
+				}
+				10 = {
+					remove_short_term_gold = minor_gold_value
+				}
+				10 = {
+					add_prestige = minor_prestige_gain
+				}
+				10 = {
+					add_prestige = minor_prestige_loss
+				}
+				10 = {
+					add_piety = minor_piety_gain
+				}
+				10 = {
+					add_piety = minor_piety_loss
+				}
+				10 = {
+					scope:target = {
+						death = {
+							death_reason = death_morag_tong
+						}
+					}
+				}
+			}
+		}
+	}
+		
+}
+

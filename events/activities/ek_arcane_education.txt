@@ -1,0 +1,2796 @@
+﻿namespace = ek_arcane_education
+
+## ARRIVAL EVENTS
+ek_arcane_education.0010 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.0010.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:activity.activity_location.county = title:c_arcanorum }
+				desc = ek_arcane_education.0010.desc_arcane_university
+			}
+			triggered_desc = {
+				trigger = { scope:activity.activity_location.county = title:c_winterhold }
+				desc = ek_arcane_education.0010.desc_winterhold_college
+			}
+			triggered_desc = {
+				trigger = { scope:activity.activity_location.county = title:c_skaven }
+				desc = ek_arcane_education.0010.desc_firedancer_college
+			}
+			triggered_desc = {
+				trigger = { scope:activity.activity_location.county = title:c_sapiarchis }
+				desc = ek_arcane_education.0010.desc_sapiarch_college
+			}
+			triggered_desc = {
+				trigger = { scope:activity.activity_location.county = title:c_norg_tzel }
+				desc = ek_arcane_education.0010.desc_beela_kars_laboratory
+			}
+			triggered_desc = {
+				trigger = { scope:activity.activity_location.county = title:c_tel_aruhn }
+				desc = ek_arcane_education.0010.desc_tel_aruhn
+			}
+			desc = ek_arcane_education.0010.desc
+		}
+		desc = ek_arcane_education.0010.desc_end
+		triggered_desc = {
+			trigger = {
+				"scope:host.capital_province.squared_distance(scope:location)" >= squared_distance_massive
+			}
+			desc = ek_arcane_education.0010.desc_very_very_far
+		}
+	}
+	theme = university
+
+	center_portrait = {
+		character = root
+		animation = happy_teacher
+	}
+
+	immediate = {
+		scope:activity.activity_location = { save_scope_as = location }
+	}
+
+	option = {
+		name = ek_arcane_education.0010.a
+		trigger = { scope:activity.activity_location.county.title_province = { has_magic_special_building_trigger = no } }
+	}
+
+	option = {
+		name = ek_arcane_education.0010.b
+		trigger = { scope:activity.activity_location.county.title_province = { has_magic_special_building_trigger = yes } }
+
+		custom_tooltip = adult_education_tt_positive_major
+		scope:activity = { activity_special_type_progression_major = yes }
+	}
+}
+
+ek_arcane_education.1000 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.1000.t
+	desc = ek_arcane_education.1000.desc
+	theme = university
+
+	trigger = {
+		scope:activity = { 
+			activity_has_arcane_education_type_trigger = yes
+			any_attending_character = {
+				OR = {
+					has_character_flag = student_1
+					has_character_flag = student_2
+				}
+			}
+		}
+	}
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = dismissal
+	}
+
+	right_portrait = {
+		character = scope:student
+		animation = personality_cynical
+	}
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					OR = {
+						has_character_flag = student_1
+						has_character_flag = student_2
+					}
+				}
+				save_scope_as = student
+			}
+		}
+	}
+
+	# Assist in the experiment
+	option = {
+		name = ek_arcane_education.1000.a
+		custom_tooltip = adult_education_tt_positive_medium
+		custom_tooltip =  ek_arcane_education.1000.a.t
+		add_internal_flag = dangerous
+		scope:activity = { activity_special_type_progression_medium = yes }
+
+		scope:student = {
+			add_opinion = {
+				target = root
+				modifier = thankful_opinion
+				opinion = 20
+			}
+		}
+
+		hidden_effect = {
+			random_list = {
+				90 = { magical_experiment_effect = yes }	
+				9 = { 
+					add_arcana_skill = { VALUE = 1 }
+				}
+				1 = {
+					random_list = {
+						10 = { death = { killer = scope:student death_reason = transform_imp } }
+						10 = { death = { killer = scope:student death_reason = transform_sheep } }
+						10 = { death = { killer = scope:student death_reason = transform_rabbit } }
+						10 = { death = { killer = scope:student death_reason = transform_rat } }
+						10 = { death = { killer = scope:student death_reason = transform_chicken } }
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			compassionate = minor_stress_impact_loss
+			callous = medium_stress_impact_gain
+			arrogant = medium_stress_impact_gain
+			craven = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# You know a lot about experiments already
+	option = {
+		name = ek_arcane_education.1000.b
+		custom_tooltip = adult_education_tt_positive_major
+		trigger = { has_trait = experimentalist }
+		trait = experimentalist
+		scope:activity = { activity_special_type_progression_major = yes }
+
+		scope:student = {
+			add_opinion = {
+				target = root
+				modifier = thankful_opinion
+				opinion = 30
+			}
+		}
+
+		stress_impact = {
+			lazy = minor_stress_impact_gain
+			callous = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Nope
+	option = {
+		name = ek_arcane_education.1000.c
+
+		scope:student = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -20
+			}
+		}
+
+		stress_impact = {
+			compassionate = medium_stress_impact_gain
+			callous = minor_stress_impact_loss
+			arrogant = minor_stress_impact_loss
+			craven = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+ek_arcane_education.1001 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.1001.t
+	desc = ek_arcane_education.1001.desc
+	theme = university
+
+	trigger = {
+		scope:activity = { 
+			activity_has_arcane_education_type_trigger = yes
+		}
+	}
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	# Try to learn alchemy
+	option = {
+		name = ek_arcane_education.1001.a
+
+		if = {
+			limit = {
+				NOT = { has_trait = lifestyle_herbalist }
+			}
+			add_trait = lifestyle_herbalist
+			scope:activity = { 
+				custom_tooltip = adult_education_tt_positive_medium
+				activity_special_type_progression_medium = yes
+			}
+		}
+		else_if = {
+			limit = {
+				has_trait_xp = {
+					trait = lifestyle_herbalist
+					value < 100
+				}
+			}
+			add_trait_xp = {
+				trait = lifestyle_herbalist
+				value = 25
+			}
+			scope:activity = { 
+				custom_tooltip = adult_education_tt_positive_medium
+				activity_special_type_progression_medium = yes
+			}
+		}
+		else = {
+			scope:activity = { 
+				custom_tooltip = adult_education_tt_positive_major
+				activity_special_type_progression_major= yes
+			}
+		}
+
+		stress_impact = {
+			diligent = minor_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+			lazy = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Drink a Magicka Potion
+	option = {
+		name = ek_arcane_education.1001.b
+
+		add_magicka = { VALUE = 100 }
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Drink a Health Potion
+	option = {
+		name = ek_arcane_education.1001.c
+		trigger = { 
+			OR = {
+				has_trait = wounded
+				has_trait = ill 
+			}
+		}
+
+		switch = {
+			trigger = has_trait
+			wounded_1 = {
+				remove_trait = wounded_1
+			}
+			wounded_2 = {
+				change_trait_rank = {
+					trait = wounded
+					rank = -1
+					max = 1
+				}
+			}
+			wounded_3 = {
+				change_trait_rank = {
+					trait = wounded
+					rank = -1
+					max = 1
+				}
+			}
+			ill = {
+				remove_trait = ill
+			}
+		}
+		if = {
+			limit = {
+				has_character_modifier = infected_wound_modifier
+			}
+			remove_character_modifier = infected_wound_modifier
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Steal Ingredients
+	option = {
+		name = ek_arcane_education.1001.d
+
+		add_gold = medium_gold_value
+
+		stress_impact = {
+			honest = medium_stress_impact_gain
+			just = medium_stress_impact_gain
+			callous = minor_stress_impact_loss
+			deceitful = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+ek_arcane_education.1002 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.1002.t
+	desc = ek_arcane_education.1002.desc
+	theme = university
+
+	trigger = {
+		scope:activity = { 
+			activity_has_arcane_education_type_trigger = yes
+			any_attending_character = {
+				OR = {
+					has_character_flag = student_1
+					has_character_flag = student_2
+					has_character_flag = teacher_1
+					has_character_flag = teacher_2
+				}
+				any_secret = {
+					secret_type = secret_necromancer
+				}
+			}
+		}
+	}
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+
+	right_portrait = {
+		character = scope:secret_necromancer
+		animation = personality_cynical
+	}
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					OR = {
+						has_character_flag = student_1
+						has_character_flag = student_2
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+					any_secret = {
+						secret_type = secret_necromancer
+					}
+				}
+				random_secret = {
+					limit = { secret_type = secret_necromancer }
+					reveal_to = root
+				}
+				save_scope_as = secret_necromancer
+			}
+		}
+	}
+
+	# Expose them
+	option = {
+		name = ek_arcane_education.1002.a
+
+		scope:secret_necromancer = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -30
+			}
+			reveal_necromancer_secret_effect = yes
+		}
+
+		if = {
+			limit = {
+				scope:secret_necromancer = {
+					OR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+				}
+			}			
+			scope:activity = { 
+				custom_tooltip = adult_education_tt_negative
+				activity_special_type_progression_negative = yes
+			}
+		}
+
+		stress_impact = {
+			honest = minor_stress_impact_loss
+			callous = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Share knowledge
+	option = {
+		name = ek_arcane_education.1002.b
+		trait = necromancer
+		trigger = { has_trait = necromancer }
+
+		add_character_modifier = {
+            modifier = exchanged_necromantic_knowledge
+            years = 5
+        }
+
+		scope:secret_necromancer = {
+			add_character_modifier = {
+            	modifier = exchanged_necromantic_knowledge
+            	years = 5
+			}
+			add_opinion = {
+				target = root
+				modifier = respect_opinion
+				opinion = 20
+			}
+        }
+
+		stress_impact = {
+			ambitious = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Ignore
+	option = {
+		name = ek_arcane_education.1002.c
+
+		stress_impact = {
+			cynical = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+ek_arcane_education.1003 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.1003.t
+	desc = ek_arcane_education.1003.desc
+	theme = university
+
+	trigger = {
+		scope:activity = { 
+			activity_has_arcane_education_type_trigger = yes
+			any_attending_character = {
+				OR = {
+					has_character_flag = teacher_1
+					has_character_flag = teacher_2
+				}
+			}
+		}
+	}
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	right_portrait = {
+		character = scope:teacher
+		animation = happy_teacher
+	}
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					OR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+				}
+				save_scope_as = teacher
+			}
+		}
+	}
+
+	# Enchant some jewelry
+	option = {
+		name = ek_arcane_education.1003.a
+
+		random_list = { # Fake Duel
+			10 = {
+				modifier = {
+					add = {
+						value = arcana
+						multiply = 2
+					}
+				}
+				desc = ek_arcane_education.1003.a.success
+				hidden_effect = {
+					scope:teacher = {
+						create_artifact = {
+							name = artifact_enchanted_ring_name
+							description = artifact_enchanted_ring_description
+							type = ring
+							visuals = ring
+							creator = scope:teacher
+							modifier = artifact_learning_2_modifier						
+							wealth = 70
+							quality = 70
+							save_scope_as = enchanted_ring
+						}			
+					}
+					scope:enchanted_ring = {
+						set_variable = { name = arcana_modifier value = 2 }
+					}
+				}			
+				send_interface_toast = {
+					title = ek_arcane_education.1003.a.success
+					left_icon = root
+					right_icon = scope:newly_created_artifact
+					scope:enchanted_ring = {
+						set_owner = {
+							target = root
+							history = {
+								location = root.location
+								actor = scope:teacher
+								recipient = root
+								type = given
+							}
+						}
+					}				
+				}
+			}
+			30 = {
+				desc = ek_arcane_education.1003.a.failure
+				send_interface_toast = {
+					title = ek_arcane_education.1003.a.failure
+					left_icon = root
+					add_stress = medium_stress_gain
+				}				
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Enchant a dagger
+	option = {
+		name = ek_arcane_education.1003.b
+
+		random_list = { # Fake Duel
+			10 = {
+				modifier = {
+					add = arcana
+				}
+				modifier = {
+					add = martial
+				}
+				desc = ek_arcane_education.1003.b.success
+				hidden_effect = {
+					scope:teacher = {
+						create_artifact = {
+							name = artifact_enchanted_dagger_name
+							description = artifact_enchanted_dagger_description
+							type = dagger
+							visuals = dagger
+							creator = scope:teacher
+							modifier = artifact_prowess_2_modifier						
+							wealth = 70
+							quality = 70
+							save_scope_as = enchanted_dagger
+						}			
+					}
+					scope:enchanted_dagger = {
+						set_variable = { name = arcana_modifier value = 2 }
+					}
+				}			
+				send_interface_toast = {
+					title = ek_arcane_education.1003.b.success
+					left_icon = root
+					right_icon = scope:newly_created_artifact
+					scope:enchanted_dagger = {
+						set_owner = {
+							target = root
+							history = {
+								location = root.location
+								actor = scope:teacher
+								recipient = root
+								type = given
+							}
+						}
+					}				
+				}
+			}
+			30 = {
+				desc = ek_arcane_education.1003.b.failure
+				send_interface_toast = {
+					title = ek_arcane_education.1003.b.failure
+					left_icon = root
+					add_stress = medium_stress_gain
+				}				
+			}
+		}		
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Try to learn
+	option = {
+		name = ek_arcane_education.1003.c
+
+		custom_tooltip = adult_education_tt_positive_medium
+		scope:activity = { activity_special_type_progression_medium = yes }
+
+		stress_impact = {
+			temperate = minor_stress_impact_loss
+			diligent = minor_stress_impact_loss
+			greedy = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+ek_arcane_education.1004 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.1004.t
+	desc = ek_arcane_education.1004.desc
+	theme = university
+
+	trigger = {
+		scope:activity = { 
+			activity_has_arcane_education_type_trigger = yes
+			any_attending_character = {
+				OR = {
+					has_character_flag = student_1
+					has_character_flag = student_2
+				}
+				has_perk = destruction_apprentice_perk
+			}
+		}
+	}
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:student
+		animation = personality_bold
+	}
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					OR = {
+						has_character_flag = student_1
+						has_character_flag = student_2
+					}
+				}
+				save_scope_as = student
+			}
+		}
+	}
+
+	# Let's Duel
+	option = {
+		name = ek_arcane_education.1004.a		
+
+		random_list = { # Fake Duel
+			10 = {
+				modifier = {
+					add = arcana
+				}
+				desc = ek_arcane_education.1004.a.success
+				custom_tooltip = adult_education_tt_positive_medium
+				send_interface_toast = {
+					title = ek_arcane_education.1004.a.success
+					left_icon = root
+					right_icon = scope:student					
+					scope:activity = { activity_special_type_progression_medium = yes }
+					scope:student = { increase_wounds_effect = { REASON = magical_duel } }
+				}
+			}
+			10 = {
+				modifier = {
+					add = scope:student.arcana
+				}
+				desc = ek_arcane_education.1004.a.failure
+				custom_tooltip = adult_education_tt_positive_tiny
+				send_interface_toast = {
+					title = ek_arcane_education.1004.a.failure
+					left_icon = root
+					right_icon = scope:student
+					scope:activity = { activity_special_type_progression_tiny = yes }
+					increase_wounds_effect = { REASON = electricity_magic }
+                    add_character_modifier = {
+                        modifier = modifier_spell_shock
+                        years = 5
+                    }
+				}				
+			}
+		}
+
+		stress_impact = {
+			craven = medium_stress_impact_gain
+			calm = medium_stress_impact_gain
+			brave = medium_stress_impact_loss
+			wrathful = medium_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# I would rather not
+	option = {
+		name = ek_arcane_education.1004.b
+
+		scope:student = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -10
+			}
+		}
+
+		stress_impact = {
+			craven = minor_stress_impact_loss
+			calm = minor_stress_impact_loss
+			brave = medium_stress_impact_gain
+			wrathful = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+ek_arcane_education.1005 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.1005.t
+	desc = ek_arcane_education.1005.desc
+	theme = university
+
+	trigger = {
+		scope:activity = { 
+			activity_has_arcane_education_type_trigger = yes
+		}
+	}
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = stressed
+	}
+
+	# Read the tome
+	option = {
+		name = ek_arcane_education.1005.a
+		trigger = { NOT = { faith = { has_doctrine = doctrine_hermaeus_pantheon } } }
+		skill = learning
+
+		duel = {
+			skill = diplomacy
+			value = very_high_skill_rating			
+			10 = {
+				desc = ek_arcane_education.1005.a.success.critical
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+				}
+				send_interface_toast = {
+					title = ek_arcane_education.1005.a.success.critical
+					add_random_magic_perk_effect = yes
+					scope:activity = { 
+						custom_tooltip = adult_education_tt_positive_major
+						activity_special_type_progression_major = yes
+					}
+				}
+			}
+			30 = {
+				desc = ek_arcane_education.1005.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+				}
+				send_interface_toast = {
+					title = ek_arcane_education.1005.a.success
+					scope:activity = { 
+						custom_tooltip = adult_education_tt_positive_major
+						activity_special_type_progression_major = yes
+					}
+				}
+			}
+			9 = {
+				desc = ek_arcane_education.1005.a.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+				}
+				send_interface_toast = {
+					title = ek_arcane_education.1005.a.failure
+					left_icon = root
+					right_icon = scope:dremora
+					add_stress = medium_stress_gain
+				}
+			}
+			1 = {
+				desc = ek_arcane_education.1005.a.failure.critical
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+				}
+				death = { death_reason = death_apocrypha }
+			}
+		}
+
+		stress_impact = {
+			craven = medium_stress_impact_gain
+			brave = minor_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+			diligent = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Seek Moras Help
+	option = {
+		name = ek_arcane_education.1005.b
+		trigger = { faith = { has_doctrine = doctrine_hermaeus_pantheon } }
+
+		add_random_magic_perk_effect = yes
+		add_piety = medium_piety_value
+
+		stress_impact = {
+			zealous = medium_stress_impact_loss
+			diligent = minor_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Read normal tomes
+	option = {
+		name = ek_arcane_education.1005.c
+		trigger = {
+			has_activity_intent = study_hard_intent
+		}
+
+		scope:activity = { 
+			custom_tooltip = adult_education_tt_positive_medium
+			activity_special_type_progression_medium = yes
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Tomes are boring
+	option = {
+		name = ek_arcane_education.1005.d
+		trigger = {
+			has_activity_intent = university_revelry_intent
+		}
+
+		stress_impact = {
+			base = medium_stress_impact_loss
+			lazy = medium_stress_impact_loss
+			diligent = minor_stress_impact_gain
+			ambitious = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+ek_arcane_education.1006 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.1006.t
+	desc = ek_arcane_education.1006.desc
+	theme = university
+
+	left_portrait = {
+		character = scope:teacher
+		animation = wedding_priest
+	}
+	center_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:student
+		animation = personality_greedy
+	}
+
+	trigger = {
+		has_magicka_more_than = { VALUE = t2_spell_cost }
+		NOT = { has_perk = alteration_master_perk }
+		scope:activity = {
+			NOT = { has_variable = has_had_magic_class_event }
+			any_attending_character = {
+				OR = {
+					has_character_flag = student_1
+					has_character_flag = student_2
+				}
+			}
+			any_attending_character = {
+				OR = {
+					has_character_flag = teacher_1
+					has_character_flag = teacher_2
+				}
+			}
+		}
+	}
+
+	immediate = {
+		scope:activity = {
+			set_variable = has_had_magic_class_event
+			random_attending_character = {
+				limit = {
+					OR = {
+						has_character_flag = student_1
+						has_character_flag = student_2
+					}
+				}
+				save_scope_as = student
+			}
+			random_attending_character = {
+				limit = {
+					OR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+				}
+				save_scope_as = teacher
+			}
+		}		
+	}
+
+	# Focus on the task
+	option = {
+		name = ek_arcane_education.1006.a
+
+		add_magicka = { VALUE = t2_spell_cost.negate }
+
+		random_list = { # Fake Duel
+			10 = {
+				modifier = {
+					add = arcana
+				}
+				desc = ek_arcane_education.1006.a.success
+				send_interface_toast = {
+					title = ek_arcane_education.1006.a.success
+					add_magic_school_perk_effect = { SCHOOL = alteration }
+					scope:activity = { 
+						custom_tooltip = adult_education_tt_positive_medium
+						activity_special_type_progression_medium = yes
+					}
+				}
+			}
+			10 = {
+				modifier = {
+					add = high_skill_rating
+				}
+				desc = ek_arcane_education.1006.a.failure
+				send_interface_toast = {
+					title = ek_arcane_education.1006.a.failure
+					add_stress = medium_stress_gain
+				}				
+			}
+		}
+
+		stress_impact = {
+			lazy = medium_stress_impact_loss
+			diligent = minor_stress_impact_gain
+			ambitious = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Just make gold
+	option = {
+		name = ek_arcane_education.1006.b
+
+		add_magicka = { VALUE = t2_spell_cost.negate }
+
+		add_gold = medium_gold_value
+
+		stress_impact = {
+			lazy = medium_stress_impact_loss
+			diligent = minor_stress_impact_gain
+			ambitious = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Why not try something else entirely?
+	option = {
+		name = ek_arcane_education.1006.c
+		trigger = { has_trait = experimentalist }
+		trait = experimentalist 
+
+		add_magicka = { VALUE = t2_spell_cost.negate }
+
+		random_list = { # Fake Duel
+			10 = {
+				modifier = {
+					add = arcana
+				}
+				desc = ek_arcane_education.1006.c.success
+				send_interface_toast = {
+					title = ek_arcane_education.1006.c.success
+					add_magic_school_perk_effect = { SCHOOL = alteration }
+					scope:activity = { 
+						custom_tooltip = adult_education_tt_positive_major
+						activity_special_type_progression_major = yes
+					}
+				}
+			}
+			10 = {
+				modifier = {
+					add = very_high_skill_rating
+				}
+				desc = ek_arcane_education.1006.c.failure
+				send_interface_toast = {
+					title = ek_arcane_education.1006.c.failure
+					increase_wounds_effect = { REASON = failed_experiment }
+				}				
+			}
+		}
+
+		stress_impact = {
+			lazy = medium_stress_impact_loss
+			diligent = minor_stress_impact_gain
+			ambitious = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Please, repeat the instructions
+	option = {
+		name = ek_arcane_education.1006.d
+
+		scope:activity = { 
+			custom_tooltip = adult_education_tt_positive_medium
+			activity_special_type_progression_medium = yes
+		}
+
+		stress_impact = {
+			lazy = medium_stress_impact_loss
+			diligent = minor_stress_impact_gain
+			ambitious = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+ek_arcane_education.1007 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.1007.t
+	desc = ek_arcane_education.1007.desc
+	theme = university
+
+	left_portrait = {
+		character = scope:teacher
+		animation = happy_teacher
+	}
+	center_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+	right_portrait = {
+		character = scope:student
+		animation = fear
+	}
+
+	trigger = {
+		has_magicka_more_than = { VALUE = t2_spell_cost }
+		NOT = { has_perk = destruction_master_perk }
+		scope:activity = {
+			NOT = { has_variable = has_had_magic_class_event }
+			any_attending_character = {
+				OR = {
+					has_character_flag = student_1
+					has_character_flag = student_2
+				}
+			}
+			any_attending_character = {
+				OR = {
+					has_character_flag = teacher_1
+					has_character_flag = teacher_2
+				}
+			}
+		}
+	}
+
+	immediate = {
+		scope:activity = {
+			set_variable = has_had_magic_class_event
+			random_attending_character = {
+				limit = {
+					OR = {
+						has_character_flag = student_1
+						has_character_flag = student_2
+					}
+				}
+				save_scope_as = student
+			}
+			random_attending_character = {
+				limit = {
+					OR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+				}
+				save_scope_as = teacher
+			}
+		}		
+	}
+
+	# Choose Fire
+	option = {
+		name = ek_arcane_education.1007.a
+		reason = destruction
+
+		add_magicka = { VALUE = t2_spell_cost.negate }
+
+		random_list = { # Fake Duel
+			10 = {
+				modifier = {
+					add = arcana
+				}
+				desc = ek_arcane_education.1007.a.success
+				send_interface_toast = {
+					title = ek_arcane_education.1007.a.success
+					add_magic_school_perk_effect = { SCHOOL = destruction }
+					scope:activity = { 
+						custom_tooltip = adult_education_tt_positive_medium
+						activity_special_type_progression_medium = yes
+					}
+					scope:student = {
+						add_character_modifier = {
+							modifier = modifier_spell_burn
+							years = 5
+						}
+					}
+				}
+			}
+			10 = {
+				modifier = {
+					add = medium_skill_rating
+				}
+				desc = ek_arcane_education.1007.a.failure
+				send_interface_toast = {
+					title = ek_arcane_education.1007.a.failure
+					add_stress = medium_stress_gain
+				}				
+			}
+		}		
+
+		stress_impact = {
+			wrathful = medium_stress_impact_loss
+			sadistic = medium_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+			calm = minor_stress_impact_gain
+			compassionate = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Choose Frost
+	option = {
+		name = ek_arcane_education.1007.b
+		reason = destruction
+
+		add_magicka = { VALUE = t2_spell_cost.negate }
+
+		random_list = { # Fake Duel
+			10 = {
+				modifier = {
+					add = arcana
+				}
+				desc = ek_arcane_education.1007.b.success
+				send_interface_toast = {
+					title = ek_arcane_education.1007.b.success
+					add_magic_school_perk_effect = { SCHOOL = destruction }
+					scope:activity = { 
+						custom_tooltip = adult_education_tt_positive_medium
+						activity_special_type_progression_medium = yes
+					}
+					scope:student = {
+						add_character_modifier = {
+							modifier = modifier_spell_frostbite
+							years = 5
+						}
+					}
+				}
+			}
+			10 = {
+				modifier = {
+					add = medium_skill_rating
+				}
+				desc = ek_arcane_education.1007.b.failure
+				send_interface_toast = {
+					title = ek_arcane_education.1007.b.failure
+					add_stress = medium_stress_gain
+				}				
+			}
+		}		
+
+		stress_impact = {
+			wrathful = medium_stress_impact_loss
+			sadistic = medium_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+			calm = minor_stress_impact_gain
+			compassionate = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Choose Shock
+	option = {
+		name = ek_arcane_education.1007.c
+		reason = destruction
+
+		add_magicka = { VALUE = t2_spell_cost.negate }
+
+		random_list = { # Fake Duel
+			10 = {
+				modifier = {
+					add = arcana
+				}
+				desc = ek_arcane_education.1007.c.success
+				send_interface_toast = {
+					title = ek_arcane_education.1007.c.success
+					add_magic_school_perk_effect = { SCHOOL = destruction }
+					scope:activity = { 
+						custom_tooltip = adult_education_tt_positive_medium
+						activity_special_type_progression_medium = yes
+					}
+					scope:student = {
+						add_character_modifier = {
+							modifier = modifier_spell_shock
+							years = 5
+						}
+					}
+				}
+			}
+			10 = {
+				modifier = {
+					add = medium_skill_rating
+				}
+				desc = ek_arcane_education.1007.c.failure
+				send_interface_toast = {
+					title = ek_arcane_education.1007.c.failure
+					add_stress = medium_stress_gain
+				}				
+			}
+		}
+
+		stress_impact = {
+			wrathful = medium_stress_impact_loss
+			sadistic = medium_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+			calm = minor_stress_impact_gain
+			compassionate = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# I don't like this
+	option = {
+		name = ek_arcane_education.1007.d
+
+		scope:activity = { 
+			custom_tooltip = adult_education_tt_positive_medium
+			activity_special_type_progression_medium = yes
+		}
+
+		scope:student = {
+			add_opinion = {
+				target = root
+				modifier = thankful_opinion
+				opinion = 10
+			}
+		}
+
+		stress_impact = {
+			wrathful = minor_stress_impact_gain
+			sadistic = minor_stress_impact_gain
+			ambitious = medium_stress_impact_gain
+			calm = minor_stress_impact_loss
+			compassionate = medium_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+ek_arcane_education.1008 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.1008.t
+	desc = ek_arcane_education.1008.desc
+	theme = university
+
+	left_portrait = {
+		character = scope:teacher
+		animation = happy_teacher
+	}
+	center_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:student
+		animation = personality_cynical
+	}
+	lower_center_portrait = {
+		character = scope:wounded_peasant
+	}
+
+	trigger = {
+		has_magicka_more_than = { VALUE = t2_spell_cost }
+		NOT = { has_perk = restoration_master_perk }
+		scope:activity = {
+			NOT = { has_variable = has_had_magic_class_event }
+			any_attending_character = {
+				OR = {
+					has_character_flag = teacher_1
+					has_character_flag = teacher_2
+				}
+			}
+			any_attending_character = {
+				OR = {
+					has_character_flag = student_1
+					has_character_flag = student_2
+				}
+			}
+		}
+	}
+
+	immediate = {
+		create_character = {
+			template = generic_peasant_character
+			location = root.location
+			culture = location.culture
+			faith = location.faith
+			trait = wounded_3
+			trait = maimed
+			save_scope_as = wounded_peasant
+		}
+		scope:activity = {
+			set_variable = has_had_magic_class_event
+			random_attending_character = {
+				limit = {
+					OR = {
+						has_character_flag = student_1
+						has_character_flag = student_2
+					}
+				}
+				save_scope_as = student
+			}
+			random_attending_character = {
+				limit = {
+					OR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+				}
+				save_scope_as = teacher
+			}
+		}		
+	}
+
+	# Heal the peasant
+	option = {
+		name = ek_arcane_education.1008.a
+
+		random_list = { # Fake Duel
+			10 = {
+				modifier = {
+					add = arcana
+				}
+				desc = ek_arcane_education.1008.a.success
+				send_interface_toast = {
+					title = ek_arcane_education.1008.a.success
+					add_magic_school_perk_effect = { SCHOOL = restoration }
+					scope:wounded_peasant = {
+						remove_trait = wounded_3
+					}
+				}
+			}
+			10 = {
+				modifier = {
+					add = high_skill_rating
+				}
+				desc = ek_arcane_education.1008.a.failure
+				send_interface_toast = {
+					title = ek_arcane_education.1008.a.failure
+					scope:wounded_peasant = {
+						add_character_modifier = { modifier = safe_wound_treatment_failure_modifier days = wound_treatment_failure_duration }
+					}
+				}				
+			}
+		}
+	}
+	
+	# Turn peasant into thrall
+	option = {
+		name = ek_arcane_education.1008.b
+		trigger = { has_trait = necromancer }
+		trait = necromancer
+
+		add_piety = medium_piety_value
+
+		scope:activity = { 
+			custom_tooltip = adult_education_tt_negative
+			activity_special_type_progression_negative = yes
+		}
+
+		scope:wounded_peasant = {
+			create_undead_thrall_effect = { MASTER = root THRALL = scope:wounded_peasant }		
+			death = {
+				death_reason = death_execution_thralldom
+				killer = root					
+			}
+		}
+
+		stress_impact = {
+			sadistic = major_stress_impact_loss
+			callous = medium_stress_impact_loss
+			compassionate = major_stress_impact_gain
+			just = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Try an experimental treatment
+	option = {
+		name = ek_arcane_education.1008.c
+		trigger = { has_trait = experimentalist }
+		trait = experimentalist
+
+		random_list = { # Fake Duel
+			10 = {
+				modifier = {
+					add = arcana
+				}
+				desc = ek_arcane_education.1008.c.success
+				send_interface_toast = {
+					title = ek_arcane_education.1008.c.success
+					add_magic_school_perk_effect = { SCHOOL = restoration }
+					scope:activity = { 
+						custom_tooltip = adult_education_tt_positive_major
+						activity_special_type_progression_major = yes
+					}
+					scope:wounded_peasant = {
+						remove_trait = wounded_3
+						remove_trait = maimed
+					}
+				}
+			}
+			10 = {
+				modifier = {
+					add = very_high_skill_rating
+				}
+				desc = ek_arcane_education.1008.c.failure
+				send_interface_toast = {
+					title = ek_arcane_education.1008.c.failure
+					scope:wounded_peasant = {
+						add_character_modifier = { modifier = risky_wound_treatment_failure_modifier days = wound_treatment_failure_duration }
+					}
+				}				
+			}
+		}
+
+		stress_impact = {
+			eccentric = minor_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+			arrogant = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Watch and learn
+	option = {
+		name = ek_arcane_education.1008.d
+
+		scope:activity = { 
+			custom_tooltip = adult_education_tt_positive_medium
+			activity_special_type_progression_medium = yes
+		}
+
+		stress_impact = {
+			compassionate = medium_stress_impact_gain
+			diligent = minor_stress_impact_gain
+			ambitious = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+ek_arcane_education.1009 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.1009.t
+	desc = ek_arcane_education.1009.desc
+	theme = university
+
+	left_portrait = {
+		character = root
+		animation = personality_dishonorable
+	}
+	center_portrait = {
+		character = scope:student
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:teacher
+		animation = personality_cynical
+	}
+
+	trigger = {
+		has_magicka_more_than = { VALUE = t2_spell_cost }
+		NOT = { has_perk = illusion_master_perk }
+		scope:activity = {
+			NOT = { has_variable = has_had_magic_class_event }
+			any_attending_character = {
+				OR = {
+					has_character_flag = teacher_1
+					has_character_flag = teacher_2
+				}
+				OR = {
+					has_character_flag = student_1
+					has_character_flag = student_2
+				}
+			}
+		}
+	}
+
+	immediate = {
+		scope:activity = {
+			set_variable = has_had_magic_class_event
+			random_attending_character = {
+				limit = {
+					OR = {
+						has_character_flag = student_1
+						has_character_flag = student_2
+					}
+				}
+				save_scope_as = student
+			}
+			random_attending_character = {
+				limit = {
+					OR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+				}
+				save_scope_as = teacher
+			}
+		}		
+	}
+
+	# Charm the student
+	option = {
+		name = ek_arcane_education.1009.a
+
+		add_magicka = { VALUE = t2_spell_cost.negate }
+
+		random_list = { # Fake Duel
+			10 = {
+				modifier = {
+					add = arcana
+				}
+				modifier = {
+					add = intrigue
+				}
+				desc = ek_arcane_education.1009.a.success
+				send_interface_toast = {
+					title = ek_arcane_education.1009.a.success
+					left_icon = root
+					right_icon = scope:student
+					add_magic_school_perk_effect = { SCHOOL = illusion }
+					scope:activity = { 
+						custom_tooltip = adult_education_tt_positive_medium
+						activity_special_type_progression_medium = yes
+					}
+					scope:student = {
+						add_opinion = {
+							target = root
+							modifier = charm_opinion
+						}
+					}				
+				}
+			}
+			10 = {
+				modifier = {
+					add = scope:student.arcana
+				}
+				modifier = {
+					add = scope:student.intrigue
+				}
+				desc = ek_arcane_education.1009.a.failure
+				send_interface_toast = {
+					title = ek_arcane_education.1009.a.failure
+					left_icon = root
+					add_stress = medium_stress_gain
+				}				
+			}
+		}
+	}
+	
+	# Charm the teacher
+	option = {
+		name = ek_arcane_education.1009.b
+
+		add_magicka = { VALUE = t2_spell_cost.negate }
+
+		random_list = { # Fake Duel
+			10 = {
+				modifier = {
+					add = arcana
+				}
+				modifier = {
+					add = intrigue
+				}
+				desc = ek_arcane_education.1009.b.success
+				send_interface_toast = {
+					title = ek_arcane_education.1009.b.success
+					left_icon = root
+					right_icon = scope:student
+					scope:activity = { 
+						custom_tooltip = adult_education_tt_positive_major
+						activity_special_type_progression_major = yes
+					}
+					scope:student = {
+						add_opinion = {
+							target = root
+							modifier = charm_opinion
+						}
+					}				
+				}
+			}
+			10 = {
+				modifier = {
+					add = scope:teacher.arcana
+				}
+				modifier = {
+					add = scope:teacher.intrigue
+				}
+				desc = ek_arcane_education.1009.b.failure
+				send_interface_toast = {
+					title = ek_arcane_education.1009.b.failure
+					left_icon = root
+					add_stress = medium_stress_gain
+					scope:activity = { 
+						custom_tooltip = adult_education_tt_negative
+						activity_special_type_progression_negative = yes
+					}
+				}				
+			}
+		}
+	}
+
+	# Charm spells are boring
+	option = {
+		name = ek_arcane_education.1010.c
+
+		stress_impact = {
+			base = medium_stress_impact_loss
+			lazy = medium_stress_impact_loss
+			diligent = medium_stress_impact_gain
+			ambitious = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+ek_arcane_education.1010 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.1010.t
+	desc = ek_arcane_education.1010.desc
+	theme = university
+
+	left_portrait = {
+		character = scope:teacher
+		animation = stressed_teacher
+	}
+	center_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:dremora
+		animation = personality_dishonorable
+	}
+
+	trigger = {
+		has_magicka_more_than = { VALUE = t2_spell_cost }
+		NOT = { has_perk = conjuration_master_perk }
+		scope:activity = {
+			NOT = { has_variable = has_had_magic_class_event }
+			any_attending_character = {
+				OR = {
+					has_character_flag = teacher_1
+					has_character_flag = teacher_2
+				}
+			}
+		}
+	}
+
+	immediate = {
+		create_character = {
+			template = dremora_markynaz_template
+			location = root.location
+			gender = male
+			save_scope_as = dremora
+		}
+		scope:activity = {
+			set_variable = has_had_magic_class_event
+			random_attending_character = {
+				limit = {
+					OR = {
+						has_character_flag = teacher_1
+						has_character_flag = teacher_2
+					}
+				}
+				save_scope_as = teacher
+			}
+		}		
+	}
+
+	# Try to gain some secrets
+	option = {
+		name = ek_arcane_education.1010.a
+		skill = diplomacy
+
+		duel = {
+			skill = diplomacy
+			target = scope:dremora
+			50 = {
+				desc = ek_arcane_education.1010.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+				}
+				send_interface_toast = {
+					title = ek_arcane_education.1010.a.success
+					add_magic_school_perk_effect = { SCHOOL = conjuration }
+					scope:activity = { 
+						custom_tooltip = adult_education_tt_positive_medium
+						activity_special_type_progression_medium = yes
+					}
+				}
+			}
+			50 = {
+				desc = ek_arcane_education.1010.a.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+				}
+				send_interface_toast = {
+					title = ek_arcane_education.1010.a.failure
+					left_icon = root
+					right_icon = scope:dremora
+					add_stress = medium_stress_gain
+				}
+			}
+		}
+	}
+	
+	# Do some martial trainig with the dremora
+	option = {
+		name = ek_arcane_education.1010.b
+		skill = prowess
+
+		duel = {
+			skill = prowess
+			target = scope:dremora
+			50 = {
+				desc = ek_arcane_education.1010.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+				}
+				send_interface_toast = {
+					title = ek_arcane_education.1010.b.success
+					add_prowess_skill = 1
+				}
+			}
+			50 = {
+				desc = ek_arcane_education.1010.b.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+				}
+				send_interface_toast = {
+					title = ek_arcane_education.1010.b.failure
+					left_icon = root
+					right_icon = scope:dremora
+					increase_wounds_effect = { REASON = duel }
+				}
+			}
+		}
+
+		stress_impact = {
+			wrathful = minor_stress_impact_loss
+			brave = medium_stress_impact_loss
+			craven = major_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Reject Deadra
+	option = {
+		name = ek_arcane_education.1010.c
+		trigger = { faith = { has_doctrine = daedric_hostility_doctrine } }
+
+		add_piety = medium_piety_value
+
+		scope:activity = { 
+			custom_tooltip = adult_education_tt_negative
+			activity_special_type_progression_negative = yes
+		}		
+
+		stress_impact = {
+			zealous = major_stress_impact_loss
+			cynical = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Just take notes
+	option = {
+		name = ek_arcane_education.1010.d
+
+		scope:activity = { 
+			custom_tooltip = adult_education_tt_positive_medium
+			activity_special_type_progression_medium = yes
+		}
+
+		stress_impact = {
+			craven = minor_stress_impact_loss
+			shy = minor_stress_impact_loss
+			diligent = minor_stress_impact_loss
+			brave = minor_stress_impact_gain
+			ambitious = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+ek_arcane_education.1011 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.1011.t
+	desc = ek_arcane_education.1011.desc
+	theme = university
+
+	trigger = {
+		scope:activity = { 
+			activity_has_arcane_education_type_trigger = yes
+		}
+		scope:activity.activity_location.county = title:c_arcanorum
+	}
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:battlemage
+		animation = aggresive_sword
+	}
+
+	immediate = {
+		create_character = {
+			location = root.location
+			template = court_mage_template
+			dynasty = none
+			save_scope_as = battlemage
+			after_creation = {
+				add_prowess_skill = { 4 8 }
+				add_trait = battlemage
+				add_character_flag = wear_armor
+			}
+		}
+	}
+
+	# Train with them
+	option = {
+		name = ek_arcane_education.1011.a
+
+		if = {
+			limit = {
+				NOT = { has_trait = battlemage }
+			}
+			add_trait = battlemage
+			scope:activity = { 
+				custom_tooltip = adult_education_tt_positive_medium
+				activity_special_type_progression_medium = yes
+			}
+		}
+		else = {
+			scope:activity = { 
+				custom_tooltip = adult_education_tt_positive_major
+				activity_special_type_progression_major= yes
+			}
+		}
+
+		stress_impact = {
+			diligent = minor_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+			lazy = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Observe their techniques
+	option = {
+		name = ek_arcane_education.1011.b
+		
+		add_character_modifier = {
+			modifier = watched_battlemage_training_modifier
+			years = 25
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Recruit them
+	option = {
+		name = ek_arcane_education.1011.c
+		trigger = { highest_held_title_tier >= tier_duchy }
+
+		pay_short_term_gold = {
+			target = scope:battlemage
+			gold = medium_gold_value
+		}
+
+		add_courtier = scope:battlemage
+		
+		stress_impact = {
+			gregarious = minor_stress_impact_loss
+			shy = minor_stress_impact_gain
+			greedy = medium_stress_impact_gain
+			paranoid = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Just watch
+	option = {
+		name = ek_arcane_education.1011.d
+		
+		stress_impact = {
+			base = medium_stress_impact_loss
+			diligent = minor_stress_impact_gain
+			ambitious = minor_stress_impact_gain
+			brave = minor_stress_impact_gain
+			lazy = medium_stress_impact_loss
+			craven = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+		scope:battlemage = {
+			remove_character_flag =  wear_armor
+		}
+	}
+}
+
+ek_arcane_education.1012 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.1012.t
+	desc = ek_arcane_education.1012.desc
+	theme = university
+
+	trigger = {
+		scope:activity = { 
+			activity_has_arcane_education_type_trigger = yes
+		}
+		scope:activity.activity_location.county = title:c_skaven
+	}
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = flirtation
+	}
+
+	right_portrait = {
+		character = scope:firedancer
+		animation = dancing
+	}
+
+	immediate = {
+		create_character = {
+			location = root.location
+			template = court_mage_template
+			dynasty = none
+			save_scope_as = firedancer
+			after_creation = {
+				add_trait = beauty_good_1
+				add_prowess_skill = { 2 4 }
+				add_destruction_perk_effect = { LEVEL = 3 }
+			}
+		}
+	}
+
+	# Train with them
+	option = {
+		name = ek_arcane_education.1012.a
+
+		if = {
+			limit = {
+				NOT = { has_perk = destruction_master_perk }
+			}
+			add_magic_school_perk_effect = { SCHOOL = destruction }
+			scope:activity = { 
+				custom_tooltip = adult_education_tt_positive_medium
+				activity_special_type_progression_medium = yes
+			}
+		}
+		else = {
+			scope:activity = { 
+				custom_tooltip = adult_education_tt_positive_major
+				activity_special_type_progression_major= yes
+			}
+		}
+
+		stress_impact = {
+			diligent = minor_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+			lazy = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Seduce them
+	option = {
+		name = ek_arcane_education.1012.b
+		trigger = { 
+			is_attracted_to_gender_of = scope:firedancer
+			has_lustful_adjacent_trait_trigger = yes
+		}
+
+		had_sex_with_effect = { CHARACTER = scope:firedancer PREGNANCY_CHANCE = pregnancy_chance }
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Recruit them
+	option = {
+		name = ek_arcane_education.1012.c
+		trigger = { highest_held_title_tier >= tier_duchy }
+
+		pay_short_term_gold = {
+			target = scope:firedancer
+			gold = medium_gold_value
+		}
+
+		add_courtier = scope:firedancer
+		
+		stress_impact = {
+			gregarious = minor_stress_impact_loss
+			shy = minor_stress_impact_gain
+			greedy = medium_stress_impact_gain
+			paranoid = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Just watch
+	option = {
+		name = ek_arcane_education.1012.d
+		
+		stress_impact = {
+			base = medium_stress_impact_loss
+			diligent = minor_stress_impact_gain
+			ambitious = minor_stress_impact_gain
+			brave = minor_stress_impact_gain
+			lazy = medium_stress_impact_loss
+			craven = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+ek_arcane_education.1013 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.1013.t
+	desc = ek_arcane_education.1013.desc
+	theme = university
+
+	trigger = {
+		scope:activity = { 
+			activity_has_arcane_education_type_trigger = yes
+		}
+		scope:activity.activity_location.county = title:c_sapiarchis
+	}
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = admiration
+	}
+
+	right_portrait = {
+		character = scope:sapiarch
+		animation = stressed_teacher
+	}
+
+	immediate = {
+		create_character = {
+			location = root.location
+			template = arcane_adult_education_teacher
+			dynasty = none
+			save_scope_as = sapiarch
+			after_creation = {
+				add_learning_skill = { 6 8 }
+			}
+		}
+	}
+
+	# Engage in a debate
+	option = {
+		name = ek_arcane_education.1013.a
+		skill = learning
+
+		duel = {
+			skill = learning
+			target = scope:sapiarch
+			30 = {
+				desc = ek_arcane_education.1013.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+				}
+				send_interface_toast = {
+					title = ek_arcane_education.1013.a.success
+					add_prestige = medium_prestige_gain
+					left_icon = root
+					right_icon = scope:sapiarch
+					add_learning_skill = 1
+					scope:activity = { 
+						custom_tooltip = adult_education_tt_positive_major
+						activity_special_type_progression_major = yes
+					}
+				}
+			}
+			50 = {
+				desc = ek_arcane_education.1010.a.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+				}
+				send_interface_toast = {
+					title = ek_arcane_education.1010.a.failure
+					left_icon = root
+					right_icon = scope:sapiarch
+					add_stress = medium_stress_gain
+					scope:activity = { 
+						custom_tooltip = adult_education_tt_negative
+						activity_special_type_progression_negative = yes
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			arrogant = medium_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+			content = minor_stress_impact_gain
+			shy = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Just listen
+	option = {
+		name = ek_arcane_education.1013.b
+		 
+		add_learning_skill = 1
+
+		stress_impact = {
+			base = medium_stress_impact_gain
+			arrogant = medium_stress_impact_gain
+			ambitious = minor_stress_impact_gain
+			content = minor_stress_impact_loss
+			shy = medium_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Recruit them
+	option = {
+		name = ek_arcane_education.1013.c
+		trigger = { 
+			highest_held_title_tier >= tier_kingdom
+			culture = { has_cultural_pillar = heritage_aldmeri }
+		}
+
+		pay_short_term_gold = {
+			target = scope:sapiarch
+			gold = major_gold_value
+		}
+
+		add_courtier = scope:sapiarch
+		
+		stress_impact = {
+			gregarious = minor_stress_impact_loss
+			shy = minor_stress_impact_gain
+			greedy = medium_stress_impact_gain
+			paranoid = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Shy away
+	option = {
+		name = ek_arcane_education.1013.d
+		
+		stress_impact = {
+			base = minor_stress_impact_loss
+			lazy = minor_stress_impact_loss
+			ambitious = minor_stress_impact_gain
+			shy = minor_stress_impact_loss
+			lazy = minor_stress_impact_loss
+			arrogant = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+ek_arcane_education.1014 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.1014.t
+	desc = ek_arcane_education.1014.desc
+	theme = university
+
+	trigger = {
+		scope:activity = { 
+			activity_has_arcane_education_type_trigger = yes
+			any_attending_character = {
+				OR = {
+					has_character_flag = student_1
+					has_character_flag = student_2
+				}
+			}
+		}
+		scope:activity.activity_location.county = title:c_norg_tzel
+	}
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+
+	# Gain Secrets
+	option = {
+		name = ek_arcane_education.1014.a
+
+		random_list = { # Fake Duel
+			10 = {
+				modifier = {
+					add = arcana
+				}
+				modifier = { 
+					add = diplomacy
+				}
+				desc = ek_arcane_education.1014.a.success
+				send_interface_toast = {
+					title = ek_arcane_education.1014.a.success
+					left_icon = root
+					add_random_magic_perk_effect = yes
+					scope:activity = { 
+						custom_tooltip = adult_education_tt_positive_major
+						activity_special_type_progression_major = yes
+					}
+				}
+			}
+			10 = {
+				modifier = {
+					add = very_high_skill_rating
+				}
+				desc = ek_arcane_education.1014.a.failure
+				send_interface_toast = {
+					title = ek_arcane_education.1014.a.failure
+					left_icon = root
+					add_stress = major_stress_gain
+					add_character_modifier = {
+						modifier = haunted_by_lost_souls
+						years = 5
+					}
+				}				
+			}
+		}
+
+		stress_impact = {
+			craven = medium_stress_impact_gain
+			brave = minor_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+			diligent = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Banish the Ghost
+	option = {
+		name = ek_arcane_education.1005.b
+		trigger = { 
+			has_perk = restoration_apprentice_perk
+			has_magicka_more_than = { VALUE = t2_spell_cost }
+		}
+
+		add_magicka = { VALUE = t2_spell_cost.negate }
+		add_piety = medium_piety_value
+
+		stress_impact = {
+			zealous = medium_stress_impact_loss
+			compassionate = medium_stress_impact_loss
+			cynical = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Too spooky
+	option = {
+		name = ek_arcane_education.1005.c
+
+		stress_impact = {
+			base = minor_stress_impact_loss
+			craven = medium_stress_impact_loss
+			brave = medium_stress_impact_gain
+			ambitious = minor_stress_impact_gain
+			diligent = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+ek_arcane_education.1015 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.1015.t
+	desc = ek_arcane_education.1015.desc
+	theme = university
+
+	trigger = {
+		scope:activity = { 
+			activity_has_arcane_education_type_trigger = yes
+		}
+		scope:activity.activity_location.county = title:c_winterhold
+	}
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	right_portrait = {
+		character = scope:student
+		animation = eccentric
+	}
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					OR = {
+						has_character_flag = student_1
+						has_character_flag = student_2
+					}
+				}
+				save_scope_as = student
+			}
+		}
+	}
+
+	# Explore the midden
+	option = {
+		name = ek_arcane_education.1015.a
+		custom_tooltip = ek_arcane_education.1015.a.t
+		add_internal_flag = dangerous
+
+		hidden_effect = {
+			random_list = {
+				20 = {
+					send_interface_toast = {
+						title = ek_arcane_education.1015.a.success.perk
+						add_random_magic_perk_effect = yes				
+					}
+				}
+				30 = {
+					send_interface_toast = {
+						title = ek_arcane_education.1015.a.success.gold
+						add_gold = major_gold_value				
+					}							
+				}
+				30 = {
+					send_interface_toast = {
+						title = ek_arcane_education.1015.a.success.xp
+						add_magic_lifestyle_xp = 500
+						add_dark_arts_lifestyle_xp = 500			
+					}					
+				}
+				10 = { 
+					send_interface_toast = {
+						title = ek_arcane_education.1015.a.failure.stress
+						add_stress = major_stress_gain			
+					}					
+				}
+				9 = {			
+					send_interface_toast = {
+						title = ek_arcane_education.1015.a.failure.illness
+						add_trait = ill
+					}					
+				}
+				1 = {
+					scope:student = { death = { death_reason = death_midden } }
+					death = { death_reason = death_midden }
+				}
+			}
+		}
+
+		stress_impact = {
+			craven = medium_stress_impact_gain
+			brave = minor_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+			diligent = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Let the other student go alone
+	option = {
+		name = ek_arcane_education.1015.b
+
+		hidden_effect = {
+			random_list = {
+				15 = {
+					send_interface_toast = {
+						title = ek_arcane_education.1015.b.success.perk
+						scope:student = { add_random_magic_perk_effect = yes }			
+					}
+				}
+				25 = {
+					send_interface_toast = {
+						title = ek_arcane_education.1015.b.success.gold
+						scope:student = { add_gold = major_gold_value }			
+					}							
+				}
+				20 = {
+					send_interface_toast = {
+						title = ek_arcane_education.1015.b.success.xp
+						scope:student = { 
+							add_magic_lifestyle_xp = 500
+							add_dark_arts_lifestyle_xp = 500
+						}	
+					}					
+				}
+				15 = { 
+					send_interface_toast = {
+						title = ek_arcane_education.1015.b.failure.stress
+						scope:student = { add_stress = major_stress_gain }	
+					}					
+				}
+				15 = {			
+					send_interface_toast = {
+						title = ek_arcane_education.1015.b.failure.illness
+						scope:student = { add_trait = ill }
+					}					
+				}
+				10 = {
+					scope:student = { death = { death_reason = death_midden } }
+				}
+			}
+		}
+
+		stress_impact = {
+			zealous = medium_stress_impact_loss
+			diligent = minor_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# That's a terrible idea
+	option = {
+		name = ek_arcane_education.1015.c
+		
+		scope:activity = { 
+			custom_tooltip = adult_education_tt_positive_medium
+			activity_special_type_progression_medium = yes
+		}
+
+		stress_impact = {
+			craven = medium_stress_impact_loss
+			diligent = minor_stress_impact_loss
+			brave = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+ek_arcane_education.1016 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_arcane_education.1016.t
+	desc = ek_arcane_education.1016.desc
+	theme = university
+
+	trigger = {
+		scope:activity = { 
+			activity_has_arcane_education_type_trigger = yes
+		}
+		scope:activity.activity_location.county = title:c_tel_aruhn
+	}
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = survey
+	}
+
+	# Shot some cliffracers down
+	option = {
+		name = ek_arcane_education.1016.a
+		trigger = { NOT = { has_perk = destruction_master_perk } }
+
+		add_magic_school_perk_effect = { SCHOOL = destruction }
+
+		stress_impact = {
+			craven = medium_stress_impact_gain
+			brave = minor_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+			diligent = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Test levitation spell
+	option = {
+		name = ek_arcane_education.1016.b
+		trigger = { NOT = { has_perk = alteration_master_perk } }
+
+		add_magic_school_perk_effect = { SCHOOL = alteration }
+
+		stress_impact = {
+			zealous = medium_stress_impact_loss
+			diligent = minor_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Play some tricks on the people in the streets
+	option = {
+		name = ek_arcane_education.1016.c
+		trigger = { NOT = { has_perk = illusion_master_perk } }
+
+		add_magic_school_perk_effect = { SCHOOL = illusion }
+
+		stress_impact = {
+			zealous = medium_stress_impact_loss
+			diligent = minor_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	# Summon a winged Daedra
+	option = {
+		name = ek_arcane_education.1016.d
+		trigger = { NOT = { has_perk = conjuration_master_perk } }
+
+		add_magic_school_perk_effect = { SCHOOL = conjuration }
+
+		stress_impact = {
+			zealous = medium_stress_impact_loss
+			diligent = minor_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+

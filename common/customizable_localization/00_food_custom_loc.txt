@@ -1,0 +1,3961 @@
+﻿# EK EDIT: removed vanilla references
+#RegionalDrink
+#RegionalAlcoholicDrink
+#get_region_root_vegetable & get_region_root_vegetable_plural
+#RegionalEdibleAnimal
+#RegionalEdibleMeat
+#FavoriteTreat
+#FavoriteTreatDemand
+#FavoriteTreatUppercase
+#GetLocalStreetFood & GetLocalStreetFoodPlural
+#GetFoodDetail
+#GetExpensiveMeal
+#GetExpensiveMealAlt
+#GetExpensiveDessert
+#GetExpensiveDessertInTheFace
+#GetExpensiveDrink
+#GetExpensiveDrink_Singular
+#RegionalFish
+
+#NOTE! All of these nouns should work with "a" (not "an")
+RegionalDrink = {
+	type = character
+	random_valid = yes
+
+	text = {
+		localization_key = wine
+		#EK EDIT: bosmer don't drink plant based drinks
+		trigger = {
+			NOT = {
+				root.location.faith = { has_doctrine = tenet_green_pact }
+			}
+		}
+		#trigger = {
+		#	faith = {
+		#		NOT = { religion_tag = islam_religion }
+		#	}
+		#	location = {
+		#		geographical_region = world_europe
+		#	}
+		#}
+	}
+
+	text = {
+		localization_key = mead
+		#EK EDIT: bosmer don't drink plant based drinks
+		trigger = {
+			NOT = {
+				root.location.faith = { has_doctrine = tenet_green_pact }
+			}
+		}
+		#trigger = {
+		#	faith = {
+		#		NOT = { religion_tag = islam_religion }
+		#	}
+		#	location = {
+		#		geographical_region = world_europe_north
+		#	}
+		#}
+	}
+	text = {
+		localization_key = expensive_drink_spiced_wine_singular
+		#EK EDIT: bosmer don't drink plant based drinks
+		trigger = {
+			NOT = {
+				root.location.faith = { has_doctrine = tenet_green_pact }
+			}
+		}
+		#trigger = {
+		#	faith = {
+		#		NOT = { religion_tag = islam_religion }
+		#	}
+		#}
+	}
+	text = {
+		localization_key = tea
+		#EK EDIT: bosmer don't drink plant based drinks
+		trigger = {
+			NOT = {
+				root.location.faith = { has_doctrine = tenet_green_pact }
+			}
+		}
+		#trigger = {
+		#	exists = liege
+		#	#location = {
+		#	#	NOT = { geographical_region = world_europe }
+		#	#}
+		#}
+	}
+
+	#text = {
+	#	localization_key = soma
+	#	trigger = {
+	#		exists = liege
+	#		location = {
+	#			geographical_region = world_india
+	#		}
+	#	}
+	#}
+
+	text = {
+		localization_key = expensive_drink_violet_sharbah
+		#EK EDIT: bosmer don't drink plant based drinks
+		trigger = {
+			NOT = {
+				root.location.faith = { has_doctrine = tenet_green_pact }
+			}
+		}
+		#trigger = {
+		#	OR = {
+		#		faith = {
+		#			religion_tag = islam_religion # As an alternative to alcohol
+		#		}
+		#		location = {
+		#			OR = {
+		#				geographical_region = world_middle_east
+		#				geographical_region = world_africa_east
+		#				geographical_region = world_africa_north
+		#			}
+		#		}
+		#	}
+		#}
+	}
+	
+	#EK ADDITION: beetle tea for bosmer
+	text = {
+		localization_key = beetle_tea
+		weight_multiplier = { base = 3 }
+		#EK EDIT: bosmer don't drink plant based drinks
+		trigger = {
+			OR = {
+				root.location.faith = { has_doctrine = tenet_green_pact }
+				location = { geographical_region = mundus_tamriel_valenwood }
+			}
+		}
+	}
+	#Spiced Cider (non alcoholic) for nords, but NOT for bosmer
+	text = {
+		localization_key = spiced_cider
+		weight_multiplier = { base = 3 }
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_skyrim }
+				root.location.culture = { has_cultural_pillar = heritage_atmoran }
+			}
+			NOT = { root.location.faith = { has_doctrine = tenet_green_pact } }
+		}
+	}
+	text = {
+		localization_key = telvanni_tea
+		weight_multiplier = { base = 3 }
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_morrowind }
+				root.location.culture = { has_cultural_pillar = heritage_dunmeri }
+			}
+			NOT = { root.location.faith = { has_doctrine = tenet_green_pact } }
+		}
+	}
+	text = {
+		localization_key = cloudrest_clarified_coffee
+		weight_multiplier = { base = 3 }
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_summerset_isles }
+				root.location.culture = { has_cultural_pillar = heritage_aldmeri }
+			}
+			NOT = { root.location.faith = { has_doctrine = tenet_green_pact } }
+		}
+	}
+	text = {
+		localization_key = khenarthis_wings_chai
+		weight_multiplier = { base = 3 }
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_elsweyr }
+				root.location.culture = { has_cultural_pillar = heritage_khajiiti }
+			}
+			NOT = { root.location.faith = { has_doctrine = tenet_green_pact } }
+		}
+	}
+	text = {
+		localization_key = camlorn_mint_tea
+		weight_multiplier = { base = 3 }
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_high_rock }
+				root.location.culture = { has_cultural_pillar = heritage_breton }
+			}
+			NOT = { root.location.faith = { has_doctrine = tenet_green_pact } }
+		}
+	}
+	text = {
+		localization_key = comberry_chai
+		trigger = {
+			NOT = { root.location.faith = { has_doctrine = tenet_green_pact } }
+		}
+	}
+	text = {
+		localization_key = canis_root_tea
+		trigger = {
+			NOT = { root.location.faith = { has_doctrine = tenet_green_pact } }
+		}
+	}
+	###EK Addition END
+}
+
+RegionalAlcoholicDrink = {
+	type = character
+	random_valid = yes
+
+	text = {
+		localization_key = wine
+		trigger = {
+			NOT = {
+				root.location.faith = { has_doctrine = tenet_green_pact }
+			}
+		}
+	}
+
+	text = {
+		localization_key = mead
+		#EK EDIT: Altmer call it different, because ofc they do
+		trigger = {
+			NOR = {
+				root.location.culture = { has_cultural_pillar = heritage_aldmeri }
+				root.location.faith = { has_doctrine = tenet_green_pact }
+			}
+		}
+	}
+
+	#text = {
+	#	localization_key = palm_wine
+	#	trigger = { 
+	#		OR = {
+	#			culture = { has_cultural_pillar = heritage_burman }
+	#			culture = { has_cultural_pillar = heritage_dravidian }
+	#		}
+	#	}
+	#}
+	#text = {
+	#	localization_key = slivovitz		
+	#	trigger = {
+	#		OR = {
+	#			culture = { has_cultural_pillar = heritage_west_slavic }
+	#			culture = { has_cultural_pillar = heritage_east_slavic }
+	#			culture = { has_cultural_pillar = heritage_south_slavic }
+	#		}
+	#	}
+	#}
+	#text = {
+	#	localization_key = byzantine_cypriot
+	#	trigger = { culture = { has_cultural_pillar = heritage_byzantine } }
+	#}
+	#text = {
+	#	localization_key = shiraz_white
+	#	trigger = { location = { geographical_region = world_middle_east } } 
+	#}
+	#text = {
+	#	localization_key = tharra
+	#	trigger = { culture = { has_cultural_pillar = heritage_indo_aryan } }
+	#}
+	#text = {
+	#	localization_key = arrack
+	#	trigger = {
+	#		OR = {
+	#			culture = { has_cultural_pillar = heritage_dravidian }
+	#			location = {
+	#				geographical_region = world_middle_east
+	#			}
+	#			culture = { has_cultural_pillar = heritage_indo_aryan }
+	#		}
+	#	}
+	#}
+	#text = {
+	#	localization_key = sack_wine
+	#	trigger = { location = { geographical_region = world_europe_west_iberia } }
+	#}
+	#EK EDIT: no franks, giving it to bretons
+	text = {
+		localization_key = prunelle_liquer
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_breton }
+			NOT = { root.location.faith = { has_doctrine = tenet_green_pact } }
+		}
+	}
+	#EK ADDITIONS
+	#EK ADDITION: bosmer drinks
+	text = {
+		localization_key = jagga
+		weight_multiplier = { base = 3 }
+		#EK EDIT: bosmer don't drink plant based drinks
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_valenwood }
+				root.location.faith = { has_doctrine = tenet_green_pact }
+			}
+		}
+	}
+	text = {
+		localization_key = rotmeth
+		weight_multiplier = { base = 3 }
+		#EK EDIT: bosmer don't drink plant based drinks
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_valenwood }
+				root.location.faith = { has_doctrine = tenet_green_pact }
+			}
+		}
+	}
+	text = {
+		localization_key = theilul
+		weight_multiplier = { base = 3 }
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_black_marsh }
+				root.location.culture = { has_cultural_pillar = heritage_argonian }
+			}
+			NOT = { root.location.faith = { has_doctrine = tenet_green_pact } }
+		}
+	}
+	text = {
+		localization_key = fish_eye_rye
+		weight_multiplier = { base = 3 }
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_black_marsh }
+				root.location.culture = { has_cultural_pillar = heritage_argonian }
+			}
+			NOT = { root.location.faith = { has_doctrine = tenet_green_pact } }
+		}
+	}
+	text = {
+		localization_key = sujamma
+		weight_multiplier = { base = 3 }
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_morrowind }
+				root.location.culture = { has_cultural_pillar = heritage_dunmeri }
+			}
+			NOT = { root.location.faith = { has_doctrine = tenet_green_pact } }
+		}
+	}
+	text = {
+		localization_key = mazte
+		weight_multiplier = { base = 3 }
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_morrowind }
+				root.location.culture = { has_cultural_pillar = heritage_dunmeri }
+			}
+			NOT = { root.location.faith = { has_doctrine = tenet_green_pact } }
+		}
+	}
+	text = {
+		localization_key = shein
+		weight_multiplier = { base = 3 }
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_morrowind }
+				root.location.culture = { has_cultural_pillar = heritage_dunmeri }
+			}
+			NOT = { root.location.faith = { has_doctrine = tenet_green_pact } }
+		}
+	}
+	text = {
+		localization_key = greef
+		weight_multiplier = { base = 3 }
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_morrowind }
+				root.location.culture = { has_cultural_pillar = heritage_dunmeri }
+			}
+			NOT = { root.location.faith = { has_doctrine = tenet_green_pact } }
+		}
+	}
+	text = {
+		localization_key = flin
+		weight_multiplier = { base = 3 }
+		trigger = {
+			culture = { has_cultural_pillar = heritage_cyrodiilic }
+			NOT = { faith = { has_doctrine = tenet_green_pact } }
+		}
+	}
+	text = {
+		localization_key = honey_wine #Altmer call their mead honey wine, because ofc they need to be fancier than everyone else
+		weight_multiplier = { base = 3 }
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_summerset_isles }
+				root.location.culture = { has_cultural_pillar = heritage_aldmeri }
+			}
+			NOT = { root.location.faith = { has_doctrine = tenet_green_pact } }
+		}
+	}
+	text = {
+		localization_key = cider
+		weight_multiplier = { base = 3 }
+		trigger = {
+			NOT = {
+				root.location.faith = { has_doctrine = tenet_green_pact }
+			}
+			OR = {
+				location = { geographical_region = mundus_tamriel_high_rock }
+				root.location.culture = {
+					OR = {
+						has_cultural_pillar = heritage_breton
+						OR = {
+							this = culture:reachfolk
+							any_parent_culture_or_above = {
+								this = culture:reachfolk
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	###EK Addition END
+}
+
+#Coupled with select_root_vegetable_effect
+get_region_root_vegetable = {
+	type = character 
+	random_valid = yes
+
+	text = {
+		trigger = { location.var:root_vegetable = flag:onion }
+		localization_key = root_vegetable_onion
+	}
+	text = {
+		trigger = { location.var:root_vegetable = flag:carrot }
+		localization_key = root_vegetable_carrot
+	}
+	text = {
+		trigger = { location.var:root_vegetable = flag:parsnip }
+		localization_key = root_vegetable_parsnip
+	}
+	text = {
+		trigger = { location.var:root_vegetable = flag:turnip }
+		localization_key = root_vegetable_turnip
+	}
+	text = {
+		trigger = { location.var:root_vegetable = flag:yam }
+		localization_key = root_vegetable_yam
+	}
+	text = {
+		trigger = { location.var:root_vegetable = flag:kokoro }
+		localization_key = root_vegetable_kokoro
+	}
+	text = {
+		trigger = { location.var:root_vegetable = flag:ginger }
+		localization_key = root_vegetable_ginger
+	}
+	text = {
+		trigger = { location.var:root_vegetable = flag:taro }
+		localization_key = root_vegetable_taro
+	}
+}
+
+get_region_root_vegetable_plural = {
+	type = character 
+	random_valid = yes
+
+	text = {
+		trigger = { location.var:root_vegetable = flag:onion }
+		localization_key = root_vegetable_onion_plural
+	}
+	text = {
+		trigger = { location.var:root_vegetable = flag:carrot }
+		localization_key = root_vegetable_carrot_plural
+	}
+	text = {
+		trigger = { location.var:root_vegetable = flag:parsnip }
+		localization_key = root_vegetable_parsnip_plural
+	}
+	text = {
+		trigger = { location.var:root_vegetable = flag:turnip }
+		localization_key = root_vegetable_turnip_plural
+	}
+	text = {
+		trigger = { location.var:root_vegetable = flag:yam }
+		localization_key = root_vegetable_yam_plural
+	}
+	text = {
+		trigger = { location.var:root_vegetable = flag:kokoro }
+		localization_key = root_vegetable_kokoro_plural
+	}
+	text = {
+		trigger = { location.var:root_vegetable = flag:ginger }
+		localization_key = root_vegetable_ginger_plural
+	}
+	text = {
+		trigger = { location.var:root_vegetable = flag:taro }
+		localization_key = root_vegetable_taro_plural
+	}
+}
+
+# Not coupled with anything! Do you hate having to use an effect to set your root vegetable? Me too!
+## All the same logic, none of the same fuss - basically, the above custom_loc is for use with an artefact and not just generally.
+RegionalRootVegetable = {
+	type = character
+	random_valid = yes
+
+	# Onion
+	text = {
+		# You can find these anywhere.
+		## Much like ogres.
+		localization_key = root_vegetable_onion
+	}
+	# Carrot
+	text = {
+		trigger = {
+			location = { province_has_vegetable_carrot_trigger = yes }
+		}
+		localization_key = root_vegetable_carrot
+	}
+	# Parsnip
+	text = {
+		trigger = {
+			location = { province_has_vegetable_parsnip_trigger = yes }
+		}
+		localization_key = root_vegetable_parsnip
+	}
+	# Turnip
+	text = {
+		trigger = {
+			location = { province_has_vegetable_turnip_trigger = yes }
+		}
+		localization_key = root_vegetable_turnip
+	}
+	# Yam
+	text = {
+		trigger = {
+			location = { province_has_vegetable_yams_trigger = yes }
+		}
+		localization_key = root_vegetable_yam
+	}
+	# Kokoro
+	text = {
+		trigger = {
+			location = { province_has_vegetable_kokoro_trigger = yes }
+		}
+		localization_key = root_vegetable_kokoro
+	}
+	# Ginger
+	text = {
+		trigger = {
+			location = { province_has_vegetable_ginger_trigger = yes }
+		}
+		localization_key = root_vegetable_ginger
+	}
+	# Taro
+	text = {
+		trigger = {
+			location = { province_has_vegetable_taro_trigger = yes }
+		}
+		localization_key = root_vegetable_taro
+	}
+}
+RegionalRootVegetablePlural = {
+	type = character
+	random_valid = yes
+
+	# Onion
+	text = {
+		# You can find these anywhere.
+		## Much like ogres.
+		localization_key = root_vegetable_onion_plural
+	}
+	# Carrot
+	text = {
+		trigger = {
+			location = { province_has_vegetable_carrot_trigger = yes }
+		}
+		localization_key = root_vegetable_carrot_plural
+	}
+	# Parsnip
+	text = {
+		trigger = {
+			location = { province_has_vegetable_parsnip_trigger = yes }
+		}
+		localization_key = root_vegetable_parsnip_plural
+	}
+	# Turnip
+	text = {
+		trigger = {
+			location = { province_has_vegetable_turnip_trigger = yes }
+		}
+		localization_key = root_vegetable_turnip_plural
+	}
+	# Yam
+	text = {
+		trigger = {
+			location = { province_has_vegetable_yams_trigger = yes }
+		}
+		localization_key = root_vegetable_yam_plural
+	}
+	# Kokoro
+	text = {
+		trigger = {
+			location = { province_has_vegetable_kokoro_trigger = yes }
+		}
+		localization_key = root_vegetable_kokoro_plural
+	}
+	# Ginger
+	text = {
+		trigger = {
+			location = { province_has_vegetable_ginger_trigger = yes }
+		}
+		localization_key = root_vegetable_ginger_plural
+	}
+	# Taro
+	text = {
+		trigger = {
+			location = { province_has_vegetable_taro_trigger = yes }
+		}
+		localization_key = root_vegetable_taro_plural
+	}
+}
+
+RegionalEdibleAnimal = {
+	type = character
+	random_valid = yes
+
+	#Hart
+	text = {
+		localization_key = regional_edible_animal_hart
+	}
+
+	#Chicken
+	text = {
+		localization_key = regional_edible_animal_chicken
+	}
+
+	#Hare
+	text = {
+		localization_key = regional_edible_animal_hare
+	}
+
+	#Sheep
+	text = {
+		localization_key = regional_edible_animal_lamb
+	}
+
+	#Pig
+	text = {
+		#trigger = {
+		#	faith = {
+		#		NOR = {
+		#			religion_tag = islam_religion
+		#			religion_tag = judaism_religion
+		#		}
+		#	}
+		#	root.faith = {
+		#		NOR = {
+		#			religion_tag = islam_religion
+		#			religion_tag = judaism_religion
+		#		}
+		#	}
+		#}
+		localization_key = regional_edible_animal_pig
+	}
+
+	#Beef
+	text = {
+		#trigger = {
+		#	faith = {
+		#		NOT = { religion_tag = hinduism_religion }
+		#	}
+		#	root.faith = {
+		#		NOT = { religion_tag = hinduism_religion }
+		#	}
+		#}
+		localization_key = regional_edible_animal_ox
+	}
+
+	#Boar
+	text = {
+		#trigger = {
+		#	faith = {
+		#		NOR = {
+		#			religion_tag = islam_religion
+		#			religion_tag = judaism_religion
+		#		}
+		#	}
+		#	root.faith = {
+		#		NOR = {
+		#			religion_tag = islam_religion
+		#			religion_tag = judaism_religion
+		#		}
+		#	}
+		#}
+		localization_key = regional_edible_animal_boar
+	}
+
+	#Gazelle
+	text = {
+		#trigger = {
+		#	location = {
+		#		geographical_region = world_africa
+		#	}
+		#}
+		localization_key = regional_edible_animal_gazelle
+	}
+
+	#Marmot
+	text = {
+		#EK EDIT: replaced with Elsweyr
+		trigger = {
+			location = {
+				#geographical_region = world_steppe
+				geographical_region = mundus_tamriel_elsweyr
+			}
+			#culture = {
+			#	OR = {
+			#		has_cultural_pillar = heritage_turkic
+			#		has_cultural_pillar = heritage_mongolic
+			#		has_cultural_pillar = heritage_ugro_permian
+			#	}
+			#}
+		}
+		localization_key = regional_edible_animal_marmot
+	}
+
+	#Goat
+	text = {
+		localization_key = regional_edible_animal_goat
+	}
+}
+
+RegionalEdibleAnimalPlural = {
+	type = character
+	random_valid = yes
+
+	#Hart
+	text = {
+		localization_key = regional_edible_animal_hart_plural
+	}
+
+	#Chicken
+	text = {
+		localization_key = regional_edible_animal_chicken_plural
+	}
+
+	#Hare
+	text = {
+		localization_key = regional_edible_animal_hare_plural
+	}
+
+	#Sheep
+	text = {
+		localization_key = regional_edible_animal_lamb_plural
+	}
+
+	#Pig
+	text = {
+		#EK DISABLED: irl religions
+		#trigger = {
+		#	faith = {
+		#		NOR = {
+		#			religion_tag = islam_religion
+		#			religion_tag = judaism_religion
+		#		}
+		#	}
+		#	root.faith = {
+		#		NOR = {
+		#			religion_tag = islam_religion
+		#			religion_tag = judaism_religion
+		#		}
+		#	}
+		#}
+		localization_key = regional_edible_animal_pig_plural
+	}
+
+	#Beef
+	text = {
+		#EK DISABLED: irl religions
+		#trigger = {
+		#	faith = {
+		#		NOT = { religion_tag = hinduism_religion }
+		#	}
+		#	root.faith = {
+		#		NOT = { religion_tag = hinduism_religion }
+		#	}
+		#}
+		localization_key = regional_edible_animal_ox_plural
+	}
+
+	#Boar
+	text = {
+		#EK DISABLED: irl religions
+		#trigger = {
+		#	faith = {
+		#		NOR = {
+		#			religion_tag = islam_religion
+		#			religion_tag = judaism_religion
+		#		}
+		#	}
+		#	root.faith = {
+		#		NOR = {
+		#			religion_tag = islam_religion
+		#			religion_tag = judaism_religion
+		#		}
+		#	}
+		#}
+		localization_key = regional_edible_animal_boar_plural
+	}
+
+	#Gazelle
+	text = {
+		#EK EDIT
+		#trigger = {
+		#	location = {
+		#		geographical_region = world_africa
+		#	}
+		#}
+		localization_key = regional_edible_animal_gazelle_plural
+	}
+
+	#Marmot
+	text = {
+		#EK EDIT: replaced with Elsweyr
+		trigger = {
+			location = {
+				#geographical_region = world_steppe
+				geographical_region = mundus_tamriel_elsweyr
+			}
+			#culture = {
+			#	OR = {
+			#		has_cultural_pillar = heritage_turkic
+			#		has_cultural_pillar = heritage_mongolic
+			#		has_cultural_pillar = heritage_ugro_permian
+			#	}
+			#}
+		}
+		localization_key = regional_edible_animal_marmot_plural
+	}
+
+	#Goat
+	text = {
+		localization_key = regional_edible_animal_goat_plural
+	}
+}
+
+RegionalEdibleMeat = {
+	type = character
+	random_valid = yes
+
+	#Venison
+	text = {
+		localization_key = regional_edible_meat_venison
+	}
+
+	#Chicken
+	text = {
+		localization_key = regional_edible_meat_chicken
+	}
+
+	#Hare
+	text = {
+		localization_key = regional_edible_meat_hare
+	}
+
+	#Sheep
+	text = {
+		localization_key = regional_edible_meat_lamb
+	}
+
+	#Beef
+	text = {
+		#trigger = {
+		#	faith = {
+		#		NOT = { religion_tag = hinduism_religion }
+		#	}
+		#	root.faith = {
+		#		NOT = { religion_tag = hinduism_religion }
+		#	}
+		#}
+		localization_key = regional_edible_meat_beef
+	}
+
+	#Pork
+	text = {
+		#trigger = {
+		#	faith = {
+		#		NOR = {
+		#			religion_tag = islam_religion
+		#			religion_tag = judaism_religion
+		#		}
+		#	}
+		#	root.faith = {
+		#		NOR = {
+		#			religion_tag = islam_religion
+		#			religion_tag = judaism_religion
+		#		}
+		#	}
+		#}
+		localization_key = regional_edible_meat_pork
+	}
+
+	#Marmot
+	text = {
+		#EK EDIT: replaced with Elsweyr
+		trigger = {
+			location = {
+				#geographical_region = world_steppe
+				geographical_region = mundus_tamriel_elsweyr
+			}
+			#culture = {
+			#	OR = {
+			#		has_cultural_pillar = heritage_turkic
+			#		has_cultural_pillar = heritage_mongolic
+			#		has_cultural_pillar = heritage_ugro_permian
+			#	}
+			#}
+		}
+		localization_key = regional_edible_meat_marmot
+	}
+
+	#Goat
+	text = {
+		localization_key = regional_edible_meat_goat
+	}
+}
+
+#Favourite Treat 
+FavoriteTreat = {
+	type = character
+
+	random_valid = yes
+
+	text = {
+		localization_key = treat_comfit
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:comfit
+			}
+		}
+	}
+	text = {
+		localization_key = treat_roasted_almonds
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:roasted_almonds
+			}
+		}
+	}
+	text = {
+		localization_key = treat_nougat
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:nougat
+			}
+		}
+	}
+	text = {
+		localization_key = treat_marzipan
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:marzipan
+			}
+		}
+	}
+	text = {
+		localization_key = treat_sweetroll
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:sweetroll
+			}
+		}
+	}
+	text = {
+		localization_key = treat_poached_pear
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:poached_pear
+			}
+		}
+	}
+	text = {
+		localization_key = treat_pudding
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:pudding
+			}
+		}
+	}
+	text = {
+		localization_key = treat_apple_tart
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:apple_tart
+			}
+		}
+	}
+	text = {
+		localization_key = treat_strawberry_compote
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:strawberry_compote
+			}
+		}
+	}
+	text = {
+		localization_key = treat_gingerbread
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:gingerbread
+			}
+		}
+	}
+	text = {
+		localization_key = treat_frytour_blaunched
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:frytour_blaunched
+			}
+		}
+	}
+	text = {
+		localization_key = treat_fig_pie
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:fig_pie
+			}
+		}
+	}
+	text = {
+		localization_key = treat_pokerounce
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:pokerounce
+			}
+		}
+	}
+	text = {
+		localization_key = treat_sambocade
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:sambocade
+			}
+		}
+	}
+	text = {
+		localization_key = treat_sesame_cake
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:sesame_cake
+			}
+		}
+	}
+	text = {
+		localization_key = treat_baked_banana
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:baked_banana
+			}
+		}
+	}
+}
+
+FavoriteTreatDemand = {
+	type = character
+
+	random_valid = yes
+
+	text = {
+		localization_key = treat_comfit
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:comfit
+			}
+		}
+	}
+	text = {
+		localization_key = treat_roasted_almonds
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:roasted_almonds
+			}
+		}
+	}
+	text = {
+		localization_key = treat_nougat
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:nougat
+			}
+		}
+	}
+	text = {
+		localization_key = treat_marzipan
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:marzipan
+			}
+		}
+	}
+	text = {
+		localization_key = treat_sweetrolls
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:sweetroll
+			}
+		}
+	}
+	text = {
+		localization_key = treat_poached_pears
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:poached_pear
+			}
+		}
+	}
+	text = {
+		localization_key = treat_pudding
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:pudding
+			}
+		}
+	}
+	text = {
+		localization_key = treat_apple_tart
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:apple_tart
+			}
+		}
+	}
+	text = {
+		localization_key = treat_strawberry_compote
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:strawberry_compote
+			}
+		}
+	}
+	text = {
+		localization_key = treat_gingerbread
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:gingerbread
+			}
+		}
+	}
+	text = {
+		localization_key = treat_frytour_blaunched
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:frytour_blaunched
+			}
+		}
+	}
+	text = {
+		localization_key = treat_fig_pie
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:fig_pie
+			}
+		}
+	}
+	text = {
+		localization_key = treat_pokerounce
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:pokerounce
+			}
+		}
+	}
+	text = {
+		localization_key = treat_sambocade
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:sambocade
+			}
+		}
+	}
+	text = {
+		localization_key = treat_sesame_cake
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:sesame_cake
+			}
+		}
+	}
+	text = {
+		localization_key = treat_baked_banana
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:baked_banana
+			}
+		}
+	}
+}
+
+FavoriteTreatUppercase = {
+	type = character
+
+	random_valid = yes
+
+	text = {
+		localization_key = treat_comfit_uppercase
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:comfit
+			}
+		}
+	}
+	text = {
+		localization_key = treat_roasted_almonds_uppercase
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:roasted_almonds
+			}
+		}
+	}
+	text = {
+		localization_key = treat_nougat_uppercase
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:nougat
+			}
+		}
+	}
+	text = {
+		localization_key = treat_marzipan_uppercase
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:marzipan
+			}
+		}
+	}
+	text = {
+		localization_key = treat_sweetroll_uppercase
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:sweetroll
+			}
+		}
+	}
+	text = {
+		localization_key = treat_poached_pear_uppercase
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:poached_pear
+			}
+		}
+	}
+	text = {
+		localization_key = treat_pudding_uppercase
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:pudding
+			}
+		}
+	}
+	text = {
+		localization_key = treat_apple_tart_uppercase
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:apple_tart
+			}
+		}
+	}
+	text = {
+		localization_key = treat_strawberry_compote_uppercase
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:strawberry_compote
+			}
+		}
+	}
+	text = {
+		localization_key = treat_gingerbread_uppercase
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:gingerbread
+			}
+		}
+	}
+	text = {
+		localization_key = treat_frytour_blaunched_uppercase
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:frytour_blaunched
+			}
+		}
+	}
+	text = {
+		localization_key = treat_fig_pie_uppercase
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:fig_pie
+			}
+		}
+	}
+	text = {
+		localization_key = treat_pokerounce_uppercase
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:pokerounce
+			}
+		}
+	}
+	text = {
+		localization_key = treat_sambocade_uppercase
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:sambocade
+			}
+		}
+	}
+	text = {
+		localization_key = treat_sesame_cake_uppercase
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:sesame_cake
+			}
+		}
+	}
+	text = {
+		localization_key = treat_baked_banana_uppercase
+		trigger = {
+			OR = {
+				NOT = { has_variable = favorite_treat }
+				var:favorite_treat = flag:baked_banana
+			}
+		}
+	}
+}
+
+GetLocalStreetFood = {
+	type = character
+	random_valid = yes	#EK Addition: variety is the spice of life!
+
+	#text = {
+	#	trigger = {
+	#		OR = {
+	#			root.location.culture = { has_cultural_pillar = heritage_arabic }
+	#			root.location.culture = { has_cultural_pillar = heritage_iranian }
+	#		}
+	#	}
+	#	localization_key = sambusa
+	#}
+
+	text = {
+		#trigger = {
+		#	root.location.culture = { has_cultural_pillar = heritage_byzantine }
+		#}
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_cyrodiilic }
+		}
+		localization_key = honey_fritter
+	}
+
+	#text = {
+	#	trigger = {
+	#		root.location.culture = { has_cultural_pillar = heritage_latin }
+	#	}
+	#	localization_key = pizza
+	#}
+
+	#text = {
+	#	trigger = {
+	#		root.location.culture = { has_cultural_pillar = heritage_indo_aryan }
+	#	}
+	#	localization_key = pakhala
+	#}
+
+	#text = {
+	#	trigger = {
+	#		root.location.culture = { has_cultural_pillar = heritage_turkic }
+	#	}
+	#	localization_key = pilau
+	#}
+
+	#text = {
+	#	trigger = {
+	#		root.location.culture = { has_cultural_pillar = heritage_berber }
+	#	}
+	#	localization_key = pastilla
+	#}
+
+	#text = {
+	#	trigger = {
+	#		root.location.culture = { has_cultural_pillar = heritage_iberian }
+	#	}
+	#	localization_key = empanada
+	#}
+
+	#text = {
+	#	trigger = {
+	#		root.location.culture = { has_cultural_pillar = heritage_chinese }
+	#	}
+	#	localization_key = botuo
+	#}
+
+	text = {
+		localization_key = stew
+	}
+
+	#EK ADDITION: EK food
+	text = {
+		localization_key = fishy_stick
+	}
+	text = {
+		localization_key = mudcrab_fry
+	}
+	text = {
+		localization_key = mudcrab_cake
+	}
+	text = {
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_dunmeri }
+		}
+		localization_key = hound_stick
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_dunmeri }
+		}
+		localization_key = horse_jerky
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_dunmeri }
+		}
+		localization_key = scrib_jerky
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_argonian }
+		}
+		localization_key = slug
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_argonian }
+		}
+		localization_key = brined_leech
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_argonian }
+		}
+		localization_key = mud_hopper_stew
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			OR = {
+				root.location.culture = { has_cultural_pillar = heritage_argonian }
+				root.location.culture = { has_cultural_pillar = heritage_bosmeri }
+			}
+		}
+		localization_key = grub_kebab
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_atmoran }
+		}
+		localization_key = horker_soup
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			OR = {
+				root.location.culture = { has_cultural_pillar = heritage_imgan }
+				root.location.culture = { has_cultural_pillar = heritage_bosmeri }
+			}
+		}
+		localization_key = kollopi_ball
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			root.location.culture = {
+				OR = {
+					this = culture:reachfolk
+					any_parent_culture_or_above = { this = culture:reachfolk }
+				}
+			}
+		}
+		localization_key = ardknot
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_bosmeri }
+		}
+		localization_key = jagga_tart
+		weight_multiplier = { base = 3 }
+	}
+	#EK ADDITION END
+}
+
+GetLocalStreetFoodPlural = {
+	type = character
+	random_valid = yes	#EK Addition: variety is the spice of life!
+
+	#text = {
+	#	trigger = {
+	#		OR = {
+	#			root.location.culture = { has_cultural_pillar = heritage_arabic }
+	#			root.location.culture = { has_cultural_pillar = heritage_iranian }
+	#		}
+	#	}
+	#	localization_key = sambusa_plural
+	#}
+
+	text = {
+		#trigger = {
+		#	root.location.culture = { has_cultural_pillar = heritage_byzantine }
+		#}
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_cyrodiilic }
+		}
+		localization_key = honey_fritter_plural
+	}
+
+	#text = {
+	#	trigger = {
+	#		root.location.culture = { has_cultural_pillar = heritage_latin }
+	#	}
+	#	localization_key = pizza_plural
+	#}
+
+	#text = {
+	#	trigger = {
+	#		root.location.culture = { has_cultural_pillar = heritage_indo_aryan }
+	#	}
+	#	localization_key = pakhala_plural
+	#}
+
+	#text = {
+	#	trigger = {
+	#		root.location.culture = { has_cultural_pillar = heritage_turkic }
+	#	}
+	#	localization_key = pilau_plural
+	#}
+
+	#text = {
+	#	trigger = {
+	#		root.location.culture = { has_cultural_pillar = heritage_berber }
+	#	}
+	#	localization_key = pastilla_plural
+	#}
+
+	#text = {
+	#	trigger = {
+	#		root.location.culture = { has_cultural_pillar = heritage_iberian }
+	#	}
+	#	localization_key = empanada_plural
+	#}
+
+	#text = {
+	#	trigger = {
+	#		root.location.culture = { has_cultural_pillar = heritage_chinese }
+	#	}
+	#	localization_key = botuo_plural
+	#}
+
+	text = {
+		localization_key = stew_plural
+	}
+
+	#EK ADDITION: EK food
+	text = {
+		localization_key = fishy_stick_plural
+	}
+	text = {
+		localization_key = mudcrab_fry_plural
+	}
+	text = {
+		localization_key = mudcrab_cake_plural
+	}
+	text = {
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_dunmeri }
+		}
+		localization_key = hound_stick_plural
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_dunmeri }
+		}
+		localization_key = horse_jerky_plural
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_dunmeri }
+		}
+		localization_key = scrib_jerky_plural
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_argonian }
+		}
+		localization_key = slug_plural
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_argonian }
+		}
+		localization_key = brined_leech_plural
+		weight_multiplier = { base = 5 }
+	}
+	text = {
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_argonian }
+		}
+		localization_key = mud_hopper_stew_plural
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			OR = {
+				root.location.culture = { has_cultural_pillar = heritage_argonian }
+				root.location.culture = { has_cultural_pillar = heritage_bosmeri }
+			}
+		}
+		localization_key = grub_kebab_plural
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_atmoran }
+		}
+		localization_key = horker_soup_plural
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			OR = {
+				root.location.culture = { has_cultural_pillar = heritage_imgan }
+				root.location.culture = { has_cultural_pillar = heritage_bosmeri }
+			}
+		}
+		localization_key = kollopi_ball_plural
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			root.location.culture = {
+				OR = {
+					this = culture:reachfolk
+					any_parent_culture_or_above = { this = culture:reachfolk }
+				}
+			}
+		}
+		localization_key = ardknot_plural
+		weight_multiplier = { base = 3 }
+	}
+	text = {
+		trigger = {
+			root.location.culture = { has_cultural_pillar = heritage_bosmeri }
+		}
+		localization_key = jagga_tart_plural
+		weight_multiplier = { base = 3 }
+	}
+	#EK ADDITION END
+}
+
+GetFoodDetail = {
+	type = character
+
+	random_valid = yes
+
+	text = {
+		localization_key = food_detail_cilantro
+	}
+
+	text = {
+		localization_key = food_detail_lemon
+	}
+
+	text = {
+		localization_key = food_detail_almond
+	}
+}
+
+FunFoodPrefix = {
+	type = character
+
+	random_valid = yes
+
+	text = {
+		localization_key = pet_name_songbird
+	}
+
+	text = {
+		localization_key = pet_name_rose
+	}
+
+	text = {
+		localization_key = pet_name_sunshine
+	}
+
+	text = {
+		localization_key = pet_name_spring_blossom
+	}
+
+	text = {
+		localization_key = pet_name_petal
+	}
+
+	text = {
+		localization_key = pet_name_honeycomb
+	}
+
+	text = {
+		localization_key = food_prefix_honey
+	}
+
+	text = {
+		localization_key = food_prefix_berry
+	}
+
+	text = {
+		localization_key = food_detail_cilantro
+	}
+
+	text = {
+		localization_key = food_detail_lemon
+	}
+
+	text = {
+		localization_key = food_detail_almond
+	}
+
+	text = {
+		localization_key = food_prefix_salt
+	}
+}
+
+GetExpensiveMeal = {
+	type = character
+
+	random_valid = yes
+
+	text = {
+		localization_key = expensive_food_roast_swan
+		trigger = {
+			faith = {
+				NOR = {
+					has_doctrine_parameter = pacifist_opinion_active
+				}
+			}
+			#location = {
+			#	NOT = { geographical_region = world_africa }
+			#	NOT = { geographical_region = world_india }
+			#}
+		}
+	}
+	text = {
+		localization_key = expensive_food_veal_cutlets
+		trigger = {
+			faith = {
+				NOR = {
+					# religion_tag = hinduism_religion
+					has_doctrine_parameter = pacifist_opinion_active
+				}
+			}
+		}
+	}
+	text = {
+		localization_key = expensive_food_fresh_quail
+		trigger = {
+			faith = {
+				NOR = {
+					has_doctrine_parameter = pacifist_opinion_active
+				}
+			}
+		}
+	}
+	text = {
+		#trigger = {
+		#	location = {
+		#		NOT = { geographical_region = world_europe } #Not in use in Europe during this time(though they did exist)!
+		#	}
+		#}
+		localization_key = expensive_food_baked_truffles
+	}
+	text = {
+		trigger = {
+			always = no
+		}
+		#fallback = yes
+		localization_key = expensive_food_spiced_breads
+	}
+	text = {
+		trigger = {
+			always = no
+		}
+		localization_key = expensive_food_mustard_rolls
+		#fallback = yes
+	}
+	#EK ADDITION: EK food
+	text = {
+		localization_key = expensive_food_garlic_radishes_a_la_kvatch
+	}
+	text = {
+		localization_key = expensive_food_red_deer_stew
+	}
+	text = {
+		localization_key = expensive_food_whole_roasted_chicken
+	}
+	text = {
+		localization_key = expensive_food_mock_turtle_soup
+	}
+	text = {
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_morrowind }
+				culture = { has_cultural_pillar = heritage_dunmeri }
+			}
+		}
+		localization_key = expensive_food_kwama_scrib_risotto
+	}
+	text = {
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_morrowind }
+				culture = { has_cultural_pillar = heritage_dunmeri }
+			}
+		}
+		localization_key = expensive_food_kagouti_steak
+	}
+	text = {
+		localization_key = expensive_food_slaughterfish_steak
+	}
+	text = {
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_morrowind }
+				culture = { has_cultural_pillar = heritage_dunmeri }
+			}
+		}
+		localization_key = expensive_food_cliff_racer_ragout
+	}
+	text = {
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_cyrodiil }
+				culture = { has_cultural_pillar = heritage_cyrodiilic }
+			}
+		}
+		localization_key = expensive_food_nibenese_fricasseed_fawn
+	}
+	text = {
+		trigger = {
+			OR = {
+				location = { geographical_region = mundus_tamriel_black_marsh }
+				culture = { has_cultural_pillar = heritage_argonian }
+			}
+		}
+		localization_key = expensive_food_wamasu_loin
+	}
+	text = {
+		trigger = {
+			location = { geographical_region = mundus_tamriel_iliac_bay }
+		}
+		localization_key = expensive_food_direnni_rabbit_bisque
+	}
+	text = {
+		trigger = {
+			location = {
+				geographical_region = mundus_tamriel_morrowind
+			}
+		}
+		localization_key = expensive_food_grape_glazed_bantam_guar
+	}
+	text = {
+		trigger = {
+			location = {
+				geographical_region = mundus_tamriel_morrowind
+			}
+		}
+		localization_key = expensive_food_nix_hound_chili
+	}
+	text = {
+		trigger = {
+			location = {
+				geographical_region = mundus_tamriel_morrowind
+			}
+		}
+		localization_key = expensive_food_kwama_egg_quiche
+	}
+	#EK ADDITION END
+}
+
+GetExpensiveMealAlt = {
+	type = character
+
+	random_valid = yes
+
+	text = {
+		localization_key = expensive_food_fine_cheeses
+	}
+	text = {
+		#EK EDIT: no geographical limit
+		#trigger = {
+		#	faith = {
+		#		religion_tag = christianity_religion #Due to Lent prohibitions.
+		#	}
+		#}
+		localization_key = expensive_food_almond_eggs
+	}
+	text = {
+		#EK EDIT: no geographical limit
+		#trigger = {
+		#	location = {
+		#		geographical_region = world_europe_west
+		#	}
+		#}
+		localization_key = expensive_food_sturgeon_caviar
+	}
+}
+
+GetExpensiveDessert = {
+	type = character
+
+	random_valid = yes
+
+	text = {
+		localization_key = expensive_dessert_saffron_cake
+	}
+	text = {
+		localization_key = expensive_dessert_candied_figs
+	}
+	text = {
+		localization_key = expensive_dessert_pomegranate_cake
+	}
+	text = {
+		#EK EDIT: no geographical limit
+		#trigger = {
+		#	location = {
+		#		geographical_region = world_europe_west
+		#	}
+		#}
+		localization_key = expensive_dessert_entremets
+	}
+	text = {
+		localization_key = expensive_dessert_quince_tarts
+		#EK EDIT: no geographical limit
+		#trigger = {
+		#	location = {
+		#		geographical_region = world_europe_west
+		#		geographical_region = world_europe_south
+		#	}
+		#}
+	}
+	###EK Addition: #our own desserts
+	text = {
+		localization_key = expensive_dessert_summerset_rainbow_pie
+	}
+	text = {
+		localization_key = expensive_dessert_gorapple_pie
+	}
+	text = {
+		localization_key = expensive_dessert_mammoth_snout_pie
+	}
+	###EK Addition END
+}
+
+GetExpensiveDessertInTheFace = {
+	type = character
+
+	random_valid = yes
+
+	text = {
+		localization_key = expensive_dessert_saffron_cake_face
+	}
+	text = {
+		localization_key = expensive_dessert_candied_figs_face
+	}
+	text = {
+		localization_key = expensive_dessert_pomegranate_cake_face
+	}
+	text = {
+		#EK EDIT: no geographical limit
+		#trigger = {
+		#	location = {
+		#		geographical_region = world_europe_west
+		#	}
+		#}
+		localization_key = expensive_dessert_entremets_face
+	}
+	text = {
+		localization_key = expensive_dessert_quince_tarts_face
+		#EK EDIT: no geographical limit
+		#trigger = {
+		#	location = {
+		#		OR = {
+		#			geographical_region = world_europe_west
+		#			geographical_region = world_europe_south
+		#		}
+		#	}
+		#}
+	}
+	###EK Addition: #our own desserts
+	text = {
+		localization_key = expensive_dessert_summerset_rainbow_pie_face
+	}
+	text = {
+		localization_key = expensive_dessert_gorapple_pie_face
+	}
+	text = {
+		localization_key = expensive_dessert_mammoth_snout_pie_face
+	}
+	###EK Addition END
+}
+
+GetExpensiveDrink = {
+	type = character
+
+	random_valid = yes
+
+	text = {
+		#EK EDIT: no geographical limit
+		#trigger = {
+		#	faith = {
+		#		NOT = { religion_tag = islam_religion }
+		#	}
+		#	location = {
+		#		OR = {
+		#			geographical_region = world_europe_west
+		#			geographical_region = world_europe_south
+		#		}
+		#	}
+		#}
+		localization_key = expensive_drink_hippocras
+	}
+	text = {
+		#EK EDIT: no geographical limit
+		#trigger = {
+		#	faith = {
+		#		NOT = { religion_tag = islam_religion }
+		#	}
+		#	location = {
+		#		OR = {
+		#			geographical_region = world_europe_north
+		#			geographical_region = world_europe_east
+		#		}
+		#	}
+		#}
+		#EK EDIT: Altmer call it different, because ofc they do
+		trigger = { NOT = { culture = { has_cultural_pillar = heritage_aldmeri } } }
+		localization_key = expensive_drink_mead
+	}
+	text = {
+		#EK EDIT: no geographical limit
+		#trigger = {
+		#	faith = {
+		#		NOT = { religion_tag = islam_religion }
+		#	}
+		#	location = {
+		#		geographical_region = world_europe_north
+		#	}
+		#}
+		localization_key = expensive_drink_imported_wine
+	}
+	#text = {	#EK Edit: disabled - no Bordeaux
+		#EK EDIT: no geographical limit
+		#trigger = {
+		#	faith = {
+		#		NOT = { religion_tag = islam_religion }
+		#	}
+		#	location = {
+		#		OR = {
+		#			geographical_region = world_europe_west_francia
+		#			geographical_region = world_europe_west_britannia
+		#		}
+		#	}
+		#}
+		#localization_key = expensive_drink_bordeaux_claret
+	#}
+	text = {
+		# trigger = {
+			# faith = {
+				# NOT = { religion_tag = islam_religion }
+			# }
+			# current_date > 1400.1.1 #first mention of brandy is in 1437
+		# }
+		localization_key = expensive_drink_brandy
+	}
+	text = {
+		localization_key = expensive_drink_spiced_wine
+		# trigger = {
+			# faith = {
+				# NOT = { religion_tag = islam_religion }
+			# }
+		# }
+	}
+	#text = {	#EK Edit: no need for kosher wines
+		#localization_key = expensive_drink_kosher_wine
+		# trigger = {
+			# faith = {
+				# religion_tag = judaism_religion
+			# }
+		# }
+	#}
+	text = {
+		localization_key = expensive_drink_premium_tea
+		# trigger = {
+			# exists = liege
+			# liege = {
+				# exists = capital_province
+				# capital_province = {
+					# NOT = { geographical_region = world_europe }
+				# }
+			# }
+		# }
+	}
+	text = {
+		localization_key = expensive_drink_invigorating_herbal_infusions
+		trigger = {
+			always = yes
+		}
+	}
+	text = {
+		localization_key = expensive_drink_violet_sharbah
+		# trigger = {
+			# OR = {
+				# faith = {
+					# religion_tag = islam_religion # As an alternative to alcohol
+				# }
+				# AND = {
+					# exists = liege
+					# liege = {
+						# exists = capital_province
+						# capital_province = {
+							# OR = {
+								# geographical_region = world_middle_east
+								# geographical_region = world_africa_east
+								# geographical_region = world_africa_north
+							# }
+						# }
+					# }
+				# }
+			# }
+		# }
+	}
+	
+	###EK ADDITION: EK drinks
+	text = {
+		localization_key = expensive_drink_centurions_friend_kaveh
+	}
+	text = {
+		localization_key = expensive_drink_red_hippocras
+	}
+	text = {
+		localization_key = expensive_drink_vaerminas_nightmare
+	}
+	text = {
+		localization_key = expensive_drink_gingko_tonic
+	}
+	text = {
+		localization_key = expensive_drink_abecean_brandy
+	}
+	text = {
+		localization_key = expensive_drink_pirate_queen_mint_tea
+	}
+	text = {
+		localization_key = expensive_drink_cornerclub_kaveh
+	}
+	text = {
+		localization_key = expensive_drink_bog_iron_ale
+	}
+	text = {
+		localization_key = expensive_drink_frothy_sargassum
+	}
+	text = {
+		localization_key = expensive_drink_whiskey_sour
+	}
+	text = {
+		localization_key = expensive_drink_maormer_tea
+	}
+	text = {
+		localization_key = expensive_drink_fulmination_ale
+	}
+	text = {
+		localization_key = expensive_drink_imperial_stout
+	}
+	text = {
+		localization_key = expensive_drink_port_hunding_pinot_noir
+	}
+	text = {
+		localization_key = expensive_drink_bravil_bitter_barley_beer
+	}
+	text = {
+		localization_key = expensive_drink_collequiva
+	}
+	text = {
+		localization_key = expensive_drink_flin
+	}
+	text = {
+		localization_key = expensive_drink_charybdis
+	}
+	text = {
+		localization_key = expensive_drink_wayrest_spiced_wine
+	}
+	text = {
+		localization_key = expensive_drink_ancient_dagoth_brandy
+	}
+	text = {
+		localization_key = expensive_drink_colovian_brandy
+	}
+}
+
+GetExpensiveDrink_Singular = {
+	type = character
+
+	random_valid = yes
+
+	text = {
+		#EK EDIT: no geographical limit
+		#trigger = {
+		#	faith = {
+		#		NOT = { religion_tag = islam_religion }
+		#	}
+		#	location = {
+		#		OR = {
+		#			geographical_region = world_europe_west
+		#			geographical_region = world_europe_south
+		#		}
+		#	}
+		#}
+		localization_key = expensive_drink_singular_hippocras
+	}
+	text = {
+		#EK EDIT: no geographical limit
+		#trigger = {
+		#	faith = {
+		#		NOT = { religion_tag = islam_religion }
+		#	}
+		#	location = {
+		#		OR = {
+		#			geographical_region = world_europe_west_francia
+		#			geographical_region = world_europe_west_britannia
+		#		}
+		#	}
+		#}
+		localization_key = expensive_drink_singular_bordeaux_claret
+	}
+	text = {
+		# trigger = {
+			# faith = {
+				# NOT = { religion_tag = islam_religion }
+			# }
+			# exists = liege
+			# liege = {
+				# exists = capital_province
+				# capital_province = {
+					# geographical_region = world_europe_north
+				# }
+			# }
+		# }
+		localization_key = expensive_drink_singular_imported_wine
+	}
+	text = {
+		# trigger = {
+			# faith = {
+				# NOT = { religion_tag = islam_religion }
+			# }
+			# current_date > 1400.1.1 #first mention of brandy is in 1437
+		# }
+		localization_key = expensive_drink_singular_brandy
+	}
+	text = {
+		localization_key = expensive_drink_singular_spiced_wine
+		# trigger = {
+			# faith = {
+				# NOT = { religion_tag = islam_religion }
+			# }
+		# }
+	}
+	text = {
+		localization_key = expensive_drink_singular_premium_tea
+		# trigger = {
+			# exists = liege
+			# liege = {
+				# exists = capital_province
+				# capital_province = {
+					# NOT = { geographical_region = world_europe }
+				# }
+			# }
+		# }
+	}
+	text = {
+		localization_key = expensive_drink_invigorating_herbal_infusions
+		trigger = {
+			always = yes
+		}
+	}
+	text = {
+		localization_key = expensive_drink_singular_violet_sharbah
+		# trigger = {
+			# OR = {
+				# faith = {
+					# religion_tag = islam_religion # As an alternative to alcohol
+				# }
+				# AND = {
+					# exists = liege
+					# liege = {
+						# exists = capital_province
+						# capital_province = {
+							# OR = {
+								# geographical_region = world_middle_east
+								# geographical_region = world_africa_east
+								# geographical_region = world_africa_north
+							# }
+						# }
+					# }
+				# }
+			# }
+		# }
+	}
+	
+	###EK ADDITION: EK drinks
+	text = {
+		localization_key = expensive_drink_singular_centurions_friend_kaveh
+	}
+	text = {
+		localization_key = expensive_drink_singular_red_hippocras
+	}
+	text = {
+		localization_key = expensive_drink_singular_vaerminas_nightmare
+	}
+	text = {
+		localization_key = expensive_drink_singular_gingko_tonic
+	}
+	text = {
+		localization_key = expensive_drink_singular_abecean_brandy
+	}
+	text = {
+		localization_key = expensive_drink_singular_pirate_queen_mint_tea
+	}
+	text = {
+		localization_key = expensive_drink_singular_cornerclub_kaveh
+	}
+	text = {
+		localization_key = expensive_drink_singular_bog_iron_ale
+	}
+	text = {
+		localization_key = expensive_drink_singular_frothy_sargassum
+	}
+	text = {
+		localization_key = expensive_drink_singular_whiskey_sour
+	}
+	text = {
+		localization_key = expensive_drink_singular_maormer_tea
+	}
+	text = {
+		localization_key = expensive_drink_singular_fulmination_ale
+	}
+	text = {
+		localization_key = expensive_drink_singular_imperial_stout
+	}
+	text = {
+		localization_key = expensive_drink_singular_port_hunding_pinot_noir
+	}
+	text = {
+		localization_key = expensive_drink_singular_bravil_bitter_barley_beer
+	}
+	text = {
+		localization_key = expensive_drink_singular_collequiva
+	}
+	text = {
+		localization_key = expensive_drink_singular_flin
+	}
+	text = {
+		localization_key = expensive_drink_singular_charybdis
+	}
+	text = {
+		localization_key = expensive_drink_singular_wayrest_spiced_wine
+	}
+	text = {
+		localization_key = expensive_drink_singular_ancient_dagoth_brandy
+	}
+	text = {
+		localization_key = expensive_drink_singular_colovian_brandy
+	}
+}
+#EK TODO COMP 1-13
+GetRegionalFish = {
+	type = character
+
+	random_valid = yes
+
+	# Sturgeon is always available
+	text = {
+		localization_key = fish_sturgeon
+	}
+
+	# Ocean fishes
+		text = {
+		trigger = {
+			has_character_flag = ocean
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_africa_north
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_valenwood
+					geographical_region = mundus_tamriel_elsweyr_pellitine
+				}
+			}
+		}
+		localization_key = fish_mackerel
+	}
+
+	text = {
+		trigger = {
+			has_character_flag = ocean
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_africa_west
+			#		geographical_region = world_europe_north
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_valenwood
+					geographical_region = mundus_tamriel_cyrodiil_gold_coast
+					geographical_region = mundus_tamriel_hammerfell_abecee
+					geographical_region = mundus_tamriel_high_rock
+				}
+			}
+		}
+		localization_key = fish_bass
+	}
+
+	text = {
+		trigger = {
+			has_character_flag = ocean
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_africa_west
+			#		geographical_region = world_europe_north
+			#		geographical_region = world_africa_east
+			#		geographical_region = world_india
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_valenwood
+					geographical_region = mundus_tamriel_cyrodiil
+					geographical_region = mundus_tamriel_hammerfell_systres
+					geographical_region = mundus_tamriel_skyrim_the_rift
+				}
+			}
+		}
+		localization_key = fish_sea-bream
+	}
+
+	text = {
+		trigger = {
+			has_character_flag = ocean
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_africa_west
+			#		geographical_region = world_europe_north
+			#		geographical_region = world_africa_east
+			#		geographical_region = world_india
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_high_rock
+					geographical_region = mundus_tamriel_hammerfell
+					geographical_region = mundus_tamriel_yokuda
+					geographical_region = mundus_tamriel_summerset_isles
+					geographical_region = mundus_tamriel_valenwood
+					geographical_region = mundus_tamriel_cyrodiil_gold_coast
+				}
+			}
+		}
+		localization_key = fish_cod
+	}
+
+	text = {
+		trigger = {
+			has_character_flag = ocean
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_north
+			#	}
+			#}
+		}
+		localization_key = fish_pollock
+	}
+
+	text = {
+		trigger = {
+			has_character_flag = ocean
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_africa_west
+			#		geographical_region = world_europe_north
+			#		geographical_region = world_africa_east
+			#		geographical_region = world_india
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_border_greater_bangkorai
+					geographical_region = mundus_tamriel_iliac_bay
+				}
+			}
+		}
+		localization_key = fish_red_snapper
+	}
+
+	text = {
+		trigger = {
+			has_character_flag = ocean
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_africa_west
+			#		geographical_region = world_europe_north
+			#		geographical_region = world_africa_east
+			#		geographical_region = world_india
+			#	}
+			#}
+		}
+		localization_key = fish_trout
+	}
+
+	#text = {	#EK EDIT: removed to avoid potential confusion with TES scamps
+		#trigger = {
+			#has_character_flag = ocean
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_africa_west
+			#		geographical_region = world_europe_north
+			#		geographical_region = world_africa_east
+			#		geographical_region = world_india
+			#	}
+			#}
+		#}
+		#localization_key = fish_scamp
+	#}
+
+	text = {
+		trigger = {
+			has_character_flag = ocean
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_africa_west
+			#		geographical_region = world_europe_north
+			#		geographical_region = world_africa_east
+			#		geographical_region = world_india
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_high_rock
+					geographical_region = mundus_tamriel_skyrim_west_ghost
+					geographical_region = mundus_tamriel_yokuda_northern
+				}
+			}
+		}
+		localization_key = fish_tuna
+	}
+
+	text = {
+		trigger = {
+			has_character_flag = ocean
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_africa_west
+			#		geographical_region = world_europe_north
+			#		geographical_region = world_africa_east
+			#		geographical_region = world_india
+			#	}
+			#}
+		}
+		localization_key = fish_whitefish
+	}
+
+	text = {
+		trigger = {
+			has_character_flag = ocean
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_africa_west
+			#		geographical_region = world_europe_north
+			#		geographical_region = world_africa_east
+			#		geographical_region = world_india
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_summerset_isles_summerset
+					geographical_region = mundus_tamriel_hammerfell_abecee
+					geographical_region = mundus_tamriel_yokuda_southern
+				}
+			}
+		}
+		localization_key = fish_ling
+	}
+
+	text = {
+		trigger = {
+			has_character_flag = ocean
+			#location = {
+			#	OR = {
+			#		geographical_region = world_india
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_elsweyr_pellitine
+				}
+			}
+		}
+		localization_key = fish_nemo
+	}
+
+	# North Atlantic fishes
+	text = {
+		trigger = {
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_west
+			#		geographical_region = world_europe_north
+			#	}
+			#}
+		}
+		localization_key = fish_salmon
+	}
+
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_west
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_europe_north
+			#	}
+			#}
+		}
+		localization_key = fish_eel
+	}
+
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_west
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_europe_north
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_high_rock
+					geographical_region = mundus_tamriel_iliac_bay
+					geographical_region = mundus_tamriel_skyrim
+					geographical_region = mundus_tamriel_yokuda_northern
+				}
+			}
+		}
+		localization_key = fish_smelt
+	}
+
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_west
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_europe_north
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_high_rock
+					geographical_region = mundus_tamriel_iliac_bay
+					geographical_region = mundus_tamriel_skyrim
+					geographical_region = mundus_tamriel_yokuda_northern
+				}
+			}
+		}
+		localization_key = fish_plaice
+	}
+
+	text = {
+		trigger = {
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_west
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_europe_north
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_high_rock
+					geographical_region = mundus_tamriel_iliac_bay
+					geographical_region = mundus_tamriel_skyrim
+					geographical_region = mundus_tamriel_yokuda_northern
+					geographical_region = mundus_tamriel_hammerfell
+				}
+			}
+		}
+		localization_key = fish_flounder
+	}
+
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_west
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_europe_north
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_high_rock_rivenspire
+					geographical_region = mundus_tamriel_high_rock_greater_wrothgar
+					geographical_region = mundus_tamriel_skyrim
+					geographical_region = mundus_tamriel_morrowind_velothis
+				}
+			}
+		}
+		localization_key = fish_herring
+	}
+
+	# Mediterranean fish
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_africa_north
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_morrowind
+				}
+			}
+		}
+		localization_key = fish_wrasse
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_africa_north
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_cyrodiil_heartlands
+					geographical_region = mundus_tamriel_cyrodiil_nibenay
+					geographical_region = mundus_tamriel_topal_bay
+				}
+			}
+		}
+		localization_key = fish_anchovy
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_africa_north
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_skyrim
+					geographical_region = mundus_tamriel_high_rock
+					geographical_region = mundus_tamriel_hammerfell
+					geographical_region = mundus_tamriel_yokuda
+				}
+			}
+		}
+		localization_key = fish_grouper
+	}
+
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_africa_north
+			#	}
+			#}
+		}
+		localization_key = fish_seahorse
+	}
+
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			#location = {
+			#	OR = {
+			#		geographical_region = world_europe_south
+			#		geographical_region = world_africa_north
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_cyrodiil
+					geographical_region = mundus_tamriel_hammerfell
+				}
+			}
+		}
+		localization_key = fish_angler_fish
+	}
+
+	# African fish
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			#location = {
+			#	OR = {
+			#		geographical_region = world_africa
+			#	}
+			#}
+		}
+		localization_key = fish_needlefish
+	}
+
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			#location = {
+			#	OR = {
+			#		geographical_region = world_africa
+			#	}
+			#}
+		}
+		localization_key = fish_squeaker
+	}
+
+	# Indian fish
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			#location = {
+			#	OR = {
+			#		geographical_region = world_africa
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_valenwood
+					geographical_region = mundus_tamriel_summerset_isles
+					geographical_region = mundus_tamriel_elsweyr_pellitine
+				}
+			}
+		}
+		localization_key = fish_arowana
+	}
+
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			#location = {
+			#	OR = {
+			#		geographical_region = world_africa
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_valenwood
+					geographical_region = mundus_tamriel_summerset_isles
+					geographical_region = mundus_tamriel_elsweyr_pellitine
+					geographical_region = mundus_tamriel_topal_bay
+				}
+			}
+		}
+		localization_key = fish_barramundi
+	}
+
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			#location = {
+			#	OR = {
+			#		geographical_region = world_africa
+			#	}
+			#}
+			location = {	#EK EDIT: added our regions
+				OR = {
+					geographical_region = mundus_tamriel_valenwood
+					geographical_region = mundus_tamriel_summerset_isles
+					geographical_region = mundus_tamriel_elsweyr_pellitine
+					geographical_region = mundus_tamriel_topal_bay
+				}
+			}
+		}
+		localization_key = fish_croaker
+	}
+
+	###EK ADDITION: EK FISH
+	# Always available fish
+	text = {
+		localization_key = fish_slaughterfish
+	}
+	text = {
+		localization_key = fish_trodh
+	}
+	text = {
+		localization_key = fish_chub
+	}
+	text = {
+		trigger = {
+			has_character_flag = ocean
+		}
+		localization_key = fish_longfin
+	}
+	text = {
+		trigger = {
+			has_character_flag = ocean
+		}
+		localization_key = fish_dhufish
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+		}
+		localization_key = fish_shad
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+		}
+		localization_key = fish_silverside_perch
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+		}
+		localization_key = fish_spadetail
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+		}
+		localization_key = fish_river_betty
+	}
+	#MW Fish
+	text = {
+		trigger = {
+			has_character_flag = ocean
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_morrowind_ascadia
+					geographical_region = mundus_tamriel_morrowind_azura_coast
+					geographical_region = mundus_tamriel_morrowind_velothi_range
+				}
+			}
+		}
+		localization_key = fish_inner_sea_scalyfin
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_morrowind_aanthirin
+					geographical_region = mundus_tamriel_morrowind_firewatch
+				}
+			}
+		}
+		localization_key = fish_ash_shad
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_morrowind_velothi_range
+					geographical_region = mundus_tamriel_morrowind_ascadia
+				}
+			}
+		}
+		localization_key = fish_fungusfish
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_morrowind_tearmarsh
+				}
+			}
+		}
+		localization_key = fish_clockerfish	#Fabricant Fish
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_morrowind_tearmarsh
+				}
+			}
+		}
+		localization_key = fish_clicking_travally	#Fabricant Fish
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_morrowind_padomay_coast
+				}
+			}
+		}
+		localization_key = fish_sadrith_splat
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_morrowind_azura_coast
+					geographical_region = mundus_tamriel_morrowind_padomay_coast
+				}
+			}
+		}
+		localization_key = fish_cephalopod
+	}
+	text = {
+		trigger = {
+			has_character_flag = ocean
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_morrowind_vvardenfell
+				}
+			}
+		}
+		localization_key = fish_resdaynian_sailfin
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_morrowind_vvardenfell
+				}
+			}
+		}
+		localization_key = fish_ash_blindfish
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_morrowind_vvardenfell
+				}
+			}
+		}
+		localization_key = fish_netch_hook_eel
+	}
+	#BM Fish
+	text = {
+		trigger = {
+			has_character_flag = ocean
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_black_marsh
+				}
+			}
+		}
+		localization_key = fish_coelacanth
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_black_marsh
+				}
+			}
+		}
+		localization_key = fish_toxic_xoach
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_black_marsh
+				}
+			}
+		}
+		localization_key = fish_histcarp
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_black_marsh
+				}
+			}
+		}
+		localization_key = fish_hist_sap_shiner
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_black_marsh
+				}
+			}
+		}
+		localization_key = fish_kuuyicet
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_black_marsh
+				}
+			}
+		}
+		localization_key = fish_michinitl
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_black_marsh
+				}
+			}
+		}
+		localization_key = fish_ayotlchin
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_black_marsh
+				}
+			}
+		}
+		localization_key = fish_histmuck_blobfin
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_cyrodiil_leyawiin
+					geographical_region = mundus_tamriel_black_marsh_onkobra
+					geographical_region = mundus_tamriel_black_marsh_soulrest
+				}
+			}
+		}
+		localization_key = fish_onkobra_muskie
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_cyrodiil_leyawiin
+					geographical_region = mundus_tamriel_black_marsh_onkobra
+					geographical_region = mundus_tamriel_black_marsh_soulrest
+				}
+			}
+		}
+		localization_key = fish_blackwater_bullhead
+	}
+	#Cyro Fish
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_cyrodiil_leyawiin
+				}
+			}
+		}
+		localization_key = fish_pantherfish
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_cyrodiil_heartlands
+				}
+			}
+		}
+		localization_key = fish_rumare_bream
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_topal_bay
+				}
+			}
+		}
+		localization_key = fish_topal_fanche
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_cyrodiil_heartlands
+					geographical_region = mundus_tamriel_cyrodiil_nibenay
+				}
+			}
+		}
+		localization_key = fish_nibenay_trout
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_topal_bay
+					geographical_region = mundus_tamriel_cyrodiil_nibenay
+				}
+			}
+		}
+		localization_key = fish_pirate_perch
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_cyrodiil_imperial_isle
+				}
+			}
+		}
+		localization_key = fish_sewer_eel
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_cyrodiil_imperial_isle
+				}
+			}
+		}
+		localization_key = fish_aphotic_batfish
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_cyrodiil_imperial_isle
+				}
+			}
+		}
+		localization_key = fish_cannibal_lancet
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_cyrodiil_gold_coast
+					geographical_region = mundus_tamriel_valenwood_malabal_tor
+					geographical_region = mundus_tamriel_valenwood_arenthia
+				}
+			}
+		}
+		localization_key = fish_stridfish	#PT Fish
+	}
+	text = {
+		trigger = {
+			has_character_flag = ocean
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_cyrodiil_gold_coast
+				}
+			}
+		}
+		localization_key = fish_abecean_longfin	#PT Fish
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_cyrodiil_gold_coast
+				}
+			}
+		}
+		localization_key = fish_black_anvil_loach
+	}
+	#Elsweyr Fish
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_elsweyr
+				}
+			}
+		}
+		localization_key = fish_senchefin
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_elsweyr
+				}
+			}
+		}
+		localization_key = fish_khaj_roh
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_elsweyr
+				}
+			}
+		}
+		localization_key = fish_zhaja_roh
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_elsweyr
+				}
+			}
+		}
+		localization_key = fish_roh_ri
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_elsweyr
+				}
+			}
+		}
+		localization_key = fish_radhin_zhab
+	}
+	text = {
+		trigger = {
+			location = {	#EK TODO: Add Pyandonea region
+				OR = {
+					geographical_region = mundus_tamriel_elsweyr_pellitine
+					geographical_region = mundus_tamriel_valenwood_grahtwood
+					geographical_region = mundus_tamriel_valenwood_greenshade
+				}
+			}
+		}
+		localization_key = fish_pyandonean_ray
+	}
+	#Valenwood Fish
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_elsweyr_torval
+					geographical_region = mundus_tamriel_valenwood_grahtwood
+				}
+			}
+		}
+		localization_key = fish_xylo_piranha
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_valenwood
+				}
+			}
+		}
+		localization_key = fish_zens_whitefish
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_valenwood
+				}
+			}
+		}
+		localization_key = fish_dreughfish
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_valenwood
+				}
+			}
+		}
+		localization_key = fish_ghastel_bass
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_valenwood_arenthia
+				}
+			}
+		}
+		localization_key = fish_preposterous_mackerel
+	}
+	text = {
+		trigger = {
+			has_character_flag = ocean
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_cyrodiil_gold_coast
+					geographical_region = mundus_tamriel_valenwood_malabal_tor
+					geographical_region = mundus_tamriel_hammerfell_systres
+				}
+			}
+		}
+		localization_key = fish_abecean_halibut
+	}
+	#Summerset Fish
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_summerset_isles
+				}
+			}
+		}
+		localization_key = fish_ilyadifish
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_summerset_isles
+				}
+			}
+		}
+		localization_key = fish_shimmerpike
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_summerset_isles
+					geographical_region = mundus_tamriel_hammerfell_systres
+					geographical_region = ek_near_thras
+				}
+			}
+		}
+		localization_key = fish_thrassian_eel
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_summerset_isles_dusk
+					geographical_region = mundus_tamriel_summerset_isles_sunhold
+				}
+			}
+		}
+		localization_key = fish_dusk_arowana
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_summerset_isles
+				}
+			}
+		}
+		localization_key = fish_crystal_hannia
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_summerset_isles
+				}
+			}
+		}
+		localization_key = fish_lingweloce
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_summerset_isles
+				}
+			}
+		}
+		localization_key = fish_quicksilver_lingwe
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_summerset_isles
+				}
+			}
+		}
+		localization_key = fish_anus_travally
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_summerset_isles
+				}
+			}
+		}
+		localization_key = fish_eton_sprat
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_summerset_isles
+				}
+			}
+		}
+		localization_key = water_stained_psijic_recipe	#not quite a fish, but it sure put up a good fight :)
+	}
+	#HF Fish
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_border_greater_bangkorai
+					geographical_region = mundus_tamriel_hammerfell_hallin
+				}
+			}
+		}
+		localization_key = fish_bjoulsae_hake
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_hammerfell_alikr_desert
+				}
+			}
+		}
+		localization_key = fish_sand_eel
+	}
+	text = {
+		trigger = {
+			NOT = {
+				has_character_flag = ocean
+			}
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_hammerfell_alikr_desert
+				}
+			}
+		}
+		localization_key = fish_desert_pupfish
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_hammerfell_hew_bane
+					geographical_region = mundus_tamriel_hammerfell_gilane
+					geographical_region = mundus_tamriel_hammerfell_abecean
+				}
+			}
+		}
+		localization_key = fish_hews_rasbora
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_hammerfell_hew_bane
+					geographical_region = mundus_tamriel_hammerfell_gilane
+					geographical_region = mundus_tamriel_hammerfell_abecean
+				}
+			}
+		}
+		localization_key = fish_bala_shark
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_hammerfell_hew_bane
+					geographical_region = mundus_tamriel_hammerfell_gilane
+					geographical_region = mundus_tamriel_hammerfell_abecean
+				}
+			}
+		}
+		localization_key = fish_keuppia
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_hammerfell_abecee
+					geographical_region = mundus_tamriel_yokuda
+				}
+			}
+		}
+		localization_key = fish_eltheric_grouper
+	}
+	#HR Fish
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_high_rock_glenumbra
+				}
+			}
+		}
+		localization_key = fish_hag_fen_hagfish
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_high_rock_glenumbra
+				}
+			}
+		}
+		localization_key = fish_cambray_perch
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_high_rock_stormhaven
+				}
+			}
+		}
+		localization_key = fish_alcaire_pike
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_high_rock_stormhaven
+				}
+			}
+		}
+		localization_key = fish_stormhaven_flounder
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_high_rock_rivenspire
+				}
+			}
+		}
+		localization_key = fish_ichory_chub
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_high_rock_rivenspire
+				}
+			}
+		}
+		localization_key = fish_rivenspire_trout
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_high_rock_rivenspire
+				}
+			}
+		}
+		localization_key = fish_northpoint_cod
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_high_rock_greater_wrothgar
+				}
+			}
+		}
+		localization_key = fish_greater_ashmouth
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_high_rock_greater_wrothgar
+				}
+			}
+		}
+		localization_key = fish_pariah_lumpfish
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_high_rock_greater_wrothgar
+				}
+			}
+		}
+		localization_key = fish_vorkhiposh
+	}
+	#Skyrim Fish
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_skyrim_west_skyrim
+				}
+			}
+		}
+		localization_key = fish_lodsilungur
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_skyrim_west_skyrim
+				}
+			}
+		}
+		localization_key = fish_frigid_char
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_skyrim_west_skyrim
+				}
+			}
+		}
+		localization_key = fish_birtingr
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_skyrim_west_skyrim
+				}
+			}
+		}
+		localization_key = fish_ghost_salmon
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_skyrim_east_skyrim
+				}
+			}
+		}
+		localization_key = fish_ice_remora
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_skyrim_east_skyrim
+				}
+			}
+		}
+		localization_key = fish_ghost_haddock
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_skyrim_haafingar
+				}
+			}
+		}
+		localization_key = fish_vampire_fish
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_skyrim
+				}
+			}
+		}
+		localization_key = fish_pogfish
+	}
+	#Systres Fish
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_hammerfell_systres
+				}
+			}
+		}
+		localization_key = fish_systres_skate
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_hammerfell_systres
+				}
+			}
+		}
+		localization_key = fish_systres_flounder
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_hammerfell_systres
+				}
+			}
+		}
+		localization_key = fish_glimmertarn_darter
+	}
+	text = {
+		trigger = {
+			location = {
+				OR = {
+					geographical_region = mundus_tamriel_hammerfell_systres
+				}
+			}
+		}
+		localization_key = fish_gonfalon_rockfish
+	}
+}

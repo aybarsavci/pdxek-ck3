@@ -1,0 +1,543 @@
+﻿# LIFESPAN EXTENSION EFFECTS
+increase_lifespan_effect = {
+
+    # save natural lifespan for inheritance purposes
+    save_lifespan_effect = yes
+
+    # if this is the first time you extend your life, ensure that the proper flag for artificial lifespans is applied
+	if = {
+		limit = { NOT = { has_character_flag = artificial_lifespan } }
+		add_character_flag = artificial_lifespan
+	}
+
+    # if you have a natural lifespan, remove that and replace with the next tier magic lifespan
+	if = {
+		limit = {
+			has_trait_with_flag = lifespan
+		}
+		if = {
+            limit = {
+                has_trait = lifespan_1
+            }
+            remove_trait = lifespan_1
+            add_trait = lifespan_magic_2
+        }
+        if = {
+            limit = {
+                has_trait = lifespan_2
+            }
+            remove_trait = lifespan_2
+            add_trait = lifespan_magic_3
+        }
+        if = {
+            limit = {
+                has_trait = lifespan_3
+            }
+            remove_trait = lifespan_3
+            add_trait = lifespan_magic_4
+        }
+        if = {
+            limit = {
+                has_trait = lifespan_4
+            }
+            remove_trait = lifespan_4
+            add_trait = lifespan_magic_5
+        }
+	}
+
+    # if you're already at lifespan 5 and got this far, that means the next step is immortality. gotta run some immortality related effects then
+    else_if = {
+        limit = { has_trait = lifespan_magic_5 }
+        retain_visual_age_effect = yes #always do this before adding the immortality trait
+        add_trait = lifespan_magic_6
+        substitute_lifespan_by_immortality_effect = yes #always do this after adding the immortality trait
+    }
+
+    # otherwise, just increase as usual
+    else = {
+        change_trait_rank = {
+            trait = lifespan_magic
+            rank = 1
+            max = 5
+        }
+    }
+
+    #then, recalculate age modifiers
+    trigger_event = { on_action = ek_aging_penalties }
+}
+
+save_lifespan_effect = {
+    if = {
+        limit = {
+            NOR = {
+                has_character_flag = natural_lifespan_0
+                has_character_flag = natural_lifespan_1
+                has_character_flag = natural_lifespan_2
+                has_character_flag = natural_lifespan_3
+                has_character_flag = natural_lifespan_4
+            }
+        }
+        if = {
+            limit = { NOT = { has_trait = lifespan } }
+            add_character_flag = natural_lifespan_0
+        }
+        if = {
+            limit = { has_trait = lifespan_1 }
+            add_character_flag = natural_lifespan_1
+        }
+        if = {
+            limit = { has_trait = lifespan_2 }
+            add_character_flag = natural_lifespan_2
+        }
+        if = {
+            limit = { has_trait = lifespan_3 }
+            add_character_flag = natural_lifespan_3
+        }
+        if = {
+            limit = { has_trait = lifespan_4 }
+            add_character_flag = natural_lifespan_4
+        }
+    }
+    
+    #SAVES IT FOR ANY REASON (Maybe to restore it?)
+    if = {
+        limit = { has_trait = lifespan_magic_5 }
+        add_character_flag = artificial_lifespan_5
+    }
+}
+
+increase_lifespan_duel = {
+    fake_duel = {
+        skill = arcana
+        value = extremely_high_skill_rating
+        target = this
+    }
+    
+    random_list = {
+        # success - gain lifespan_magic_1
+        30 = {
+            compare_modifier = {
+                value = scope:fake_duel_value
+                multiplier = 10
+                min = 1   
+            }
+            trigger = {
+                NOR = {
+                    has_trait = lifespan
+                    has_trait = lifespan_magic
+                }
+            }
+
+            show_as_tooltip = {
+				increase_lifespan_effect = yes
+			}
+            
+            save_scope_value_as = {
+                name = life_extension_outcome
+                value = flag:lifespan_1
+            }
+        }
+        # success - gain lifespan_magic_2
+        25 = {
+            compare_modifier = {
+                value = scope:fake_duel_value
+                multiplier = 10
+                min = 1
+            }
+            trigger = {
+                OR = {
+                    has_trait = lifespan_1
+                    has_trait = lifespan_magic_1
+                }
+            }
+
+            show_as_tooltip = {
+				increase_lifespan_effect = yes
+			}
+
+            save_scope_value_as = {
+                name = life_extension_outcome
+                value = flag:lifespan_2
+            }
+        }
+        # success - gain lifespan_magic_3
+        20 = {
+            compare_modifier = {
+                value = scope:fake_duel_value
+                multiplier = 10
+                min = 1
+            }
+            trigger = {
+                 OR = {
+                    has_trait = lifespan_2
+                    has_trait = lifespan_magic_2
+                }
+            }
+            
+            show_as_tooltip = {
+				increase_lifespan_effect = yes
+			}
+            
+            save_scope_value_as = {
+                name = life_extension_outcome
+                value = flag:lifespan_3
+            }
+        }
+        # success - gain lifespan_magic_4
+        15 = {
+            compare_modifier = {
+                value = scope:fake_duel_value
+                multiplier = 10
+                min = 1
+            }
+            trigger = {
+                 OR = {
+                    has_trait = lifespan_3
+                    has_trait = lifespan_magic_3
+                }
+            }
+            
+            show_as_tooltip = {
+				increase_lifespan_effect = yes
+			}
+
+            save_scope_value_as = {
+                name = life_extension_outcome
+                value = flag:lifespan_4
+            }
+        }
+        # success - gain lifespan_magic_5
+        10 = {
+            compare_modifier = {
+                value = scope:fake_duel_value
+                multiplier = 10
+                min = 1
+            }
+            trigger = {
+                 OR = {
+                    has_trait = lifespan_4
+                    has_trait = lifespan_magic_4
+                }
+            }
+            
+            show_as_tooltip = {
+				increase_lifespan_effect = yes
+			}
+
+            save_scope_value_as = {
+                name = life_extension_outcome
+                value = flag:lifespan_5
+            }
+        }
+        # success - immortality
+        5 = {
+            compare_modifier = {
+                value = scope:fake_duel_value
+                multiplier = 10
+                min = 1
+            }
+            trigger = {
+                has_trait = lifespan_magic_5
+            }
+
+            show_as_tooltip = {
+				increase_lifespan_effect = yes
+			}
+			
+            save_scope_value_as = {
+                name = life_extension_outcome
+                value = flag:lifespan_6
+            }
+        }
+        # failure
+        100 = {
+            compare_modifier = {
+                value = scope:fake_duel_value
+                multiplier = -10
+                min = 1
+            }
+            save_scope_value_as = {
+                name = life_extension_outcome
+                value = flag:no_increase
+            }
+            custom_tooltip = life_extension_failure
+        }
+        # failure with death for current lifespan 3
+        3 = {
+            compare_modifier = {
+                value = scope:fake_duel_value
+                multiplier = -5
+                min = 1
+            }
+            trigger = {
+                OR = {
+                    has_trait = lifespan_3
+                    has_trait = lifespan_magic_3
+                }
+                arcana < 25 # hella powerful mages are exempt I guess
+            }
+            death = {
+                death_reason = death_failed_during_life_extension
+            }
+            save_scope_value_as = {
+                name = life_extension_outcome
+                value = flag:no_increase
+            }
+        }
+         # failure with death for current lifespan 4
+        6 = {
+            compare_modifier = {
+                value = scope:fake_duel_value
+                multiplier = -10
+                min = 1
+            }
+            trigger = {
+                OR = {
+                    has_trait = lifespan_4
+                    has_trait = lifespan_magic_4
+                }
+                arcana < 35 # hella powerful mages are exempt I guess
+            }
+            death = {
+                death_reason = death_failed_during_life_extension
+            }
+            save_scope_value_as = {
+                name = life_extension_outcome
+                value = flag:no_increase
+            }
+        }
+         # failure with death for current lifespan 5
+        9 = {
+            compare_modifier = {
+                value = scope:fake_duel_value
+                multiplier = -10
+                min = 1
+            }
+            trigger = {
+                has_trait = lifespan_magic_5
+                arcana < 45 # hella powerful mages are exempt I guess
+            }
+            death = {
+                death_reason = death_failed_during_life_extension
+            }
+            save_scope_value_as = {
+                name = life_extension_outcome
+                value = flag:no_increase
+            }
+        }
+    }
+}
+
+lifespan_extension_exhaustion_effect = {
+    if = {
+        limit = {
+            OR = {
+                has_trait = lifespan_1
+                has_trait = lifespan_magic_1
+            }
+        }
+        custom_tooltip = life_extension_cooldown_1
+        add_character_flag = {
+            flag = attempted_extend_lifespan
+            years = 20 
+        }
+    }
+    else_if = {
+        limit = {
+             OR = {
+                has_trait = lifespan_2
+                has_trait = lifespan_magic_2
+            }
+        }
+        custom_tooltip = life_extension_cooldown_2
+        add_character_flag = {
+            flag = attempted_extend_lifespan
+            years = 30 
+        }
+    }
+    else_if = {
+        limit = {
+             OR = {
+                has_trait = lifespan_3
+                has_trait = lifespan_magic_3
+            }
+        }
+        custom_tooltip = life_extension_cooldown_3
+        add_character_flag = {
+            flag = attempted_extend_lifespan
+            years = 40 
+        }
+    }
+    else_if = {
+        limit = {
+             OR = {
+                has_trait = lifespan_4
+                has_trait = lifespan_magic_4
+            }
+        }
+        custom_tooltip = life_extension_cooldown_4
+        add_character_flag = {
+            flag = attempted_extend_lifespan
+            years = 50 
+        }
+    }
+    else_if = {
+        limit = {
+            has_trait = lifespan_magic_5
+        }
+        custom_tooltip = life_extension_cooldown_5
+        add_character_flag = {
+            flag = attempted_extend_lifespan
+            years = 60 
+        }
+    }
+    #In case there's no lifespan trait
+    else = {
+        custom_tooltip = life_extension_cooldown_0
+        add_character_flag = {
+            flag = attempted_extend_lifespan
+            years = 10 
+        }
+    }
+}
+
+# IMMORTALITY RELATED EFFECTS
+
+retain_visual_age_effect = {
+	#SETS IMMORTAL AGE TO PREVENT UP-AGING ON LICHDOM/VAMPIRISM (why are these comments in caps?)
+	if = {
+		limit = {
+            NOT = {
+                OR = {
+                    has_trait_with_flag = is_immortal
+                    has_character_flag = already_immortal_age_flag #so that if a vampire becomes a lich (if thats even possible) or when we add a lifespan ritual or something, characters dont suddenly age up again
+               }
+            }
+		}
+        #saves current human age equivalent value to later assign as immortal age
+        save_scope_value_as = {
+            name = pre_immortality_ek_human_age_equivalent
+            value = ek_human_age_equivalent
+        }
+	}
+	add_character_flag = already_immortal_age_flag
+}
+	
+
+substitute_lifespan_by_immortality_effect = {
+
+	#SAVES IT FOR INHERITANCE (IF NOT ALREADY SAVED)
+		
+	if = {
+		limit = {
+			NOT = {
+				has_character_flag = natural_lifespan_0
+				has_character_flag = natural_lifespan_1
+				has_character_flag = natural_lifespan_2
+				has_character_flag = natural_lifespan_3
+				has_character_flag = natural_lifespan_4
+			}
+		}
+		if = {
+			limit = { NOT = { has_trait = lifespan } }
+			add_character_flag = natural_lifespan_0
+		}
+		if = {
+			limit = { has_trait = lifespan_1 }
+			add_character_flag = natural_lifespan_1
+		}
+		if = {
+			limit = { has_trait = lifespan_2 }
+			add_character_flag = natural_lifespan_2
+		}
+		if = {
+			limit = { has_trait = lifespan_3 }
+			add_character_flag = natural_lifespan_3
+		}
+		if = {
+			limit = { has_trait = lifespan_4 }
+			add_character_flag = natural_lifespan_4
+		}
+	}
+	
+	#SAVES IT FOR ANY REASON (Maybe to restore it?)
+	if = {
+		limit = { has_trait = lifespan_magic_5 }
+		add_character_flag = artificial_lifespan_5
+	}
+	
+	add_character_flag = artificial_lifespan #to ensure lifespan inheritance works properly despite immortality
+
+    #clear age modifiers
+    custom_tooltip = {
+        text = ek_clear_aging_modifier_tt
+        clear_aging_modifier_effect = yes
+    }
+
+    #clear out some health traits that you wouldn't otherwise get
+    if = {
+        limit = {
+            has_trait = infirm
+        }
+        remove_trait = infirm
+    }
+    if = {
+        limit = {
+            has_trait = incapable
+        }
+        remove_trait = incapable
+    }
+	
+    # # clear out any lifespan traits
+    # natural
+	if = {
+		limit = {
+			has_trait_with_flag = lifespan
+		}
+		every_character_trait = {
+			limit = {
+				has_trait_flag = lifespan
+			}
+			prev = {
+				remove_trait = prev
+			}
+		}
+	}
+    # and magical
+    if = {
+		limit = {
+			has_trait_with_flag = lifespan_magic
+		}
+		every_character_trait = {
+			limit = {
+				has_trait_flag = lifespan_magic
+			}
+			prev = {
+				remove_trait = prev
+			}
+		}
+	}
+
+    # Potentially the character could already be an immortal, when another form of immortality is gained
+    # Ex: Magical immortal mage becoming a lich or a vampire
+    # so in that case, it's fair game I think to replace their magical immortality with the new variant
+    # the other way around isn't necessary, as immortals cannot gain magical immortality
+
+    if = {
+		limit = {
+            has_trait = lifespan_magic_6
+            any_character_trait = {
+                has_trait_flag = is_immortal
+                count >= 2
+            }
+		}
+        remove_trait = lifespan_magic_6
+	}
+
+    # as a failsafe, if immortal age has been applied before, don't do it again
+    if = {
+		limit = { exists = scope:pre_immortality_ek_human_age_equivalent }
+        set_immortal_age = scope:pre_immortality_ek_human_age_equivalent
+	}
+}
+	

@@ -1,0 +1,317 @@
+﻿
+has_any_bad_congenital_trait_trigger = {
+	OR = {
+		has_trait = physique_bad
+		has_trait = intellect_bad
+		has_trait = beauty_bad
+		has_trait = arcana_bad
+		
+		has_trait = clubfooted
+		has_trait = hunchbacked
+		has_trait = lisping
+		has_trait = stuttering
+		has_trait = dwarf
+		has_trait = giant
+		has_trait = inbred
+		
+		has_trait = spindly
+		has_trait = scaly
+		has_trait = albino
+		has_trait = wheezing
+		has_trait = bleeder
+		has_trait = infertile
+	}
+}
+
+has_any_good_congenital_trait_trigger = {
+	OR = {
+		has_trait = physique_good
+		has_trait = intellect_good
+		has_trait = beauty_good
+		has_trait = arcana_good
+
+		has_trait = fecund
+	}
+}
+
+is_lycan = {
+	custom_description = {
+		text = is_a_lycan
+		subject = this
+		OR = {
+			has_trait = lycan_character #known lycan trait
+			has_trait = irritable_lycan #secret lycan trait
+			has_character_flag = lycan #fallbacks
+			any_secret = {
+				secret_type = secret_lycan
+			}
+		}
+	}	
+}
+is_known_lycan = {
+	has_trait = lycan_character #known lycan trait
+}
+is_undead = {
+	OR = {
+		has_trait = undead_character
+		has_trait = lich_character
+	}
+}
+is_vampire = {
+	custom_description = {
+		text = is_a_vampire
+		subject = this
+		OR = {
+			has_trait = vampire_character #known vamp trait
+			has_trait = reclusive_vampire #secret vamp trait
+			has_character_flag = vampire #fallbacks
+			any_secret = {
+				secret_type = secret_vampire
+			}
+		}
+	}	
+}
+is_known_vampire = {
+	has_trait = vampire_character #known vamp trait
+}
+is_necromancer = {
+	custom_description = {
+		text = is_a_necromancer
+		subject = this
+		OR = {
+			has_trait = necromancer
+			has_trait = experimentalist_necromancer
+		}
+	}	
+}
+is_known_necromancer = {
+	has_trait = necromancer #known necromancer trait
+}
+
+is_hated_meridia = {
+	is_necromancer = yes
+	is_vampire = yes
+	is_undead = yes
+}
+
+### To reference culture & religions more easily for some effects
+# Poet
+has_poet_culture = {
+	culture = {
+		OR = {
+			has_cultural_parameter = poet_trait_more_common
+		}
+	}
+}
+has_poet_faith = {
+	always = no
+}
+has_poet_background = {
+	OR = {
+		has_poet_culture = yes
+		has_poet_faith = yes
+	}
+}
+# Knighthood
+has_knighthood_culture = {
+	culture = {
+		OR = {
+			has_innovation = innovation_knightly_orders
+			has_innovation = innovation_knighthood
+		}
+	}
+}
+has_knighthood_faith = {
+	always = no
+}
+has_knighthood_background = {
+	OR = {
+		has_knighthood_culture = yes
+		has_knighthood_faith = yes
+	}
+}
+# Students of Magicka
+has_students_magicka_culture = {
+	culture = {
+		OR = {
+			has_innovation = innovation_magical_studies
+			has_innovation_flag = innovation_magical_studies_replacement
+			has_cultural_parameter = unlocks_arcana_education
+			has_cultural_parameter = magic_preference
+		}
+	}
+}
+has_students_magicka_faith = {
+	always = no
+}
+has_students_magicka_background = {
+	OR = {
+		has_students_magicka_culture = yes
+		#has_students_magicka_faith = yes
+	}
+}
+
+### When choosing a Daedra to trigger Daedric Whispers
+can_get_combo_trait_daedra = {
+	NOT = { has_character_flag = stress_$TRAIT$_$DAEDRA$ }
+	AND = {
+		has_trait = $TRAIT$
+		can_secretly_worship_$DAEDRA$ = yes
+	}
+}
+
+### Do these two rulers rule in the same province (= have their capital in the same mundus_tamriel_X)
+rulers_in_same_province = {
+	trigger_if = {
+		limit = {
+			OR = {
+				NOT = { $CHAR1$ = { exists = capital_county } }
+				NOT = { $CHAR2$ = { exists = capital_county } }
+			}
+		}
+		always = no
+	}
+	trigger_else = {
+		titles_in_same_province = { TITLE1 = $CHAR1$.capital_county TITLE2 = $CHAR2$.capital_county }
+	}
+}
+
+# Is the title capital in the same province as the ruler (= have their capital in the same mundus_tamriel_X)
+title_ruler_in_same_province = {
+	trigger_if = {
+		limit = {
+			OR = {
+				NOT = { $CHAR$ = { exists = capital_county } }
+				NOT = { $TITLE$ = { exists = title_capital_county } }
+			}
+		}
+		always = no
+	}
+	trigger_else = {
+		titles_in_same_province = { TITLE1 = $CHAR$.capital_county TITLE2 = $TITLE$ }
+	}
+}
+
+# Are these two titles in the same province? (= have their capital in the same mundus_tamriel_X)
+titles_in_same_province = {
+	trigger_if = {
+		limit = {
+			OR = {
+				NOT = { exists = $TITLE1$.title_capital_county.title_province }
+				NOT = { exists = $TITLE2$.title_capital_county.title_province }
+			}
+		}
+		always = no
+	}
+	trigger_else = {
+		OR = {
+			AND = {
+				$TITLE1$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_high_rock } }
+				$TITLE2$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_high_rock } }
+			}
+			AND = {
+				$TITLE1$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_hammerfell } }
+				$TITLE2$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_hammerfell } }
+			}
+			AND = {
+				$TITLE1$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_skyrim } }
+				$TITLE2$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_skyrim } }
+			}
+			AND = {
+				$TITLE1$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_cyrodiil } }
+				$TITLE2$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_cyrodiil } }
+			}
+			AND = {
+				$TITLE1$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_valenwood } }
+				$TITLE2$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_valenwood } }
+			}
+			AND = {
+				$TITLE1$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_summerset_isles } }
+				$TITLE2$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_summerset_isles } }
+			}
+			AND = {
+				$TITLE1$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_elsweyr } }
+				$TITLE2$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_elsweyr } }
+			}
+			AND = {
+				$TITLE1$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_morrowind } }
+				$TITLE2$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_morrowind } }
+			}
+			AND = {
+				$TITLE1$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_black_marsh } }
+				$TITLE2$ = { title_capital_county.title_province = { geographical_region = mundus_tamriel_black_marsh } }
+			}
+			### EK TODO: Missing provinces
+		}
+	}
+}
+
+### Might Makes Right
+might_makes_right_requires = {
+	save_temporary_scope_value_as = { name = fame_devotion_amount value = $AMOUNT$ }
+	# Some doctrines or other effects can raise or lower the MMR requirements
+	save_temporary_scope_value_as = { name = fame_devotion_amount value = scope:fame_devotion_amount.mmr_requirement_level_change }
+	
+	trigger_if = {
+		limit = { $FLAG$ = flag:war }
+		trigger_if = {
+			limit = { faith = { has_doctrine_parameter = ek_might_makes_right_devotion_active } }
+			custom_description = {
+				text = "might_makes_right_devotion_level_amount_war"
+				value = scope:fame_devotion_amount
+				OR = {
+					piety_level >= scope:fame_devotion_amount
+					prestige_level >= scope:fame_devotion_amount
+				}
+			}
+		}
+		trigger_else = {
+			custom_description = {
+				text = "might_makes_right_level_amount_war"
+				value = scope:fame_devotion_amount
+				prestige_level >= scope:fame_devotion_amount
+			}
+		}
+	}
+	trigger_else_if = {
+		limit = { $FLAG$ = flag:law }
+		trigger_if = {
+			limit = { faith = { has_doctrine_parameter = ek_might_makes_right_devotion_active } }
+			custom_description = {
+				text = "might_makes_right_devotion_level_amount_law"
+				value = scope:fame_devotion_amount
+				OR = {
+					piety_level >= scope:fame_devotion_amount
+					prestige_level >= scope:fame_devotion_amount
+				}
+			}
+		}
+		trigger_else = {
+			custom_description = {
+				text = "might_makes_right_level_amount_law"
+				value = scope:fame_devotion_amount
+				prestige_level >= scope:fame_devotion_amount
+			}
+		}
+	}
+	trigger_else = { # Unknown flag, we just go back to the default state
+		trigger_if = {
+			limit = { faith = { has_doctrine_parameter = ek_might_makes_right_devotion_active } }
+			custom_description = {
+				text = "might_makes_right_devotion_level_amount"
+				value = scope:fame_devotion_amount
+				OR = {
+					piety_level >= scope:fame_devotion_amount
+					prestige_level >= scope:fame_devotion_amount
+				}
+			}
+		}
+		trigger_else = {
+			custom_description = {
+				text = "might_makes_right_level_amount"
+				value = scope:fame_devotion_amount
+				prestige_level >= scope:fame_devotion_amount
+			}
+		}
+	}
+}

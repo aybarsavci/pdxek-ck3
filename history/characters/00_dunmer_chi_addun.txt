@@ -1,0 +1,7976 @@
+﻿#Various archmagisters of Great House Telvanni
+#Dral dynasty
+dral_001 = { #Archmagister of House Telvanni (from time to time) since 1E 380
+	name = "Rilvin" #TR
+	dynasty = dyn_dral
+	culture = chi_addun #Chimer orginally
+	religion = tribunal_temple
+	sexuality = asexual
+	fertility = 0 #No children for Dral
+
+	trait = scaly #Actually a bug
+	trait = disfigured #Actually a bug
+	trait = ambitious
+	trait = zealous
+	trait = arrogant
+	trait = education_magic_5
+	trait = education_learning_4
+	trait = arcana_good_3
+	trait = lifespan_3
+	trait = reclusive
+	trait = sign_mage
+	disallow_random_traits = yes
+
+	243.4.25 = { birth = yes }
+	780.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_6
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+			set_immortal_age = 50
+			add_arcana_skill = { VALUE = 12 }
+			add_restoration_perk_effect = { LEVEL = 5 }
+			learn_language = language_daedric
+		}
+	}
+	3350.1.1 = {
+		effect = { #Not that easy to get rid of a guy who's been around for 3000 years
+			vassal_contract_set_obligation_level = {
+				type = title_revocation_rights
+				level = 1
+			}
+		}
+		effect = {
+			add_character_flag = do_not_generate_starting_family
+		}
+	}
+	4243.1.1 = { death = yes } #Morrowind
+	#Note: it's not very fun to start as immortal ruler of kingdom, so during our timespan he should only be Archmagister outside of playable bookmarks
+}
+
+#Ules dynasty
+mavon_ules = { #Archmagister from eso book
+	name = "Mavon" #Lore
+	dynasty = dyn_ules #Actually part of Hlaalu Ules dynasty, went to work for Telvanni
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = ules_95 #Part of Hlaalu family, his values alied a bit more with Telvanni though
+
+	trait = arrogant
+	trait = ambitious
+	trait = greedy
+	trait = education_magic_4
+
+	trait = lifespan_3
+
+	2960.1.1 = { birth = yes }
+	3140.4.2 = { death = { death_reason = death_disappearance } }
+}
+
+#Tenim dynasty
+tenim_100 = { #From "A Brief History of House Telvanni"
+	name = "Alnas" #Lore - existence at least
+	dynasty = dyn_tenim
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_magic_4
+	trait = education_magic_4
+	trait = arcana_good_2
+	trait = education_martial_prowess_3
+
+	2600.1.1 = { birth = yes }
+	2948.1.1 = { trait = chrondiasis }
+	2950.1.15 = { death = { death_reason = death_chrondiasis } }
+}
+
+tenim_100_lover = {
+	name = "Teranya"
+	culture = ashlander #Velothi
+	religion = tribunal_temple
+	female = yes
+
+	2750.1.1 = { birth = yes }
+	2896.1.1 = { death = yes }
+}
+
+#Daroder the Mad
+daroder_mad = { #From "A Brief History of House Telvanni"
+	name = "Daroder" #Lore - existence at least
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_magic_4
+	trait = lunatic_1
+	trait = education_magic_5
+	trait = arcana_good_3
+	2200.1.1 = { birth = yes }
+	2500.1.1 = { give_nickname = nick_the_mad }
+	2580.6.30 = { death = { death_reason = death_vivec } }
+}
+
+#Non-canon ancient archmagisters
+telvanni_odyna = {
+	name = "Odyna"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_magic_5
+	trait = education_diplomacy_3
+	trait = education_magic_4
+	trait = gregarious
+	trait = sadistic
+	trait = diligent
+	688.1.1 = { birth = yes }
+	893.5.18 = { death = { death_reason = death_failed_experiment } }
+}
+
+
+telvanni_sendel = {
+	name = "Sendel"
+	culture = chi_addun
+	religion = tribunal_temple
+	866.1.1 = { birth = yes }
+	984.5.19 = { death = { death_reason = death_murder } }
+}
+
+telvanni_bronosa = {
+	name = "Bronosa"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	276.1.1 = { birth = yes }
+	1002.10.4 = { death = { death_reason = death_mysterious } }
+}
+
+telvanni_ridinna = {
+	name = "Ridinna"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = education_learning_4
+	trait = education_magic_5
+	trait = lifespan_magic_5
+	733.1.1 = { birth = yes }
+	1289.3.14 = { death = { death_reason = death_mysterious } } #Middle Dawn
+}
+telvanni_ayen = { #Ayn Rand
+	name = "Ayen"
+	dynasty = dyn_dran
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = arrogant
+	trait = callous
+	trait = lazy
+	trait = intellect_bad_1
+	trait = education_magic_2
+	trait = lifespan_magic_4
+
+	1068.1.1 = { birth = yes }
+	1445.11.5 = { death = { death_reason = death_heart_attack } }
+}
+
+andas_001 = {
+	name = "Tedryni"
+	dynasty = dyn_andas
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_magic_4
+
+	1899.1.1 = { birth = yes }
+	2379.12.1 = { death = yes }
+}
+andas_002 = {
+	name = "Daynali"
+	dynasty = dyn_andas
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	father = andas_001
+	trait = lifespan_magic_4
+	2231.1.1 = { birth = yes }
+	2514.1.22 = { death = { death_reason = death_fire_magic killer = daroder_mad } }
+}
+andas_002b = {
+	name = "Tiril"
+	dynasty = dyn_andas
+	culture = chi_addun
+	religion = tribunal_temple
+	father = andas_001
+	2271.1.1 = { birth = yes }
+	2514.1.22 = { death = { death_reason = death_fire_magic killer = daroder_mad } }
+}
+andas_003 = {
+	name = "Urynnar"
+	dynasty = dyn_andas
+	culture = chi_addun
+	religion = tribunal_temple
+	mother = andas_002
+	2406.1.1 = { birth = yes }
+	2514.1.22 = { death = { death_reason = death_fire_magic killer = daroder_mad } }
+}
+
+#############
+#Telvannis people, more dynamic and chaotic than other Telvanni regions
+#############
+
+#Demnevanni dynasty (dyn_demnevanni)
+demnevanni_baladas = { #Baladas from Morrowind, refuses to pay taxes
+	name = "Baladas" #Lore
+	dynasty = dyn_demnevanni
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = demnevanni_96
+
+	trait = lifespan_3
+	trait = education_learning_4
+	trait = scholar
+	trait = education_magic_4
+	trait = content
+	trait = calm
+	trait = stubborn #Doesn't pay taxes
+	trait = reclusive
+
+	#Baladas is older than "Empire of Men" and Gnisis.
+	2218.1.1 = { birth = yes } #2000 years old by Morrowind according to some forum posts
+	2700.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_6
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+		effect = {
+			set_immortal_age = 40
+			add_arcana_skill = { VALUE = 14 }
+			add_restoration_perk_effect = { LEVEL = 5 }
+			learn_language = language_altmeris
+			learn_language = language_chimeris
+		}
+	}
+	5000.1.1 = { death = yes } #Arbitrary, alive at least until MW
+}
+demnevanni_96 = {
+	name = "Aryne"
+	dynasty = dyn_demnevanni
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_magic_5
+	2189.1.1 = { birth = yes }
+	2550.1.1 = { death = { death_reason = death_mysterious } }
+}
+demnevanni_97 = {
+	name = "Hlavora"
+	dynasty = dyn_demnevanni
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = demnevanni_96
+
+	trait = lifespan_magic_5
+	
+	2401.1.1 = { birth = yes }
+	2987.7.8 = { death = yes }
+}
+demnevanni_97b = {
+	name = "Galasa"
+	dynasty = dyn_demnevanni
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = demnevanni_96
+
+	trait = lifespan_magic_5
+
+	2368.1.1 = { birth = yes }
+	2664.3.19 = { death = { death_reason = death_accident } }
+}
+demnevanni_98 = {
+	name = "Rolver"
+	dynasty = dyn_demnevanni
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = demnevanni_97
+
+	trait = lifespan_magic_4
+
+	2769.1.1 = { birth = yes }
+	3106.1.1 = { death = yes }
+}
+demnevanni_99 = {
+	name = "Llavana"
+	dynasty = dyn_demnevanni
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = demnevanni_98
+
+	trait = lifespan_3
+	trait = education_magic_3
+
+	3000.1.1 = { birth = yes }
+	3080.1.1 = { add_matrilineal_spouse = demnevanni_99_husband }
+	3245.6.22 = { death = yes }
+}
+demnevanni_99_husband = {
+	name = "Odral"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	2977.1.1 = { birth = yes }
+	3201.1.1 = { death = yes }
+}
+demnevanni_99b = { #Arnus Demnevanni from "The Feast of Saint Coellicia", minister of Brazollus, disinherited for that
+	name = "Arnus" #Lore
+	dynasty = dyn_demnevanni
+	culture = chi_addun
+	religion = imperial_cult
+	father = demnevanni_98
+	trait = lifespan_3
+	trait = disinherited
+	2800.1.1 = { birth = yes }
+	3041.1.1 = { death = yes }
+}
+demnevanni_100 = {
+	name = "Mirvon"
+	dynasty = dyn_demnevanni
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = demnevanni_99
+	father = demnevanni_99_husband
+
+	trait = lustful
+	#trait = fornicator
+	trait = seducer
+	trait = education_magic_2
+	trait = lifespan_3
+
+	3083.1.1 = { birth = yes }
+	3200.1.1 = { add_spouse = demnevanni_100_wife }
+	3338.1.6 = { death = yes }
+}
+demnevanni_100_wife = {
+	name = "Aeyne"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	3120.1.1 = { birth = yes }
+	3381.1.1 = { death = yes }
+}
+demnevanni_100_lover = {
+	name = "Ervyni"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	3100.1.1 = { birth = yes }
+	3206.1.1 = { death = { death_reason = death_disappearance } }
+}
+demnevanni_101 = {
+	name = "Ethal"
+	dynasty = dyn_demnevanni
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = demnevanni_100
+	mother = demnevanni_100_wife
+
+	trait = content
+	trait = honest
+	trait = wrathful
+	trait = lifespan_3
+	trait = education_magic_3
+	trait = education_diplomacy_3
+	trait = sign_atronach
+	disallow_random_traits = yes
+
+	3250.11.14 = { birth = yes }
+	3350.1.1 = {
+		effect = {
+			add_arcana_skill = { VALUE = 4 }
+			add_illusion_perk_effect = { LEVEL = 3 }
+		}
+		add_matrilineal_spouse = demnevanni_101_husband
+	}
+	3480.1.1 = { trait = bubonic_plague }
+	3481.7.28 = { death = { death_reason = death_bubonic_plague } }
+}
+demnevanni_101_husband = {
+	name = "Temis"
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_3
+	3268.1.1 = { birth = yes }
+	3480.1.1 = { trait = bubonic_plague }
+	3481.1.1 = { death = { death_reason = death_bubonic_plague } }
+}
+demnevanni_101b = { #Bastard, married to otheri_99
+	name = "Drelis"
+	dynasty = dyn_demnevanni
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = demnevanni_100
+	mother = demnevanni_100_lover
+
+	trait = bastard
+	trait = education_learning_3
+	trait = ambitious
+	trait = diligent
+	trait = trusting
+	trait = lifespan_3
+	trait = education_magic_1
+
+	3120.1.1 = { birth = yes }
+	3345.1.1 = { death = yes }
+}
+demnevanni_102 = {
+	name = "Brarayni"
+	dynasty = dyn_demnevanni
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = demnevanni_101
+	father = demnevanni_101_husband
+
+	trait = lifespan_3
+	trait = education_magic_3
+
+	3354.1.1 = { birth = yes }
+	3480.1.1 = { trait = bubonic_plague }
+	3481.1.1 = { death = { death_reason = death_bubonic_plague } }
+}
+demnevanni_102b = {
+	name = "Mandyn"
+	dynasty = dyn_demnevanni
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = demnevanni_101
+	father = demnevanni_101_husband
+
+	trait = lifespan_3
+
+	3366.1.1 = { birth = yes }
+	3641.1.1 = { death = yes } #Placeholder
+}
+demnevanni_revus = { #ESO character - eso says that he's ancestor of Baldas Demnevanni, but that's a lie and contradicts Morrowind
+	name = "Revus" #Lore
+	dynasty = dyn_demnevanni
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = demnevanni_102b
+
+	3450.1.1 = { birth = yes }
+	3611.1.1 = { death = yes }
+}
+demnevanni_103 = {
+	name = "Aryne"
+	dynasty = dyn_demnevanni
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = demnevanni_102
+
+	3485.1.1 = { birth = yes }
+	3702.1.1 = { death = yes }
+}
+
+###Selaro Dynasty, part of Telvannis council
+selaro_98 = {
+	name = "Drathyra"
+	dynasty = dyn_selaro
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_magic_4
+	trait = education_magic_4
+
+	2790.1.1 = { birth = yes }
+	2900.1.1 = { add_matrilineal_spouse = selaro_98_husband }
+	3045.1.1 = { death = yes }
+}
+selaro_98_husband = {
+	name = "Sarthis"
+	culture = chi_addun
+	religion = tribunal_temple
+	2828.1.1 = { birth = yes }
+	3059.1.1 = { death = yes }
+}
+selaro_99 = {
+	name = "Gendyn"
+	dynasty = dyn_selaro
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = selaro_98
+	father = selaro_98_husband
+
+	trait = lifespan_magic_4
+	trait = eccentric
+	trait = education_magic_2
+
+	2934.1.1 = { birth = yes }
+	3030.1.1 = { add_spouse = selaro_99_wife }
+	3177.1.1 = { death = { death_reason = death_flight_attempt } }
+}
+selaro_99_wife = {
+	name = "Aldyne"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_3
+	trait = depressed_1
+	2989.1.1 = { birth = yes }
+	3211.1.1 = { death = { death_reason = death_depressed } }
+}
+selaro_100 = { #First landed member of his family
+	name = "Folyni"
+	dynasty = dyn_selaro
+	culture = chi_addun
+	religion = tribunal_temple
+	sexuality = asexual
+
+	father = selaro_99
+	mother = selaro_99_wife
+
+	trait = lifespan_3
+	trait = arcana_good_2
+	trait = education_magic_3
+	trait = cynical
+	trait = temperate
+	trait = compassionate #Adopted a child
+	trait = education_learning_3
+	trait = sign_lady
+	disallow_random_traits = yes
+
+	3058.9.26 = { birth = yes }
+	3230.1.1 = { 
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3378.1.1 = { death = { death_reason = death_violent_storm } }
+}
+selaro_101 = {
+	name = "Fyrona"
+	dynasty = dyn_selaro
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = selaro_100
+
+	trait = disputed_heritage #Adopted
+	trait = lifespan_3
+	trait = education_magic_2
+	trait = arcana_good_1
+	trait = education_intrigue_3
+	trait = deceitful
+	trait = diligent
+	trait = patient
+	disallow_random_traits = yes
+
+	3290.1.1 = { birth = yes }
+	#3378 - Good at Alteration, survived storm, her father didn't
+	#3343 - orchestrates murder of archmagister and takes his position
+	3481.10.2 = { death = { death_reason = death_fall } } #Forgot to cast levitation, may have been murdered...
+}
+
+selaro_102 = {
+	name = "Anila"
+	dynasty = dyn_selaro
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = selaro_101
+
+	trait = lifespan_3
+
+	3406.1.1 = { birth = yes }
+	3482.1.1 = { death = { death_reason = death_mysterious } }
+}
+
+#Vanniran, take over Selaro lands
+vanniran_100 = {
+	name = "Daliina"
+	dynasty = dyn_vanniran
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	3429.1.1 = { birth = yes }
+	3744.1.1 = { death = yes } #Placeholder
+}
+
+##Telvayn Dynasty (dyn_telvayn), supposedly founders of Great House
+telvayn_90 = {
+	name = "Bivessa"
+	dynasty = dyn_telvayn
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_magic_5
+	444.1.1 = { birth = yes }
+	897.1.1 = { death = { death_reason = death_battle } }
+}
+telvayn_91 = {
+	name = "Torolon"
+	dynasty = dyn_telvayn
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = telvayn_90
+
+	trait = lifespan_magic_5
+	744.1.1 = { birth = yes }
+	1107.9.3 = { death = { death_reason = death_mysterious } }
+}
+telvayn_91b = {
+	name = "Talres"
+	culture = chi_addun
+	religion = tribunal_temple
+	dynasty = dyn_telvayn
+	mother = telvayn_90
+	trait = education_intrigue_3
+	trait = education_magic_4
+	trait = lifespan_magic_4
+	761.1.1 = { birth = yes }
+	982.4.6 = { death = { death_reason = death_murder } }
+}
+telvayn_91c = {
+	name = "Aneyda"
+	dynasty = dyn_telvayn
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = telvayn_90
+	trait = lifespan_magic_5
+
+	790.1.1 = { birth = yes }
+	1066.1.1 = { death = { death_reason = death_murder } }
+}
+telvayn_92 = { #Loses land
+	name = "Alvela"
+	dynasty = dyn_telvayn
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = telvayn_91
+
+	trait = lifespan_magic_5
+
+	1100.1.1 = { birth = yes }
+	1476.1.1 = { death = yes }
+}
+telvayn_92b = {
+	name = "Aval"
+	dynasty = dyn_telvayn
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = telvayn_91
+	trait = lifespan_magic_5
+
+	990.1.1 = { birth = yes }
+	1106.1.1 = { death = { death_reason = death_murder } }
+}
+telvayn_93 = {
+	name = "Alvela"
+	dynasty = dyn_telvayn
+	culture = chi_addun
+	religion = tribunal_temple
+	mother = telvayn_92
+	trait = line_of_x
+	disallow_random_traits = yes
+	diplomacy = 0
+	martial = 0
+	stewardship = 0
+	intrigue = 0
+	learning = 0
+	prowess = 0
+	1476.1.1 = { birth = yes }
+	1490.1.1 = { give_nickname = nick_line_of }
+	2750.1.1 = { death = yes }
+}
+telvayn_94 = {
+	name = "Threvul"
+	dynasty = dyn_telvayn
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = telvayn_93
+
+	trait = education_magic_2
+	trait = lifespan_3
+
+	2750.1.1 = { birth = yes }
+	2860.1.1 = { add_spouse = telvayn_94_wife }
+	3022.8.20 = { death = yes }
+}
+
+telvayn_94_wife = {
+	name = "Elvali"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = education_magic_1
+	trait = lifespan_3
+
+	2773.1.1 = { birth = yes }
+	3010.1.1 = { death = yes }
+}
+
+telvayn_95 = {
+	name = "Alanil"
+	dynasty = dyn_telvayn
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = telvayn_94
+	mother = telvayn_94_wife
+
+	trait = lifespan_magic_4
+	trait = education_learning_4
+
+	2870.1.1 = { birth = yes }
+	2898.1.1 = { add_spouse = telvayn_95_wife }
+	3200.12.13 = { death = yes }
+}
+
+telvayn_95_wife = {
+	name = "Sehlena"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_magic_4
+
+	2832.1.1 = { birth = yes }
+	3194.1.1 = { death = yes }
+}
+
+telvayn_98 = {
+	name = "Soris"
+	dynasty = dyn_telvayn
+	culture = chi_addun
+	religion = idealmasters
+
+	father = telvayn_95
+	mother = telvayn_95_wife
+
+	trait = lifespan_magic_5
+	trait = callous
+	trait = arrogant
+	trait = shy
+	trait = necromancer
+	trait = experimentalist
+	trait = disinherited
+	trait = education_learning_4
+	trait = education_magic_3
+
+	2900.1.1 = { birth = yes }
+	2901.1.1 = {
+		effect = {
+			add_arcana_skill = { VALUE = 3 }
+		}
+	}
+	3350.1.1 = { # Raises himself an undead army
+		effect = {
+			spawn_army = {
+				levies = {
+                    value = 100
+                }
+                inheritable = no
+				uses_supply = no
+                name = "undead_horde"
+				location = province:4380
+				origin = province:4380
+			}
+		}
+	}
+	#Killed by an apprentice
+	3382.6.29 = { death = { death_reason = death_murder killer = nelas_100 } }
+}
+
+telvayn_99 = {
+	name = "Telvon"
+	dynasty = dyn_telvayn
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = telvayn_95
+	mother = telvayn_95_wife
+
+	trait = education_magic_3
+
+	3000.1.1 = { birth = yes }
+	3160.1.1 = { add_spouse = tenvanni_98b }
+	3250.1.7 = { death = yes }
+}
+
+telvayn_100 = { #Wants to take land from his cousins, fails, gets killed by them eventually
+	name = "Uvren"
+	dynasty = dyn_telvayn
+	culture = chi_addun
+	religion = tribunal_temple
+	
+	father = telvayn_99
+	mother = tenvanni_98b
+
+	trait = paranoid
+	trait = sadistic
+	trait = greedy
+	trait = lifespan_3
+	trait = education_magic_3
+	trait = arcana_good_1
+	trait = education_intrigue_2
+	trait = sign_shadow
+	disallow_random_traits = yes
+
+	3200.5.3 = { birth = yes }
+	3280.1.1 = { add_spouse = telvayn_100_wife }
+	3346.1.1 = {
+		effect = {
+			if = { #Hates tenvanni's mouth who took land before him
+				limit = { character:fathryon_100 = { is_alive = yes } }
+				set_relation_rival = { target = character:fathryon_100 reason = rival_historical }
+			}
+		}
+	}
+	3350.1.1 = {
+		effect = {
+			add_arcana_skill = { VALUE = 4 }
+			add_destruction_perk_effect = { LEVEL = 2 }
+			add_illusion_perk_effect = { LEVEL = 2 }
+		}
+	}
+	#Killed by last Tenvanni in a duel
+	3367.4.11 = { death = { death_reason = death_electricity_magic killer = tenvanni_101 } }
+}
+
+telvayn_100_wife = {
+	name = "Endase"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	3211.1.1 = { birth = yes }
+	#Killed by last Tenvanni in a duel
+	3367.4.11 = { death = { death_reason = death_electricity_magic killer = tenvanni_101 } }
+}
+
+telvayn_100b = {
+	name = "Fyrayn"
+	dynasty = dyn_telvayn
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = telvayn_99
+
+	trait = education_magic_1
+	trait = education_learning_2
+	trait = lazy
+	trait = paranoid
+	trait = deceitful
+	trait = lifespan_3
+	disallow_random_traits = yes
+
+	3230.1.1 = { birth = yes }
+	3375.9.25 = { death = { death_reason = death_execution killer = enduren_100 } }
+}
+
+telvayn_101 = {
+	name = "Tirvel"
+	dynasty = dyn_telvayn
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = telvayn_100
+	mother = telvayn_100_wife
+
+	trait = education_learning_3
+	trait = education_magic_3
+	trait = reclusive
+	trait = shy
+	trait = craven
+	trait = diligent
+	trait = lifespan_3
+	trait = sign_apprentice
+	disallow_random_traits = yes
+
+	3290.7.8 = { birth = yes }
+	3350.1.1 = { 
+		add_spouse = telvayn_101_wife
+		effect = { make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:hermaeus_cult} } 
+	}
+	3375.9.24 = { death = { death_reason = death_murder_known killer = enduren_100 } }
+}
+
+telvayn_101_wife = {
+	name = "Rendrasa"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	3272.1.1 = { birth = yes }
+	3375.9.25 = { death = { death_reason = death_murder_known killer = enduren_100 } }
+}
+
+telvayn_102 = {
+	name = "Tens"
+	dynasty = dyn_telvayn
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = telvayn_101
+	mother = telvayn_101_wife
+
+	3364.1.1 = { birth = yes }
+	3375.9.25 = { death = { death_reason = death_execution killer = enduren_100 } }
+}
+
+telvayn_102b = {
+	name = "Elvali"
+	dynasty = dyn_telvayn
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = telvayn_100b
+
+	female = yes
+
+	3372.1.1 = { birth = yes }
+	3710.1.1 = { death = yes }
+}
+
+telvayn_103 = {
+	name = "Hlura"
+	dynasty = dyn_telvayn
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = telvayn_102b
+
+	trait = education_learning_3
+	trait = education_magic_3
+
+	3450.1.1 = { birth = yes }
+	3682.1.1 = { death = yes }
+}
+
+telvayn_104 = {
+	name = "Methas"
+	dynasty = dyn_telvayn
+	culture = chi_addun
+	religion = tribunal_temple
+	mother = telvayn_103
+	trait = education_magic_4
+
+	3604.1.1 = { birth = yes }
+	3923.1.1 = { death = yes }
+}
+
+###Fathryon Dynasty (dyn_fathryon)
+fathryon_98 = { 
+	name = "Ultis"
+	dynasty = dyn_fathryon
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	2920.1.1 = { birth = yes }
+	3080.1.1 = { add_spouse = fathryon_98_wife }
+	3157.1.1 = { death = yes }
+}
+fathryon_98_wife = {
+	name = "Inera"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_magic_4
+
+	2955.1.1 = { birth = yes }
+	3207.1.1 = { death = yes }
+}
+fathryon_99 = {
+	name = "Drovas"
+	dynasty = dyn_fathryon
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = fathryon_98
+	mother = fathryon_98_wife
+
+	trait = lifespan_3
+
+	3103.1.1 = { birth = yes }
+	3200.1.1 = { add_spouse = fathryon_99_wife }
+	3322.1.1 = { death = { death_reason = death_fall_in_hole } }
+}
+fathryon_99_wife = {
+	name = "Dalmi"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	3057.1.1 = { birth = yes }
+	3303.1.1 = { death = yes }
+}
+fathryon_100 = { #Was mouth of Tenvanni_100
+	name = "Adril"
+	dynasty = dyn_fathryon
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = fathryon_99
+	mother = fathryon_99_wife
+
+	trait = education_learning_2
+	trait = cynical
+	trait = sadistic
+	trait = greedy
+	trait = education_magic_3
+	trait = arcana_good_1
+	trait = lifespan_3
+	trait = sign_tower
+	disallow_random_traits = yes
+
+	3238.10.23 = { birth = yes }
+	3350.1.1 = {
+		effect = {
+			add_arcana_skill = { VALUE = 6 }
+			add_destruction_perk_effect = { LEVEL = 2 }
+			add_conjuration_perk_effect = { LEVEL = 4 }
+		}
+	}
+	3290.1.1 = { add_spouse = fathryon_100_wife }
+	3477.1.1 = { trait = typhus }
+	3478.11.22 = { death = { death_reason = death_typhus } }
+}
+
+fathryon_100_wife = {
+	name = "Bili"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	3250.1.1 = { birth = yes }
+	3529.1.1 = { death = yes }
+}
+
+fathryon_100b = {
+	name = "Fyrayn"
+	dynasty = dyn_fathryon
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = fathryon_99
+	mother = fathryon_99_wife
+
+	trait = education_martial_4
+	trait = flexible_leader
+	trait = craven
+	trait = lifespan_3
+	trait = education_magic_3
+
+	3270.1.1 = { birth = yes }
+	3344.1.1 = { employer = githrano_102 } #Port Telvannis
+	3488.1.1 = { trait = bubonic_plague }
+	3489.1.1 = { death = { death_reason = death_bubonic_plague } }
+}
+
+fathryon_101 = {
+	name = "Adril"
+	dynasty = dyn_fathryon
+	culture = chi_addun
+	religion = tribunal_temple
+	father = fathryon_100
+	mother = fathryon_100_wife
+
+	trait = education_diplomacy_2
+	trait = deceitful
+	trait = lifespan_3
+	trait = education_magic_3
+
+	3307.1.1 = { birth = yes }
+	3439.1.1 = { death = { death_reason = death_heart_attack } }
+}
+
+fathryon_101b = {
+	name = "Bravynor"
+	dynasty = dyn_fathryon
+	culture = chi_addun
+	religion = tribunal_temple
+	father = fathryon_100
+	mother = fathryon_100_wife
+
+	trait = education_martial_1
+	trait = forgiving
+	trait = humble
+	trait = arcana_good_1
+	trait = lifespan_3
+	trait = education_magic_2
+
+	3315.1.1 = { birth = yes }
+	3493.12.3 = { death = { death_reason = death_accident } }
+}
+
+fathryon_102 = {
+	name = "Danaronea"
+	dynasty = dyn_fathryon
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = fathryon_100b
+
+	trait = education_intrigue_3
+	trait = education_magic_2
+	trait = ambitious
+	trait = callous
+	trait = shy
+	trait = lifespan_3
+
+	3397.1.1 = { birth = yes }
+	3634.1.1 = { death = yes } #Placeholder
+}
+
+#Draneth, rulers of Tel Natu, vampire clan lives there in TR, part of Telvannis council
+draneth_97 = {
+	name = "Vorir"
+	dynasty = dyn_draneth
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_3
+	2592.1.1 = { birth = yes }
+	2700.1.1 = { add_spouse = draneth_97_wife }
+	2840.1.1 = { death = yes }
+}
+draneth_97_wife = {
+	name = "Odrasa"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	2609.1.1 = { birth = yes }
+	2911.1.1 = { death = yes }
+}
+draneth_98 = {
+	name = "Dilvene"
+	dynasty = dyn_draneth
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = draneth_97
+	mother = draneth_97_wife
+
+	trait = lifespan_magic_4
+
+	2713.1.1 = { birth = yes }
+	2900.1.1 = { add_matrilineal_spouse = draneth_98_husband }
+	3111.12.4 = { death = yes }
+}
+draneth_98_husband = {
+	name = "Viras"
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_magic_4
+	2798.1.1 = { birth = yes }
+	3256.1.1 = { death = yes }
+}
+draneth_99 = {
+	name = "Manolos"
+	dynasty = dyn_draneth
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = draneth_98
+	father = draneth_98_husband
+
+	trait = lifespan_3
+	trait = craven
+	trait = content
+	trait = shy
+	trait = reclusive
+	trait = education_learning_2
+	trait = education_magic_2
+	trait = sign_atronach
+	disallow_random_traits = yes
+
+	2968.11.20 = { birth = yes }
+	3160.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+		add_spouse = draneth_99_wife
+	}
+	3363.1.3 = { death = { death_reason = death_old_age } }
+}
+draneth_99_wife = {
+	name = "Bedenea"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_3
+	3100.1.1 = { birth = yes }
+	3366.1.1 = { death = { death_reason = death_old_age } }
+}
+draneth_100 = {
+	name = "Nivel"
+	dynasty = dyn_draneth
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = draneth_99
+	mother = draneth_99_wife
+
+	trait = lifespan_3
+	trait = ambitious
+	trait = cynical
+	trait = callous
+	trait = education_magic_3
+	trait = education_learning_3
+	trait = sign_thief
+	disallow_random_traits = yes
+
+	3234.12.21 = { birth = yes }
+	3367.1.1 = { #Wants to live longer
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+			#Starts worshipping Molag
+			make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:molag_cult }
+		}
+	}
+	3501.1.1 = { #Molag turns him into vamp
+		effect = {
+			add_character_flag = already_immortal_age_flag
+			give_vampire_secret_or_trait_effect = yes
+			set_immortal_age = 40
+		}
+	}
+	#Attacked by ordinators, Nivel decides to retreat rather than die
+	3520.4.12 = { death = { death_reason = death_disappearance } }
+}
+
+#Odrethi dynasty, part of Telvannis council
+odrethi_98 = {
+	name = "Savur"
+	dynasty = dyn_odrethi
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = tenim_100
+	mother = tenim_100_lover
+
+	trait = bastard_founder
+	trait = ambitious
+	trait = education_intrigue_1
+	trait = lifespan_magic_4
+
+	2809.1.1 = { birth = yes }
+	2890.1.1 = { add_spouse = odrethi_98_wife }
+	#Decides that he wants to become archmagister, but that is quickly stopped by current one
+	3065.1.1 = { death = { death_reason = death_murder_known killer = varethi_99 } }
+}
+odrethi_98_wife = {
+	name = "Avoni"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_3
+	2781.1.1 = { birth = yes }
+	3065.1.1 = { death = { death_reason = death_murder_known killer = varethi_99 } }
+}
+odrethi_99 =  {
+	name = "Favani"
+	dynasty = dyn_odrethi
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	sexuality = bisexual
+
+	father = odrethi_98
+	mother = odrethi_98_wife
+
+	trait = lifespan_3
+	trait = arrogant
+	trait = vengeful
+	trait = cynical
+	trait = reclusive
+	trait = education_intrigue_3
+	trait = education_magic_3
+	trait = sign_mage
+	disallow_random_traits = yes
+
+	2916.4.30 = { birth = yes }
+	3000.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_5
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+			add_arcana_skill = { VALUE = 4 }
+			add_conjuration_perk_effect = { LEVEL = 5 }
+			add_destruction_perk_effect = { LEVEL = 2 }
+		}
+	}
+	3250.1.1 = { add_matrilineal_spouse = odrethi_99_husband }
+	3300.1.1 = {
+		effect = { 
+			add_hook = {
+				target = character:odrethi_dremora
+				type = loyalty_hook
+			}
+			add_hook = {
+				target = character:odrethi_dremora2
+				type = loyalty_hook
+			}
+		}
+	}
+	3350.1.1 = { # Raises herself a small daedric army
+		effect = {
+			spawn_army = {
+				men_at_arms = {
+                    type = daedra
+                    stacks = 2
+                }
+                inheritable = no
+                name = "daedra"
+				location = province:4292
+				origin = province:4292
+			}
+			if = {
+				limit = { character:odrethi_dremora2 = { is_alive = yes } }
+				set_relation_lover = { reason = lover_history target = character:odrethi_dremora2 }
+			}
+		}
+	}
+	3431.1.1 = { death = { death_reason = death_murder_known killer = odrethi_dremora } }
+}
+odrethi_99_husband = {
+	name = "Survaris"
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_3
+	3130.1.1 = { birth = yes }
+	3391.1.1 = { death = yes }
+}
+odrethi_100 = {
+	name = "Thervam"
+	dynasty = dyn_odrethi
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = odrethi_99
+	father = odrethi_99_husband
+
+	trait = lifespan_3
+	trait = craven
+	trait = paranoid
+	trait = cynical
+	trait = education_magic_3
+	trait = education_learning_3
+
+	3283.1.1 = { birth = yes }
+	3597.1.1 = { death = yes } #Placeholder
+}
+
+odrethi_dremora = {
+	name = "Tuzunkykz"
+	culture = dremora
+	religion = molag_cult
+
+	trait = deceitful
+	trait = patient
+	trait = vengeful
+	trait = education_intrigue_3
+	trait = education_martial_prowess_3
+	
+	3050.1.1 = { birth = yes } #Summoned
+	3350.1.1 = { employer = odrethi_99 }
+	3432.1.1 = { death = { death_reason = death_banished killer = odrethi_100 } }
+}
+
+odrethi_dremora2 = {
+	name = "Rykuna"
+	culture = dremora
+	religion = molag_cult
+	female = yes
+	3050.1.1 = { birth = yes } #Summoned
+	3350.1.1 = { employer = odrethi_99 }
+	3432.1.1 = { death = { death_reason = death_banished killer = odrethi_100 } }
+}
+
+#Duleri dynasty, descendants of saint Vorys, part of Telvannis council
+duleri_vorys = { #Saint Vorys
+	name = "Vorys" #Lore
+	dynasty = dyn_duleri
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = saint #Saint
+	trait = lifespan_magic_5
+	trait = sadistic
+	trait = arrogant
+	trait = wrathful
+	trait = education_magic_4
+	trait = education_martial_4
+
+	2093.1.1 = { birth = yes }
+	2500.1.1 = { give_nickname = nick_the_immolant }
+	2606.1.1 = { death = yes }
+}
+duleri_96 = {
+	name = "Velms"
+	dynasty = dyn_duleri
+	culture = chi_addun
+	religion = tribunal_temple
+	father = duleri_vorys
+	trait = lifespan_magic_4
+	2376.1.1 = { birth = yes }
+	2783.1.1 = { death = yes }
+}
+duleri_97 = {
+	name = "Uradras"
+	dynasty = dyn_duleri
+	culture = chi_addun
+	religion = tribunal_temple
+	father = duleri_96
+	trait = lifespan_magic_4
+	2549.1.1 = { birth = yes }
+	2962.1.1 = { death = { death_reason = death_natural_causes } }
+}
+duleri_98 = {
+	name = "Almse"
+	dynasty = dyn_duleri
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	father = duleri_97
+	trait = lifespan_magic_4
+	2710.1.1 = { birth = yes }
+	3091.1.1 = { death = { death_reason = death_mysterious } }
+}
+duleri_99 = {
+	name = "Dileno"
+	dynasty = dyn_duleri
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	mother = duleri_98
+	trait = lifespan_3
+	2946.1.1 = { birth = yes }
+	3120.1.1 = { death = yes }
+}
+duleri_100 = { #Archmagister
+	name = "Frathen"
+	dynasty = dyn_duleri
+	culture = chi_addun
+	religion = tribunal_temple
+	mother = duleri_99
+	trait = education_intrigue_4
+	trait = torturer
+	trait = sadistic
+	trait = paranoid
+	trait = patient
+	trait = education_magic_4
+	trait = lifespan_magic_4
+	3020.1.1 = { birth = yes }
+	3344.5.4 = { death = { death_reason = death_murder_known killer = githrano_102 } }
+}
+
+duleri_100b = {
+	name = "Cindiri"
+	dynasty = dyn_duleri
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = duleri_99
+
+	trait = lifespan_3
+
+	3033.1.1 = { birth = yes }
+	3140.1.1 = { add_matrilineal_spouse = duleri_100b_husband }
+	3268.1.1 = { death = yes }
+}
+
+duleri_100b_husband = {
+	name = "Narivys"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	3046.1.1 = { birth = yes }
+	3259.1.1 = { death = yes }
+}
+
+duleri_101 = {
+	name = "Venthin"
+	dynasty = dyn_duleri
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = duleri_100b
+	father = duleri_100b_husband
+
+	trait = lifespan_3
+
+	3158.1.1 = { birth = yes }
+	#Executed by new archmagister
+	3344.1.1 = { death = { death_reason = death_execution killer = githrano_102 } }
+}
+
+duleri_1011 = {
+	name = "Varel"
+	dynasty = dyn_duleri
+	culture = chi_addun
+	religion = tribunal_temple
+	father = duleri_101
+	trait = lifespan_3
+	3267.1.1 = { birth = yes }
+	#Executed by new archmagister
+	3344.1.1 = { death = { death_reason = death_execution killer = githrano_102 } }
+}
+
+duleri_1012 = {
+	name = "Threvul"
+	dynasty = dyn_duleri
+	culture = chi_addun
+	religion = tribunal_temple
+	father = duleri_101
+	trait = lifespan_3
+	3292.1.1 = { birth = yes }
+	#Executed by new archmagister
+	3344.1.1 = { death = { death_reason = death_execution killer = githrano_102 } }
+}
+
+duleri_101b = {
+	name = "Avoni"
+	dynasty = dyn_duleri
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = duleri_100b
+	father = duleri_100b_husband
+
+	trait = lifespan_3
+
+	3184.1.1 = { birth = yes }
+	3250.1.1 = { add_matrilineal_spouse = duleri_101b_husband }
+	#Executed by new archamgister
+	3344.1.1 = { death = { death_reason = death_execution killer = githrano_102 } }
+}
+
+duleri_101b_husband = {
+	name = "Vother"
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_3
+	3199.1.1 = { birth = yes }
+	#Executed by new archamgister
+	3344.1.1 = { death = { death_reason = death_execution killer = githrano_102 } }
+}
+
+duleri_102 = { #Only survivor in her family after the purge by new Archmagister
+	name = "Dileno"
+	dynasty = dyn_duleri
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_3
+	female = yes
+
+	mother = duleri_101b
+	father = duleri_101b_husband
+	
+	trait = stubborn #Resists archmagister for a decade
+	trait = vengeful
+	trait = paranoid
+	trait = unyielding_defender #Resists archmagister for a decade
+	trait = education_martial_3
+	trait = education_magic_3
+	trait = sign_steed
+	disallow_random_traits = yes
+	
+	3277.6.19 = { birth = yes }
+	3350.1.1 = {
+		effect = {
+			add_alteration_perk_effect = { LEVEL = 3 }
+			add_restoration_perk_effect = { LEVEL = 1 }
+		}
+	}
+	#Finally killed by archmagister's forces, last Duleri
+	3368.1.1 = { death = { death_reason = death_battle killer = maryon_tel_102 } }
+}
+
+duleri_102b = {
+	name = "Saldus"
+	dynasty = dyn_duleri
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_3
+	mother = duleri_101b
+	father = duleri_101b_husband
+	3294.1.1 = { birth = yes }
+	#Executed by new archamgister
+	3344.1.1 = { death = { death_reason = death_execution killer = githrano_102 } }
+}
+
+#Githrano dynasty
+githrano_99 = {
+	name = "Virvyn"
+	dynasty = dyn_githrano
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_magic_4
+
+	2850.1.1 = { birth = yes }
+	3100.9.13 = { death = { death_reason = death_accident } }
+}
+githrano_100 = { #Archmagister from eso book
+	name = "Varona" #Lore
+	dynasty = dyn_githrano
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = githrano_99
+
+	trait = ambitious
+	trait = fickle
+	trait = deceitful
+	trait = shrewd
+	trait = education_intrigue_3
+	trait = education_magic_2
+	trait = lifespan_3
+
+	3060.1.1 = { birth = yes }
+	3203.7.2 = { death = { death_reason = death_duel killer = duleri_100 } }
+}
+
+githrano_100b = {
+	name = "Arvena"
+	dynasty = dyn_githrano
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	father = githrano_99
+	trait = lifespan_3
+
+	trait = craven
+	trait = education_magic_1
+
+	3016.1.1 = { birth = yes }
+	3100.1.1 = { add_matrilineal_spouse = githrano_100b_husband }
+	3189.1.1 = { death = { death_reason = death_stress } }
+}
+
+githrano_100b_husband = {
+	name = "Talvas"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = education_magic_3
+	trait = lifespan_magic_4
+
+	3000.1.1 = { birth = yes }
+	3304.1.1 = { death =  { death_reason = death_chrondiasis } }
+}
+
+githrano_101 = {
+	name = "Devas"
+	dynasty = dyn_githrano
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = githrano_100b
+	father = githrano_100b_husband
+
+	trait = education_magic_3
+	trait = lifespan_3
+
+	3110.1.1 = { birth = yes }
+	3170.1.1 = { add_spouse = githrano_101_wife }
+	3302.1.1 = { trait = chrondiasis }
+	3304.1.1 = { death =  { death_reason = death_chrondiasis } }
+}
+
+githrano_101_wife = {
+	name = "Bera"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_3
+	3089.1.1 = { birth = yes }
+	3302.1.1 = { trait = chrondiasis }
+	3304.1.1 = { death =  { death_reason = death_chrondiasis } }
+}
+
+githrano_102 = {
+	name = "Ferena"
+	dynasty = dyn_githrano
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = githrano_101
+	mother = githrano_101_wife
+
+	trait = education_magic_3
+	trait = education_intrigue_3
+	trait = vengeful #Finishes off rival family
+	trait = impatient
+	trait = diligent #Finishes off rival family
+	trait = experimentalist
+	trait = lifespan_3
+	trait = sign_lord
+	disallow_random_traits = yes
+
+	3192.3.8 = { birth = yes }
+	3322.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+			add_destruction_perk_effect = { LEVEL = 3 }
+			add_illusion_perk_effect = { LEVEL = 2 }
+			add_conjuration_perk_effect = { LEVEL = 2 }
+			add_arcana_skill = { VALUE = 6 } 
+		}
+	}
+	3344.1.1 = {
+		effect = {
+			if = {
+				limit = { character:duleri_102 = { is_alive = yes } }
+				set_relation_nemesis = { target = character:duleri_102 reason = nemesis_historical }
+			}
+		}
+	}
+	3358.1.1 = { add_matrilineal_spouse = fathryon_101b }
+	3436.1.1 = { trait = wounded_2 } #Unsuccesful experiment
+	#Her mouth does not waste the opportunity
+	3436.6.11 = { death = { death_reason = death_duel killer = nethalen_100 } }
+}
+
+githrano_103 = {
+	name = "Seltin"
+	dynasty = dyn_githrano
+	culture = chi_addun
+	religion = tribunal_temple
+	
+	mother = githrano_102
+	father = fathryon_101b
+
+	trait = lifespan_3
+	trait = greedy
+	trait = cynical
+	trait = craven
+	trait = education_learning_3
+	trait = education_magic_2
+	disallow_random_traits = yes
+
+	3377.1.1 = { birth = yes }
+	3436.6.12 = { death = { death_reason = death_execution killer = nethalen_100 } }
+}
+
+#Nethalen
+nethalen_99 = {
+	name = "Dalnorea"
+	dynasty = dyn_nethalen
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	3131.1.1 = { birth = yes }
+	3349.1.1 = { death = yes }
+}
+nethalen_100 = { #Archmagister Githrano's mouth
+	name = "Syndelius"
+	dynasty = dyn_nethalen
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = nethalen_99
+
+	trait = ambitious
+	trait = arrogant
+	trait = fickle
+	trait = education_magic_4
+	trait = education_intrigue_2
+	trait = lifespan_3
+
+	3253.1.1 = { birth = yes }
+	3330.1.1 = { 
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3350.1.1 = { employer = githrano_102 }
+	#3436 - decides to challenge Telvanni archmagister and succeeds
+	#His rule does not last long however
+	3443.3.28 = { death = { death_reason = death_torn_to_pieces_by_mob } }
+}
+
+nethalen_101 = { #Hates selaro_101 and blames her for his father's death
+	name = "Trels"
+	dynasty = dyn_nethalen
+	culture = chi_addun
+	religion = tribunal_temple
+	
+	father = nethalen_100
+
+	3394.1.1 = { birth = yes }
+	3443.3.2 = {
+		effect = {
+			if = {
+				limit = { character:selaro_101 = { is_alive = yes } }
+				set_relation_rival = { target = character:selaro_101 reason = rival_historical }
+			}
+		}
+	}
+	#Future Archmagister exploits his hate and marries his sister to him
+	3473.1.1 = { add_spouse = otheri_101b }
+	3578.1.1 = { death = yes } #Placeholder 
+}
+
+nethalen_102 = {
+	name = "Darvasa"
+	dynasty = dyn_nethalen
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = nethalen_101
+	mother = otheri_101b
+
+	3486.1.1 = { birth = yes }
+	3718.1.1 = { death = yes } #Placeholder 
+}
+
+#Enduren, replace Telvayn
+enduren_98 = {
+	name = "Darva"
+	dynasty = dyn_enduren
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_magic_4
+	2812.1.1 = { birth = yes }
+	3297.1.1 = { death = yes }
+}
+enduren_99 = {
+	name = "Gadela"
+	dynasty = dyn_enduren
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	mother = enduren_98
+	trait = lifespan_magic_4
+	3098.1.1 = { birth = yes }
+	3348.1.1 = { death = { death_reason = death_ill } }
+}
+enduren_99_husband = {
+	name = "Ethenen"
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_3
+	3089.1.1 = { birth = yes }
+	3363.1.1 = { death = yes }
+}
+enduren_100 = {
+	name = "Dalyne"
+	dynasty = dyn_enduren
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = enduren_99
+	father = enduren_99_husband
+
+	trait = temperate #Doesn't kill all Telvayns (just 3)
+	trait = diligent
+	trait = cynical
+	trait = education_intrigue_3
+	trait = education_magic_3
+	trait = lifespan_3
+	disallow_random_traits = yes
+
+	3295.1.1 = { birth = yes }
+	3350.1.1 = { employer = telvayn_100 }
+	3368.1.1 = { employer = telvayn_101 }
+	3370.1.1 = {
+		effect = { #Decides to kill her liege
+			start_scheme = {
+				target_character = character:telvayn_101
+				type = murder
+			}
+		}
+	}
+	3477.12.21 = { death = { death_reason = death_mysterious } }
+}
+
+enduren_101 = {
+	name = "Sildreth" #ESO name of a magister, we actually don't know anything about him
+	dynasty = dyn_enduren
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = enduren_100
+
+	trait = education_magic_3
+	trait = lifespan_3
+	trait = arrogant
+	trait = education_learning_3
+
+	3373.1.1 = { birth = yes }
+	3611.1.1 = { death = yes } #Placeholder
+}
+
+enduren_101b = {
+	name = "Trels"
+	dynasty = dyn_enduren
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = enduren_100
+
+	trait = lifespan_3
+
+	3401.1.1 = { birth = yes }
+	3733.1.1 = { death = yes } #Placeholder
+}
+
+
+#Telvanni part Venali dynasty, part of Telvannis
+venali_96 = {
+	name = "Beneran"
+	dynasty = dyn_venali
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_magic_4
+	trait = schemer
+	trait = education_intrigue_5
+	trait = education_magic_3
+
+	2482.1.1 = { birth = yes }
+	2782.4.4 = { death = { death_reason = death_duel killer = tenim_100 } }
+}
+venali_97 = {
+	name = "Survaris"
+	dynasty = dyn_venali
+	culture = chi_addun
+	religion = tribunal_temple
+	father = venali_96
+	trait = lifespan_magic_4
+
+	2571.1.1 = { birth = yes }
+	2782.1.1 = { death = { death_reason = death_murder_known killer = tenim_100 } } 
+}
+venali_97b = {
+	name = "Tanel"
+	dynasty = dyn_venali
+	culture = chi_addun
+	religion = tribunal_temple
+	father = venali_96
+	trait = lifespan_magic_4
+
+	2604.1.1 = { birth = yes }
+	2782.1.1 = { death = { death_reason = death_murder_known killer = tenim_100 } } 
+}
+venali_98 = {
+	name = "Beneran" #A cunning politician and proficient magelord, his callousness disgusted his son who fled the House.
+	dynasty = dyn_venali
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = venali_97
+
+	trait = lifespan_magic_5
+	trait = deceitful
+	trait = fickle
+	trait = ambitious
+	trait = schemer
+	trait = education_intrigue_4
+	trait = education_magic_3
+
+	2672.1.1 = { birth = yes }
+	3050.1.1 = { add_spouse = venali_98_wife }
+	3203.5.25 = { death = { death_reason = death_poison } }
+}
+
+venali_98_wife = {
+	name = "Brela"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_magic_4
+
+	2953.1.1 = { birth = yes }
+	3203.1.1 = { death = { death_reason = death_poison } } #Dies with her husband
+}
+
+venali_99 = {
+	name = "Benar" #Expatriated himself to Indoril to avoid the Telvanni politics.
+	dynasty = dyn_venali
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = venali_98
+	mother = venali_98_wife
+
+	trait = lifespan_3
+	trait = humble
+	trait = zealous
+	trait = content
+	trait = theologian
+	trait = education_learning_2
+	trait = adventurer
+	trait = education_magic_3
+
+	3104.1.1 = { birth = yes }
+	3220.1.1 = { add_spouse = venali_99_wife }
+	3310.1.1 = { death = yes }
+}
+
+venali_99_wife = { #History ToDo: connect to chuzei noble family
+	name = "Sela"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_3
+	3140.1.1 = { birth = yes }
+	3351.1.1 = { death = yes }
+}
+
+selyn_100 = {
+	name = "Marlyn" #Benaril's sister who chose to reclaim her Telvanni heritage.
+	dynasty_house = dyn_selyn #Decides to start using new name
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = venali_99
+	mother = venali_99_wife
+
+	trait = calm
+	trait = arrogant
+	trait = stubborn
+	trait = arcana_good_1
+	trait = lifespan_3
+	trait = education_intrigue_2
+	trait = education_magic_3
+	trait = sign_lover
+	disallow_random_traits = yes
+
+	3240.2.15 = { birth = yes }
+	3318.1.1 = { add_matrilineal_spouse = selyn_100_husband }
+	3350.1.1 = {
+		effect = { #Wants c_sadas back
+			if = {
+				limit = { character:demnevanni_101 = { is_alive = yes } }
+				set_relation_rival = { target = character:demnevanni_101 reason = rival_historical }
+			}
+			add_arcana_skill = { VALUE = 3 }
+			add_destruction_perk_effect = { LEVEL = 2 }
+			add_conjuration_perk_effect = { LEVEL = 3 }
+		}
+	}
+	3478.5.23 = { death = { death_reason = death_drowned } }
+}
+
+selyn_100_husband = {
+	name = "Sendel"
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_3
+	3211.1.1 = { birth = yes }
+	3300.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3623.1.1 = { death = yes }
+}
+
+selyn_101 = {
+	name = "Vedelea" #Marlyn's daughter, subpar plotter with mediocre arcane talent
+	dynasty_house = dyn_selyn
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = selyn_100
+	father = selyn_100_husband
+
+	trait = education_intrigue_2
+	trait = stubborn
+	trait = honest
+	trait = cynical
+	trait = arcana_good_1
+	trait = lifespan_3
+	trait = education_magic_2
+
+	3328.1.1 = { birth = yes }
+	3485.1.1 = { trait = bubonic_plague }
+	3486.1.1 = { death = { death_reason = death_bubonic_plague } }
+}
+
+selyn_101b = {
+	name = "Brelaca" #Marlyn's daughter, good mage
+	dynasty_house = dyn_selyn
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = selyn_100
+	father = selyn_100_husband
+
+	trait = education_learning_3
+	trait = patient
+	trait = just
+	trait = cynical
+	trait = arcana_good_1
+	trait = lifespan_3
+	trait = education_magic_4
+
+	3343.1.1 = { birth = yes }
+	3530.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3678.1.1 = { death = yes }
+}
+
+#Faram, ruler of Lleryn
+faram_98 = { #Landless
+	name = "Fevris"
+	dynasty = dyn_faram
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_3
+	trait = education_magic_2
+	
+	2764.1.1 = { birth = yes }
+	3033.1.1 = { death = yes }
+}
+faram_99 = {
+	name = "Evisi"
+	dynasty = dyn_faram
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = faram_98 #Biological parent
+
+	trait = education_magic_4
+	trait = lifespan_magic_4
+
+	2901.1.1 = { birth = yes }
+	3332.1.3 = { death = yes }
+}
+faram_100 = { #One of the calmer Telvanni in Telvannis
+	name = "Girara"
+	dynasty = dyn_faram
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = faram_99 #Adopted into house
+
+	trait = shy
+	trait = patient
+	trait = wrathful
+	trait = reclusive
+	trait = education_learning_3
+	trait = education_magic_4
+	trait = lifespan_3
+
+	3148.1.1 = { birth = yes }
+	3300.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3569.1.1 = { death = yes }
+}
+
+#Mothryon, ruler of Tel Drevas
+mothryon_99 = { #Landless
+	name = "Benae"
+	dynasty = dyn_mothryon
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = education_magic_2
+	trait = lifespan_3
+
+	2971.1.1 = { birth = yes }
+	3090.1.1 = { add_matrilineal_spouse = mothryon_99_husband }
+	3201.1.1 = { death = yes }
+}
+mothryon_99_husband = {
+	name = "Varvir"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = education_magic_2
+	trait = lifespan_3
+
+	2995.1.1 = { birth = yes }
+	3176.1.1 = { death = yes }
+}
+mothryon_100 = { #Very bellicose, likes to raid other people
+	name = "Vodryn"
+	dynasty = dyn_mothryon
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = mothryon_99
+	father = mothryon_99_husband
+
+	trait = arrogant
+	trait = cynical
+	trait = brave
+	#Manages to get away with raiding
+	trait = education_martial_3
+	trait = education_magic_3
+	trait = arcana_good_2
+	trait = viking
+	trait = lifespan_3
+	
+	3093.1.1 = { birth = yes }
+	3200.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_5
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	#Does not manage to escape Morag Tong when they come
+	3481.1.1 = { death = { death_reason = death_morag_tong } }
+}
+
+#Salobar, ruled Tel Inan before Thindo
+salobar_98 = {
+	name = "Veresa"
+	dynasty = dyn_salobar
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	2746.1.1 = { birth = yes }
+	2860.1.1 = { add_matrilineal_spouse = salobar_98_husband }
+	3033.1.1 = { death = yes }
+}
+salobar_98_husband = {
+	name = "Vavran"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	2759.1.1 = { birth = yes }
+	3027.1.1 = { death = yes }
+}
+salobar_99 = {
+	name = "Diradeni"
+	dynasty = dyn_salobar
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = salobar_98
+
+	trait = lifespan_magic_4
+	trait = education_magic_3
+
+	2877.1.1 = { birth = yes }
+	3150.1.1 = { add_matrilineal_spouse = salobar_99_husband }
+	3274.1.1 = { death = yes }
+}
+salobar_99_husband = {
+	name = "Felas"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_magic_4
+	trait = education_magic_2
+
+	2934.1.1 = { birth = yes }
+	3311.1.1 = { death = yes }
+}
+salobar_100 = {
+	name = "Silir"
+	dynasty = dyn_salobar
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = salobar_99
+	father = salobar_99_husband
+
+	trait = arrogant
+	trait = lazy
+	trait = wrathful
+	trait = education_magic_4
+	trait = education_learning_2
+	trait = lifespan_3
+
+	3169.1.1 = { birth = yes }
+	3250.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3368.1.1 = { death = { death_reason = death_duel killer = thindo_100 } }
+}
+
+#Thindo, rule Tel Inan since 450
+thindo_99 = {
+	name = "Aamela"
+	culture = chuzei
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	3143.1.1 = { birth = yes }
+	3326.1.1 = { death = yes }
+}
+thindo_100 = { #Indoril bastard with a magic potential, realizes that this will get him farther with Telvanni
+	name = "Ulvon"
+	dynasty = dyn_salvu
+	culture = chuzei
+	religion = tribunal_temple
+
+	mother = thindo_99
+	father = salvu_99
+
+	trait = bastard
+	trait = education_learning_2
+	trait = ambitious
+	trait = cynical
+	trait = shrewd
+	trait = arcana_good_1
+	trait = lifespan_3
+
+	3234.1.1 = { birth = yes }
+	3359.1.1 = { employer = githrano_102 }
+	3365.1.1 = { 
+		trait = education_magic_3
+		culture = chi_addun
+	}
+	3368.1.1 = { #Gets his own tower
+		dynasty = dyn_thindo
+		effect = {
+			remove_trait = bastard
+			add_trait = bastard_founder
+		}
+	}
+	3402.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3598.1.1 = { death = yes }
+}
+
+#############
+#Sunad Mora (TR Llothanis council), ancient and feudal
+#############
+#Varethi dynasty, part of Llothanis council
+varethi_97 = {
+	name = "Talvenyl"
+	dynasty = dyn_varethi
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_magic_6
+	trait = education_magic_4
+
+	1204.1.1 = { birth = yes }
+	2718.5.1 = { death = { death_reason = death_morag_tong } }
+}
+varethi_98 = {
+	name = "Bolnora"
+	dynasty = dyn_varethi
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = varethi_97
+
+	trait = education_magic_3
+	trait = lifespan_magic_4
+	trait = inappetetic
+
+	2538.1.1 = { birth = yes }
+	2849.1.18 = { death = { death_reason = death_malnourishment } }
+}
+varethi_98b = {
+	name = "Malsa"
+	dynasty = dyn_varethi
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = varethi_97
+
+	trait = education_magic_4
+	trait = lifespan_magic_5
+
+	2234.1.1 = { birth = yes }
+	2798.1.1 = { death = yes }
+}
+varethi_99 = { #Archmagister
+	name = "Seron"
+	dynasty = dyn_varethi
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = varethi_98
+
+	trait = lifespan_magic_4
+	trait = education_magic_3
+	trait = ambitious
+
+	2700.1.1 = { birth = yes }
+	#Wants to kill off Odrethi because they want to position of archmagisters, but fails
+	3070.6.17 = { death = { death_reason = death_duel killer = odrethi_dremora } }
+}
+varethi_98b1 = {
+	name = "Mevis"
+	dynasty = dyn_varethi
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = varethi_98b
+
+	trait = education_magic_3
+	trait = lifespan_magic_5
+
+	2441.1.1 = { birth = yes }
+	2858.1.1 = { death = yes }
+}
+
+varethi_99b = {
+	name = "Dralsea"
+	dynasty = dyn_varethi
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = varethi_98b1
+
+	trait = education_magic_2
+	trait = lifespan_magic_4
+
+	2676.1.1 = { birth = yes }
+	2870.1.1 = { add_matrilineal_spouse = varethi_99b_husband }
+	3059.1.1 = { death = yes }
+}
+
+varethi_99b_husband = {
+	name = "Senar"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = education_magic_2
+	trait = lifespan_magic_4
+
+	2755.1.1 = { birth = yes }
+	3090.1.1 = { death = yes }
+}
+
+varethi_100 = {
+	name = "Angaredhel"
+	dynasty = dyn_varethi
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = varethi_99b
+	father = varethi_99b_husband
+
+	trait = education_magic_2
+	trait = lifespan_magic_4
+
+	2894.1.1 = { birth = yes }
+	3100.1.1 = { add_spouse = varethi_100_wife }
+	3321.10.9 = { death = yes }
+}
+
+varethi_100_wife = {
+	name = "Badila"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	3039.1.1 = { birth = yes }
+	3290.1.1 = { death = yes }
+}
+
+varethi_101 = { #Magister of Sunad Mora
+	name = "Mevure"
+	dynasty = dyn_varethi
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = varethi_100
+	mother = varethi_100_wife
+	
+	trait = education_learning_3
+	trait = education_magic_3
+	trait = arrogant
+	trait = fickle
+	trait = temperate
+	trait = lifestyle_herbalist
+	trait = lifespan_3
+	trait = sign_lady
+	
+	3107.9.22 = { birth = yes }
+	3280.1.1 = { add_matrilineal_spouse = varethi_101_husband }
+	3300.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3320.1.1 = { remove_spouse = varethi_101_husband }
+	#3433 - deposed as Archmagister by Telendas/Varyon alliance
+	3433.1.1 = {
+		effect = { 
+			if = { 
+				limit = { character:varyon_100 = { is_alive = yes  } }
+				set_relation_rival = { reason = rival_historical target = character:varyon_100 } 
+			}
+			if = { 
+				limit = { character:telendas_100 = { is_alive = yes  } }
+				set_relation_rival = { reason = rival_historical target = character:telendas_100 } 
+			}
+		}
+	}
+	3440.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_5
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3553.8.22 = { death = { death_reason = death_natural_causes } }
+}
+
+varethi_101_husband = {
+	name = "Tunus"
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_3
+	3190.1.1 = { birth = yes }
+	3406.1.1 = { death = yes }
+}
+
+varethi_101b = { #Falls in love with ashlander, disinherited
+	name = "Aerona"
+	dynasty = dyn_varethi
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	father = varethi_100
+
+	trait = lifespan_3
+	trait = disinherited
+	trait = cynical
+
+	3189.1.1 = { birth = yes }
+	3312.1.1 = { death = { death_reason = death_ill } }
+}
+
+varethi_102 = {
+	name = "Enar"
+	dynasty = dyn_varethi
+	culture = chi_addun
+	religion = tribunal_temple
+	mother = varethi_101
+	father = varethi_101_husband
+	trait = education_magic_2
+	trait = lifespan_3
+	3313.1.1 = { birth = yes }
+	3433.1.1 = { death = { death_reason = death_murder_known killer = telendas_100 } }
+}
+
+varethi_102b = {
+	name = "Kalara"
+	dynasty = dyn_varethi
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	mother = varethi_101
+	father = varethi_101_husband
+	trait = education_magic_3
+	trait = lifespan_3
+	3336.1.1 = { birth = yes }
+	3440.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3800.1.1 = { death = yes }
+}
+
+varethi_103 = {
+	name = "Firuth"
+	dynasty = dyn_varethi
+	culture = chi_addun
+	religion = tribunal_temple
+	mother = varethi_102b
+	trait = lifespan_3
+	3504.1.1 = { birth = yes }
+	3534.1.1 = { death = yes }
+}
+
+varethi_103b = {
+	name = "Hlevala"
+	dynasty = dyn_varethi
+	culture = chi_addun
+	religion = tribunal_temple
+	mother = varethi_102b
+	female = yes
+	3523.1.1 = { birth = yes }
+	3633.1.1 = { death = yes }
+}
+###Maryon Dynasty (dyn_maryon), part of Llothanis council
+maryon_97 = {
+	name = "Dileni"
+	dynasty = dyn_maryon
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_magic_4
+
+	2411.1.1 = { birth = yes }
+	2871.1.1 = { death = { death_reason = death_mysterious } }
+}
+maryon_98 = {
+	name = "Dilyne"
+	dynasty = dyn_maryon
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = maryon_97
+
+	trait = lifespan_magic_4
+
+	2579.1.1 = { birth = yes }
+	2750.1.1 = { add_matrilineal_spouse = maryon_98_husband }
+	3004.1.19 = { death = yes }
+}
+maryon_98_husband = {
+	name = "Raladas"
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_magic_4
+	2650.1.1 = { birth = yes }
+	2942.1.1 = { death = yes }
+}
+maryon_99 = {
+	name = "Velanda"
+	dynasty = dyn_maryon
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = maryon_98
+	father = maryon_98_husband
+	
+	trait = lifespan_magic_4
+	trait = education_magic_2
+
+	2802.1.1 = { birth = yes }
+	2950.1.1 = { add_matrilineal_spouse = maryon_99_husband }
+	3241.12.8 = { death = yes }
+}
+maryon_99_husband = {
+	name = "Tanval"
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_magic_4
+	2833.1.1 = { birth = yes }
+	3216.1.1 = { death = yes }
+}
+
+maryon_100 = {
+	name = "Vedyne"
+	dynasty = dyn_maryon
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = maryon_99
+	father = maryon_99_husband
+
+	trait = education_intrigue_1
+	trait = lustful
+	trait = craven
+	trait = deceitful
+	trait = physique_good_1
+	trait = infirm #Ancient by 440
+	trait = lifespan_3
+	trait = education_magic_4 #Very good at magic
+	trait = sign_lover
+
+	3001.2.24 = { birth = yes }
+	3200.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3360.1.1 = { effect = { set_realm_capital = title:c_baldrahn } }
+	3367.3.10 = { death = { death_reason = death_natural_causes } }
+}
+
+maryon_100b = {
+	name = "Athesa"
+	dynasty = dyn_maryon
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = maryon_99
+	father = maryon_99_husband
+
+	trait = education_learning_3
+	trait = lifespan_3
+	trait = education_magic_2
+
+	3081.1.1 = { birth = yes }
+	3150.1.1 = { add_matrilineal_spouse = maryon_100b_husband }
+	3334.11.2 = { death = { death_reason = death_natural_causes } }
+}
+
+maryon_100b_husband = {
+	name = "Roneril"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_magic_4
+
+	2913.1.1 = { birth = yes }
+	3358.1.1 = { death = yes }
+}
+
+maryon_101 = {
+	name = "Velanda"
+	dynasty = dyn_maryon
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	
+	mother = maryon_100b
+	father = maryon_100b_husband
+
+	trait = education_intrigue_2
+	trait = humble
+	trait = wrathful
+	trait = trusting
+	trait = education_magic_3
+	trait = arcana_good_1
+	trait = lifespan_3
+	trait = sign_steed
+
+	3214.6.11 = { birth = yes }
+	3370.1.1 = { effect = { set_realm_capital = title:c_baldrahn } }
+	3390.4.27 = { death = { death_reason = death_murder } }
+}
+
+maryon_102 = {
+	name = "Torosi"
+	dynasty = dyn_maryon
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = maryon_100b
+	father = maryon_100b_husband
+
+	trait = education_learning_3
+	trait = education_magic_3
+	trait = callous
+	trait = content
+	trait = cynical
+	trait = arcana_good_1
+	trait = lifespan_3
+
+	3219.1.1 = { birth = yes }
+	3400.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3601.2.5 = { death = yes }
+}
+
+maryon_103 = {
+	name = "Kireth"
+	dynasty = dyn_maryon
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = maryon_102
+
+	trait = lifespan_3
+	trait = education_magic_3
+
+	3408.1.1 = { birth = yes }
+	3633.1.1 = { death = yes } #Placeholder
+}
+
+#Telvannis branch of Maryons, start from second child of maryon_97
+maryon_tel_100 = {
+	name = "Urvan"
+	dynasty = dyn_maryon
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = maryon_97
+
+	trait = lifespan_magic_4
+
+	2634.1.1 = { birth = yes }
+	2870.1.1 = { add_spouse = maryon_tel_100_wife }
+	3009.1.1 = { death = yes }
+}
+
+maryon_tel_100_wife = {
+	name = "Dralora"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_magic_4
+
+	2602.1.1 = { birth = yes }
+	2947.1.1 = { death = yes }
+}
+
+maryon_tel_101 = {
+	name = "Almise"
+	dynasty = dyn_maryon
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = maryon_tel_100
+	mother = maryon_tel_100_wife
+
+	trait = lifespan_magic_4
+
+	2879.1.1 = { birth = yes }
+	3274.1.1 = { death = yes }
+}
+
+maryon_tel_101b = {
+	name = "Tels"
+	dynasty = dyn_maryon
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = maryon_tel_100
+	mother = maryon_tel_100_wife
+
+	trait = lifespan_magic_4
+	2912.1.1 = { birth = yes }
+	3190.1.1 = { add_spouse = maryon_tel_101b_wife }
+	3335.1.1 = { death = yes }
+}
+
+maryon_tel_101b_wife = {
+	name = "Balsia"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_3
+	3107.1.1 = { birth = yes }
+	3363.1.1 = { death = { death_reason = death_natural_causes } }
+}
+
+maryon_tel_102 = { #Works for archmagister, kills rival for her and gets land
+	name = "Dala"
+	dynasty = dyn_maryon
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = maryon_tel_101b
+	mother = maryon_tel_101b_wife
+
+	trait = lifespan_3
+	trait = education_magic_3
+	trait = education_intrigue_3
+	trait = ambitious
+	trait = brave
+	trait = stubborn
+	trait = sign_warrior
+	disallow_random_traits = yes
+
+	3229.8.9 = { birth = yes }
+	3300.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+			add_conjuration_perk_effect = { LEVEL = 2 }
+			add_destruction_perk_effect = { LEVEL = 3 }
+		}
+	}
+	3344.1.1 = { employer = githrano_102 } #Port Telvannis
+	#3367 - kills duleri_102, gets her tower in return
+	3368.1.1 = { #Gets a hook on archmagister for her help
+		effect = {
+			if = {
+				limit = { character:githrano_102 = { is_alive = yes } }
+				add_hook = {
+					target = character:githrano_102
+					type = favor_hook
+				}
+			}
+		}
+	}
+	3635.1.1 = { death = yes }
+}
+
+maryon_tel_102b = {
+	name = "Sevilon"
+	dynasty = dyn_maryon
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = maryon_tel_101b
+	mother = maryon_tel_101b_wife
+
+	trait = lifespan_3
+	trait = education_magic_2
+
+	3256.1.1 = { birth = yes }
+	3300.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3344.1.1 = { employer = githrano_102 } #Port Telvannis
+	3619.1.1 = { death = yes }
+}
+
+maryon_tel_103 = {
+	name = "Breleros"
+	dynasty = dyn_maryon
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = maryon_tel_102
+
+	trait = lifespan_3
+
+	3395.1.1 = { birth = yes }
+	3741.1.1 = { death = yes } #Placeholder
+}
+
+#Varyon dynasty, bastards of Maryon
+varyon_100 = {
+	name = "Assanamut"
+	dynasty = dyn_varyon
+	culture = chi_addun #Accepts her mother's culture
+	religion = tribunal_temple
+	female = yes
+
+	father = assalatammis_101b
+	mother = maryon_100
+
+	trait = education_intrigue_3
+	trait = deceitful
+	trait = ambitious
+	trait = arbitrary
+	trait = reclusive
+	trait = arcana_good_2
+	trait = lifespan_3
+	trait = education_magic_3
+	trait = bastard_founder
+	trait = intellect_good_1
+	trait = sign_warrior
+	disallow_random_traits = yes
+
+	3235.8.21 = { birth = yes }
+	3280.1.1 = { 
+		effect = { 
+			if = { 
+				limit = { character:varyon_100b = { is_alive = yes  } }
+				set_relation_rival = { reason = rival_historical target = character:varyon_100b } 
+			}
+		} 
+	}
+	3350.1.1 = { 
+		effect = {
+			if = {
+				limit = { character:lleran_100 = { is_alive = yes } }
+				set_relation_friend = { target = character:lleran_100 reason = friend_generic_history } 
+			}
+			if = {
+				limit = { character:telendas_100 = { is_alive = yes } }
+				set_relation_friend = { target = character:telendas_100 reason = friend_generic_history } 
+			}
+		} 
+	}
+	3368.1.1 = {
+		effect = {
+			add_gold = 200 #Sells locals into slavery
+			add_prestige = 500 #Demolished Ashlander clan
+			add_hook = { #Has hook on the guy she put in charge of Velothis Haven
+				target = character:lleran_100
+				type = loyalty_hook
+			}
+		}
+	}
+	3380.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+		add_matrilineal_spouse = telendas_99b2
+	}
+	3683.1.1 = { death = { death_reason = death_morag_tong } } #Placeholder
+}
+
+varyon_100b = {
+	name = "Sargon"
+	dynasty = dyn_assalatammis #Accepted into his father's dynasty
+	culture = ashlander
+	religion = old_velothi
+	father = assalatammis_101b
+	mother = maryon_100
+
+	trait = education_martial_4
+	trait = calm
+	trait = forgiving
+	trait = depressed_1
+	trait = irritable
+	trait = lifespan_3
+	trait = bastard
+
+	3255.1.1 = { birth = yes }
+	3359.1.1 = { employer = assalatammis_101 }
+	3369.1.1 = { death = { death_reason = death_murder_known killer = varyon_100 } }
+}
+
+varyon_101 = {
+	name = "Trivon"
+	dynasty = dyn_varyon
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = varyon_100
+	father = telendas_99b2
+
+	trait = lifespan_3
+
+	3391.1.1 = { birth = yes }
+	3712.1.1 = { death = yes } #Placeholder
+}
+
+varyon_102 = { #Magister of Llothanis council from TR
+	name = "Vaerin" #TR
+	dynasty = dyn_varyon
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = varyon_101
+
+	#History ToDo: rules from Tel Vysera (possibly take away Tel Vel from Varyons)
+	#History ToDo: converts to High Velothi at some point (not necesarrily accurate, but he hates Tribunal)
+	3498.1.1 = { birth = yes }
+	3620.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3690.1.1 = {
+		effect = {
+			remove_trait = lifespan_magic_4
+			add_trait = lifespan_magic_5
+		}
+	}
+	3790.1.1 = {
+		effect = {
+			remove_trait = lifespan_magic_5
+			add_trait = lifespan_magic_6
+		}
+	}
+	4400.1.1 = { death = yes }
+}
+
+#Rendas, rulers of Tel Vel and Ranyon-Ruhn
+rendas_100 = { #Sympathetic to Ashlanders, others rulers after him are not
+	name = "Dedras"
+	dynasty = dyn_rendas
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = education_magic_3
+	trait = education_diplomacy_3
+	trait = compassionate
+	trait = patient
+	trait = cynical
+	trait = lifespan_magic_5
+
+	2603.1.1 = { birth = yes }
+	3358.1.15 = { death = { death_reason = death_duel killer = varyon_100 } }
+}
+
+#Lleran dynasty, previously rulers of Firewatch, landless in 440, mayor of Velothis Haven in 450, TBD later
+lleran_98 = {
+	name = "Davilia"
+	dynasty = dyn_lleran
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_magic_4
+
+	2871.1.1 = { birth = yes }
+	3000.1.1 = { add_matrilineal_spouse = lleran_98_husband }
+	3278.9.14 = { death = { death_reason = death_old_age } }
+}
+lleran_98_husband = {
+	name = "Darvasen"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_magic_4
+
+	2899.1.1 = { birth = yes }
+	3250.1.1 = { death = yes }
+}
+lleran_99 = {
+	name = "Vadelen"
+	dynasty = dyn_lleran
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = lleran_98
+	father = lleran_98_husband
+
+	trait = lifespan_magic_4
+	trait = reckless
+
+	3024.1.1 = { birth = yes }
+	3240.1.1 = { add_spouse = lleran_99_wife }
+	3341.11.2 = { death = { death_reason = death_battle } } #Slave raid
+}
+lleran_99_wife = {
+	name = "Danasi"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_magic_4
+
+	3122.1.1 = { birth = yes }
+	3355.1.1 = { death = { death_reason = death_accident } }
+}
+lleran_99b = { #Works for Rilvin Dral
+	name = "Bolnora"
+	dynasty = dyn_lleran
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = lleran_98
+	father = lleran_98_husband
+
+	trait = lifespan_3
+	trait = education_magic_3
+
+	3090.1.1 = { birth = yes }
+	3210.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_5
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3340.1.1 = { employer = dral_001 }
+	3598.1.1 = { death = yes }
+}
+lleran_100 = { #Ruler of Velothis Haven
+	name = "Sodres"
+	dynasty = dyn_lleran
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = lleran_99
+	mother = lleran_99_wife
+
+	trait = education_magic_1
+	trait = education_stewardship_2
+	trait = calm
+	trait = patient
+	trait = lifespan_3
+
+	3289.1.1 = { birth = yes }
+	3359.1.1 = { employer = varyon_100 }
+	3577.1.1 = { death = yes } #Placeholder
+}
+
+###Dolthernul
+dolthernul_98 = {
+	name = "Daliina"
+	culture = chi_addun
+	religion = tribunal_temple
+	dynasty = dyn_dolthernul
+	female = yes
+	2744.1.1 = { birth = yes }
+	3011.7.13 = { death = { death_reason = death_choked } }
+}
+dolthernul_99 = {
+	name = "Llandryn"
+	culture = chi_addun
+	religion = tribunal_temple
+	dynasty = dyn_dolthernul
+
+	mother = dolthernul_98
+
+	trait = education_stewardship_1
+	trait = lazy
+	trait = temperate
+	trait = content
+	trait = lifespan_3
+	trait = education_magic_3
+	#trait = fornicator
+
+	2988.1.1 = { birth = yes }
+	3179.9.5 = { death = { death_reason = death_fire_magic killer = drenim_100 } }
+}
+dolthernul_99_lover = {
+	name = "Favise"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_3
+	#trait = fornicator
+	3020.1.1 = { birth = yes }
+	3266.1.1 = { death = yes }
+}
+dolthernul_99b = { #Actually older brother, but worse at magic
+	name = "Vanryth"
+	culture = chi_addun
+	religion = tribunal_temple
+	dynasty = dyn_dolthernul
+
+	mother = dolthernul_98
+
+	trait = education_magic_1
+	trait = education_learning_2
+	trait = lazy
+	trait = craven
+	trait = chaste
+	trait = lifespan_magic_4
+
+	2900.1.1 = { birth = yes }
+	#Exiled when his brother is killed
+	3238.1.1 = { death = yes } #Did outlive his brother somehow
+}
+
+#Laamp mercenary
+dolthernul_100 = { #Born in exile, becomes mercenary/gang leader
+	name = "Bedyni"
+	culture = chi_addun
+	religion = tribunal_temple
+	dynasty = dyn_dolthernul
+	female = yes
+
+	father = dolthernul_99b
+
+	trait = education_magic_2
+	trait = education_martial_3
+	trait = adventurer
+	trait = lifestyle_hunter
+	trait = gallowsbait
+	trait = greedy #Gang leader
+	trait = brave
+	trait = arbitrary #Gang leader
+	trait = lifespan_3
+
+	3217.1.1 = { birth = yes }
+	3310.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	#History ToDo: there are Dolthernul in Helnim in TR, give her county in the area
+	3577.1.1 = { death = yes }
+
+	portrait_override={ #No headwear and bonemold, only robes
+		portrait_modifier_overrides={
+			custom_headgear=female_empty
+			custom_clothes=female_clothes_secular_dunmer_01_high
+		}
+	}
+}
+
+###Drenim Dynasty (dyn_drenim), part of Llothanis council, ancient family (have ancestral tomb in TR)
+drenim_96 = {
+	name = "Drireri"
+	dynasty = dyn_drenim
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_magic_4
+	1872.1.1 = { birth = yes }
+	2293.1.1 = { death = yes }
+}
+drenim_97 = {
+	name = "Aldyne"
+	dynasty = dyn_drenim
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	mother = drenim_96
+	trait = lifespan_magic_5
+	2069.1.1 = { birth = yes }
+	2593.1.1 = { death = yes }
+}
+drenim_98 = {
+	name = "Vevul"
+	dynasty = dyn_drenim
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = drenim_97
+
+	trait = lifespan_magic_5
+	2311.1.1 = { birth = yes }
+	2899.3.20 = { death = { death_reason = death_duel killer = rendas_100 } }
+}
+drenim_98_wife = {
+	name = "Bivessa"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_magic_5
+
+	2594.1.1 = { birth = yes }
+	2899.3.20 = { death = { death_reason = death_execution killer = rendas_100 } }
+}
+drenim_99 = { #Landless
+	name = "Vaves"
+	dynasty = dyn_drenim
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = drenim_98
+	mother = drenim_98_wife
+
+	trait = lifespan_magic_4
+
+	2841.1.1 = { birth = yes }
+	3030.1.1 = { add_spouse = drenim_99_wife }
+	3132.1.1 = { death = yes }
+}
+drenim_99_wife = {
+	name = "Drelliane"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	2944.1.1 = { birth = yes }
+	3169.1.1 = { death = yes }
+}
+drenim_100 = { #Kills dolthernul_99 and takes his land
+	name = "Haldyn"
+	dynasty = dyn_drenim
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = drenim_99
+	mother = drenim_99_wife
+
+	trait = education_martial_3
+	trait = education_magic_3
+	trait = arcana_good_2
+	trait = forder
+	trait = wrathful
+	trait = diligent
+	trait = ambitious
+	trait = sign_lover
+	trait = lifespan_3
+
+	3083.2.5 = { birth = yes }
+	3200.1.1 = { 
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3250.1.1 = { add_spouse = drenim_100_wife }
+	3432.6.28 = { death = yes }
+}
+drenim_100_wife = {
+	name = "Evylu"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	3181.1.1 = { birth = yes }
+	3404.1.1 = { death = yes }
+}
+drenim_101 = {
+	name = "Modryn"
+	dynasty = dyn_drenim
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = drenim_100
+	mother = drenim_100_wife
+
+	trait = education_diplomacy_3
+	trait = education_magic_3
+	trait = content
+	trait = temperate
+	trait = arrogant
+	trait = lifespan_3
+
+	3294.1.1 = { birth = yes }
+	3400.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3678.1.1 = { death = yes }
+}
+drenim_101b = {
+	name = "Seras"
+	dynasty = dyn_drenim
+	culture = chi_addun
+	religion = tribunal_temple
+	
+	father = drenim_100
+	mother = drenim_100_wife
+
+	trait = education_intrigue_2
+	trait = education_magic_2
+	trait = impatient
+	trait = deceitful
+	trait = arrogant
+	trait = lifespan_3
+
+	3294.1.1 = { birth = yes }
+	3468.1.1 = { death = { death_reason = death_failed_during_life_extension } }
+}
+drenim_102 = {
+	name = "Llarusea"
+	dynasty = dyn_drenim
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = drenim_101
+
+	3454.1.1 = { birth = yes }
+	3789.1.1 = { death = yes }
+}
+drenim_102b = {
+	name = "Trivon"
+	dynasty = dyn_drenim
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = drenim_101
+
+	3479.1.1 = { birth = yes }
+	3890.1.1 = { death = yes }
+}
+
+drenim_101b_daughter = {
+	name = "Lauravenya"
+	dynasty = dyn_drenim
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	
+	father = drenim_101b
+
+	3398.1.1 = { birth = yes }
+	3500.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_5
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3889.11.1 = { death = yes }
+}
+
+drenim_galas = { #MW representative of Telvanni in the Grand Council
+	name = "Galas" #Lore
+	dynasty = dyn_drenim
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = drenim_101b_daughter
+
+	trait = education_diplomacy_4
+	trait = education_magic_4
+
+	3730.1.1 = { birth = yes }
+	4400.1.1 = { death = yes }
+}
+
+#Nithryon, ancient and stubborn, part of Llothanis council
+nithryon_93 = {
+	name = "Missamsi"
+	dynasty = dyn_nithryon
+	culture = chi_addun
+	religion = old_velothi
+	female = yes
+
+	trait = lifespan_magic_5
+
+	487.1.1 = { birth = yes }
+	1208.7.22 = { death = yes }
+}
+nithryon_94 = {
+	name = "Ahanabi"
+	dynasty = dyn_nithryon
+	culture = chi_addun
+	religion = old_velothi
+	female = yes
+	
+	mother = nithryon_93
+
+	trait = lifespan_magic_5
+
+	871.1.1 = { birth = yes }
+	1698.10.27 = { death = yes }
+}
+nithryon_95 = {
+	name = "Munabi"
+	dynasty = dyn_nithryon
+	culture = chi_addun
+	religion = old_velothi
+	female = yes
+
+	mother = nithryon_94
+
+	trait = lifespan_magic_5
+
+	1322.1.1 = { birth = yes }
+	2087.12.17 = { death = yes }
+}
+nithryon_96 = {
+	name = "Hemus"
+	dynasty = dyn_nithryon
+	culture = chi_addun
+	religion = old_velothi
+
+	mother = nithryon_95
+
+	trait = lifespan_magic_5
+
+	1711.1.1 = { birth = yes }
+	2399.1.30 = { death = yes }
+}
+nithryon_97 = {
+	name = "Bolnora"
+	dynasty = dyn_nithryon
+	culture = chi_addun
+	religion = old_velothi
+	female = yes
+
+	father = nithryon_96
+
+	trait = lifespan_magic_5
+
+	2168.1.1 = { birth = yes }
+	2711.4.13 = { death = yes }
+}
+nithryon_97b = {
+	name = "Ohibaal"
+	dynasty = dyn_nithryon
+	culture = chi_addun
+	religion = old_velothi
+
+	father = nithryon_96
+
+	trait = lifespan_magic_5
+
+	1981.1.1 = { birth = yes }
+	2506.8.3 = { death = { death_reason = death_murder } }
+}
+nithryon_98 = {
+	name = "Alonisea"
+	dynasty = dyn_nithryon
+	culture = chi_addun
+	religion = old_velothi
+	female = yes
+
+	mother = nithryon_97
+
+	trait = lifespan_magic_5
+
+	2423.1.1 = { birth = yes }
+	2650.1.1 = { add_matrilineal_spouse = nithryon_98_husband }
+	3011.6.19 = { death = yes }
+}
+
+nithryon_98_husband = {
+	name = "Yakin"
+	culture = chi_addun
+	religion = old_velothi
+
+	trait = lifespan_magic_4
+
+	2555.1.1 = { birth = yes }
+	2965.1.1 = { death = yes }
+}
+
+nithryon_98b = {
+	name = "Hemus"
+	dynasty = dyn_nithryon
+	culture = chi_addun
+	religion = old_velothi
+	trait = lifespan_magic_5
+	mother = nithryon_97
+	2537.1.1 = { birth = yes }
+	3114.9.25 = { death = { death_reason = death_head_ripped_off } }
+}
+nithryon_99 = {
+	name = "Velis"
+	dynasty = dyn_nithryon
+	culture = chi_addun
+	religion = old_velothi
+	trait = lifespan_magic_5
+
+	mother = nithryon_98
+	father = nithryon_98_husband
+
+	2683.1.1 = { birth = yes }
+	3050.1.1 = { add_spouse = nithryon_99_wife }
+	3276.7.18 = { death = yes }
+}
+nithryon_99_wife = {
+	name = "Aarela"
+	culture = chi_addun
+	religion = old_velothi
+	female = yes
+	trait = lifespan_magic_4
+	2964.1.1 = { birth = yes }
+	3287.1.1 = { death = yes }
+}
+nithryon_99b = {
+	name = "Risa"
+	dynasty = dyn_nithryon
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = nithryon_98b
+
+	trait = lifespan_magic_4
+
+	2771.1.1 = { birth = yes }
+	3212.1.1 = { death = yes }
+}
+nithryon_100 = {
+	name = "Folvalie"
+	dynasty = dyn_nithryon
+	culture = chi_addun
+	religion = old_velothi #Family still worships Daedra
+	female = yes
+
+	father = nithryon_99
+	mother = nithryon_99_wife
+
+	trait = lifespan_3
+	trait = zealous
+	trait = stubborn
+	trait = patient
+	trait = education_learning_3
+	trait = education_magic_3
+	trait = sign_atronach
+
+	3127.11.9 = { birth = yes }
+	3300.1.1 ={
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_5
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3350.1.1 = { add_matrilineal_spouse = nithryon_100_husband }
+	3499.10.8 = { death = { death_reason = death_vanished } }
+}
+
+nithryon_100_husband = {
+	name = "Thadar"
+	culture = chi_addun
+	religion = old_velothi
+	trait = lifespan_3
+	3280.1.1 = { birth = yes }
+	3494.1.1 = { death = yes }
+}
+
+nithryon_101 = {
+	name = "Rilvase"
+	dynasty = dyn_nithryon
+	culture = chi_addun
+	religion = old_velothi
+	female = yes
+
+	mother = nithryon_100
+	father = nithryon_100_husband
+
+	trait = lifespan_3
+	3400.1.1 = { birth = yes }
+	3590.1.1 ={
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_5
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3937.1.1 = { death = yes }
+}
+
+nithryon_1_100 = {
+	name = "Talsyne"
+	dynasty = dyn_nithryon
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = nithryon_99b
+
+	trait = education_magic_3
+	trait = lifespan_3
+
+	3045.1.1 = { birth = yes }
+	3150.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3350.1.1 = { employer = varethi_101 } #Works for Magister of Llothanis
+	3498.1.1 = { death = yes }
+}
+
+nithryon_1_101 = {
+	name = "Telvon"
+	dynasty = dyn_nithryon
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = nithryon_1_100
+
+	trait = education_magic_3
+	trait = lifespan_magic_4
+
+	3289.1.1 = { birth = yes }
+	3350.1.1 = { employer = varethi_101 } #Works for Magister of Llothanis
+	3380.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3611.1.1 = { death = yes }
+}
+
+#Telendas dynasty, part of Llothanis council
+telendas_98 = { #Landless
+	name = "Viiron"
+	dynasty = dyn_telendas
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	2866.1.1 = { birth = yes }
+	2950.1.1 = { add_spouse = telendas_98_wife }
+	3144.1.1 = { death = yes }
+}
+telendas_98_wife = {
+	name = "Almise"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	2875.1.1 = { birth = yes }
+	3132.1.1 = { death = yes }
+}
+telendas_99 = { #Magister of Sunad Mora
+	name = "Aryne"
+	dynasty = dyn_telendas
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = telendas_98
+	mother = telendas_98_wife
+
+	trait = lifespan_magic_5
+	trait = ambitious
+	trait = education_magic_4
+	trait = education_learning_3
+	trait = spindly
+
+	2981.1.1 = { birth = yes }
+	3250.1.1 = { add_matrilineal_spouse = telendas_99_husband }
+	3331.1.1 = { trait = chrondiasis }
+	3332.4.6 = { death = { death_reason = death_chrondiasis } }
+}
+telendas_99_husband = {
+	name = "Ilasour"
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_3
+	3060.1.1 = { birth = yes }
+	3200.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3416.1.1 = { death  = yes }
+}
+telendas_99b = {
+	name = "Llathise"
+	dynasty = dyn_telendas
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = telendas_98
+	mother = telendas_98_wife
+
+	trait = lifespan_3
+	
+	3013.1.1 = { birth = yes }
+	3200.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3360.1.1 = { employer = varethi_101 }
+	3431.1.1 = { death = yes }
+}
+
+telendas_99b1 = {
+	name = "Lilyamah"
+	dynasty = dyn_telendas
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = telendas_99b
+
+	3160.1.1 = { birth = yes }
+	3342.12.1 = { death = { death_reason = death_accident } }
+}
+
+telendas_99b1b = {
+	name = "Toldendos"
+	dynasty = dyn_telendas
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = telendas_99b
+
+	trait = lifespan_3
+
+	3183.1.1 = { birth = yes }
+	3300.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3344.1.1 = { employer = githrano_102 } #Port Telvannis
+	3586.1.1 = { death = yes }
+}
+
+telendas_99b2 = { #Married to varyon_100
+	name = "Vonos"
+	dynasty = dyn_telendas
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = telendas_99b1
+
+	trait = education_magic_2
+	trait = lifespan_3
+
+	3286.1.1 = { birth = yes }
+	3360.1.1 = { employer = varethi_101 } #Serving Magister with his grandmother
+	3370.1.1 = { employer = varyon_100 } #Goes to work for varyon
+	#3380 - marries Varyon
+	3730.1.1 = { death = yes }
+}
+
+telendas_100 = { #Ruler of Ranyon-Ruhn, ambitious and wishes to expand his domain even further
+	name = "Idros"
+	dynasty = dyn_telendas
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = telendas_99
+	father = telendas_99_husband
+
+	trait = education_stewardship_3
+	trait = education_magic_3
+	trait = ambitious
+	trait = gluttonous
+	trait = diligent
+	trait = lifespan_3
+	trait = sign_mage
+
+	3194.6.4 = { birth = yes }
+	3300.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3364.1.1 = { add_spouse = telendas_100_wife }
+	3478.5.31 = { death = { death_reason = death_morag_tong } }
+}
+
+telendas_100_wife = {
+	name = "Torasa"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	3287.1.1 = { birth = yes }
+	3469.1.1 = { death = { death_reason = death_accident } }
+}
+
+telendas_101 = {
+	name = "Butheli"
+	dynasty = dyn_telendas
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = telendas_100
+	mother = telendas_100_wife
+
+	trait = lifespan_3
+	trait = education_magic_2
+
+	3381.1.1 = { birth = yes }
+	3761.1.1 = { death = yes } #Placeholder
+}
+
+telendas_101b = {
+	name = "Tedras"
+	dynasty = dyn_telendas
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = telendas_100
+	mother = telendas_100_wife
+
+	trait = lifespan_3
+	trait = education_magic_3
+
+	3403.1.1 = { birth = yes }
+	3500.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3761.1.1 = { death = yes } #Placeholder
+}
+
+#Sethan dynasty, ruler of Tel Mothrvira, direct vassal of Great House 
+varis_100 = { #Obsessed with dwemers, ok overall
+	name = "Indra"
+	dynasty = dyn_varis
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = calm
+	trait = content
+	trait = arrogant
+	trait = cynical
+	trait = reclusive
+	trait = experimentalist
+	trait = stuttering
+	trait = education_magic_4
+	trait = education_learning_4
+	trait = lifespan_3
+	trait = sign_mage
+
+	1699.4.29 = { birth = yes }
+	2011.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_6
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+			set_immortal_age = 40
+			add_arcana_skill = { VALUE = 14 }
+			add_restoration_perk_effect = { LEVEL = 5 }
+			add_alteration_perk_effect = { LEVEL = 5 }
+			learn_language = language_dwemeris
+		}
+	}
+	#A bit too obsessed with dwemers...
+	3330.1.1 = { effect = { make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:golden_tones } } }
+	3350.1.1 = { effect = { add_character_flag = conceded_election } }
+	#History ToDo: give her tonal magic if we get to adding that
+	4557.1.1 = { death = yes } #Placeholder
+	portrait_override={
+		portrait_modifier_overrides={
+			custom_headgear=female_headgear_secular_steppe_high_nobility_01
+			custom_clothes=female_clothes_secular_dunmer_02_high
+			custom_special=female_headgear_special_spectacles_01
+		}
+	}
+}
+
+###Sarys Dynasty, ruler of Firewatch
+sarys_100_mother = {
+	name = "Furoni"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	female = yes
+
+	3106.1.1 = { birth = yes }
+	3299.1.1 = { death = yes }
+}
+sarys_100 = { #Bastard of Lleran
+	name = "Volyn" #Takes over Firewatch after his father because he's better at magic
+	dynasty = dyn_sarys
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = lleran_99
+	mother = sarys_100_mother
+
+	trait = bastard_founder
+	trait = education_stewardship_2
+	trait = education_magic_3
+	trait = forgiving
+	trait = shy
+	trait = generous
+	trait = lifespan_3
+	trait = sign_lady
+
+	3207.9.12 = { birth = yes }
+	3290.1.1 = { add_spouse = sarys_100_wife }
+	3475.3.1 = { death = yes }
+}
+
+sarys_100_wife = {
+	name = "Fathasa"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	3219.1.1 = { birth = yes }
+	3463.1.1 = { death = yes }
+}
+
+sarys_101 = {
+	name = "Valeyn"
+	dynasty = dyn_sarys
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = sarys_100
+	mother = sarys_100_wife
+
+	trait = education_magic_2
+
+	3301.1.1 = { birth = yes }
+	3571.1.1 = { death = yes }
+}
+
+sarys_101b = {
+	name = "Vunal"
+	dynasty = dyn_sarys
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = sarys_100
+	mother = sarys_100_wife
+
+	trait = education_magic_4
+
+	3329.1.1 = { birth = yes }
+	3722.1.1 = { death = yes }
+}
+
+#Urenim
+urenim_100 = { #Incredibly greedy, but this did have results over 2000 years
+	name = "Viiron"
+	culture = chi_addun
+	religion = tribunal_temple
+	dynasty = dyn_urenim
+
+	trait = lifespan_3
+	trait = reclusive
+	trait = improvident
+	trait = lunatic_1
+	trait = education_stewardship_2
+	trait = craven
+	trait = trusting
+	trait = greedy
+	trait = eccentric
+	trait = arcana_good_2
+	trait = education_magic_3
+
+	1058.1.1 = { birth = yes }
+	1550.1.1 = {
+		effect = { 
+			add_arcana_skill = { VALUE = 8 } 
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_6
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+			set_immortal_age = 60
+			add_conjuration_perk_effect = { LEVEL = 5 }
+			add_restoration_perk_effect = { LEVEL = 5 }
+		}
+	}
+	3350.1.1 = { 
+		effect = { 
+			add_gold = 1000
+			add_character_flag = conceded_election
+		} 
+	}
+	3466.1.1 = { death = { death_reason = death_murder_known killer = oren_101 } }
+}
+
+urenim_101 = {
+	name = "Burila"
+	dynasty = dyn_urenim
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = urenim_100
+
+	trait = lifespan_magic_4
+	trait = possessed_genetic #Descendants cursed due to daedric deal made by Viiron
+
+	1305.1.1 = { birth = yes }
+	1783.1.1 = { death = yes }
+}
+
+urenim_102 = {
+	name = "Sevan"
+	dynasty = dyn_urenim
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = urenim_101
+
+	trait = lifespan_magic_4
+	trait = possessed_genetic
+
+	1499.1.1 = { birth = yes }
+	1967.1.1 = { death = yes }
+}
+
+urenim_103 = { #Leaves Oren after realising that his great-grandfather isn't dying soon
+	name = "Ornis"
+	dynasty_house = dyn_oren #New house
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = urenim_102
+
+	trait = lifespan_magic_5
+	trait = possessed_genetic
+
+	1738.1.1 = { birth = yes }
+	2402.1.1 = { death = yes }
+}
+
+urenim_104 = {
+	name = "Bedena"
+	dynasty_house = dyn_oren
+	religion = tribunal_temple
+	culture = chi_addun
+	female = yes
+
+	father = urenim_103
+
+	trait = lifespan_magic_5
+	trait = possessed_genetic
+
+	2185.1.1 = { birth = yes }
+	2603.1.1 = { death = yes }
+}
+
+urenim_105 = {
+	name = "Edrisi"
+	dynasty_house = dyn_oren
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = urenim_104
+
+	trait = lifespan_magic_4
+	trait = possessed_genetic
+
+	2462.1.1 = { birth = yes }
+	2801.1.1 = { death = yes }
+}
+
+#Baro dynasty, rule county south of Firewatch (not directly related to eso necrom family)
+baro_97 = { #Landless
+	name = "Hlana"
+	culture = chi_addun
+	religion = tribunal_temple
+	dynasty = dyn_baro
+	female = yes
+
+	2906.1.1 = { birth = yes }
+	3124.1.1 = { death = yes }
+}
+baro_98 = {
+	name = "Guroanii"
+	culture = chi_addun
+	religion = tribunal_temple
+	dynasty = dyn_baro
+	female = yes
+
+	mother = baro_97
+
+	3034.1.1 = { birth = yes }
+	3120.1.1 = { add_matrilineal_spouse = baro_98_husband }
+	3258.1.1 = { death = yes }
+}
+baro_98_husband = {
+	name = "Suron"
+	culture = chi_addun
+	religion = tribunal_temple
+	
+	trait = lifespan_3
+	
+	3022.1.1 = { birth = yes }
+	3241.1.1 = { death = yes }
+}
+baro_99 = {
+	name = "Zanil"
+	culture = chi_addun
+	religion = tribunal_temple
+	dynasty = dyn_baro
+
+	mother = baro_98
+	father = baro_98_husband
+
+	trait = lifespan_magic_4
+
+	3131.1.1 = { birth = yes }
+	3200.1.1 = { add_spouse = baro_99_wife }
+	3289.1.1 = { death = { death_reason = death_accident } }
+}
+baro_99_wife = {
+	name = "Feralea"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	3101.1.1 = { birth = yes }
+	3340.1.1 = { death = yes }
+}
+baro_100 = { #Actually ok at the 440, explores daedric ruins and goes crazy
+	name = "Baleni"
+	culture = chi_addun
+	religion = tribunal_temple
+	dynasty = dyn_baro
+	female = yes
+
+	father = baro_99
+	mother = baro_99_wife
+
+	trait = cynical
+	trait = calm
+	trait = arbitrary
+	trait = education_magic_3
+	trait = education_learning_3
+	trait = reclusive
+	trait = lifespan_3
+	trait = sign_thief
+
+	3243.12.12 = { birth = yes }
+	3368.1.1 = { #Explores daedric ruin of Sheogorath
+		culture = mountain_orc
+		religion = sheogorath_cult
+		name = "Ghorbash"
+		trait = lunatic_1
+		effect = {
+			remove_trait = cynical
+			add_trait = zealous
+			remove_trait = calm
+			add_trait = brave
+			remove_trait = arbitrary
+			add_trait = gluttonous
+			remove_trait = reclusive
+			add_trait = reckless
+			remove_trait = education_learning_3
+			add_trait = education_martial_2
+		}
+	}
+	#Killed by her sister
+	3401.1.1 = { death = { death_reason = death_duel killer = baro_100b } }
+}
+baro_100b = {
+	name = "Badala"
+	dynasty = dyn_baro
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = baro_99
+	mother = baro_99_wife
+
+	trait = lifespan_3
+	trait = compassionate
+	trait = zealous
+	trait = diligent
+	trait = education_magic_3
+	trait = education_learning_3
+
+	3250.1.1 = { birth = yes }
+	3350.1.1 = {
+		effect = { 
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3401.1.1 = { #Forced to kill her sister
+		trait = depressed_1
+		trait = inappetetic 
+	}
+	3490.1.1 = { trait = infirm }
+	3559.1.1 = { death = { death_reason = death_malnourishment } }
+}
+
+baro_101 = {
+	name = "Idroso"
+	dynasty = dyn_baro
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = baro_100b
+
+	3416.1.1 = { birth = yes }
+	3700.1.1 = { death = yes } #Placeholder
+}
+
+#Thendas - rulers of Tel Savel
+thendas_98 = {
+	name = "Trendrus"
+	dynasty = dyn_thendas
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = education_magic_3
+	trait = lifespan_magic_4
+
+	2677.1.1 = { birth = yes }
+	2930.1.1 = { add_spouse = thendas_98_wife }
+	3079.7.4 = { death = yes }
+}
+thendas_98_wife = {
+	name = "Tarani"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = education_magic_2
+	trait = lifespan_magic_4
+
+	2736.1.1 = { birth = yes }
+	3169.1.1 = { death = yes }
+}
+thendas_99 = {
+	name = "Blivisi"
+	dynasty = dyn_thendas
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = thendas_98
+	mother = thendas_98_wife
+
+	trait = education_magic_3
+	trait = lifespan_magic_4
+
+	2946.1.1 = { birth = yes }
+	3100.1.1 = { add_matrilineal_spouse = thendas_99_husband }
+	3296.10.10 = { death = yes }
+}
+thendas_99_husband = {
+	name = "Norus"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = education_magic_2
+	trait = lifespan_magic_4
+
+	2958.1.1 = { birth = yes }
+	3268.1.1 = { death = yes }
+}
+thendas_100 = { #Reclusive guy, content to sit in his tower
+	name = "Arvs"
+	dynasty = dyn_thendas
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = thendas_99
+	father = thendas_99_husband
+
+	trait = education_learning_2
+	trait = education_magic_3
+	trait = paranoid
+	trait = shy
+	trait = temperate
+	trait = reclusive
+	trait = lifespan_3
+	trait = sign_lady
+
+	3150.9.14 = { birth = yes }
+	3280.1.1 = {
+		effect = { 
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3292.1.1 = { add_spouse = thendas_100_spouse }
+	#Tries to defend wife when Morag Tong come, dies
+	3466.12.2 = { death = { death_reason = death_duel } }
+}
+thendas_100_spouse = { #Ambitious, tries to advance her and her husband's position
+	name = "Damisi"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = education_intrigue_4
+	trait = education_magic_2
+	trait = diligent
+	trait = ambitious
+	trait = paranoid
+	trait = lifespan_3
+	trait = sign_atronach
+	
+	3164.11.8 = { birth = yes }
+	3280.1.1 = {
+		effect = { 
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	#A bit too ambitious however
+	3466.12.2 = { death = { death_reason = death_morag_tong } }
+}
+thendas_101 = {
+	name = "Beron"
+	dynasty = dyn_thendas
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = thendas_100
+	mother = thendas_100_spouse
+
+	trait = education_magic_3
+	trait = lifespan_3
+
+	3306.1.1 = { birth = yes }
+	3400.1.1 = {
+		effect = { 
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3471.1.1 = { add_spouse = thendas_101_wife }
+	3624.1.1 = { death = yes }
+}
+thendas_101_wife = {
+	name = "Merarii"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = education_magic_1
+	trait = lifespan_3
+	trait = sign_mage
+
+	3375.4.18 = { birth = yes }
+	3618.1.1 = { death = yes }
+}
+
+#Rervam, extinct, ruled council during and shortly after First Council
+rervam_100 = {
+	name = "Nela"
+	dynasty = dyn_rervam
+	culture = chi_addun
+	religion = old_velothi #Did not accept Tribunal
+	female = yes
+
+	trait = education_magic_4
+	trait = lifespan_magic_6
+	trait = stubborn
+	trait = cynical #Wasn't even zealous, just didn't want to obey Tribunal
+
+	-233.1.1 = { birth = yes }
+	#Takes a few decades to kill her
+	726.5.20 = { death = { death_reason = death_morag_tong } }
+}
+
+#Other Magisters
+llothanis_magister_1 = {
+	name = "Tralayn"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = education_magic_3
+	trait = lifespan_magic_5
+
+	428.1.1 = { birth = yes }
+	1158.11.30 = { death = { death_reason = death_natural_causes } }
+}
+llothanis_magister_2 = {
+	name = "Bedena"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = education_magic_4
+	trait = lifespan_magic_6
+
+	684.1.1 = { birth = yes }
+	1402.7.7 = { death = { death_reason = death_duel killer = llothanis_magister_3 } }
+}
+llothanis_magister_3 = {
+	name = "Turil"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = education_magic_4
+	trait = lifespan_magic_5
+
+	1098.1.1 = { birth = yes }
+	1666.2.8 = { death = { death_reason = death_morag_tong } }
+}
+llothanis_magister_4 = {
+	name = "Sildras"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = education_magic_4
+	trait = lifespan_magic_6
+
+	999.1.1 = { birth = yes }
+	2002.6.1 = { death = { death_reason = death_disappearance } }
+}
+llothanis_magister_5 = {
+	name = "Alvila"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = education_magic_4
+	trait = lifespan_magic_5
+
+	1664.1.1 = { birth = yes }
+	2301.9.15 = { death = yes }
+}
+#############
+#Molag Ruhn/Tel Muthada people (TR Muthada Council), more feudal and dynasty focused than other Telvanni, also fans of bug herding
+##############
+#Part of Tel Muthada Council
+romoren_97 = {
+	name = "Badami"
+	dynasty_house = dyn_romoren
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = oren_96
+
+	trait = lifespan_3
+	trait = possessed_genetic
+
+	2858.1.1 = { birth = yes }
+	3132.1.1 = { death = yes }
+}
+romoren_98 = {
+	name = "Rilos"
+	dynasty_house = dyn_romoren
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = romoren_97
+
+	trait = lifespan_3
+	trait = possessed_genetic
+
+	2996.1.1 = { birth = yes }
+	3150.1.1 = { add_spouse = romoren_98_wife }
+	3291.1.1 = { death = yes }
+}
+romoren_98_wife = {
+	name = "Llemisa"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	3065.1.1 = { birth = yes }
+	3314.1.1 = { death = yes }
+}
+romoren_99 = { #Got his own tower, but it cost him some parts of his body
+	name = "Threvul"
+	dynasty_house = dyn_romoren
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = romoren_98
+	mother = romoren_98_wife
+
+	trait = lifespan_3
+	trait = cynical
+	trait = ambitious
+	trait = stubborn
+	trait = education_magic_2
+	trait = one_eyed
+	trait = one_legged
+	trait = possessed_genetic
+
+	3199.1.1 = { birth = yes }
+	3300.1.1 = { add_spouse = romoren_99_wife }
+	3358.1.19 = { death = { death_reason = death_wounds } }
+}
+romoren_99_wife = {
+	name = "Sayne"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	3207.1.1 = { birth = yes }
+	3409.1.1 = { death = yes }
+}
+romoren_100 = { #Surprisingly sane for Telvanni, marries some Chuzei (tbd who exactly)
+	name = "Blivisi"
+	dynasty_house = dyn_romoren
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = romoren_99
+	mother = romoren_99_wife
+
+	trait = lifespan_3
+	trait = education_diplomacy_3
+	trait = education_magic_2
+	trait = gregarious
+	trait = calm
+	trait = diligent
+	trait = possessed_genetic #Cursed by her ancestor
+	trait = sign_atronach
+	disallow_random_traits = yes
+
+	3332.11.27 = { birth = yes }
+	3379.1.1 = { #Manages to move curse to her cousin - oren_101
+		remove_trait = possessed_genetic
+	}
+	3400.1.1 = { add_matrilineal_spouse = romoren_100_husband }
+	3494.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3688.1.1 = { death = yes }
+}
+
+romoren_100_husband = { #History ToDo: tie him to some dynasty
+	name = "Vavil"
+	culture = chuzei 
+	religion = tribunal_temple
+	3313.1.1 = { birth = yes }
+	3511.1.1 = { death = yes }
+}
+
+romoren_101 = {
+	name = "Urvan"
+	dynasty_house = dyn_romoren
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = romoren_100
+	father = romoren_100_husband
+	
+	3422.1.1 = { birth = yes }
+	3704.1.1 = { death = yes } #Placeholder
+}
+
+romoren_101b = {
+	name = "Urvan"
+	dynasty_house = dyn_romoren
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = romoren_100
+	father = romoren_100_husband
+
+	3472.1.1 = { birth = yes }
+	3704.1.1 = { death = yes } #Placeholder
+}
+
+#Part of Tel Muthada Council
+othravel_98 = {
+	name = "Almsi"
+	dynasty = dyn_othravel
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	2810.1.1 = { birth = yes }
+	2900.1.1 = { add_matrilineal_spouse = othravel_98_husband }
+	3081.12.29 = { death = yes }
+}
+othravel_98_husband = {
+	name = "Shashev"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	2800.1.1 = { birth = yes }
+	3063.1.1 = { death = yes }
+}
+othravel_99 = {
+	name = "Veneval"
+	dynasty = dyn_othravel
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = othravel_98
+	father = othravel_98_husband
+
+	trait = education_magic_4
+	trait = lifespan_magic_4
+
+	2911.1.1 = { birth = yes }
+	3100.1.1 = { add_spouse = othravel_99_wife1 }
+	3160.1.1 = { add_spouse = othravel_99_wife2 }
+	3289.6.18 = { death = yes }
+}
+
+othravel_99_wife1 = {
+	name = "Darili"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	2990.1.1 = { birth = yes }
+	3150.1.1 = { death = yes }
+}
+
+othravel_99_wife2 = {
+	name = "Boderia"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	3090.1.1 = { birth = yes }
+	3310.1.1 = { death = yes }
+}
+
+othravel_99b = {
+	name = "Balynu"
+	dynasty = dyn_othravel
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = othravel_98
+	father = othravel_98_husband
+
+	trait = education_magic_3
+	trait = lifespan_3
+
+	2947.1.1 = { birth = yes }
+	3100.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_5
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3350.1.1 = { employer = githrano_102 }
+	3528.1.1 = { death = yes }
+}
+
+othravel_100 = {
+	name = "Ultus"
+	dynasty = dyn_othravel
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = othravel_99
+	mother = othravel_99_wife1
+
+	trait = education_magic_2
+	trait = education_stewardship_2
+	trait = chaste
+	trait = callous
+	trait = zealous
+	trait = lifestyle_mystic
+	trait = reclusive
+	trait = lifespan_3
+	trait = p_tr_sotha #Really into Sotha Sil
+	trait = sign_lady
+
+	3133.9.13 = { birth = yes }
+	3299.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3493.1.1 = { death = { death_reason = death_battle } } #Decides to fight Kamals
+}
+
+othravel_100b = {
+	name = "Aerona"
+	dynasty = dyn_othravel
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = othravel_99
+	mother = othravel_99_wife2
+
+	trait = education_magic_2
+	trait = lifespan_3
+
+	3192.1.1 = { birth = yes }
+	3280.1.1 = { add_matrilineal_spouse = oren_99b }
+	3410.1.1 = { death = yes }
+}
+
+othravel_101 = {
+	name = "Brildraso"
+	dynasty = dyn_othravel
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = othravel_100b
+	father = oren_99b
+
+	trait = education_magic_3
+	trait = lifespan_3
+
+	3336.1.1 = { birth = yes }
+	3541.1.1 = { death = yes }
+}
+
+##Otheri Dynasty (dyn_otheri)
+otheri_97 = {
+	name = "Elynisi"
+	dynasty = dyn_otheri
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_magic_4
+
+	2649.1.1 = { birth = yes }
+	3008.2.8 = { death = yes }
+}
+otheri_98 = { #Magister of Molag Ruhn
+	name = "Vaval"
+	dynasty = dyn_otheri
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = otheri_97
+
+	trait = lifespan_magic_4
+
+	2853.1.1 = { birth = yes }
+	3050.1.1 = { add_spouse = otheri_98_wife }
+	3204.10.25 = { death = { death_reason = death_natural_causes } }
+}
+otheri_98_wife = {
+	name = "Vadramea"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_magic_4
+	2911.1.1 = { birth = yes }
+	3276.1.1 = { death = yes }
+}
+otheri_99 = { #Magister of Molag Ruhn
+	name = "Ravila"
+	dynasty = dyn_otheri
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = otheri_98
+	mother = otheri_98_wife
+
+	trait = lifespan_3
+	
+	3080.1.1 = { birth = yes }
+	3190.1.1 = { add_matrilineal_spouse = demnevanni_101b }
+	3312.12.19 = { death = { death_reason = death_battle } }
+}
+otheri_100 = { #Magister of Molag Ruhn
+	name = "Felara"
+	dynasty = dyn_otheri
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = otheri_99
+	father = demnevanni_101b
+
+	trait = lifespan_3
+	trait = diligent
+	trait = brave
+	trait = patient
+	trait = education_magic_2
+	trait = education_stewardship_3
+	trait = arcana_good_1
+	trait = sign_ritual
+	disallow_random_traits = yes
+
+	3215.1.29 = { birth = yes }
+	3318.1.1 = { 
+		add_matrilineal_spouse = suth_100b
+		effect = {
+			if = { 
+				limit = { character:suth_100b = { is_alive = yes } }
+				set_relation_soulmate = { target = character:suth_100b reason = soulmate_professed_love } 
+			}
+		}
+	}
+	3350.1.1 = {
+		effect = {
+			if = {
+				limit = { 
+					character:suth_100b = { is_alive  = yes }
+					character:suth_100 = { is_alive  = yes } 
+				}
+				create_alliance = {
+					target = character:suth_100
+					allied_through_owner = character:otheri_100
+					allied_through_target = character:suth_100b
+				}
+			}
+		}
+	}
+	3373.1.1 = { trait = celibate }
+	3467.7.27 = { death = yes }
+}
+
+otheri_100b = { #Was previously demnevanni
+	name = "Narsis"
+	dynasty = dyn_otheri
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = otheri_99
+	father = demnevanni_101b
+
+	trait = education_learning_4
+	trait = calm
+	trait = diligent
+	trait = callous
+	trait = lifespan_3
+	trait = education_magic_3
+
+	3247.1.1 = { birth = yes }
+	3400.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3467.1.1 = { employer = otheri_101 }
+	3626.1.1 = { death = yes }
+}
+
+otheri_101 = { #Archmagister of House Telvanni and Magister of Moalg Ruhn
+	name = "Nelos"
+	dynasty = dyn_otheri
+	culture = chi_addun
+	religion = tribunal_temple
+	mother = otheri_100
+	father = suth_100b
+	sexuality = heterosexual
+
+	trait = lifespan_3
+	trait = arcana_good_1
+	trait = education_intrigue_4
+	trait = education_magic_3
+	trait = ambitious
+	trait = callous
+	trait = diligent
+	disallow_random_traits = yes
+
+	3327.1.1 = { birth = yes }
+	3359.1.1 = {
+		effect = {
+			if = { 
+				limit = { character:suth_101 = { is_alive = yes } } 
+				set_relation_friend = { reason = friend_generic_history target = character:suth_101 }
+			}
+		}
+	}
+	3368.1.1 = {
+		effect = {
+			if = { 
+				limit = { character:suth_101 = { is_alive = yes } } 
+				set_relation_lover = { reason = lover_history target = character:suth_101 }
+			}
+		}
+	}
+	3400.1.1 = { 
+		add_spouse = suth_101 #Marries his cousin
+		effect = {
+			if = { 
+				limit = { character:suth_101 = { is_alive = yes } } 
+				set_relation_soulmate = { reason = soulmate_professed_love target = character:suth_101 }
+			}
+		}
+	}
+	3430.1.1 = { 
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	#History ToDo: can be something else and earlier
+	3535.1.1 = { death = { death_reason = death_duel killer = dral_001 } }
+}
+
+otheri_101b = { #Married to nethalen_101
+	name = "Urona"
+	dynasty = dyn_otheri
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = otheri_100
+	father = suth_100b
+
+	3348.1.1 = { birth = yes }
+	3633.1.1 = { death = yes }
+}
+
+otheri_102 = {
+	name = "Vadramea"
+	dynasty = dyn_otheri
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = otheri_101
+	mother = suth_101
+
+	3418.1.1 = { birth = yes }
+	#History ToDo: possibly killed by whoever is new Archmagister
+	3535.1.1 = { death = yes }
+}
+
+###Onthim Dynasty (dyn_onthim)
+onthim_97 = {
+	name = "Galsi"
+	dynasty = dyn_onthim
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_3
+	2912.1.1 = { birth = yes }
+	3030.1.1 = { add_matrilineal_spouse = onthim_97_husband }
+	3134.1.1 = { death = yes }
+}
+onthim_97_husband = {
+	name = "Norus"
+	culture = chi_addun
+	religion = tribunal_temple
+	2938.1.1 = { birth = yes }
+	3169.1.1 = { death = yes }
+}
+onthim_98 = {
+	name = "Birila"
+	dynasty = dyn_onthim
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = onthim_97
+	father = onthim_97_husband
+
+	trait = lifespan_3
+
+	3050.1.1 = { birth = yes }
+	3150.1.1 = { add_matrilineal_spouse = onthim_98_husband }
+	3291.4.23 = { death = yes }
+}
+onthim_98_husband = {
+	name = "Tiram"
+	culture = chi_addun
+	religion = tribunal_temple
+	3060.1.1 = { birth = yes }
+	3304.1.1 = { death = yes }
+}
+onthim_99 = {
+	name = "Endase"
+	dynasty = dyn_onthim
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = onthim_98
+	father = onthim_98_husband
+
+	trait = education_magic_3 #Better than her brother
+	trait = lifespan_magic_4
+
+	3176.1.1 = { birth = yes }
+	3300.1.1 = { add_matrilineal_spouse = onthim_99_husband }
+	3356.1.1 = { trait = consumption }
+	#Dies and leaves her lands to her young daughter
+	3357.9.20 = { death = { death_reason = death_consumption } }
+}
+onthim_99_husband = { #Regent of his daughter, only reason she's alive in 440
+	name = "Tythis"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = education_magic_2
+	trait = stubborn
+	trait = loyal
+	trait = lifespan_3
+
+	3190.1.1 = { birth = yes }
+	3358.1.1 = { trait = consumption }
+	3361.1.1 = { death = { death_reason = death_consumption } }
+}
+onthim_99b = {
+	name = "Suvryn"
+	dynasty = dyn_onthim
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = onthim_98
+	father = onthim_98_husband
+
+	trait = education_intrigue_3
+	trait = education_magic_2
+	trait = ambitious #Doesn't mind killing his niece
+	trait = cynical #Doesn't mind killing his niece
+	trait = wrathful
+	trait = schemer
+	trait = lifespan_3
+	trait = sign_thief
+	disallow_random_traits = yes
+
+	3192.12.30 = { birth = yes }
+	3330.1.1 = { #Realizes that Mehrunes is actually pretty good fit for him (and can give him more power)
+		effect = { make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:mehrunes_cult } }
+	}
+	3355.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3360.1.1 = {
+		effect = {
+			if = {
+				limit = { character:onthim_100 = { is_alive = yes } }
+				start_scheme = {
+					target_character = character:onthim_100
+					type = murder
+				}
+			}
+		}
+	}
+	3390.1.1 = { add_spouse = othravel_101 }
+	3565.1.1 = { death = yes } #Placeholder, may kill him sooner
+}
+onthim_100 = { #Inherits her lands from her mother when she's 3 years old, only reason that she survives is because of her father
+	name = "Dravynea"
+	dynasty = dyn_onthim
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = onthim_99
+	father = onthim_99_husband
+
+	trait = trusting
+	trait = charming
+	trait = lifespan_3
+	trait = sign_mage
+
+	disallow_random_traits = yes
+
+	3354.4.11 = { birth = yes }
+	#Uncle decides that he would make a better ruler
+	3363.1.11 = { death = { death_reason = death_murder_known killer = onthim_99b } }
+}
+
+onthim_101 = {
+	name = "Aurona"
+	dynasty = dyn_onthim
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	
+	father = onthim_99b
+	mother = othravel_101
+
+	trait = lifespan_3
+
+	3418.1.1 = { birth = yes }
+	3687.1.1 = { death = yes } #Placeholder
+}
+
+onthim_101b = { #Mouth of Therana in eso
+	name = "Eraven" #Lore
+	dynasty = dyn_onthim
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = bastard
+
+	father = onthim_99b
+
+	3432.1.1 = { birth = yes }
+	3490.1.1 = { employer = beran_3 } #Therana
+	3590.1.1 = { death = { death_reason = death_mysterious } }
+}
+
+onthim_101c = { #Married to athyrion_100
+	name = "Trendrus"
+	dynasty = dyn_onthim
+	culture = chi_addun
+	religion = tribunal_temple
+	
+	father = onthim_99b
+	mother = othravel_101
+
+	trait = lifespan_3
+
+	3441.1.1 = { birth = yes }
+	3733.1.1 = { death = yes }
+}
+
+###Oren Dynasty (oren)
+oren_96 = {
+	name = "Virvyn"
+	dynasty_house = dyn_oren
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = urenim_105
+
+	trait = lifespan_magic_4
+	trait = possessed_genetic #First child doesn't inherit, second does
+
+	2671.1.1 = { birth = yes }
+	2981.1.1 = { death = { death_reason = death_possessed } }
+}
+oren_97 = {
+	name = "Aralosea"
+	dynasty_house = dyn_oren
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = oren_96
+
+	trait = lifespan_magic_4
+
+	2824.1.1 = { birth = yes }
+	3080.1.1 = { add_matrilineal_spouse = oren_97_husband }
+	3211.12.16 = { death = { death_reason = death_natural_causes } }
+}
+oren_97_husband = {
+	name = "Teres"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_magic_4
+
+	2903.1.1 = { birth = yes }
+	3257.1.1 = { death = yes }
+}
+oren_98 = {
+	name = "Llovys"
+	dynasty_house = dyn_oren
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = oren_97
+	father = oren_97_husband
+
+	trait = lifespan_3
+
+	3091.1.1 = { birth = yes }
+	3160.1.1 = { add_spouse = oren_98_wife }
+	3256.8.10 = { death = { death_reason = death_alit } } 
+}
+oren_98_wife = {
+	name = "Almsi"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_3
+	3077.1.1 = { birth = yes }
+	3339.1.1 = { death = yes }
+}
+oren_99 = {
+	name = "Badami"
+	dynasty_house = dyn_oren
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = oren_98
+	mother = oren_98_wife
+
+	trait = trusting
+	trait = arrogant
+	trait = just 
+	trait = arcana_good_2
+	trait = lifespan_3
+	trait = education_stewardship_3
+	trait = education_magic_3
+	trait = sign_lover
+	disallow_random_traits = yes
+
+	3188.2.3 = { birth = yes }
+	3300.1.1 = { add_matrilineal_spouse = oren_99_husband }
+	3369.5.12 = { death = { death_reason = death_murder_known killer = tenvanni_101 } }
+}
+
+oren_99_husband = {
+	name = "Tarir"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	3200.1.1 = { birth = yes }
+	3369.1.1 = { death = { death_reason = death_murder_known killer = tenvanni_101 } }
+}
+
+oren_99b = {
+	name = "Nadras"
+	dynasty_house = dyn_oren
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = oren_98
+
+	trait = education_magic_1
+
+	3208.1.1 = { birth = yes }
+	3427.1.1 = { death = yes }
+}
+
+oren_100 = {
+	name = "Uradrys"
+	dynasty_house = dyn_oren
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = oren_99
+	father = oren_99_husband
+
+	trait = shy
+	trait = humble
+	trait = gluttonous
+	trait = reclusive
+	trait = arcana_good_1
+	trait = lifespan_3
+	trait = education_magic_2
+	trait = education_learning_2
+	trait = sign_lord
+	disallow_random_traits = yes
+
+	3317.3.14 = { birth = yes }
+	#~3400 - Orens lose all lands in Scath Anud and flee to Firewatch 
+	3420.1.1 = { death = { death_reason = death_disappearance } } #Tenvanni finish the job
+}
+
+oren_101 = { #Frustrated with her exile she decides to conquer land from ashlanders
+	name = "Erirvase"
+	dynasty_house = dyn_oren
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = oren_100
+
+	trait = ambitious
+	trait = deceitful
+	trait = wrathful
+	trait = education_intrigue_2
+	trait = education_magic_3
+	trait = possessed_genetic #Cursed by her ancestor + moved from romoren_100
+
+	3379.1.1 = { birth = yes }
+	3466.1.1 = { remove_trait = possessed_genetic } #Kills her ancestor who cursed her
+	3645.1.1 = { death = yes }
+}
+
+###Suth Dynasty (Otheri vassals)
+suth_97 = {
+	name = "Ivela"
+	dynasty = dyn_suth
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = education_magic_2
+
+	2760.1.1 = { birth = yes }
+	2999.1.1 = { death = yes }
+}
+
+suth_98 = {
+	name = "Tanasa"
+	dynasty = dyn_suth
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = suth_97
+
+	trait = education_magic_3
+	trait = lifespan_3
+
+	2883.1.1 = { birth = yes }
+	2920.1.1 = { add_matrilineal_spouse = suth_98_husband }
+	3104.1.1 = { death = yes }
+}
+
+suth_98_husband = {
+	name = "Haldyn"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	2902.1.1 = { birth = yes }
+	3114.11.1 = { death = yes }
+}
+
+suth_98b = {
+	name = "Darvame"
+	dynasty = dyn_suth
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = suth_97
+
+	trait = education_magic_1
+
+	2902.1.1 = { birth = yes }
+	3176.1.1 = { death = yes }
+}
+
+suth_99 = {
+	name = "Velms"
+	dynasty = dyn_suth
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = suth_98
+	father = suth_98_husband
+
+	trait = lifespan_3
+	trait = education_magic_2
+
+	3005.1.1 = { birth = yes }
+	3200.1.1 = { add_spouse = tras_100b }
+	3287.1.1 = { death = yes }
+}
+suth_99b = {
+	name = "Thanusel"
+	dynasty = dyn_suth
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = suth_98b
+	trait = education_magic_4
+	trait = lifespan_3
+	3048.1.1 = { birth = yes }
+	3230.1.1 = { 
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3436.1.1 = { death = { death_reason = death_natural_causes } }
+}
+
+suth_angharal = { #Nelos Otheri's mouth in eso, cousin of his wife ( who is also his cousin)
+	name = "Angharal" #Lore
+	dynasty = dyn_suth
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	father = suth_99b
+	trait = education_magic_2
+	trait = lifespan_3
+	3412.1.1 = { birth = yes }
+	3677.1.1 = { death = yes }
+}
+
+suth_100 = {
+	name = "Sondryn"
+	dynasty = dyn_suth
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = suth_99
+	mother = tras_100b
+
+	trait = lifespan_3
+	trait = education_magic_3
+	trait = education_learning_2
+	trait = chaste
+	trait = eccentric
+	trait = arbitrary
+	trait = reclusive
+	trait = sign_shadow
+	disallow_random_traits = yes
+
+	3225.5.26 = { birth = yes }
+	3300.1.1 = { add_matrilineal_spouse = suth_100_husband }
+	3439.1.1 = { death = { death_reason = death_lost_in_the_forest } }
+}
+
+suth_100_husband = {
+	name = "Dovyn"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	3246.1.1 = { birth = yes }
+	3489.1.1 = { death = yes }
+}
+
+suth_100b = { 
+	name = "Brelar"
+	dynasty = dyn_suth
+	culture = chi_addun
+	religion = tribunal_temple
+	father = suth_99
+	mother = tras_100b
+
+	trait = lifespan_3
+	trait = dull
+	trait = honest
+	trait = forgiving
+	trait = brave
+	trait = education_magic_1
+	trait = experimentalist
+	trait = disinherited
+	trait = eunuch_1 #Had an accident due to his carelessness and poor magicka control
+
+	3285.1.1 = { birth = yes }
+	3373.1.1 = { death = { death_reason = death_burned } } #Didn't make it this time around
+}
+
+suth_101 = { #Nelos Otheri's wife and cousin
+	name = "Ferise"
+	dynasty = dyn_suth
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	sexuality = heterosexual
+
+	mother = suth_100
+	father = suth_100_husband
+	
+	trait = lifespan_3
+	trait = arcana_good_1
+	trait = honest
+	trait = pensive
+	disallow_random_traits = yes
+
+	3351.1.1 = { birth = yes }
+	3367.1.1 = {
+		trait = education_diplomacy_3
+		trait = education_magic_2
+		trait = calm
+		trait = just
+		remove_trait = pensive
+	}
+	#3400 - married to her cousin otheri_101
+	3430.1.1 = { 
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3670.10.1 = { death = yes }
+}
+
+###Tenvanni Dynasty (dyn_tenvanni)
+tenvanni_97 = {
+	name = "Thys"
+	dynasty = dyn_tenvanni
+	culture = chi_addun
+	religion = tribunal_temple
+	
+	trait = lifespan_3
+
+	2967.1.1 = { birth = yes }
+	3040.1.1 = { add_spouse = tenvanni_97_wife }
+	3203.1.15 = { death = yes }
+}
+tenvanni_97_wife = {
+	name = "Erivase"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	2989.1.1 = { birth = yes }
+	3195.1.1 = { death = yes }
+}
+tenvanni_98 = {
+	name = "Brelaca"
+	dynasty = dyn_tenvanni
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = tenvanni_97
+	mother = tenvanni_97_wife
+
+	trait = lazy
+	trait = arrogant
+	trait = ambitious
+	trait = drunkard
+	trait = lifespan_3
+	trait = arcana_good_2
+	trait = education_magic_2
+	trait = education_stewardship_2
+
+	3056.1.1 = { birth = yes }
+	3294.4.28 = { death = yes }
+}
+tenvanni_98b = { #Married to telvayn_99
+	name = "Aymillo"
+	dynasty = dyn_tenvanni
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = tenvanni_97
+	mother = tenvanni_97_wife
+
+	3089.1.1 = { birth = yes }
+	3271.1.1 = { death = yes }
+}
+tenvanni_99 = { 
+	name = "Sarayn"
+	dynasty = dyn_tenvanni
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = tenvanni_98
+
+	trait = honest
+	trait = ambitious
+	trait = stubborn
+	trait = lifespan_3
+	trait = education_magic_4
+	trait = education_intrigue_2
+
+	3170.1.1 = { birth = yes }
+	3250.1.1 = { add_spouse = tenvanni_99_wife }
+	3346.9.4 = { death = { death_reason = death_duel killer = telvayn_100 } } #Uvren bests him in a duel
+}
+tenvanni_99_wife = {
+	name = "Elyna"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = temperate
+	trait = vengeful
+	trait = brave
+
+	3220.1.1 = { birth = yes }
+	3346.9.4 = { death = { death_reason = death_murder killer = telvayn_100 } }
+}
+tenvanni_100 = {
+	name = "Dedras"
+	dynasty = dyn_tenvanni
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = tenvanni_99
+	mother = tenvanni_99_wife
+
+	trait = content
+	trait = humble
+	trait = zealous
+	trait = lifespan_3
+	trait = arcana_good_1
+	trait = education_magic_3
+	trait = education_intrigue_3
+
+	3240.1.1 = { birth = yes }
+	3290.1.1 = { add_spouse = tenvanni_100_wife }
+	3346.9.4 = { death = { death_reason = death_murder_known killer = telvayn_100 } } #Uvren can never be too sure
+}
+tenvanni_100_wife = {
+	name = "Andilu"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	3259.1.1 = { birth = yes }
+	3346.9.4 = { death = { death_reason = death_murder_known killer = telvayn_100 } }
+}
+tenvanni_100b = {
+	name = "Farare"
+	dynasty = dyn_tenvanni
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = tenvanni_99
+	mother = tenvanni_99_wife
+
+	trait = craven
+	trait = depressed_1
+	trait = gregarious
+	trait = lifespan_3
+	trait = arcana_good_3
+	trait = education_magic_4
+	trait = education_martial_3
+
+	3278.1.1 = { birth = yes }
+	3346.9.4 = { death = { death_reason = death_murder_known killer = telvayn_100 } } #Uvren can never be too sure
+}
+tenvanni_101 = {
+	name = "Aralosea"
+	dynasty = dyn_tenvanni
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = tenvanni_100
+	mother = tenvanni_100_wife
+
+	trait = greedy
+	trait = arrogant
+	trait = vengeful
+	trait = arcana_good_1
+	trait = lifespan_3
+	trait = education_magic_4
+	trait = education_martial_3
+	trait = sign_apprentice
+	disallow_random_traits = yes
+
+	3304.7.7 = { birth = yes }
+	3346.9.4 = {
+		effect = {
+			if = { #Hates her cousin who tried to take her father's land
+				limit = { character:telvayn_100 = { is_alive = yes } }
+				set_relation_rival = { target = character:telvayn_100 reason = rival_historical }
+			}
+			if = { #Hates her father's mouth who took his land
+				limit = { character:fathryon_100 = { is_alive = yes } }
+				set_relation_rival = { target = character:fathryon_100 reason = rival_historical }
+			}
+			add_destruction_perk_effect = { LEVEL = 4 }
+		}
+	}
+	#3367 - gets her revenge on Uvren Telvayn, but fails to kill Fathryon, flees to Scath Anud
+	3369.1.1 = { #Kills Oren Master of Alt Bosara
+		effect = {
+			if = {
+				limit = { character:oren_100 = { is_alive = yes } }
+				set_relation_rival = { target = character:oren_100 reason = rival_historical }
+			}
+		}
+	}
+	3480.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3630.1.1 = { death = yes }
+}
+
+###Telsaran Dynasty (dyn_telsaran), TR, part of Tel Muthada Council
+telsaran_98 = {
+	name = "Aarela"
+	dynasty = dyn_telsaran
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	3011.1.1 = { birth = yes }
+	3100.1.1 = { add_matrilineal_spouse = telsaran_98_husband }
+	3259.1.1 = { death = yes }
+}
+telsaran_98_husband = {
+	name = "Ienas"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	3005.1.1 = { birth = yes }
+	3249.1.1 = { death = yes }
+}
+telsaran_99 = {
+	name = "Arvena"
+	dynasty = dyn_telsaran
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = telsaran_98
+	father = telsaran_98_husband
+
+	3123.1.1 = { birth = yes }
+	3200.1.1 = { add_matrilineal_spouse = telsaran_99_husband }
+	3281.1.1 = { death = {  death_reason = death_accident } }
+}
+telsaran_99_husband = {
+	name = "Vother"
+	culture = chi_addun
+	religion = tribunal_temple
+	3145.1.1 = { birth = yes }
+	3301.1.1 = { trait = typhus }
+	3302.1.1 = { death = { death_reason = death_typhus } }
+}
+telsaran_100 = {
+	name = "Ervyla"
+	dynasty = dyn_telsaran
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = telsaran_99
+	father = telsaran_99_husband
+
+	trait = gluttonous
+	trait = wrathful
+	trait = callous
+	trait = lifespan_3
+	trait = education_magic_2
+	trait = education_intrigue_3
+	trait = sign_serpent
+
+	3236.8.9 = { birth = yes }
+	3330.1.1 = { 
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3365.1.1 = { add_matrilineal_spouse = telsaran_100_husband }
+	3510.7.27 = { death = yes }
+}
+
+telsaran_100_husband = {
+	name = "Vilval"
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_3
+	3271.1.1 = { birth = yes }
+	3496.6.8 = { death = yes }
+}
+
+telsaran_101 = {
+	name = "Bolayn"
+	dynasty = dyn_telsaran
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = telsaran_100
+	father = telsaran_100_husband
+
+	trait = lifespan_3
+	trait = education_magic_2
+
+	3381.1.1 = { birth = yes }
+	3698.1.1 = { death = yes }
+}
+
+telsaran_101b = { #Inherits over his older brother because he's better at magic
+	name = "Danus"
+	dynasty = dyn_telsaran
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = telsaran_100
+	father = telsaran_100_husband
+
+	trait = lifespan_3
+	trait = education_magic_3
+
+	3409.1.1 = { birth = yes }
+	3766.1.1 = { death = yes }
+}
+#History ToDo: Telsaran take over Tel Muthada eventually and rule until MW
+
+#Tras dynasty, old rulers of Muthada and Tarulin
+tras_99 = {
+	name = "Bralis"
+	dynasty = dyn_tras
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_3
+	2935.1.1 = { birth = yes }
+	3211.4.1 = { death = yes }
+}
+tras_100 = {
+	name = "Cadsu"
+	dynasty = dyn_tras
+	culture = chi_addun
+	religion = tribunal_temple
+	father = tras_99
+	trait = lifespan_3
+	3099.1.1 = { birth = yes }
+	3319.5.18 = { death = { death_reason = death_duel killer = telsaran_100 } }
+}
+
+tras_100b = { #Married to suth_99
+	name = "Alvura"
+	dynasty = dyn_tras
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	father = tras_99
+	trait = lifespan_3
+	3133.1.1 = { birth = yes }
+	3405.1.1 = { death = yes }
+}
+
+tras_101 = {
+	name = "Bralis"
+	dynasty = dyn_tras
+	culture = chi_addun
+	religion = tribunal_temple
+	father = tras_100
+	trait = lifespan_3
+	3268.1.1 = { birth = yes }
+	3551.1.1 = { death = yes }
+}
+
+#Athiryon - part of Telvannis dynasty, but moves to Muthada. TR family, last until MW
+athyrion_100 = { #Benaril's daughter with a godless Telvanni hireling
+	name = "Sathryn"
+	dynasty = dyn_athyrion
+	culture = chi_addun #Raised by chi-addun aunt
+	religion = tribunal_temple
+	father = randoro_100
+	female = yes
+
+	trait = education_martial_3
+	trait = rough_terrain_expert
+	trait = bastard_founder
+	trait = lifespan_3
+	trait = education_magic_2
+	trait = fickle
+	trait = cynical
+	trait = diligent
+
+	3324.1.1 = { birth = yes }
+	3349.1.1 = { 
+		effect = {
+			if = {
+				limit = { character:selyn_100 = { is_alive = yes } }
+				set_relation_friend = { target = character:selyn_100 reason = friend_generic_history } 
+			} 
+		}  
+	}
+	3350.1.1 = { employer = selyn_100 }
+	3422.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3450.1.1 = { employer = othravel_100b } #Decides that Port Telvannis politics are a bit too much, moves to Tel Muthada
+	#3493 - seizes power after ruler of Tel Onoria dies
+	3494.1.1 = { add_matrilineal_spouse = onthim_101c }
+	3702.10.20 = { death = { death_reason = death_old_age } }
+}
+
+athyrion_101 = {
+	name = "Bivessa"
+	dynasty = dyn_athyrion
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = athyrion_100
+	father = onthim_101c
+
+	trait = lifespan_3
+
+	3500.1.1 = { birth = yes }
+	3622.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3897.1.1 = { death = yes }
+}
+
+#Relvenim, founded Helnim and started council
+relvenim_100 = {
+	name = "Gilan" #Tel Gilan
+	dynasty = dyn_relvenim
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_magic_5
+
+	2001.1.1 = { birth = yes }
+	2598.10.23 = { death = yes }
+}
+relvenim_101 = {
+	name = "Gureryne"
+	dynasty = dyn_relvenim
+	culture = chi_addun
+	religion = tribunal_temple
+	father = relvenim_100
+
+	trait = lifespan_magic_4
+
+	2380.1.1 = { birth = yes }
+	2814.6.25 = { death = yes }
+}
+relvenim_101b = {
+	name = "Athesie"
+	dynasty = dyn_relvenim
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = relvenim_100
+
+	trait = lifespan_magic_4
+
+	2478.1.1 = { birth = yes }
+	2966.1.24 = { death = yes }
+}
+relvenim_102 = {
+	name = "Dovrosi"
+	dynasty = dyn_relvenim
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = relvenim_101b
+
+	trait = lifespan_magic_4
+
+	2700.1.1 = { birth = yes }
+	3019.3.18 = { death = { death_reason = death_disappearance } }
+}
+relvenim_103 = { #Doesn't care about council, grabs some land from Indorils
+	name = "Ervyla"
+	dynasty = dyn_relvenim
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	mother = relvenim_102
+
+	trait = lifespan_magic_4
+	trait = education_martial_4
+	trait = education_magic_3
+	trait = cynical
+	trait = ambitious
+	trait = greedy
+
+	2813.1.1 = { birth = yes }
+	3006.12.8 = { death = { death_reason = death_morag_tong } } #Executed by Morag Tong for intruding on Indoril territory
+}
+
+telmon_100 = { #Takes over from relvenim_103
+	name = "Bolyn"
+	dynasty = dyn_telmon
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_magic_5
+	trait = education_magic_3
+	trait = stubborn
+
+	2887.1.1 = { birth = yes }
+	3324.3.21 = { death = { death_reason = death_duel killer = romoren_99 } }
+}
+
+##############
+#Hive Council, Dust Master, generally reclusive and crazy, not much dynastic continuity
+##############
+#Leader of Council, normal kind of crazy
+gilnith_100 = {
+	name = "Cindiri"
+	culture = chi_addun
+	religion = tribunal_temple
+	dynasty = dyn_gilnith
+	female = yes
+
+	trait = education_learning_4
+	trait = education_magic_3
+	trait = reclusive
+	trait = lunatic_1
+	trait = blind
+	trait = paranoid
+	trait = diligent
+	trait = arbitrary
+	trait = lifestyle_herbalist
+	trait = lifespan_3
+	trait = sign_lover
+
+	3028.2.17 = { birth = yes }
+	3300.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_5
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+			add_character_flag = conceded_election #Doesn't care about Great House title
+		}
+	}
+	3643.1.1 = { death = yes }
+}
+
+#Ehad, old vampire, killed by Ralaal (based on TR Ehad vampire clan)
+ehad_100 = {
+	name = "Selkirnemus"
+	culture = ashlander
+	religion = old_velothi
+	dynasty = dyn_ehad
+	
+	trait = lunatic_1
+	trait = possessed_1
+	trait = sadistic
+	trait = brave
+	trait = paranoid
+	trait = vampire_character
+
+	590.1.1 = { birth = yes }
+	2348.1.1 = { death = { death_reason = death_duel killer = ralaal_100 } }
+}
+#Ralaal, vampire
+ralaal_100 = {
+	name = "Valdam"
+	culture = chi_addun
+	religion = tribunal_temple
+	dynasty = dyn_ralaal
+	trait = lifespan_3
+	#trait = reclusive
+	trait = lunatic_1
+	trait = paranoid
+	trait = craven
+	trait = callous
+	trait = experimentalist
+	trait = education_learning_3
+	trait = education_magic_3
+	trait = sign_serpent
+	1971.9.20 = { birth = yes }
+	2313.1.1 = {
+		effect = {
+			add_character_flag = already_immortal_age_flag
+			give_vampire_secret_or_trait_effect = yes
+			set_immortal_age = 50
+		}
+	}
+	3462.1.1 = { death = { death_reason = death_murder killer = leven_100 } }
+}
+
+#Leven, vampire, TR
+leven_100 = {
+	name = "Leven" #TR
+	dynasty = dyn_renil
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_3
+	#trait = reclusive
+	trait = arrogant
+	trait = ambitious
+	trait = education_magic_4
+
+	2953.1.1 = { birth = yes }
+	3313.1.1 = {
+		#Note: not related to ralaal's bloodline
+		effect = {
+			add_character_flag = already_immortal_age_flag
+			give_vampire_secret_or_trait_effect = yes
+			set_immortal_age = 30
+		}
+	}
+	3360.1.1 = { employer = ralaal_100 }
+	4400.1.1 = { death = yes }
+}
+
+#Arelas, lich
+arelas_100 = {
+	name = "Arvama"
+	culture = chi_addun
+	religion = tribunal_temple
+	dynasty = dyn_arelas
+	female = yes
+
+	trait = lifespan_3
+	trait = reclusive
+	trait = lunatic_1
+	trait = paranoid
+	trait = ambitious
+	trait = sadistic
+	trait = education_learning_3
+	trait = education_magic_3
+	trait = necromancer
+	trait = sign_warrior
+
+	2898.8.12 = { birth = yes }
+	3300.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_5
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3393.1.1 = {
+		trait = lich_character
+		effect = { 
+			set_immortal_age = 38 
+			set_predetermined_decay_effect = { DECAY = 0.5 } 
+		}
+	}
+	3777.1.1 = { death = yes }
+}
+
+#Menas, sixth house descendant, hears whispers...
+menas_98 = {
+	name = "Tilanos"
+	culture = chi_addun
+	religion = tribunal_temple
+	dynasty = dyn_menas
+	trait = lifespan_magic_5
+	1923.1.1 = { birth = yes }
+	2680.1.1 = { death = yes }
+}
+menas_98_wife = {
+	name = "Dissu"
+	culture = ashlander
+	religion = old_velothi
+	female = yes
+	trait = lifespan_3
+	2300.1.1 = { birth = yes }
+	2508.1.1 = { death = yes }
+}
+menas_99 = {
+	name = "Tolvasa"
+	culture = chi_addun
+	religion = tribunal_temple
+	dynasty = dyn_menas
+	female = yes
+	father = menas_98
+	mother = menas_98_wife
+	trait = possessed_1 #Sixth house stuff
+	trait = lifespan_magic_5
+	2413.1.1 = { birth = yes }
+	2981.1.1 = { death = yes }
+}
+menas_99_husband = {
+	name = "Ultus"
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_magic_4
+	2380.1.1 = { birth = yes }
+	2768.1.1 = { death = yes }
+}
+menas_100 = {
+	name = "Tirinaat"
+	culture = chi_addun
+	religion = tribunal_temple
+	dynasty = dyn_menas
+	female = yes
+
+	mother = menas_99
+	father = menas_99_husband
+
+	trait = lifespan_3
+	trait = reclusive
+	trait = clubfooted
+	trait = weak
+	trait = education_magic_4
+	trait = education_learning_3
+	trait = greedy
+	trait = ambitious
+	trait = paranoid
+	trait = possessed_1 #Sixth house stuff
+	trait = sign_ritual
+
+	2698.1.21 = { birth = yes }
+	2950.1.1 = {
+		effect = { 
+			add_arcana_skill = { VALUE = 5 } 
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_6
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3400.1.1 = { #Whispers get worse...
+		trait = lunatic_1
+		trait = flagellant 
+	}
+	3450.1.1 = { #Whispers get even worse
+		trait = one_eyed
+		trait = one_legged
+	}
+	#Killed by her retainer (who was previously ashlander wise woman)
+	3498.1.1 = { death = { death_reason = death_murder_known killer = kirimannit_99b } }
+}
+
+#Ancient leaders of council
+mantashpi_100 = {
+	name = "Musan"
+	culture = chi_addun
+	religion = old_velothi
+	dynasty = dyn_mantashpi
+
+	trait = lunatic_1
+	trait = education_magic_4
+	trait = education_learning_4
+	trait = lifespan_magic_6
+
+	130.1.1 = { birth = yes }
+	2208.8.21 = { death = { death_reason = death_mysterious } }
+}
+hive_council_001 = {
+	name = "Teldyni"
+	culture = chi_addun
+	religion = old_velothi
+	female = yes
+
+	trait = education_magic_4
+	trait = education_learning_4
+	trait = lifespan_magic_6
+
+	640.1.1 = { birth = yes }
+	2489.4.7 = { death = { death_reason = death_disappearance } }
+}
+hive_council_002 = {
+	name = "Dirara"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = education_magic_4
+	trait = education_intrigue_3
+	trait = possessed_1
+	trait = lifespan_magic_6
+
+	1679.1.1 = { birth = yes }
+	2902.1.16 = { death = { death_reason = death_possessed } }
+}
+hive_council_003 = {
+	name = "Sondas"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = education_magic_4
+	trait = education_learning_4
+	trait = lifespan_magic_5
+
+	2331.1.1 = { birth = yes }
+	3241.1.1 = { death = { death_reason = death_poison } }
+}
+############
+###Sadrith Mora people, characters from Morrowind
+############
+aruhn_1 = { #Tel Aruhn existed when Divayth Fyr was young
+	name = "Nummu"
+	culture = chimer
+	religion = old_velothi
+	female = yes
+
+	trait = education_magic_3
+	trait = lifespan_magic_5
+
+	56.1.1 = { birth = yes }
+	470.1.1 = { death = yes }
+}
+
+ulessen_97 = {
+	name = "Uravasa"
+	dynasty = dyn_ulessen
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_magic_5
+	2430.1.1 = { birth = yes }
+	2894.12.6 = { death = yes }
+}
+ulessen_98 = {
+	name = "Endris"
+	dynasty = dyn_ulessen
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = ulessen_97
+
+	trait = lifespan_magic_4
+	trait = education_magic_3
+
+	2700.1.1 = { birth = yes }
+	2937.2.17 = { death = { death_reason = death_disappearance } }
+}
+ulessen_99 = {
+	name = "Othrelos"
+	dynasty = dyn_ulessen
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = ulessen_98
+
+	2830.1.10 = { birth = yes }
+	2939.6.19 = { death = { death_reason = death_murder_known killer = minthri_gothren } }
+}
+ulessen_99b = {
+	name = "Benae"
+	dynasty = dyn_ulessen
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = ulessen_98
+
+	trait = education_magic_3
+	trait = education_intrigue_1
+	trait = wrathful
+
+	2832.1.1 = { birth = yes }
+	2939.6.19 = { death = { death_reason = death_murder_known killer = minthri_gothren } }
+}
+#Minthri, Gothren's dynasty
+minthri_98 = {
+	name = "Sarvil"
+	dynasty = dyn_minthri
+	culture = chi_addun
+	religion = tribunal_temple
+
+	2601.1.1 = { birth = yes }
+	2700.1.1 = { add_spouse = minthri_98_wife }
+	2945.1.1 = { death = yes }
+}
+minthri_98_wife = {
+	name = "Feldsii"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	
+	2607.1.1 = { birth = yes }
+	2911.1.1 = { death = yes }
+}
+minthri_99 = { #Unremarkable Telvanni house member
+	name = "Darili"
+	dynasty = dyn_minthri
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = minthri_98
+	mother = minthri_98_wife
+
+	trait = education_magic_2
+	trait = lifespan_3
+	
+	2720.1.1 = { birth = yes }
+	2810.1.1 = { add_matrilineal_spouse = minthri_99_husband }
+	3033.1.1 = { death = yes }
+}
+
+minthri_99_husband = { #Unremarkable Telvanni house member
+	name = "Thanusel"
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = education_magic_2
+	trait = lifespan_3
+	2733.1.1 = { birth = yes }
+	3041.1.1 = { death = yes }
+}
+
+minthri_gothren = { #Gothren, count of Tel Aruhn in until Kamals, leader of Sadrith Mora council, becomes archmagister only in 3E
+	name = "Gothren" #Lore
+	dna = gothren_dna_entry
+	dynasty = dyn_minthri
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = minthri_99
+	father = minthri_99_husband
+
+	trait = education_learning_4
+	trait = education_magic_4
+	trait = paranoid
+	trait = arrogant
+	trait = callous
+	trait = ambitious
+	trait = lifespan_3
+	trait = sign_lord
+
+	learning = 5
+	intrigue = 9
+
+	2812.3.12 = { birth = yes } #Was apprentice during Four Score War
+	2940.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_6
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+			set_immortal_age = 30
+		}
+	}
+	4243.1.1 = { death = yes } #Nerevarine
+
+	portrait_override={
+		portrait_modifier_overrides={
+			custom_hair=male_hair_fp1_07
+			custom_beards=male_beard_fp2_iberian_christian_02
+		}
+	}
+}
+
+minthri_100 = {
+	name = "Galyn"
+	dynasty = dyn_minthri
+	culture = chi_addun
+	religion = tribunal_temple
+
+	female = yes
+
+	mother = minthri_99
+	father = minthri_99_husband
+
+	trait = lifespan_magic_5
+
+	2855.1.1 = { birth = yes }
+	3236.1.1 = { death = yes }
+}
+minthri_101 = {
+	name = "Hlanas"
+	dynasty = dyn_minthri
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = minthri_100
+
+	trait = lifespan_3
+
+	3182.1.1 = { birth = yes }
+	2940.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3505.1.1 = { death = yes }
+}
+
+##Beran Dynasty (dyn_beran) - Therana's dynasty
+beran_99 = {
+	name = "Iachilla"
+	dynasty = dyn_beran
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_magic_4
+	2677.1.1 = { birth = yes }
+	2850.1.1 = { add_matrilineal_spouse = beran_99_husband }
+	3012.1.1 = { death = yes }
+}
+
+beran_99_husband = {
+	name = "Myl"
+	culture = chi_addun
+	religion = tribunal_temple
+	2743.1.1 = { birth = yes }
+	3053.1.1 = { death = yes }
+}
+
+beran_100 = {
+	name = "Elhul"
+	dynasty = dyn_beran
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = beran_99
+	father = beran_99_husband
+
+	trait = education_magic_3
+	trait = lifespan_magic_4
+
+	2880.1.1 = { birth = yes }
+	3150.1.1 = { add_spouse = beran_100_wife }
+	3300.7.29 = { death = yes }
+}
+
+beran_100_wife = {
+	name = "Hlethena"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	3040.1.1 = { birth = yes }
+	3311.1.1 = { death = yes }
+}
+
+beran_101 = {
+	name = "Haladir"
+	dynasty = dyn_beran
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = beran_100
+	mother = beran_100_wife
+
+	trait = lifespan_3
+	trait = education_magic_2
+	trait = craven
+	trait = ambitious
+	trait = arrogant
+	trait = education_intrigue_1
+	trait = sign_apprentice
+	disallow_random_traits = yes
+
+	3180.7.6 = { birth = yes }
+	3368.1.1 = { add_spouse = beran_101_wife }
+	3485.8.14 = { death = { death_reason = death_disappearance } }
+}
+
+beran_101_wife = {
+	name = "Inera"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	3298.1.1 = { birth = yes }
+	3472.1.1 = { death = { death_reason = death_undead_ancestor } }
+}
+
+beran_3 = { #Therana, Tamriel's second biggest girlboss
+	name = "Therana" #Lore
+	dynasty = dyn_beran
+	dna = beran_3_dna_entry
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = beran_101
+	mother = beran_101_wife
+
+	trait = education_learning_4
+	trait = education_magic_4
+	trait = paranoid
+	trait = impatient
+	trait = shy
+	trait = lifespan_3
+	trait = sign_lover
+	disallow_random_traits = yes
+
+	3379.2.2 = { birth = yes }
+	3420.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3550.1.1 = {
+		effect = {
+			remove_trait = lifespan_magic_4
+			add_trait = lifespan_magic_5
+		}
+	}
+	3590.1.1 = {
+		effect = {
+			remove_trait = lifespan_magic_5
+			add_trait = lifespan_magic_6
+		}
+	}
+	3800.1.1 = { trait = lunatic_1 } #Crazy by Morrowind
+	4243.1.1 = { death = yes }
+
+	portrait_override = {
+		portrait_modifier_overrides={
+			custom_hair=female_hair_steppe_02
+		}
+	}
+}
+
+#Ruler of Tel Galen, part of Sadrith Mora council
+mathendis_98 = {
+	name = "Abibaal"
+	dynasty = dyn_mathendis
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	2975.1.1 = { birth = yes }
+	3100.1.1 = { add_spouse = mathendis_98_wife }
+	3240.1.1 = { death = yes }
+}
+mathendis_98_wife = {
+	name = "Eldri"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	3008.1.1 = { birth = yes }
+	3216.1.1 = { death = yes } 
+}
+mathendis_99 = { #Unlanded
+	name = "Madrana"
+	dynasty = dyn_mathendis
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = mathendis_98
+	mother = mathendis_98_wife
+
+	trait = lifespan_3
+	trait = adventurer
+
+	3122.1.1 = { birth = yes }
+	3220.1.1 = { add_matrilineal_spouse = mathendis_99_husband }
+	3300.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_5
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3637.1.1 = { death = yes }
+}
+mathendis_99_husband = {
+	name = "Hinammu"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	3103.1.1 = { birth = yes }
+	3332.1.1 = { death = yes }
+}
+mathendis_100 = {
+	name = "Sevros"
+	dynasty = dyn_mathendis
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = mathendis_99
+	father = mathendis_99_husband
+
+	trait = education_magic_3
+	trait = education_learning_3
+	trait = calm
+	trait = gregarious
+	trait = cynical
+	trait = reclusive
+	trait = sign_shadow
+	trait = lifespan_3
+	disallow_random_traits = yes
+
+	3257.5.11 = { birth = yes }
+	3472.1.8 = { death = { death_reason = death_poison } }
+}
+
+mathendis_101 = { #ESO character
+	name = "Firuth" #Lore
+	dynasty = dyn_mathendis
+	culture = chi_addun
+	religion = tribunal_temple
+	
+	father = mathendis_100
+	
+	trait = education_magic_3
+	trait = education_learning_3
+	trait = arrogant
+	trait = impatient
+	trait = eccentric
+	trait = possessed_1
+	trait = reclusive
+	trait = experimentalist
+	trait = lifespan_3
+	trait = sign_tower
+	disallow_random_traits = yes
+
+	3402.10.23 = { birth = yes }
+	3689.1.1 = { death = yes }
+}
+
+#Avel dynasty, rulers of Tel Naga in 440/450
+avel_98 = {
+	name = "Novrynea"
+	dynasty = dyn_avel
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	trait = lifespan_3
+	2511.1.1 = { birth = yes }
+	2680.1.1 = { add_matrilineal_spouse = avel_98_husband }
+	2836.1.1 = { death = yes }
+}
+avel_98_husband = {
+	name = "Velms"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	2579.1.1 = { birth = yes }
+	2854.1.1 = { death = yes }
+}
+avel_99 = {
+	name = "Nina"
+	dynasty = dyn_avel
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = avel_98
+	father = avel_98_husband
+	
+	trait = lifespan_3
+	2692.1.1 = { birth = yes }
+	2800.1.1 = { add_matrilineal_spouse = avel_99_husband }
+	2987.1.1 = { death = yes }
+}
+avel_99_husband = {
+	name = "Sethrin"
+	culture = chi_addun
+	religion = tribunal_temple
+	trait = lifespan_3
+	2678.1.1 = { birth = yes }
+	2953.1.1 = { death = yes }
+}
+avel_100 = {
+	name = "Brelayne"
+	dynasty = dyn_avel
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = avel_99
+	father = avel_99_husband
+
+	trait = education_magic_3
+	trait = education_intrigue_3
+	trait = infirm
+	trait = torturer
+	trait = sadistic
+	trait = gregarious
+	trait = calm
+	trait = lifespan_3
+	trait = sign_warrior
+
+	2841.8.9 = { birth = yes }
+	3100.1.1 = { add_matrilineal_spouse = avel_100_husband }
+	3200.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_5
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3420.10.31 = { death = { death_reason = death_natural_causes } }
+}
+
+avel_100_husband = {
+	name = "Tarvyn"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	3000.1.1 = { birth = yes }
+	3271.1.1 = { death = yes }
+}
+
+avel_101 = {
+	name = "Kalara"
+	dynasty = dyn_avel
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = avel_100
+	father = avel_100_husband
+
+	trait = lifespan_3
+
+	3136.1.1 = { birth = yes }
+	3300.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3481.1.1 = { death = yes }
+}
+
+avel_101b = {
+	name = "Cadiva"
+	dynasty = dyn_avel
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = avel_100
+	father = avel_100_husband
+
+	3186.1.1 = { birth = yes }
+	3401.1.1 = { death = yes }
+}
+
+avel_102 = {
+	name = "Rolasa"
+	dynasty = dyn_avel
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	mother = avel_101
+
+	3299.1.1 = { birth = yes }
+	3420.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3634.1.1 = { death = yes }
+}
+
+avel_102b = {
+	name = "Ulran"
+	dynasty = dyn_avel
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = avel_101
+
+	3315.1.1 = { birth = yes }
+	3470.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3694.1.1 = { death = yes }
+}
+
+#Sendrul
+sendrul_98 = {
+	name = "Breda"
+	dynasty = dyn_sendrul
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+	3098.1.1 = { birth = yes }
+	3334.1.1 = { death = yes }
+}
+sendrul_99 = {
+	name = "Naris"
+	dynasty = dyn_sendrul
+	culture = chi_addun
+	religion = tribunal_temple
+	mother = sendrul_98
+	3223.1.1 = { birth = yes }
+	3360.1.1 = { employer = avel_100 }
+	3300.1.1 = { add_spouse = avel_101b }
+	3411.1.1 = { death = yes }
+}
+sendrul_100 = {
+	name = "Edryn"
+	dynasty = dyn_sendrul
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = sendrul_99
+	mother = avel_101b
+
+	trait = callous
+	trait = arrogant
+	trait = stubborn
+	trait = education_learning_3
+	trait = education_magic_2
+	trait = physique_bad_1
+	trait = sign_steed
+
+	3317.6.16 = { birth = yes }
+	3360.1.1 = { employer = avel_100 }
+	3400.1.1 = { add_matrilineal_spouse = sendrul_100_husband }
+	3486.6.4 = { death = { death_reason = death_duel killer = minthri_gothren } }
+}
+sendrul_100b = {
+	name = "Evessa"
+	dynasty = dyn_sendrul
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = sendrul_99
+	mother = avel_101b
+
+	trait = lifespan_3
+
+	3331.1.1 = { birth = yes }
+	3420.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3689.1.1 = { death = yes }
+}
+sendrul_100_husband = {
+	name = "Thiile"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	3323.1.1 = { birth = yes }
+	3598.1.1 = { death = yes }
+}
+sendrul_101 = {
+	name = "Droval"
+	dynasty = dyn_sendrul
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = sendrul_100
+	father = sendrul_100_husband
+	
+	3419.1.1 = { birth = yes }
+	3497.1.1 = { death = { death_reason = death_mysterious } }
+}
+sendrul_101b = { #Gothren's mouth in eso
+	name = "Arith" #Lore
+	dynasty = dyn_sendrul
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = sendrul_100
+	father = sendrul_100_husband
+
+	3432.1.1 = { birth = yes }
+	3486.1.1 = { employer = minthri_gothren }
+	3666.1.1 = { death = yes }
+}
+sendrul_neloth = { #Neloth, no explanation needed
+	name = "Neloth" #Lore
+	dynasty = dyn_sendrul
+	culture = chi_addun
+	religion = tribunal_temple
+
+	mother = sendrul_100b
+
+	trait = bossy
+	disallow_random_traits = yes
+	
+	3499.1.1 = { birth = yes }
+	3515.1.1 = {
+		trait = wrathful
+		trait = arrogant
+		trait = impatient
+		trait = education_magic_4
+		trait = education_learning_4
+		remove_trait = bossy
+	}
+	3620.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3690.1.1 = {
+		effect = {
+			remove_trait = lifespan_magic_4
+			add_trait = lifespan_magic_5
+		}
+	}
+	3790.1.1 = {
+		effect = {
+			remove_trait = lifespan_magic_5
+			add_trait = lifespan_magic_6
+		}
+	}
+	4600.1.1 = { death = yes } #Lives until Skyrim
+}
+
+# Seles Dynasty (dyn_seles) - Dratha's dynasty
+seles_100 = { #Dratha, Tamriel's biggest girlboss
+	name = "Dratha" #Lore
+	dna = seles_100_dna_entry
+	dynasty = dyn_seles
+	culture = chi_addun
+	religion = tribunal_temple #Mentions both Vivec and Azura in dialogue
+	female = yes
+	sexuality = homosexual
+
+	trait = intellect_good_2
+	trait = education_learning_4
+	trait = education_magic_3
+	trait = content
+	trait = arrogant
+	trait = calm
+	trait = eccentric
+	trait = celibate #No children for Dratha
+	trait = lifespan_3
+	trait = sign_lord
+
+	500.3.21 = { birth = yes } #"Oldest living Telvanni Councilor" according to Aryon
+	700.1.1 = { #Aryon thinks that she is so old because of necromancy
+		add_secret = { type = secret_necromancer }
+		add_trait = experimentalist_necromancer
+	}
+	800.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_6
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+			add_character_flag = has_scripted_appearance
+			add_character_flag = no_headgear
+			change_current_weight = 45
+			set_immortal_age = 30
+			add_arcana_skill = { VALUE = 11 }
+			add_restoration_perk_effect = { LEVEL = 5 }
+			add_necromancy_perk_effect = { LEVEL = 5 }
+			learn_language = language_daedric
+		}
+	}
+	3300.1.1 = {
+		trait = gallivanter
+		effect = {
+			add_character_flag = do_not_generate_starting_family
+		}
+	}
+	4243.1.1 = { death = yes }
+
+	portrait_override={
+		portrait_modifier_overrides={
+			custom_headgear=female_empty
+			custom_clothes=female_clothes_secular_dunmer_01_high
+			custom_hair=female_hair_western_01
+		}
+	}
+}
+
+## Fyr Dynasty (dyn_fyr)
+# House Fyr
+fyr_100 = { # Baron/Count of Tel Fyr
+	name = "Divayth" #Lore
+	dna = divayth_dna_entry
+	dynasty = dyn_fyr
+	culture = chi_addun #Originally Chimer
+	religion = tribunal_temple #Originally High Velothi
+
+	disallow_random_traits = yes
+
+	diplomacy = 2
+	martial = 0
+	stewardship = 2
+	intrigue = 4
+	learning = 6
+	prowess = 2
+	fertility = 0.1 # Reduce chance of having children, so he is unlikely to have natural children
+	
+	sexuality = heterosexual
+	
+	trait = education_learning_4
+	trait = education_magic_5
+	trait = intellect_good_3
+	trait = arcana_good_3
+	trait = experimentalist
+	trait = content
+	trait = eccentric
+	trait = cynical
+	trait = callous
+	trait = sign_mage
+	trait = lifespan_3
+
+	200.4.1 = { birth = yes }
+	201.1.1 = {
+		effect = { add_character_flag = has_scripted_appearance }
+	}
+	216.1.1 = {
+		effect = { #for error purposes, perks gotta be given like this
+			add_alteration_perk_effect = { LEVEL = 5 }
+			add_conjuration_perk_effect = { LEVEL = 5 }			
+			add_character_flag = conceded_election
+			learn_language = language_daedric			
+		}
+	}
+
+	portrait_override = {	# Will override the character's appearance
+		portrait_modifier_overrides={
+			#custom_clothes=male_clothes_secular_daedric  # removed from barbershop
+			custom_beards=male_beard_western_04
+			custom_hair=male_hair_indian_03
+			#custom_legwear=male_legwear_secular_daedric  # removed from barbershop
+			cloaks=no_cloak
+		}
+	}
+
+	230.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_6
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+		effect = {
+			set_immortal_age = 40
+			add_arcana_skill = { VALUE = 14 }
+			add_restoration_perk_effect = { LEVEL = 5 }
+		}
+	}
+	3350.1.1 = { # Raises himself a small daedric army
+		effect = {
+			spawn_army = {
+				men_at_arms = {
+                    type = daedra
+                    stacks = 2
+                }
+                inheritable = no
+                name = "daedra"
+				location = province:4292
+				origin = province:4292
+			}
+		}
+		trait = gallivanter
+		effect = {
+			add_character_flag = do_not_generate_starting_family
+		}
+	}
+	10000.1.1 = { death = yes } # according to GT Noonan, he didn't die in the Red Year, so really he's alive until the next kalpa hits
+}
+
+### NOTE: Daughter-clones of Fyr commented out for the time being. They weren't around yet by this time, but not straight up removing them since good work was put into is
+#fyr_100a = {
+#	name = "Alfe" # Alfe Fyr
+#	female = yes
+#	dna = divayth_dna_entry
+#	dynasty = dyn_fyr # Fyr
+#	culture = chi_addun
+#	religion = tribunal_temple
+#	trait = intellect_good_3
+#	father = fyr_100
+
+#	2921.1.1 = { birth = yes }
+#	2937.1.1 = {
+#		trait = education_intrigue_4 # the sharpest of the girls, in wit and tongue
+#		trait = arrogant
+#		trait = cynical
+#		trait = callous
+#		trait = lifespan_6
+#		effect = { set_immortal_age = 30 }
+#		effect = { set_relation_lover = { reason = lover_history target = character:fyr_100 } }
+#	}
+#	10000.1.1 = { death = yes }
+#}
+
+# fyr_100b = {
+# 	name = "Beyte" # Beyte Fyr
+# 	female = yes
+# 	dna = divayth_dna_entry
+# 	dynasty = dyn_fyr # Fyr
+# 	culture = chi_addun
+# 	religion = tribunal_temple
+# 	trait = beauty_good_3
+# 	father = fyr_100
+
+# 	2921.1.1 = { birth = yes }
+# 	2937.1.1 = {
+# 		trait = education_diplomacy_4 # the sweet one, eager to please and be pleased
+# 		trait = gregarious
+# 		trait = honest
+# 		trait = generous
+# 		trait = lifespan_6
+# 		effect = { set_immortal_age = 30 }
+# 		effect = { set_relation_lover = { reason = lover_history target = character:fyr_100 } }
+# 	}
+# 	10000.1.1 = { death = yes }
+# }
+
+# fyr_100d = {
+# 	name = "Delte" # Delte Fyr
+# 	female = yes
+# 	dna = divayth_dna_entry
+# 	dynasty = dyn_fyr # Fyr
+# 	culture = chi_addun
+# 	religion = tribunal_temple
+# 	trait = intellect_good_3
+# 	father = fyr_100
+
+# 	2921.1.1 = { birth = yes }
+# 	2937.1.1 = {
+# 		trait = education_stewardship_4 # the efficient one, organized and orderly, "acts as our steward"
+# 		trait = diligent
+# 		trait = patient
+# 		trait = temperate
+# 		trait = lifespan_6
+# 		effect = { set_immortal_age = 30 }
+# 		effect = { set_relation_lover = { reason = lover_history target = character:fyr_100 } }
+# 	}
+# 	10000.1.1 = { death = yes }
+# }
+
+# fyr_100e = {
+# 	name = "Uupse" # Uupse Fyr
+# 	female = yes
+# 	dna = divayth_dna_entry
+# 	dynasty = dyn_fyr # Fyr
+# 	culture = chi_addun
+# 	religion = tribunal_temple
+# 	trait = beauty_good_3
+# 	father = fyr_100
+
+# 	2921.1.1 = { birth = yes }
+# 	2937.1.1 = {
+# 		trait = education_learning_4 # "helps with my researches" + only one to be a member of House Telvanni
+# 		trait = gregarious
+# 		trait = compassionate # the girl with the biggest heart, takes care of the inmates of the Corprusarium
+# 		trait = generous
+# 		trait = lifespan_6
+# 		effect = { set_immortal_age = 30 }
+# 		effect = { set_relation_lover = { reason = lover_history target = character:fyr_100 } }
+# 	}
+# 	10000.1.1 = { death = yes }
+# }
+
+#Rethul, work for Divayth
+rethul_100 = {
+	name = "Tedryn"
+	dynasty = dyn_rethul
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = education_magic_3
+
+	3271.1.1 = { birth = yes }
+	3360.1.1 = { employer = avel_100 }
+	3440.1.1 = { employer = fyr_100 }
+	3484.1.1 = { death = yes }
+}
+
+rethul_101 = { #ESO character, works for Divayth
+	name = "Daynillo" #Lore
+	dynasty = dyn_rethul
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = rethul_100
+
+	trait = twin
+
+	3439.1.1 = { birth = yes }
+	3440.1.1 = { employer = fyr_100 }
+	3455.1.1 = { trait = education_magic_3 }
+	3782.1.1 = { death = yes }
+}
+
+rethul_101b = { #ESO character, works for Divayth
+	name = "Daynea" #Lore
+	dynasty = dyn_rethul
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	father = rethul_100
+
+	trait = twin
+
+	3439.1.1 = { birth = yes }
+	3440.1.1 = { employer = fyr_100 }
+	3455.1.1 = { trait = education_magic_3 }
+	3782.1.1 = { death = yes }
+}
+
+#Lowborns
+#Mayors of Vos - women only, because Dratha
+vos_001 = { #Mayor of Vos
+	name = "Dandynea"
+	culture = ashlander #Velothi
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+
+	3300.1.1 = { birth = yes }
+	3490.1.1 = { death = yes }
+}
+
+ald_daedroth_1 = { #Priestess of Ald Daedroth
+	name = "Hekelle"
+	culture = chi_addun
+	religion = sheogorath_cult
+	female = yes
+	trait = education_magic_2
+
+	trait = lunatic_1
+	trait = lifespan_3
+
+	3313.1.1 = { birth = yes }
+	3400.1.1 = { death = { death_reason = death_carp_accident } }
+}
+
+orelu_001 = {
+	name = "Hlava"
+	culture = chi_addun
+	religion = tribunal_temple
+	female = yes
+
+	trait = lifespan_3
+	3270.1.1 = { birth = yes }
+	3400.1.1 = {
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3500.1.1 = {
+		effect = {
+			remove_trait = lifespan_magic_4
+			add_trait = lifespan_magic_5
+		}
+	}
+	3751.1.1 = { death = yes }
+}
+
+#######################
+### Other Chi-Addun ###
+#######################
+##Nelas Dynasty (dyn_nelas), rule county in Sheogorad
+#House Nelas
+nelas_96 = { 
+	name = "Golana"
+	culture = marduhn_oad
+	religion = tribunal_cult
+	female = yes
+
+	trait = lifespan_3
+
+	2984.1.1 = { birth = yes }
+	3112.1.1 = { death = { death_reason = death_childbirth } }
+}
+nelas_97 = { 
+	name = "Dralisi"
+	dynasty = dyn_nelas
+	culture = chi_addun
+	religion = tribunal_cult
+	female = yes
+
+	mother = nelas_96
+	father = demnevanni_100
+
+	trait = lifespan_3
+	trait = bastard_founder
+	trait = arcana_good_1
+	trait = adventurer
+	trait = education_magic_2
+	trait = ambitious
+
+	3112.1.1 = { birth = yes }
+	3259.6.6 = {
+		death = {
+			death_reason = death_murder_known
+			killer = telvayn_98
+		}
+	}
+}
+nelas_98 = { 
+	name = "Elhul"
+	dynasty = dyn_nelas
+	culture = chi_addun
+	religion = tribunal_cult
+
+	mother = nelas_97
+
+	trait = lifespan_3
+	trait = arcana_good_1
+
+	3222.1.1 = { birth = yes }
+	3419.1.1 = { death = yes }
+}
+nelas_99 = { 
+	name = "Malsa"
+	dynasty = dyn_nelas
+	culture = chi_addun
+	religion = idealmasters
+	female = yes
+
+	father = nelas_98
+
+	trait = lifespan_3
+	trait = education_magic_2
+	trait = arcana_good_1
+	trait = necromancer
+
+	3320.1.1 = { birth = yes }
+	3360.1.1 = { employer = telvayn_98  } 
+	3532.9.14 = { death = yes }
+}
+nelas_100 = { 
+	name = "Selvura"
+	dynasty = dyn_nelas
+	culture = chi_addun
+	religion = idealmasters
+	female = yes
+
+	mother = nelas_99
+
+	trait = lifespan_3
+	trait = education_magic_2
+	trait = arcana_good_1
+
+	3418.1.1 = { birth = yes }
+	3421.1.1 = { death = yes }
+}
+
+#Omavel Dynasty - Indoril vassals, very hard to remove and local Indorils don't want to bother
+#Note: were Raviro previously, but that's a family associated with house indoril and these people are Telvanni invaders
+omavel_100 = { #Uses instability during four-score war to grab some land from Indorils
+	name = "Suvryn"
+	dynasty = dyn_omavel
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = education_martial_4
+	trait = education_magic_4
+
+	2786.1.1 = { birth = yes }
+	2830.1.1 = { 
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3104.1.1 = { death = yes }
+}
+omavel_101 = {
+	name = "Uryn"
+	dynasty = dyn_omavel
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = omavel_100
+
+	2916.1.1 = { birth = yes }
+	2930.1.1 = { 
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3246.1.1 = { death = yes }
+}
+omavel_102 = {
+	name = "Dranoth"
+	dynasty = dyn_omavel
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = omavel_101
+
+	trait = lifespan_3
+	trait = education_learning_3
+	trait = education_magic_2
+
+	3051.1.1 = { birth = yes }
+	3230.1.1 = { 
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3387.1.1 = { death = yes }
+}
+omavel_103 = {
+	name = "Andel"
+	dynasty = dyn_omavel
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = omavel_102
+
+	trait = lifespan_3
+	trait = education_magic_3
+
+	3179.1.1 = { birth = yes }
+	3320.1.1 = { 
+		effect = {
+			remove_trait = lifespan_3
+			add_trait = lifespan_magic_4
+			add_character_flag = artificial_lifespan
+			add_character_flag = natural_lifespan_3
+		}
+	}
+	3493.1.1 = { death = { death_reason = death_battle } } #Dies against Kamals
+}
+
+#History ToDo: is young when his father dies, educated by one of local Indorils, becomes chuzei
+omavel_104 = {
+	name = "Avus"
+	dynasty = dyn_omavel
+	culture = chi_addun
+	religion = tribunal_temple
+
+	father = omavel_103
+
+	trait = lifespan_3
+
+	3485.1.1 = { birth = yes }
+	3520.1.1 = { death = yes }
+}
+
+##Verilnith Dynasty (dyn_verilnith)
+#House Verilnith
+verilnith_99 = { 
+	name = "Llaro"
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_3
+	trait = arcana_bad_2
+
+	3297.1.1 = { birth = yes }
+	3359.1.1 = { death = { death_reason = death_drinking_passive } }
+}
+
+verilnith_100 = { #The 'Skeleton War-Wizard' of TESIII
+	name = "Sarayn"
+	dynasty = dyn_verilnith
+	culture = chi_addun
+	religion = tribunal_temple
+	
+	father = verilnith_99
+
+	trait = lifespan_3
+	trait = education_learning_2
+	trait = arcana_bad_2 #Does not actually know any spells in game, despite being a wizard
+	trait = education_magic_1
+	trait = reclusive
+	trait = wrathful
+	trait = paranoid
+
+	3335.1.1 = { birth = yes }
+	3421.1.1 = { religion = clavicus_cult } #Failure at magic, seeks power through Daedric bargains
+	3421.1.1 = { trait = vampire_character }
+	3459.12.31 = { death = { death_reason = death_leech_health_magic } } #Bargaining for power rarely ends well
+}
+
+##Nyrandil Dynasty (dyn_nyrandil)
+#House Nyrandil
+nyrandil_99 = { 
+	name = "Arns"
+	dynasty = dyn_nyrandil
+	culture = chi_addun
+	religion = tribunal_temple
+
+	trait = lifespan_3
+
+	3230.1.1 = { birth = yes }
+	3332.1.1 = { death = yes }
+}
+
+nyrandil_100 = { #Xedilian caretaker from TESIV: Shivering Isles
+	name = "Kiliban" #Lore - the existence
+	dynasty = dyn_nyrandil
+	culture = chi_addun
+	religion = tribunal_temple
+	father = nyrandil_99
+
+	trait = lifespan_3
+	trait = education_learning_3
+	trait = education_magic_3
+	trait = scholar
+	trait = diligent
+	trait = patient
+	trait = gluttonous
+
+	3319.1.1 = { birth = yes }
+	3369.1.1 = { religion = sheogorath_cult }
+	3448.1.1 = { death = { death_reason = death_disappearance } }
+}
+
+# Laamps
+bathogorgen_99 = {
+	name = "Gamyne"
+	dynasty = dyn_bathogorgen
+	religion = tribunal_temple
+	culture = chi_addun
+	female = yes
+
+	trait = vampire_character
+
+	3191.12.5 = { birth = yes }
+	3316.1.9 = { death = { death_reason = death_vampire_hunters } }
+}
+
+bathogorgen_100 = {
+	name = "Zenfis" #Lore
+	dynasty = dyn_bathogorgen
+	religion = tribunal_temple
+	culture = chi_addun
+	mother = bathogorgen_99
+
+	trait = cynical
+	trait = diligent
+	trait = brave
+
+	trait = flexible_leader
+	trait = education_martial_3
+	trait = education_magic_2
+
+	3311.3.7 = { birth = yes }
+	# Looses his mother as a 5 year old, becomes a vampire on his own later
+	3345.1.1 = {
+		effect = {
+			add_character_flag = already_immortal_age_flag
+			give_vampire_secret_or_trait_effect = yes
+			set_immortal_age = 34
+		}
+	}
+	# Becomes friends with Dedras
+	3350.1.1 = { 
+		effect = {
+			if = {
+				limit = { character:tenvanni_100 = { is_alive = yes } }
+				set_relation_friend = { target = character:tenvanni_100 reason = friend_generic_history } 
+			} 
+		} 
+	}
+	# Learns magic from Dedras to better hide his vampirism
+	3355.1.1 = {
+		effect = { #for error purposes, perks gotta be given like this
+			add_alteration_perk_effect = { LEVEL = 3 }
+			add_illusion_perk_effect = { LEVEL = 5 }					
+		}
+	}
+	3700.1.1 = { death = yes }
+}

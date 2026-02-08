@@ -1,0 +1,1640 @@
+﻿namespace = ek_special_buildings_events
+
+# Summon Thurvokun
+# 0001 - 0010
+ek_special_buildings_events.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0001.t
+	desc = ek_special_buildings_events.0001.desc
+
+	theme = necromancy
+
+	right_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	option = {
+		name = ek_special_buildings_events.0001.a
+
+		if = { 
+            limit = { is_ai = no } #if the AI gets this far we don't wanna drain all their hard earned magicka which they probably can't budget properly anyway
+		    add_magicka = { VALUE = -100 }
+        }
+
+		add_character_flag = summoned_thurvokun
+
+		spawn_army = {
+			men_at_arms = {
+				type = undead_dragon
+				stacks = 1
+			}
+			uses_supply = no
+			inheritable = no
+			location = capital_province
+			name = thurvokun_event_troops
+		}
+	}
+}
+
+# Summon the Hollow
+# 0011 - 0020
+ek_special_buildings_events.0011 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0011.t
+	desc = ek_special_buildings_events.0011.desc
+
+	theme = realm
+
+	right_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+
+	immediate = {
+
+		hidden_effect = {
+			spawn_army = {
+				men_at_arms = {
+					type = hollows
+					stacks = 1
+				}
+				uses_supply = no
+				inheritable = no
+				location = capital_province
+				name = hollows_event_troops
+			}
+		}
+	}
+
+	option = {
+		name = ek_special_buildings_events.0011.a
+
+		custom_tooltip = ek_special_buildings_events.0011.a.tt
+	}
+}
+
+# Undertake trials of alkosh
+# 0021 - 0030
+ek_special_buildings_events.0021 = {
+    type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0021.t
+	desc = ek_special_buildings_events.0021.desc
+
+	theme = faith
+
+	right_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+
+	option = { # Let's go
+		name = ek_special_buildings_events.0021.a
+
+        start_travel_plan = {
+			destination = title:b_the_forgotten_mane.title_province
+			on_arrival_event = ek_special_buildings_events.0022
+			on_arrival_destinations = all_but_last
+		}
+    }
+
+    option = { # I am not ready. 
+        name = ek_special_buildings_events.0021.b
+		custom_tooltip = ek_special_buildings_events.0021.b.tt
+
+		ai_chance = {
+			base = 0
+		}
+    }
+}
+
+# Arrival
+ek_special_buildings_events.0022 = {
+    type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0022.t
+	desc = ek_special_buildings_events.0022.desc
+
+	theme = faith
+
+	right_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	immediate = {
+        add_character_flag = trials_of_alkosh_flag
+	}
+
+	option = {
+		name = ek_special_buildings_events.0022.a
+
+		custom_tooltip = ek_special_buildings_events.0022.a.tt
+
+        trigger_event = ek_special_buildings_events.0023
+	}
+}
+
+# Trial of the Winged Goddess
+ek_special_buildings_events.0023 = {
+    type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0023.t
+	desc = ek_special_buildings_events.0023.desc
+
+	theme = faith
+
+	right_portrait = {
+		character = root
+		animation = worry 
+	}
+
+	option = {
+		name = ek_special_buildings_events.0023.a
+		trigger = {
+			NOR = {
+				has_trait = eccentric
+				has_trait = brave
+				has_trait = zealous
+				has_trait = trusting
+				has_perk = alteration_expert_perk
+			}
+		}
+
+		send_interface_toast = {	
+			title = ek_special_buildings_events.0023.a.success
+			type = event_toast_effect_good
+			left_icon = scope:root
+			add_stress = minor_stress_loss
+		}
+
+        trigger_event = ek_special_buildings_events.0024
+
+		stress_impact = {
+			base = major_stress_impact_gain
+			craven = medium_stress_impact_gain
+			cynical = medium_stress_impact_gain
+			paranoid = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = ek_special_buildings_events.0023.b
+		trigger = { has_trait = eccentric }
+		trait = eccentric
+
+		send_interface_toast = {	
+			title = ek_special_buildings_events.0023.b.success
+			type = event_toast_effect_good
+			left_icon = scope:root
+			add_character_modifier = {
+				modifier = winged_goddess_eccentric_modifier
+			}
+		}		
+
+        trigger_event = ek_special_buildings_events.0024
+
+		stress_impact = {
+			base = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+	
+	option = {
+		name = ek_special_buildings_events.0023.c
+		trigger = { has_trait = brave }
+		trait = brave
+
+		send_interface_toast = {	
+			title = ek_special_buildings_events.0023.c.success
+			type = event_toast_effect_good
+			left_icon = scope:root
+			add_character_modifier = {
+				modifier = winged_goddess_brave_modifier
+			}
+		}
+
+        trigger_event = ek_special_buildings_events.0024
+
+		stress_impact = {
+			base = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = ek_special_buildings_events.0023.d
+		trigger = { has_trait = trusting }
+		trait = trusting
+
+		send_interface_toast = {	
+			title = ek_special_buildings_events.0023.d.success
+			type = event_toast_effect_good
+			left_icon = scope:root
+			add_character_modifier = {
+				modifier = winged_goddess_trusting_modifier
+			}
+		}
+
+        trigger_event = ek_special_buildings_events.0024
+
+		stress_impact = {
+			base = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = ek_special_buildings_events.0023.e
+		trigger = { has_trait = zealous }
+		trait = zealous
+
+		send_interface_toast = {	
+			title = ek_special_buildings_events.0023.e.success
+			type = event_toast_effect_good
+			left_icon = scope:root
+			add_character_modifier = {
+				modifier = winged_goddess_zealous_modifier
+			}
+		}
+
+        trigger_event = ek_special_buildings_events.0024
+
+		stress_impact = {
+			base = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = ek_special_buildings_events.0023.f
+		reason = alteration
+		trigger = { 
+			has_perk = alteration_expert_perk
+			has_magicka_more_than = { VALUE = t4_spell_cost }
+		}
+
+		show_as_unavailable = { has_magicka_less_than = { VALUE = t4_spell_cost }}
+
+		add_magicka = { VALUE = t4_spell_cost.negate }
+
+		send_interface_toast = {	
+			title = ek_special_buildings_events.0023.f.success
+			type = event_toast_effect_good
+			left_icon = scope:root
+			add_character_modifier = {
+				modifier = winged_goddess_mage_modifier
+			}
+		}
+
+        trigger_event = ek_special_buildings_events.0024
+
+		stress_impact = {
+			base = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+    option = {
+		name = ek_special_buildings_events.0023.g
+		custom_tooltip = ek_special_buildings_events.alkosh_trials_withdraw
+
+		add_piety = medium_piety_loss
+		add_character_modifier = {
+			modifier = failed_alkosh_trial_modifier
+			years = 5
+		}
+
+		stress_impact = {
+			craven = minor_stress_impact_loss
+			cynical = minor_stress_impact_loss
+			paranoid = minor_stress_impact_loss
+			brave = minor_stress_impact_gain
+			zealous = minor_stress_impact_gain
+			trusting = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 0
+			modifier = {
+				has_trait = craven 
+				add = 25
+			}
+			modifier = {
+				has_trait = cynical
+				add = 25
+			}
+			modifier = {
+				has_trait = paranoid
+				add = 25
+			}
+		}
+	}
+}
+
+# Trial of the Moon Prince
+ek_special_buildings_events.0024 = {
+    type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0024.t
+	desc = ek_special_buildings_events.0024.desc
+
+	theme = faith
+
+	right_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	option = { # Fight with Prowess
+		name = ek_special_buildings_events.0024.a
+
+		duel = {
+			skill = prowess
+			value = average_skill_rating
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_special_buildings_events.0024.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {	
+					title = ek_special_buildings_events.0024.a.success
+					type = event_toast_effect_good
+					left_icon = scope:root
+					add_prowess_skill = 1
+				}
+				trigger_event = ek_special_buildings_events.0025
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_special_buildings_events.0024.a.failure
+				send_interface_toast = {	
+					title = ek_special_buildings_events.0024.a.failure
+					type = event_toast_effect_bad
+					left_icon = scope:root
+					increase_wounds_effect = { REASON = dro_mathra }
+					add_character_modifier = {
+						modifier = winged_goddess_zealous_modifier
+						years = 5
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			craven = medium_stress_impact_gain
+			brave = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+    option = { # Fight with Arcana
+		name = ek_special_buildings_events.0024.b
+		trigger = {
+			has_magic_perk_trigger = yes
+		}
+
+		random_list = { # Fake Duel
+			1 = {
+				modifier = {
+                    factor = arcana
+				}
+				desc = ek_special_buildings_events.0024.b.success
+				send_interface_toast = {	
+					title = ek_special_buildings_events.0024.b.success
+					type = event_toast_effect_good
+					left_icon = scope:root
+					add_arcana_skill = { VALUE = 1 }
+				}
+				trigger_event = ek_special_buildings_events.0025
+			}
+			10 = {
+				desc = ek_special_buildings_events.0024.b.failure
+				send_interface_toast = {	
+					title = ek_special_buildings_events.0024.b.success
+					type = event_toast_effect_bad
+					left_icon = scope:root
+					increase_wounds_effect = { REASON = dro_mathra }
+					add_character_modifier = {
+						modifier = failed_alkosh_trial_modifier
+						years = 5
+					}
+				}				
+			}
+		}
+
+		stress_impact = {
+			craven = medium_stress_impact_gain
+			brave = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+    option = { # Flee
+		name = ek_special_buildings_events.0024.c
+		custom_tooltip = ek_special_buildings_events.alkosh_trials_withdraw
+
+		add_piety = medium_piety_loss
+		add_character_modifier = {
+			modifier = failed_alkosh_trial_modifier
+			years = 5
+		}
+
+		stress_impact = {
+			craven = minor_stress_impact_loss
+			brave = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 25
+			modifier = {
+				has_trait = craven 
+				add = 25
+			}
+		}		
+	}
+}
+
+# Trial of Mending
+ek_special_buildings_events.0025 = {
+    type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0025.t
+	desc = ek_special_buildings_events.0025.desc
+
+	theme = faith
+
+	right_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	option = {
+		name = ek_special_buildings_events.0025.a
+		trigger = {
+			NOR = {
+				learning = high_skill_rating
+				intrigue = high_skill_rating
+			}
+		}
+
+		duel = {
+			skill = learning
+			value = average_skill_rating
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				desc = ek_special_buildings_events.0025.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {	
+					title = ek_special_buildings_events.0025.a.success
+					type = event_toast_effect_good
+					left_icon = scope:root
+				}
+				trigger_event = ek_special_buildings_events.0026
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				desc = ek_special_buildings_events.0025.a.failure
+				send_interface_toast = {	
+					title = ek_special_buildings_events.0025.a.success
+					type = event_toast_effect_bad
+					left_icon = scope:root
+					add_stress = major_stress_gain
+					add_character_modifier = {
+						modifier = failed_alkosh_trial_modifier
+						years = 5
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # Use learning
+		name = ek_special_buildings_events.0025.b
+		trigger = {
+			learning = high_skill_rating
+		}
+		skill = learning
+
+		send_interface_toast = {	
+			title = ek_special_buildings_events.0025.b.success
+			type = event_toast_effect_good
+			left_icon = scope:root
+			add_learning_skill = 1
+		}
+		trigger_event = ek_special_buildings_events.0026
+	}
+
+	option = { # Use intrigue
+		name = ek_special_buildings_events.0025.c
+		trigger = {
+			intrigue = high_skill_rating
+		}
+		skill = intrigue
+
+		send_interface_toast = {	
+			title = ek_special_buildings_events.0025.b.success
+			type = event_toast_effect_good
+			left_icon = scope:root
+			add_intrigue_skill = 1
+		}
+		trigger_event = ek_special_buildings_events.0026
+	}
+
+    option = { # Give up
+		name = ek_special_buildings_events.0025.c
+		custom_tooltip = ek_special_buildings_events.alkosh_trials_withdraw
+
+		add_piety = medium_piety_loss
+		add_character_modifier = {
+			modifier = failed_alkosh_trial_modifier
+			years = 5
+		}
+	}
+}
+
+# Success
+ek_special_buildings_events.0026 = {
+    type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0026.t
+	desc = ek_special_buildings_events.0026.desc
+
+	theme = faith
+
+	right_portrait = {
+		character = root
+		animation = ecstasy
+	}
+
+	option = {
+		name = ek_special_buildings_events.0026.a
+
+		add_piety = massive_piety_gain
+
+		add_character_modifier = {
+			modifier = finished_alkosh_trial_modifier
+		}
+	}
+}
+
+# Cut Sunspire Funding
+ek_special_buildings_events.0031 = {
+    type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0031.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						title:b_sunspire = {
+							is_holy_site_of = root.faith
+						}
+						faith = { has_doctrine = doctrine_pantheon_khajiiti }
+						faith = { has_doctrine = doctrine_pantheon_riddlethar }
+					}	
+				}	
+				desc = ek_special_buildings_events.0031_hs.desc
+			}
+			desc = ek_special_buildings_events.0031_no_hs.desc
+		}
+	}
+
+	theme = faith
+
+	right_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	option = {
+		name = ek_special_buildings_events.0031.a
+	}
+}
+
+# Restore Senchal Palace
+ek_special_buildings_events.0041 = {
+    type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0041.t
+	desc = ek_special_buildings_events.0041.desc
+	theme = realm
+
+	right_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	option = {
+		name = ek_special_buildings_events.0041.a
+
+		ek_give_nickname_effect = { NICKNAME = nick_the_senchal_magnate }
+		add_prestige = major_prestige_gain
+	}
+}
+
+# Turn Dragonguard Sanctum into Pirate Hideout
+ek_special_buildings_events.0051 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0051.t
+	desc = ek_special_buildings_events.0051.desc
+	theme = realm
+
+	right_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	option = {
+		name = ek_special_buildings_events.0051.a
+
+		ek_give_nickname_effect = { NICKNAME = nick_the_terror_of_topal_bay }
+	}
+}
+
+# Release Arum Khal
+ek_special_buildings_events.0061 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0061.t
+	desc = ek_special_buildings_events.0061.desc
+	theme = necromancy
+	override_background = { reference = temple }
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = scope:arum_khal
+		animation = personality_zealous
+	}
+
+	immediate = {
+		create_character = {
+			template = custom_arum_khal_template
+			location = province:3711
+			save_scope_as = arum_khal
+		}
+	}
+
+	option = {
+		name = ek_special_buildings_events.0061.a
+
+		add_courtier = scope:arum_khal
+	}
+
+	option = {
+		name = ek_special_buildings_events.0061.b
+		trigger = {
+			NOT = { title:c_ashen_scar = root.primary_title.title_capital_county }
+		}
+
+		create_title_and_vassal_change = {
+			type = granted
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+
+		title:c_ashen_scar = {
+			change_title_holder = {
+				holder = scope:arum_khal
+				change = scope:change
+			}
+		}
+
+		resolve_title_and_vassal_change = scope:change
+
+		scope:arum_khal = {
+			spawn_army = {
+				men_at_arms = {
+                    type = maa_undead_soldiers
+                    stacks = 5
+                }
+                inheritable = no
+				uses_supply = no
+                name = "undead_horde"
+				location = province:3711
+				origin = province:3711
+			}
+		}
+
+		add_hook = {
+			target = scope:arum_khal
+			type = favor_hook
+		}
+	}
+
+	option = {
+		name = ek_special_buildings_events.0061.c
+
+		random_list = { # Fake Duel
+			1 = {
+				modifier = {
+                    factor = arcana
+				}
+				desc = ek_special_buildings_events.0061.c.success
+				send_interface_toast = {	
+					title = ek_special_buildings_events.0061.c.success
+					left_icon = root
+					right_icon = scope:arum_khal
+					scope:arum_khal = {
+						death = {
+							death_reason = death_dro_mathra
+						}
+					}
+					add_prestige = major_prestige_gain
+				}				
+			}
+			25 = {
+				desc = ek_special_buildings_events.0061.c.failure
+				send_interface_toast = {	
+					title = ek_special_buildings_events.0061.c.success
+					left_icon = root
+					right_icon = scope:arum_khal
+					increase_wounds_effect = { REASON = dro_mathra }
+					create_title_and_vassal_change = {
+						type = independency
+						save_scope_as = change
+						add_claim_on_loss = yes
+					}
+
+					title:c_ashen_scar = {
+						change_title_holder = {
+							holder = scope:arum_khal
+							change = scope:change
+						}
+					}
+
+					resolve_title_and_vassal_change = scope:change
+
+					scope:arum_khal = {
+						spawn_army = {
+							men_at_arms = {
+								type = maa_undead_soldiers
+								stacks = 5
+							}
+							inheritable = no
+							uses_supply = no
+							name = "undead_horde"
+							location = province:3711
+							origin = province:3711
+						}
+					}
+				}				
+			}
+		}	
+	}
+}
+
+# Finished Development Committee of South Argonia 
+ek_special_buildings_events.0071 = {
+    type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0071.t
+	desc = ek_special_buildings_events.0071.desc
+	theme = realm
+
+	right_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	option = {
+		name = ek_special_buildings_events.0071.a
+
+		ek_give_nickname_effect = { NICKNAME = nick_the_great_architect }
+		add_prestige = major_prestige_gain
+	}
+}
+
+# Rithana di Renada
+# Someone offers to find the Singing Crystal
+ek_special_buildings_events.0081 = {
+    type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0081.t
+	desc = ek_special_buildings_events.0081.desc
+	theme = realm
+
+	trigger = {
+		any_artifact = {
+			count < 1
+			has_artifact_modifier = singing_crystal_modifier
+		}
+		is_available = yes
+		any_realm_county = {
+			any_county_province = {
+				has_building = kingdoms_song_02
+			}
+		}
+		any_courtier_or_guest = {
+			prowess >= decent_skill_rating
+			intrigue >= decent_skill_rating
+		}
+		culture = { has_cultural_pillar = heritage_khajiiti }
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:thief
+		animation = spymaster
+	}
+
+	immediate = {
+		random_courtier_or_guest = {
+			limit = {
+				prowess >= decent_skill_rating
+				intrigue >= decent_skill_rating
+				is_available_adult = yes
+			}
+			save_scope_as = thief
+		}
+		random_neighboring_top_liege_realm_owner = {
+			save_scope_as = crystal_holder
+			create_artifact_singing_crystal_effect = { OWNER = scope:crystal_holder }
+		}
+	}
+
+	option = {
+		name = ek_special_buildings_events.0081.a
+
+		random_list = {
+			10 = { # Thief is succesfull
+				compare_modifier = {
+					target = scope:thief
+					value = intrigue
+				}
+				compare_modifier = {
+					target = scope:thief
+					value = prowess
+				}
+				desc = ek_special_buildings_events.0081.a.success
+				send_interface_toast = {
+					title = ek_special_buildings_events.0081.a.success
+					left_icon = scope:crystal_holder
+					right_icon = scope:thief
+
+					scope:newly_created_artifact = {
+						set_owner = {
+							target = root
+							history = {
+								location = root.capital_province
+								actor = scope:crystal_holder
+								recipient = root
+								type = stolen
+							}
+						}
+					}
+				}				
+			}
+			30 = { # Thief is unsuccesfull
+				desc = ek_special_buildings_events.0081.a.failure
+				send_interface_toast = {
+					title = ek_special_buildings_events.0081.a.failure
+					left_icon = scope:crystal_holder
+					right_icon = scope:thief
+					scope:crystal_holder = {
+						add_opinion = {
+							target = scope:thief
+							modifier = robbed_me_opinion
+							opinion = -50
+						}
+						imprison = {
+							target = scope:thief
+							type = dungeon
+						}
+					}
+				}				
+			}
+		}
+	}
+
+	option = {
+		name = ek_special_buildings_events.0081.b
+
+		scope:thief = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -25
+			}
+		}
+	}
+}
+
+# Finished Rithana-di-Renada
+ek_special_buildings_events.0082 = {
+    type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0082.t
+	desc = ek_special_buildings_events.0082.desc
+	theme = realm
+
+	right_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	immediate = {
+		random_character_artifact = {
+			limit = { has_artifact_modifier = singing_crystal_modifier }
+			destroy_artifact = this
+		}
+	}
+
+	option = {
+		name = ek_special_buildings_events.0082.a
+
+		ek_give_nickname_effect = { NICKNAME = nick_the_melody_guardian }
+		add_prestige = major_prestige_gain
+	}
+}
+
+# Awake an Earth Bone
+# 0001 - 0010
+ek_special_buildings_events.0091 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0091.t
+	desc = ek_special_buildings_events.0091.desc
+
+	theme = necromancy
+
+	override_background = {
+		reference = ce1_catacombs
+	}
+
+	right_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	option = {
+		name = ek_special_buildings_events.0091.a
+
+		if = { 
+            limit = { is_ai = no } #if the AI gets this far we don't wanna drain all their hard earned magicka which they probably can't budget properly anyway
+		    add_magicka = { VALUE = -100 }
+        }
+
+		add_character_flag = summoned_earth_bone
+
+		spawn_army = {
+			men_at_arms = {
+				type = undead_earth_bone
+				stacks = 1
+			}
+			uses_supply = no
+			inheritable = no
+			location = province:3328
+			name = earth_bone_event_troops
+		}
+	}
+}
+
+# Defile Heart of Valenwood
+# 0101 - 0110
+ek_special_buildings_events.0101 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0101.t
+	desc = ek_special_buildings_events.0101.desc
+
+	theme = necromancy
+
+	override_background = {
+		reference = wilderness_jungle
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	immediate = {
+		save_scope_as = valenwood_defiler
+		set_global_variable = {
+			name = defiled_heart
+			value = yes
+		}
+	}
+
+	option = {
+		name = ek_special_buildings_events.0101.a
+
+		every_held_title = {
+			limit = { 
+				tier = tier_county
+				OR = {
+					county = title:c_drabble
+					county = title:c_verrant
+					county = title:c_towerrocks_vale
+					county = title:c_vullain
+					county = title:c_twin_falls
+				} 
+			}
+			add_county_modifier = {
+				modifier = corrupted_heart_modifier
+			}
+		}
+
+		spawn_army = {
+			men_at_arms = {
+				type = forest_spirits
+				stacks = 1
+			}
+			uses_supply = no
+			inheritable = no
+			location = province:3229
+			name = forest_spirits_event_troops
+		}
+	}
+
+	after = {
+		every_ruler = {
+			limit = { 
+				NOT = { this = scope:valenwood_defiler }
+				any_held_title = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_valenwood
+						NOT = { geographical_region = mundus_tamriel_valenwood_arenthia }
+					}
+				}
+			}
+			trigger_event = {
+				id = ek_special_buildings_events.0102
+				days = 1
+			}
+		}
+		trigger_event = {
+			id = ek_special_buildings_events.0103
+			years = 5
+		}
+	}
+}
+
+ek_special_buildings_events.0102 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0102.t
+	desc = ek_special_buildings_events.0102.desc
+
+	theme = necromancy
+
+	override_background = {
+		reference = wilderness_jungle
+	}
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	lower_center_portrait = scope:valenwood_defiler
+
+	immediate = {
+		every_held_title = {
+			limit = { 
+				tier = tier_county
+				OR = {
+					county = title:c_drabble
+					county = title:c_verrant
+					county = title:c_towerrocks_vale
+					county = title:c_vullain
+					county = title:c_twin_falls
+
+				} 
+			}
+			add_county_modifier = {
+				modifier = corrupted_heart_modifier
+			}
+		}
+	}
+
+	option = {
+		name = ek_special_buildings_events.0102.a
+
+		add_stress = medium_stress_gain
+	}
+
+	option = {
+		name = ek_special_buildings_events.0102.b
+		trait = necromancer
+		trigger = { is_necromancer = yes }
+	}
+}
+
+ek_special_buildings_events.0103 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0103.t
+	desc = ek_special_buildings_events.0103.desc
+
+	theme = necromancy
+
+	override_background = {
+		reference = wilderness_jungle
+	}
+
+	trigger = {
+		has_global_variable = defiled_heart
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+
+	option = {
+		name = ek_special_buildings_events.0103.a
+
+		every_held_title = {
+			limit = { 
+				tier = tier_county
+				any_county_province = {
+					OR = {
+						geographical_region = mundus_tamriel_valenwood_greenshade_woodhearth
+						geographical_region = mundus_tamriel_valenwood_malabal_tor_malabal_tor
+					}
+				}
+				NOT = { has_county_modifier = corrupted_heart_modifier }
+			}
+			add_county_modifier = {
+				modifier = corrupted_heart_modifier
+			}
+		}
+
+		spawn_army = {
+			men_at_arms = {
+				type = forest_spirits
+				stacks = 5
+			}
+			uses_supply = no
+			inheritable = no
+			location = province:3229
+			name = forest_spirits_event_troops
+		}
+	}
+
+	after = {
+		every_ruler = {
+			limit = { 
+				NOT = { this = scope:valenwood_defiler }
+				any_held_title = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_valenwood
+						NOT = { geographical_region = mundus_tamriel_valenwood_arenthia }
+					}
+				}
+			}
+			trigger_event = {
+				id = ek_special_buildings_events.0104
+				days = 1
+			}
+		}
+		trigger_event = {
+			id = ek_special_buildings_events.0105
+			years = 5
+		}
+	}
+}
+
+ek_special_buildings_events.0104 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0104.t
+	desc = ek_special_buildings_events.0104.desc
+
+	theme = necromancy
+
+	override_background = {
+		reference = wilderness_jungle
+	}
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	immediate = {
+		every_held_title = {
+			limit = { 
+				tier = tier_county
+				any_county_province = {
+					OR = {
+						geographical_region = mundus_tamriel_valenwood_greenshade_woodhearth
+						geographical_region = mundus_tamriel_valenwood_malabal_tor_malabal_tor
+					}
+				}
+				NOT = { has_county_modifier = corrupted_heart_modifier }
+			}
+			add_county_modifier = {
+				modifier = corrupted_heart_modifier
+			}
+		}
+	}
+
+	option = {
+		name = ek_special_buildings_events.0104.a
+
+		add_stress = medium_stress_gain
+	}
+
+	option = {
+		name = ek_special_buildings_events.0104.b
+		trait = necromancer
+		trigger = { is_necromancer = yes }
+	}
+}
+
+ek_special_buildings_events.0105 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0105.t
+	desc = ek_special_buildings_events.0105.desc
+
+	theme = necromancy
+
+	override_background = {
+		reference = wilderness_jungle
+	}
+
+	left_portrait = {
+		character = root
+		animation = wedding_priest
+	}
+
+	trigger = {
+		has_global_variable = defiled_heart
+	}
+
+	option = {
+		name = ek_special_buildings_events.0103.a
+
+		every_held_title = {
+			limit = { 
+				tier = tier_county
+				any_county_province = {
+					OR = {
+						geographical_region = mundus_tamriel_valenwood_greenshade
+						geographical_region = mundus_tamriel_valenwood_malabal_tor
+						geographical_region = mundus_tamriel_valenwood_grahtwood
+					}
+				}
+				NOT = { has_county_modifier = corrupted_heart_modifier }
+			}
+			add_county_modifier = {
+				modifier = corrupted_heart_modifier
+			}
+		}
+
+		spawn_army = {
+			men_at_arms = {
+				type = forest_spirits
+				stacks = 10
+			}
+			uses_supply = no
+			inheritable = no
+			location = province:3229
+			name = forest_spirits_event_troops
+		}
+	}
+
+	after = {
+		every_ruler = {
+			limit = { 
+				NOT = { this = scope:valenwood_defiler }
+				any_held_title = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_valenwood
+						NOT = { geographical_region = mundus_tamriel_valenwood_arenthia }
+					}
+				}
+			}
+			trigger_event = {
+				id = ek_special_buildings_events.0106
+				days = 1
+			}
+		}
+	}
+}
+
+ek_special_buildings_events.0106 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0106.t
+	desc = ek_special_buildings_events.0106.desc
+
+	theme = necromancy
+
+	override_background = {
+		reference = wilderness_jungle
+	}
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	immediate = {
+		every_held_title = {
+			limit = { 
+				tier = tier_county
+				any_county_province = {
+					OR = {
+						geographical_region = mundus_tamriel_valenwood_greenshade
+						geographical_region = mundus_tamriel_valenwood_malabal_tor
+						geographical_region = mundus_tamriel_valenwood_grahtwood
+					}
+				}
+				NOT = { has_county_modifier = corrupted_heart_modifier }
+			}
+			add_county_modifier = {
+				modifier = corrupted_heart_modifier
+			}
+		}
+	}
+
+	option = {
+		name = ek_special_buildings_events.0106.a
+
+		add_stress = medium_stress_gain
+	}
+
+	option = {
+		name = ek_special_buildings_events.0106.b
+		trait = necromancer
+		trigger = { is_necromancer = yes }
+	}
+}
+
+ek_special_buildings_events.0107 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0107.t
+	desc = ek_special_buildings_events.0107.desc
+
+	theme = faith
+
+	override_background = {
+		reference = wilderness_jungle
+	}
+
+	left_portrait = {
+		character = root
+		animation = zealous
+	}
+
+	immediate = {
+		every_held_title = {
+			limit = { 
+				tier = tier_county
+				any_county_province = {
+					OR = {
+						geographical_region = mundus_tamriel_valenwood_greenshade
+						geographical_region = mundus_tamriel_valenwood_malabal_tor
+						geographical_region = mundus_tamriel_valenwood_grahtwood
+					}
+				}
+				has_county_modifier = corrupted_heart_modifier
+			}
+			remove_county_modifier = corrupted_heart_modifier
+		}
+		save_scope_as = valenwood_restorer
+		ek_give_nickname_effect = { NICKNAME = nick_the_saviour_of_valenwood }
+		set_global_variable = {
+			name = defiled_heart
+			value = no
+		}
+	}
+
+	option = {
+		name = ek_special_buildings_events.0107.a
+
+		trigger = {
+			OR = {
+				faith = { has_doctrine = doctrine_pantheon_green_pact }
+				culture = { has_cultural_pillar = heritage_bosmeri }
+			}
+		}
+
+		add_piety = major_piety_gain
+		add_prestige = major_prestige_gain
+	}
+
+	option = {
+		name = ek_special_buildings_events.0107.b
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_pantheon_green_pact }
+				culture = { has_cultural_pillar = heritage_bosmeri }
+			}
+		}
+
+		add_prestige = major_prestige_gain
+	}
+
+	after = {
+		every_ruler = {
+			limit = { 
+				NOT = { this = scope:valenwood_restorer }
+				any_held_title = {
+					any_county_province = {
+						geographical_region = mundus_tamriel_valenwood
+						NOT = { geographical_region = mundus_tamriel_valenwood_arenthia }
+					}
+				}
+			}
+			trigger_event = {
+				id = ek_special_buildings_events.0108
+				days = 1
+			}
+		}
+	}
+}
+
+ek_special_buildings_events.0108 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0108.t
+	desc = ek_special_buildings_events.0108.desc
+
+	theme = faith
+
+	override_background = {
+		reference = wilderness_jungle
+	}
+
+	left_portrait = {
+		character = scope:valenwood_restorer
+		animation = zealous
+	}
+
+	immediate = {
+		every_held_title = {
+			limit = { 
+				tier = tier_county
+				any_county_province = {
+					OR = {
+						geographical_region = mundus_tamriel_valenwood_greenshade
+						geographical_region = mundus_tamriel_valenwood_malabal_tor
+						geographical_region = mundus_tamriel_valenwood_grahtwood
+					}
+				}
+				has_county_modifier = corrupted_heart_modifier
+			}
+			remove_county_modifier = corrupted_heart_modifier
+		}
+	}
+
+	option = {
+		name = ek_special_buildings_events.0108.a
+
+		add_stress = medium_stress_loss
+	}
+
+	option = {
+		name = ek_special_buildings_events.0108.b
+		trait = necromancer
+		trigger = { is_necromancer = yes }
+
+		add_stress = medium_stress_gain
+	}
+}
+
+# Rebuilt the Bridges of Leyawiin
+ek_special_buildings_events.0111 = {
+    type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0111.t
+	desc = ek_special_buildings_events.0111.desc
+	theme = realm
+
+	right_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	immediate = {
+		save_scope_as = bridge_builder
+	}
+
+	option = {
+		name = ek_special_buildings_events.0111.a
+
+		custom_tooltip = bridges_leyawiin_disables_buildings_imperial_isle_ct
+		custom_tooltip = bridges_leyawiin_disables_port_buildings_rumare_ct
+
+		ek_give_nickname_effect = { NICKNAME = nick_gatekeeper_of_the_niben }
+	}
+
+	after = {
+		every_ruler = {
+			limit = { 
+				NOT = { this = scope:bridge_builder }
+				any_held_title = {
+					tier = tier_county
+					any_county_province = {
+						is_coastal = yes
+						geographical_region = mundus_tamriel_cyrodiil
+						NOR = {
+							duchy = title:d_leyawiin
+							duchy = title:d_blackwood
+							geographical_region = mundus_tamriel_cyrodiil_gold_coast
+							geographical_region = mundus_tamriel_cyrodiil_west_weald 
+						}                    
+					}
+				}
+			}
+			trigger_event = {
+				id = ek_special_buildings_events.0112
+				days = 1
+			}
+		}
+	}
+}
+
+ek_special_buildings_events.0112 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_special_buildings_events.0112.t
+	desc = ek_special_buildings_events.0112.desc
+
+	theme = realm
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	lower_center_portrait = scope:bridge_builder
+
+	option = {
+		name = ek_special_buildings_events.0112.a
+
+		custom_tooltip = bridges_leyawiin_disables_buildings_imperial_isle_ct
+		custom_tooltip = bridges_leyawiin_disables_port_buildings_rumare_ct
+		custom_tooltip = bridges_leyawiin_gains_cb_ct
+	}
+}

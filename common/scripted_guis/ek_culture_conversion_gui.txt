@@ -1,0 +1,51 @@
+﻿
+ek_select_culture_to_convert_to = {
+	scope = character
+	saved_scopes = { selected_culture }
+ 	is_shown = { always = yes }
+	is_valid = { scope:selected_culture = { ek_can_convert_county_to_culture = { RULER_CULTURE = root.culture } } }
+	effect = { set_variable = { name = culture_to_convert value = scope:selected_culture } }
+}
+
+ek_culture_is_native = {
+	scope = title
+	saved_scopes = { selected_culture }
+	is_shown = {
+		any_in_list = {
+			variable = native_culture_list
+			this = scope:selected_culture
+		}
+	}
+	effect = { }
+}
+
+ek_culture_is_nomadic = {
+	scope = title
+	saved_scopes = { selected_culture }
+	is_shown = {
+		scope:selected_culture = { has_innovation = innovation_native_nomadic }
+		NOT = {
+			any_in_list = {
+				variable = native_culture_list
+				this = scope:selected_culture
+			}			
+		}
+	}
+	effect = { }
+}
+
+
+ek_culture_is_non_native = {
+	scope = title
+	saved_scopes = { selected_culture }
+	is_shown = {
+		NOR = {
+			any_in_list = {
+				variable = native_culture_list
+				this = scope:selected_culture
+			}
+			scope:selected_culture = { has_innovation = innovation_native_nomadic }
+		}
+	}
+	effect = { }
+}

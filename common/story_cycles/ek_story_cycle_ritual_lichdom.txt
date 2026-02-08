@@ -1,0 +1,192 @@
+﻿story_cycle_ritual_lichdom_ = {
+
+	on_setup = {
+		set_variable = { name = grand_ritual value = flag:lichdom_ } #used to identify?
+		# story_owner = {
+		# 	#stages in order in list. check list size for end trigger
+		# 	add_to_variable_list = { name = stages target = flag:stage_1 }
+		# 	add_to_variable_list = { name = stages target = flag:stage_2 }
+		# 	add_to_variable_list = { name = stages target = flag:stage_3 }
+		# 	add_to_variable_list = { name = stages target = flag:stage_4 }
+		# 	add_to_variable_list = { name = stages target = flag:stage_5 }
+		# 	#list of completed changes. active stage var
+		# 	set_variable = { name = stage_active value = flag:stage_1 }
+		# 	set_variable = { name = grand_ritual value = flag:life_extension_ }
+		# 	#cost from script value accessing story variable, or hard coded in script value
+		# 	#time remaining also from script value? cant get variable time remaining through that though so only year accurate estimates
+		# 	set_variable = { name = grand_ritual_complete value = yes days = life_extension_time } #can fold into name variable
+		# }
+		#story_owner = {
+		# set_variable = { name = grand_ritual value = scope:story } #you can apparently not hold a story in a variable SCOPE_DEBUG_STORY. dont know if should be able to as they arent persistent, flags from the console can give the same effect
+		#so since the original plan wont work we go with plan b and have the story cycle drive player vars rather than using it directly. probably have generc ritual cycle with flag for type and num stages
+		#}
+
+		#initial success chance set based on lifespan tier level. decrease in risk between 3->4/4->5/5->6 of 27.5 to 15 at 6->7 ok. life expectancy +1000 is functionally immortality, +character should have learned from past
+		# use logistical decay for initial chances - (100/(1+e^-x)) gives percentage chance. assume 0 for 4->5
+		# 0->1 - 100 - 2.5	= 97.5%
+		# 1->2 - 100 - 5	= 95%
+		# 2->3 - 100 - 12.5 = 87.5%
+		# 3->4 - 100 - 27.5 = 72.5%
+		# 4->5 - 100 - 50 	= 50%
+		# 5->6 - 100 - 72.5	= 27.5%
+		# 6->7 - 100 - 87.5 = 12.5%
+		# cumulative chance for human: 1.01% (lifespan 0 assumed)
+		# cumulative chance for mer: 1.25% (lifespan 3 assumed)
+		# base chances ^. skill, choices, preparation(take time, be careful), etc should massively improve chances.
+		# above chances should be pmuch if someone managed to achieve immortality 'accidentally' or by fluke
+		# system similar ek1 with seed? have some threshold value that must be exceeded to succeed. averages to above chances
+
+		# event widgets showing progress for ritual
+
+		# (float a, float b, int c)		time_remaining, time, 365
+		# (a/b)*c			
+	}
+
+	on_end = {
+		story_owner = {
+			#add_trait = lich
+			remove_variable = stage_active
+			remove_variable = grand_ritual_complete
+			clear_variable_list = stages
+			clear_variable_list = stages_complete
+		}
+	}
+
+	on_owner_death = {
+		scope:story = { end_story = yes }
+	}
+
+	# Give the parrot a name!
+	# effect_group = {
+	# 	days = { 2 4 }
+	# 	chance = 100
+
+	# 	triggered_effect = {
+	# 		trigger = {
+	# 			story_owner = {
+	# 				NOT = { has_character_flag = is_naming_parrot }
+	# 			}
+	# 			NOT = { exists = story_owner.var:story_cycle_parrot_name }
+	# 		}
+	# 		effect = {
+	# 			story_owner = {
+	# 				add_character_flag = is_naming_parrot
+	# 				trigger_event = ek_pet_animal.0001
+	# 			}
+	# 		}
+	# 	}
+	# }
+
+	#To save the name in the story's scope (can for some reason not be done in the naming event itself)
+	# effect_group = {
+	# 	days = 5
+	# 	chance = 100
+
+	# 	triggered_effect = {
+	# 		trigger = {
+	# 			exists = story_owner.var:story_cycle_parrot_name
+	# 		}
+	# 		effect = {
+	# 			set_variable = {
+	# 				name = story_cycle_parrot_name
+	# 				value = scope:story.story_owner.var:story_cycle_parrot_name
+	# 			}
+	# 		}
+	# 	}
+	# }
+
+	#Age the parrot
+	effect_group = {
+		days = 912
+		#days = 5
+
+		trigger = {
+			story_owner = { exists = var:stage_active }
+		}
+
+		first_valid = {
+			triggered_effect = {
+				trigger = { story_owner = { var:stage_active = flag:stage_1 } }
+				effect = {
+					story_owner = {
+						set_variable = { name = stage_active value = flag:stage_2 }
+						add_to_variable_list = { name = stages_complete target = flag:stage_1 }
+					}
+				}
+			}
+			triggered_effect = {
+				trigger = { story_owner = { var:stage_active = flag:stage_2 } }
+				effect = {
+					story_owner = {
+						set_variable = { name = stage_active value = flag:stage_3 }
+						add_to_variable_list = { name = stages_complete target = flag:stage_2 }
+					}
+				}
+			}
+			triggered_effect = {
+				trigger = { story_owner = { var:stage_active = flag:stage_3 } }
+				effect = {
+					story_owner = {
+						set_variable = { name = stage_active value = flag:stage_4 }
+						add_to_variable_list = { name = stages_complete target = flag:stage_3 }
+					}
+				}
+			}
+			triggered_effect = {
+				trigger = { story_owner = { var:stage_active = flag:stage_4 } }
+				effect = {
+					scope:story = { end_story = yes }
+				}
+			}
+		}
+	}
+
+	# The parrot dies :(
+	# effect_group = {
+	# 	days = { 7000 10000 }
+	# 	chance = 100
+
+	# 	triggered_effect = {
+	# 		trigger = {
+	# 			exists = story_owner.var:story_cycle_parrot_name
+	# 		}
+	# 		effect = {
+	# 			story_owner = {
+	# 				add_character_flag = {
+	# 					flag = parrot_is_dying
+	# 				}
+	# 				trigger_event = ek_pet_animal.0199
+	# 			}
+	# 		}
+	# 	}
+	# }
+
+	# Something happens - random events
+	# effect_group = {
+	# 	days = { 365 600 }
+	# 	# days = { 7 10 }
+	# 	chance = 50
+
+	# 	trigger = {
+	# 		exists = story_owner.var:story_cycle_parrot_name
+	# 		story_owner = {
+	# 			NOT = {
+	# 				has_character_flag = parrot_is_dying
+	# 			}
+	# 		}
+	# 	}
+
+	# 	first_valid = {
+	# 		triggered_effect = {
+	# 			trigger = { always = yes }
+	# 			effect = {
+	# 				story_owner = {
+	# 					trigger_event = {
+	# 						on_action = ongoing_parrot_events
+	# 					}
+	# 				}
+	# 			}
+	# 		}
+	# 	}
+	# }
+}

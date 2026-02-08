@@ -1,0 +1,175 @@
+﻿namespace = ek_steward_task
+
+ek_steward_task.0001 = {
+	title = ek_steward_task.0001.t
+	content_source = dlc_ek
+	desc = {
+
+		# triggered desc based on the circumstances of our culture and the current population in the county
+		first_valid = {
+			# firstly is our culture even of Mundus?
+			triggered_desc = {
+				trigger = { root.culture = { has_innovation = innovation_daedric_race }}
+				desc = ek_steward_task.0001.desc.daedric_race
+			}
+			# if it is, is it considered alive?
+			triggered_desc = {
+				trigger = { root.culture = { culture_is_alive = no }}
+				desc = ek_steward_task.0001.desc.dead_culture
+			}
+			# if it is alive and is of Mundus, does the current population share our heritage or not?
+			triggered_desc = {
+				trigger = { scope:county.culture = { has_same_culture_heritage = root.culture } }
+				desc = ek_steward_task.0001.desc.same_heritage
+			}
+			desc = ek_steward_task.0001.desc.other_heritage
+		}
+		# Is the current population migratory?
+		triggered_desc = {
+			trigger = { scope:county.culture = { has_innovation = innovation_native_nomadic } }
+			desc = ek_steward_task.0001.desc.nomadic
+		}
+		# Ending
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_variable = has_special_culture_conversion_option
+					culture = { has_cultural_parameter = can_found_orsinium }
+					scope:county = { target_is_de_jure_liege_or_above = title:k_orsinium }
+				}
+				desc = ek_steward_task.0001.desc.ending_orsinium_orcs
+			}
+			desc = ek_steward_task.0001.desc.ending
+		}
+	}
+	
+	theme = culture_change
+	
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	
+	widget = {
+		gui = "event_window_widget_culture_conversion"
+		container = "custom_widgets_container"
+	}
+	
+	
+	immediate = {
+		# Special options
+		if = {
+			limit = {
+				culture = { has_cultural_parameter = can_found_orsinium }
+				scope:county = { target_is_de_jure_liege_or_above = title:k_orsinium }
+			}
+			set_variable = { name = has_special_culture_conversion_option value = yes }
+			title:k_orsinium = {
+				save_scope_as = kingdom_of_orsinium # for event loc purposes
+			}
+		}
+		
+		# For Loc
+		scope:county.culture = { save_scope_as = county_old_culture }
+		
+		# For SGUI
+		set_variable = { name = county_to_convert value = scope:county }
+		
+		# Build list of culture you can convert county to
+		clear_variable_list = culture_conversion_options
+		culture = { # Ruler culture
+			if = {
+				limit = { culture_is_alive = yes }
+				root = { add_to_variable_list = { name = culture_conversion_options target = prev } }
+			}
+		}
+		scope:county = { # Native cultures
+			every_in_list = {
+				variable = native_culture_list
+				limit = { 
+					NOT = { this = scope:county.culture }
+					ek_can_convert_county_to_culture = { RULER_CULTURE = root.culture }
+				}
+				root = { add_to_variable_list = { name = culture_conversion_options target = prev } }
+			}
+		}
+		every_culture_global = { # Nomadic cultures
+			limit = { 
+				has_innovation = innovation_native_nomadic 
+				NOT = { this = scope:county.culture }
+				ek_can_convert_county_to_culture = { RULER_CULTURE = root.culture }
+			}
+			root = { add_to_variable_list = { name = culture_conversion_options target = prev } }
+		}
+		
+		# Set default culture to convert to
+		if = { # Prefer ruler culture if native
+			limit = { scope:county = { is_target_in_variable_list = { name = native_culture_list target = root.culture } } }
+			set_variable = { name = culture_to_convert value = culture }
+		}
+		else = {
+			# If not, try to find same heritage native culture
+			random_in_list = {
+				variable = culture_conversion_options
+				limit = { has_same_culture_heritage = root.culture }
+				root = { set_variable = { name = culture_to_convert value = prev } }
+			}
+			
+			# If that fails, use migratory culture
+			if = {
+				limit = { NOT = { has_variable = culture_to_convert } }
+				random_in_list = {
+					variable = culture_conversion_options
+					limit = { has_innovation = innovation_native_nomadic }
+					root = { set_variable = { name = culture_to_convert value = prev } }
+				}
+			}
+			
+			# If all else fails, use ruler culture
+			if = {
+				limit = { NOT = { has_variable = culture_to_convert } }
+				set_variable = { name = culture_to_convert value = culture }
+			}
+		}
+			
+	}
+	
+	### Generic options
+	option = {
+		name = ek_steward_task.0001.a
+				
+		if = { # Orsinium?
+			limit = {
+				has_variable = has_special_culture_conversion_option
+				culture = { has_cultural_parameter = can_found_orsinium }
+				scope:county = { target_is_de_jure_liege_or_above = title:k_orsinium }
+			}
+			custom_tooltip = ek_steward_task.0001.convert_orcs_orsinium_tooltip
+		}
+		else_if = { # Nomadic?
+			limit = { var:culture_to_convert = { has_innovation = innovation_native_nomadic } }
+			custom_tooltip = ek_steward_task.0001.nomadic_culture_not_native_tooltip
+		}
+		else_if = { # Not native?
+			limit = {
+				scope:county = {
+					NOT = {
+						is_target_in_variable_list = {
+							name = native_culture_list
+							target = root.var:culture_to_convert
+						}
+					}
+				}
+			}
+			custom_tooltip = ek_steward_task.0001.own_culture_not_native_tooltip
+		}
+		else = { custom_tooltip = ek_steward_task.0001.convert_own_culture_tooltip }
+		
+		scope:county = {
+			set_variable = {
+				name = culture_to_convert
+				value = root.var:culture_to_convert
+			}
+		}
+	}
+}

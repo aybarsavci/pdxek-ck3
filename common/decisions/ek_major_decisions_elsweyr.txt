@@ -1,0 +1,896 @@
+﻿###############
+### ELSWEYR ###
+###############
+## Restore Kingdom of Anequina by tvsmsa
+restore_anequina_decision = {
+    picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+    desc = restore_anequina_decision_desc
+    selection_tooltip = restore_anequina_decision_tooltip
+    decision_group_type = major
+
+    ai_check_interval = 120
+
+    is_shown = {
+        is_ruler = yes
+        is_landed = yes
+        NOT = { has_title = title:e_elsweyr } #Not Mane
+        highest_held_title_tier >= tier_kingdom
+        OR = { #Only Anequinan culture or descendants
+            culture = culture:anequinan
+            culture = { any_parent_culture_or_above = { this = culture:anequinan }}
+        }
+        capital_province = { geographical_region = mundus_tamriel_elsweyr_anequina } #Capital is in Anequina
+        NOT = { #You can only do it once.
+            is_target_in_global_variable_list = {
+                name = unavailable_unique_decisions
+                target = flag:anequina_restored
+            } 
+        }
+    }
+
+    is_valid = {
+        is_independent_ruler =  yes
+        prestige_level >= 3
+        custom_tooltip = {
+            text = restore_anequina_decision_custom_tooltip
+            any_county_in_region = { #Need to control 75% of Anequina
+                region = mundus_tamriel_elsweyr_anequina
+                percent > 0.75
+                holder.top_liege = root
+            }
+        }
+    }
+
+    is_valid_showing_failures_only = {
+        is_capable_adult = yes
+        is_available = yes
+        is_at_war = no
+        is_imprisoned = no
+	}
+
+    cost = {
+        prestige = 1000 
+        gold = 500 
+	}
+
+    effect = {
+        #Event for Restoration
+        trigger_event = elsweyr.0001
+        custom_tooltip = restore_anequina_decision_effect
+        custom_tooltip = elsweyr_split_tooltip
+        add_character_modifier = {
+            modifier = restored_anequina_modifier
+            years = 25
+        }
+        #Check for Dissolution already happening
+        if = {
+            limit = {
+                NOT = {
+                    is_target_in_global_variable_list = {
+                        name = elsweyr_variables
+                        target = flag:elsweyr_dissolved
+                    }                     
+                }
+            }
+            #Dissolve Elsweyr and send event
+            hidden_effect = { dissolve_elsweyr_scripted_effect = yes }
+        }
+        #Get Anequina title
+        hidden_effect = { get_title = title:e_anequina }
+        add_to_global_variable_list = {
+            name = unavailable_unique_decisions
+            target = flag:anequina_restored
+        }
+        # for loc purposes
+        title:e_anequina = { save_scope_as = anequina }
+        title:e_pellitine = { save_scope_as = pellitine }
+    }
+
+    ai_potential = { always = yes }
+
+	ai_will_do = { base = 100 }
+}
+
+# Restore kingdom of Pellitine
+restore_pellitine_decision = {
+    picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+    desc = restore_pellitine_decision_desc
+    selection_tooltip = restore_pellitine_decision_tooltip
+    decision_group_type = major
+
+    ai_check_interval = 120
+
+    is_shown = {
+        is_ruler = yes
+        is_landed = yes
+        NOT = { has_title = title:e_elsweyr } #Can't be Mane
+        highest_held_title_tier >= tier_kingdom
+        has_feudal_or_admin_government = yes #Pellitinian are organized, unlike Anequinans, some of whom are tribal
+        capital_province = { geographical_region = mundus_tamriel_elsweyr_pellitine } #Capital is in Pellitine
+        OR = { #Must Pellitinian or descendant
+            culture = culture:pellitinian
+            culture = { any_parent_culture_or_above = { this = culture:pellitinian }}
+        }
+        NOT = { #You can only do it once.
+            is_target_in_global_variable_list = {
+                name = unavailable_unique_decisions
+                target = flag:pellitine_restored
+            } 
+        }
+    }
+
+    is_valid = {
+        is_independent_ruler =  yes
+        prestige_level >= 3
+        custom_tooltip = {
+            text = restore_pellitine_decision_custom_tooltip
+            any_county_in_region = {
+                region = mundus_tamriel_elsweyr_pellitine
+                percent > 0.75
+                holder.top_liege = root
+            }
+        }
+    }
+
+    is_valid_showing_failures_only = {
+        is_capable_adult = yes
+        is_available = yes
+        is_at_war = no
+        is_imprisoned = no
+	}
+
+    cost = {
+        prestige = 1000 
+        gold = 500
+    }
+
+    effect = {
+        #Event for Restoration
+        trigger_event = elsweyr.0014
+        custom_tooltip = restore_pellitine_decision_effect_tooltip
+        custom_tooltip = elsweyr_split_tooltip
+        add_character_modifier = {
+			modifier = restored_pellitine_modifier
+			years = 25
+		}
+        #Check that Elsweyr isn't dissolved already
+        if = {
+            limit = {
+                NOT = {
+                    is_target_in_global_variable_list = {
+                        name = elsweyr_variables
+                        target = flag:elsweyr_dissolved
+                    }                     
+                }
+            }
+            #Dissolve Elsweyr and send event
+            hidden_effect = { dissolve_elsweyr_scripted_effect = yes }
+        }
+        #Get Pellitine title
+        hidden_effect = { get_title = title:e_pellitine }
+        add_to_global_variable_list = {
+            name = unavailable_unique_decisions
+            target = flag:pellitine_restored
+        }
+	}
+
+    ai_potential = { always = yes }
+
+	ai_will_do = { base = 100 }    
+}
+
+# Secede from Mane, available after Elsweyr dissolution
+secede_from_elsweyr_decision = {
+    picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+    desc = secede_from_elsweyr_decision_desc
+    selection_tooltip = secede_from_elsweyr_decision_tooltip
+    decision_group_type = major
+
+    ai_check_interval = 60
+    is_shown = {
+        is_ruler = yes
+        is_landed = yes
+        NOT = { has_title = title:e_elsweyr } #Can't be Mane
+        liege = { has_title = title:e_elsweyr } #Liege is Emperor of Elsweyr
+        #Only for 30 years after dissolution
+        is_target_in_global_variable_list = {
+            name = elsweyr_variables
+            target = flag:elsweyr_can_secede
+        }
+        #Can't do it after Elsweyr reunited
+        NOT = {
+            is_target_in_global_variable_list = {
+                name = elsweyr_variables
+                target = flag:restored_elsweyr
+            }
+        }
+        #If you left and then rejoined, you won't be able to secede again
+        NOT = { has_character_flag = left_elsweyr }
+    }
+
+    is_valid_showing_failures_only = {
+        is_available = yes
+        is_at_war = no
+        is_imprisoned = no
+	}
+    effect = {
+        # Go independent
+		create_title_and_vassal_change = {
+			type = independency 
+			save_scope_as = change
+		}
+		becomes_independent = {
+			change = scope:change
+		}
+		resolve_title_and_vassal_change = scope:change
+        add_character_flag = {
+            flag = left_elsweyr
+        }
+	}
+
+    ai_potential = { always = yes }
+
+    ai_will_do = {
+		base = 50
+		modifier = {
+			add = -50
+			# Zealots of Two Moons won't leave Mane
+			liege = {
+                has_title = title:d_mane
+            }
+            has_trait = zealous
+            faith = faith:twomoonsdance
+		}
+        #Unlikely to leave if Craven, Loyal, Content, Lazy, Humble
+        modifier = {
+			add = -50
+            has_trait = craven
+		}
+        modifier = {
+			add = -100
+            has_trait = loyal
+		}
+        modifier = {
+			add = -50
+            has_trait = content
+		}
+        modifier = {
+			add = -50
+            has_trait = lazy
+		}
+        modifier = {
+			add = -50
+            has_trait = humble
+		}
+        #Likely to leave if Ambitious, Cynical, Arbitraty, Arrogant, Disloyal, Gluttonous, Greedy, Brave, Impatient
+        modifier = {
+			add = 100
+            has_trait = ambitious
+		}
+        modifier = {
+			add = 80
+            has_trait = cynical
+		}
+        modifier = {
+			add = 50
+            has_trait = arrogant
+		}
+        modifier = {
+			add = 50
+            has_trait = arbitrary
+		}
+        modifier = {
+			add = 100
+            has_trait = disloyal
+		}
+        modifier = {
+			add = 50
+            has_trait = greedy
+		}
+        modifier = {
+			add = 50
+            has_trait = brave
+		}
+        modifier = { #Definitively leave if different faith
+            add = 200
+            NOT = { faith = faith:twomoonsdance }
+        }
+        #Relationship with liege - negative
+        modifier = {
+			add = 100
+            liege = { has_any_bad_relationship_with_root_trigger = yes }
+		}
+		#Relation with liege - positive
+		modifier = {
+			add = -100
+            liege = { has_any_good_relationship_with_root_trigger = yes }
+		}
+        #Less likely to leave if family with liege
+        modifier = {
+			add = -50
+            liege = { is_close_family_of = root }
+		}
+        #Good opinion of Liege
+        modifier = {
+            add = -50
+            opinion = {
+                target = liege
+                value >= high_positive_opinion
+            }
+        }
+        #Bad opinion of Liege
+        modifier = {
+            add = 50
+            opinion = {
+                target = liege
+                value <= low_positive_opinion
+            }
+        }
+        #Legitimacy
+        modifier = {
+            add = 100
+            liege = { legitimacy_level <= 2 }
+        }
+        modifier = {
+            add = -100
+            liege = { legitimacy_level >=4 }
+        }
+	}
+}
+
+#Restore Darloc Brae's Kingdom
+restore_darloc_kingdom_decision = {
+    picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+    desc = restore_darloc_kingdom_decision_desc
+    selection_tooltip = restore_darloc_kingdom_decision_tooltip
+    decision_group_type = major
+
+    ai_check_interval = 120
+
+    is_shown = {
+        is_ruler = yes
+        is_landed = yes
+        OR = {
+		    has_title = title:e_anequina
+            AND = { #Can't be Mane ruling Elsweyr, can be someone not-Mane ruling it
+                NOT = { has_trait = furstock_mane }
+                has_title = title:e_elsweyr
+            }
+        }
+        OR = { #Only for Anequinans
+            culture = culture:anequinan
+            culture = { any_parent_culture_or_above = { this = culture:anequinan }}
+        }
+        NOT = {
+            is_target_in_global_variable_list = {
+                name = unavailable_unique_decisions
+                target = flag:restored_darloc_kingdom
+            } 
+        }
+	}
+
+    is_valid = {
+        prestige_level >= 4
+        piety_level >= 3
+        completely_controls_region = mundus_tamriel_elsweyr_anequina #Need to fully control Anequina
+        #Need to Leyawiin and Arenthia
+        completely_controls = title:d_nomore
+        completely_controls = title:d_leyawiin
+        completely_controls = title:k_arenthia
+        custom_tooltip = { #Need to complete decisions associated with Leyawiin and Arenthia
+            text = conquered_leyawiin_arenthia_tooltip
+            OR = {
+                title:e_elsweyr = { is_de_jure_liege_or_above_target = title:d_nomore }
+                title:e_elsweyr = { is_de_jure_liege_or_above_target = title:d_leyawiin } 
+                title:e_anequina = { is_de_jure_liege_or_above_target = title:d_nomore }
+                title:e_anequina = { is_de_jure_liege_or_above_target = title:d_leyawiin }
+            }
+            OR = { 
+                title:e_elsweyr = { is_de_jure_liege_or_above_target = title:k_arenthia }
+                title:e_anequina = { is_de_jure_liege_or_above_target = title:k_arenthia } 
+            }
+        }
+    }
+
+    is_valid_showing_failures_only = {
+        is_capable_adult = yes
+        is_available = yes
+        is_at_war = no
+        is_imprisoned = no
+    }
+
+
+    effect = {
+        dynasty = {
+            add_dynasty_prestige = 1500
+            add_dynasty_modifier = { 
+                modifier = restored_darloc_kingdom_dynasty_modifier 
+            }
+        }
+        custom_tooltip = { #Unlock Hegemon legacy
+            text = unlocks_hegemony_dynasty_legacy
+            dynasty = {
+                set_variable = {
+                    name = can_get_hegemon_legacy_track
+                    value = yes
+                }
+            }
+        }
+        trigger_event = elsweyr.0004
+        hidden_effect = { #Drift Leyawiin if Elsweyr or Pellitine took it
+            title:d_leyawiin = { set_de_jure_liege_title = title:k_rimmen }
+            title:d_nomore = { set_de_jure_liege_title = title:k_rimmen }            
+        }
+        add_to_global_variable_list = {
+            name = unavailable_unique_decisions
+            target = flag:restored_darloc_kingdom
+        }
+    }
+
+    ai_potential = { always = yes }
+
+	ai_will_do = { base = 100 }
+}
+
+#Restore old capital of Anequina decision
+choose_capital_anequina_decision = {
+    picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+    desc = choose_capital_anequina_decision_desc
+    selection_tooltip = choose_capital_anequina_decision_tooltip
+    decision_group_type = major
+
+    ai_check_interval = 120
+
+    is_shown = {
+        is_ruler = yes
+        is_landed = yes
+        OR = {
+		    has_title = title:e_anequina
+            AND = { #Can't be Mane ruling Elsweyr, can be someone not-Mane ruling it
+                NOT = { has_trait = furstock_mane }
+                has_title = title:e_elsweyr
+            }
+        }
+        OR = { #Only for Anequinans
+            culture = culture:anequinan
+            culture = { any_parent_culture_or_above = { this = culture:anequinan }}
+        }
+         is_target_in_global_variable_list = {
+            name = unavailable_unique_decisions
+            target = flag:anequina_restored
+        }
+        NOT = {
+            is_target_in_global_variable_list = {
+                name = unavailable_unique_decisions
+                target = flag:capital_anequina_restored
+            } 
+        } 
+	}
+
+    is_valid = {
+		completely_controls = title:d_anequina
+	}
+
+    is_valid_showing_failures_only = {
+        is_capable_adult = yes
+        is_available = yes
+        is_at_war = no
+        is_imprisoned = no
+    }
+
+    cost = {
+		prestige = 500
+        gold = 100 
+	}
+
+    effect = {
+        custom_tooltip = choose_capital_anequina_decision_effect
+        trigger_event = elsweyr.0008
+        add_to_global_variable_list = {
+            name = unavailable_unique_decisions
+            target = flag:capital_anequina_restored
+        }
+	}
+
+    ai_potential = { always = yes }
+
+	ai_will_do = { base = 100 }
+}
+
+#Restore Mane decision - based on vanilla restore Papacy
+restore_mane_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+
+	desc = restore_mane_decision_desc
+	selection_tooltip = restore_mane_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 12
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		#faith = faith:twomoonsdance
+        faith = { has_doctrine = doctrine_mystical_birthright_head }
+		NOT = { faith = { exists = religious_head } }
+		highest_held_title_tier >= tier_kingdom #Only Kings and Emperors
+	}
+
+	is_valid = {
+		completely_controls = title:d_torval
+		piety_level >= medium_piety_level
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+	}
+
+	effect = {
+		custom_tooltip = {
+            text = restore_mane_decision_effect_tooltip
+            restore_mane_scripted_effect = yes
+            root.faith = { save_scope_as = new_mane_faith } # for loc purposes
+        }
+        hidden_effect = {
+            if = { # Vassalize if possible/needed.
+                limit = {
+                    highest_held_title_tier > scope:new_mane.highest_held_title_tier
+                    NOT = { scope:new_mane = { any_liege_or_above = { this = root } } }
+                }
+                create_title_and_vassal_change = {
+                    type = returned
+                    save_scope_as = change
+                    add_claim_on_loss = no
+                }
+                scope:new_mane = {
+                    change_liege = {
+                        liege = root
+                        change = scope:change
+                    }
+                }
+                resolve_title_and_vassal_change = scope:change
+            }
+        }
+	}
+	
+	ai_potential = {
+        always = yes
+	}
+
+	ai_will_do = { #Always do it when possible.
+		base = 100
+		ai_value_modifier = {
+			ai_zeal = 1.0
+		}
+		modifier = {
+			factor = 0
+			has_trait = cynical
+		}
+	}
+}
+
+#Give Torval to Mane
+restore_mane_in_torval_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+
+	desc = restore_mane_in_torval_decision_desc
+	selection_tooltip = restore_mane_in_torval_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 12
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		faith = faith:twomoonsdance
+		NOT = { has_title = title:d_mane } #Not Mane
+		NOT = { title:c_torval.holder = { has_title = title:d_mane } } #Mane doesn't have Torval
+		NOT = { capital_county = { this = title:c_torval } } #Your capital isn't in Torval
+        exists = title:d_mane.holder
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+		highest_held_title_tier >= tier_kingdom #Only Kings and Emperors
+		custom_tooltip = { #HOF must exist
+			text = hof_exists_tt
+			faith = { exists = religious_head }
+		}
+		custom_tooltip = {
+			text = torval_held_by_you_or_vassal_tt
+			OR = {
+				title:c_torval.holder = { 	
+					any_liege_or_above = { this = root }
+				}
+				title:c_torval.holder = { this = root }
+			}
+		}
+	}
+
+	effect = {
+		add_piety = 500
+		create_title_and_vassal_change = {
+			type = returned
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		title:c_torval = {
+			change_title_holder = {
+				holder = title:d_mane.holder
+				change = scope:change
+			}
+		}
+        title:d_torval = {
+			change_title_holder = {
+				holder = title:d_mane.holder
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		title:d_mane.holder = {
+            save_scope_as = new_mane_torval
+			set_realm_capital = title:c_torval
+			change_government = hierocracy_government
+		}
+        if = { # Vassalize if possible/needed.
+            limit = {
+                highest_held_title_tier > scope:new_mane_torval.highest_held_title_tier
+                NOT = { scope:new_mane_torval = { any_liege_or_above = { this = root } } }
+            }
+            create_title_and_vassal_change = {
+                type = returned
+                save_scope_as = change
+                add_claim_on_loss = no
+            }
+            scope:new_mane_torval = {
+                change_liege = {
+                    liege = root
+                    change = scope:change
+                }
+            }
+            resolve_title_and_vassal_change = scope:change
+        }
+	}
+	
+	ai_potential = {
+        always = yes 
+	}
+
+	ai_will_do = { #Do it always, for coherence.
+		base = 100
+		modifier = {
+			factor = 0
+			title:c_torval.holder = {
+				OR = {
+					is_ai = no
+					any_liege_or_above = { is_ai = no }  # AI will never take Torval province away from a player.
+				}
+			}
+		}
+		modifier = {
+			factor = 0
+			has_trait = cynical
+		}
+	}
+}
+
+#Decisions to restore defunct kingdoms
+restore_tenmar_decision = { #Restore kingdom of Tenmar
+    picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+    desc = restore_tenmar_decision_desc
+    selection_tooltip = restore_tenmar_decision_tooltip
+    decision_group_type = major
+
+    ai_check_interval = 120
+
+    is_shown = {
+        is_ruler = yes
+        is_landed = yes
+        highest_held_title_tier <= tier_kingdom #Not a king already
+        primary_title = title:d_tenmar #only available with Tenmar as primary
+        culture = { has_cultural_pillar = heritage_khajiiti } #Non-khajiit don't care about this
+        NOT = { #You can only do it once.
+            is_target_in_global_variable_list = {
+                name = unavailable_unique_decisions
+                target = flag:tenmar_restored
+            } 
+        }
+    }
+
+    is_valid = {
+        is_independent_ruler =  yes
+        prestige_level >= 3
+        completely_controls = title:d_tenmar
+        completely_controls = title:d_pridehome
+        completely_controls = title:d_eshita
+        completely_controls = title:d_khenarthi_arch
+    }
+
+    is_valid_showing_failures_only = {
+        is_capable_adult = yes
+        is_available = yes
+        is_at_war = no
+        is_imprisoned = no
+    }
+
+    cost = {
+        prestige = 500 
+        gold = 300 
+    }
+
+    effect = {
+        #Get Tenmar title
+        get_title = title:k_tenmar
+        title:d_tenmar = { set_de_jure_liege_title = title:k_tenmar }
+        title:d_pridehome = { set_de_jure_liege_title = title:k_tenmar }
+        title:d_eshita = { set_de_jure_liege_title = title:k_tenmar }
+        title:d_khenarthi_arch = { set_de_jure_liege_title = title:k_tenmar }
+        add_to_global_variable_list = {
+            name = unavailable_unique_decisions
+            target = flag:tenmar_restored
+        }
+    }
+
+    ai_potential = { always = yes }
+
+    ai_will_do = { base = 100 }    
+}
+restore_khenarthia_decision = {#Restore kingdom of Khenarthia
+    picture = { reference = "gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+    desc = restore_khenarthia_decision_desc
+    selection_tooltip = restore_khenarthia_decision_tooltip
+    decision_group_type = major
+
+    ai_check_interval = 120
+
+    is_shown = {
+        is_ruler = yes
+        is_landed = yes
+        highest_held_title_tier <= tier_kingdom #Not a king already
+        primary_title = title:d_khenarthi_roost #only available with Helkarn as primary
+        culture = { has_cultural_pillar = heritage_khajiiti } #Non-khajiit don't care about this
+        NOT = { #You can only do it once.
+            is_target_in_global_variable_list = {
+                name = unavailable_unique_decisions
+                target = flag:khenarthia_restored
+            } 
+        }
+    }
+
+    is_valid = {
+        is_independent_ruler =  yes
+        custom_tooltip = {
+            text = restore_khenarthia_decision_custom_tooltip
+            has_government = pirate_government
+        }
+        prestige_level >= high_prestige_level
+        completely_controls = title:d_khenarthi_roost
+        completely_controls = title:c_tideholm
+        calc_true_if = {
+            amount >= 3
+            completely_controls = title:c_south_guard
+            completely_controls = title:c_zazaradi_harbour
+            completely_controls = title:c_haven
+            completely_controls = title:c_havisti
+            completely_controls = title:c_chajzira
+            completely_controls = title:c_southpoint
+        }
+    }
+
+    is_valid_showing_failures_only = {
+        is_capable_adult = yes
+        is_available = yes
+        is_at_war = no
+        is_imprisoned = no
+    }
+
+    cost = {
+        prestige = 500 
+        gold = 300 
+    }
+
+    effect = {
+        #Get Khenarthia title
+        get_title = title:k_khenarthi_roost
+        add_character_modifier = {
+            modifier = khenarthia_modifier
+            years = 15
+        }
+        title:d_khenarthi_roost = { set_de_jure_liege_title = title:k_khenarthi_roost }
+        title:c_tideholm = { set_de_jure_liege_title = title:d_khenarthi_roost }
+        add_to_global_variable_list = {
+            name = unavailable_unique_decisions
+            target = flag:khenarthia_restored
+        }
+    }
+
+    ai_potential = { always = yes }
+
+    ai_will_do = { base = 100 }
+}
+
+#Mane led everyone in Elsweyr before Riddle'thar, bring this back as Many Paths
+destroy_mane_many_paths_decision = {
+    picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+
+	desc = destroy_mane_many_paths_decision_desc
+	selection_tooltip = destroy_mane_many_paths_decision_tooltip
+	decision_group_type = major
+
+    ai_check_interval = 120
+    
+    is_shown = {
+		is_ruler = yes
+		is_landed = yes
+        is_independent_ruler = yes
+		highest_held_title_tier >= tier_kingdom #Kings/emperors only
+        faith = faith:manypathsdance #Only Many Paths care about destroying Mane so much
+        faith:twomoonsdance = { has_doctrine = doctrine_mystical_birthright_head} #Two Moons Dance has Mane as hof
+	}
+    is_valid = {
+        trigger_if = {
+			limit = {
+				exists = title:d_mane.holder
+			}
+			title:d_mane.holder = { is_landed = no } #Must be landless
+			title:d_mane.holder = { is_at_war = no } #Can't be at war
+		}
+        completely_controls_region = mundus_tamriel_elsweyr #Need to fully control Elsweyr
+        piety_level >= high_piety_level
+    }
+    is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+	}
+    effect = {
+        custom_tooltip = {
+            text = destroy_mane_decision_effect_tooltip_1
+			destroy_mane_scripted_effect = yes
+            faith:twomoonsdance = { save_scope_as = twomoonsdance } # for loc purposes
+            faith:manypathsdance = { save_scope_as = manypathsdance } # for loc purposes
+		}
+        custom_tooltip = destroy_mane_decision_effect_tooltip_2
+		custom_tooltip = {
+            text = restore_mane_decision_effect_tooltip
+            restore_mane_scripted_effect = yes
+            root.faith = { save_scope_as = new_mane_faith } # for loc purposes
+        }
+        hidden_effect = {
+            if = { # Vassalize if possible/needed.
+                limit = {
+                    highest_held_title_tier > scope:new_mane.highest_held_title_tier
+                    NOT = { scope:new_mane = { any_liege_or_above = { this = root } } }
+                }
+                create_title_and_vassal_change = {
+                    type = returned
+                    save_scope_as = change
+                    add_claim_on_loss = no
+                }
+                scope:new_mane = {
+                    change_liege = {
+                        liege = root
+                        change = scope:change
+                    }
+                }
+                resolve_title_and_vassal_change = scope:change
+            }
+        }
+        trigger_event = {
+            id = elsweyr.0015
+            days = 1
+        }
+    }
+    ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = { #Do it always.
+		base = 100
+	}
+}

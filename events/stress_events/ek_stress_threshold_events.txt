@@ -1,0 +1,3074 @@
+﻿
+namespace = ek_stress_threshold
+
+#####VAMPIRES STRESS EVENTS 0001-0100
+
+ek_stress_threshold.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	hidden = yes
+
+	trigger = {
+		is_vampire = yes
+		NOT = { has_character_modifier = ate_good_meal }
+		#Need a victim
+		OR = {
+			any_courtier_or_guest = { 
+				NOT = { has_character_modifier = low_blood_modifier }
+				is_vampire = no
+				age >= 16
+			}
+			any_prisoner = { 
+				NOT = { has_character_modifier = low_blood_modifier }
+				is_vampire = no
+				age >= 16
+			}
+			any_county = { 
+				holder = root
+				NOT = { has_county_modifier = vampire_scare_modifier }
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+
+		modifier = { # Much more likely to occur if you're a vampire.
+			is_vampire = yes
+			add = 50
+		}
+		modifier = { # Somewhat likely to happen if you're malnourished.
+			has_character_modifier = malnourished_modifier
+			add = 10
+		}
+		modifier = { # Somewhat likely to happen if you're gluttonous.
+			has_trait = gluttonous
+			add = 10
+		}
+	}
+	
+	immediate = {
+		
+		root = { save_scope_as = vampire_attacker }
+		
+		random_list = {
+			#Random courtier
+			40 = {
+				trigger = {
+					any_courtier_or_guest = { 
+						NOT = { has_character_modifier = low_blood_modifier }
+						is_vampire = no
+						age >= 16
+					}
+				}
+			
+				random_courtier_or_guest = {
+					limit = {
+						NOT = { has_character_modifier = low_blood_modifier }
+						is_vampire = no
+						age >= 16
+					}
+					save_scope_as = vampire_target
+				}
+				
+				#Prey on a courtier or prisoner
+				trigger_event = { id = ek_stress_threshold.0010 }
+					
+			}
+			#Random prisoner
+			30 = {
+				trigger = {
+					any_prisoner = { 
+						NOT = { has_character_modifier = low_blood_modifier }
+						is_vampire = no
+						age >= 16
+					}
+				}
+				
+				random_prisoner = {
+					limit = {
+						NOT = { has_character_modifier = low_blood_modifier }
+						is_vampire = no
+						age >= 16
+					}
+					save_scope_as = vampire_target
+				}
+				
+				#Prey on a courtier or prisoner
+				trigger_event = { id = ek_stress_threshold.0010 }
+			}
+			#Random peasant
+			30 = {
+				trigger = {
+					any_county = { 
+						holder = scope:vampire_attacker
+						NOT = { has_county_modifier = vampire_scare_modifier }
+					}
+				}
+				
+				random_county = {
+					limit = { 
+						holder = scope:vampire_attacker
+						NOT = { has_county_modifier = vampire_scare_modifier } 
+					}
+					save_scope_as = vampire_target_county
+				}
+				
+				#Prey on a peasant
+				trigger_event = { id = ek_stress_threshold.0020 }
+			}
+		}
+	}
+}
+
+#PREY ON COURTIER OR PRISONER
+ek_stress_threshold.0010 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_threshold.0010.t
+	desc = ek_stress_threshold.0010.desc
+	
+	theme = mental_break
+	override_background = {
+		reference = corridor_night
+	}
+	
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+	right_portrait = {
+		character = scope:vampire_target
+		animation = shame
+	}
+
+	widget = {
+		gui = "event_window_widget_stress"
+		container = "custom_widgets_container"
+	}
+	
+	immediate = {
+		root = { save_scope_as = stress_character } # For stress widget
+	}
+
+	# Option A: Go for the neck!
+	option = {
+		name = ek_stress_threshold.0010.bite
+		add_stress = major_stress_impact_loss
+		
+		scope:vampire_attacker = {
+			add_character_modifier = {
+				modifier = ate_good_meal
+				months = 6
+			}
+			if = {
+				limit = { has_character_modifier = malnourished_modifier }
+				remove_character_modifier = malnourished_modifier
+			}
+		}
+		
+		random_list = {
+			#Just feed
+			80 = {
+				#Do you awaken them?
+				random_list = {
+					#No
+					80 = { 					
+						scope:vampire_target = {
+							trigger_event = { id = ek_stress_threshold.0014 days = 1 }
+						}
+					}
+					#Yes
+					20 = { 
+						scope:vampire_target = {
+							trigger_event = { id = ek_stress_threshold.0015 }
+						}
+					}
+				}
+			}
+			#Kill them
+			20 = { 
+				trigger_event = { id = ek_stress_threshold.0018 } 
+			}
+		}
+	}
+
+	# Option G: Resist, do not gain any coping traits, but major stress gain!
+	option = {
+		name = ek_stress_threshold.0010.resist
+		
+		#No stress gain if you come from the stress coping decision not the mental break event
+		if = {
+			limit = { NOT = { has_character_flag = vampire_cope } }
+			add_stress = mental_break_opt_out_stress_gain
+		}
+		
+		ai_chance = {
+			base = 1
+			modifier = {
+				add = 15
+				has_trait = compassionate
+			}
+		}
+	}
+
+	after = {
+		stress_threshold_event_aftereffects = yes # Perform stress threshold event clean-up and preparation for future stress threshold events.
+		if = {
+			limit = { has_character_flag = vampire_cope }
+			remove_character_flag = vampire_cope
+		}
+	}
+}
+
+#PRISONER OR COURTIER BITEN
+ek_stress_threshold.0014 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_threshold.0014.t
+	desc = ek_stress_threshold.0014.desc
+	
+	theme = mental_break
+	
+	right_portrait = {
+		character = root
+		animation = fear
+	}
+
+	#You got biten
+	option = {
+		name = ek_stress_threshold.0014.biten
+		add_stress = minor_stress_gain
+	}
+	
+	after = {
+		add_character_modifier = {
+			modifier = low_blood_modifier
+			months =  6
+		}
+		
+		#Did you get infected?
+		random_list = {
+			80 = {}
+			20 = { 
+				contract_sanguinare_vampiris = yes
+			}
+		}
+	}
+}
+
+#PRISONER OR COURTIER WAKE UP (They notice you)
+ek_stress_threshold.0015 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_threshold.0015.t
+	desc = ek_stress_threshold.0015.desc
+	
+	theme = mental_break
+	override_background = {
+		reference = corridor_night
+	}
+	
+	left_portrait = {
+		character = scope:vampire_attacker
+		animation = anger
+	}
+	right_portrait = {
+		character = scope:vampire_target
+		animation = fear
+	}
+
+	#Sleep paralysis
+	option = {
+		name = ek_stress_threshold.0015.secret
+		
+		#Should you get to know their secret?
+		if = {
+			limit = {
+				#Do you already know it?
+				NOT = {
+					any_known_secret = {
+						secret_owner = scope:vampire_attacker
+						secret_type = secret_vampire
+					}	
+				}
+				scope:vampire_attacker = {
+					any_secret = {
+						secret_type = secret_vampire
+					}
+				}
+			}
+			#Reveal secret
+			scope:vampire_attacker = {
+				random_secret = {
+					limit = { secret_type = secret_vampire }
+					reveal_to = scope:vampire_target
+				}
+			}
+		}
+	}
+	
+	after = {
+		trigger_event = { id = ek_stress_threshold.0014 days = 1 }
+	}
+}
+
+### EK TODO: figure out what was this supposed to be. Maybe a leftover of the previous non-disease vampirism mechanic? Disabled for now because it's orphaned.
+##PRISONER OR COURTIER INFECTED
+#ek_stress_threshold.0016 = {
+#	type = character_event
+#	title = ek_stress_threshold.0016.t
+#	desc = ek_stress_threshold.0016.desc
+#	
+#	theme = mental_break
+#	
+#	right_portrait = {
+#		character = root
+#		animation = fear
+#	}
+#
+#	trigger = {
+#		has_trait = sanguinare_vampiris
+#	}
+#
+#	#You got infected
+#	option = {
+#		name = ek_stress_threshold.0016.infected
+#		add_stress = minor_stress_gain
+#
+#		contract_sanguinare_vampiris = yes
+#	}
+#}
+
+#PRISONER OR COURTIER KILLED (Their perspective)
+ek_stress_threshold.0017 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_threshold.0017.t
+	desc = ek_stress_threshold.0017.desc
+	
+	theme = mental_break
+	override_background = {
+		reference = corridor_night
+	}
+	
+	right_portrait = {
+		character = root
+		animation = fear
+	}
+
+	#You got killed
+	option = {
+		name = ek_stress_threshold.0017.killed
+	}
+}
+
+#PRISONER OR COURTIER KILLED (Vampire perspective)
+ek_stress_threshold.0018 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_threshold.0018.t
+	desc = ek_stress_threshold.0018.desc
+	
+	theme = mental_break
+	override_background = {
+		reference = corridor_night
+	}
+	
+	left_portrait = {
+		character = scope:vampire_attacker
+		animation = anger
+	}
+	right_portrait = {
+		character = scope:vampire_target
+		animation = fear
+	}
+
+	#You killed your victim
+	option = {
+		name = ek_stress_threshold.0018.killer
+		
+		scope:vampire_target = {
+			trigger_event = { id = ek_stress_threshold.0017 }
+			death = {
+				killer = scope:vampire_attacker
+				death_reason = death_vampire
+			}
+		}
+	}
+}
+
+#PREY ON PEASANT
+ek_stress_threshold.0020 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_threshold.0020.t
+	desc = ek_stress_threshold.0020.desc
+	
+	theme = mental_break
+	override_background = {
+		reference = alley_night
+	}
+	
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	widget = {
+		gui = "event_window_widget_stress"
+		container = "custom_widgets_container"
+	}
+	
+	immediate = {
+		root = { save_scope_as = stress_character } # For stress widget
+	}
+
+	# Option A: Go for the neck!
+	option = {
+		name = ek_stress_threshold.0010.bite
+		add_stress = major_stress_impact_loss
+		
+		random_list = {
+			#You feed on a peasant
+			85 = {
+				if = {
+					limit = { has_character_modifier = malnourished_modifier }
+					remove_character_modifier = malnourished_modifier
+				}
+				add_character_modifier = {
+					modifier = ate_good_meal
+					months = 6
+				}
+				scope:vampire_target_county = {
+					add_county_modifier = { modifier = vampire_scare_modifier years = 5 }
+				}
+			}
+			#Killed by vampire hunters
+			15 = { trigger_event = { id = ek_stress_threshold.0021 } }
+		}
+	}
+
+	# Option G: Resist, do not gain any coping traits, but major stress gain!
+	option = {
+		name = ek_stress_threshold.0010.resist
+		#No stress gain if you come from the stress coping decision not the mental break event
+		if = {
+			limit = { NOT = { has_character_flag = vampire_cope } }
+			add_stress = mental_break_opt_out_stress_gain
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = {
+				add = 15
+				has_trait = compassionate
+			}
+		}
+	}
+
+	after = {
+		stress_threshold_event_aftereffects = yes # Perform stress threshold event clean-up and preparation for future stress threshold events.
+		if = {
+			limit = { has_character_flag = vampire_cope }
+			remove_character_flag = vampire_cope
+		}
+	}
+}
+
+#VAMPIRE KILLED BY VAMPIRE HUNTERS
+ek_stress_threshold.0021 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_threshold.0021.t
+	desc = ek_stress_threshold.0021.desc
+	
+	theme = mental_break
+	
+	left_portrait = {
+		character = scope:vampire_attacker
+		animation = anger
+	}
+
+	#You dead
+	option = {
+		name = ek_stress_threshold.0021.killed
+		
+		if = {
+			limit = { any_secret = { secret_type = secret_vampire } }
+			random_secret = {
+				limit = { secret_type = secret_vampire }					
+				expose_secret = scope:vampire_attacker
+			}
+		}
+		death = {
+			death_reason = death_vampire_hunters
+		}
+	}
+}
+
+#####LYCAN STRESS EVENTS 0101-0200
+
+ek_stress_threshold.0101 = {
+	type = character_event
+	content_source = dlc_ek
+	hidden = yes
+
+	trigger = {
+		is_lycan = yes
+		NOT = { has_character_modifier = ate_good_meal }
+		#Need a victim
+		OR = {
+			any_courtier_or_guest = { 
+				is_lycan = no
+				age >= 16
+			}
+			any_prisoner = { 
+				is_lycan = no
+				age >= 16
+			}
+			any_county = { 
+				holder = root
+				NOT = { has_county_modifier = lycan_scare_modifier }
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+
+		modifier = { # Much more likely to occur if you're a lycan.
+			is_lycan = yes
+			add = 50
+		}
+		modifier = { # Somewhat likely to happen if you're malnourished.
+			has_character_modifier = malnourished_modifier
+			add = 10
+		}
+		modifier = { # Somewhat likely to happen if you're gluttonous.
+			has_trait = gluttonous
+			add = 10
+		}
+	}
+	
+	immediate = {
+		
+		root = { save_scope_as = lycan_attacker }
+		
+		random_list = {
+			#Random courtier
+			40 = {
+				trigger = {
+					any_courtier_or_guest = { 
+						is_lycan = no
+						age >= 16
+					}
+				}
+			
+				random_courtier_or_guest = {
+					limit = {
+						is_lycan = no
+						age >= 16
+					}
+					save_scope_as = lycan_target
+				}
+				
+				#Prey on a courtier or prisoner
+				trigger_event = { id = ek_stress_threshold.0110 }
+					
+			}
+			#Random prisoner
+			30 = {
+				trigger = {
+					any_prisoner = { 
+						is_lycan = no
+						age >= 16
+					}
+				}
+				
+				random_prisoner = {
+					limit = {
+						is_lycan = no
+						age >= 16
+					}
+					save_scope_as = lycan_target
+				}
+				
+				#Prey on a courtier or prisoner
+				trigger_event = { id = ek_stress_threshold.0110 }
+			}
+			#Random peasant
+			30 = {
+				trigger = {
+					any_county = { 
+						holder = scope:lycan_attacker
+						NOT = { has_county_modifier = lycan_scare_modifier }
+					}
+				}
+				
+				random_county = {
+					limit = { 
+						holder = scope:lycan_attacker
+						NOT = { has_county_modifier = lycan_scare_modifier } 
+					}
+					save_scope_as = lycan_target_county
+				}
+				
+				#Prey on a peasant
+				trigger_event = { id = ek_stress_threshold.0120 }
+			}
+		}
+	}
+}
+
+#PREY ON COURTIER OR PRISONER
+ek_stress_threshold.0110 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_threshold.0110.t
+	desc = ek_stress_threshold.0110.desc
+	
+	theme = mental_break
+	override_background = {
+		reference = corridor_night
+	}
+	
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+	right_portrait = {
+		character = scope:lycan_target
+		animation = shame
+	}
+
+	widget = {
+		gui = "event_window_widget_stress"
+		container = "custom_widgets_container"
+	}
+	
+	immediate = {
+		root = { save_scope_as = stress_character } # For stress widget
+	}
+
+	# Option A: Go beast mode
+	option = {
+		name = ek_stress_threshold.0110.bite
+		add_stress = major_stress_impact_loss
+		
+		scope:lycan_attacker = {
+			add_character_modifier = {
+				modifier = ate_good_meal
+				months = 6
+			}
+			if = {
+				limit = { has_character_modifier = malnourished_modifier }
+				remove_character_modifier = malnourished_modifier
+			}
+		}
+		
+		random_list = {
+			#Do you awaken them?
+			# Yes
+			80 = {
+				scope:lycan_target = {
+					trigger_event = { id = ek_stress_threshold.0115 }
+				}
+			}
+			# No
+			20 = { 
+				trigger_event = { id = ek_stress_threshold.0118 } 
+			}
+		}
+	}
+
+	# Option G: Resist, do not gain any coping traits, but major stress gain!
+	option = {
+		name = ek_stress_threshold.0110.resist
+		
+		#No stress gain if you come from the stress coping decision not the mental break event
+		if = {
+			limit = { NOT = { has_character_flag = lycan_cope } }
+			add_stress = mental_break_opt_out_stress_gain
+		}
+		
+		ai_chance = {
+			base = 1
+			modifier = {
+				add = 15
+				has_trait = compassionate
+			}
+		}
+	}
+
+	after = {
+		stress_threshold_event_aftereffects = yes # Perform stress threshold event clean-up and preparation for future stress threshold events.
+		if = {
+			limit = { has_character_flag = lycan_cope }
+			remove_character_flag = lycan_cope
+		}
+	}
+}
+
+
+#PRISONER OR COURTIER WAKE UP (They notice you)
+ek_stress_threshold.0115 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_threshold.0115.t
+	desc = ek_stress_threshold.0115.desc
+	
+	theme = mental_break
+	override_background = {
+		reference = corridor_night
+	}
+	
+	left_portrait = {
+		character = scope:lycan_attacker
+		animation = anger
+	}
+	right_portrait = {
+		character = scope:lycan_target
+		animation = fear
+	}
+
+	immediate = {
+		#Should you get to know their secret?
+		if = {
+			limit = {
+				#Do you already know it?
+				NOT = {
+					any_known_secret = {
+						secret_owner = scope:lycan_attacker
+						secret_type = secret_lycan
+					}	
+				}
+				scope:lycan_attacker = {
+					any_secret = {
+						secret_type = secret_lycan
+					}
+				}
+			}
+			#Reveal secret
+			scope:lycan_attacker = {
+				random_secret = {
+					limit = { secret_type = secret_lycan }
+					reveal_to = scope:lycan_target
+				}
+			}
+		}
+	}
+
+	### EK TODO: figure out an option to make the victim duel the lycan
+	#Sleep paralysis
+	option = {
+		name = ek_stress_threshold.0115.secret
+		show_as_tooltip = {
+			death = {
+				killer = scope:lycan_attacker
+				death_reason = death_lycan
+			}
+		}
+	}
+	
+	after = {
+		scope:lycan_attacker = {
+			trigger_event = { id = ek_stress_threshold.0118 }
+		}
+	}
+}
+
+#PRISONER OR COURTIER KILLED (Lycan perspective)
+ek_stress_threshold.0118 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_threshold.0118.t
+	desc = ek_stress_threshold.0118.desc
+	
+	theme = mental_break
+	override_background = {
+		reference = corridor_night
+	}
+	
+	left_portrait = {
+		character = scope:lycan_attacker
+		animation = anger
+	}
+	right_portrait = {
+		character = scope:lycan_target
+		animation = fear
+	}
+
+	#You killed your victim
+	option = {
+		name = ek_stress_threshold.0118.killer
+		
+		scope:lycan_target = {
+			death = {
+				killer = scope:lycan_attacker
+				death_reason = death_lycan
+			}
+		}
+	}
+}
+
+#PREY ON PEASANT
+ek_stress_threshold.0120 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_threshold.0120.t
+	desc = ek_stress_threshold.0120.desc
+	
+	theme = mental_break
+	override_background = {
+		reference = alley_night
+	}
+	
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	widget = {
+		gui = "event_window_widget_stress"
+		container = "custom_widgets_container"
+	}
+	
+	immediate = {
+		root = { save_scope_as = stress_character } # For stress widget
+	}
+
+	# Option A: Go beast mode!
+	option = {
+		name = ek_stress_threshold.0110.bite
+		add_stress = major_stress_impact_loss
+		add_internal_flag = dangerous
+		
+		random_list = {
+			#You feed on a peasant
+			85 = {
+				if = {
+					limit = { has_character_modifier = malnourished_modifier }
+					remove_character_modifier = malnourished_modifier
+				}
+				add_character_modifier = {
+					modifier = ate_good_meal
+					months = 6
+				}
+				scope:lycan_target_county = {
+					add_county_modifier = { modifier = lycan_scare_modifier years = 5 }
+				}
+			}
+			#Killed by lycan hunters
+			15 = { 
+				custom_tooltip = ek_stress_threshold.0110.bite_tt
+				trigger_event = { id = ek_stress_threshold.0121 } 
+			}
+		}
+	}
+
+	# Option G: Resist, do not gain any coping traits, but major stress gain!
+	option = {
+		name = ek_stress_threshold.0110.resist
+		#No stress gain if you come from the stress coping decision not the mental break event
+		if = {
+			limit = { NOT = { has_character_flag = lycan_cope } }
+			add_stress = mental_break_opt_out_stress_gain
+		}
+
+		ai_chance = {
+			base = 1
+			modifier = {
+				add = 15
+				has_trait = compassionate
+			}
+		}
+	}
+
+	after = {
+		stress_threshold_event_aftereffects = yes # Perform stress threshold event clean-up and preparation for future stress threshold events.
+		if = {
+			limit = { has_character_flag = lycan_cope }
+			remove_character_flag = lycan_cope
+		}
+	}
+}
+
+#LYCAN KILLED BY LYCAN HUNTERS
+ek_stress_threshold.0121 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_stress_threshold.0121.t
+	desc = ek_stress_threshold.0121.desc
+	
+	theme = mental_break
+	
+	left_portrait = {
+		character = scope:lycan_attacker
+		animation = anger
+	}
+
+	#You dead
+	option = {
+		name = ek_stress_threshold.0121.killed
+		
+		if = {
+			limit = { any_secret = { secret_type = secret_lycan } }
+			random_secret = {
+				limit = { secret_type = secret_lycan }					
+				expose_secret = scope:lycan_attacker
+			}
+		}
+		death = {
+			death_reason = death_lycan_hunters
+		}
+	}
+}
+
+#####various STRESS EVENTS 0201-0300
+##################################################
+# Daedric Whispers
+# #0201
+##################################################
+
+# You feel the whispers of the Daedric Princes, preying on your sins and weaknesses...
+# Pick 3 Princes based on your traits
+# Equivalent to tier 2 stress events
+ek_stress_threshold.0201 = {
+	type = character_event
+	title = ek_stress_threshold.0201.t
+	desc = ek_stress_threshold.0201.desc
+	theme = mental_break
+	
+	override_background = {
+		reference = throne_room
+	}
+	left_portrait = {
+		character = root
+		animation = anger
+	}
+
+	trigger = {
+		#Landless characters & barons don't need fancy events.
+		is_landed = yes
+		primary_title.tier >= tier_county
+
+		# Can't already have a secret faith
+		NOT = {
+			any_secret = { secret_type = secret_crypto_religionist }
+		}
+		
+		# You need at least one relevant trait and the ability to worship one Prince in secret
+		OR = {
+			# Personality traits
+			AND = {
+				has_trait = ambitious
+				OR = {
+					can_secretly_worship_boethiah = yes
+					can_secretly_worship_mehrunes = yes
+				}
+			}
+			AND = {
+				has_trait = arrogant
+				OR = {
+					can_secretly_worship_azura = yes
+				}
+			}
+			AND = {
+				has_trait = brave
+				OR = {
+					can_secretly_worship_hircine = yes
+					can_secretly_worship_malacath = yes
+				}
+			}
+			AND = {
+				has_trait = callous
+				OR = {
+					can_secretly_worship_boethiah = yes
+					can_secretly_worship_meridia = yes
+				}
+			}
+			AND = {
+				has_trait = compassionate
+				OR = {
+					can_secretly_worship_azura = yes
+				}
+			}
+			AND = {
+				has_trait = content
+				OR = {
+					can_secretly_worship_nocturnal = yes
+				}
+			}
+			AND = {
+				has_trait = craven
+				OR = {
+					can_secretly_worship_vaermina = yes
+				}
+			}
+			AND = {
+				has_trait = deceitful	
+				OR = {
+					can_secretly_worship_boethiah = yes
+					can_secretly_worship_mephala = yes
+				}
+			}
+			AND = {
+				has_trait = fickle	
+				OR = {
+					can_secretly_worship_sheogorath = yes
+				}
+			}
+			AND = {
+				has_trait = greedy	
+				OR = {
+					can_secretly_worship_clavicus = yes
+					can_secretly_worship_meridia = yes
+				}
+			}
+			AND = {
+				has_trait = honest	
+				OR = {
+					can_secretly_worship_vaermina = yes
+				}
+			}
+			AND = {
+				has_trait = humble	
+				OR = {
+					can_secretly_worship_peryite = yes
+				}
+			}
+			AND = {
+				has_trait = impatient	
+				OR = {
+					can_secretly_worship_mehrunes = yes
+				}
+			}
+			AND = {
+				has_trait = just	
+				OR = {
+					can_secretly_worship_meridia = yes
+				}
+			}
+			AND = {
+				has_trait = lazy	
+				OR = {
+					can_secretly_worship_clavicus = yes
+				}
+			}
+			AND = {
+				has_trait = lustful
+				OR = {
+					can_secretly_worship_mephala = yes
+					can_secretly_worship_sanguine = yes
+				}
+			}
+			AND = {
+				has_trait = paranoid
+				OR = {
+					can_secretly_worship_boethiah = yes
+				}
+			}
+			AND = {
+				has_trait = sadistic
+				OR = {
+					can_secretly_worship_hircine = yes
+					can_secretly_worship_molag = yes
+				}
+			}
+			AND = {
+				has_trait = shy
+				OR = {
+					can_secretly_worship_namira = yes
+				}
+			}
+			AND = {
+				has_trait = stubborn
+				OR = {
+					can_secretly_worship_malacath = yes
+				}
+			}
+			AND = {
+				has_trait = trusting
+				OR = {
+					can_secretly_worship_clavicus = yes
+				}
+			}
+			AND = {
+				has_trait = vengeful
+				OR = {
+					can_secretly_worship_azura = yes
+					can_secretly_worship_malacath = yes
+				}
+			}
+			AND = {
+				has_trait = wrathful
+				OR = {
+					can_secretly_worship_mehrunes = yes
+					can_secretly_worship_molag = yes
+				}
+			}
+			AND = {
+				has_trait = zealous
+				OR = {
+					can_secretly_worship_meridia = yes
+				}
+			}
+			
+			# Perks
+			AND = {
+				has_trait = administrator
+				OR = {
+					can_secretly_worship_peryite = yes
+				}
+			}
+			AND = {
+				has_trait = overseer
+				OR = {
+					can_secretly_worship_peryite = yes
+				}
+			}
+			AND = {
+				has_trait = schemer
+				OR = {
+					can_secretly_worship_boethiah = yes
+					can_secretly_worship_mephala = yes
+				}
+			}
+			AND = {
+				has_trait = scholar
+				OR = {
+					can_secretly_worship_hermaeus = yes
+				}
+			}
+			AND = {
+				has_trait = seducer
+				OR = {
+					can_secretly_worship_mephala = yes
+					can_secretly_worship_sanguine = yes
+				}
+			}
+			AND = {
+				has_trait = torturer
+				OR = {
+					can_secretly_worship_molag = yes
+				}
+			}
+			
+			# Lifestyles
+			AND = {
+				has_trait = lifestyle_herbalist
+				OR = {
+					can_secretly_worship_vaermina = yes
+				}
+			}
+			AND = {
+				has_trait = lifestyle_hunter
+				OR = {
+					can_secretly_worship_hircine = yes
+				}
+			}
+			AND = {
+				has_trait = lifestyle_mystic
+				OR = {
+					can_secretly_worship_hermaeus = yes
+					can_secretly_worship_mehrunes = yes
+				}
+			}
+			AND = {
+				has_trait = lifestyle_reveler
+				OR = {
+					can_secretly_worship_sanguine = yes
+				}
+			}
+			
+			# Genetic
+			AND = {
+				has_trait = beauty_good
+				OR = {
+					can_secretly_worship_azura = yes
+				}
+			}
+			AND = {
+				has_trait = beauty_bad
+				OR = {
+					can_secretly_worship_malacath = yes
+					can_secretly_worship_namira = yes
+				}
+			}
+			AND = {
+				has_trait = physique_good
+				OR = {
+					can_secretly_worship_malacath = yes
+				}
+			}
+			
+			# Coping mechanisms
+			AND = {
+				has_trait = comfort_eater
+				OR = {
+					can_secretly_worship_sanguine = yes
+				}
+			}
+			AND = {
+				has_trait = contrite
+				OR = {
+					can_secretly_worship_meridia = yes
+				}
+			}
+			AND = {
+				has_trait = drunkard
+				OR = {
+					can_secretly_worship_sanguine = yes
+				}
+			}
+			AND = {
+				has_trait = flagellant
+				OR = {
+					can_secretly_worship_molag = yes
+				}
+			}
+			AND = {
+				has_trait = inappetetic
+				OR = {
+					can_secretly_worship_namira = yes
+				}
+			}
+			AND = {
+				has_trait = irritable
+				OR = {
+					can_secretly_worship_molag = yes
+					can_secretly_worship_sheogorath = yes
+				}
+			}
+			AND = {
+				has_trait = journaller
+				OR = {
+					can_secretly_worship_hermaeus = yes
+				}
+			}
+			AND = {
+				has_trait = experimentalist
+				OR = {
+					can_secretly_worship_hermaeus = yes
+				}
+			}
+			AND = {
+				has_trait = profligate
+				OR = {
+					can_secretly_worship_clavicus = yes
+				}
+			}
+			AND = {
+				has_trait = rakish
+				OR = {
+					can_secretly_worship_sanguine = yes
+				}
+			}
+			AND = {
+				has_trait = reclusive
+				OR = {
+					can_secretly_worship_sheogorath = yes
+				}
+			}
+			
+			# Crimes
+			AND = {
+				has_trait = adulterer
+				OR = {
+					can_secretly_worship_sanguine = yes
+				}
+			}
+			AND = {
+				has_trait = cannibal
+				NOT = { faith = { has_doctrine = tenet_green_pact }}
+				OR = {
+					can_secretly_worship_namira = yes
+				}
+			}
+			AND = {
+				has_trait = denounced
+				OR = {
+					can_secretly_worship_malacath = yes
+				}
+			}
+			AND = {
+				has_trait = disinherited
+				OR = {
+					can_secretly_worship_malacath = yes
+				}
+			}
+			AND = {
+				has_trait = fornicator
+				OR = {
+					can_secretly_worship_sanguine = yes
+				}
+			}
+			AND = {
+				is_lycan = yes
+				OR = {
+					can_secretly_worship_hircine = yes
+				}
+			}
+			AND = {
+				has_trait = murderer
+				OR = {
+					can_secretly_worship_mehrunes = yes
+					can_secretly_worship_mephala = yes
+				}
+			}
+			AND = {
+				is_vampire = yes
+				OR = {
+					can_secretly_worship_molag = yes
+				}
+			}
+			AND = {
+				has_trait = witch
+				OR = {
+					can_secretly_worship_hircine = yes
+				}
+			}
+			
+			
+			# Health
+			AND = {
+				has_trait = blind
+				OR = {
+					can_secretly_worship_nocturnal = yes
+				}
+			}
+			AND = {
+				has_trait = depressed
+				OR = {
+					can_secretly_worship_azura = yes
+					can_secretly_worship_nocturnal = yes
+				}
+			}
+			AND = {
+				has_trait = disfigured
+				OR = {
+					can_secretly_worship_malacath = yes
+				}
+			}
+			AND = {
+				has_trait = lunatic
+				OR = {
+					can_secretly_worship_hermaeus = yes
+					can_secretly_worship_sheogorath = yes
+				}
+			}
+			
+			# Other
+			AND = {
+				has_trait = poet
+				OR = {
+					can_secretly_worship_sheogorath = yes
+				}
+			}
+
+			has_character_modifier = azuras_attention
+			has_character_modifier = boethiahs_attention
+			has_character_modifier = clavicus_attention
+			has_character_modifier = hermaeus_attention
+			has_character_modifier = hircines_attention
+			has_character_modifier = malacaths_attention
+			has_character_modifier = mehrunes_attention
+			has_character_modifier = mephalas_attention
+			has_character_modifier = meridias_attention
+			has_character_modifier = molags_attention
+			has_character_modifier = namiras_attention
+			has_character_modifier = nocturnals_attention
+			has_character_modifier = peryites_attention
+			has_character_modifier = sanguines_attention
+			has_character_modifier = sheogoraths_attention
+			has_character_modifier = vaerminas_attention
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		# less likely for AI kingdoms - they don't handle this well
+		modifier = {
+			factor = 0.5
+			highest_held_title_tier = tier_kingdom
+			is_ai = yes
+			is_independent_ruler = yes
+		}
+		# slightly less unlikely for AI kingdoms vassals though for a little more chaos
+		modifier = {
+			factor = 0.7
+			highest_held_title_tier = tier_kingdom
+			is_ai = yes
+			is_independent_ruler = no
+		}
+		# even less likely for AI empires - they handle this even worse
+		modifier = {
+			factor = 0.2
+			highest_held_title_tier = tier_empire
+			is_ai = yes
+		}
+	}
+	
+	widget = {
+		gui = "event_window_widget_stress"
+		container = "custom_widgets_container"
+	}
+
+	immediate = {
+		root = { save_scope_as = stress_character } #For stress widget.
+
+		set_while_counter_variable_effect = yes
+		#Event option set-up to determine which event options we want to offer to the player.
+		while = {
+			limit = { var:while_counter < 3 }
+			random_list = {
+				# Personality traits
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = ambitious DAEDRA = boethiah }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = ambitious DAEDRA = boethiah }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = ambitious DAEDRA = mehrunes }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = ambitious DAEDRA = mehrunes }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = arrogant DAEDRA = azura }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = arrogant DAEDRA = azura }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = brave DAEDRA = hircine }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = brave DAEDRA = hircine }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = brave DAEDRA = malacath }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = brave DAEDRA = malacath }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = callous DAEDRA = boethiah }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = callous DAEDRA = boethiah }
+				}
+				20 = {
+					trigger = {
+						is_hated_meridia = no
+						can_get_combo_trait_daedra = { TRAIT = callous DAEDRA = meridia }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = callous DAEDRA = meridia }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = compassionate DAEDRA = azura }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = compassionate DAEDRA = azura }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = content DAEDRA = nocturnal }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = content DAEDRA = nocturnal }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = craven DAEDRA = vaermina }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = craven DAEDRA = vaermina }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = deceitful DAEDRA = boethiah }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = deceitful DAEDRA = boethiah }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = deceitful DAEDRA = mephala }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = deceitful DAEDRA = mephala }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = fickle DAEDRA = sheogorath }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = fickle DAEDRA = sheogorath }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = greedy DAEDRA = clavicus }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = greedy DAEDRA = clavicus }
+				}
+				20 = {
+					trigger = {
+						is_hated_meridia = no
+						can_get_combo_trait_daedra = { TRAIT = greedy DAEDRA = meridia }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = greedy DAEDRA = meridia }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = honest DAEDRA = vaermina }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = honest DAEDRA = vaermina }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = humble DAEDRA = peryite }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = humble DAEDRA = peryite }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = impatient DAEDRA = mehrunes }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = impatient DAEDRA = mehrunes }
+				}
+				20 = {
+					trigger = {
+						is_hated_meridia = no
+						can_get_combo_trait_daedra = { TRAIT = just DAEDRA = meridia }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = just DAEDRA = meridia }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = lazy DAEDRA = clavicus }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = lazy DAEDRA = clavicus }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = lustful DAEDRA = mephala }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = lustful DAEDRA = mephala }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = lustful DAEDRA = sanguine }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = lustful DAEDRA = sanguine }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = paranoid DAEDRA = boethiah }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = paranoid DAEDRA = boethiah }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = sadistic DAEDRA = hircine }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = sadistic DAEDRA = hircine }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = sadistic DAEDRA = molag }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = sadistic DAEDRA = molag }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = shy DAEDRA = namira }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = shy DAEDRA = namira }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = stubborn DAEDRA = malacath }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = stubborn DAEDRA = malacath }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = trusting DAEDRA = clavicus }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = trusting DAEDRA = clavicus }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = vengeful DAEDRA = azura }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = vengeful DAEDRA = azura }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = vengeful DAEDRA = malacath }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = vengeful DAEDRA = malacath }
+				}
+				20 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = wrathful DAEDRA = mehrunes }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = wrathful DAEDRA = mehrunes }
+				}
+				20 = {
+					trigger = {
+						is_hated_meridia = no
+						can_get_combo_trait_daedra = { TRAIT = zealous DAEDRA = meridia }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = zealous DAEDRA = meridia }
+				}
+				
+				# Perks
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = administrator DAEDRA = peryite }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = administrator DAEDRA = peryite }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = overseer DAEDRA = peryite }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = overseer DAEDRA = peryite }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = schemer DAEDRA = boethiah }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = schemer DAEDRA = boethiah }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = schemer DAEDRA = mephala }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = schemer DAEDRA = mephala }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = scholar DAEDRA = hermaeus }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = scholar DAEDRA = hermaeus }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = seducer DAEDRA = mephala }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = seducer DAEDRA = mephala }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = seducer DAEDRA = sanguine }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = seducer DAEDRA = sanguine }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = torturer DAEDRA = molag }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = torturer DAEDRA = molag }
+				}
+				
+				# Lifestyles
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = lifestyle_herbalist DAEDRA = vaermina }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = lifestyle_herbalist DAEDRA = vaermina }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = lifestyle_hunter DAEDRA = hircine }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = lifestyle_hunter DAEDRA = hircine }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = lifestyle_mystic DAEDRA = hermaeus }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = lifestyle_mystic DAEDRA = hermaeus }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = lifestyle_mystic DAEDRA = mehrunes }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = lifestyle_mystic DAEDRA = mehrunes }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = lifestyle_reveler DAEDRA = sanguine }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = lifestyle_reveler DAEDRA = sanguine }
+				}
+				
+				# Genetic
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = beauty_good DAEDRA = azura }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = beauty_good DAEDRA = azura }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = beauty_bad DAEDRA = malacath }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = beauty_bad DAEDRA = malacath }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = beauty_bad DAEDRA = namira }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = beauty_bad DAEDRA = namira }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = physique_good DAEDRA = malacath }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = physique_good DAEDRA = malacath }
+				}
+				
+				# Coping mechanisms
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = comfort_eater DAEDRA = sanguine }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = comfort_eater DAEDRA = sanguine }
+				}
+				40 = {
+					trigger = {
+						is_hated_meridia = no
+						can_get_combo_trait_daedra = { TRAIT = contrite DAEDRA = meridia }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = contrite DAEDRA = meridia }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = drunkard DAEDRA = sanguine }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = drunkard DAEDRA = sanguine }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = flagellant DAEDRA = molag }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = flagellant DAEDRA = molag }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = inappetetic DAEDRA = namira }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = inappetetic DAEDRA = namira }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = irritable DAEDRA = molag }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = irritable DAEDRA = molag }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = irritable DAEDRA = sheogorath }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = irritable DAEDRA = sheogorath }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = journaller DAEDRA = hermaeus }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = journaller DAEDRA = hermaeus }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = experimentalist DAEDRA = hermaeus }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = experimentalist DAEDRA = hermaeus }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = profligate DAEDRA = clavicus }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = profligate DAEDRA = clavicus }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = rakish DAEDRA = sanguine }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = rakish DAEDRA = sanguine }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = reclusive DAEDRA = sheogorath }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = reclusive DAEDRA = sheogorath }
+				}
+				
+				# Crimes
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = adulterer DAEDRA = sanguine }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = adulterer DAEDRA = sanguine }
+				}
+				40 = {
+					trigger = {
+						NOT = { faith = { has_doctrine = tenet_green_pact }}
+						can_get_combo_trait_daedra = { TRAIT = cannibal DAEDRA = namira }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = cannibal DAEDRA = namira }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = denounced DAEDRA = malacath }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = denounced DAEDRA = malacath }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = disinherited DAEDRA = malacath }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = disinherited DAEDRA = malacath }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = fornicator DAEDRA = sanguine }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = fornicator DAEDRA = sanguine }
+				}
+				40 = {
+					trigger = {
+						is_lycan = yes
+						can_secretly_worship_hircine = yes
+						NOT = { has_character_flag = stress_lycan_hircine }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = lycan DAEDRA = hircine }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = murderer DAEDRA = mehrunes }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = murderer DAEDRA = mehrunes }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = murderer DAEDRA = mephala }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = murderer DAEDRA = mephala }
+				}
+				40 = {
+					trigger = {
+						is_vampire = yes
+						can_secretly_worship_molag = yes
+						NOT = { has_character_flag = stress_vampire_molag }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = vampire DAEDRA = molag }
+				}
+				
+				# Health
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = blind DAEDRA = nocturnal }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = blind DAEDRA = nocturnal }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = depressed DAEDRA = azura }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = depressed DAEDRA = azura }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = depressed DAEDRA = nocturnal }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = depressed DAEDRA = nocturnal }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = disfigured DAEDRA = malacath }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = disfigured DAEDRA = malacath }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = lunatic DAEDRA = hermaeus }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = lunatic DAEDRA = hermaeus }
+				}
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = lunatic DAEDRA = sheogorath }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = lunatic DAEDRA = sheogorath }
+				}
+				
+				# Other
+				40 = {
+					trigger = {
+						can_get_combo_trait_daedra = { TRAIT = poet DAEDRA = sheogorath }
+					}
+					set_combo_trait_daedra_flag = { TRAIT = poet DAEDRA = sheogorath }
+				}
+			}
+			increase_while_counter_variable_effect = yes
+		}
+		remove_while_counter_variable_effect = yes
+		
+		stress_threshold_event_post_immediate = yes
+	}
+	
+	# Personality traits
+	option = {
+		trigger = { has_character_flag = stress_ambitious_boethiah }
+		name = ek_stress_threshold.0201.stress_ambitious_boethiah
+		
+		trait = ambitious
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:boethiah_cult }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_ambitious_mehrunes }
+		name = ek_stress_threshold.0201.stress_ambitious_mehrunes
+		
+		trait = ambitious
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:mehrunes_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_arrogant_azura }
+		name = ek_stress_threshold.0201.stress_arrogant_azura
+		
+		trait = arrogant
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:azura }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_brave_hircine }
+		name = ek_stress_threshold.0201.stress_brave_hircine
+		
+		trait = brave
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:hircine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_brave_malacath }
+		name = ek_stress_threshold.0201.stress_brave_malacath
+		
+		trait = brave
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:malacath }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_callous_boethiah }
+		name = ek_stress_threshold.0201.stress_callous_boethiah
+		
+		trait = callous
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:boethiah_cult }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_callous_meridia }
+		name = ek_stress_threshold.0201.stress_callous_meridia
+		
+		trait = callous
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:meridia_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_compassionate_azura }
+		name = ek_stress_threshold.0201.stress_compassionate_azura
+		
+		trait = compassionate
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:azura }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_content_nocturnal }
+		name = ek_stress_threshold.0201.stress_content_nocturnal
+		
+		trait = content
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:nocturnal_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_craven_vaermina }
+		name = ek_stress_threshold.0201.stress_craven_vaermina
+		
+		trait = craven
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:vaermina_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_deceitful_mephala }
+		name = ek_stress_threshold.0201.stress_deceitful_mephala
+		
+		trait = deceitful
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:boethiah_cult }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_fickle_sheogorath }
+		name = ek_stress_threshold.0201.stress_fickle_sheogorath
+		
+		trait = fickle
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:sheogorath_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_greedy_clavicus }
+		name = ek_stress_threshold.0201.stress_greedy_clavicus
+		
+		trait = greedy
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:clavicus_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_greedy_meridia }
+		name = ek_stress_threshold.0201.stress_greedy_meridia
+		
+		trait = greedy
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:meridia_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_honest_vaermina }
+		name = ek_stress_threshold.0201.stress_honest_vaermina
+		
+		trait = honest
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:vaermina_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_humble_peryite }
+		name = ek_stress_threshold.0201.stress_humble_peryite
+		
+		trait = humble
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:peryite_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_impatient_mehrunes }
+		name = ek_stress_threshold.0201.stress_impatient_mehrunes
+		
+		trait = impatient
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:mehrunes_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_just_meridia }
+		name = ek_stress_threshold.0201.stress_just_meridia
+		
+		trait = just
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:meridia_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_lazy_clavicus }
+		name = ek_stress_threshold.0201.stress_lazy_clavicus
+		
+		trait = lazy
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:clavicus_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_lustful_mephala }
+		name = ek_stress_threshold.0201.stress_lustful_mephala
+		
+		trait = deceitful
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:mephala_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_lustful_sanguine }
+		name = ek_stress_threshold.0201.stress_lustful_sanguine
+		
+		trait = lustful
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:sanguine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_paranoid_boethiah }
+		name = ek_stress_threshold.0201.stress_paranoid_boethiah
+		
+		trait = paranoid
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:boethiah_cult }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_sadistic_hircine }
+		name = ek_stress_threshold.0201.stress_sadistic_hircine
+		
+		trait = sadistic
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:hircine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_sadistic_molag }
+		name = ek_stress_threshold.0201.stress_sadistic_molag
+		
+		trait = sadistic
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:molag_cult }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_shy_namira }
+		name = ek_stress_threshold.0201.stress_shy_namira
+		
+		trait = shy
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:namira }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_stubborn_malacath }
+		name = ek_stress_threshold.0201.stress_stubborn_malacath
+		
+		trait = stubborn
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:malacath }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_trusting_clavicus }
+		name = ek_stress_threshold.0201.stress_trusting_clavicus
+		
+		trait = trusting
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:clavicus_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_vengeful_azura }
+		name = ek_stress_threshold.0201.stress_vengeful_azura
+		
+		trait = vengeful
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:azura }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_vengeful_malacath }
+		name = ek_stress_threshold.0201.stress_vengeful_malacath
+		
+		trait = vengeful
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:malacath }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_wrathful_mehrunes }
+		name = ek_stress_threshold.0201.stress_wrathful_mehrunes
+		
+		trait = wrathful
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:mehrunes_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_zealous_meridia }
+		name = ek_stress_threshold.0201.stress_zealous_meridia
+		
+		trait = zealous
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:meridia_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	
+	# Perks
+	option = {
+		trigger = { has_character_flag = stress_administrator_peryite }
+		name = ek_stress_threshold.0201.stress_administrator_peryite
+		
+		trait = administrator
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:peryite_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_overseer_peryite }
+		name = ek_stress_threshold.0201.stress_overseer_peryite
+		
+		trait = overseer
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:peryite_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_schemer_boethiah }
+		name = ek_stress_threshold.0201.stress_schemer_boethiah
+		
+		trait = schemer
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:boethiah_cult }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_schemer_mephala }
+		name = ek_stress_threshold.0201.stress_schemer_mephala
+		
+		trait = schemer
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:mephala_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_scholar_hermaeus }
+		name = ek_stress_threshold.0201.stress_scholar_hermaeus
+		
+		trait = scholar
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:hermaeus }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_seducer_mephala }
+		name = ek_stress_threshold.0201.stress_seducer_mephala
+		
+		trait = seducer
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:mephala_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_seducer_sanguine }
+		name = ek_stress_threshold.0201.stress_seducer_sanguine
+		
+		trait = seducer
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:sanguine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_torturer_molag }
+		name = ek_stress_threshold.0201.stress_torturer_molag
+		
+		trait = torturer
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:molag_cult }
+		add_stress = medium_stress_impact_loss
+	}
+	
+	# Lifestyles
+	option = {
+		trigger = { has_character_flag = stress_herbalist_vaermina }
+		name = ek_stress_threshold.0201.stress_herbalist_vaermina
+		
+		trait = lifestyle_herbalist
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:vaermina_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_hunter_hircine }
+		name = ek_stress_threshold.0201.stress_hunter_hircine
+		
+		trait = lifestyle_hunter
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:hircine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_mystic_hermaeus }
+		name = ek_stress_threshold.0201.stress_mystic_hermaeus
+		
+		trait = lifestyle_mystic
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:hermaeus }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_mystic_mehrunes }
+		name = ek_stress_threshold.0201.stress_mystic_mehrunes
+		
+		trait = lifestyle_mystic
+
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:mehrunes_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_reveler_sanguine }
+		name = ek_stress_threshold.0201.stress_reveler_sanguine
+		
+		trait = lifestyle_reveler
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:sanguine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	
+	# Genetic
+	option = {
+		trigger = { has_character_flag = stress_beauty_good_azura }
+		name = ek_stress_threshold.0201.stress_beauty_good_azura
+		
+		trait = beauty_good_1
+		trait = beauty_good_2
+		trait = beauty_good_3
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:azura }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_beauty_bad_malacath }
+		name = ek_stress_threshold.0201.stress_beauty_bad_malacath
+		
+		trait = beauty_bad_1
+		trait = beauty_bad_2
+		trait = beauty_bad_3
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:malacath }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_beauty_bad_namira }
+		name = ek_stress_threshold.0201.stress_beauty_bad_namira
+		
+		trait = beauty_bad_1
+		trait = beauty_bad_2
+		trait = beauty_bad_3
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:namira }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_physique_good_malacath }
+		name = ek_stress_threshold.0201.stress_physique_good_malacath
+		
+		trait = physique_good_1
+		trait = physique_good_2
+		trait = physique_good_3
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:malacath }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	
+	# Coping mechanism
+	option = {
+		trigger = { has_character_flag = stress_comfort_eater_sanguine }
+		name = ek_stress_threshold.0201.stress_comfort_eater_sanguine
+		
+		trait = comfort_eater
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:sanguine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_contrite_meridia }
+		name = ek_stress_threshold.0201.stress_contrite_meridia
+		
+		trait = contrite
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:meridia_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_drunkard_sanguine }
+		name = ek_stress_threshold.0201.stress_drunkard_sanguine
+		
+		trait = drunkard
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:sanguine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_flagellant_molag }
+		name = ek_stress_threshold.0201.stress_flagellant_molag
+		
+		trait = flagellant
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:molag_cult }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_inappetetic_namira }
+		name = ek_stress_threshold.0201.stress_inappetetic_namira
+		
+		trait = inappetetic
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:namira }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_irritable_molag }
+		name = ek_stress_threshold.0201.stress_irritable_molag
+		
+		trait = irritable
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:molag_cult }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_irritable_sheogorath }
+		name = ek_stress_threshold.0201.stress_irritable_sheogorath
+		
+		trait = irritable
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:sheogorath_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_journaller_hermaeus }
+		name = ek_stress_threshold.0201.stress_journaller_hermaeus
+		
+		trait = journaller
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:hermaeus }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_experimentalist_hermaeus }
+		name = ek_stress_threshold.0201.stress_experimentalist_hermaeus
+		
+		trait = experimentalist
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:hermaeus }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_profilgate_clavicus }
+		name = ek_stress_threshold.0201.stress_profilgate_clavicus
+		
+		trait = profligate
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:clavicus_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_rakish_sanguine }
+		name = ek_stress_threshold.0201.stress_rakish_sanguine
+		
+		trait = rakish
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:sanguine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_reclusive_sheogorath }
+		name = ek_stress_threshold.0201.stress_reclusive_sheogorath
+		
+		trait = reclusive
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:sheogorath_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	
+	# Crimes
+	option = {
+		trigger = { has_character_flag = stress_adulterer_sanguine }
+		name = ek_stress_threshold.0201.stress_adulterer_sanguine
+		
+		trait = adulterer
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:sanguine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_cannibal_namira }
+		name = ek_stress_threshold.0201.stress_cannibal_namira
+		
+		trait = cannibal
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:namira }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_denounced_malacath }
+		name = ek_stress_threshold.0201.stress_denounced_malacath
+		
+		trait = denounced
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:malacath }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_disinherited_malacath }
+		name = ek_stress_threshold.0201.stress_disinherited_malacath
+		
+		trait = disinherited
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:malacath }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_lycan_hircine }
+		name = ek_stress_threshold.0201.stress_lycan_hircine
+		
+		trait = lycan_character
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:hircine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_murderer_mehrunes }
+		name = ek_stress_threshold.0201.stress_murderer_mehrunes
+		
+		trait = murderer
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:mehrunes_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_murderer_mephala }
+		name = ek_stress_threshold.0201.stress_murderer_mephala
+		
+		trait = murderer
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:mephala_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_vampire_molag }
+		name = ek_stress_threshold.0201.stress_vampire_molag
+		
+		trait = vampire_character
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:molag_cult }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_witch_hircine }
+		name = ek_stress_threshold.0201.stress_witch_hircine
+		
+		trait = witch
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:hircine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	
+	# Health
+	option = {
+		trigger = { has_character_flag = stress_blind_nocturnal }
+		name = ek_stress_threshold.0201.stress_blind_nocturnal
+		
+		trait = blind
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:nocturnal_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_depressed_azura }
+		name = ek_stress_threshold.0201.stress_depressed_azura
+		
+		trait = depressed_1
+		trait = depressed_genetic
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:azura }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_depressed_nocturnal }
+		name = ek_stress_threshold.0201.stress_depressed_nocturnal
+		
+		trait = depressed_1
+		trait = depressed_genetic
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:nocturnal_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_disfigured_malacath }
+		name = ek_stress_threshold.0201.stress_disfigured_malacath
+		
+		trait = disfigured
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:malacath }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_lunatic_hermaeus }
+		name = ek_stress_threshold.0201.stress_lunatic_hermaeus
+		
+		trait = lunatic_1
+		trait = lunatic_genetic
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:hermaeus }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_flag = stress_lunatic_sheogorath }
+		name = ek_stress_threshold.0201.stress_lunatic_sheogorath
+		
+		trait = lunatic_1
+		trait = lunatic_genetic
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:sheogorath_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	
+	# Special
+	option = {
+		trigger = { has_character_flag = stress_poet_sheogorath }
+		name = ek_stress_threshold.0201.stress_poet_sheogorath
+		
+		trait = poet
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:sheogorath_cult}
+		add_stress = medium_stress_impact_loss
+	}
+
+	option = {
+		trigger = { has_character_modifier = azuras_attention }
+		name = ek_stress_threshold.0201.azuras_attention
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:azura }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+
+	option = {
+		trigger = { has_character_modifier = boethiahs_attention }
+		name = ek_stress_threshold.0201.boethiahs_attention
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:boethiah_cult }
+		add_stress = medium_stress_impact_loss
+	}
+
+	option = {
+		trigger = { has_character_modifier = clavicus_attention }
+		name = ek_stress_threshold.0201.clavicus_attention
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:clavicus_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_modifier = hermaeus_attention }
+		name = ek_stress_threshold.0201.hermaeus_attention
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:hermaeus }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_modifier = hircines_attention }
+		name = ek_stress_threshold.0201.hircines_attention
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:hircine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_modifier = malacaths_attention }
+		name = ek_stress_threshold.0201.malacaths_attention
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:malacath }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_modifier = mehrunes_attention }
+		name = ek_stress_threshold.0201.mehrunes_attention
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:mehrunes_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_modifier = mephalas_attention }
+		name = ek_stress_threshold.0201.mephalas_attention
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:mephala_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_modifier = meridias_attention }
+		name = ek_stress_threshold.0201.meridias_attention
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:meridia_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_modifier = molags_attention }
+		name = ek_stress_threshold.0201.molags_attention
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:molag_cult }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_modifier = namiras_attention }
+		name = ek_stress_threshold.0201.namiras_attention
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:namira }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_modifier = nocturnals_attention }
+		name = ek_stress_threshold.0201.nocturnals_attention
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:nocturnal_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_modifier = peryites_attention }
+		name = ek_stress_threshold.0201.peryites_attention
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:peryite_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_modifier = sanguines_attention }
+		name = ek_stress_threshold.0201.sanguines_attention
+		
+		hidden_effect = { 
+			save_scope_value_as = { name = daedric_prince value = flag:sanguine }
+			crypto_religion_cultural_variant_effect = yes
+		}	
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = scope:daedric_faith }
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_modifier = sheogoraths_attention }
+		name = ek_stress_threshold.0201.sheogoraths_attention
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:sheogorath_cult}
+		add_stress = medium_stress_impact_loss
+	}
+	option = {
+		trigger = { has_character_modifier = vaerminas_attention }
+		name = ek_stress_threshold.0201.vaerminas_attention
+		
+		make_character_crypto_religionist_effect = { CRYPTO_RELIGION = faith:vaermina_cult}
+		add_stress = medium_stress_impact_loss
+	}
+
+	#Grit your teeth and push through.
+	option = {
+		name = ek_stress_threshold.0201.no
+
+		#Account for stress.
+		stress_impact = {
+			base = medium_stress_impact_gain
+			zealous = minor_stress_impact_loss
+		}
+
+		ai_chance = { base = 0 }	#AI should never opt for stress.
+	}
+
+	after = {
+		stress_threshold_event_aftereffects = yes #Perform stress threshold event clean-up and preparation for future stress threshold events.
+		# Personality
+		remove_character_flag = stress_ambitious_boethiah
+		remove_character_flag = stress_ambitious_mehrunes
+		remove_character_flag = stress_arrogant_azura
+		remove_character_flag = stress_brave_hircine
+		remove_character_flag = stress_brave_malacath
+		remove_character_flag = stress_callous_boethiah
+		remove_character_flag = stress_callous_meridia
+		remove_character_flag = stress_compassionate_azura
+		remove_character_flag = stress_content_nocturnal
+		remove_character_flag = stress_craven_vaermina
+		remove_character_flag = stress_deceitful_boethiah
+		remove_character_flag = stress_deceitful_mephala
+		remove_character_flag = stress_fickle_sheogorath
+		remove_character_flag = stress_greedy_clavicus
+		remove_character_flag = stress_greedy_meridia
+		remove_character_flag = stress_honest_vaermina
+		remove_character_flag = stress_humble_peryite
+		remove_character_flag = stress_impatient_mehrunes
+		remove_character_flag = stress_just_meridia
+		remove_character_flag = stress_lazy_clavicus
+		remove_character_flag = stress_lustful_mephala
+		remove_character_flag = stress_lustful_sanguine
+		remove_character_flag = stress_paranoid_boethiah
+		remove_character_flag = stress_sadistic_hircine
+		remove_character_flag = stress_sadistic_molag
+		remove_character_flag = stress_shy_namira
+		remove_character_flag = stress_stubborn_malacath
+		remove_character_flag = stress_trusting_clavicus
+		remove_character_flag = stress_vengeful_azura
+		remove_character_flag = stress_vengeful_malacath
+		remove_character_flag = stress_wrathful_mehrunes
+		remove_character_flag = stress_wrathful_molag
+		remove_character_flag = stress_zealous_meridia
+		# Perks
+		remove_character_flag = stress_administrator_peryite
+		remove_character_flag = stress_overseer_peryite
+		remove_character_flag = stress_schemer_boethiah
+		remove_character_flag = stress_schemer_mephala
+		remove_character_flag = stress_scholar_hermaeus
+		remove_character_flag = stress_seducer_mephala
+		remove_character_flag = stress_seducer_sanguine
+		remove_character_flag = stress_torturer_molag
+		# Lifestyles
+		remove_character_flag = stress_herbalist_vaermina
+		remove_character_flag = stress_hunter_hircine
+		remove_character_flag = stress_mystic_hermaeus
+		remove_character_flag = stress_mystic_mehrunes
+		remove_character_flag = stress_reveler_sanguine
+		# Genetic
+		remove_character_flag = stress_beauty_good_azura
+		remove_character_flag = stress_beauty_bad_malacath
+		remove_character_flag = stress_beauty_bad_namira
+		remove_character_flag = stress_physique_good_malacath
+		# Coping
+		remove_character_flag = stress_comfort_eater_sanguine
+		remove_character_flag = stress_contrite_meridia
+		remove_character_flag = stress_drunkard_sanguine
+		remove_character_flag = stress_flagellant_molag
+		remove_character_flag = stress_inappetetic_namira
+		remove_character_flag = stress_irritable_molag
+		remove_character_flag = stress_irritable_sheogorath
+		remove_character_flag = stress_journaller_hermaeus
+		remove_character_flag = stress_profilgate_clavicus
+		remove_character_flag = stress_rakish_sanguine
+		remove_character_flag = stress_reclusive_sheogorath
+		# Crimes
+		remove_character_flag = stress_adulterer_sanguine
+		remove_character_flag = stress_cannibal_namira
+		remove_character_flag = stress_denounced_malacath
+		remove_character_flag = stress_disinherited_malacath
+		remove_character_flag = stress_fornicator_sanguine
+		remove_character_flag = stress_lycan_hircine
+		remove_character_flag = stress_murderer_mehrunes
+		remove_character_flag = stress_murderer_mephala
+		remove_character_flag = stress_vampire_molag
+		remove_character_flag = stress_witch_molag
+		# Health
+		remove_character_flag = stress_blind_nocturnal
+		remove_character_flag = stress_depressed_azura
+		remove_character_flag = stress_depressed_nocturnal
+		remove_character_flag = stress_disfigured_malacath
+		remove_character_flag = stress_lunatic_hermaeus
+		remove_character_flag = stress_lunatic_sheogorath
+		# Other
+		remove_character_flag = stress_poet_sheogorath
+		if = {
+			limit = { has_character_modifier = azuras_attention }
+			remove_character_modifier = azuras_attention
+		}
+		if = {
+			limit = { has_character_modifier = boethiahs_attention }
+			remove_character_modifier = boethiahs_attention
+		}
+		if = {
+			limit = { has_character_modifier = clavicus_attention }
+			remove_character_modifier = clavicus_attention
+		}
+		if = {
+			limit = { has_character_modifier = hermaeus_attention }
+			remove_character_modifier = hermaeus_attention
+		}
+		if = {
+			limit = { has_character_modifier = hircines_attention }
+			remove_character_modifier = hircines_attention
+		}
+		if = {
+			limit = { has_character_modifier = malacaths_attention }
+			remove_character_modifier = malacaths_attention
+		}
+		if = {
+			limit = { has_character_modifier = mehrunes_attention }
+			remove_character_modifier = mehrunes_attention
+		}
+		if = {
+			limit = { has_character_modifier = mephalas_attention }
+			remove_character_modifier = mephalas_attention
+		}
+		if = {
+			limit = { has_character_modifier = meridias_attention }
+			remove_character_modifier = meridias_attention
+		}
+		if = {
+			limit = { has_character_modifier = molags_attention }
+			remove_character_modifier = molags_attention
+		}
+		if = {
+			limit = { has_character_modifier = namiras_attention }
+			remove_character_modifier = namiras_attention
+		}
+		if = {
+			limit = { has_character_modifier = nocturnals_attention }
+			remove_character_modifier = nocturnals_attention
+		}
+		if = {
+			limit = { has_character_modifier = peryites_attention }
+			remove_character_modifier = peryites_attention
+		}
+		if = {
+			limit = { has_character_modifier = sanguines_attention }
+			remove_character_modifier = sanguines_attention
+		}
+		if = {
+			limit = { has_character_modifier = sheogoraths_attention }
+			remove_character_modifier = sheogoraths_attention
+		}
+		if = {
+			limit = { has_character_modifier = vaerminas_attention }
+			remove_character_modifier = vaerminas_attention
+		}
+	}
+}

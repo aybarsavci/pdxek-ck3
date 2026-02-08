@@ -1,0 +1,40 @@
+﻿### EK NOTE: This files contains travel value for our new terrain see the Vanilla file "common/script_values/00_travel_values.txt" for values referenced here.
+
+# Read time constants
+### EK NOTE: For reference the lowest base value in Vanilla is 35 for Drylands/Floodplains, while the highest base value  is 75 for Sea/Ocean terrain
+@ashlands_danger_value = 65
+@valenwood_danger_value = 70
+@tundra_danger_value = 75
+@black_marsh_danger_value = 80
+@high_reduction_constant = -1
+@medium_reduction_constant = @[2 / 3 * -1]
+@low_reduction_constant = @[1 / 3 * -1]
+
+# Script values other files can reference
+ashlands_danger_value = @ashlands_danger_value
+valenwood_danger_value = @valenwood_danger_value
+tundra_danger_value = @tundra_danger_value
+black_marsh_danger_value = @black_marsh_danger_value
+
+
+
+
+ashlands_high_danger_reduction = @[ashlands_danger_value * high_reduction_constant]
+ashlands_medium_danger_reduction = @[ashlands_danger_value * medium_reduction_constant +1]
+ashlands_low_danger_reduction = @[ashlands_danger_value * low_reduction_constant -2]
+
+
+valenwood_high_danger_reduction = @[valenwood_danger_value * high_reduction_constant]
+valenwood_medium_danger_reduction = @[valenwood_danger_value * medium_reduction_constant +1]
+valenwood_low_danger_reduction = @[valenwood_danger_value * low_reduction_constant -2]
+
+
+tundra_high_danger_reduction = @[tundra_danger_value * high_reduction_constant]
+tundra_medium_danger_reduction = @[tundra_danger_value * medium_reduction_constant +1]
+tundra_low_danger_reduction = @[tundra_danger_value * low_reduction_constant -2]
+
+
+black_marsh_high_danger_reduction = @[black_marsh_danger_value * high_reduction_constant]
+black_marsh_argonian_travel_option_danger_reduction = @[black_marsh_danger_value * high_reduction_constant +5]
+black_marsh_medium_danger_reduction = @[black_marsh_danger_value * medium_reduction_constant +1]
+black_marsh_low_danger_reduction = @[black_marsh_danger_value * low_reduction_constant -2]

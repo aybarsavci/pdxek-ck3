@@ -1,0 +1,121 @@
+﻿namespace = ek_life_extension_outcome
+
+### Heavily based on the learn_language events
+
+######################
+# Positive Outcomes
+# 1000-1999
+######################
+
+# Success!
+ek_life_extension_outcome.1000 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_life_extension_outcome.1000.t
+	desc = ek_life_extension_outcome.1000.desc
+	theme = education
+	right_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	immediate = {
+		scope:target = {
+			save_scope_as = target
+		}
+		scope:owner = {
+			save_scope_as = owner
+		}
+		every_parent = {
+			limit = {
+				is_ai = no
+			}
+			send_interface_toast = {
+				title = child_extended_life_title
+				left_icon = scope:owner
+				right_icon = scope:target
+				custom_tooltip = child_extended_life_desc
+			}
+		}
+	}
+
+	option = {
+		name = ek_life_extension_outcome.1000.a
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+		add_piety = medium_piety_value
+		
+		#extend_life_effect = yes
+		# Commented until implemented - He9
+		
+		scope:scheme = { end_scheme = yes }
+	}
+}
+
+#################################
+# Negative Outcomes
+# 2000-2999
+#################################
+
+# Failure
+ek_life_extension_outcome.2000 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_life_extension_outcome.2000.t
+	desc = ek_life_extension_outcome.2000.desc
+	theme = education
+	left_portrait = {
+		character = root
+		animation = rage
+	}
+	widget = {
+		gui = "event_window_widget_scheme"
+		container = "custom_widgets_container"
+	}
+
+	immediate = {
+		scope:target = {
+			save_scope_as = target
+		}
+		scope:owner = {
+			save_scope_as = owner
+		}
+		every_parent = {
+			limit = {
+				is_ai = no
+			}
+			send_interface_toast = {
+				title = child_extended_life_title
+				left_icon = scope:owner
+				right_icon = scope:target
+				custom_tooltip = child_extended_life_desc
+			}
+		}
+	}
+
+	option = {
+		name = ek_life_extension_outcome.2000.a
+		scope:scheme = {
+			end_scheme = yes
+		}
+	}
+
+	option = {
+		name = ek_life_extension_outcome.2000.b
+		add_stress = massive_stress_gain
+		custom_tooltip = scheme_loses_half_progress
+		hidden_effect = {
+			scope:scheme = {
+				add_scheme_progress = -5
+			}
+		}
+	}
+}

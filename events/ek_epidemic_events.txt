@@ -1,0 +1,3817 @@
+﻿namespace = ek_epidemic_events
+
+# Peryite Cultists are gathering		
+ek_epidemic_events.1000 = {
+	type = character_event
+	title = ek_epidemic_events.1000.t
+	desc = ek_epidemic_events.1000.desc
+	theme = plague
+	content_source = dlc_ek
+	override_background = { reference = council_chamber }
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:realm_priest
+		animation = worry
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		is_available = yes
+		NOT = { faith = { has_doctrine = doctrine_pantheon_peryite } }
+		any_sub_realm_county = {
+			any_county_province = {
+				OR = {
+					county.holder = root
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+				}
+				any_province_epidemic = {
+					count >= 1
+				}
+			}
+			ek_is_immune_county_culture = no
+		}
+		exists = cp:councillor_court_chaplain
+		cp:councillor_court_chaplain = { is_available_ai_adult = yes }
+	}
+
+	immediate = {
+		random_sub_realm_county = {
+			limit = {
+				any_county_province = {
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+					any_province_epidemic = {
+						count >= 1
+					}
+				}
+			}
+			add_rampant_modifier_effect = { TYPE = peryite }
+			save_scope_as = epidemic_county
+		}
+		cp:councillor_court_chaplain = {
+			save_scope_as = realm_priest
+		}
+	}
+
+	option = { # Let the priest convince them in the error of their ways
+		name = ek_epidemic_events.1000.a
+
+		random_list = {
+			30 = { # Conviction is succesfull
+				compare_modifier = {
+					target = scope:realm_priest
+					value = learning
+				}
+				desc = ek_epidemic_events.1000.a.success
+				send_interface_toast = {
+					title = ek_epidemic_events.1000.a.success
+					left_icon = root
+					right_icon = scope:realm_priest
+					add_piety = medium_piety_gain
+					scope:epidemic_county = {
+						remove_county_modifier = county_corruption_peryite_rampant_modifier
+					}
+				}				
+			}
+			30 = { # Conviction is unsuccesfull
+				desc = ek_epidemic_events.1000.a.failure
+				send_interface_toast = {
+					title = ek_epidemic_events.1000.a.failure
+					left_icon = root
+					right_icon = scope:realm_priest
+					add_piety = medium_piety_loss
+				}				
+			}
+			10 = { # The priest is killed
+				desc = ek_epidemic_events.1000.a.criticalfailure
+				send_interface_toast = {
+					title = ek_epidemic_events.1000.a.criticalfailure
+					left_icon = root
+					right_icon = scope:realm_priest
+					scope:realm_priest = {
+						death = {
+							death_reason = death_cultist
+						}
+					}
+					add_piety = major_piety_loss
+				}				
+			}
+		}
+
+		stress_impact = {
+			trusting = minor_stress_impact_loss
+			zealous = medium_stress_impact_loss
+			cynical = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = trusting
+				add = 25
+			}
+			modifier = {
+				has_trait = zealous
+				add = 25
+			}
+			modifier = {
+				has_trait = cynical
+				add = -50
+			}
+		}
+	}
+
+	option = { # Hire some guards and crack down on the cultists'
+		name = ek_epidemic_events.1000.b
+
+		remove_short_term_gold = medium_gold_value
+
+		scope:epidemic_county = {
+			scope:epidemic_county = {
+				remove_county_modifier = county_corruption_peryite_rampant_modifier
+			}
+			add_county_modifier = {
+				modifier = plague_cult_persecuted
+				years = 10
+			}
+		}
+
+		stress_impact = {
+			wrathful = minor_stress_impact_loss
+			sadistic = minor_stress_impact_loss
+			greedy = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = wrathful
+				add = 25
+			}
+			modifier = {
+				has_trait = sadistic
+				add = 25
+			}
+			modifier = {
+				has_trait = greedy
+				add = -50
+			}
+		}
+	}
+
+	option = { # They may have a point
+		name = ek_epidemic_events.1000.c
+
+		set_character_faith = faith:peryite_cult
+
+		scope:epidemic_county = {
+			change_county_control = medium_county_control_gain
+		}
+
+		reverse_add_opinion = {
+			target = scope:realm_priest
+			modifier = disappointed_opinion
+			opinion = -50
+		}
+
+		stress_impact = {
+			cynical = minor_stress_impact_loss
+			zealous = major_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				has_trait = cynical
+				add = 10
+			}
+			modifier = {
+				has_trait = zealous
+				add = -10
+			}
+		}
+	}
+}
+
+# A Sload airship shows up to collect corpses
+ek_epidemic_events.1001 = {
+	type = character_event
+	title = ek_epidemic_events.1001.t
+	desc = ek_epidemic_events.1001.desc
+	theme = plague
+	content_source = dlc_ek
+	override_background = { reference = throne_room }
+	left_portrait = {
+		character = root
+		animation = disbelief 
+	}
+	right_portrait = {
+		character = scope:marshal
+		animation = paranoia
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		is_available = yes
+		any_sub_realm_county = {
+			any_county_province = {
+				OR = {
+					county.holder = root
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+				}
+				any_province_epidemic = {
+					count >= 1
+				}
+			}
+			ek_is_immune_county_culture = no
+		}
+		exists = cp:councillor_marshal
+		cp:councillor_marshal = { is_available_ai_adult = yes }
+	}
+
+	immediate = {
+		random_sub_realm_county = {
+			limit = {
+				any_county_province = {
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+					any_province_epidemic = {
+						count >= 1
+					}
+				}
+			}			
+			save_scope_as = epidemic_county
+		}
+		cp:councillor_marshal = {
+			save_scope_as = marshal
+		}
+	}
+
+	option = { # Sent your marshal to drive it off.
+		name = ek_epidemic_events.1001.a
+
+		random_list = {
+			30 = { # Marshal is succesfull
+				compare_modifier = {
+					target = scope:marshal
+					value = martial
+				}
+				desc = ek_epidemic_events.1001.a.success
+				send_interface_toast = {
+					title = ek_epidemic_events.1001.a.success
+					left_icon = scope:marshal
+					add_legitimacy = minor_legitimacy_gain
+				}				
+			}
+			30 = { # Marshal angers the sload
+				desc = ek_epidemic_events.1001.a.failure
+				send_interface_toast = {
+					title = ek_epidemic_events.1001.a.failure
+					left_icon = root
+					right_icon = scope:marshal
+					scope:epidemic_county = {
+						add_county_modifier = {
+							modifier = haunted_by_sload_modifier
+							years = 5
+						}
+					}
+				}				
+			}
+			10 = { # Marhsal is killed and angers the sload
+				desc = ek_epidemic_events.1001.a.criticalfailure
+				send_interface_toast = {
+					title = ek_epidemic_events.1001.a.criticalfailure
+					left_icon = root
+					right_icon = scope:marshal
+					scope:epidemic_county = {
+						add_county_modifier = {
+							modifier = haunted_by_sload_modifier
+							years = 5
+						}
+					}
+					scope:marshal = {
+						death = {
+							death_reason = death_sload_floater
+						}
+					}
+				}				
+			}
+		}
+
+		stress_impact = {
+			craven = medium_stress_impact_gain
+			lazy = medium_stress_impact_gain
+			brave = minor_stress_impact_loss
+			diligent = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = brave
+				add = 50
+			}
+			modifier = {
+				has_trait = diligent
+				add = 50
+			}
+			modifier = {
+				has_trait = craven
+				add = -50
+			}
+			modifier = {
+				has_trait = lazy
+				add = -50
+			}
+		}
+	}
+
+	option = { # Leave that thing be, whatever it does
+		name = ek_epidemic_events.1001.b
+
+		scope:epidemic_county = {
+			add_county_modifier = {
+				modifier = haunted_by_sload_modifier
+				years = 5
+			}
+		}
+
+		add_legitimacy = minor_legitimacy_loss
+
+		stress_impact = {
+			craven = minor_stress_impact_loss
+			lazy = minor_stress_impact_loss
+			brave = medium_stress_impact_gain
+			diligent = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = brave
+				add = -50
+			}
+			modifier = {
+				has_trait = diligent
+				add = -50
+			}
+			modifier = {
+				has_trait = craven
+				add = 50
+			}
+			modifier = {
+				has_trait = lazy
+				add = 50
+			}
+		}
+	}
+
+	option = { # Necromancer option - exchange knowledge with the sload
+		name = ek_epidemic_events.1001.c
+		trigger = {
+			is_necromancer = yes
+		}
+		trait = necromancer
+
+		add_character_modifier = {
+            modifier = exchanged_necromantic_knowledge
+            years = 10
+        }
+
+		stress_impact = {
+			diligent = medium_stress_impact_loss
+			shy = minor_stress_impact_gain
+			paranoid = minor_stress_impact_gain
+			lazy = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = diligent
+				add = 25
+			}
+			modifier = {
+				has_trait = shy
+				add = -25
+			}
+			modifier = {
+				has_trait = paranoid
+				add = -25
+			}
+			modifier = {
+				has_trait = lazy
+				add = -50
+			}
+		}
+	}
+
+	option = { # Peryite option - send them gifts
+		name = ek_epidemic_events.1001.d
+		reason = veneration_of_diseases
+		trigger = {
+			faith = { has_doctrine = tenet_veneration_of_diseases }
+		}
+
+		remove_short_term_gold = medium_gold_value
+
+		scope:epidemic_county = {
+			add_county_modifier = {
+				modifier = haunted_by_sload_modifier
+				years = 5
+			}
+		}
+
+		add_character_modifier = {
+			modifier = blessed_by_sload_modifier
+			years = 10
+		}
+
+		stress_impact = {
+			zealous = medium_stress_impact_loss
+			generous = minor_stress_impact_loss
+			greedy = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = zealous
+				add = 50
+			}
+			modifier = {
+				has_trait = generous
+				add = 25
+			}
+			modifier = {
+				has_trait = paranoid
+				add = -50
+			}
+		}
+	}
+}
+
+# People suspect the Seasload as the cause of disease
+ek_epidemic_events.1002 = {
+	type = character_event
+	title = ek_epidemic_events.1002.t
+	desc = ek_epidemic_events.1002.desc
+	theme = plague
+	content_source = dlc_ek
+	override_background = { reference = throne_room }
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:messenger
+		animation = stress
+	}
+	cooldown = { years = 25 }
+
+	trigger = {
+		is_available = yes
+		#There be a plague in your subrealm, and it's in a coastal province
+		any_sub_realm_county = {
+			any_county_province = {
+				is_coastal = yes
+				OR = {
+					county.holder = root
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+				}
+				any_province_epidemic = {
+					count >= 1
+				}
+			}
+			ek_is_immune_county_culture = no
+			ek_is_county_faith_likes_diseases = no
+		}
+
+		any_courtier = {
+			is_available_healthy_ai_adult = yes
+		}
+	}
+
+	immediate = {
+		random_sub_realm_county = {
+			limit = {
+				any_county_province = {
+					is_coastal = yes
+					OR = {
+						county.holder = root
+						squared_distance = {
+							target = root.capital_province
+							value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+						}
+					}
+					any_province_epidemic = {
+						count >= 1
+					}
+				}
+				#EK EDIT: no immunes/people who love diseases
+				ek_is_immune_county_culture = no
+				ek_is_county_faith_likes_diseases = no
+				#EK EDIT END
+			}
+			save_scope_as = epidemic_county
+		}
+		if = {
+			limit = { employs_court_position = court_mage_court_position }
+			court_position:court_mage_court_position = {
+				if = {
+					limit = { is_available_ai_adult = yes }
+					save_scope_as = court_mage
+				}
+			}
+		}
+
+		random_courtier = {
+			save_scope_as = messenger
+		}
+	}
+
+	option = { #Throw offerings into the sea
+		name = ek_epidemic_events.1002.a
+
+		scope:epidemic_county = {
+			change_county_control = 20
+		}
+
+		remove_short_term_gold = medium_gold_value
+
+		stress_impact = {
+			greedy = major_stress_impact_gain
+			craven = minor_stress_impact_loss
+			paranoid = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = greedy
+				add = -50
+			}
+			modifier = {
+				has_trait = craven
+				add = 25
+			}
+			modifier = {
+				has_trait = paranoid
+				add = -25
+			}
+		}
+	}
+
+	option = { # ask your court mage to cast protecting wards
+		name = ek_epidemic_events.1002.b
+		trigger = {
+			exists = scope:court_mage
+			scope:court_mage = {				
+				has_perk = restoration_apprentice_perk
+				has_magicka_more_than = { VALUE = t2_spell_cost }
+			}
+		}
+
+		scope:court_mage = {
+			add_magicka = { VALUE = t2_spell_cost }
+		}
+
+		scope:epidemic_county = {
+			change_county_control = 20
+			add_county_modifier = {
+				modifier = safeguarding_restoration_magic_modifier
+				years = 5
+			}
+		}
+
+		stress_impact = {
+			diligent = minor_stress_impact_loss
+			paranoid = medium_stress_impact_loss
+			trusting = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # cast protecting wards yourself
+		name = ek_epidemic_events.1002.c
+		reason = restoration
+		trigger = {
+			has_perk = restoration_apprentice_perk
+			has_magicka_more_than = { VALUE = t2_spell_cost }
+		}
+
+		show_as_unavailable = { has_magicka_less_than = { VALUE = t2_spell_cost } }
+
+		add_magicka = { VALUE = t2_spell_cost }
+
+		scope:epidemic_county = {
+			change_county_control = 20
+			add_county_modifier = {
+				modifier = safeguarding_restoration_magic_modifier
+				years = 5
+			}
+		}
+
+		stress_impact = {
+			compassionate = minor_stress_impact_loss
+			lazy = medium_stress_impact_gain
+			diligent = minor_stress_impact_loss
+			paranoid = medium_stress_impact_loss
+		}
+
+	}
+
+	option = { # Ignore these tales
+		name = ek_epidemic_events.1002.d
+
+		stress_impact = {
+			compassionate = minor_stress_impact_gain
+			lazy = medium_stress_impact_loss
+			diligent = minor_stress_impact_gain
+			paranoid = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = compassionate
+				add = -25
+			}
+			modifier = {
+				has_trait = lazy
+				add = 50
+			}
+			modifier = {
+				has_trait = diligent
+				add = -25
+			}
+			modifier = {
+				has_trait = paranoid
+				add = -50
+			}
+		}	
+	}	
+}
+
+# A lone Peryite Follower has been catched	
+ek_epidemic_events.1003 = {
+	type = character_event
+	title = ek_epidemic_events.1003.t
+	desc = ek_epidemic_events.1003.desc
+	theme = plague
+	content_source = dlc_ek
+	override_background = { reference = gallows }
+	left_portrait = {
+		character = root
+		animation = disgust
+	}
+	right_portrait = {
+		character = scope:peryite_cultist
+		animation = prisonhouse
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		is_available = yes
+		NOT = { faith = { has_doctrine = doctrine_pantheon_peryite } }
+		any_sub_realm_county = {
+			any_county_province = {
+				OR = {
+					county.holder = root
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+				}
+				any_province_epidemic = {
+					count >= 1
+				}
+			}
+			ek_is_immune_county_culture = no
+			ek_is_county_faith_likes_diseases = no
+		}
+	}
+
+	immediate = {
+		create_character = {
+			location = root.location
+			template = peryite_cultist_character
+			save_scope_as = peryite_cultist
+		}
+	}
+
+	option = { # Try to convert them
+		name = ek_epidemic_events.1003.a
+
+		duel = {
+			skill = learning
+			target = scope:peryite_cultist
+			10 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -9
+				}	
+				desc = ek_epidemic_events.1003.a.success
+				send_interface_toast = {
+					title = ek_epidemic_events.1003.a.success
+					scope:peryite_cultist = {
+						set_character_faith = root.faith
+					}
+					add_piety = medium_piety_gain
+					
+				}
+			}
+			10 = {		
+				desc = ek_epidemic_events.1003.a.failure
+				send_interface_toast = {
+					title = ek_epidemic_events.1003.a.failure
+					add_piety = medium_piety_loss
+				}
+			}
+		}
+
+		stress_impact = {
+			compassionate = minor_stress_impact_loss
+			zealous = medium_stress_impact_loss
+			cynical = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				learning >= high_skill_rating
+				add = 50
+			}
+			modifier = {
+				has_trait = compassionate
+				add = 25
+			}
+			modifier = {
+				has_trait = zealous
+				add = 25
+			}
+			modifier = {
+				has_trait = cynical
+				add = -50
+			}
+		}
+	}
+
+	option = { # Throw them in your dungeon
+		name = ek_epidemic_events.1003.b
+
+		imprison = {
+			target = scope:peryite_cultist
+			type = dungeon
+		}
+
+		stress_impact = {
+			compassionate = medium_stress_impact_gain
+			wrathful = minor_stress_impact_loss
+			sadistic = minor_stress_impact_loss
+			zealous = medium_stress_impact_loss
+			cynical = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = compassionate
+				add = -50
+			}
+			modifier = {
+				has_trait = wrathful
+				add = 25
+			}
+			modifier = {
+				has_trait = sadistic
+				add = 25
+			}
+			modifier = {
+				has_trait = zealous
+				add = 50
+			}
+			modifier = {
+				has_trait = cynical
+				add = -25
+			}
+		}	
+	}
+
+	option = { # Leave them be
+		name = ek_epidemic_events.1003.c
+
+		scope:peryite_cultist = {
+			move_to_pool = yes
+			add_opinion = {
+				target = root
+				modifier = thankful_opinion
+				opinion = 25
+			}
+		}
+
+		stress_impact = {
+			compassionate = minor_stress_impact_loss
+			wrathful = medium_stress_impact_gain
+			sadistic = medium_stress_impact_gain
+			zealous = major_stress_impact_gain
+			cynical = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = compassionate
+				add = 25
+			}
+			modifier = {
+				has_trait = wrathful
+				add = -50
+			}
+			modifier = {
+				has_trait = sadistic
+				add = -50
+			}
+			modifier = {
+				has_trait = zealous
+				add = -75
+			}
+			modifier = {
+				has_trait = cynical
+				add = 25
+			}
+		}
+	}
+}
+
+# Hunt Down Skeevers
+ek_epidemic_events.1004 = {
+	type = character_event
+	title = ek_epidemic_events.1004.t
+	desc = ek_epidemic_events.1004.desc
+	theme = plague
+	content_source = dlc_ek
+	override_background = { reference = council_chamber }
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:court_physician
+		animation = worry
+	}
+	lower_center_portrait = {
+		trigger = { exists = scope:master_of_hunt }
+		character = scope:master_of_hunt
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		is_available = yes
+		exists = court_position:court_physician_court_position
+		court_position:court_physician_court_position = {
+			is_available_healthy_ai_adult = yes
+		}
+		any_sub_realm_county = {
+			any_county_province = {
+				OR = {
+					county.holder = root
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+				}
+				any_province_epidemic = {
+					count >= 1
+				}
+			}
+			ek_is_immune_county_culture = no
+		}
+		any_sub_realm_county = {
+			has_county_modifier = county_corruption_skeever_infested_modifier
+		}
+	}
+
+	immediate = {
+		court_position:court_physician_court_position = {
+			save_scope_as = court_physician
+		}
+		if = {
+			limit = {
+				employs_court_position = master_of_hunt_court_position
+				court_position:master_of_hunt_court_position = { is_available_adult = yes }
+			}
+			court_position:master_of_hunt_court_position = { 
+				save_scope_as = master_of_hunt
+			}
+		}
+		random_sub_realm_county = {
+			limit = {
+				has_county_modifier = county_corruption_skeever_infested_modifier
+			}
+			save_scope_as = skeever_county
+		}
+	}
+
+	option = { # Give that task to Master of the Hunt
+		name = ek_epidemic_events.1004.a
+		trigger = {
+			employs_court_position = master_of_hunt_court_position
+			court_position:master_of_hunt_court_position = { is_available_adult = yes }
+		}
+
+		scope:skeever_county = {
+			remove_county_modifier = county_corruption_skeever_infested_modifier
+		}
+
+		scope:master_of_hunt = {
+			add_character_modifier = {
+				modifier = skeever_hunting_modifier
+				years = 5
+			}
+			add_opinion = {
+				target = root
+				modifier = annoyed_opinion
+				opinion = -10
+			}
+		}
+
+		stress_impact = {
+			compassionate = minor_stress_impact_loss
+			zealous = medium_stress_impact_loss
+			cynical = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				learning >= high_skill_rating
+				add = 50
+			}
+			modifier = {
+				has_trait = compassionate
+				add = 25
+			}
+			modifier = {
+				has_trait = zealous
+				add = 25
+			}
+			modifier = {
+				has_trait = cynical
+				add = -50
+			}
+		}
+	}
+
+	option = { # Employ your guards
+		name = ek_epidemic_events.1004.b
+
+		add_character_modifier = {
+			modifier = skeever_hunting_guards_modifier
+			years = 5
+		}
+
+		scope:skeever_county = {
+			remove_county_modifier = county_corruption_skeever_infested_modifier
+		}
+
+		stress_impact = {
+			compassionate = minor_stress_impact_gain
+			diligent = minor_stress_impact_loss
+			paranoid = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = paranoid
+				add = -50
+			}
+			modifier = {
+				has_trait = diligent
+				add = 25
+			}
+			modifier = {
+				has_trait = compassionate
+				add = -25
+			}
+		}	
+	}
+
+	option = { # Leave those Skeevers alone
+		name = ek_epidemic_events.1004.c
+
+		stress_impact = {
+			compassionate = minor_stress_impact_loss
+			diligent = medium_stress_impact_gain
+			lazy = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = compassionate
+				add = -25
+			}
+			modifier = {
+				has_trait = diligent
+				add = -50
+			}
+			modifier = {
+				has_trait = lazy
+				add = 25
+			}
+		}
+	}
+
+	option = { # Hunt them? I want one as a pet!
+		name = ek_epidemic_events.1004.d
+
+		stress_impact = {
+			compassionate = medium_stress_impact_loss
+			sadistic = minor_stress_impact_gain
+		}
+
+		start_skeever_story_cycle_effect = yes
+
+		ai_chance = {
+			base = 0
+			modifier = {
+				faith = { has_doctrine = tenet_veneration_of_diseases } 
+				add = 100
+			}
+			modifier = {
+				has_trait = compassionate
+				add = 50
+			}
+			modifier = {
+				has_trait = sadistic
+				add = -25
+			}
+		}
+	}
+}
+
+# Order your capitals alchemists to stock up 
+ek_epidemic_events.1005 = {
+	type = character_event
+	title = ek_epidemic_events.1005.t
+	desc = ek_epidemic_events.1005.desc
+	theme = plague
+	content_source = dlc_ek
+	override_background = { reference = physicians_study }
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		NOT = { faith = { has_doctrine = doctrine_pantheon_peryite } }
+		culture = { has_innovation = innovation_alchemy }
+		any_sub_realm_county = {
+			any_county_province = {
+				OR = {
+					county.holder = root
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+				}
+				any_province_epidemic = {
+					count >= 1
+				}
+			}
+			ek_is_immune_county_culture = no
+		}
+	}
+
+	immediate = {
+		capital_county = {
+			save_scope_as = capital
+		}
+	}
+
+	option = { # Compensate the alchemists
+		name = ek_epidemic_events.1005.a
+
+		scope:capital = {
+			add_county_modifier = {
+				modifier = stocked_up_potions_modifier
+				years = 5
+			}
+		}
+
+		remove_short_term_gold = medium_gold_value
+
+		stress_impact = {
+			compassionate = minor_stress_impact_loss
+			callous = minor_stress_impact_gain
+			greedy = major_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				gold < medium_gold_value
+				add = -100
+			}
+			modifier = {
+				has_trait = compassionate
+				add = 25
+			}
+			modifier = {
+				has_trait = greedy
+				add = -75
+			}
+			modifier = {
+				has_trait = callous
+				add = -25
+			}
+		}
+	}
+
+	option = { # Just order them
+		name = ek_epidemic_events.1005.b
+
+		scope:capital = {
+			add_county_modifier = {
+				modifier = stocked_up_potions_modifier
+				years = 5
+			}
+			change_county_control = -20
+		}
+
+		stress_impact = {
+			compassionate = minor_stress_impact_gain
+			arrogant = minor_stress_impact_loss
+			callous = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = compassionate
+				add = -25
+			}
+			modifier = {
+				has_trait = arrogant
+				add = 25
+			}
+			modifier = {
+				has_trait = callous
+				add = 25
+			}
+		}	
+	}
+
+	option = { # Actually, I brew those potions myself
+		name = ek_epidemic_events.1005.c
+		trigger = {
+			has_trait = lifestyle_herbalist
+		}
+		trait = lifestyle_herbalist
+
+		scope:capital = {
+			add_county_modifier = {
+				modifier = stocked_up_potions_modifier
+				years = 5
+			}
+			change_county_control = -20
+		}
+
+		stress_impact = {
+			humble = minor_stress_impact_loss
+			diligent = minor_stress_impact_loss
+			lazy = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 200
+			modifier = {
+				has_trait = humble
+				add = 25
+			}
+			modifier = {
+				has_trait = diligent
+				add = 25
+			}
+			modifier = {
+				has_trait = lazy
+				add = -50
+			}
+		}
+	}
+
+	option = { # We can do without
+		name = ek_epidemic_events.1005.d
+
+		stress_impact = {
+			lazy = medium_stress_impact_loss
+			diligent = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = lazy
+				add = 50
+			}
+			modifier = {
+				has_trait = diligent
+				add = -50
+			}
+		}
+	}
+}
+
+# Surely praying at a shrine will help, right?
+ek_epidemic_events.1006 = {
+	type = character_event
+	title = ek_epidemic_events.1006.t
+	desc = ek_epidemic_events.1006.desc
+	theme = plague
+	content_source = dlc_ek
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		NOR = { 
+			faith = { has_doctrine = doctrine_pantheon_peryite }
+			faith = { has_doctrine = doctrine_pantheon_no_monolatry_pantheon }			
+		}
+		capital_county = {
+			any_county_province = {
+				any_province_epidemic = {
+					count >= 1
+				}
+			}
+			ek_is_immune_county_culture = no
+			ek_is_county_faith_likes_diseases = no
+		}
+	}
+
+	immediate = {
+		capital_county = {
+			save_scope_as = capital
+		}
+	}
+
+	option = { # Pray at a local shrine
+		name = ek_epidemic_events.1006.a
+
+		add_piety = medium_piety_loss
+
+		random_list = {
+			10 = {
+				compare_modifier = {
+					value = 10
+					multiplier = piety_level
+				}
+				send_interface_toast = {
+					title = ek_epidemic_events.1006.a.success
+					add_character_modifier = {
+						modifier = godly_potection_modifier
+						years = 5
+					}
+				}
+			}
+			90 = {
+				send_interface_toast = {
+					title = ek_epidemic_events.1006.a.failure
+					add_stress = minor_stress_gain
+				}
+			}
+		}
+
+		stress_impact = {
+			zealous = medium_stress_impact_loss
+			cynical = medium_stress_impact_gain
+			arrogant = minor_stress_impact_gain
+			humble = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = zealous
+				add = 50
+			}
+			modifier = {
+				has_trait = cynical
+				add = -50
+			}
+			modifier = {
+				has_trait = arrogant
+				add = -25
+			}
+			modifier = {
+				has_trait = humble
+				add = 25
+			}
+		}	
+	}
+
+	option = { # Make a large offering
+		name = ek_epidemic_events.1006.b
+
+		remove_short_term_gold = medium_gold_value
+
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = 5
+					multiplier = piety_level
+				}
+				send_interface_toast = {
+					title = ek_epidemic_events.1006.b.success
+					add_character_modifier = {
+						modifier = godly_potection_modifier
+						years = 5
+					}
+				}
+			}
+			50 = {
+				send_interface_toast = {
+					title = ek_epidemic_events.1006.b.failure
+					add_stress = minor_stress_gain
+				}
+			}
+		}
+
+		stress_impact = {
+			greedy = major_stress_impact_gain
+			zealous = minor_stress_impact_loss
+			cynical = minor_stress_impact_gain
+			arrogant = minor_stress_impact_gain
+			humble = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = greedy
+				add = -75
+			}
+			modifier = {
+				has_trait = zealous
+				add = 25
+			}
+			modifier = {
+				has_trait = cynical
+				add = -25
+			}
+			modifier = {
+				has_trait = arrogant
+				add = -25
+			}
+			modifier = {
+				has_trait = humble
+				add = 25
+			}
+		}	
+	}
+
+	option = { # We have to help ourselves
+		name = ek_epidemic_events.1006.c
+
+		stress_impact = {
+			cynical = medium_stress_impact_loss
+			zealous = minor_stress_impact_gain
+			arrogant = minor_stress_impact_loss
+			humble = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = cynical
+				add = 50
+			}
+			modifier = {
+				has_trait = zealous
+				add = -25
+			}
+			modifier = {
+				has_trait = arrogant
+				add = 25
+			}
+			modifier = {
+				has_trait = humble
+				add = -25
+			}
+		}
+	}
+}
+
+# A restoration mage offers their service
+ek_epidemic_events.1007 = {
+	type = character_event
+	title = ek_epidemic_events.1007.t
+	desc = ek_epidemic_events.1007.desc
+	theme = plague
+	content_source = dlc_ek
+	override_background = { reference = throne_room }
+	left_portrait = {
+		character = root
+		animation = personality_rational 
+	}
+	right_portrait = {
+		character = scope:restoration_mage
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		is_available = yes
+		any_sub_realm_county = {
+			any_county_province = {
+				OR = {
+					county.holder = root
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+				}
+				any_province_epidemic = {
+					count >= 1
+				}
+			}
+			ek_is_immune_county_culture = no
+		}
+		any_pool_character = {
+            province = root.capital_province
+            has_perk = restoration_novice_perk
+            is_available_ai = yes    
+        }
+	}
+
+	immediate = {
+		random_sub_realm_county = {
+			limit = {
+				any_county_province = {
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+					any_province_epidemic = {
+						count >= 1
+					}
+				}
+			}			
+			save_scope_as = epidemic_county
+		}
+		random_pool_character = {
+			province = root.capital_province
+			limit = {				
+				has_perk = restoration_novice_perk
+				is_available_ai = yes
+			}
+			save_scope_as = restoration_mage
+        }
+	}
+
+	option = { # Make them your court mage
+		name = ek_epidemic_events.1007.a
+
+		if = {
+			limit = {
+				can_employ_court_position_type = court_mage_court_position
+				NOT = { employs_court_position = court_mage_court_position }
+			}
+			add_courtier = scope:restoration_mage
+			appoint_court_position = {
+				recipient = scope:restoration_mage
+				court_position = court_mage_court_position
+			}
+		}
+		else_if = {
+			limit = {
+				employs_court_position = court_mage_court_position
+			}
+			court_position:court_mage_court_position = {
+				add_opinion = {
+					target = root
+					modifier = disappointed_opinion
+					opinion = -5
+				}
+			}
+			add_courtier = scope:restoration_mage
+			replace_court_position = {
+				recipient = scope:restoration_mage
+				holder = court_position:court_mage_court_position
+				court_position = court_mage_court_position
+			}
+		}
+		reverse_add_opinion = {
+			target = scope:restoration_mage
+			modifier = hired_me_opinion
+		}
+
+		stress_impact = {
+			paranoid = minor_stress_impact_gain
+			shy = minor_stress_impact_gain
+			gregarious = minor_stress_impact_loss
+			trusting = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = paranoid
+				add = -25
+			}
+			modifier = {
+				has_trait = shy
+				add = -25
+			}
+			modifier = {
+				has_trait = gregarious
+				add = 25
+			}
+			modifier = {
+				has_trait = trusting
+				add = 25
+			}
+		}
+	}
+
+	option = { # Send them off
+		name = ek_epidemic_events.1007.b
+
+		scope:restoration_mage = {
+			move_to_pool = yes
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -20
+			}
+		}
+
+		stress_impact = {
+			paranoid = minor_stress_impact_loss
+			shy = minor_stress_impact_loss
+			gregarious = minor_stress_impact_gain
+			trusting = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = paranoid
+				add = 25
+			}
+			modifier = {
+				has_trait = shy
+				add = 25
+			}
+			modifier = {
+				has_trait = gregarious
+				add = -25
+			}
+			modifier = {
+				has_trait = trusting
+				add = -25
+			}
+		}
+	}
+
+	option = {
+		name = ek_epidemic_events.1007.c
+		reason = veneration_of_diseases
+		trigger = {
+			faith = { has_doctrine = tenet_veneration_of_diseases }
+		}
+
+		imprison = {
+			target = scope:restoration_mage
+			type = dungeon
+		}
+
+		stress_impact = {
+			sadistic = minor_stress_impact_loss
+			zealous = minor_stress_impact_loss
+			cynical = minor_stress_impact_gain
+			compassionate = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = sadistic
+				add = 25
+			}
+			modifier = {
+				has_trait = zealous
+				add = 25
+			}
+			modifier = {
+				has_trait = cynical
+				add = -25
+			}
+			modifier = {
+				has_trait = compassionate
+				add = -25
+			}
+		}
+	}
+}
+
+# A necromancer rises infected corpses!
+ek_epidemic_events.1008 = {
+	type = character_event
+	title = ek_epidemic_events.1008.t
+	desc = ek_epidemic_events.1008.desc
+	theme = plague
+	content_source = dlc_ek
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		is_available = yes
+		any_sub_realm_county = {
+			any_county_province = {
+				OR = {
+					county.holder = root
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+				}
+				any_province_epidemic = {
+					count >= 1
+				}
+			}
+			ek_is_immune_county_culture = no
+		}
+	}
+
+	immediate = {
+		random_sub_realm_county = {
+			limit = {
+				any_county_province = {
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+					any_province_epidemic = {
+						count >= 1
+					}
+				}
+			}			
+			save_scope_as = epidemic_county
+		}
+		if = {
+			limit = { 
+				exists = cp:councillor_court_chaplain
+				cp:councillor_court_chaplain = { is_available_ai_adult = yes }
+			}
+			cp:councillor_court_chaplain = {
+				save_scope_as = realm_priest
+			}
+		}
+	}
+
+	option = { # Order the burning of all dead
+		name = ek_epidemic_events.1008.a
+
+		scope:epidemic_county = {
+			add_county_modifier = {
+				modifier = denied_proper_burials_modifier
+				years = 5
+			}
+		}
+
+		stress_impact = {
+			diligent = minor_stress_impact_loss
+			callous = minor_stress_impact_loss
+			compassionate = minor_stress_impact_gain
+		}	
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = diligent
+				add = 25
+			}
+			modifier = {
+				has_trait = callous
+				add = 25
+			}
+			modifier = {
+				has_trait = compassionate
+				add = -25
+			}
+		}
+	}
+
+	option = { # Order your court priest to give proper burial rites
+		name = ek_epidemic_events.1008.b
+		trigger = {
+			faith = { has_doctrine_parameter = necromancy_criminal }
+			exists = scope:realm_priest
+		}
+		
+		random_list = {
+			20 = { # Priest is successfull
+				compare_modifier = {
+					target = scope:realm_priest
+					value = learning
+				}
+				desc = ek_epidemic_events.1008.b.success
+				send_interface_toast = {
+					title = ek_epidemic_events.1008.b.success
+					left_icon = scope:realm_priest
+					add_legitimacy = minor_legitimacy_gain
+				}				
+			}
+			30 = { # Priest is not successfull
+				desc = ek_epidemic_events.1008.b.failure
+				send_interface_toast = {
+					title = ek_epidemic_events.1008.b.failure
+					left_icon = root
+					right_icon = scope:realm_priest
+					scope:epidemic_county = {
+						add_county_modifier = {
+							modifier = plague_zombies_modifier
+							years = 5
+						}
+					}
+				}				
+			}
+		}
+
+		stress_impact = {
+			zealous = medium_stress_impact_loss
+			diligent = minor_stress_impact_loss
+			cynical = medium_stress_impact_gain
+		}	
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = zealous
+				add = 50
+			}
+			modifier = {
+				has_trait = diligent
+				add = 25
+			}
+			modifier = {
+				has_trait = cynical
+				add = -50
+			}
+		}		
+	}
+
+	option = { # If anyone reanimates my subjects, it's me
+		name = ek_epidemic_events.1008.c
+		trigger = {
+			has_trait = necromancer
+		}
+		trait = necromancer
+
+		spawn_army = {
+			men_at_arms = {
+				type = maa_undead_soldiers
+				stacks = {
+					value = scope:epidemic_county.county_levies_to_raise
+					multiply = 0.01
+				}
+			}
+			location = root.location
+			origin = root.location
+            inheritable = no
+            uses_supply = no
+            name = "undead_horde"
+		}
+
+		stress_impact = {
+			sadistic = minor_stress_impact_loss
+			callous = minor_stress_impact_loss
+			arrogant = minor_stress_impact_loss
+			ambitious = minor_stress_impact_loss
+			humble = minor_stress_impact_gain
+			compassionate = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = sadistic
+				add = 25
+			}
+			modifier = {
+				has_trait = callous
+				add = 25
+			}
+			modifier = {
+				has_trait = arrogant
+				add = 25
+			}
+			modifier = {
+				has_trait = ambitious
+				add = 25
+			}
+			modifier = {
+				has_trait = humble
+				add = -25
+			}
+			modifier = {
+				has_trait = compassionate
+				add = -50
+			}
+		}
+	}
+
+	option = { # There are other things to worry about
+		name = ek_epidemic_events.1008.d
+
+		scope:epidemic_county = {
+			add_county_modifier = {
+				modifier = plague_zombies_modifier
+				years = 5
+			}
+		}
+
+		stress_impact = {
+			diligent = minor_stress_impact_gain
+			paranoid = minor_stress_impact_gain
+			zealous = minor_stress_impact_gain
+			lazy = medium_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = diligent 
+				add = -25
+			}
+			modifier = {
+				has_trait = paranoid
+				add = -25
+			}
+			modifier = {
+				has_trait = zealous
+				add = -25
+			}
+			modifier = {
+				has_trait = lazy
+				add = 50
+			}
+		}
+	}
+}
+
+# You are attacked by a greenspore victim
+ek_epidemic_events.1009 = {
+	type = character_event
+	title = ek_epidemic_events.1009.t
+	desc = ek_epidemic_events.1009.desc
+	theme = plague
+	content_source = dlc_ek
+	override_background = throne_room
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+	right_portrait = {
+		character = scope:greenspore_victim
+		animation = rage
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		is_available_adult = yes
+		capital_province = {
+			any_province_epidemic = {
+				epidemic_type = epidemic_type:measles
+			}
+			ek_is_immune_county_culture = no
+		}
+		any_courtier = {
+			is_adult = yes
+			has_trait = measles
+		}
+	}
+
+	immediate = {
+		random_courtier = {
+			limit = {
+				is_adult = yes
+				has_trait = measles
+			}
+			save_scope_as = greenspore_victim
+		}
+		if = {
+			limit = {
+				employs_court_position = bodyguard_court_position
+				any_court_position_holder = {
+					type = bodyguard_court_position
+					exists = location
+					location = root.location
+					is_available_healthy_ai_adult = yes
+				}
+			}
+			random_court_position_holder = {
+				type = bodyguard_court_position
+				limit = {
+					exists = location
+					location = root.location
+					is_available_healthy_ai_adult = yes
+						NOT = { has_short_disease_trigger = yes }
+					}
+				save_scope_as = bodyguard
+			}
+		}
+	}
+
+	option = { # Fight them off
+		name = ek_epidemic_events.1009.a
+
+		duel = {
+			skill = prowess
+			target = scope:greenspore_victim
+			20 = {
+				desc = ek_epidemic_events.1009.a.success
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_epidemic_events.1009.a.success
+					left_icon = root
+					right_icon = scope:greenspore_victim
+					scope:greenspore_victim = {
+						increase_wounds_effect = { REASON = fight }
+					}					
+				}
+				trigger_event = ek_epidemic_events.1010		
+			}
+			10 = {
+				desc = ek_epidemic_events.1009.a.failure
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_epidemic_events.1009.a.failure
+					left_icon = root
+					right_icon = scope:greenspore_victim
+					increase_wounds_effect = { REASON = fight }
+				}
+				trigger_event = {
+					id = health.1015
+					days = { 3 6 }
+				}
+			}
+		}
+
+		stress_impact = {
+			brave = minor_stress_impact_loss
+			wrathful = minor_stress_impact_loss
+			craven = major_stress_impact_gain
+			compassionate = minor_stress_impact_gain
+		}	
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = brave
+				add = 25
+			}
+			modifier = {
+				has_trait = wrathful
+				add = 25
+			}
+			modifier = {
+				has_trait = craven
+				add = -75
+			}
+			modifier = {
+				has_trait = compassionate
+				add = -25
+			}
+		}
+	}
+
+	option = { # Try to talk them out of it
+		name = ek_epidemic_events.1009.b
+
+		duel = {
+			skill = prowess
+			target = scope:greenspore_victim
+			20 = {
+				desc = ek_epidemic_events.1009.b.success
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_epidemic_events.1009.b.success
+					left_icon = root
+					right_icon = scope:greenspore_victim
+					scope:greenspore_victim = {
+						increase_wounds_effect = { REASON = fight }
+					}					
+				}
+				trigger_event = ek_epidemic_events.1010		
+			}
+			20 = {
+				desc = ek_epidemic_events.1009.b.failure
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_epidemic_events.1009.b.failure
+					left_icon = root
+					right_icon = scope:greenspore_victim
+					increase_wounds_effect = { REASON = fight }
+				}
+				trigger_event = {
+					id = health.1015
+					days = { 3 6 }
+				}
+			}
+		}
+
+		stress_impact = {
+			calm = minor_stress_impact_loss
+			compassionate = minor_stress_impact_loss
+			wrathful = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = calm
+				add = 25
+			}
+			modifier = {
+				has_trait = compassionate
+				add = 25
+			}
+			modifier = {
+				has_trait = wrathful
+				add = -50
+			}
+		}
+	}
+
+	option = { # Call your bodyguard
+		name = ek_epidemic_events.1009.c
+		trigger = {
+			exists = scope:bodyguard
+		}
+
+		trigger_event = ek_epidemic_events.1010		
+		
+		stress_impact = {
+			craven = medium_stress_impact_loss
+			brave = medium_stress_impact_gain
+			wrathful = minor_stress_impact_gain
+		}	
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = craven
+				add = 50
+			}
+			modifier = {
+				has_trait = brave
+				add = -50
+			}
+			modifier = {
+				has_trait = wrathful
+				add = -25
+			}
+		}		
+	}
+
+	option = { # Use a spell to defend yourself
+		name = ek_epidemic_events.1009.d
+		reason = destruction
+		trigger = {
+			has_perk = destruction_novice_perk
+			has_magicka_more_than = { VALUE = t1_spell_cost }
+		}
+
+		show_as_unavailable = { has_magicka_less_than = { VALUE = t1_spell_cost } }
+
+		add_magicka = { VALUE = t1_spell_cost }
+
+		trigger_event = ek_epidemic_events.1010		
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+# You are attacked by a greenspore victim - Follow Up
+ek_epidemic_events.1010 = {
+	type = character_event
+	title = ek_epidemic_events.1010.t
+	desc = ek_epidemic_events.1010.desc
+	theme = plague
+	content_source = dlc_ek
+	override_background = throne_room
+	left_portrait = {
+		character = root
+		animation = sadness 
+	}
+	right_portrait = {
+		character = scope:greenspore_victim
+		animation = shame
+	}
+
+	trigger = {
+		is_available_adult = yes
+		scope:greenspore_victim = {
+			exists = yes
+		}
+	}
+
+	option = { # Into the dungeon with them
+		name = ek_epidemic_events.1010.a
+
+		imprison = {
+			target = scope:peryite_cultist
+			type = dungeon
+		}
+		
+		reverse_add_opinion = {
+			target = scope:greenspore_victim
+			modifier = disappointed_opinion
+			opinion = -20
+		}
+
+		stress_impact = {
+			vengeful = medium_stress_impact_loss
+			sadistic = minor_stress_impact_loss
+			forgiving = major_stress_impact_gain
+			compassionate = medium_stress_impact_gain
+		}	
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = vengeful
+				add = 50
+			}
+			modifier = {
+				has_trait = sadistic
+				add = 25
+			}
+			modifier = {
+				has_trait = forgiving
+				add = -75
+			}
+			modifier = {
+				has_trait = compassionate
+				add = -25
+			}
+		}
+	}
+
+	option = { # Let your physician treat them
+		name = ek_epidemic_events.1010.b
+		trigger = {
+			court_physician_available_trigger = yes
+		}
+
+		risky_disease_treatment_effect = { PATIENT = scope:greenspore_victim TREATMENT_PICKER = root }
+
+		stress_impact = {
+			vengeful = minor_stress_impact_gain
+			forgiving = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = vengeful
+				add = -25
+			}
+			modifier = {
+				has_trait = forgiving
+				add = 25
+			}
+		}
+	}
+
+	option = { # Cure them with a spell
+		name = ek_epidemic_events.1009.c
+		reason = restoration
+		trigger = {
+			has_perk = restoration_apprentice_perk
+			has_magicka_more_than = { VALUE = t2_spell_cost }
+		}
+
+		show_as_unavailable = { has_magicka_less_than = { VALUE = t2_spell_cost } }
+		
+		add_magicka = { VALUE = t2_spell_cost }
+
+		scope:greenspore_victim = {
+			add_opinion = {
+				target = root
+				modifier = thankful_opinion
+				opinion = 30
+			}
+			remove_trait = measles
+		}
+		
+		stress_impact = {
+			vengeful = medium_stress_impact_gain
+			forgiving = medium_stress_impact_loss
+			compassionate = minor_stress_impact_loss
+		}	
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = vengeful
+				add = -50
+			}
+			modifier = {
+				has_trait = forgiving
+				add = 25
+			}
+			modifier = {
+				has_trait = compassionate
+				add = 25
+			}
+		}		
+	}
+
+	option = { # Just leave them be
+		name = ek_epidemic_events.1009.d
+
+		ai_chance = {
+			base = 10
+		}
+	}
+}
+
+# Ataxia is a common disease - which treatment is best?
+ek_epidemic_events.1011 = {
+	type = character_event
+	title = ek_epidemic_events.1011.t
+	desc = ek_epidemic_events.1011.desc
+	theme = plague
+	content_source = dlc_ek
+	override_background = physicians_study
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	right_portrait = {
+		character = scope:court_physician
+		animation = personality_bold 
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		is_available_adult = yes
+		NOT = { faith = { has_doctrine = doctrine_pantheon_peryite } }
+		capital_province = {
+			any_province_epidemic = {
+				epidemic_type = epidemic_type:typhus
+			}
+			ek_is_immune_county_culture = no
+		}
+		court_physician_available_trigger = yes
+	}
+
+	immediate = {
+		court_position:court_physician_court_position = { save_scope_as = physician }		
+		capital_county = { save_scope_as = capital }
+		if = {
+			limit = { employs_court_position = court_mage_court_position }
+			court_position:court_mage_court_position = {
+				if = {
+					limit = { is_available_ai_adult = yes }
+					save_scope_as = court_mage
+				}
+			}
+		}
+	}
+
+	option = { # Distribute goods to the ill
+		name = ek_epidemic_events.1011.a
+
+		remove_short_term_gold = medium_gold_value
+
+		scope:capital = {
+			add_county_modifier = distributed_medicine_modifier
+		}
+
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+			diligent = minor_stress_impact_loss
+			compassionate = minor_stress_impact_loss
+		}	
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				gold < medium_gold_value
+				add = -100
+			}
+			modifier = {
+				has_trait = greedy
+				add = -50
+			}
+			modifier = {
+				has_trait = diligent
+				add = 25
+			}
+			modifier = {
+				has_trait = compassionate
+				add = 25
+			}
+		}
+	}
+
+	option = { # The people should rely on their faith
+		name = ek_epidemic_events.1011.b
+
+		add_piety = medium_piety_gain
+
+		stress_impact = {
+			zealous = medium_stress_impact_loss
+			cynical = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = zealous
+				add = 50
+			}
+			modifier = {
+				has_trait = cynical
+				add = -50
+			}
+		}
+	}
+
+	option = { # Send your court mage to aid the populace
+		name = ek_epidemic_events.1011.c
+		trigger = {
+			exists = scope:court_mage
+			scope:court_mage = {				
+				has_perk = restoration_apprentice_perk
+				has_magicka_more_than = { VALUE = t2_spell_cost }
+			}
+		}		
+
+		scope:court_mage = {
+			add_magicka = { VALUE = t2_spell_cost }
+		}
+
+		scope:capital = {
+			add_county_modifier = {
+				modifier = safeguarding_restoration_magic_modifier
+				years = 5
+			}
+		}
+		
+		ai_chance = {
+			base = 200
+		}		
+	}
+
+	option = { # They can deal with that alone
+		name = ek_epidemic_events.1011.d
+
+		stress_impact = {
+			lazy = medium_stress_impact_loss
+			callous = medium_stress_impact_loss
+			arrogant = minor_stress_impact_loss
+			cynical = minor_stress_impact_loss
+			compassionate = minor_stress_impact_gain
+			diligent = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+# A Mage wants to disrupt themselve to safeguard against chrondiasis
+ek_epidemic_events.1012 = {
+	type = character_event
+	title = ek_epidemic_events.1012.t
+	desc = ek_epidemic_events.1012.desc
+	theme = plague
+	content_source = dlc_ek
+	override_background = physicians_study
+	left_portrait = {
+		character = root
+		animation = dismissal 
+	}
+	right_portrait = {
+		character = scope:mage
+		animation = paranoia
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		is_available_adult = yes
+		any_sub_realm_county = {
+			any_county_province = {
+				OR = {
+					county.holder = root
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+				}
+				any_province_epidemic = {
+					epidemic_type = epidemic_type:chrondiasis
+				}
+			}
+			ek_is_immune_county_culture = no
+		}
+		any_courtier = {
+			can_magic_trigger = yes
+			NOR = { 
+				has_trait = disrupted
+				has_trait = chrondiasis
+			}
+		}
+	}
+
+	immediate = {
+		random_courtier = {
+			limit = {
+				can_magic_trigger = yes
+				NOR = { 
+					has_trait = disrupted
+					has_trait = chrondiasis
+				}
+			}
+			save_scope_as = mage
+		}
+	}
+
+	option = { # Talk them out of it
+		name = ek_epidemic_events.1012.a
+
+		duel = {
+			skill = diplomacy
+			target = scope:mage
+			10 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -9
+				}	
+				desc = ek_epidemic_events.1012.a.success
+				send_interface_toast = {
+					title = ek_epidemic_events.1012.a.success
+					scope:mage = {
+						add_opinion = {
+							modifier = thankful_opinion
+							target = root
+							opinion = 10
+						}
+					}					
+				}
+			}
+			10 = {		
+				desc = ek_epidemic_events.1012.a.failure
+				send_interface_toast = {
+					title = ek_epidemic_events.1012.a.failure
+					scope:mage = {
+						add_trait = disrupted
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			gregarious = medium_stress_impact_loss
+			shy = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = gregarious
+				add = 50
+			}
+			modifier = {
+				has_trait = shy 
+				add = -50
+			}
+		}
+	}
+
+	option = { # Just forbid it
+		name = ek_epidemic_events.1012.b
+
+		scope:mage = {
+			add_opinion = {
+				modifier = angry_opinion
+				target = root
+				opinion = -25
+			}
+		}
+
+		stress_impact = {
+			wrathful = medium_stress_impact_loss			
+			shy = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = wrathful
+				add = 50
+			}
+			modifier = {
+				has_trait = shy
+				add = -25
+			}
+		}
+	}
+
+	option = { # Let yourself get disrupted, too
+		name = ek_epidemic_events.1012.c
+		trigger = {
+			NOR = { 
+				has_trait = disrupted
+				has_trait = chrondiasis
+			}
+			can_magic_trigger = yes
+		}
+
+		add_trait = disrupted
+
+		scope:mage = {
+			add_trait = disrupted
+		}
+
+		stress_impact = {
+			paranoid = medium_stress_impact_loss			
+			craven = minor_stress_impact_loss
+			ambitious = medium_stress_impact_gain
+			brave = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 10
+			modifier = {
+				has_trait = paranoid
+				add = 50
+			}
+			modifier = {
+				has_trait = craven
+				add = 25
+			}
+			modifier = {
+				has_trait = ambitious
+				add = -50
+			}
+			modifier = {
+				has_trait = brave
+				add = -25
+			}
+		}		
+	}
+
+	option = { # It is their decision...
+		name = ek_epidemic_events.1012.d
+
+		scope:mage = {
+			add_trait = disrupted
+		}
+
+		stress_impact = {
+			callous = minor_stress_impact_loss
+			humble = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = callous
+				add = 25
+			}
+			modifier = {
+				has_trait = humble
+				add = 25
+			}
+		}	
+	}
+}
+
+# Knight trains despite having droops
+ek_epidemic_events.1013 = {
+	type = character_event
+	title = ek_epidemic_events.1013.t
+	desc = ek_epidemic_events.1013.desc
+	theme = plague
+	content_source = dlc_ek
+	override_background = courtyard
+	left_portrait = {
+		character = root
+		animation = disbelief 
+	}
+	right_portrait = {
+		character = scope:knight
+		animation = aggressive_sword 
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		is_available_adult = yes
+		any_sub_realm_county = {
+			any_county_province = {
+				OR = {
+					county.holder = root
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+				}
+				any_province_epidemic = {
+					epidemic_type = epidemic_type:dysentery
+				}
+			}
+			ek_is_immune_county_culture = no
+		}
+		any_knight = {
+			has_trait = dysentery
+			has_trait = stubborn			
+		}
+	}
+
+	immediate = {
+		random_knight = {
+			limit = {
+				has_trait = dysentery
+				has_trait = stubborn
+			}
+			save_scope_as = knight
+		}
+	}
+
+	option = { # Send them back to bed
+		name = ek_epidemic_events.1013.a
+
+		reverse_add_opinion = {
+			target = scope:knight
+			modifier = angry_opinion
+			opinion = -10
+		}
+
+		stress_impact = {
+			honest = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = honest
+				add = 25
+			}
+		}
+	}
+
+	option = { # Train with them
+		name = ek_epidemic_events.1013.b
+
+		reverse_add_opinion = {
+			target = scope:knight
+			modifier = thankful_opinion
+			opinion = 10
+		}
+
+		random_list = {
+			50 = {
+				compare_modifier = {
+					value = 1
+					multiplier = prowess
+				}
+				send_interface_toast = {
+					title = ek_epidemic_events.1013.b.success
+					add_character_modifier = {
+						modifier = won_practice_duel
+						years = 1
+					}
+				}				
+			}
+			40 = {
+				send_interface_toast = {
+					title = ek_epidemic_events.1013.b.failure
+					scope:knight = {
+						add_character_modifier = {
+							modifier = won_practice_duel
+							years = 1
+						}
+					}
+				}				
+			}
+			10 = {
+				compare_modifier = {
+					value = 1
+					multiplier = prowess
+				}
+				send_interface_toast = {
+					title = ek_epidemic_events.1013.b.criticalfailure
+					scope:knight = {
+						death = { 
+							death_reason = death_dysentery
+						}
+					}
+				}				
+			}
+		}
+
+		stress_impact = {
+			gregarious = medium_stress_impact_loss			
+			ambitious = minor_stress_impact_loss
+			stubborn = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = gregarious
+				add = 50
+			}
+			modifier = {
+				has_trait = ambitious
+				add = 25
+			}
+			modifier = {
+				has_trait = stubborn
+				add = 25
+			}
+		}
+	}
+
+	option = { # Sent them to a physician
+		name = ek_epidemic_events.1013.c
+		trigger = {
+			court_physician_available_trigger = yes
+		}
+
+		risky_disease_treatment_effect = { PATIENT = scope:greenspore_victim TREATMENT_PICKER = root }
+
+
+		stress_impact = {
+			compassionate = minor_stress_impact_loss			
+			callous = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = compassionate
+				add = 25
+			}
+			modifier = {
+				has_trait = callous
+				add = -25
+			}
+		}		
+	}
+
+	option = { # Heal them with a spell
+		name = ek_epidemic_events.1013.d
+		reason = restoration
+		trigger = {
+			has_perk = restoration_apprentice_perk
+			has_magicka_more_than = { VALUE = t2_spell_cost }
+		}
+
+		show_as_unavailable = { has_magicka_less_than = { VALUE = t2_spell_cost } }
+		
+		add_magicka = { VALUE = t2_spell_cost }
+
+		scope:knight = {
+			add_opinion = {
+				target = root
+				modifier = thankful_opinion
+				opinion = 30
+			}
+			remove_trait = dysentery
+		}
+		
+		stress_impact = {
+			compassionate = major_stress_impact_loss
+			callous = medium_stress_impact_gain
+		}	
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = compassionate
+				add = 75
+			}
+			modifier = {
+				has_trait = callous
+				add = -50
+			}
+		}		
+	}
+}
+
+# Withered People are unable to tend their crops
+ek_epidemic_events.1014 = {
+	type = character_event
+	title = ek_epidemic_events.1014.t
+	desc = ek_epidemic_events.1014.desc
+	theme = plague
+	content_source = dlc_ek
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+	right_portrait = {
+		character = scope:knight
+		animation = aggressive_sword 
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		is_available_adult = yes
+		capital_province = {
+			any_province_epidemic = {
+				epidemic_type = epidemic_type:consumption
+			}
+			ek_is_immune_county_culture = no
+		}
+	}
+
+	immediate = {
+		capital_county = { save_scope_as = capital }
+	}
+
+	option = { # Send your army to do the harvest
+		name = ek_epidemic_events.1014.a
+
+		add_character_modifier = {
+			modifier = laboring_army_modifier
+			years = 5
+		}
+
+		stress_impact = {
+			diligent = minor_stress_impact_loss		
+			paranoid = minor_stress_impact_gain
+			greedy = medium_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = diligent
+				add = 25
+			}
+			modifier = {
+				has_trait = paranoid
+				add = -25
+			}
+			modifier = {
+				has_trait = greedy
+				add = 50
+			}
+		}
+	}
+
+	option = { # Ask fertility god for help
+		name = ek_epidemic_events.1014.b
+
+		random_list = {
+			10 = {
+				compare_modifier = {
+					value = 10
+					multiplier = piety_level
+				}
+				send_interface_toast = {
+					title = ek_epidemic_events.1014.b.success
+					add_piety = medium_piety_gain
+				}
+			}
+			90 = {
+				send_interface_toast = {
+					title = ek_epidemic_events.1014.b.failure
+					scope:epidemic_county = {
+						add_county_modifier = {
+							modifier = withered_crops_modifier
+							years = 5
+						}
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+			zealous = medium_stress_impact_loss			
+			cynical = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = zealous
+				add = 50
+			}
+			modifier = {
+				has_trait = cynical
+				add = -50
+			}
+		}		
+	}
+
+	option = { # It is how it is
+		name = ek_epidemic_events.1014.c
+
+		scope:capital = {
+			add_county_modifier = {
+				modifier = withered_crops_modifier
+				years = 5
+			}
+		}
+
+		stress_impact = {
+			greedy = medium_stress_impact_gain
+			diligent = minor_stress_impact_gain
+			lazy = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = greedy
+				add = -50
+			}
+			modifier = {
+				has_trait = diligent
+				add = 25
+			}
+			modifier = {
+				has_trait = lazy
+				add = 25
+			}
+		}
+		
+	}
+}
+
+# Exodus of those affected by Peryites Affliction
+ek_epidemic_events.1015 = {
+	type = character_event
+	title = ek_epidemic_events.1015.t
+	desc = ek_epidemic_events.1015.desc
+	theme = plague
+	content_source = dlc_ek
+	override_background = { reference = council_chamber }
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:steward
+		animation = worry
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		is_available = yes
+		any_sub_realm_county = {
+			any_county_province = {
+				OR = {
+					county.holder = root
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+				}
+				any_province_epidemic = {
+					count >= 1
+				}
+			}
+			ek_is_immune_county_culture = no
+			ek_is_county_faith_likes_diseases = no
+		}
+		exists = cp:councillor_steward
+		cp:councillor_steward = { is_available_ai_adult = yes }
+	}
+
+	immediate = {
+		random_sub_realm_county = {
+			limit = {
+				any_county_province = {
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+					any_province_epidemic = {
+						count >= 1
+					}
+				}
+			}			
+			save_scope_as = epidemic_county
+		}
+		cp:councillor_steward = {
+			save_scope_as = steward
+		}
+	}
+
+	option = { # Convince them to stay
+		name = ek_epidemic_events.1015.a
+		
+		random_list = {
+			20 = { # Offer is succesfull
+				compare_modifier = {
+					target = scope:steward
+					value = stewardship
+				}
+				desc = ek_epidemic_events.1015.a.success
+				send_interface_toast = {
+					title = ek_epidemic_events.1015.a.success
+					left_icon = root
+					right_icon = scope:steward
+					add_legitimacy = minor_legitimacy_gain
+				}				
+			}
+			30 = { # Offer is unsuccesfull
+				desc = ek_epidemic_events.1015.a.failure
+				send_interface_toast = {
+					title = ek_epidemic_events.1015.a.failure
+					left_icon = root
+					right_icon = scope:steward
+					scope:epidemic_county = {
+						change_development_level = -1
+					}
+				}				
+			}
+		}
+
+		stress_impact = {
+			trusting = minor_stress_impact_loss
+			diligent = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = trusting
+				add = 25
+			}
+			modifier = {
+				has_trait = diligent
+				add = 25
+			}
+		}
+	}
+
+	option = { # Force them to stay
+		name = ek_epidemic_events.1015.b
+
+		scope:epidemic_county = {
+			change_county_control = -25
+		}
+
+		stress_impact = {
+			arbitrary = medium_stress_impact_loss
+			wrathful = minor_stress_impact_loss
+			compassionate = minor_stress_impact_gain
+			just = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = arbitrary
+				add = 50
+			}
+			modifier = {
+				has_trait = wrathful
+				add = -25
+			}
+			modifier = {
+				has_trait = compassionate
+				add = 25
+			}
+			modifier = {
+				has_trait = just
+				add = -50
+			}
+		}	
+	}
+
+	option = { # Turn them into cultists
+		name = ek_epidemic_events.1015.c
+		trigger = {
+			faith = { has_doctrine = doctrine_pantheon_peryite }
+		}
+
+		spawn_army = {
+			men_at_arms = {
+				type = cultists
+				stacks = 1
+			}
+			inheritable = no
+			location = capital_province
+			name = "cultists"
+		}
+
+		ai_chance = {
+			base = 250
+		}
+	}
+
+	option = { # Good riddance
+		name = ek_epidemic_events.1015.d
+
+		scope:epidemic_county = {
+			change_development_level = -1
+		}
+
+		stress_impact = {
+			compassionate = minor_stress_impact_loss
+			just = minor_stress_impact_loss
+			diligent = minor_stress_impact_gain
+			arbitrary = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = compassionate
+				add = 25
+			}
+			modifier = {
+				has_trait = just
+				add = 25
+			}
+			modifier = {
+				has_trait = diligent
+				add = -25
+			}
+			modifier = {
+				has_trait = arbitrary
+				add = -25
+			}
+		}
+	}
+}
+
+# Convert to the Natural Order
+ek_epidemic_events.1016 = {
+	type = character_event
+	title = ek_epidemic_events.1016.t
+	desc = ek_epidemic_events.1016.desc
+	theme = plague
+	content_source = dlc_ek
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		faith = { has_doctrine = tenet_veneration_of_diseases }
+		capital_county = {
+			any_county_province = {
+				any_province_epidemic = {
+					count >= 1
+				}
+			}
+			ek_is_immune_county_culture = no
+		}
+	}
+
+	immediate = {
+		capital_county = {
+			save_scope_as = capital
+		}
+	}
+
+	option = { # Stay true to the Peryite Cult
+		name = ek_epidemic_events.1016.a
+		
+		add_piety = medium_piety_gain
+
+		stress_impact = {
+			zealous = minor_stress_impact_loss
+			stubborn = minor_stress_impact_loss
+			cynical = minor_stress_impact_gain
+			fickle = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = zealous
+				add = 25
+			}
+			modifier = {
+				has_trait = stubborn
+				add = 25
+			}
+			modifier = {
+				has_trait = cynical
+				add = -25
+			}
+			modifier = {
+				has_trait = fickle
+				add = -25
+			}
+		}
+	}
+
+	option = { # Convert
+		name = ek_epidemic_events.1016.b
+
+		set_character_faith = faith:natural_order
+
+		stress_impact = {
+			zealous = major_stress_impact_gain
+			stubborn = medium_stress_impact_gain
+			cynical = minor_stress_impact_loss
+			fickle = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = zealous
+				add = -75
+			}
+			modifier = {
+				has_trait = stubborn
+				add = -50
+			}
+			modifier = {
+				has_trait = cynical
+				add = 25
+			}
+			modifier = {
+				has_trait = fickle
+				add = 25
+			}
+		}	
+	}
+}
+
+# Spread your faith in an infected county
+ek_epidemic_events.1017 = {
+	type = character_event
+	title = ek_epidemic_events.1017.t
+	desc = ek_epidemic_events.1017.desc
+	theme = plague
+	content_source = dlc_ek
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:realm_priest
+		animation = personality_zealous
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		faith = { has_doctrine = tenet_veneration_of_diseases }
+		any_sub_realm_county = {
+			any_county_province = {
+				OR = {
+					county.holder = root
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+				}
+				any_province_epidemic = {
+					count >= 1
+				}
+			}
+			ek_is_immune_county_culture = no
+			ek_is_county_faith_likes_diseases = no
+		}
+		exists = cp:councillor_court_chaplain
+		cp:councillor_court_chaplain = { is_available_ai_adult = yes }
+	}
+
+	immediate = {
+		random_sub_realm_county = {
+			limit = {
+				any_county_province = {
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+					any_province_epidemic = {
+						count >= 1
+					}
+				}
+				ek_is_immune_county_culture = no
+				ek_is_county_faith_likes_diseases = no
+			}
+			save_scope_as = epidemic_county
+		}
+		cp:councillor_court_chaplain = {
+			save_scope_as = realm_priest
+		}
+	}
+
+	option = { # Let the priest spread your faith
+		name = ek_epidemic_events.1017.a
+
+		random_list = {
+			20 = { # Convertion is succesfull
+				compare_modifier = {
+					target = scope:realm_priest
+					value = learning
+				}
+				desc = ek_epidemic_events.1017.a.success
+				send_interface_toast = {
+					title = ek_epidemic_events.1017.a.success
+					left_icon = root
+					right_icon = scope:realm_priest
+					scope:epidemic_county = {
+						set_county_faith = root.faith
+					}
+				}				
+			}
+			30 = { # Convertion is unsuccesfull
+				desc = ek_epidemic_events.1017.a.failure
+				send_interface_toast = {
+					title = ek_epidemic_events.1017.a.failure
+					left_icon = root
+					right_icon = scope:realm_priest
+					add_piety = minor_piety_loss
+				}				
+			}
+			10 = { # The priest is killed
+				desc = ek_epidemic_events.1017.a.criticalfailure
+				send_interface_toast = {
+					title = ek_epidemic_events.1017.a.criticalfailure
+					left_icon = root
+					right_icon = scope:realm_priest
+					scope:realm_priest = {
+						death = {
+							death_reason = death_angry_populace
+						}
+					}
+					add_piety = medium_piety_loss
+				}				
+			}
+		}
+
+		stress_impact = {
+			trusting = minor_stress_impact_loss
+			zealous = medium_stress_impact_loss
+			cynical = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = trusting
+				add = 25
+			}
+			modifier = {
+				has_trait = zealous
+				add = 25
+			}
+			modifier = {
+				has_trait = cynical
+				add = -50
+			}
+		}
+	}
+
+	option = { # Let them be
+		name = ek_epidemic_events.1017.b
+
+		reverse_add_opinion = {
+			target = scope:realm_priest
+			modifier = disappointed_opinion
+			opinion = -15
+		}
+
+		stress_impact = {
+			trusting = minor_stress_impact_gain
+			zealous = medium_stress_impact_gain
+			cynical = medium_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = trusting
+				add = -25
+			}
+			modifier = {
+				has_trait = zealous
+				add = -25
+			}
+			modifier = {
+				has_trait = cynical
+				add = 50
+			}
+		}
+	}
+}
+
+# Lower plague resistance for Piety
+ek_epidemic_events.1018 = {
+	type = character_event
+	title = ek_epidemic_events.1018.t
+	desc = ek_epidemic_events.1018.desc
+	theme = plague
+	content_source = dlc_ek
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		faith = { has_doctrine = tenet_veneration_of_diseases }
+		any_sub_realm_county = {
+			any_county_province = {
+				OR = {
+					county.holder = root
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+				}
+				any_province_epidemic = {
+					count >= 1
+				}
+			}
+			ek_is_immune_county_culture = no
+		}
+	}
+
+	immediate = {
+		capital_county = {
+			save_scope_as = capital
+		}
+	}
+
+	option = { # Welcome the disease
+		name = ek_epidemic_events.1018.a
+
+		add_character_modifier = {
+			modifier = embraced_disease_modifier
+			years = 5
+		}
+
+		add_piety = major_piety_gain
+
+		stress_impact = {
+			zealous = medium_stress_impact_loss
+			cynical = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = cynical
+				add = -50
+			}
+			modifier = {
+				has_trait = zealous
+				add = 50
+			}
+		}
+	}
+
+	option = { # This seems a little bit excessive
+		name = ek_epidemic_events.1018.b
+
+		add_piety = minor_piety_loss
+
+		stress_impact = {
+			cynical = medium_stress_impact_loss
+			zealous = medium_stress_impact_gain
+			compassionate = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = cynical
+				add = 50
+			}
+			modifier = {
+				has_trait = zealous
+				add = -50
+			}
+			modifier = {
+				has_trait = compassionate
+				add = 25
+			}
+		}
+	}
+}
+
+# People are rejoicing the disease
+ek_epidemic_events.1019 = {
+	type = character_event
+	title = ek_epidemic_events.1019.t
+	desc = ek_epidemic_events.1019.desc
+	theme = plague
+	content_source = dlc_ek
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	right_portrait = {
+		character = scope:realm_priest
+		animation = happiness
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		faith = { has_doctrine = tenet_veneration_of_diseases }
+		any_sub_realm_county = {
+			any_county_province = {
+				OR = {
+					county.holder = root
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+				}
+				any_province_epidemic = {
+					count >= 1
+				}
+			}
+			ek_is_immune_county_culture = no
+			ek_is_county_faith_likes_diseases = yes
+		}
+	}
+
+	immediate = {
+		random_sub_realm_county = {
+			limit = {
+				any_county_province = {
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+					any_province_epidemic = {
+						count >= 1
+					}
+				}
+				ek_is_immune_county_culture = no
+				ek_is_county_faith_likes_diseases = yes
+			}
+			save_scope_as = epidemic_county
+		}
+	}
+
+	option = { # Let them celebrate you
+		name = ek_epidemic_events.1019.a
+
+		add_legitimacy = medium_legitimacy_gain
+		
+		stress_impact = {
+			gregarious = minor_stress_impact_loss
+			humble = medium_stress_impact_gain
+			shy = minor_stress_impact_gain
+			arrogant = medium_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = gregarious
+				add = 25
+			}
+			modifier = {
+				has_trait = humble
+				add = -50
+			}
+			modifier = {
+				has_trait = shy
+				add = -25
+			}
+			modifier = {
+				has_trait = arrogant
+				add = 50
+			}
+		}
+	}
+
+	option = { # Let them praise Peryite
+		name = ek_epidemic_events.1019.b
+
+		add_piety = medium_piety_gain
+
+		stress_impact = {
+			zealous = medium_stress_impact_gain
+			cynical = medium_stress_impact_loss
+			arrogant = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = trusting
+				add = -25
+			}
+			modifier = {
+				has_trait = zealous
+				add = -25
+			}
+			modifier = {
+				has_trait = cynical
+				add = 50
+			}
+		}
+	}
+
+	option = { # Gather them to arms
+		name = ek_epidemic_events.1019.c
+
+		spawn_army = {
+			men_at_arms = {
+				type = cultists
+				stacks = 1
+			}
+			inheritable = no
+			location = capital_province
+			name = "cultists"
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+
+# Try to catch the epidemic yourself
+ek_epidemic_events.1020 = {
+	type = character_event
+	title = ek_epidemic_events.1020.t
+	desc = ek_epidemic_events.1020.desc
+	theme = plague
+	content_source = dlc_ek
+	left_portrait = {
+		character = root
+		animation = shame
+	}
+	right_portrait = {
+		character = scope:courtier
+		animation = dismissal
+	}
+	cooldown = { years = 25 } 
+	trigger = {
+		faith = { has_doctrine = tenet_veneration_of_diseases }
+		any_sub_realm_county = {
+			any_county_province = {
+				OR = {
+					county.holder = root
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+				}
+				any_province_epidemic = {
+					count >= 1
+					save_temporary_scope_as = epidemic_to_check
+					root = { NOT = { has_trait = scope:epidemic_to_check.epidemic_type.epidemic_trait } }
+				}
+			}
+			ek_is_immune_county_culture = no
+			ek_is_county_faith_likes_diseases = yes
+		}
+		any_courtier = {
+			is_available_adult = yes
+			has_trait = patient
+		}
+	}
+
+	immediate = {
+		random_sub_realm_county = {
+			limit = {
+				any_county_province = {
+					squared_distance = {
+						target = root.capital_province
+						value <= squared_distance_medium #250 map-pixels. Roughly one Ireland away (top to bottom).
+					}
+					any_province_epidemic = {
+						count >= 1
+					}
+				}
+				ek_is_immune_county_culture = no
+				ek_is_county_faith_likes_diseases = yes
+			}
+			random_county_province = {
+				limit = {
+					any_province_epidemic = {
+						count >= 1
+					}
+				}				
+				random_province_epidemic = {
+					save_scope_as = epidemic_scope
+				}
+			}
+			save_scope_as = epidemic_county
+		}
+		random_courtier = {
+			limit = {
+				is_available_adult = yes
+				has_trait = patient
+			}
+			save_scope_as = courtier
+		}
+	}
+
+	option = { # Catch the disease
+		name = ek_epidemic_events.1020.a
+
+		random_list = {
+			10 = { 
+				modifier = {
+					add = learning
+				}
+				desc = ek_epidemic_events.1020.a.success
+				send_interface_toast = {
+					title = ek_epidemic_events.1020.a.success
+					left_icon = root
+					infect_with_epidemic = scope:epidemic_scope
+					add_piety = medium_piety_gain
+				}
+			}
+			10 = {
+				desc = ek_epidemic_events.1020.a.failure
+				send_interface_toast = {
+					title = ek_epidemic_events.1020.a.failure
+					left_icon = root
+					add_stress = medium_stress_gain
+				}
+			}
+		}
+		
+		stress_impact = {
+			zealous = medium_stress_impact_loss
+			impatient = minor_stress_impact_loss
+			cynical = medium_stress_impact_gain
+			patient = minor_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = zealous
+				add = 50
+			}
+			modifier = {
+				has_trait = impatient
+				add = 25
+			}
+			modifier = {
+				has_trait = cynical
+				add = -50
+			}
+			modifier = {
+				has_trait = patient
+				add = -25
+			}
+		}
+	}
+
+	option = { # It will come to me over time
+		name = ek_epidemic_events.1020.b
+
+		stress_impact = {
+			base = minor_stress_impact_loss
+			zealous = medium_stress_impact_gain
+			impatient = minor_stress_impact_gain
+			cynical = medium_stress_impact_loss
+			patient = minor_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = zealous
+				add = -50
+			}
+			modifier = {
+				has_trait = impatient
+				add = -25
+			}
+			modifier = {
+				has_trait = cynical
+				add = 50
+			}
+			modifier = {
+				has_trait = patient
+				add = 25
+			}
+		}
+	}
+}

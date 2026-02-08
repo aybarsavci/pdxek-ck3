@@ -1,0 +1,39 @@
+﻿action_pick_patron = {
+	type = alert
+	check_create_action = {
+		if = {
+			limit = {
+				is_adult = yes
+				patron_has_any_trait = no
+				NOT = { has_variable = recent_patron_selected }
+				OR = {
+					faith = { has_doctrine_parameter = unlocks_patron_tab_active } # We either have a polytheist faith, or a faith with a secondary pantheon
+					faith = { has_doctrine = doctrine_main_pantheon_type_daedric_prince } #or, since Daedric monolatrists now have a patron too, let's notify them too
+				}	
+			}
+			try_create_important_action = {
+				important_action_type = action_pick_patron
+				actor = root
+			}
+		}
+	}
+
+	effect = {
+		# scope:actor = {
+		# 	faith = {
+		# 		open_view_data = {
+		# 			view = faith
+		# 			#view_message = "[GetVariableSystem.Set( 'faith_view_tabs', 'patrons' )]"
+		# 		}
+		# 	}
+		# 	#set_variable = action_patron #replace with create widget when available
+		# }
+		scope:actor = { #still should use custom widgets if posible but this at least should be more multiplayer friendly
+			close_view = { view = religion }
+			close_view = { view = faith }
+
+			religion = { open_view = { view = religion } }
+			faith = { open_view_data = { view = faith } }
+		}
+	}
+}

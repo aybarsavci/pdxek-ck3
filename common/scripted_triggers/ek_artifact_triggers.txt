@@ -1,0 +1,485 @@
+﻿# Artifact Visual triggers
+artifact_use_dunmer_unit_visuals_trigger = {
+	exists = culture
+	culture = {	has_unit_gfx = dunmer_unit_gfx }
+}
+artifact_use_dremora_unit_visuals_trigger = {
+	exists = culture
+	culture = {	has_unit_gfx = ek_dremora_unit_gfx }  # We might need to standardize naming convetions - He9
+}
+artifact_use_morc_unit_visuals_trigger = {
+	exists = culture
+	culture = {	has_unit_gfx = morc_unit_gfx }
+}
+
+# portrait wield triggers
+portrait_should_wield_staff_trigger = {
+	trigger_if = {
+		limit = { any_equipped_character_artifact = { artifact_slot_type = primary_armament } }
+		any_equipped_character_artifact = { artifact_type = staff }
+	}
+	trigger_else = {
+		has_variable = signature_weapon
+		var:signature_weapon = flag:staff
+	}
+}
+
+# Green Pact trigger
+artifact_use_green_pact_visuals_trigger = {
+	exists = faith
+	faith = { has_doctrine = tenet_green_pact }
+}
+
+#								 #
+##################################
+### Artifact Material Triggers ###
+##################################
+#								 #
+
+##########################################
+# Woods - Trees and Lumber
+# Determines where various trees grow and, as a result, where products made from them is likely to be found
+##########################################
+
+# beech
+artifact_feature_wood_beech_trigger = {
+	artifact_value_trigger = { VALUE = scope:wealth MIN = 20 MAX = 60 }
+}
+
+# birch
+artifact_feature_wood_birch_trigger = {
+	artifact_value_trigger = { VALUE = scope:wealth MIN = 50 MAX = 90 }
+}
+
+# ash
+artifact_feature_wood_ash_trigger = {
+	artifact_value_trigger = { VALUE = scope:wealth MIN = 60 MAX = 100 }
+}
+
+# mahogany
+artifact_feature_wood_mahogany_trigger = {
+	artifact_value_trigger = { VALUE = scope:wealth MIN = 70 MAX = 110 }
+}
+
+# nightwood
+artifact_feature_wood_nightwood_trigger = {
+	artifact_value_trigger = { VALUE = scope:wealth MIN = 80 MAX = 120 }
+}
+
+# ruby ash
+artifact_feature_wood_ruby_ash_trigger = {
+	artifact_value_trigger = { VALUE = scope:wealth MIN = 90 MAX = 130 }
+}
+
+##########################################
+# Cloths 
+# Woven materials for clothing, tapestries, embroidery, ropes, etc.
+##########################################
+
+
+##########################################
+# Animal type
+# Basically an animal used in an artifact, for example as a wall ornament or hide
+##########################################
+
+# boar, hart, stag, wolf, bear, dire wolf, 
+artifact_feature_animal_no_east_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			scope:location = {
+				NOT = {
+					geographical_region = mundus_tamriel_morrowind
+					geographical_region = mundus_tamriel_black_marsh
+				}
+			}
+		}
+	}
+}
+
+#giant wasp
+artifact_feature_animal_giant_wasp_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			OR = {
+				geographical_region = mundus_tamriel_morrowind
+				geographical_region = mundus_tamriel_black_marsh
+				geographical_region = mundus_tamriel_hammerfell
+				geographical_region = mundus_tamriel_valenwood
+				geographical_region = mundus_tamriel_cyrodiil
+				geographical_region = mundus_tamriel_elsweyr
+				geographical_region = mundus_tamriel_high_rock_betony
+			}
+		}
+	}
+}
+
+#bull netch, kwama warrior, cliff-strider, alit, nix-hound
+artifact_feature_animal_east_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			OR = {
+				geographical_region = mundus_tamriel_morrowind
+				geographical_region = mundus_tamriel_black_marsh
+			}
+		}
+	}
+}
+
+# senche-cougar, senche-leopard, senche-lion, senche-panther, senche-tiger
+artifact_feature_animal_senche_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			OR = {
+				geographical_region = mundus_tamriel_elsweyr
+				geographical_region = mundus_tamriel_valenwood
+			}
+		}
+	}
+}
+
+#tusked bristleback
+artifact_feature_animal_solstheim_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			geographical_region = mundus_tamriel_skyrim_solstheim
+		}
+	}
+}
+
+# gryphon
+artifact_feature_animal_summerset_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			geographical_region = mundus_tamriel_summerset_isles
+		}
+	}
+}
+
+#addax
+artifact_feature_animal_elsweyr_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			geographical_region = mundus_tamriel_elsweyr
+		}
+	}
+}
+
+#duneracer
+artifact_feature_animal_craglorn_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			geographical_region = mundus_tamriel_hammerfell_craglorn
+		}
+	}
+}
+
+#haj mota
+artifact_feature_animal_haj_mota_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			geographical_region = mundus_tamriel_hammerfell_hew_bane
+			geographical_region = mundus_tamriel_black_marsh
+		}
+	}
+}
+
+#duneripper
+artifact_feature_animal_duneripper_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			OR = {
+				geographical_region = mundus_tamriel_hammerfell_alikr_desert
+				geographical_region = mundus_tamriel_elsweyr
+			}
+		}
+	}
+}
+
+#fellrunner
+artifact_feature_animal_fellrunner_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			OR = {
+				geographical_region = mundus_tamriel_hammerfell_craglorn
+				geographical_region = mundus_tamriel_hammerfell_hew_bane
+				geographical_region = mundus_tamriel_summerset_isles
+				geographical_region = mundus_tamriel_elsweyr
+			}
+		}
+	}
+}
+
+# chaurus
+artifact_feature_animal_skyrim_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			geographical_region = mundus_tamriel_skyrim
+		}
+	}
+}
+
+# troll
+artifact_feature_animal_troll_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			NOR = {
+				terrain = desert
+				terrain = desert_mountains
+				terrain = oasis
+				terrain = ashlands
+			}
+		}
+	}
+}
+
+# lurcher
+artifact_feature_animal_lurcher_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			OR = {
+				geographical_region = mundus_tamriel_high_rock_glenumbra
+				geographical_region = mundus_tamriel_hammerfell_bangkorai
+				geographical_region = mundus_tamriel_hammerfell_hallin
+				geographical_region = mundus_tamriel_valenwood_grahtwood
+				geographical_region = mundus_tamriel_black_marsh_shadowfen
+			}
+		}
+	}
+}
+
+#crocodile
+artifact_feature_animal_crocodile_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			OR = {
+				# Either coastal.
+				is_coastal = yes
+				# Or has a suitable terrain.
+				terrain = valenwood
+				terrain = black_marsh
+				terrain = oasis
+				terrain = jungle
+				terrain = wetlands
+				terrain = floodplains
+				terrain = farmlands
+			}
+		}
+	}
+}
+
+#coastal
+artifact_feature_animal_coastal_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			is_coastal = yes	
+		}
+	}
+}
+
+artifact_feature_animal_dreugh_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			OR = {
+				is_coastal = yes
+				geographical_region = mundus_tamriel_cyrodiil
+				geographical_region = mundus_tamriel_hammerfell_craglorn
+			}
+		}
+	}
+}
+
+#sep adder
+artifact_feature_animal_sep_adder_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			OR = {
+				geographical_region = mundus_tamriel_hammerfell_hew_bane
+				geographical_region = mundus_tamriel_elsweyr_anequina
+				geographical_region = mundus_tamriel_elsweyr_rimmen
+				geographical_region = mundus_tamriel_elsweyr_riverhold
+				geographical_region = mundus_tamriel_elsweyr_dune
+				geographical_region = mundus_tamriel_elsweyr_orcrest
+				geographical_region = mundus_tamriel_hammerfell_sunforge
+				geographical_region = mundus_tamriel_elsweyr_corinthe
+			}
+		}
+	}
+}
+
+#wamasu
+artifact_feature_animal_wamasu_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			OR = {
+				geographical_region = mundus_tamriel_black_marsh
+				geographical_region = mundus_tamriel_elsweyr
+				geographical_region = mundus_tamriel_valenwood
+			}
+		}
+	}
+}
+
+#mammoth
+artifact_feature_animal_mammoth_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			OR = {
+				geographical_region = mundus_tamriel_skyrim
+				geographical_region = mundus_tamriel_reach
+				geographical_region = mundus_tamriel_valenwood
+			}
+		}
+	}
+}
+
+#horker
+artifact_feature_animal_horker_trigger = {
+	trigger_if = {
+		limit = { exists = scope:location }
+		scope:location = {
+			OR = {
+				geographical_region = mundus_tamriel_skyrim
+				geographical_region = mundus_tamriel_reach
+			}
+		}
+	}
+}
+
+##########################################
+# Metals
+# Any mettalic resources used for either functional or decorative purposes.
+##########################################
+
+# chitin
+artifact_feature_metal_chitin_trigger = {
+	trigger_if = {
+		limit = { exists = scope:owner }
+		artifact_region_trigger = { CHARACTER = scope:owner REGION = material_east }
+	}
+}
+
+# steel
+artifact_feature_metal_steel_trigger = {
+	exists = scope:quality
+	artifact_value_trigger = { VALUE = scope:quality MIN = 50 MAX = 999 }
+}
+
+
+# silver
+artifact_feature_metal_silver_trigger = {
+	exists = scope:quality
+	artifact_value_trigger = { VALUE = scope:quality MIN = 50 MAX = 999 }
+}
+
+# orichalcum
+artifact_feature_metal_orichalcum_trigger = {
+	exists = scope:quality
+	artifact_value_trigger = { VALUE = scope:quality MIN = 50 MAX = 999 }
+}
+
+# mithril
+artifact_feature_metal_mithril_trigger = {
+	exists = scope:quality
+	exists = scope:owner
+	artifact_value_trigger = { VALUE = scope:quality MIN = 50 MAX = 999 }
+	artifact_region_trigger = { CHARACTER = scope:owner REGION = material_metal_mithril }
+}
+
+# adamantium
+artifact_feature_metal_adamantium_trigger = {
+	exists = scope:quality
+	artifact_value_trigger = { VALUE = scope:quality MIN = 50 MAX = 999 }
+}
+
+# dwarven
+artifact_feature_metal_dwarven_trigger = {
+	exists = scope:quality
+	exists = scope:owner
+	artifact_value_trigger = { VALUE = scope:quality MIN = 50 MAX = 999 }
+	artifact_region_trigger = { CHARACTER = scope:owner REGION = dwemer_ruins_region }
+}
+
+# ebony
+artifact_feature_metal_ebony_trigger = {
+	exists = scope:quality
+	artifact_value_trigger = { VALUE = scope:quality MIN = 60 MAX = 999 }
+}
+
+# moonstone
+artifact_feature_metal_moonstone_trigger = {
+	exists = scope:quality
+	artifact_value_trigger = { VALUE = scope:quality MIN = 50 MAX = 999 }
+}
+
+# glass
+artifact_feature_metal_glass_trigger = {
+	exists = scope:quality
+	artifact_value_trigger = { VALUE = scope:quality MIN = 50 MAX = 999 }
+}
+
+# stalhrim
+artifact_feature_metal_stalhrim_trigger = {
+	exists = scope:quality
+	exists = scope:owner
+	artifact_value_trigger = { VALUE = scope:quality MIN = 70 MAX = 999 }
+	artifact_region_trigger = { CHARACTER = scope:owner REGION = mundus_tamriel_skyrim_solstheim }	
+}
+
+# dragonbone
+artifact_feature_metal_dragonbone_trigger = {
+	exists = scope:quality
+	exists = scope:owner
+	artifact_value_trigger = { VALUE = scope:quality MIN = 80 MAX = 999 }
+}
+
+# madness
+artifact_feature_metal_madness_trigger = {
+	exists = scope:quality
+	exists = scope:owner
+	artifact_value_trigger = { VALUE = scope:quality MIN = 80 MAX = 999 }
+	scope:owner = {
+		OR = {
+			has_trait = paranoid
+			has_trait = lunatic
+		}
+	}
+}
+
+
+# unique artifacts
+
+# EK edit staves and bows
+staff_unique_gfx_trigger = {
+	culture = {
+		OR = {
+			has_clothing_gfx = ek_nedic_north_clothing_gfx
+			has_clothing_gfx = ek_nedic_reach_clothing_gfx
+			has_clothing_gfx = ek_akaviri_clothing_gfx
+			has_clothing_gfx = ek_pellitinian_clothing_gfx
+			has_clothing_gfx = ek_yokudan_clothing_gfx
+			has_clothing_gfx = ek_anequinan_clothing_gfx
+			has_clothing_gfx = ek_redguard_clothing_gfx
+			has_clothing_gfx = ek_alikr_clothing_gfx
+		}
+	}
+}

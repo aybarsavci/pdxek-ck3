@@ -1,0 +1,75 @@
+﻿##########################
+# Cultural Taxation
+##########################
+autocracy_pellitine_tax_collector = { #Pellitine is rich, so smart people exploit their mercantile mindset and moon sugar
+	is_shown = { #Limited to khajiit
+		scope:liege.culture = { has_cultural_pillar = heritage_khajiiti }
+	}
+	is_valid = {
+		scope:liege.culture = { has_cultural_pillar = heritage_khajiiti }
+	}
+
+	is_vassal_valid = {
+		custom_description = {
+			text = vassal_is_pellitinian
+			subject = scope:vassal
+			scope:vassal.culture = { has_cultural_tradition = tradition_moonsugar_plantations }
+			scope:vassal = {
+				any_realm_province = {
+					geographical_region = mundus_tamriel_elsweyr_pellitine
+				}
+			}
+		}
+	}
+
+	tax_factor = 0.5 #Suck money
+	levies_factor = -0.5 #Don't need men when you have money
+
+	liege_modifier = {
+		monthly_piety = 0.2 #Moon sugar is holy
+	}
+
+	subject_modifier = {
+		monthly_piety_gain_mult = 0.2 #Moon sugar is holy
+		county_opinion_add = 10
+	}
+
+	ai_will_do = {
+		value = tax_obligation_base_ai_will_do
+		add = 2
+	}
+}
+
+autocracy_imperial_tax_collector = { #Interregnum Cyrodiil is a failed state trying to imitate their old empire
+	is_shown = { #Limited to imperials
+		scope:liege.culture = { has_cultural_tradition = tradition_imperial_legacy }
+	}
+	is_valid = {
+		scope:liege.culture = { has_cultural_tradition = tradition_imperial_legacy }
+	}
+
+	is_vassal_valid = {
+		custom_description = {
+			text = vassal_is_cyrodiilic
+			subject = scope:vassal
+			scope:vassal.culture = { has_cultural_tradition = tradition_imperial_legacy }
+		}
+	}
+
+	tax_factor = 0.4
+	levies_factor = -0.4
+
+	liege_modifier = {
+		legitimacy_gain_mult = 0.02 #Imitating empire and stuff
+	}
+
+	subject_modifier = {
+		development_growth_factor = 0.1
+		monthly_prestige_gain_mult = 0.2
+	}
+
+	ai_will_do = {
+		value = tax_obligation_base_ai_will_do
+		add = 2
+	}
+}

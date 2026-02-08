@@ -1,0 +1,57 @@
+﻿lycan = {
+	usage = game
+
+	sanies_lupinus = {     #Sanies Lupinus, extra body hair
+		dna_modifiers = {
+			morph = {
+				mode = add
+				gene = gene_body_hair
+				template = body_hair_avg
+				range = { 0.3 0.5 }
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 500
+				portrait_has_trait_trigger = { TRAIT = sanies_lupinus }
+				NOT = { has_character_modifier = modifier_ritual_conceal }
+			}
+		}
+	}
+
+	lycan = {     #Lycanthropy, light gold eyes and more body hair
+		dna_modifiers = {
+			color = {
+				gene = eye_color
+				mode = replace
+					
+				x = 0.35
+				y = 0.15
+				
+			}
+			morph = { #Add some eye glow.
+				mode = modify
+				gene = eye_pupil
+				value = 0.15
+			}
+			morph = {
+				mode = add
+				gene = gene_body_hair
+				template = body_hair_avg
+				value = 1.0
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 510
+				OR = {
+					portrait_has_trait_trigger = { TRAIT = lycan_character }
+					portrait_has_trait_trigger = { TRAIT = irritable_lycan }
+				}
+				NOT = { has_character_modifier = modifier_ritual_conceal }
+			}
+		}
+	}
+}

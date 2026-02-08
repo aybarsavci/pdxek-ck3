@@ -1,0 +1,1617 @@
+﻿# Standard Values
+@pos_compat_high = 30
+@pos_compat_medium = 15
+@pos_compat_low = 5
+
+@neg_compat_high = -30
+@neg_compat_medium = -15
+@neg_compat_low = -5
+
+
+
+##### LIFESTYLES #####
+### Martial
+plunderer = {
+	category = lifestyle
+
+	culture_modifier = {
+		parameter = bonuses_from_plunderer_trait
+		raid_speed = 0.25
+		monthly_prestige = 0.5
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_plunderer_desc
+			}
+			desc = trait_plunderer_character_desc
+		}
+	}
+
+	ruler_designer_cost = 50
+
+	martial = 2
+	stewardship = 1
+	prowess = 2
+	max_loot_mult = 1
+
+	flag = initial_legitimacy_nerf
+
+	ai_boldness = medium_positive_ai_value
+	ai_honor = low_negative_ai_value
+	ai_greed = low_positive_ai_value
+
+	compatibility = {
+		strategist = @pos_compat_medium
+		overseer = @pos_compat_medium
+		gallant = @pos_compat_medium
+	}
+}
+
+### Intrigue
+crimeboss = { 
+	category = lifestyle
+	
+	ruler_designer_cost = 50
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_crimeboss_desc
+			}
+			desc = trait_crimeboss_character_desc
+		}
+	}
+	
+	dread_baseline_add = 10
+	intrigue = 3
+	stewardship = 1
+	diplomacy = 1
+	vassal_tax_contribution_mult = 0.1
+	flag = initial_legitimacy_nerf
+	
+	compatibility = {
+		seducer = @pos_compat_medium
+		torturer = @pos_compat_medium
+		schemer = @pos_compat_medium
+	}
+}
+
+##### STRESS #####
+skooma_drinker = { # Substance Abuse (Skooma) - Basically a copy paste of hashishiyah
+	category = fame
+	stewardship = -2
+	diplomacy = -2
+	flag = subtract_arcana_3
+	stress_loss_mult = 0.2
+
+	same_opinion = 10
+
+	ruler_designer_cost = 5
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_skooma_drinker_desc
+			}
+			desc = trait_skooma_drinker_character_desc
+		}
+	}
+
+	ai_energy = -15
+	ai_rationality = -10
+
+	compatibility = {
+		temperate = @neg_compat_low
+	}
+}
+
+### Dragonborn
+# ♫ Dovahkiin, Dovahkiin ♪
+dragonborn = {
+	inherit_chance = 100
+	birth = 0
+	random_creation = 0
+	#genetic = yes
+	shown_in_ruler_designer = no
+
+	martial = 5
+	diplomacy = 2
+	intrigue = 3
+	learning = 5
+	health = medium_health_bonus
+
+	monthly_piety = 5 # Put that in a virtue instead
+
+	general_opinion =  10
+
+	ai_zeal = very_high_positive_ai_value
+	flag = initial_legitimacy_boost
+}
+
+##### RELIGION #####
+# Given by the 'Make Clan-Parent' character interaction
+clan_parent = { # Probably won't be ever awareded to men, but you never know!
+	icon = devoted.dds #placeholder
+	category = fame
+
+	monthly_piety = 0.5
+	diplomacy_per_piety_level = 1
+	intrigue_per_piety_level = 1
+	learning_per_piety_level = 1
+	
+	same_faith_opinion = 10
+	same_culture_opinion = 10
+	health = 1
+	
+	flag = can_not_marry
+	inheritance_blocker = all
+
+	shown_in_ruler_designer = no
+
+	ai_sociability = very_low_negative_ai_value
+
+	name = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_clan_mother
+			}
+			triggered_desc = {
+				trigger = { is_female = yes }
+				desc = trait_clan_mother
+			}
+			triggered_desc = {
+				trigger = { is_female = no }
+				desc = trait_clan_father
+			}
+		}
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_clan_parent_desc
+			}
+			desc = trait_clan_parent_character_desc
+		}
+	}
+}
+
+sibyl = {
+	icon = devoted.dds #placeholder
+	category = fame
+
+	monthly_piety = 1
+	learning = 3
+	fertility = 0.15
+	attraction_opinion = 10
+	same_faith_opinion = 10
+	
+	flag = can_not_marry
+	inheritance_blocker = all
+
+	ignore_different_faith_opinion = yes
+	ignore_opinion_of_different_faith = yes
+	
+	shown_in_ruler_designer = no
+
+	ai_sociability = very_low_negative_ai_value
+
+	name = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_sibyl
+			}
+			triggered_desc = {
+				trigger = { faith = { OR = { has_doctrine = doctrine_pantheon_nedic_aedra has_doctrine = doctrine_sp_nedic_aedra_dibella } } }
+				desc = trait_sibyl_dibe
+			}
+			desc = trait_sibyl
+		}
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_sibyl_desc
+			}
+			triggered_desc = {
+				trigger = { faith = { OR = { has_doctrine = doctrine_pantheon_nedic_aedra has_doctrine = doctrine_sp_nedic_aedra_dibella } } }
+				desc = trait_sibyl_character_desc_dibe
+			}
+			desc = trait_sibyl_character_desc
+		}
+	}
+}
+
+##### HEALTH #####
+laid_egg = { # Argonian variation of the Pregnancy trait. Not sure if really necessary tho
+	category = health
+	prowess = -2
+
+	flag = no_message
+
+	shown_in_ruler_designer = no
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_laid_egg_desc
+			}
+			desc = trait_laid_egg_character_desc
+		}
+	}
+
+	ai_energy = -15
+}
+
+##### DYNASTY #####
+impure = {
+	same_faith_opinion = -10
+	diplomacy = -1
+
+	flag = subtract_praxis_15
+	flag = initial_legitimacy_nerf
+	
+	shown_in_ruler_designer = no
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_impure_desc
+			}
+			desc = trait_impure_character_desc
+		}
+	}
+}
+
+##### CRIMES #####
+necromancer = {
+	category = fame
+
+	learning = 2
+	flag = add_arcana_3
+
+	same_opinion = 10
+
+	monthly_dark_arts_lifestyle_xp_gain_mult = 0.1
+
+	dread_baseline_add = 10
+
+	ruler_designer_cost = 50
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_necromancer_desc
+			}
+			desc = trait_necromancer_character_desc
+		}
+	}
+
+	ai_rationality = -20
+	ai_honor = -10
+	ai_compassion = -10
+
+	triggered_opinion = {
+		parameter = necromancy_criminal
+		opinion_modifier = necromancy_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = necromancy_shunned
+		opinion_modifier = necromancy_intolerant
+		ignore_opinion_value_if_same_trait = yes
+	}
+}
+
+
+
+##### RACIAL #####
+### Tsaescence
+tsaesci_1 = {
+	opposites = {
+		tsaesci_2
+		tsaesci_3
+		tsaesci_4
+	}
+
+	life_expectancy = 60
+	years_of_fertility = 40
+	monthly_lifestyle_xp_gain_mult = -0.3
+	monthly_prestige_gain_mult = -0.15
+	monthly_piety_gain_mult = -0.15
+	stress_gain_mult = -0.05
+	#stress_loss_mult = -0.05
+	fertility = -0.05
+
+	flag = lifespan_1_flag
+	flag = tsaesci
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_tsaesci_1_desc
+			}
+			desc = trait_tsaesci_1_character_desc
+		}
+	}
+
+	shown_in_ruler_designer = no
+
+	group = tsaesci
+	level = 1
+}
+tsaesci_2 = {
+	opposites = {
+		tsaesci_1
+		tsaesci_3
+		tsaesci_4
+	}
+
+	life_expectancy = 110
+	years_of_fertility = 75
+	monthly_lifestyle_xp_gain_mult = -0.4
+	monthly_prestige_gain_mult = -0.2
+	monthly_piety_gain_mult = -0.2
+	stress_gain_mult = -0.1
+	#stress_loss_mult = -0.1
+	fertility = -0.1
+
+	flag = lifespan_2_flag
+	flag = tsaesci
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_tsaesci_2_desc
+			}
+			desc = trait_tsaesci_2_character_desc
+		}
+	}
+
+	shown_in_ruler_designer = no
+
+	group = tsaesci
+	level = 2
+}
+tsaesci_3 = {
+	opposites = {
+		tsaesci_1
+		tsaesci_2
+		tsaesci_4
+	}
+	
+	life_expectancy = 160
+	years_of_fertility = 100
+	monthly_lifestyle_xp_gain_mult = -0.5
+	monthly_prestige_gain_mult = -0.25
+	monthly_piety_gain_mult = -0.25
+	stress_gain_mult = -0.15
+	stress_loss_mult = -0.05
+	fertility = -0.2
+
+	flag = lifespan_3_flag
+	flag = tsaesci
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_tsaesci_3_desc
+			}
+			desc = trait_tsaesci_3_character_desc
+		}
+	}
+
+	shown_in_ruler_designer = no
+
+	group = tsaesci
+	level = 3
+}
+tsaesci_4 = {
+	opposites = {
+		tsaesci_1
+		tsaesci_2
+		tsaesci_3
+	}
+
+	life_expectancy = 260
+	years_of_fertility = 170
+	monthly_lifestyle_xp_gain_mult = -0.5
+	monthly_prestige_gain_mult = -0.3
+	monthly_piety_gain_mult = -0.3
+	stress_gain_mult = -0.2
+	stress_loss_mult = -0.1
+	fertility = -0.3
+
+	flag = lifespan_4_flag
+	flag = tsaesci
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_tsaesci_4_desc
+			}
+			desc = trait_tsaesci_4_character_desc
+		}
+	}
+
+	shown_in_ruler_designer = no
+
+	group = tsaesci
+	level = 4
+}
+
+##### LIFESPAN #####
+## NATURAL ##
+lifespan_1 = {
+	life_expectancy = 60
+	years_of_fertility = 45 #90 years old
+	monthly_lifestyle_xp_gain_mult = -0.3
+	monthly_prestige_gain_mult = -0.15
+	monthly_piety_gain_mult = -0.15
+	monthly_influence_mult = -0.15
+	stress_loss_mult = -0.05
+	#stress_gain_mult = -0.05
+	fertility = -0.1
+	long_reign_bonus_mult = -0.1
+
+	shown_in_ruler_designer = no
+
+	group = lifespan
+	flag = lifespan
+	level = 1
+	flag = lifespan_1_flag
+
+	flag = inheritable_lifespan
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_lifespan_1_desc
+			}
+			desc = trait_lifespan_1_character_desc
+		}
+	}
+}
+lifespan_2 = {
+	life_expectancy = 110
+	years_of_fertility = 75 #120 years old
+	monthly_lifestyle_xp_gain_mult = -0.4
+	monthly_prestige_gain_mult = -0.2
+	monthly_piety_gain_mult = -0.2
+	monthly_influence_mult = -0.2
+	stress_loss_mult = -0.1
+	#stress_gain_mult = -0.1
+	fertility = -0.2
+	long_reign_bonus_mult = -0.2
+
+	shown_in_ruler_designer = no
+
+	group = lifespan
+	flag = lifespan
+	level = 2
+	flag = lifespan_2_flag
+
+	flag = inheritable_lifespan
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_lifespan_2_desc
+			}
+			desc = trait_lifespan_2_character_desc
+		}
+	}
+}
+lifespan_3 = {
+	life_expectancy = 160
+	years_of_fertility = 120 #165 years old
+	monthly_lifestyle_xp_gain_mult = -0.5
+	monthly_prestige_gain_mult = -0.25
+	monthly_piety_gain_mult = -0.25
+	monthly_influence_mult = -0.25
+	stress_loss_mult = -0.15
+	stress_gain_mult = -0.05
+	fertility = -0.3
+	long_reign_bonus_mult = -0.3
+
+	shown_in_ruler_designer = no
+
+	group = lifespan
+	flag = lifespan
+	level = 3
+	flag = lifespan_3_flag
+
+	flag = inheritable_lifespan
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_lifespan_3_desc
+			}
+			desc = trait_lifespan_3_character_desc
+		}
+	}
+}
+lifespan_4 = {
+	life_expectancy = 260
+	years_of_fertility = 195 #240 years old
+	monthly_lifestyle_xp_gain_mult = -0.5
+	monthly_prestige_gain_mult = -0.3
+	monthly_piety_gain_mult = -0.3
+	monthly_influence_mult = -0.3
+	stress_loss_mult = -0.2
+	stress_gain_mult = -0.05
+	fertility = -0.4
+	long_reign_bonus_mult = -0.4
+
+	shown_in_ruler_designer = no
+
+	group = lifespan
+	flag = lifespan
+	level = 4
+	flag = lifespan_4_flag
+
+	flag = inheritable_lifespan
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_lifespan_4_desc
+			}
+			desc = trait_lifespan_4_character_desc
+		}
+	}
+}
+
+## MAGICAL ##
+lifespan_magic_1 = {
+	life_expectancy = 60
+	years_of_fertility = 45 #90 years old
+	monthly_lifestyle_xp_gain_mult = -0.3
+	monthly_prestige_gain_mult = -0.15
+	monthly_piety_gain_mult = -0.15
+	monthly_influence_mult = -0.15
+	stress_loss_mult = -0.05
+	#stress_gain_mult = -0.05
+	fertility = -0.1
+	long_reign_bonus_mult = -0.1
+
+	shown_in_ruler_designer = no
+
+	group = lifespan_magic
+	flag = lifespan_magic
+	level = 1
+	flag = lifespan_1_flag
+
+	flag = not_inheritable_lifespan
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_lifespan_magic_1_desc
+			}
+			triggered_desc = {
+				trigger = {
+					has_character_flag = artificial_lifespan
+				}
+				desc = trait_lifespan_magic_1_character_desc_extended
+			}
+			desc = trait_lifespan_magic_1_character_desc
+		}
+	}
+}
+lifespan_magic_2 = {
+	life_expectancy = 110
+	years_of_fertility = 75 #120 years old
+	monthly_lifestyle_xp_gain_mult = -0.4
+	monthly_prestige_gain_mult = -0.2
+	monthly_piety_gain_mult = -0.2
+	monthly_influence_mult = -0.2
+	stress_loss_mult = -0.1
+	#stress_gain_mult = -0.1
+	fertility = -0.2
+	long_reign_bonus_mult = -0.2
+
+	shown_in_ruler_designer = no
+
+	group = lifespan_magic
+	flag = lifespan_magic
+	level = 2
+	flag = lifespan_2_flag
+
+	flag = not_inheritable_lifespan
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_lifespan_magic_2_desc
+			}
+			triggered_desc = {
+				trigger = {
+					has_character_flag = artificial_lifespan
+				}
+				desc = trait_lifespan_magic_2_character_desc_extended
+			}
+			desc = trait_lifespan_magic_2_character_desc
+		}
+	}
+}
+lifespan_magic_3 = {
+	life_expectancy = 160
+	years_of_fertility = 120 #165 years old
+	monthly_lifestyle_xp_gain_mult = -0.5
+	monthly_prestige_gain_mult = -0.25
+	monthly_piety_gain_mult = -0.25
+	monthly_influence_mult = -0.25
+	stress_loss_mult = -0.15
+	stress_gain_mult = -0.05
+	fertility = -0.3
+	long_reign_bonus_mult = -0.3
+
+	shown_in_ruler_designer = no
+
+	group = lifespan_magic
+	flag = lifespan_magic
+	level = 3
+	flag = lifespan_3_flag
+
+	flag = not_inheritable_lifespan
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_lifespan_magic_3_desc
+			}
+			triggered_desc = {
+				trigger = {
+					has_character_flag = artificial_lifespan
+				}
+				desc = trait_lifespan_magic_3_character_desc_extended
+			}
+			desc = trait_lifespan_magic_3_character_desc
+		}
+	}
+}
+lifespan_magic_4 = {
+	life_expectancy = 260
+	years_of_fertility = 195 #240 years old
+	monthly_lifestyle_xp_gain_mult = -0.5
+	monthly_prestige_gain_mult = -0.3
+	monthly_piety_gain_mult = -0.3
+	monthly_influence_mult = -0.3
+	stress_loss_mult = -0.2
+	stress_gain_mult = -0.05
+	fertility = -0.4
+	long_reign_bonus_mult = -0.4
+
+	shown_in_ruler_designer = no
+
+	group = lifespan_magic
+	flag = lifespan_magic
+	level = 4
+	flag = lifespan_4_flag
+
+	flag = not_inheritable_lifespan
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_lifespan_magic_4_desc
+			}
+			triggered_desc = {
+				trigger = {
+					has_character_flag = artificial_lifespan
+				}
+				desc = trait_lifespan_magic_4_character_desc_extended
+			}
+			desc = trait_lifespan_magic_4_character_desc
+		}
+	}
+}
+lifespan_magic_5 = {
+	life_expectancy = 460
+	years_of_fertility = 345 #390 years old
+	monthly_lifestyle_xp_gain_mult = -0.5
+	monthly_prestige_gain_mult = -0.35
+	monthly_piety_gain_mult = -0.35
+	monthly_influence_mult = -0.35
+	stress_loss_mult = -0.25
+	stress_gain_mult = -0.1
+	fertility = -0.5
+	long_reign_bonus_mult = -0.5
+
+	shown_in_ruler_designer = no
+
+	group = lifespan_magic
+	flag = lifespan_magic
+	level = 5
+	
+	flag = lifespan_5_flag
+
+	flag = not_inheritable_lifespan
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_lifespan_magic_5_desc
+			}
+			triggered_desc = {
+				trigger = {
+					has_character_flag = artificial_lifespan
+				}
+				desc = trait_lifespan_magic_5_character_desc_extended
+			}
+			desc = trait_lifespan_magic_5_character_desc
+		}
+	}
+}
+lifespan_magic_6 = {
+	# He9: Deliberately does not have immune_to_disease, if you've managed to get this just heal yourself you dingus
+	years_of_fertility = 7500 #7545 years old
+	monthly_lifestyle_xp_gain_mult = -0.5
+	monthly_prestige_gain_mult = -0.45
+	monthly_piety_gain_mult = -0.45
+	monthly_influence_mult = -0.45
+	stress_loss_mult = -0.35
+	stress_gain_mult = -0.35
+	fertility = -0.6
+	long_reign_bonus_mult = -0.6 #for reference the vanilla trait has -1000
+	no_prowess_loss_from_age = yes
+	
+	shown_in_ruler_designer = no	
+
+	flag = is_immortal
+	flag = immortal_visuals
+	flag = immortal_fertility
+	flag = immortal_incapability
+
+	flag = not_inheritable_lifespan
+
+	immortal = yes	
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_lifespan_magic_6_desc
+			}
+			triggered_desc = {
+				trigger = {
+					has_character_flag = artificial_lifespan
+				}
+				desc = trait_lifespan_magic_6_character_desc_extended
+			}
+			desc = trait_lifespan_magic_6_character_desc
+		}
+	}
+}
+
+# Some characters are "naturally" immortals
+lifespan_6 = {
+	years_of_fertility = 7500 #7545 years old
+	monthly_lifestyle_xp_gain_mult = -0.5
+	monthly_prestige_gain_mult = -0.45
+	monthly_piety_gain_mult = -0.45
+	monthly_influence_mult = -0.45
+	stress_loss_mult = -0.35
+	stress_gain_mult = -0.35
+	fertility = -0.6
+	long_reign_bonus_mult = -0.6 #for reference the vanilla trait has -1000
+	no_prowess_loss_from_age = yes
+	
+	shown_in_ruler_designer = no	
+
+	flag = is_immortal
+	flag = immortal_visuals
+	flag = immortal_fertility
+	flag = immortal_incapability
+
+	flag = not_inheritable_lifespan
+
+	immortal = yes	
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_lifespan_6_desc
+			}
+			desc = trait_lifespan_6_character_desc
+		}
+	}
+}
+
+##### OTHER #####
+line_of_x = {
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+
+	name = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_line_of_x_null
+			}
+			desc = trait_line_of_x
+		}
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_line_of_x_desc_null
+			}
+			desc = trait_line_of_x_desc
+		}
+	}
+}
+
+undead_character = {
+	group = undead
+	level = 1
+
+	opposites = {
+		lich_character
+	}
+
+	immortal = yes
+
+	flag = is_immortal	
+	flag = immortal_incapability
+	flag = immune_to_disease
+	flag = mindless_character
+
+	shown_in_ruler_designer = no
+	#ruler_designer_cost = 40
+
+	monthly_lifestyle_xp_gain_mult = -0.5
+	monthly_prestige_gain_mult = -0.45
+	monthly_piety_gain_mult = -0.45
+	monthly_influence_mult = -0.45
+	monthly_dark_arts_lifestyle_xp_gain_mult = 0.2
+	stress_loss_mult = -0.35
+	stress_gain_mult = -0.35
+	can_have_children = no
+	no_prowess_loss_from_age = yes
+	
+	triggered_opinion = {
+		parameter = undeath_criminal
+		opinion_modifier = necromancy_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = undeath_shunned
+		opinion_modifier = necromancy_intolerant
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_undead_character_desc
+			}
+			triggered_desc = {
+				trigger = {
+					has_variable = undead_version_of
+				}
+				desc = trait_undead_character_undead_version_of_desc
+			}
+			desc = trait_undead_character_character_desc
+		}
+	}
+}
+
+lich_character = {
+	group = undead
+	level = 2
+
+	opposites = {
+		undead_character
+		vampire_character
+		lycan_character
+	}	
+
+	ruler_designer_cost = 100
+
+	immortal = yes
+	
+	flag = is_immortal	
+	flag = immortal_incapability
+	flag = immune_to_disease	
+
+	monthly_lifestyle_xp_gain_mult = -0.5
+	monthly_prestige_gain_mult = -0.45
+	monthly_piety_gain_mult = -0.45
+	monthly_influence_mult = -0.45
+	stress_loss_mult = -0.35
+	stress_gain_mult = -0.35
+	can_have_children = no
+	long_reign_bonus_mult = -0.6 #for reference the vanilla trait has -1000
+	no_prowess_loss_from_age = yes
+	
+	flag = add_arcana_5
+	dread_baseline_add = 30
+
+	triggered_opinion = {
+		parameter = undeath_criminal
+		opinion_modifier = necromancy_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	triggered_opinion = {
+		parameter = undeath_shunned
+		opinion_modifier = necromancy_intolerant
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_lich_character_desc
+			}
+			desc = trait_lich_character_character_desc
+		}
+	}
+
+}
+
+lycan_character = {
+	prowess = 5
+	health = 0.25
+	stress_loss_mult = -0.05
+	flag = immune_to_disease
+
+	opposites = {
+		vampire_character
+		lich_character
+	}
+
+	triggered_opinion = {
+		parameter = lycanthropy_criminal
+		opinion_modifier = lycanthropy_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = lycanthropy_shunned
+		opinion_modifier = lycanthropy_intolerant
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_lycan_character_desc
+			}
+			desc = trait_lycan_character_character_desc
+		}
+	}
+}
+vampire_character = {
+	immortal = yes
+	
+	flag = is_immortal	
+	flag = immortal_incapability
+	flag = immune_to_disease
+
+	prowess = 3
+
+	monthly_lifestyle_xp_gain_mult = -0.5
+	monthly_prestige_gain_mult = -0.45
+	monthly_piety_gain_mult = -0.45
+	monthly_influence_mult = -0.45
+	stress_loss_mult = -0.35
+	stress_gain_mult = -0.35
+	fertility = -0.6
+	long_reign_bonus_mult = -0.6 #for reference the vanilla trait has -1000
+	no_prowess_loss_from_age = yes
+	
+	opposites = {
+		lycan_character
+		lich_character
+	}
+
+	triggered_opinion = {
+		parameter = vampirism_criminal
+		opinion_modifier = vampirism_crime
+		ignore_opinion_value_if_same_trait = yes
+	}
+	triggered_opinion = {
+		parameter = vampirism_shunned
+		opinion_modifier = vampirism_intolerant
+		ignore_opinion_value_if_same_trait = yes
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_vampire_character_desc
+			}
+			desc = trait_vampire_character_character_desc
+		}
+	}
+}
+briarheart = {
+	#these are only temporary until we get a better list of effects
+	immortal = yes
+	
+	flag = is_immortal	
+	flag = immortal_incapability
+	flag = immune_to_disease
+
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+
+	ruler_designer_cost = 100
+
+	prowess = 8
+	monthly_lifestyle_xp_gain_mult = -0.4
+	monthly_prestige_gain_mult = 0.1
+	monthly_piety_gain_mult = 0.1
+	stress_gain_mult = 0.50
+	fertility = -0.6
+	long_reign_bonus_mult = -0.5
+	no_prowess_loss_from_age = yes
+	
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_briarheart_desc
+			}
+			desc = trait_briarheart_character_desc
+		}
+	}
+
+}
+pirate = { # Arrrr matey
+	category = fame
+	diplomacy = -1
+	martial_per_prestige_level = 1
+	raid_speed = 0.5
+	flag = initial_legitimacy_nerf
+	
+	ruler_designer_cost = 40
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_pirate_desc
+			}
+			desc = trait_pirate_character_desc
+		}
+	}
+
+	ai_boldness = low_positive_ai_value
+	ai_sociability = low_positive_ai_value
+}
+
+
+bagarn = {
+	flag = can_not_marry
+	inheritance_blocker = all
+	claim_inheritance_blocker = all
+	can_have_children = no
+	shown_in_ruler_designer = no
+	shown_in_encyclopedia = no
+	faith_conversion_piety_cost_mult = 5.0
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					# if there are any Dwemer cultures alive, it doesn't matter if Yagrum's specific one isn't
+					any_culture_global = {
+						has_cultural_pillar = heritage_dwemeri
+						culture_is_alive = yes
+					}
+				}
+				desc = trait_bagarn_alive_desc
+			}
+			desc = trait_bagarn_desc
+		}
+	}
+}
+
+shadowscale = {
+	category = fame
+	flag = can_not_marry
+	inheritance_blocker = all
+
+	intrigue = 2
+	prowess = 2
+
+	shown_in_ruler_designer = no
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_shadowscale_desc
+			}
+			desc = trait_shadowscale_character_desc
+		}
+	}
+}
+
+house_of_reveries = {
+	inheritance_blocker = all
+	claim_inheritance_blocker = all
+	shown_in_ruler_designer = no
+
+	flag = can_not_marry
+	flag = subtract_praxis_30
+
+	stress_gain_mult = -0.10
+	attraction_opinion = 10
+	same_opinion = 20
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_house_of_reveries_desc
+			}
+			desc = trait_house_of_reveries_character_desc
+		}
+	}
+}
+
+experimentalist = {
+	category = fame
+	learning = 1
+	diplomacy = -2
+	flag = add_arcana_3
+	stress_loss_mult = 0.2
+
+	ruler_designer_cost = 15
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_experimentalist_desc
+			}
+			desc = trait_experimentalist_character_desc
+		}
+	}
+
+	ai_rationality = -10
+}
+
+experimentalist_necromancer = { # Is known for secret experiments and weird behaviour because the character is secretly a necromancer.
+	category = fame
+	learning = 1
+	diplomacy = -2
+	flag = add_arcana_3
+	stress_loss_mult = 0.2
+
+	shown_in_ruler_designer = no
+
+	name = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { NOT = { exists = this } }
+				desc = trait_experimentalist
+			}
+			triggered_desc = {
+				trigger = { is_local_player = yes }
+				desc = trait_experimentalist_necromancer_player
+			}
+			desc = trait_experimentalist
+		}
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {	NOT = { exists = this }	}
+				desc = trait_experimentalist_desc
+			}
+			triggered_desc = {
+				trigger = { is_local_player = yes }
+				desc = trait_experimentalist_necromancer_player_desc
+			}
+			desc = trait_experimentalist_character_desc
+		}
+	}
+}
+
+
+##### PRAXIS #####
+
+
+praxis_negative_3 = {
+	shown_in_ruler_designer = no
+	stress_gain_mult = -0.3
+	monthly_piety_gain_mult = -0.1
+	monthly_county_control_decline_add = -0.3
+	opinion_of_different_faith = 20
+	## Consider giving 'ignore opinion of other faiths?'
+	opposites = {
+		praxis_positive_1
+		praxis_positive_2
+		praxis_positive_3
+	}
+	triggered_opinion = {
+		opinion_modifier = apraxis_shunned
+		same_faith = yes
+	}
+	flag = praxis_negative
+	group = praxis_negative
+	level = 3
+	opposite_opinion = -20
+	same_opinion = 30
+	flag = initial_legitimacy_nerf
+}
+
+praxis_negative_2 = {
+	shown_in_ruler_designer = no
+	stress_gain_mult = -0.2
+	monthly_piety_gain_mult = -0.05
+	monthly_county_control_decline_add = -0.3
+	opinion_of_different_faith = 10
+	opposites = {
+		praxis_positive_1
+		praxis_positive_2
+		praxis_positive_3
+	}
+	triggered_opinion = {
+		opinion_modifier = apraxis_disdain
+		same_faith = yes
+	}
+	flag = praxis_negative
+	group = praxis_negative
+	level = 2
+	opposite_opinion = -15
+	same_opinion = 20
+	flag = initial_legitimacy_nerf
+}
+
+praxis_negative_1 = {
+	shown_in_ruler_designer = no
+	stress_gain_mult = -0.1
+	monthly_piety_gain_mult = -0.05
+	monthly_county_control_decline_add = -0.1
+	opinion_of_different_faith = 5
+	opposites = {
+		praxis_positive_1
+		praxis_positive_2
+		praxis_positive_3
+	}
+	triggered_opinion = {
+		opinion_modifier = apraxis_concern
+		same_faith = yes
+	}
+	flag = praxis_negative
+	group = praxis_negative
+	level = 1
+	opposite_opinion = -10
+	same_opinion = 10
+	flag = initial_legitimacy_nerf
+}
+
+praxis_positive_1 = {
+	shown_in_ruler_designer = no
+	stress_gain_mult = 0.1
+	monthly_piety_gain_mult = 0.02
+	monthly_county_control_growth_add = 0.1
+	opinion_of_liege = 5
+	opposites = {
+		praxis_negative_1
+		praxis_negative_2
+		praxis_negative_3
+	}
+	flag = praxis_positive
+	group = praxis_positive
+	level = 1
+	opposite_opinion = -10
+	same_opinion = 5
+	flag = initial_legitimacy_boost
+}
+
+praxis_positive_2 = {
+	shown_in_ruler_designer = no
+	stress_gain_mult = 0.2
+	monthly_piety_gain_mult = 0.05
+	monthly_county_control_growth_add = 0.3
+	opinion_of_liege = 10
+
+	opposites = {
+		praxis_negative_1
+		praxis_negative_2
+		praxis_negative_3
+	}
+	flag = praxis_positive
+	group = praxis_positive
+	level = 2
+	opposite_opinion = -20
+	same_opinion = 5
+	flag = initial_legitimacy_boost
+}
+
+praxis_positive_3 = {
+	shown_in_ruler_designer = no
+	stress_gain_mult = 0.3
+	monthly_piety_gain_mult = 0.1
+	monthly_county_control_growth_add = 0.5
+	opinion_of_liege = 20
+
+	opposites = {
+		praxis_negative_1
+		praxis_negative_2
+		praxis_negative_3
+	}
+	flag = praxis_positive
+	group = praxis_positive
+	level = 3
+	opposite_opinion = -30
+	same_opinion = 5
+	flag = initial_legitimacy_boost
+}
+
+############### COURT TYPES ##############
+
+magical_court_1 = {
+	flag = add_arcana_1
+
+	category = court_type
+	group = magical_court
+	level = 1
+
+	shown_in_ruler_designer = no
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_magical_court_1_desc
+			}
+			desc = trait_magical_court_1_character_desc
+		}
+	}
+
+	compatibility = {
+		magical_court_2 = @pos_compat_medium
+	}
+}
+
+### EK TODO: Add another bonus, maybe magicka regeneration? The bonus can be for rulers only if necessary, it's not an issue in vanilla
+magical_court_2 = {
+	flag = add_arcana_2
+	monthly_magic_lifestyle_xp_gain_mult = 0.15
+
+	category = court_type
+	group = magical_court
+	level = 2
+
+	shown_in_ruler_designer = no
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_magical_court_2_desc
+			}
+			desc = trait_magical_court_2_character_desc
+		}
+	}
+
+	compatibility = {
+		magical_court_1 = @pos_compat_medium
+	}
+}
+
+# CLASS TRAITS
+
+battlemage = {
+	category = fame
+	flag = add_arcana_3
+	prowess = 2
+	siege_phase_time = -0.05
+	enemy_hard_casualty_modifier = 0.1
+	mages_damage_mult = 0.1
+	spellblades_damage_mult = 0.1
+	#group = class # Disabled until this is actually used - He9
+
+
+	ruler_designer_cost = 40
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_battlemage_desc
+			}
+			desc = trait_battlemage_character_desc
+		}
+	}
+}
+
+racial_blindness = { #not only do they not see color, they also just cant see light in general
+	birth = 0 #we'll distribute this like lifespan or species
+	inherit_chance = 25 # 25% chance of inheriting from one parent
+	both_parent_has_trait_inherit_chance = 100 # 100% chance of inheriting from both parents
+	shown_in_ruler_designer = no
+	icon = eyeless.dds
+
+	opposites = {
+		blind		# this is techncically a buff since its effectively blindness immunity
+		one_eyed
+	}
+	flag = add_arcana_1
+
+	general_opinion = -10
+	same_opinion = 10
+}
+
+former_slave = { #applied to slave revolt leaders and other former slaves
+	category = fame
+	icon = peasant_leader.dds
+
+	general_opinion = -10 # being a former slave comes with a lot of stigma too
+	health = miniscule_health_bonus # they're tough I suppose
+	negate_health_penalty_add = 0.1
+	same_opinion = 30 # solidarity forever!
+	stress_loss_mult = -0.2 # trauma
+
+	ruler_designer_cost = 100
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_former_slave_desc
+			}
+			desc = trait_former_slave_character_desc
+		}
+	}
+}
+
+clone = { # This character is a clone of another!
+	category = fame
+
+	general_opinion = -10
+	health = -0.20
+	same_opinion = 25
+	
+	shown_in_ruler_designer = no
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_clone_desc
+			}
+			triggered_desc = {
+				trigger = {
+					exists = this
+					has_variable = clone_creator
+					culture = { has_cultural_pillar = heritage_argonian }
+				}
+				desc = trait_clone_character_desc_hatched_creator
+			}
+			triggered_desc = {
+				trigger = {
+					exists = this
+					has_variable = clone_creator
+				}
+				desc = trait_clone_character_desc_creator
+			}
+			triggered_desc = {
+				trigger = {
+					exists = this
+					has_variable = clone_creator
+					culture = { has_cultural_pillar = heritage_argonian }
+				}
+				desc = trait_clone_character_desc_hatched
+			}
+			desc = trait_clone_character_desc
+		}
+	}
+}

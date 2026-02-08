@@ -1,0 +1,123 @@
+﻿### Hist Communion Activity Intents
+
+# Gain trait or modifier
+hist_blessing_intent = {
+	icon = hist_blessing_intent
+
+	auto_complete = yes
+
+	is_shown = {
+		#Default Pilgrimage intent
+	}
+
+	on_invalidated = {
+		trigger_event = activity_system.0090
+	}
+
+	ai_will_do = {
+		value = 50
+		add = {
+			value = ai_boldness
+		}
+		if = {
+			limit = {
+				ai_zeal > 0
+			}
+			add = {
+				value = ai_zeal
+				divide = 2
+			}
+		}
+		if = {
+			limit = { has_trait = brave }
+			add = 25
+		}
+		if = {
+			limit = { has_trait = craven }
+			add = -25
+		}
+		if = {
+			limit = { has_trait = ambitious }
+			add = 25
+		}
+	}
+
+	scripted_animation = {
+		animation = personality_zealous
+	}
+}
+
+# Loose bad trait
+healing_intent = {
+	icon = altruism_intent
+
+	auto_complete = yes
+
+	is_shown = {
+		can_be_healed_by_hist_trigger = yes
+	}
+	on_invalidated = {
+		trigger_event = activity_system.0090
+	}
+
+	ai_will_do = {
+		value = 500
+	}
+
+	scripted_animation = {
+		animation = pain
+	}
+}
+
+# Gain piety
+devotion_intent = {
+	icon = pious_intent
+
+	auto_complete = yes
+
+	is_shown = {
+		has_dlc_feature = advanced_activities
+	}
+	on_invalidated = {
+		trigger_event = activity_system.0090
+	}
+
+	ai_will_do = {
+		value = 10
+		add = ai_zeal
+		if = {
+			limit = {
+				ai_boldness > 0
+			}
+			add = {
+				value = ai_boldness
+				divide = 2
+			}
+		}
+		if = {
+			limit = {
+				has_trait = zealous
+			}
+			add = 250
+		}
+		if = {
+			limit = {
+				has_trait = just
+			}
+			add = 50
+		}
+		if = {
+			limit = {
+				OR = {
+					has_trait = cynical
+					has_trait = arrogant
+				}
+			}
+			subtract = 50
+		}
+	}
+
+	scripted_animation = {
+		animation = wedding_priest
+	}
+}

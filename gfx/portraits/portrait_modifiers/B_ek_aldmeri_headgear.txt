@@ -1,0 +1,196 @@
+﻿ek_aldmeri_headgear = {
+
+	usage = game
+	selection_behavior = weighted_random
+	priority = 1
+
+##############################
+#							 #	
+#			ALDMERI		 	 #
+#							 #
+##############################
+
+	ek_aldmeri_commoners = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 80
+                portrait_commoner_headgear_fallback_trigger = {
+                    CULTURE_INPUT = ek_aldmeri
+                }
+			}
+			modifier = {
+				add = 20
+                portrait_commoner_clothing_trigger = {  
+                    CULTURE_INPUT = ek_aldmeri 
+                }
+			}
+		}
+	}
+
+	ek_aldmeri_low_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				value = 0
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_aldmeri
+                }
+			}
+		}
+	}	
+	ek_aldmeri_high_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				value = 0
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_high_nobles_headgear_trigger = {
+                    CULTURE_INPUT = ek_aldmeri
+                }   
+			}
+		}
+	}
+
+	ek_aldmeri_royalty = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				value = 0.9
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+				OR = {   
+					portrait_royalty_trigger = {
+						CULTURE_INPUT = ek_aldmeri
+					}
+					portrait_imperial_trigger = {
+						CULTURE_INPUT = ek_aldmeri
+					}					
+				}
+			}
+		}
+	}
+}
+
+ek_aldmeri_chancellor_headgear = {
+	
+	usage = game
+	selection_behavior = weighted_random
+	priority = 2
+
+	ek_aldmeri_chancellor_headgear = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_altmer_chancellor
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+				OR = {
+					portrait_high_nobles_headgear_trigger = {
+						CULTURE_INPUT = ek_aldmeri
+					}	 
+					portrait_royalty_trigger = {
+						CULTURE_INPUT = ek_aldmeri
+					}				
+				}	
+				has_council_position = councillor_chancellor
+			}
+		}
+	}	
+}
+
+
+ek_aldmeri_war_headgear = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 4
+
+    ek_aldmeri_war_low_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = indian_war
+                accessory = m_headgear_sec_indian_war_nob_01_lo
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_aldmeri
+                }
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_aldmeri
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_aldmeri
+                    }
+                }
+            }
+        }
+    }
+
+    ek_aldmeri_war_high_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = ek_altmer_noble_war
+				range = { 0 1 } # The Error log gets angry if this isnt added
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+                #portrait_war_nobles_helmet_trigger = {
+                #    CULTURE_INPUT = ek_aldmeri
+                #}
+                portrait_high_nobles_armor_trigger = {
+                    CULTURE_INPUT = ek_aldmeri
+                }
+            }
+        }
+    }
+}

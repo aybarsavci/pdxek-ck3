@@ -1,0 +1,176 @@
+﻿### Added triggers for different governments
+building_requirement_feudal = {
+	scope:holder = {
+		government_has_flag = government_is_feudal
+	}
+}
+
+building_requirement_republic = {
+	scope:holder = {
+		government_has_flag = government_is_republic
+	}
+}
+
+building_requirement_theocracy = {
+	scope:holder = {
+		government_has_flag = government_is_theocracy
+	}
+}
+
+building_requirement_clan = {
+	scope:holder = {
+		government_has_flag = government_is_clan
+	}
+}
+
+building_requirement_mercenary = {
+	scope:holder = {
+		government_has_flag = government_is_mercenary
+	}
+}
+
+building_requirement_holy_order = {
+	scope:holder = {
+		government_has_flag = government_is_holy_order
+	}
+}
+
+building_not_buildable_any_government = {
+	scope:holder = {
+		OR = {
+			government_has_flag = government_is_feudal
+			government_has_flag = government_is_republic
+			government_has_flag = government_is_tribal
+			government_has_flag = government_is_theocracy
+			government_has_flag = government_is_clan
+			government_has_flag = government_is_mercenary
+			government_has_flag = government_is_holy_order
+		}
+	}
+}
+
+# 
+building_arena_requirement = {
+ 	scope:holder = {
+ 		AND = {
+ 			is_independent_ruler = yes
+ 			highest_held_title_tier >= tier_kingdom
+ 		}
+ 	}
+}
+
+# General requirements ek has for buildings. Used on almost every vanilla & ek building
+
+ek_rumare_tradeports_enabled = {
+	trigger_if = {
+		limit = {
+			geographical_region = mundus_tamriel_cyrodiil_rumare_niben
+		}
+		custom_description = {
+			text = bridges_leyawiin_02_must_be_disabled
+			NOT = { title:b_leyawiin_castle.title_province = { has_building = bridges_leyawiin_02 } }
+		}
+	}
+}
+
+ek_hist_tree_faith_trigger = {
+	custom_tooltip = {
+		text = argonian_or_hist_pantheon_or_syncretic
+		OR = {
+			scope:holder.culture = { has_cultural_pillar = heritage_argonian }
+			scope:holder.faith = { has_doctrine = doctrine_pantheon_hist }
+			scope:holder.faith = { has_doctrine_parameter = can_hold_hist_holdings }
+		}
+	}
+}
+
+ek_hist_tree_faith_construct_trigger = {
+	custom_tooltip = {
+		text = argonian_or_hist_pantheon
+		OR = {
+			scope:holder.culture = { has_cultural_pillar = heritage_argonian }
+			scope:holder.faith = { has_doctrine = doctrine_pantheon_hist }
+		}
+	}
+}
+
+building_requirement_hist_holding_in_county = {
+	custom_tooltip = {
+		text = already_has_hist
+		NOT = {
+			county = {
+				any_county_province = {
+					has_holding_type = hist_holding
+				}
+			}
+		}
+	}
+}
+
+building_requirement_funeral_doctrine = {
+	OR = {
+		has_doctrine_parameter = burial_funeral
+		has_doctrine_parameter = stoic_funeral
+		has_doctrine_parameter = cremation_funeral
+		has_doctrine_parameter = mummification_funeral
+	}
+}
+
+ek_hist_tree_terrain_trigger = {
+	OR = {
+		terrain = black_marsh
+		terrain = wetlands
+		terrain = jungle
+		terrain = floodplains
+	}
+}
+
+green_pact_building_requirement = {
+	NAND = { 
+		scope:holder = { faith = { has_doctrine = tenet_green_pact } }
+		geographical_region = mundus_tamriel_valenwood 
+	}
+}
+
+building_graht_manors_requirements = {
+	geographical_region = mundus_tamriel_valenwood
+	scope:holder.faith = { has_doctrine = tenet_green_pact }
+}
+bulding_graht_manors_terrain_trigger = {
+	terrain = valenwood
+}
+building_pact_provisions_requirements = {
+	geographical_region = mundus_tamriel_valenwood
+	scope:holder.faith = { has_doctrine = tenet_green_pact }
+}
+
+# EK EDIT: new building types
+orphanage_already_present_trigger = {
+	custom_tooltip = {
+		text = orphanage_already_present_trigger_desc
+		county = {
+			any_county_province = {
+				has_building_or_higher = orphanage_01
+			}
+		}	
+	}	
+}
+
+holy_site_already_present_trigger = {
+	custom_tooltip = {
+		text = holy_site_already_present_trigger_desc
+		county = {
+			any_county_province = {
+				OR = {
+					has_building = grand_cathedral_01
+					has_building = daedric_shrine_01
+					has_building = great_wyrd_tree_01
+					has_building = dragon_temple_01
+					has_building = holy_site_other_grand_temple_01
+					has_building = generic_holy_site_01
+				}
+
+			}
+		}	
+	}
+}

@@ -1,0 +1,450 @@
+﻿education_assign_magical_ability = {
+	if = {
+		# Can the child receive a magical education in the first place?
+		limit = {
+			exists = $EDUCATOR$
+			exists = $CHILD$
+			trigger_if = {
+				limit = { 
+					OR = { 
+						$CHILD$ = { has_always_access_to_magic_education = yes } 
+						$EDUCATOR$ = { has_always_access_to_magic_education = yes } 
+					} 
+				}
+				$EDUCATOR$ = {
+					OR = {
+						has_trait = arcana_good
+						has_trait = education_magic
+					}
+				}
+			}
+			trigger_else_if = {
+				limit = { 
+					OR = { 
+						$CHILD$.culture = { has_innovation = innovation_schools_of_magic } 
+						$EDUCATOR$.culture = { has_innovation = innovation_schools_of_magic } 
+					} 
+				}
+				$EDUCATOR$ = {
+					OR = {
+						has_trait = arcana_good
+						has_trait = education_magic
+					}
+				}
+			}
+			trigger_else_if = {
+				limit = { 
+					OR = { 
+						$CHILD$.culture = { OR = { has_innovation = innovation_magical_studies has_innovation_flag = innovation_magical_studies_replacement } }
+						$EDUCATOR$.culture = { OR = { has_innovation = innovation_magical_studies has_innovation_flag = innovation_magical_studies_replacement } }
+					} 
+				}
+				$EDUCATOR$ = { has_trait = arcana_good }
+			}
+			trigger_else = {
+				always = no
+			}
+		}
+		# If so, pog, now let's see how much they get
+		$CHILD$ = {
+			#Set a temp variable based on education level and add/subtract based on some traits
+			set_variable = {
+				name = education_magic_variable
+				value = {
+					#Here we set up the base value
+					value = {
+						if = { # Learning education is most favorable foundation for magic
+							limit = {
+								has_focus = education_learning
+								exists = var:education_learning_variable
+								var:education_learning_variable > 0
+							}
+							add = {
+								value = var:education_learning_variable
+							}
+						}
+						else_if = { # Other educations slightly less favorable foundations
+							limit = {
+								has_focus = education_intrigue
+								exists = var:education_intrigue_variable
+								var:education_intrigue_variable > 0
+							}
+							add = {
+								value = var:education_intrigue_variable
+								multiply = 0.75
+							}
+						}
+						else_if = { 
+							limit = {
+								has_focus = education_martial
+								exists = var:education_martial_variable
+								var:education_martial_variable > 0
+							}
+							add = {
+								value = var:education_martial_variable
+								multiply = 0.75
+							}
+						}
+						else_if = { 
+							limit = {
+								has_focus = education_diplomacy
+								exists = var:education_diplomacy_variable
+								var:education_diplomacy_variable > 0
+							}
+							add = {
+								value = var:education_diplomacy_variable
+								multiply = 0.75
+							}
+						}
+						else_if = { 
+							limit = {
+								has_focus = education_stewardship
+								exists = var:education_stewardship_variable
+								var:education_stewardship_variable > 0
+							}
+							add = {
+								value = var:education_stewardship_variable
+								multiply = 0.75
+							}
+						}
+						else = { # Failsafe
+							add = {
+								value = learning
+								multiply = 0.5
+							}
+						}
+					}
+					
+					# Natural talent in magicka (or lack thereof)
+					if = {
+						limit = { has_trait = arcana_good_3 }
+						add = education_large_bonus
+					}
+					else_if = {
+						limit = { has_trait = arcana_good_2 }
+						add = education_medium_bonus
+					}
+					else_if = {
+						limit = { has_trait = arcana_good_1 }
+						add = education_small_bonus
+					}
+					else_if = {
+						limit = { has_trait = arcana_bad_3 }
+						add = education_large_penalty
+					}
+					else_if = {
+						limit = { has_trait = arcana_bad_2 }
+						add = education_medium_penalty
+					}
+					else_if = {
+						limit = { has_trait = arcana_bad_1 }
+						add = education_small_penalty
+					}
+					
+					# Got the smarts (or not)
+					if = {
+						limit = { has_trait = intellect_good_3 }
+						add = education_large_bonus
+					}
+					else_if = {
+						limit = { has_trait = intellect_good_2 }
+						add = education_medium_bonus
+					}
+					else_if = {
+						limit = { has_trait = intellect_good_1 }
+						add = education_small_bonus
+					}
+					else_if = {
+						limit = { has_trait = intellect_bad_3 }
+						add = education_large_penalty
+					}
+					else_if = {
+						limit = { has_trait = intellect_bad_2 }
+						add = education_medium_penalty
+					}
+					else_if = {
+						limit = { has_trait = intellect_bad_1 }
+						add = education_small_penalty
+					}										
+					if = {
+						limit = { has_trait = shrewd }
+						add = education_medium_bonus
+					}
+					if = {
+						limit = { has_trait = dull }
+						add = education_medium_penalty
+					}
+					if = {
+						limit = { has_trait = inbred }
+						add = education_small_penalty
+					}
+					
+					#Has an appropriate personality
+					if = {
+						limit = { has_trait = diligent }
+						add = education_medium_bonus
+					}
+					if = {
+						limit = { has_trait = calm }
+						add = education_medium_bonus
+					}
+					if = {
+						limit = { has_trait = patient }
+						add = education_medium_bonus
+					}
+					if = {
+						limit = { has_trait = eccentric }
+						add = education_medium_bonus
+					}
+					if = {
+						limit = { has_trait = stubborn }
+						add = education_medium_bonus
+					}
+					if = {
+						limit = { has_trait = brave }
+						add = education_small_bonus
+					}
+					if = {
+						limit = { has_trait = impatient }
+						add = education_medium_penalty
+					}
+					if = {
+						limit = { has_trait = lazy }
+						add = education_medium_penalty
+					}
+					if = {
+						limit = { has_trait = fickle }
+						add = education_medium_penalty
+					}
+					if = {
+						limit = { has_trait = craven }
+						add = education_small_penalty
+					}
+					if = {
+						limit = { culture = { has_cultural_parameter = magicka_education_better_outcomes } }
+						add = education_medium_bonus
+					}
+					if = {
+						limit = { dynasty ?= { has_dynasty_perk = magicka_legacy_3 } }
+						add = education_medium_bonus
+					}
+					
+					# Having a good teacher helps (lesser impact than from the kid, but still some)
+					if = {
+						limit = { $EDUCATOR$ = { has_trait = arcana_good_3 } }
+						add = education_large_bonus
+					}
+					else_if = {
+						limit = { $EDUCATOR$ = { has_trait = arcana_good_2 } }
+						add = education_medium_bonus
+					}
+					else_if = {
+						limit = { $EDUCATOR$ = { has_trait = arcana_good_1 } }
+						add = education_small_bonus
+					}
+					else_if = {
+						limit = { $EDUCATOR$ = { has_trait = arcana_bad_3 } }
+						add = education_large_penalty
+					}
+					else_if = {
+						limit = { $EDUCATOR$ = { has_trait = arcana_bad_2 } }
+						add = education_medium_penalty
+					}
+					else_if = {
+						limit = { $EDUCATOR$ = { has_trait = arcana_bad_1 } }
+						add = education_small_penalty
+					}
+					if = {
+						limit = { $EDUCATOR$ = { has_trait = education_magic_5 } }
+						add = education_large_bonus
+					}
+					else_if = {
+						limit = { $EDUCATOR$ = { has_trait = education_magic_4 } }
+						add = education_large_bonus
+					}
+					else_if = {
+						limit = { $EDUCATOR$ = { has_trait = education_magic_3 } }
+						add = education_medium_bonus
+					}
+					else_if = {
+						limit = { $EDUCATOR$ = { has_trait = education_magic_2 } }
+						add = education_small_bonus
+					}
+					else_if = {
+						limit = { $EDUCATOR$ = { has_trait = education_magic_1 } }
+						add = education_small_bonus
+					}
+					if = {
+						limit = { $EDUCATOR$ = { has_perk = pedagogy_perk } }
+						add = education_medium_bonus
+					}
+				}
+			}
+			
+			#Do a little randomization
+			random_list = {
+				100 = { # Better
+					ai_rationality_target_modifier = { VALUE = 50 }
+					ai_energy_target_modifier = { VALUE = 50 }
+					change_variable = {
+						name = education_magic_variable
+						add = 2
+					}
+				}
+				200 = { } # Nothing
+				100 = { # Worse
+					ai_rationality_target_modifier = { VALUE = -50 }
+					ai_energy_target_modifier = { VALUE = -50 }
+					change_variable = {
+						name = education_magic_variable
+						add = -2
+					}
+				}
+			}
+
+			#Set trait 
+			if = {
+				limit = { var:education_magic_variable > education_level_3 }
+
+				random_list = {
+					50 = { set_trait_rank = { trait = education_magic rank = 4 } }
+					50 = {
+						trigger = {
+							OR = {
+								dynasty ?= { has_dynasty_perk = magicka_legacy_5 }
+								domicile ?= { has_domicile_parameter = estate_unlock_tier_5_education }
+								AND = {
+									is_ruler = no
+									exists = liege
+									liege = {
+										domicile ?= { has_domicile_parameter = estate_unlock_tier_5_education }
+									}
+								}
+							}
+						}
+						set_trait_rank = { trait = education_magic rank = 5 }
+					}
+				}
+				set_trait_rank = { trait = education_magic rank = 4 }
+			}
+			else_if = {
+				limit = { var:education_magic_variable > education_level_2 }				
+				set_trait_rank = { trait = education_magic rank = 3 }
+			}
+			else_if = {
+				limit = { var:education_magic_variable > education_level_1 }				
+				set_trait_rank = { trait = education_magic rank = 2 }
+			}
+			else = { set_trait_rank = { trait = education_magic rank = 1 } }
+			
+			ek_magic_perks_effect = yes #so that magic educated characters can cast some spells from the getgo
+			
+			ek_dynasty_specialization_perks_effect = yes
+		}
+	}
+}
+
+# Used to reflect the impact of a stat-focused tenet (Veneration of Knowledge, ...)
+# Can be fired by both the child and their guardian
+results_of_stat_aligned_tenet = {
+	if = {
+		limit = {
+			has_focus = education_diplomacy
+			
+			OR = {
+				faith = { has_doctrine_parameter = children_education_diplomacy }
+				AND = {
+					exists = var:guardian_liege
+					var:guardian_liege = {
+						is_alive = yes
+						faith = { has_doctrine_parameter = children_education_diplomacy }
+					}
+				}
+			}
+		}
+		change_variable = {
+			name = education_diplomacy_variable
+			add = 3
+		}
+	}
+	else_if = {
+		limit = {
+			has_focus = education_martial
+			
+			OR = {
+				faith = { has_doctrine_parameter = children_education_martial }
+				AND = {
+					exists = var:guardian_liege
+					var:guardian_liege = {
+						is_alive = yes
+						faith = { has_doctrine_parameter = children_education_martial }
+					}
+				}
+			}
+		}
+		change_variable = {
+			name = education_martial_variable
+			add = 3
+		}
+	}
+	else_if = {
+		limit = {
+			has_focus = education_stewardship
+			
+			OR = {
+				faith = { has_doctrine_parameter = children_education_stewardship }
+				AND = {
+					exists = var:guardian_liege
+					var:guardian_liege = {
+						is_alive = yes
+						faith = { has_doctrine_parameter = children_education_stewardship }
+					}
+				}
+			}
+		}
+		change_variable = {
+			name = education_stewardship_variable
+			add = 3
+		}
+	}
+	else_if = {
+		limit = {
+			has_focus = education_intrigue
+			
+			OR = {
+				faith = { has_doctrine_parameter = children_education_intrigue }
+				AND = {
+					exists = var:guardian_liege
+					var:guardian_liege = {
+						is_alive = yes
+						faith = { has_doctrine_parameter = children_education_intrigue }
+					}
+				}
+			}
+		}
+		change_variable = {
+			name = education_intrigue_variable
+			add = 3
+		}
+	}
+	else_if = {
+		limit = {
+			has_focus = education_learning
+			
+			OR = {
+				faith = { has_doctrine_parameter = children_education_learning }
+				AND = {
+					exists = var:guardian_liege
+					var:guardian_liege = {
+						is_alive = yes
+						faith = { has_doctrine_parameter = children_education_learning }
+					}
+				}
+			}
+		}
+		change_variable = {
+			name = education_learning_variable
+			add = 3
+		}
+	}
+}

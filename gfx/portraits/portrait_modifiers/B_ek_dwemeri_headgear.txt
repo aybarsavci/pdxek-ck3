@@ -1,0 +1,388 @@
+﻿ek_dwemeri_headgear = {
+
+	usage = game
+	selection_behavior = weighted_random
+	priority = 1
+
+##############################
+#							 #	
+#			DWEMERI		 	 #
+#							 #
+##############################
+
+	ek_dwemeri_commoners = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 80
+                portrait_commoner_headgear_fallback_trigger = {
+                    CULTURE_INPUT = ek_dwemeri
+                }
+			}
+			modifier = { # Non-european jesters should not use the jester hat
+				add = 1000
+                portrait_jester_trigger = {  
+                    CULTURE_INPUT = ek_dwemeri 
+                }
+
+			}
+			modifier = {
+				add = 20
+                portrait_commoner_clothing_trigger = {  
+                    CULTURE_INPUT = ek_dwemeri 
+                }
+			}
+			modifier = {
+				factor = 0
+				has_dlc_feature = legacy_of_persia	
+            }
+		}
+	}
+
+	ek_dwemeri_low_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			court_fashion_level_4_headgear_modifier = { INPUT_PARAMETER = ek_dwemeri } 
+			modifier = {
+				add = 50
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_dwemeri
+                }
+			}
+			modifier = {
+				factor = 0
+				has_dlc_feature = legacy_of_persia	
+            }
+		}
+	}
+
+	ek_dwemeri_high_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_high_nobles_headgear_trigger = {
+                    CULTURE_INPUT = ek_dwemeri
+                }   
+			}
+			modifier = {
+				factor = 0
+				has_dlc_feature = legacy_of_persia	
+            }
+		}
+	}
+	
+	ek_dwemeri_royalty = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = steppe_royalty
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+				OR = {
+					portrait_imperial_trigger = {
+						CULTURE_INPUT = ek_dwemeri
+					}   
+					portrait_royalty_trigger = {
+						CULTURE_INPUT = ek_dwemeri
+					}   
+				}
+			}
+			modifier = {
+				factor = 0
+				has_dlc_feature = legacy_of_persia	
+            }
+		}
+	}
+
+
+	ek_dwemeri_commoners_fp3 = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = fp3_iranian_low_nobility
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 80
+                portrait_commoner_headgear_fallback_trigger = {
+                    CULTURE_INPUT = ek_dwemeri
+                }
+			}
+			modifier = { # Non-european jesters should not use the jester hat
+				add = 1000
+                portrait_jester_trigger = {  
+                    CULTURE_INPUT = ek_dwemeri 
+                }
+
+			}
+			modifier = {
+				add = 20
+                portrait_commoner_clothing_trigger = {  
+                    CULTURE_INPUT = ek_dwemeri 
+                }
+			}
+		}
+	}
+
+	ek_dwemeri_low_nobles_fp3 = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = fp3_iranian_nobility
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			court_fashion_level_4_headgear_modifier = { INPUT_PARAMETER = ek_dwemeri } 
+			modifier = {
+				add = 50
+                portrait_low_nobles_clothing_trigger = {
+                    CULTURE_INPUT = ek_dwemeri
+                }
+			}
+		}
+	}
+
+	ek_dwemeri_high_nobles_fp3 = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = fp3_iranian_nobility
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_high_nobles_headgear_trigger = {
+                    CULTURE_INPUT = ek_dwemeri
+                }   
+			}
+		}
+	}
+	
+	ek_dwemeri_royalty_fp3 = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = steppe_royalty
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+				OR = {
+					portrait_imperial_trigger = {
+						CULTURE_INPUT = ek_dwemeri
+					}   
+					portrait_royalty_trigger = {
+						CULTURE_INPUT = ek_dwemeri
+					}   
+				}
+			}
+		}
+	}
+}
+
+
+ek_dwemeri_war_headgear = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 4
+
+    ek_dwemeri_war_low_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = ek_dunmer_war
+				range = { 0 1 } # The Error log gets angry if this isnt added
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_dwemeri
+                }
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_dwemeri
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_dwemeri
+                    }
+                }
+            }
+			modifier = {
+				factor = 0
+				has_dlc_feature = legacy_of_persia	
+            }
+        }
+    }
+
+    ek_dwemeri_war_high_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = ek_dunmer_war
+				range = { 0 1 } # The Error log gets angry if this isnt added
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_dwemeri
+                }
+                portrait_high_nobles_armor_trigger = {
+                    CULTURE_INPUT = ek_dwemeri
+                }
+            }
+			modifier = {
+				factor = 0
+				has_dlc_feature = legacy_of_persia	
+            }
+        }
+    }
+	
+    ek_dwemeri_war_low_nobles_fp3 = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = indian_war
+                accessory = m_headgear_sec_indian_war_nob_01_lo
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_dwemeri
+                }
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_dwemeri
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_dwemeri
+                    }
+                }
+            }
+        }
+    }
+
+    ek_dwemeri_war_high_nobles_fp3 = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = indian_war
+                accessory = m_headgear_sec_indian_war_nob_01_hi
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_dwemeri
+                }
+                portrait_high_nobles_armor_trigger = {
+                    CULTURE_INPUT = ek_dwemeri
+                }
+            }
+        }
+    }
+}
+
+
+ek_dwemeri_spectacles = {
+	
+	usage = game
+	selection_behavior = weighted_random
+	priority = 5
+
+	ek_dwemeri_spectacles_headgear = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = special_headgear_spectacles
+				template = spectacles
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+				trigger = { 
+					culture = { has_cultural_pillar = heritage_dwemeri } 
+				}	
+				learning >= very_high_skill_rating
+				age >= 25
+				static_group_filter = {
+					group = glasses
+					match = 0.25
+				}
+				NOR = {
+					this = character:bagarn_1000
+					has_trait = blind
+					has_trait = disfigured
+				}
+			}
+		}
+	}
+}

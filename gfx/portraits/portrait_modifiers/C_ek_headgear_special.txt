@@ -1,0 +1,529 @@
+﻿headgear_special = {
+
+	usage = game
+	selection_behavior = weighted_random
+	priority = 9
+
+
+	no_hat = {
+		usage = game
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				value = 0
+			}
+		}
+		outfit_tags = { no_clothes nightgown }
+		weight = {
+			base = 0
+			modifier = {
+				add = 10000
+				portrait_wear_no_headgear_trigger = yes
+			}
+		}
+	}
+
+	#EK NOTE: Copied from vanilla 05_headgear_situational.txt file
+	university_teacher_headgear = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = special_headgear_spectacles
+				template = spectacles
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		outfit_tags = { spectacles_outfit }
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				OR = {
+					has_character_flag = teacher_1
+					has_character_flag = teacher_2
+					has_character_flag = has_reading_glasses
+				}
+			}
+			modifier = {
+				add = 50
+				learning >= high_skill_rating
+				age >= 25
+				is_ai = yes
+				static_group_filter = {
+					group = glasses
+					match = 0.25
+				}
+				NOR = {
+					#this = character:41702 #EK DISABLED
+					has_trait = blind
+					has_trait = disfigured
+				}
+				OR = {
+					has_realm_law_flag = nerd_camp_purpose
+					host ?= { has_realm_law_flag = nerd_camp_purpose }
+				}
+			}
+		}
+	}
+	
+	#the classic and authentic colovian fur helm
+	ek_colovian_fur_hat = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_colovian_fur_hat
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 500
+				exists = this
+                has_character_flag = colovian_fur_hat
+			}
+		}
+	}
+
+	colovian_fur_hat_helm = {
+	    dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = headgear
+				template = ek_colovian_fur_hat
+	            range = { 0 1 }
+	        }
+	    }
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				OR = {
+					portrait_ek_colovian_clothing_trigger = yes
+					AND = {
+						portrait_ek_cyro_nordic_clothing_trigger = yes
+						exists = capital_province
+						capital_province = { geographical_region = mundus_tamriel_cyrodiil }
+					}
+				}
+				OR = {
+					AND = {
+						is_ruler = yes
+						has_government = republic_government
+					}
+				}
+			}
+		}
+	}
+	
+	dunmer_travel_helmet = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_dunmer_common_01
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 500
+				exists = this
+                is_travelling = yes 
+				culture = { has_cultural_pillar = heritage_dunmeri }		
+			}
+			modifier = {
+				factor = 0 
+				portrait_wear_armor_trigger = yes
+			}
+			modifier = {
+				factor = 0 
+				has_primary_title = title:e_tribunal_temple
+			}
+			modifier = {
+				factor = 0 
+				OR = {
+				    AND = {
+						is_knight = yes
+				        faith = faith:tribunal_temple
+				        has_government = holy_order_government
+				    }
+				    AND = {
+				        faith = faith:tribunal_temple
+				        has_trait = order_member					
+				    }
+				    AND = {
+				        faith = faith:tribunal_temple
+						is_knight = yes
+						is_ruler = no
+				        any_liege_or_above = { has_title = title:e_tribunal_temple }					
+				    }					
+				    AND = {
+				        faith = faith:tribunal_cult
+				        has_government = holy_order_government
+				    }
+				    AND = {
+				        faith = faith:tribunal_cult
+				        has_trait = order_member					
+				    }
+				    AND = {
+				        faith = faith:tribunal_cult
+						is_knight = yes
+						is_ruler = no
+				        any_liege_or_above = { has_title = title:e_tribunal_temple }					
+				    }
+				    AND = {
+				      	exists = character:mora_nerevar
+						this = character:mora_nerevar    					
+				    }					
+				}
+			}			
+		}
+	}
+	
+	ep1_western_imperial_crown = {
+		dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = headgear
+				template = ep1_byzantine_imperial
+	            range = { 0 1 }
+	        }
+
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 200
+				OR = {
+					AND = {
+						OR = {
+							AND = {
+								OR = {
+									primary_title = title:e_cyrodiil
+									primary_title = title:e_tamriel
+								}
+								OR = {
+									portrait_imperial_trigger = { 
+										CULTURE_INPUT = ek_colovian
+									}
+									portrait_imperial_trigger = { 
+										CULTURE_INPUT = ek_strident
+									}
+									portrait_imperial_trigger = { 
+										CULTURE_INPUT = ek_nibenese
+									}
+									portrait_imperial_trigger = { 
+										CULTURE_INPUT = ek_heartlander
+									}
+								}
+								has_ep1_dlc_trigger = yes
+							}
+						}
+						NOR = {
+							has_government = theocracy_government
+							has_government = republic_government
+						}
+					}
+				}
+			}
+			modifier = {
+				factor = 0
+				has_dlc_feature = legacy_of_persia	
+				exists = character:alessian_100
+				this = character:alessian_100
+			}
+			modifier = {
+				factor = 0
+				has_dlc_feature = legacy_of_persia	
+				exists = character:alessian_103
+				this = character:alessian_103
+			}
+			modifier = {
+				factor = 0
+				has_dlc_feature = legacy_of_persia	
+				exists = character:alessian_104
+				this = character:alessian_104
+			}
+			modifier = {
+				factor = 0
+				has_dlc_feature = legacy_of_persia	
+				exists = character:alessian_105
+				this = character:alessian_105
+			}
+			modifier = {
+				factor = 0
+				has_dlc_feature = legacy_of_persia	
+				exists = character:alessian_contest_1
+				this = character:alessian_contest_1
+			}
+			modifier = {
+				factor = 0
+				has_dlc_feature = legacy_of_persia	
+				exists = character:alessian_107
+				this = character:alessian_107
+			}
+			modifier = {
+				factor = 0
+				has_dlc_feature = legacy_of_persia	
+				exists = character:alessian_109
+				this = character:alessian_109
+			}
+		}
+	}
+	
+	pirate_hat_for_pirates = {
+	    dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = headgear
+				template = ek_pirate_low
+	            range = { 0 1 }
+	        }
+	    }
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				OR = {
+					AND = {
+						is_ruler = no
+						government_has_flag = government_is_pirate
+						#exists = capital_province
+						#capital_province = { geographical_region = mundus_tamriel_cyrodiil }
+						OR = {
+							culture = { has_cultural_pillar = heritage_cyrodiilic } 
+							culture = { has_cultural_pillar = heritage_yokudan }
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	pirate_hat_for_pirates_high = {
+	    dna_modifiers = {
+	        accessory = {
+	            mode = add
+	            gene = headgear
+				template = ek_pirate_high
+	            range = { 0 1 }
+	        }
+	    }
+		weight = {
+			base = 0
+			modifier = {
+				add = 100
+				OR = {
+					AND = {
+						is_ruler = yes
+						government_has_flag = government_is_pirate
+						#exists = capital_province
+						#capital_province = { geographical_region = mundus_tamriel_cyrodiil }
+						OR = {
+							culture = { has_cultural_pillar = heritage_cyrodiilic } 
+							culture = { has_cultural_pillar = heritage_yokudan }
+						}
+					}
+					has_trait = pirate
+				}
+
+			}
+		}
+	}
+	
+### Imperial Legion ###
+
+	imperial_legion_helmet = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_legion_war
+				range = { 0 1 }
+			}
+		}
+		outfit_tags = { military_outfit }
+		weight = {
+			base = 0
+			modifier = {
+				add = 200
+				has_trait = varangian
+				highest_held_title_tier <= tier_duchy
+				OR = {
+					has_character_flag = need_military_outfit
+					portrait_wear_helmet_trigger = yes
+				}				
+			}
+			modifier = {
+				add = 200
+				any_liege_or_above = { culture = { has_cultural_tradition = tradition_imperial_legacy } }				
+				primary_title = title:c_bastion
+				OR = {
+					has_character_flag = need_military_outfit
+					portrait_wear_helmet_trigger = yes
+				}				
+			}			
+			modifier = {
+				add = 200
+				has_court_position = akolouthos_court_position
+				OR = {
+					has_character_flag = need_military_outfit
+					portrait_wear_armor_trigger = yes
+				}				
+			}			
+		}
+	}
+
+	#EK ARTIFACTS
+	
+	crown_verity_artifact = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_crown_verity
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 500
+				exists = this
+				any_equipped_character_artifact = {
+					has_variable = crown_verity
+				}
+			}
+			modifier = {
+				add = 1000
+				exists = character:kjoric_100
+				this = character:kjoric_100
+			}
+			modifier = {
+				add = 1000
+				exists = character:kjoric_101
+				this = character:kjoric_101
+			}
+			modifier = {
+				add = 1000
+				exists = character:wulfharth_100
+				this = character:wulfharth_100
+			}
+			modifier = {
+				add = 1000
+				exists = character:dwarfbane_100
+				this = character:dwarfbane_100
+			}
+			modifier = {
+				add = 1000
+				exists = character:hale_the_pious_100
+				this = character:hale_the_pious_100
+			}
+			modifier = {
+				add = 1000
+				exists = character:head_rolling_100
+				this = character:head_rolling_100
+			}
+			modifier = {
+				add = 1000
+				exists = character:kyne_favored_100
+				this = character:kyne_favored_100
+			}
+			modifier = {
+				add = 1000
+				exists = character:fine_sword_100
+				this = character:fine_sword_100
+			}
+			modifier = {
+				add = 1000
+				exists = character:freiretta_100
+				this = character:freiretta_100
+			}
+			modifier = {
+				add = 1000
+				exists = character:flamehair_997
+				this = character:flamehair_997
+			}
+			modifier = {
+				add = 1000
+				exists = character:flamehair_998
+				this = character:flamehair_998
+			}
+			modifier = {
+				add = 1000
+				exists = character:flamehair_999
+				this = character:flamehair_999
+			}
+		}
+	}
+	
+	ep1_crown_anton_artifact = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ep1_western_royalty
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 500
+				exists = this
+				has_ep1_dlc_trigger = yes
+				any_equipped_character_artifact = {
+					has_variable = crown_anton
+				}
+			}
+		}
+	}
+
+	ep1_crown_shornhelm_artifact = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = sp3_western_royalty
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}	
+		weight = {
+			base = 0
+			modifier = {
+				add = 500
+				exists = this
+				has_dlc_feature = couture_of_the_capets
+				any_equipped_character_artifact = {
+					has_variable = crown_shornhelm
+				}
+			}
+		}
+	}
+
+	artifact_dragon_priest_hood = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_generic_monk
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				exists = this
+				any_equipped_character_artifact = {
+					has_variable = mask_dragon_priest_var
+				}				
+			}
+		}
+	}
+}

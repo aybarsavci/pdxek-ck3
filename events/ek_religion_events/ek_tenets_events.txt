@@ -1,0 +1,2140 @@
+﻿### Range:
+# 0001-0050: Divine purity
+# 0051-0100: Exalted Heroism
+
+namespace = ek_tenets
+
+### Various events tied to your faith's tenets
+
+##### Divine Purity
+### Fired by on_birth on action: Gives the Impure trait if the child has any bad congenital trait, or if one of their parents should be considered Impure
+# Gives the trait to the child, if applicable
+ek_tenets.0001 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		# Must have the Divine Purity tenet
+		faith = { has_doctrine_parameter = children_bad_congenital_trait_impure }
+
+		OR = {
+			# Has their body tainted
+			OR = {
+				has_trait = physique_bad
+				has_trait = intellect_bad
+				has_trait = beauty_bad
+				has_trait = arcana_bad
+
+				has_trait = clubfooted
+				has_trait = hunchbacked
+				has_trait = lisping
+				has_trait = stuttering
+				has_trait = dwarf
+				has_trait = giant
+				has_trait = inbred
+
+				has_trait = spindly
+				has_trait = scaly
+				has_trait = albino
+				has_trait = wheezing
+				has_trait = bleeder
+				has_trait = infertile
+			}
+
+			# Either parent is Impure / is part of a non-accepted culture (from the Cultural/Communal Identity doctrine)
+			AND = {
+				exists = mother
+				mother = {
+					OR = {
+						AND = {
+							root.faith = {
+								OR = {
+									has_doctrine = doctrine_cultural_identity_heritage
+									has_doctrine = doctrine_cultural_identity_heritage_exclusive
+								}
+							}
+							NOT = { culture = { has_same_culture_heritage = root.faith.var:associated_culture } }
+						}
+						AND = {
+							root.faith = {
+								OR = {
+									has_doctrine = doctrine_cultural_identity_culture
+									has_doctrine = doctrine_cultural_identity_culture_exclusive
+								}
+							}
+							NOT = { culture = root.faith.var:associated_culture }
+						}
+						has_trait = impure
+					}
+				}
+			}
+			AND = {
+				exists = father
+				father = {
+					OR = {
+						AND = {
+							root.faith = {
+								OR = {
+									has_doctrine = doctrine_cultural_identity_heritage
+									has_doctrine = doctrine_cultural_identity_heritage_exclusive
+								}
+							}
+							NOT = { culture = { has_same_culture_heritage = root.faith.var:associated_culture } }
+						}
+						AND = {
+							root.faith = {
+								OR = {
+									has_doctrine = doctrine_cultural_identity_culture
+									has_doctrine = doctrine_cultural_identity_culture_exclusive
+								}
+							}
+							NOT = { culture = root.faith.var:associated_culture }
+						}
+						has_trait = impure
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		# Give the trait
+		add_trait = impure
+		save_scope_as = impure_character
+
+		# Notifies the parents
+		if = {
+			limit = { exists = mother }
+			mother = { trigger_event = ek_tenets.0002 }
+		}
+
+		if = {
+			limit = { exists = father }
+			father = { trigger_event = ek_tenets.0002 }
+		}
+	}
+}
+
+ek_tenets.0002 = {
+	type = character_event
+	content_source = dlc_ek
+	title = {
+		first_valid = {
+			# Parents are impure + bad congenital traits
+			triggered_desc = {
+				trigger = {
+					scope:impure_character = {
+						has_any_bad_congenital_trait_trigger = yes
+
+						OR = {
+							AND = {
+								exists = mother
+								mother = {
+									OR = {
+										AND = {
+											scope:impure_character.faith = {
+												OR = {
+													has_doctrine = doctrine_cultural_identity_heritage
+													has_doctrine = doctrine_cultural_identity_heritage_exclusive
+												}
+											}
+											NOT = { culture = { has_same_culture_heritage = scope:impure_character.faith.var:associated_culture } }
+										}
+										AND = {
+											scope:impure_character.faith = {
+												OR = {
+													has_doctrine = doctrine_cultural_identity_culture
+													has_doctrine = doctrine_cultural_identity_culture_exclusive
+												}
+											}
+											NOT = { culture = scope:impure_character.faith.var:associated_culture }
+										}
+										has_trait = impure
+									}
+								}
+							}
+							AND = {
+								exists = father
+								father = {
+									OR = {
+										AND = {
+											scope:impure_character.faith = {
+												OR = {
+													has_doctrine = doctrine_cultural_identity_heritage
+													has_doctrine = doctrine_cultural_identity_heritage_exclusive
+												}
+											}
+											NOT = { culture = { has_same_culture_heritage = scope:impure_character.faith.var:associated_culture } }
+										}
+										AND = {
+											scope:impure_character.faith = {
+												OR = {
+													has_doctrine = doctrine_cultural_identity_culture
+													has_doctrine = doctrine_cultural_identity_culture_exclusive
+												}
+											}
+											NOT = { culture = scope:impure_character.faith.var:associated_culture }
+										}
+										has_trait = impure
+									}
+								}
+							}
+						}
+					}
+				}
+
+				desc = ek_tenets.0002.titleBoth
+			}
+
+			# Parents are impure
+			triggered_desc = {
+				trigger = {
+					scope:impure_character = {
+						OR = {
+							AND = {
+								exists = mother
+								mother = {
+									OR = {
+										AND = {
+											scope:impure_character.faith = {
+												OR = {
+													has_doctrine = doctrine_cultural_identity_heritage
+													has_doctrine = doctrine_cultural_identity_heritage_exclusive
+												}
+											}
+											NOT = { culture = { has_same_culture_heritage = scope:impure_character.faith.var:associated_culture } }
+										}
+										AND = {
+											scope:impure_character.faith = {
+												OR = {
+													has_doctrine = doctrine_cultural_identity_culture
+													has_doctrine = doctrine_cultural_identity_culture_exclusive
+												}
+											}
+											NOT = { culture = scope:impure_character.faith.var:associated_culture }
+										}
+										has_trait = impure
+									}
+								}
+							}
+							AND = {
+								exists = father
+								father = {
+									OR = {
+										AND = {
+											scope:impure_character.faith = {
+												OR = {
+													has_doctrine = doctrine_cultural_identity_heritage
+													has_doctrine = doctrine_cultural_identity_heritage_exclusive
+												}
+											}
+											NOT = { culture = { has_same_culture_heritage = scope:impure_character.faith.var:associated_culture } }
+										}
+										AND = {
+											scope:impure_character.faith = {
+												OR = {
+													has_doctrine = doctrine_cultural_identity_culture
+													has_doctrine = doctrine_cultural_identity_culture_exclusive
+												}
+											}
+											NOT = { culture = scope:impure_character.faith.var:associated_culture }
+										}
+										has_trait = impure
+									}
+								}
+							}
+						}
+					}
+				}
+
+				desc = ek_tenets.0002.titleImpPa
+			}
+
+			# Bad congenital traits
+			triggered_desc = {
+				trigger = {
+					scope:impure_character = {
+						has_any_bad_congenital_trait_trigger = yes
+					}
+				}
+
+				desc = ek_tenets.0002.titleDef
+			}
+		}
+	}
+
+	desc = {
+		first_valid = {
+			# Parents are impure + bad congenital traits
+			triggered_desc = {
+				trigger = {
+					scope:impure_character = {
+						has_any_bad_congenital_trait_trigger = yes
+
+						OR = {
+							AND = {
+								exists = mother
+								mother = {
+									OR = {
+										AND = {
+											scope:impure_character.faith = {
+												OR = {
+													has_doctrine = doctrine_cultural_identity_heritage
+													has_doctrine = doctrine_cultural_identity_heritage_exclusive
+												}
+											}
+											NOT = { culture = { has_same_culture_heritage = scope:impure_character.faith.var:associated_culture } }
+										}
+										AND = {
+											scope:impure_character.faith = {
+												OR = {
+													has_doctrine = doctrine_cultural_identity_culture
+													has_doctrine = doctrine_cultural_identity_culture_exclusive
+												}
+											}
+											NOT = { culture = scope:impure_character.faith.var:associated_culture }
+										}
+										has_trait = impure
+									}
+								}
+							}
+							AND = {
+								exists = father
+								father = {
+									OR = {
+										AND = {
+											scope:impure_character.faith = {
+												OR = {
+													has_doctrine = doctrine_cultural_identity_heritage
+													has_doctrine = doctrine_cultural_identity_heritage_exclusive
+												}
+											}
+											NOT = { culture = { has_same_culture_heritage = scope:impure_character.faith.var:associated_culture } }
+										}
+										AND = {
+											scope:impure_character.faith = {
+												OR = {
+													has_doctrine = doctrine_cultural_identity_culture
+													has_doctrine = doctrine_cultural_identity_culture_exclusive
+												}
+											}
+											NOT = { culture = scope:impure_character.faith.var:associated_culture }
+										}
+										has_trait = impure
+									}
+								}
+							}
+						}
+					}
+				}
+
+				desc = ek_tenets.0002.descBoth
+			}
+
+			# Parents are impure
+			triggered_desc = {
+				trigger = {
+					scope:impure_character = {
+						OR = {
+							AND = {
+								exists = mother
+								mother = {
+									OR = {
+										AND = {
+											scope:impure_character.faith = {
+												OR = {
+													has_doctrine = doctrine_cultural_identity_heritage
+													has_doctrine = doctrine_cultural_identity_heritage_exclusive
+												}
+											}
+											NOT = { culture = { has_same_culture_heritage = scope:impure_character.faith.var:associated_culture } }
+										}
+										AND = {
+											scope:impure_character.faith = {
+												OR = {
+													has_doctrine = doctrine_cultural_identity_culture
+													has_doctrine = doctrine_cultural_identity_culture_exclusive
+												}
+											}
+											NOT = { culture = scope:impure_character.faith.var:associated_culture }
+										}
+										has_trait = impure
+									}
+								}
+							}
+							AND = {
+								exists = father
+								father = {
+									OR = {
+										AND = {
+											scope:impure_character.faith = {
+												OR = {
+													has_doctrine = doctrine_cultural_identity_heritage
+													has_doctrine = doctrine_cultural_identity_heritage_exclusive
+												}
+											}
+											NOT = { culture = { has_same_culture_heritage = scope:impure_character.faith.var:associated_culture } }
+										}
+										AND = {
+											scope:impure_character.faith = {
+												OR = {
+													has_doctrine = doctrine_cultural_identity_culture
+													has_doctrine = doctrine_cultural_identity_culture_exclusive
+												}
+											}
+											NOT = { culture = scope:impure_character.faith.var:associated_culture }
+										}
+										has_trait = impure
+									}
+								}
+							}
+						}
+					}
+				}
+
+				desc = ek_tenets.0002.descImpPa
+			}
+
+			# Bad congenital traits
+			triggered_desc = {
+				trigger = {
+					scope:impure_character = {
+						has_any_bad_congenital_trait_trigger = yes
+					}
+				}
+
+				desc = ek_tenets.0002.descDef
+			}
+		}
+	}
+
+	theme = dynasty
+
+	left_portrait = {
+		character = scope:impure_character
+	}
+
+	option = {
+		name = ek_tenets.0002.optA
+
+		custom_tooltip = character_is_declared_impure
+	}
+}
+
+### EK TODO: Removed for now, needs more work once I know how to properly handle it
+### Fired by the on_set_relation_lover_ek effect
+# You have a new lover, but this relationship is impure...
+# ek_tenets.0010 = {
+	# type = character_event
+
+	# title = ek_tenets.0010.title
+	# desc = ek_tenets.0010.desc
+
+	# left_portrait = {
+		# character = scope:impure_target
+		# animation = shame
+	# }
+
+	# right_portrait = {
+		# character = scope:impure_source
+		# animation = shame
+	# }
+
+	# trigger = {
+		# # Must have the Divine Purity tenet, and not be already considered Impure
+		# faith = { has_doctrine = tenet_divine_purity }
+		# NOT = { has_trait = impure }
+
+		# # Must have any lover this is an infidel or Impure
+		# any_relation = {
+			# type = lover
+			# OR = {
+				# has_trait = impure
+				# NOT = { has_faith = scope:root.faith }
+			# }
+		# }
+	# }
+
+	# immediate = {
+		# save_scope_as = impure_target
+
+		# random_relation = {
+			# type = lover
+			# limit = {
+				# OR = {
+					# has_trait = impure
+					# NOT = { has_faith = scope:root.faith }
+				# }
+			# }
+
+			# save_scope_as = impure_source
+		# }
+	# }
+
+	# theme = faith
+
+	# # Own it. Keep the relationship, but become Impure
+	# option = {
+		# name = ek_tenets.0010.optA
+
+		# add_trait = impure
+		# add_piety_level = -1
+
+		# scope:impure_source = { trigger_event = { id = ek_tenets.0011 } }
+	# }
+
+	# # Break up
+	# option = {
+		# name = ek_tenets.0010.optB
+
+		# show_as_tooltip = { remove_relation_lover = scope:impure_source }
+		# scope:impure_source = { trigger_event = { id = ek_tenets.0012 } }
+	# }
+# }
+
+# # Your lover will stay with you, even if they are despised by their brethren
+# ek_tenets.0011 = {
+	# type = character_event
+
+	# title = ek_tenets.0011.title
+	# desc = ek_tenets.0011.desc
+
+	# left_portrait = {
+		# character = scope:impure_target
+		# animation = personality_bold
+	# }
+
+	# right_portrait = {
+		# character = scope:impure_source
+		# animation = admiration
+	# }
+
+	# theme = faith
+
+	# # We will keep loving each other, no matter what.
+	# option = {
+		# name = ek_tenets.0011.optA
+
+		# scope:impure_target = {
+			# show_as_tooltip = {
+				# add_trait_force_tooltip = impure
+				# add_piety_level = -1
+			# }
+		# }
+	# }
+# }
+
+# # Your lover broke up with you to keep their purity
+# ek_tenets.0012 = {
+	# type = character_event
+
+	# title = ek_tenets.0012.title
+	# desc = ek_tenets.0012.desc
+
+	# left_portrait = {
+		# character = scope:impure_target
+		# animation = sadness
+	# }
+
+	# right_portrait = {
+		# character = scope:impure_source
+		# animation = disbelief
+	# }
+
+	# theme = faith
+
+	# # So be it...
+	# option = {
+		# name = ek_tenets.0012.optA
+
+		# remove_relation_lover = scope:impure_target
+	# }
+# }
+
+### Exalted Heroism
+## Character with max level of Fame and Devotion becomes a new Saint
+ek_tenets.0051 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_tenets.0051.t
+	desc = ek_tenets.0051.desc
+
+	theme = faith
+
+	left_portrait = {
+		character = root
+	}
+
+	immediate = {
+		add_character_flag = had_ek_tenets.0051 #prevent it from triggering several times
+	}
+	
+	trigger = {
+		# Your faith must allow new Saints
+		faith = { has_doctrine_parameter = new_saints }
+		piety_level >= max_piety_level
+		prestige_level >= max_prestige_level
+		NOT = { has_trait = saint }
+		NOT = { has_character_flag = had_ek_tenets.0051 }
+	}
+
+	option = {
+		name = ek_tenets.0051.a
+
+		char_becomes_saint = yes
+	}
+}
+
+## New Saints can choose a new virtue or sin
+ek_tenets.0052 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_tenets.0052.t
+	desc = ek_tenets.0052.desc
+
+	theme = faith
+
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		# Your faith must allow new Saints
+		faith = { has_doctrine_parameter = virtues_sins_decided_saints }
+		has_trait = saint
+		NOT = { has_character_flag = already_changed_virtues_sins_saint }
+	}
+
+	immediate = {
+		add_character_flag = { flag = already_changed_virtues_sins_saint } # So the event doesn't repeat
+	}
+
+	### NOTE: Each faith can have up to three virtues or sins, so by adding a new sin or virtue you need to replace an already existing one
+	# A new virtue
+	option = {
+		name = ek_tenets.0052.a
+
+		custom_tooltip = ek_tenets.0052.swapping_virtue
+
+		trigger_event = ek_tenets.0053 # Which virtue to replace?
+	}
+	# A new sin
+	option = {
+		name = ek_tenets.0052.b
+
+		custom_tooltip = ek_tenets.0052.swapping_sin
+
+		trigger_event = ek_tenets.0055 # Which sin to replace?
+	}
+}
+# What virtue to remove?
+ek_tenets.0053 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_tenets.0052.t
+	desc = ek_tenets.0053.desc
+
+	theme = faith
+
+	left_portrait = {
+		character = root
+	}
+
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_lustful } }
+		name = ek_tenets.0053.lustful
+
+		faith = { remove_doctrine = doctrine_virtue_lustful }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_chaste } }
+		name = ek_tenets.0053.chaste
+
+		faith = { remove_doctrine = doctrine_virtue_chaste }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_gluttonous } }
+		name = ek_tenets.0053.gluttonous
+
+		faith = { remove_doctrine = doctrine_virtue_gluttonous }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_temperate } }
+		name = ek_tenets.0053.temperate
+
+		faith = { remove_doctrine = doctrine_virtue_temperate }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_greedy } }
+		name = ek_tenets.0053.greedy
+
+		faith = { remove_doctrine = doctrine_virtue_greedy }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_generous } }
+		name = ek_tenets.0053.generous
+
+		faith = { remove_doctrine = doctrine_virtue_generous }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_lazy } }
+		name = ek_tenets.0053.lazy
+
+		faith = { remove_doctrine = doctrine_virtue_lazy }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_diligent } }
+		name = ek_tenets.0053.diligent
+
+		faith = { remove_doctrine = doctrine_virtue_diligent }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_wrathful } }
+		name = ek_tenets.0053.wrathful
+
+		faith = { remove_doctrine = doctrine_virtue_wrathful }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_calm } }
+		name = ek_tenets.0053.calm
+
+		faith = { remove_doctrine = doctrine_virtue_calm }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_patient } }
+		name = ek_tenets.0053.patient
+
+		faith = { remove_doctrine = doctrine_virtue_patient }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_impatient } }
+		name = ek_tenets.0053.impatient
+
+		faith = { remove_doctrine = doctrine_virtue_impatient }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_arrogant } }
+		name = ek_tenets.0053.arrogant
+
+		faith = { remove_doctrine = doctrine_virtue_arrogant }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_humble } }
+		name = ek_tenets.0053.humble
+
+		faith = { remove_doctrine = doctrine_virtue_humble }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_deceitful } }
+		name = ek_tenets.0053.deceitful
+
+		faith = { remove_doctrine = doctrine_virtue_deceitful }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_honest } }
+		name = ek_tenets.0053.honest
+
+		faith = { remove_doctrine = doctrine_virtue_honest }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_craven } }
+		name = ek_tenets.0053.craven
+
+		faith = { remove_doctrine = doctrine_virtue_craven }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_brave } }
+		name = ek_tenets.0053.brave
+
+		faith = { remove_doctrine = doctrine_virtue_brave }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_shy } }
+		name = ek_tenets.0053.shy
+
+		faith = { remove_doctrine = doctrine_virtue_shy }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_gregarious } }
+		name = ek_tenets.0053.gregarious
+
+		faith = { remove_doctrine = doctrine_virtue_gregarious }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_ambitious } }
+		name = ek_tenets.0053.ambitious
+
+		faith = { remove_doctrine = doctrine_virtue_ambitious }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_content } }
+		name = ek_tenets.0053.content
+
+		faith = { remove_doctrine = doctrine_virtue_content }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_arbitrary } }
+		name = ek_tenets.0053.arbitrary
+
+		faith = { remove_doctrine = doctrine_virtue_arbitrary }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_just } }
+		name = ek_tenets.0053.just
+
+		faith = { remove_doctrine = doctrine_virtue_just }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_cynical } }
+		name = ek_tenets.0053.cynical
+
+		faith = { remove_doctrine = doctrine_virtue_cynical }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_zealous } }
+		name = ek_tenets.0053.zealous
+
+		faith = { remove_doctrine = doctrine_virtue_zealous }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_paranoid } }
+		name = ek_tenets.0053.paranoid
+
+		faith = { remove_doctrine = doctrine_virtue_paranoid }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_trusting } }
+		name = ek_tenets.0053.trusting
+
+		faith = { remove_doctrine = doctrine_virtue_trusting }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_compassionate } }
+		name = ek_tenets.0053.compassionate
+
+		faith = { remove_doctrine = doctrine_virtue_compassionate }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_callous } }
+		name = ek_tenets.0053.callous
+
+		faith = { remove_doctrine = doctrine_virtue_callous }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_sadistic } }
+		name = ek_tenets.0053.sadistic
+
+		faith = { remove_doctrine = doctrine_virtue_sadistic }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_stubborn } }
+		name = ek_tenets.0053.stubborn
+
+		faith = { remove_doctrine = doctrine_virtue_stubborn }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_fickle } }
+		name = ek_tenets.0053.fickle
+
+		faith = { remove_doctrine = doctrine_virtue_fickle }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_vengeful } }
+		name = ek_tenets.0053.vengeful
+
+		faith = { remove_doctrine = doctrine_virtue_vengeful }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_virtue_forgiving } }
+		name = ek_tenets.0053.forgiving
+
+		faith = { remove_doctrine = doctrine_virtue_forgiving }
+	}
+
+	after = { trigger_event = ek_tenets.0054 }
+}
+# What virtue to add?
+ek_tenets.0054 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_tenets.0052.t
+	desc = ek_tenets.0054.desc
+
+	theme = faith
+
+	left_portrait = {
+		character = root
+	}
+
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_lustful }
+				faith = { has_doctrine = doctrine_sin_lustful }
+				faith = { has_doctrine = doctrine_virtue_chaste }
+			}
+			has_trait = lustful
+		}
+		name = ek_tenets.0054.lustful
+
+		faith = { add_doctrine = doctrine_virtue_lustful }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_chaste }
+				faith = { has_doctrine = doctrine_sin_chaste }
+				faith = { has_doctrine = doctrine_virtue_lustful }
+			}
+			has_trait = chaste
+		}
+		name = ek_tenets.0054.chaste
+
+		faith = { add_doctrine = doctrine_virtue_chaste }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_gluttonous }
+				faith = { has_doctrine = doctrine_sin_gluttonous }
+				faith = { has_doctrine = doctrine_virtue_temperate }
+			}
+			has_trait = gluttonous
+		}
+		name = ek_tenets.0054.gluttonous
+
+		faith = { add_doctrine = doctrine_virtue_gluttonous }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_temperate }
+				faith = { has_doctrine = doctrine_sin_temperate }
+				faith = { has_doctrine = doctrine_virtue_gluttonous }
+			}
+			has_trait = temperate
+		}
+		name = ek_tenets.0054.temperate
+
+		faith = { add_doctrine = doctrine_virtue_temperate }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_greedy }
+				faith = { has_doctrine = doctrine_sin_greedy }
+				faith = { has_doctrine = doctrine_virtue_generous }
+			}
+			has_trait = greedy
+		}
+		name = ek_tenets.0054.greedy
+
+		faith = { add_doctrine = doctrine_virtue_greedy }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_generous }
+				faith = { has_doctrine = doctrine_sin_generous }
+				faith = { has_doctrine = doctrine_virtue_greedy }
+			}
+			has_trait = generous
+		}
+		name = ek_tenets.0054.generous
+
+		faith = { add_doctrine = doctrine_virtue_generous }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_lazy }
+				faith = { has_doctrine = doctrine_sin_lazy }
+				faith = { has_doctrine = doctrine_virtue_diligent }
+			}
+			has_trait = lazy
+		}
+		name = ek_tenets.0054.lazy
+
+		faith = { add_doctrine = doctrine_virtue_lazy }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_diligent }
+				faith = { has_doctrine = doctrine_sin_diligent }
+				faith = { has_doctrine = doctrine_virtue_lazy }
+			}
+			has_trait = diligent
+		}
+		name = ek_tenets.0054.diligent
+
+		faith = { add_doctrine = doctrine_virtue_diligent }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_wrathful }
+				faith = { has_doctrine = doctrine_sin_wrathful }
+				faith = { has_doctrine = doctrine_virtue_calm }
+			}
+			has_trait = wrathful
+		}
+		name = ek_tenets.0054.wrathful
+
+		faith = { add_doctrine = doctrine_virtue_wrathful }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_calm }
+				faith = { has_doctrine = doctrine_sin_calm }
+				faith = { has_doctrine = doctrine_virtue_wrathful }
+			}
+			has_trait = calm
+		}
+		name = ek_tenets.0054.calm
+
+		faith = { add_doctrine = doctrine_virtue_calm }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_patient }
+				faith = { has_doctrine = doctrine_sin_patient }
+				faith = { has_doctrine = doctrine_virtue_impatient }
+			}
+			has_trait = patient
+		}
+		name = ek_tenets.0054.patient
+
+		faith = { add_doctrine = doctrine_virtue_patient }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_impatient }
+				faith = { has_doctrine = doctrine_sin_impatient }
+				faith = { has_doctrine = doctrine_virtue_patient }
+			}
+			has_trait = impatient
+		}
+		name = ek_tenets.0054.impatient
+
+		faith = { add_doctrine = doctrine_virtue_impatient }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_arrogant }
+				faith = { has_doctrine = doctrine_sin_arrogant }
+				faith = { has_doctrine = doctrine_virtue_humble }
+			}
+			has_trait = arrogant
+		}
+		name = ek_tenets.0054.arrogant
+
+		faith = { add_doctrine = doctrine_virtue_arrogant }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_humble }
+				faith = { has_doctrine = doctrine_sin_humble }
+				faith = { has_doctrine = doctrine_virtue_arrogant }
+			}
+			has_trait = humble
+		}
+		name = ek_tenets.0054.humble
+
+		faith = { add_doctrine = doctrine_virtue_humble }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_deceitful }
+				faith = { has_doctrine = doctrine_sin_deceitful }
+				faith = { has_doctrine = doctrine_virtue_honest }
+			}
+			has_trait = deceitful
+		}
+		name = ek_tenets.0054.deceitful
+
+		faith = { add_doctrine = doctrine_virtue_deceitful }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_honest }
+				faith = { has_doctrine = doctrine_sin_honest }
+				faith = { has_doctrine = doctrine_virtue_deceitful }
+			}
+			has_trait = honest
+		}
+		name = ek_tenets.0054.honest
+
+		faith = { add_doctrine = doctrine_virtue_honest }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_craven }
+				faith = { has_doctrine = doctrine_sin_craven }
+				faith = { has_doctrine = doctrine_virtue_brave }
+			}
+			has_trait = craven
+		}
+		name = ek_tenets.0054.craven
+
+		faith = { add_doctrine = doctrine_virtue_craven }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_brave }
+				faith = { has_doctrine = doctrine_sin_brave }
+				faith = { has_doctrine = doctrine_virtue_craven }
+			}
+			has_trait = brave
+		}
+		name = ek_tenets.0054.brave
+
+		faith = { add_doctrine = doctrine_virtue_brave }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_shy }
+				faith = { has_doctrine = doctrine_sin_shy }
+				faith = { has_doctrine = doctrine_virtue_gregarious }
+			}
+			has_trait = shy
+		}
+		name = ek_tenets.0054.shy
+
+		faith = { add_doctrine = doctrine_virtue_shy }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_gregarious }
+				faith = { has_doctrine = doctrine_sin_gregarious }
+				faith = { has_doctrine = doctrine_virtue_shy }
+			}
+			has_trait = gregarious
+		}
+		name = ek_tenets.0054.gregarious
+
+		faith = { add_doctrine = doctrine_virtue_gregarious }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_ambitious }
+				faith = { has_doctrine = doctrine_sin_ambitious }
+				faith = { has_doctrine = doctrine_virtue_content }
+			}
+			has_trait = ambitious
+		}
+		name = ek_tenets.0054.ambitious
+
+		faith = { add_doctrine = doctrine_virtue_ambitious }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_content }
+				faith = { has_doctrine = doctrine_sin_content }
+				faith = { has_doctrine = doctrine_virtue_ambitious }
+			}
+			has_trait = content
+		}
+		name = ek_tenets.0054.content
+
+		faith = { add_doctrine = doctrine_virtue_content }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_arbitrary }
+				faith = { has_doctrine = doctrine_sin_arbitrary }
+				faith = { has_doctrine = doctrine_virtue_just }
+			}
+			has_trait = arbitrary
+		}
+		name = ek_tenets.0054.arbitrary
+
+		faith = { add_doctrine = doctrine_virtue_arbitrary }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_just }
+				faith = { has_doctrine = doctrine_sin_just }
+				faith = { has_doctrine = doctrine_virtue_arbitrary }
+			}
+			has_trait = just
+		}
+		name = ek_tenets.0054.just
+
+		faith = { add_doctrine = doctrine_virtue_just }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_cynical }
+				faith = { has_doctrine = doctrine_sin_cynical }
+				faith = { has_doctrine = doctrine_virtue_zealous }
+			}
+			has_trait = cynical
+		}
+		name = ek_tenets.0054.cynical
+
+		faith = { add_doctrine = doctrine_virtue_cynical }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_zealous }
+				faith = { has_doctrine = doctrine_sin_zealous }
+				faith = { has_doctrine = doctrine_virtue_cynical }
+			}
+			has_trait = zealous
+		}
+		name = ek_tenets.0054.zealous
+
+		faith = { add_doctrine = doctrine_virtue_zealous }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_paranoid }
+				faith = { has_doctrine = doctrine_sin_paranoid }
+				faith = { has_doctrine = doctrine_virtue_trusting }
+			}
+			has_trait = paranoid
+		}
+		name = ek_tenets.0054.paranoid
+
+		faith = { add_doctrine = doctrine_virtue_paranoid }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_trusting }
+				faith = { has_doctrine = doctrine_sin_trusting }
+				faith = { has_doctrine = doctrine_virtue_paranoid }
+			}
+			has_trait = trusting
+		}
+		name = ek_tenets.0054.trusting
+
+		faith = { add_doctrine = doctrine_virtue_trusting }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_compassionate }
+				faith = { has_doctrine = doctrine_sin_compassionate }
+				faith = { has_doctrine = doctrine_virtue_callous }
+				faith = { has_doctrine = doctrine_virtue_sadistic }
+			}
+			has_trait = compassionate
+		}
+		name = ek_tenets.0054.compassionate
+
+		faith = { add_doctrine = doctrine_virtue_compassionate }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_callous }
+				faith = { has_doctrine = doctrine_sin_callous }
+				faith = { has_doctrine = doctrine_virtue_compassionate }
+			}
+			has_trait = callous
+		}
+		name = ek_tenets.0054.callous
+
+		faith = { add_doctrine = doctrine_virtue_callous }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_sadistic }
+				faith = { has_doctrine = doctrine_sin_sadistic }
+				faith = { has_doctrine = doctrine_virtue_compassionate }
+			}
+			has_trait = sadistic
+		}
+		name = ek_tenets.0054.sadistic
+
+		faith = { add_doctrine = doctrine_virtue_sadistic }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_stubborn }
+				faith = { has_doctrine = doctrine_sin_stubborn }
+				faith = { has_doctrine = doctrine_virtue_fickle }
+			}
+			has_trait = stubborn
+		}
+		name = ek_tenets.0054.stubborn
+
+		faith = { add_doctrine = doctrine_virtue_stubborn }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_fickle }
+				faith = { has_doctrine = doctrine_sin_fickle }
+				faith = { has_doctrine = doctrine_virtue_stubborn }
+			}
+			has_trait = fickle
+		}
+		name = ek_tenets.0054.fickle
+
+		faith = { add_doctrine = doctrine_virtue_fickle }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_vengeful }
+				faith = { has_doctrine = doctrine_sin_vengeful }
+				faith = { has_doctrine = doctrine_virtue_forgiving }
+			}
+			has_trait = vengeful
+		}
+		name = ek_tenets.0054.vengeful
+
+		faith = { add_doctrine = doctrine_virtue_vengeful }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_forgiving }
+				faith = { has_doctrine = doctrine_sin_forgiving }
+				faith = { has_doctrine = doctrine_virtue_vengeful }
+			}
+			has_trait = forgiving
+		}
+		name = ek_tenets.0054.forgiving
+
+		faith = { add_doctrine = doctrine_virtue_forgiving }
+	}
+}
+# What sin to remove?
+ek_tenets.0055 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_tenets.0052.t
+	desc = ek_tenets.0055.desc
+
+	theme = faith
+
+	left_portrait = {
+		character = root
+	}
+
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_lustful } }
+		name = ek_tenets.0055.lustful
+
+		faith = { remove_doctrine = doctrine_sin_lustful }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_chaste } }
+		name = ek_tenets.0055.chaste
+
+		faith = { remove_doctrine = doctrine_sin_chaste }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_gluttonous } }
+		name = ek_tenets.0055.gluttonous
+
+		faith = { remove_doctrine = doctrine_sin_gluttonous }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_temperate } }
+		name = ek_tenets.0055.temperate
+
+		faith = { remove_doctrine = doctrine_sin_temperate }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_greedy } }
+		name = ek_tenets.0055.greedy
+
+		faith = { remove_doctrine = doctrine_sin_greedy }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_generous } }
+		name = ek_tenets.0055.generous
+
+		faith = { remove_doctrine = doctrine_sin_generous }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_lazy } }
+		name = ek_tenets.0055.lazy
+
+		faith = { remove_doctrine = doctrine_sin_lazy }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_diligent } }
+		name = ek_tenets.0055.diligent
+
+		faith = { remove_doctrine = doctrine_sin_diligent }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_wrathful } }
+		name = ek_tenets.0055.wrathful
+
+		faith = { remove_doctrine = doctrine_sin_wrathful }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_calm } }
+		name = ek_tenets.0055.calm
+
+		faith = { remove_doctrine = doctrine_sin_calm }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_patient } }
+		name = ek_tenets.0055.patient
+
+		faith = { remove_doctrine = doctrine_sin_patient }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_impatient } }
+		name = ek_tenets.0055.impatient
+
+		faith = { remove_doctrine = doctrine_sin_impatient }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_arrogant } }
+		name = ek_tenets.0055.arrogant
+
+		faith = { remove_doctrine = doctrine_sin_arrogant }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_humble } }
+		name = ek_tenets.0055.humble
+
+		faith = { remove_doctrine = doctrine_sin_humble }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_deceitful } }
+		name = ek_tenets.0055.deceitful
+
+		faith = { remove_doctrine = doctrine_sin_deceitful }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_honest } }
+		name = ek_tenets.0055.honest
+
+		faith = { remove_doctrine = doctrine_sin_honest }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_craven } }
+		name = ek_tenets.0055.craven
+
+		faith = { remove_doctrine = doctrine_sin_craven }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_brave } }
+		name = ek_tenets.0055.brave
+
+		faith = { remove_doctrine = doctrine_sin_brave }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_shy } }
+		name = ek_tenets.0055.shy
+
+		faith = { remove_doctrine = doctrine_sin_shy }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_gregarious } }
+		name = ek_tenets.0055.gregarious
+
+		faith = { remove_doctrine = doctrine_sin_gregarious }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_ambitious } }
+		name = ek_tenets.0055.ambitious
+
+		faith = { remove_doctrine = doctrine_sin_ambitious }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_content } }
+		name = ek_tenets.0055.content
+
+		faith = { remove_doctrine = doctrine_sin_content }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_arbitrary } }
+		name = ek_tenets.0055.arbitrary
+
+		faith = { remove_doctrine = doctrine_sin_arbitrary }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_just } }
+		name = ek_tenets.0055.just
+
+		faith = { remove_doctrine = doctrine_sin_just }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_cynical } }
+		name = ek_tenets.0055.cynical
+
+		faith = { remove_doctrine = doctrine_sin_cynical }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_zealous } }
+		name = ek_tenets.0055.zealous
+
+		faith = { remove_doctrine = doctrine_sin_zealous }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_paranoid } }
+		name = ek_tenets.0055.paranoid
+
+		faith = { remove_doctrine = doctrine_sin_paranoid }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_trusting } }
+		name = ek_tenets.0055.trusting
+
+		faith = { remove_doctrine = doctrine_sin_trusting }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_compassionate } }
+		name = ek_tenets.0055.compassionate
+
+		faith = { remove_doctrine = doctrine_sin_compassionate }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_callous } }
+		name = ek_tenets.0055.callous
+
+		faith = { remove_doctrine = doctrine_sin_callous }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_sadistic } }
+		name = ek_tenets.0055.sadistic
+
+		faith = { remove_doctrine = doctrine_sin_sadistic }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_stubborn } }
+		name = ek_tenets.0055.stubborn
+
+		faith = { remove_doctrine = doctrine_sin_stubborn }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_fickle } }
+		name = ek_tenets.0055.fickle
+
+		faith = { remove_doctrine = doctrine_sin_fickle }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_vengeful } }
+		name = ek_tenets.0055.vengeful
+
+		faith = { remove_doctrine = doctrine_sin_vengeful }
+	}
+	option = {
+		trigger = { faith = { has_doctrine = doctrine_sin_forgiving } }
+		name = ek_tenets.0055.forgiving
+
+		faith = { remove_doctrine = doctrine_sin_forgiving }
+	}
+
+	after = { trigger_event = ek_tenets.0056 }
+}
+# What sin to add?
+ek_tenets.0056 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_tenets.0052.t
+	desc = ek_tenets.0056.desc
+
+	theme = faith
+
+	left_portrait = {
+		character = root
+	}
+
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_lustful }
+				faith = { has_doctrine = doctrine_sin_lustful }
+				faith = { has_doctrine = doctrine_virtue_chaste }
+			}
+			has_trait = chaste
+		}
+		name = ek_tenets.0056.lustful
+
+		faith = { add_doctrine = doctrine_sin_chaste }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_chaste }
+				faith = { has_doctrine = doctrine_sin_chaste }
+				faith = { has_doctrine = doctrine_virtue_lustful }
+			}
+			has_trait = lustful
+		}
+		name = ek_tenets.0056.chaste
+
+		faith = { add_doctrine = doctrine_sin_chaste }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_gluttonous }
+				faith = { has_doctrine = doctrine_sin_gluttonous }
+				faith = { has_doctrine = doctrine_virtue_temperate }
+			}
+			has_trait = temperate
+		}
+		name = ek_tenets.0056.gluttonous
+
+		faith = { add_doctrine = doctrine_sin_gluttonous }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_temperate }
+				faith = { has_doctrine = doctrine_sin_temperate }
+				faith = { has_doctrine = doctrine_virtue_gluttonous }
+			}
+			has_trait = gluttonous
+		}
+		name = ek_tenets.0056.temperate
+
+		faith = { add_doctrine = doctrine_sin_temperate }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_greedy }
+				faith = { has_doctrine = doctrine_sin_greedy }
+				faith = { has_doctrine = doctrine_virtue_generous }
+			}
+			has_trait = generous
+		}
+		name = ek_tenets.0056.greedy
+
+		faith = { add_doctrine = doctrine_sin_greedy }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_generous }
+				faith = { has_doctrine = doctrine_sin_generous }
+				faith = { has_doctrine = doctrine_virtue_greedy }
+			}
+			has_trait = greedy
+		}
+		name = ek_tenets.0056.generous
+
+		faith = { add_doctrine = doctrine_sin_generous }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_lazy }
+				faith = { has_doctrine = doctrine_sin_lazy }
+				faith = { has_doctrine = doctrine_virtue_diligent }
+			}
+			has_trait = diligent
+		}
+		name = ek_tenets.0056.lazy
+
+		faith = { add_doctrine = doctrine_sin_lazy }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_diligent }
+				faith = { has_doctrine = doctrine_sin_diligent }
+				faith = { has_doctrine = doctrine_virtue_lazy }
+			}
+			has_trait = lazy
+		}
+		name = ek_tenets.0056.diligent
+
+		faith = { add_doctrine = doctrine_sin_diligent }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_wrathful }
+				faith = { has_doctrine = doctrine_sin_wrathful }
+				faith = { has_doctrine = doctrine_virtue_calm }
+			}
+			has_trait = calm
+		}
+		name = ek_tenets.0056.wrathful
+
+		faith = { add_doctrine = doctrine_sin_wrathful }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_calm }
+				faith = { has_doctrine = doctrine_sin_calm }
+				faith = { has_doctrine = doctrine_virtue_wrathful }
+			}
+			has_trait = wrathful
+		}
+		name = ek_tenets.0056.calm
+
+		faith = { add_doctrine = doctrine_sin_calm }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_patient }
+				faith = { has_doctrine = doctrine_sin_patient }
+				faith = { has_doctrine = doctrine_virtue_impatient }
+			}
+			has_trait = impatient
+		}
+		name = ek_tenets.0056.patient
+
+		faith = { add_doctrine = doctrine_sin_patient }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_impatient }
+				faith = { has_doctrine = doctrine_sin_impatient }
+				faith = { has_doctrine = doctrine_virtue_patient }
+			}
+			has_trait = patient
+		}
+		name = ek_tenets.0056.impatient
+
+		faith = { add_doctrine = doctrine_sin_impatient }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_arrogant }
+				faith = { has_doctrine = doctrine_sin_arrogant }
+				faith = { has_doctrine = doctrine_virtue_humble }
+			}
+			has_trait = humble
+		}
+		name = ek_tenets.0056.arrogant
+
+		faith = { add_doctrine = doctrine_sin_arrogant }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_humble }
+				faith = { has_doctrine = doctrine_sin_humble }
+				faith = { has_doctrine = doctrine_virtue_arrogant }
+			}
+			has_trait = arrogant
+		}
+		name = ek_tenets.0056.humble
+
+		faith = { add_doctrine = doctrine_sin_humble }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_deceitful }
+				faith = { has_doctrine = doctrine_sin_deceitful }
+				faith = { has_doctrine = doctrine_virtue_honest }
+			}
+			has_trait = honest
+		}
+		name = ek_tenets.0056.deceitful
+
+		faith = { add_doctrine = doctrine_sin_deceitful }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_honest }
+				faith = { has_doctrine = doctrine_sin_honest }
+				faith = { has_doctrine = doctrine_virtue_deceitful }
+			}
+			has_trait = deceitful
+		}
+		name = ek_tenets.0056.honest
+
+		faith = { add_doctrine = doctrine_sin_honest }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_craven }
+				faith = { has_doctrine = doctrine_sin_craven }
+				faith = { has_doctrine = doctrine_virtue_brave }
+			}
+			has_trait = brave
+		}
+		name = ek_tenets.0056.craven
+
+		faith = { add_doctrine = doctrine_sin_craven }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_brave }
+				faith = { has_doctrine = doctrine_sin_brave }
+				faith = { has_doctrine = doctrine_virtue_craven }
+			}
+			has_trait = craven
+		}
+		name = ek_tenets.0056.brave
+
+		faith = { add_doctrine = doctrine_sin_brave }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_shy }
+				faith = { has_doctrine = doctrine_sin_shy }
+				faith = { has_doctrine = doctrine_virtue_gregarious }
+			}
+			has_trait = gregarious
+		}
+		name = ek_tenets.0056.shy
+
+		faith = { add_doctrine = doctrine_sin_shy }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_gregarious }
+				faith = { has_doctrine = doctrine_sin_gregarious }
+				faith = { has_doctrine = doctrine_virtue_shy }
+			}
+			has_trait = shy
+		}
+		name = ek_tenets.0056.gregarious
+
+		faith = { add_doctrine = doctrine_sin_gregarious }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_ambitious }
+				faith = { has_doctrine = doctrine_sin_ambitious }
+				faith = { has_doctrine = doctrine_virtue_content }
+			}
+			has_trait = content
+		}
+		name = ek_tenets.0056.ambitious
+
+		faith = { add_doctrine = doctrine_sin_ambitious }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_content }
+				faith = { has_doctrine = doctrine_sin_content }
+				faith = { has_doctrine = doctrine_virtue_ambitious }
+			}
+			has_trait = ambitious
+		}
+		name = ek_tenets.0056.content
+
+		faith = { add_doctrine = doctrine_sin_content }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_arbitrary }
+				faith = { has_doctrine = doctrine_sin_arbitrary }
+				faith = { has_doctrine = doctrine_virtue_just }
+			}
+			has_trait = just
+		}
+		name = ek_tenets.0056.arbitrary
+
+		faith = { add_doctrine = doctrine_sin_arbitrary }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_just }
+				faith = { has_doctrine = doctrine_sin_just }
+				faith = { has_doctrine = doctrine_virtue_arbitrary }
+			}
+			has_trait = arbitrary
+		}
+		name = ek_tenets.0056.just
+
+		faith = { add_doctrine = doctrine_sin_just }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_cynical }
+				faith = { has_doctrine = doctrine_sin_cynical }
+				faith = { has_doctrine = doctrine_virtue_zealous }
+			}
+			has_trait = zealous
+		}
+		name = ek_tenets.0056.cynical
+
+		faith = { add_doctrine = doctrine_sin_cynical }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_zealous }
+				faith = { has_doctrine = doctrine_sin_zealous }
+				faith = { has_doctrine = doctrine_virtue_cynical }
+			}
+			has_trait = cynical
+		}
+		name = ek_tenets.0056.zealous
+
+		faith = { add_doctrine = doctrine_sin_zealous }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_paranoid }
+				faith = { has_doctrine = doctrine_sin_paranoid }
+				faith = { has_doctrine = doctrine_virtue_trusting }
+			}
+			has_trait = trusting
+		}
+		name = ek_tenets.0056.paranoid
+
+		faith = { add_doctrine = doctrine_sin_paranoid }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_trusting }
+				faith = { has_doctrine = doctrine_sin_trusting }
+				faith = { has_doctrine = doctrine_virtue_paranoid }
+			}
+			has_trait = paranoid
+		}
+		name = ek_tenets.0056.trusting
+
+		faith = { add_doctrine = doctrine_sin_trusting }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_compassionate }
+				faith = { has_doctrine = doctrine_sin_compassionate }
+				faith = { has_doctrine = doctrine_virtue_callous }
+				faith = { has_doctrine = doctrine_virtue_sadistic }
+			}
+			OR = {
+				has_trait = sadistic
+				has_trait = callous
+			}
+		}
+		name = ek_tenets.0056.compassionate
+
+		faith = { add_doctrine = doctrine_sin_compassionate }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_callous }
+				faith = { has_doctrine = doctrine_sin_callous }
+				faith = { has_doctrine = doctrine_virtue_compassionate }
+			}
+			has_trait = compassionate
+		}
+		name = ek_tenets.0056.callous
+
+		faith = { add_doctrine = doctrine_sin_callous }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_sadistic }
+				faith = { has_doctrine = doctrine_sin_sadistic }
+				faith = { has_doctrine = doctrine_virtue_compassionate }
+			}
+			has_trait = compassionate
+		}
+		name = ek_tenets.0056.sadistic
+
+		faith = { add_doctrine = doctrine_sin_sadistic }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_stubborn }
+				faith = { has_doctrine = doctrine_sin_stubborn }
+				faith = { has_doctrine = doctrine_virtue_fickle }
+			}
+			has_trait = fickle
+		}
+		name = ek_tenets.0056.stubborn
+
+		faith = { add_doctrine = doctrine_sin_stubborn }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_fickle }
+				faith = { has_doctrine = doctrine_sin_fickle }
+				faith = { has_doctrine = doctrine_virtue_stubborn }
+			}
+			has_trait = stubborn
+		}
+		name = ek_tenets.0056.fickle
+
+		faith = { add_doctrine = doctrine_sin_fickle }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_vengeful }
+				faith = { has_doctrine = doctrine_sin_vengeful }
+				faith = { has_doctrine = doctrine_virtue_forgiving }
+			}
+			has_trait = forgiving
+		}
+		name = ek_tenets.0056.vengeful
+
+		faith = { add_doctrine = doctrine_sin_vengeful }
+	}
+	option = {
+		trigger = {
+			NOR = {
+				faith = { has_doctrine = doctrine_virtue_forgiving }
+				faith = { has_doctrine = doctrine_sin_forgiving }
+				faith = { has_doctrine = doctrine_virtue_vengeful }
+			}
+			has_trait = vengeful
+		}
+		name = ek_tenets.0056.forgiving
+
+		faith = { add_doctrine = doctrine_sin_forgiving }
+	}
+}
+
+###Unmourned Blood
+#Converting to Sixth House
+ek_tenets.0060 = {
+	type = character_event
+	title = ek_tenets.0060.t
+	desc = ek_tenets.0060.desc
+	theme = faith
+	override_background = corridor_night
+
+	right_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+
+	immediate = { #Remove secret sixth house and make it open
+		if = {
+			limit = { 
+				secret_faith ?= faith:sixth_house
+			}
+			random_secret = {
+				limit = { secret_type = secret_crypto_religionist }
+				remove_secret = yes
+			}
+			set_character_faith = faith:sixth_house
+		}
+	}
+
+	option = {
+		name = ek_tenets.0060.a
+		add_piety = 500
+		add_prestige = 500
+	}
+}
+#Converting away from Sixth House
+ek_tenets.0061 = {
+	type = character_event
+	title = ek_tenets.0061.t
+	desc = ek_tenets.0061.desc
+	theme = faith
+	override_background = corridor_night
+
+	right_portrait = {
+		character = root
+		animation = sick
+	}
+
+	trigger = {
+		dynasty = { has_dynasty_modifier = scarab_blood_dynasty_modifier }
+		NOT = { has_faith = faith:sixth_house }
+	}
+
+	option = {
+		name = ek_tenets.0061.a
+	}
+}
+#Last Dagoth died, remove scarab blood
+ek_tenets.0062 = {
+	type = character_event
+	title = ek_tenets.0061.t
+	desc = ek_tenets.0062.desc
+	theme = faith
+	override_background = corridor_night
+
+	left_portrait = {
+		character = root
+		animation = sick
+	}
+
+	trigger = {
+		last_dagoth_trigger = yes
+	}
+
+	lower_right_portrait = scope:last_dagoth
+
+	option = { #Abandon Sixth House and Scarab blood
+		name = ek_tenets.0062.a
+		abandon_scarab_blood_decision_effects = yes
+		add_piety = 500
+		add_stress = -100
+	}
+	option = { #Keep modifier and remain sixth house
+		name = ek_tenets.0062.b
+		set_character_faith = faith:sixth_house
+	}
+}
+#Last Dagoth converted, remove scarab blood
+ek_tenets.0063 = {
+	type = character_event
+	title = ek_tenets.0061.t
+	desc = ek_tenets.0063.desc
+	theme = faith
+	override_background = corridor_night
+
+	left_portrait = {
+		character = root
+		animation = sick
+	}
+
+	trigger = {
+		last_dagoth_trigger = yes
+	}
+
+	lower_right_portrait = scope:last_dagoth
+
+	option = { #Abandon Sixth House and Scarab blood
+		name = ek_tenets.0063.a
+		abandon_scarab_blood_decision_effects = yes
+		add_piety = 500
+		add_stress = -100
+	}
+	option = { #Keep modifier and remain sixth house
+		name = ek_tenets.0063.b
+		set_character_faith = faith:sixth_house
+	}
+}

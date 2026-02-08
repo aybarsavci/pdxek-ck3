@@ -1,0 +1,181 @@
+﻿# specific job trigger for Orc wives since one of them is also the Spouse councillor
+court_position_does_not_already_have_a_job_trigger_spouse = {
+	custom_tooltip = {
+		text = does_not_have_a_full_time_job
+		NOR = {
+			has_court_position = huntwife_court_position 
+			has_court_position = forgewife_court_position
+			has_court_position = hearthwife_court_position
+		}
+	}
+} 
+
+court_mage_validity_trigger = {
+	has_magic_perk_trigger = yes
+	custom_tooltip = {
+		text = none_does_not_have_a_full_time_job
+		trigger_if = {
+			limit = { NOT = { has_court_position = court_mage_court_position } }
+			court_position_does_not_already_have_a_job_trigger = yes # This positions is considered a job, and cannot be held at the same time as another similar position
+		}
+	}
+	base_court_position_validity_trigger = { EMPLOYER = $EMPLOYER$ }
+}
+
+housecarl_validity_trigger = {
+	NOR = {
+		has_trait = blind
+		has_trait = infirm
+	}
+	custom_tooltip = {
+		text = NONE_NOT_THE_SPOUSE_OF_CHARACTER_COURT_POSITION
+		NOT = { is_spouse_of = $EMPLOYER$ }
+	}
+	can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = $EMPLOYER$ }
+	custom_tooltip = {
+		text = none_does_not_have_a_full_time_job
+		trigger_if = {
+			limit = { NOT = { has_court_position = court_housecarl_court_position } }
+			court_position_does_not_already_have_a_job_trigger = yes # This positions is considered a job, and cannot be held at the same time as another similar position
+		}
+	}
+	base_court_position_validity_trigger = { EMPLOYER = $EMPLOYER$ }
+}
+
+loremaster_validity_trigger = {
+	is_adult = yes
+	custom_tooltip = {
+		text = none_does_not_have_a_full_time_job
+		trigger_if = {
+			limit = { NOT = { has_court_position = loremaster_court_position } }
+			court_position_does_not_already_have_a_job_trigger = yes # This positions is considered a job, and cannot be held at the same time as another similar position
+		}
+	}
+	base_court_position_validity_trigger = { EMPLOYER = $EMPLOYER$ }
+}
+
+huntwife_validity_trigger = {
+	custom_tooltip = {
+		text = SPOUSE_OF_CHARACTER_COURT_POSITION
+		is_spouse_of = $EMPLOYER$
+	}
+	custom_tooltip = {
+		text = none_does_not_have_a_full_time_job
+		trigger_if = {
+			limit = { NOT = { has_court_position = huntwife_court_position } }
+			court_position_does_not_already_have_a_job_trigger_spouse = yes # This positions is considered a job, and cannot be held at the same time as another similar position
+		}
+	}
+	base_court_position_validity_trigger = { EMPLOYER = $EMPLOYER$ }
+}
+
+forgewife_validity_trigger = {
+	custom_tooltip = {
+		text = SPOUSE_OF_CHARACTER_COURT_POSITION
+		is_spouse_of = $EMPLOYER$
+	}
+	custom_tooltip = {
+		text = none_does_not_have_a_full_time_job
+		trigger_if = {
+			limit = { NOT = { has_court_position = forgewife_court_position } }
+			court_position_does_not_already_have_a_job_trigger_spouse = yes # This positions is considered a job, and cannot be held at the same time as another similar position
+		}
+	}
+	base_court_position_validity_trigger = { EMPLOYER = $EMPLOYER$ }
+}
+
+hearthwife_validity_trigger = {
+	custom_tooltip = {
+		text = SPOUSE_OF_CHARACTER_COURT_POSITION
+		is_spouse_of = $EMPLOYER$
+	}
+	custom_tooltip = {
+		text = none_does_not_have_a_full_time_job
+		trigger_if = {
+			limit = { NOT = { has_court_position = hearthwife_court_position } }
+			court_position_does_not_already_have_a_job_trigger_spouse = yes # This positions is considered a job, and cannot be held at the same time as another similar position
+		}
+	}
+	base_court_position_validity_trigger = { EMPLOYER = $EMPLOYER$ }
+}
+
+shadowscale_validity_trigger = {
+	has_trait = shadowscale
+	custom_tooltip = {
+		text = none_does_not_have_a_full_time_job
+		trigger_if = {
+			limit = { NOT = { has_court_position = shadowscale_court_position } }
+			court_position_does_not_already_have_a_job_trigger = yes # This positions is considered a job, and cannot be held at the same time as another similar position
+		}
+	}
+	base_court_position_validity_trigger = { EMPLOYER = $EMPLOYER$ }
+}
+
+clan_mother_validity_trigger = {
+	custom_tooltip = {
+		text = ABOVE_45_COURT_POSITION
+		age >= 45
+	}
+	is_female = yes
+		custom_tooltip = {
+		text = NOT_MARRIED_COURT_POSITION
+		is_married = no
+	}
+	culture = { has_cultural_pillar = heritage_khajiiti }
+	custom_tooltip = {
+		text = none_does_not_have_a_full_time_job
+		trigger_if = {
+			limit = { NOT = { has_court_position = clan_mother_court_position } }
+			court_position_does_not_already_have_a_job_trigger = yes # This positions is considered a job, and cannot be held at the same time as another similar position
+		}
+	}
+	base_court_position_validity_trigger = { EMPLOYER = $EMPLOYER$ }
+}
+
+enforcer_validity_trigger = {
+	is_adult = yes
+	is_landed = no
+	custom_tooltip = {
+		text = NONE_NOT_THE_SPOUSE_OF_CHARACTER_COURT_POSITION
+		NOT = { is_spouse_of = $EMPLOYER$ }
+	}
+	custom_tooltip = {
+		text = none_does_not_have_a_full_time_job
+		trigger_if = {
+			limit = { NOT = { has_court_position = enforcer_court_position } }
+			court_position_does_not_already_have_a_job_trigger = yes # This positions is considered a job, and cannot be held at the same time as another similar position
+		}
+	}
+	can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = $EMPLOYER$ }
+	base_court_position_validity_trigger = { EMPLOYER = $EMPLOYER$ }
+}
+
+retainer_validity_trigger = {
+	is_adult = yes
+	is_landed = no
+	custom_tooltip = {
+		text = NONE_NOT_THE_SPOUSE_OF_CHARACTER_COURT_POSITION
+		NOT = { is_spouse_of = $EMPLOYER$ }
+	}
+	custom_tooltip = {
+		text = none_does_not_have_a_full_time_job
+		trigger_if = {
+			limit = { NOT = { has_court_position = retainer_camp_officer } }
+			court_position_does_not_already_have_a_job_trigger = yes # This positions is considered a job, and cannot be held at the same time as another similar position
+		}
+	}
+	can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = $EMPLOYER$ }
+	base_court_position_validity_trigger = { EMPLOYER = $EMPLOYER$ }
+}
+
+arcanist_captain_validity_trigger = {
+	has_magic_perk_trigger = yes
+	custom_tooltip = {
+		text = none_does_not_have_a_full_time_job
+		trigger_if = {
+			limit = { NOT = { has_court_position = arcanist_captain_camp_officer } }
+			court_position_does_not_already_have_a_job_trigger = yes # This positions is considered a job, and cannot be held at the same time as another similar position
+		}
+	}
+	base_court_position_validity_trigger = { EMPLOYER = $EMPLOYER$ }
+}

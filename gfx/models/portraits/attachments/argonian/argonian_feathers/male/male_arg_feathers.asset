@@ -1,0 +1,583 @@
+# wanted to do this modular-ly but epic failed, left my vain attempts commented out for future explorers
+
+#################
+#### MODULES ####
+#################
+###### TOP OF HEAD #######
+pdxmesh = {
+	name = "male_arg_feathers_top_mesh"
+	file = "modules/male_arg_feathers_top.mesh"
+	meshsettings = {
+		name = "Plane.004"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_top"
+	pdxmesh = "male_arg_feathers_top_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+###### BACK OF HEAD #######
+pdxmesh = {
+	name = "male_arg_feathers_back_mesh"
+	file = "modules/male_arg_feathers_back.mesh"
+	meshsettings = {
+		name = "Plane.005"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_back"
+	pdxmesh = "male_arg_feathers_back_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+######  TOP HEAVY   #######
+pdxmesh = {
+	name = "male_arg_feathers_top_heavy_mesh"
+	file = "modules/male_arg_feathers_top_heavy.mesh"
+	meshsettings = {
+		name = "Plane.007"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_top_heavy"
+	pdxmesh = "male_arg_feathers_top_heavy_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+
+#################
+#### PRESETS ####
+#################
+#### this doesn't work :((( ####
+#entity = {
+#	name = "male_arg_feathers_top_back"
+#	attach = { head_base = male_arg_feathers_top }
+#	attach = { head_base = male_arg_feathers_back }
+#	locator = { name = head_base position = { 0 0 0 } }	
+#}
+#entity = {
+#	name = "male_arg_feathers_top_heavy_back"
+#	attach = { head_base = male_arg_feathers_top }
+#	attach = { head_base = male_arg_feathers_back }
+#	attach = { head_base = male_arg_feathers_top_heavy }
+#	locator = { name = head_base position = { 0 0 0 } }	
+#}
+#entity = {
+#	name = "male_arg_feathers_top_heavy"
+#	attach = { head_base = male_arg_feathers_top }
+#	attach = { head_base = male_arg_feathers_top_heavy }
+#	locator = { name = head_base position = { 0 0 0 } }	
+#}
+
+###################
+#### COMPOSITE ####
+###################
+#### doing this instead - just premade combinations of the modules ####
+pdxmesh = {
+	name = "male_arg_feathers_all_mesh"
+	file = "male_arg_feathers_all.mesh"
+	meshsettings = {
+		name = "all"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_all_entity"
+	pdxmesh = "male_arg_feathers_all_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+pdxmesh = {
+	name = "male_arg_feathers_all_b_mesh"
+	file = "male_arg_feathers_all_b.mesh"
+	meshsettings = {
+		name = "all_b"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_all_b_entity"
+	pdxmesh = "male_arg_feathers_all_b_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+pdxmesh = {
+	name = "male_arg_feathers_bald_1_mesh"
+	file = "male_arg_feathers_bald_1.mesh"
+	meshsettings = {
+		name = "bald"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_bald_1_entity"
+	pdxmesh = "male_arg_feathers_bald_1_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+pdxmesh = {
+	name = "male_arg_feathers_bald_2_mesh"
+	file = "male_arg_feathers_bald_2.mesh"
+	meshsettings = {
+		name = "bald_2"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_bald_2_entity"
+	pdxmesh = "male_arg_feathers_bald_2_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+pdxmesh = {
+	name = "male_arg_feathers_bald_3_mesh"
+	file = "male_arg_feathers_bald_3.mesh"
+	meshsettings = {
+		name = "bald_3"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_bald_3_entity"
+	pdxmesh = "male_arg_feathers_bald_3_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+pdxmesh = {
+	name = "male_arg_feathers_full_1_mesh"
+	file = "male_arg_feathers_full_1.mesh"
+	meshsettings = {
+		name = "full_1"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_full_1_entity"
+	pdxmesh = "male_arg_feathers_full_1_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+pdxmesh = {
+	name = "male_arg_feathers_full_2_mesh"
+	file = "male_arg_feathers_full_2.mesh"
+	meshsettings = {
+		name = "full_2"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_full_2_entity"
+	pdxmesh = "male_arg_feathers_full_2_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+pdxmesh = {
+	name = "male_arg_feathers_full_3_mesh"
+	file = "male_arg_feathers_full_3.mesh"
+	meshsettings = {
+		name = "full_2" #this is correct, mesh data is set incorrectly to full_2 instead of full_3, doesn't matter as long as it matches here
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_full_3_entity"
+	pdxmesh = "male_arg_feathers_full_3_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+pdxmesh = {
+	name = "male_arg_feathers_full_4_mesh"
+	file = "male_arg_feathers_full_4.mesh"
+	meshsettings = {
+		name = "full_4"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_full_4_entity"
+	pdxmesh = "male_arg_feathers_full_4_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+pdxmesh = {
+	name = "male_arg_feathers_full_5_mesh"
+	file = "male_arg_feathers_full_5.mesh"
+	meshsettings = {
+		name = "full_5"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_full_5_entity"
+	pdxmesh = "male_arg_feathers_full_5_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+pdxmesh = {
+	name = "male_arg_feathers_full_6_mesh"
+	file = "male_arg_feathers_full_6.mesh"
+	meshsettings = {
+		name = "full_6"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_full_6_entity"
+	pdxmesh = "male_arg_feathers_full_6_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+pdxmesh = {
+	name = "male_arg_feathers_mohawk_1_mesh"
+	file = "male_arg_feathers_mohawk_1.mesh"
+	meshsettings = {
+		name = "mohawk_1"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_mohawk_1_entity"
+	pdxmesh = "male_arg_feathers_mohawk_1_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+pdxmesh = {
+	name = "male_arg_feathers_mohawk_1_b_mesh"
+	file = "male_arg_feathers_mohawk_1_b.mesh"
+	meshsettings = {
+		name = "mohawk_1"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_mohawk_1_b_entity"
+	pdxmesh = "male_arg_feathers_mohawk_1_b_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+pdxmesh = {
+	name = "male_arg_feathers_mohawk_2_mesh"
+	file = "male_arg_feathers_mohawk_2.mesh"
+	meshsettings = {
+		name = "mohawk_2"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_mohawk_2_entity"
+	pdxmesh = "male_arg_feathers_mohawk_2_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+pdxmesh = {
+	name = "male_arg_feathers_mohawk_2_b_mesh"
+	file = "male_arg_feathers_mohawk_2_b.mesh"
+	meshsettings = {
+		name = "mohawk_2"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_mohawk_2_b_entity"
+	pdxmesh = "male_arg_feathers_mohawk_2_b_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+pdxmesh = {
+	name = "male_arg_feathers_mohawk_3_mesh"
+	file = "male_arg_feathers_mohawk_3.mesh"
+	meshsettings = {
+		name = "mohawk_3"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_mohawk_3_entity"
+	pdxmesh = "male_arg_feathers_mohawk_3_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+pdxmesh = {
+	name = "male_arg_feathers_mohawk_3_b_mesh"
+	file = "male_arg_feathers_mohawk_3_b.mesh"
+	meshsettings = {
+		name = "mohawk_3"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_mohawk_3_b_entity"
+	pdxmesh = "male_arg_feathers_mohawk_3_b_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+###########################
+pdxmesh = {
+	name = "male_arg_feathers_misc_1_mesh"
+	file = "male_arg_feathers_misc_1.mesh"
+	meshsettings = {
+		name = "misc1"
+		index = 0
+		texture_diffuse = "arg_feathers_diffuse.dds"
+		texture_normal = "arg_feathers_normal.dds"
+		texture_specular = "arg_feathers_properties.dds"
+		texture = { file = "black_ssao_color.dds" index = 3 }
+		shader = "portrait_hair_transparency_hack"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+}
+entity = {
+	name = "male_arg_feathers_misc_1_entity"
+	pdxmesh = "male_arg_feathers_misc_1_mesh"
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 0.96}
+			}
+		}
+	}
+}
+

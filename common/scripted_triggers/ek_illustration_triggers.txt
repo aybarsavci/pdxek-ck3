@@ -1,0 +1,175 @@
+﻿
+### EK building gfx ###
+
+has_graphical_armun_an_culture_group_trigger = {
+	has_building_gfx = ek_armun_an_building_gfx
+}
+
+has_graphical_velothi_culture_group_trigger = {
+	has_building_gfx = ek_velothi_building_gfx
+}
+
+has_graphical_telvanni_culture_group_trigger = {
+	has_building_gfx = ek_telvanni_building_gfx
+}
+
+has_graphical_dres_culture_group_trigger = {
+	has_building_gfx = ek_dres_building_gfx
+}
+
+has_graphical_gah_julan_culture_group_trigger = {
+	has_building_gfx = ek_gah_julan_building_gfx
+}
+
+has_graphical_chuzei_culture_group_trigger = {
+	has_building_gfx = ek_chuzei_building_gfx
+}
+
+has_graphical_orc_culture_group_trigger = {
+	has_building_gfx = ek_orc_building_gfx
+}
+
+has_graphical_yokudan_culture_group_trigger = {
+	has_building_gfx = ek_yokudan_building_gfx
+}
+
+has_graphical_redguard_culture_group_trigger = {
+	has_building_gfx = ek_redguard_building_gfx
+}
+
+has_graphical_khajiit_culture_group_trigger = {
+	has_building_gfx = ek_khajiit_building_gfx
+}
+
+has_graphical_goblin_culture_group_trigger = {
+	has_building_gfx = ek_goblin_building_gfx
+}
+
+has_graphical_bosmer_culture_group_trigger = {
+	has_building_gfx = ek_bosmer_building_gfx
+}
+
+has_graphical_argonian_culture_group_trigger = {
+	has_building_gfx = ek_argonian_building_gfx
+}
+
+has_graphical_daedric_culture_group_trigger = {
+	has_building_gfx = ek_daedric_building_gfx
+}
+
+has_graphical_dwemer_culture_group_trigger = {
+	has_building_gfx = ek_dwemer_building_gfx
+}
+
+has_graphical_aldmer_culture_group_trigger = {
+	has_building_gfx = ek_aldmer_building_gfx
+}
+
+has_graphical_balfieri_culture_group_trigger = {
+	has_building_gfx = ek_balfieri_building_gfx
+}
+
+has_graphical_ayleid_culture_group_trigger = {
+	has_building_gfx = ek_ayleid_building_gfx
+}
+
+has_graphical_nedic_north_culture_group_trigger = {
+	has_building_gfx = ek_nedic_north_building_gfx
+}
+
+has_graphical_nedic_south_culture_group_trigger = {
+	has_building_gfx = ek_nedic_south_building_gfx
+}
+
+has_graphical_nedic_keptu_culture_group_trigger = {
+	has_building_gfx = ek_nedic_keptu_building_gfx
+}
+
+has_graphical_breton_culture_group_trigger = {
+	OR = {
+		has_building_gfx = ek_breton_building_gfx
+		has_building_gfx = ek_northmen_building_gfx
+		has_building_gfx = ek_iliac_building_gfx
+	}
+	
+}
+
+has_graphical_cyrodilic_culture_group_trigger = {
+	OR = {
+		has_building_gfx = ek_cyrodilic_building_gfx
+		has_building_gfx = ek_heartlander_building_gfx
+	}
+}
+
+has_graphical_colovian_culture_group_trigger = {
+	has_building_gfx = ek_colovian_building_gfx
+}
+
+has_graphical_strident_culture_group_trigger = {
+	has_building_gfx = ek_strident_building_gfx
+}
+
+has_graphical_nordic_culture_group_trigger = {
+	OR = {
+		has_building_gfx = ek_nordic_building_gfx 
+		has_building_gfx = ek_westholder_building_gfx
+		has_building_gfx = ek_cyro_nordic_building_gfx
+	}
+}
+
+has_graphical_akaviri_culture_group_trigger = {
+	OR = {
+		has_building_gfx = ek_akaviri_building_gfx
+		has_building_gfx = ek_ilniviri_building_gfx
+	}
+}
+
+
+
+has_graphical_sea_region_trigger = {
+	trigger_if = {
+		limit = {
+			exists = capital_province
+		}
+		capital_province = {
+			OR = {
+				geographical_region = graphical_sea
+			}
+		}
+	}
+	trigger_else_if = {
+		limit = {
+			NOT = { exists = capital_province }
+		}
+		trigger_if = { 
+			limit = { exists = host.capital_province }
+			host.capital_province = {
+				OR = {
+					geographical_region = graphical_sea
+				}
+			}
+		}
+		trigger_else_if = {
+			limit = {
+				exists = liege.capital_province
+			}
+			liege.capital_province = {
+				OR = {
+					geographical_region = graphical_sea
+				}
+			}
+		}
+		trigger_else_if = {
+			limit = {
+				exists = location.province_owner.capital_province
+			}
+			location.province_owner.capital_province = {
+				OR = {
+					geographical_region = graphical_sea
+				}
+			}
+		}
+		trigger_else = { always = yes }
+	}
+	trigger_else = { always = yes }
+}

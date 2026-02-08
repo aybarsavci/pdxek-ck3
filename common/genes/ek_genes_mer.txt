@@ -1,0 +1,268 @@
+﻿morph_genes = {
+
+	#This adds 2 copies of elve ear gene. Every elve will have one of each and together they produce long ears. They are limited to 0.5 max as added up together they will go to 1.0.
+	#The reason for 2 genes is so that half-elves work as you would imagine from fantasy, children with half long ears. Otherwise children of mixed race would either have full length ears, or short human ears.
+	#Default way is more realistic but not what you expect from fantasy half elves. This is not ideal either, but this makes it so children have a 25% chance
+	#of being born with full mer ears,50% half ears (or somewhere in between quarter and half most likely) and 25% no mer ears. Still more immersive than one gene, but there's still a small chance of
+	#great grandkids sprouting mer ears though.
+	
+	race_gene_mer_forehead = {
+		inheritable = yes
+		ugliness_feature_categories = { head }
+		group = face
+		human_forehead = {
+			visible = no
+			index = 0
+			male = {}
+			female = male
+			boy = male
+			girl = male
+		}
+		mer_forehead = {
+			index = 1
+			male = {
+				decal = { 
+					body_part = head
+					textures = {
+						normal = "gfx/models/portraits/decals/male_head/mer_head_forehead_01.dds"
+					}
+					blend_modes = {              #overlay/replace/hard_light/multiply
+						normal = overlay
+					}
+					alpha_curve = {
+						{ 0.0 0.0 }
+						{ 1.0 1.0 }
+					}	
+					priority = 0
+					decal_apply_order = post_skin_color # pre_skin_color | post_skin_color
+				}
+			}
+			female = {
+				decal = { 
+					body_part = head
+					textures = {
+						normal = "gfx/models/portraits/decals/female_head/mer_head_forehead_02.dds"
+					}
+					blend_modes = {              #overlay/replace/hard_light/multiply
+						normal = overlay
+					}
+					alpha_curve = {
+						{ 0.0 0.0 }
+						{ 1.0 1.0 }
+					}	
+					priority = 0
+					decal_apply_order = post_skin_color # pre_skin_color | post_skin_color
+				}
+			}
+			boy = male
+			girl = female
+		}
+		dremora_face = {
+			index = 2
+			male = {
+				decal = { 
+					body_part = head
+					textures = {
+						normal = "gfx/models/portraits/decals/male_head/dremora_head_normal.dds"
+					}
+					blend_modes = {              #overlay/replace/hard_light/multiply
+						normal = overlay
+					}
+					alpha_curve = {
+						{ 0.0 0.0 }
+						{ 1.0 1.0 }
+					}	
+					priority = 0
+					decal_apply_order = post_skin_color # pre_skin_color | post_skin_color
+				}
+			}
+			female = {
+				decal = { 
+					body_part = head
+					textures = {
+						normal = "gfx/models/portraits/decals/male_head/dremora_head_normal.dds"
+					}
+					blend_modes = {              #overlay/replace/hard_light/multiply
+						normal = overlay
+					}
+					alpha_curve = {
+						{ 0.0 0.0 }
+						{ 1.0 1.0 }
+					}	
+					priority = 0
+					decal_apply_order = post_skin_color # pre_skin_color | post_skin_color
+				}
+			}
+			boy = male
+			girl = female
+		}
+	}
+	
+	race_gene_mer_nose = {
+		inheritable = yes
+		ugliness_feature_categories = { head }
+		group = nose
+		human_nose = {
+			visible = no
+			index = 0
+			male = {}
+			female = male
+			boy = male
+			girl = male
+		}
+		mer_nose = {
+			index = 1
+			male = {
+				setting = { attribute = "male_mer_nose_bs"	value = { min = 0.0 max = 1.0 }	age = age_preset_child_features_wide_range }
+			}
+			female = {
+				setting = { attribute = "female_mer_nose_bs"	value = { min = 0.0 max = 0.9 }	age = age_preset_child_features_wide_range }
+			}
+			boy = male
+			girl = female
+		}
+		orc_nose = {
+			index = 2
+			male = {
+				setting = { attribute = "male_orc_nose_bs"	value = { min = 0.0 max = 1.0 }	age = age_preset_child_features_wide_range }
+			}
+			female = {
+				setting = { attribute = "female_orc_nose_bs"	value = { min = 0.0 max = 1.0 }	age = age_preset_child_features_wide_range }
+			}
+			boy = male
+			girl = female
+		}
+	}
+		
+	race_gene_mer_ears_01 = {
+		inheritable = yes
+		ugliness_feature_categories = { head }
+		group = ears
+		human_ears = {
+			visible = no
+			index = 0
+			male = {}
+			female = male
+			boy = male
+			girl = male
+		}
+		mer_ears_01 = {
+			index = 1
+			male = {
+				setting = { required_tags = "not(snug_headgear)" attribute = "race_mer_ears_01_bs"	value = { min = 0.0 max = 0.5 }	age = age_preset_child_features_wide_range }
+			}
+			female = male
+			boy = male
+			girl = male
+		}
+		mer_ears_02 = {
+			index = 2
+			male = {
+				setting = { required_tags = "not(snug_headgear)" attribute = "race_mer_ears_02_bs"	value = { min = 0.0 max = 0.5 }	age = age_preset_child_features_wide_range }
+			}
+			female = male
+			boy = male
+			girl = male
+		}
+		mer_ears_03 = {
+			index = 3
+			male = {
+				setting = { required_tags = "not(snug_headgear)" attribute = "race_mer_ears_03_bs"	value = { min = 0.0 max = 0.5 }	age = age_preset_child_features_wide_range }
+			}
+			female = male
+			boy = male
+			girl = male
+		}
+
+	}
+
+	race_gene_mer_ears_02 = {
+		inheritable = yes
+		ugliness_feature_categories = { head }
+		group = ears
+		human_ears = {
+			visible = no
+			index = 0
+			male = {}
+			female = male
+			boy = male
+			girl = male
+		}
+
+		mer_ears_01 = {
+			index = 1
+			male = {
+				setting = { required_tags = "not(snug_headgear)" required_tags = "not(hood)" attribute = "race_mer_ears_01_bs"	value = { min = 0.0 max = 0.5 }	age = age_preset_child_features_wide_range }
+			}
+			female = male
+			boy = male
+			girl = male
+		}
+		mer_ears_02 = {
+			index = 2
+			male = {
+				setting = { required_tags = "not(snug_headgear)" required_tags = "not(hood)" attribute = "race_mer_ears_02_bs"	value = { min = 0.0 max = 0.5 }	age = age_preset_child_features_wide_range }
+			}
+			female = male
+			boy = male
+			girl = male
+		}
+
+		mer_ears_03 = {
+			index = 3
+			male = {
+				setting = { required_tags = "not(snug_headgear)" required_tags = "not(hood)" attribute = "race_mer_ears_03_bs"	value = { min = 0.0 max = 0.5 }	age = age_preset_child_features_wide_range }
+			}
+			female = male
+			boy = male
+			girl = male
+		}
+	}
+
+	race_gene_mer_eyebrows_01 = {
+		inheritable = yes
+		ugliness_feature_categories = { head eyes }
+		group = face
+		human_eyebrows = {
+			visible = no
+			index = 0
+			male = {}
+			female = male
+			boy = male
+			girl = male
+		}
+		mer_eyebrows_01 = {
+			index = 1
+			male = {
+				setting = { attribute = "race_mer_eyebrows_bs"	value = { min = 0.0 max = 1.0 }	age = age_preset_child_features_wide_range }
+			}
+			female = male
+			boy = male
+			girl = male
+		}
+	}
+
+	
+	race_gene_hunchbacked = {
+		no_hunchback = {
+			index = 0
+			male = {}
+			female = male
+			boy = male
+			girl = male
+		}		
+		hunchbacked = {
+			index = 1
+			male = {
+					setting = { attribute = "body_hunchbacked"  value = { min = 0.01 max = 0.25 }	}
+					setting = { attribute = "head_hunchbacked"  value = { min = 0.01 max = 0.25 }	}
+			}
+			female = male
+			boy = male
+			girl = male
+		}
+	}
+
+}
+
+

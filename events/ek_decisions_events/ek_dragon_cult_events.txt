@@ -1,0 +1,251 @@
+﻿namespace = dragon_cult
+
+#dragon_cult.0001: Choosing capital - Keizaal Formation
+#dragon_cult.0002: Becoming a Dragon Priest - Keizaal Formation
+
+dragon_cult.0001 = { # Bromjunaar capital event
+	type = character_event
+	content_source = dlc_ek
+	title = dragon_cult.0001.t
+	desc = dragon_cult.0001.desc
+	theme = realm
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}	
+	
+	option = { # Setting capital in Labryinthian.
+		name = dragon_cult.0001.a
+		trigger = {
+			completely_controls = title:d_morthal
+		}
+		if = { # Usurp if not held personally.
+			limit = {
+				NOT = { title:c_valkygg.holder = { this = root } }
+			}
+		}
+		create_title_and_vassal_change = {
+			type = returned
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		title:c_valkygg = {
+			change_title_holder = {
+				holder = root
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		set_realm_capital = title:c_valkygg
+		title:c_valkygg = { set_title_name = Bromjunaar }
+		title:b_valkygg = { set_title_name = Bromjunaar }
+		title:c_valkygg = { change_development_level = 5 }
+		title:c_valkygg = { set_county_culture = root.culture }
+		title:c_valkygg = { set_county_faith = root.faith }
+
+		if = { # update CoA
+			limit = {
+				has_primary_title = title:e_skyrim
+			}
+			title:e_skyrim = {
+				update_dynamic_coa = yes
+			}
+		}
+		
+		trigger_event = { 
+			id = dragon_cult.0002
+			days = { 5 14 }
+		}
+	}
+	option = { #  Keeping Capital
+		name = dragon_cult.0001.b
+		trigger_event = { 
+			id = dragon_cult.0002
+			days = { 5 14 }
+		}
+	}
+}
+
+scripted_effect get_dragon_priest_name = {
+	#save_scope_value_as = { name = name_$X$ value = yes } #error suppression, need scope to exist
+	random_list = {
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Kendov } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Unahzaal } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Kroniid } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Rahgol } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Reinvaaz } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Krilot } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Qahnaarin } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Nonvul } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Deinmaar } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Vintaas } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Yuvon } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Wahlaan } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Monah } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Vosaraan } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Pindaar } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Nonvul } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Miiraad } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Faraan } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Du'ul } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Kinbok } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Maltiid } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Tinvaak } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Lovaas } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Aakaal } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Qolaas } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Midrot } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Ensosin } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Ruvaak } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Viidost } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Motmahus } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Hahvulon } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Sosaal } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Vithaar } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Nahlot } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Tahrovin } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Mindoraan } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Onikiv } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Revak } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Krojul } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Mulaag } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Vokrii } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Onikaan } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Hahdrim } }
+		1 = { set_dragon_priest_name_flag = { X = $X$ NAME = Lahzorox } }
+	}
+}
+scripted_effect set_dragon_priest_name_flag = {
+	if = { limit = { exists = scope:name_$X$ scope:name_$X$ = flag:$NAME$ } } #error suppression
+	save_scope_value_as = { name = name_$X$ value = flag:$NAME$ }
+}
+
+dragon_cult.0002 = { # dragon priest mask event
+	type = character_event
+	content_source = dlc_ek
+	title = dragon_cult.0002.t
+	desc = dragon_cult.0002.desc
+	theme = faith
+	override_background = {
+		reference = temple_scope
+	}
+	
+	left_portrait = { character = root }
+	
+	right_portrait = {
+		character = scope:draugr_dude
+		animation = personality_dishonorable
+	}	
+	
+	immediate = {
+		get_dragon_priest_name = { X = 1 }
+		get_dragon_priest_name = { X = 2 }
+		get_dragon_priest_name = { X = 3 }
+		create_character = {
+			template = dragon_cult_restoration_draugr
+			location = root.capital_province
+			save_scope_as = draugr_dude
+		}
+	}
+
+	option = { # take mask 1
+		name = dragon_cult.0002.a
+		add_prestige = medium_prestige_gain
+		if = {
+			limit = { exists = scope:name_1 }
+			change_first_name = scope:name_1 
+		}
+
+		save_scope_as = dragon_priest
+		create_artifact_mask_dragon_priest_effect = {
+			OWNER = root
+		}
+
+		ai_chance = {
+			base = 100
+		}
+		stress_impact = {
+			humble = medium_stress_impact_gain
+		}
+	}
+	option = { # take mask 2
+		name = dragon_cult.0002.b
+		add_prestige = medium_prestige_gain
+		if = {
+			limit = { exists = scope:name_2 }
+			change_first_name = scope:name_2 
+		}
+
+		save_scope_as = dragon_priest
+		create_artifact_mask_dragon_priest_effect = {
+			OWNER = root
+		}
+
+		ai_chance = {
+			base = 100
+		}
+		stress_impact = {
+			humble = medium_stress_impact_gain
+		}
+	}
+	option = { # take mask 3
+		name = dragon_cult.0002.c
+		add_prestige = medium_prestige_gain
+		if = {
+			limit = { exists = scope:name_3 }
+			change_first_name = scope:name_3 
+		}
+
+		save_scope_as = dragon_priest
+		create_artifact_mask_dragon_priest_effect = {
+			OWNER = root
+		}
+
+		ai_chance = {
+			base = 100
+		}
+		stress_impact = {
+			humble = medium_stress_impact_gain
+		}
+	}
+
+	option = { # No change
+		name = dragon_cult.0002.d
+		add_prestige = medium_prestige_gain
+
+		stress_impact = {
+			ambitious = medium_stress_impact_gain
+		}
+	}
+}
+
+dragon_cult.1001 = { # dragon cult conversion event
+	type = character_event
+	content_source = dlc_ek
+	title = dragon_cult.1001.t
+	desc = dragon_cult.1001.d
+	theme = faith
+	override_background = {
+		reference = wilderness_forest_pine
+	}
+	
+	left_portrait = {
+		character = root
+	}
+	
+	option = { #yea fr on god
+		name = dragon_cult.1001.a
+		#custom_tooltip = dragon_cult.0001.tooltip
+		add_trait = zealous
+		remove_trait = p_at_dragon
+		set_character_faith = faith:dragon_cult
+	}
+	option = { #on second thought nah
+		name = dragon_cult.1001.b
+		#custom_tooltip = dragon_cult.0001.tooltip
+		add_trait = cynical
+		add_prestige = 100
+		add_piety = 200
+	}
+}

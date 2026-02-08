@@ -1,0 +1,702 @@
+﻿namespace = ek_travel_events_skyrim
+
+############################
+## Travel Skyrim Flavor Events
+## 0001-3999
+############################
+
+# Dragon Mound
+ek_travel_events_skyrim.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_skyrim.0001.t
+	desc = ek_travel_events_skyrim.0001.desc
+	theme = travel
+	left_portrait = {
+		character = root 
+		animation = personality_content
+	}
+
+	cooldown = { years = 10 }
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		is_location_valid_for_travel_event_on_land = yes
+		location = {
+			geographical_region = mundus_tamriel_skyrim
+		}
+	}
+	
+	option = { # Cool! Stay a bit
+		name = ek_travel_events_skyrim.0001.a
+		current_travel_plan = {
+			delay_travel_plan = { days = 1 }
+		}
+		add_prestige = minor_prestige_gain
+	}
+
+	option = { # Interesting...
+		name = ek_travel_events_skyrim.0001.c
+		trigger = {
+			OR = {
+				has_trait = cynical
+				has_trait = p_at_dragon
+			}
+			NOT = {
+				faith = faith:dragon_cult
+			}
+		}
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+		set_character_faith_with_conversion = faith:dragon_cult
+		add_piety = major_piety_loss
+		
+		add_internal_flag = dangerous
+	}
+
+	option = { # No time!
+		name = ek_travel_events_skyrim.0001.b
+		
+	}	
+}
+
+# A Friend in Mead
+ek_travel_events_skyrim.0005 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_skyrim.0005.t
+	desc = ek_travel_events_skyrim.0005.desc
+	theme = travel
+	override_background = {
+		reference = tavern
+	}
+	left_portrait = {
+		character = root
+		animation = drink
+	}
+
+	right_portrait = {
+		character = scope:nord
+		animation = toast
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = {
+			geographical_region = mundus_tamriel_skyrim
+			culture = { has_cultural_pillar = heritage_atmoran }
+		}
+		NOT = { 
+			culture = { has_cultural_pillar = heritage_atmoran }
+		}
+	}
+
+	immediate = {
+		play_music_cue = mx_cue_travel_arrival
+		create_character = {
+			template = servant_character
+			location = root.location
+			culture = root.location.culture
+			faith = root.location.faith
+			save_scope_as = nord
+		}
+	}
+
+	option = { # stay
+		name = ek_travel_events_skyrim.0005.a
+		set_relation_friend = { reason = friend_drinking_buddies target = scope:nord }
+		stress_impact = {
+			base = medium_stress_impact_loss
+		}
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}
+
+	option = { # bring friend
+		name = ek_travel_events_skyrim.0005.b
+		set_relation_friend = { reason = friend_drinking_buddies target = scope:nord }
+		add_courtier = scope:nord
+		root.current_travel_plan = {
+			add_companion = scope:nord
+		}
+		scope:nord = {
+			add_character_flag = {
+				flag = recruited
+				days = 5
+			}
+		}
+		reverse_add_opinion = {
+			modifier = recruited_me_opinion
+			target = scope:nord
+			opinion = 20
+		}
+		stress_impact = {
+			base = medium_stress_impact_loss
+		}
+	}
+
+	option = { # no thanks
+		name = ek_travel_events_skyrim.0005.c
+	}
+
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					is_ai = yes
+					scope:nord = {
+						NOT = {
+							is_courtier_of = root
+						}
+					}
+				}
+				scope:nord = {
+					if = {
+						limit = {
+							root = { is_ai = yes }
+						}
+						silent_disappearance_effect = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+# Victory or Sovngarde
+ek_travel_events_skyrim.0010 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_skyrim.0010.t
+	desc = ek_travel_events_skyrim.0010.desc
+	theme = travel
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:old_nord
+		animation = beg
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		is_location_valid_for_travel_event_on_land = yes
+		NOT = { location.county.holder = root } #If I own it then it does not make sense to visit it.
+		location = {
+			geographical_region = mundus_tamriel_skyrim
+			culture = { has_cultural_pillar = heritage_atmoran }
+		}
+	}
+
+	immediate = {
+		play_music_cue = mx_cue_travel_arrival
+		create_character = {
+			template = old_nord_template
+			location = root.location
+			culture = root.location.culture
+			faith = root.location.faith
+			save_scope_as = old_nord
+		}
+		scope:old_nord = {
+			add_character_flag = wear_armor
+		}
+	}
+
+	option = { # old nord joins
+		name = ek_travel_events_skyrim.0010.a
+		add_courtier = scope:old_nord
+		root.current_travel_plan = {
+			add_companion = scope:old_nord
+		}
+		scope:old_nord = {
+			add_character_flag = {
+				flag = recruited
+				days = 5
+			}
+		}
+		reverse_add_opinion = {
+			modifier = recruited_me_opinion
+			target = scope:old_nord
+			opinion = 20
+		}
+	}
+
+	#Duel to the Death
+    option = { 
+        name = ek_travel_events_skyrim.0010.b
+        custom_tooltip = ek_travel_events_skyrim.0010.b.tt
+        show_as_tooltip = {
+            random_list = {
+                50 = {
+                    root = {
+                        death = { death_reason = death_duel }
+                    }
+                }
+                50 = {
+                    scope:old_nord = {
+                        death = { death_reason = death_duel }
+                    }
+                }
+            }
+        } 
+        stress_impact = {
+            craven = medium_stress_impact_gain
+            brave = medium_stress_impact_loss
+        }
+
+        configure_start_single_combat_effect = {
+            SC_INITIATOR = scope:old_nord
+            SC_ATTACKER = scope:old_nord
+            SC_DEFENDER = root
+            FATALITY = always
+            FIXED = no
+            LOCALE = terrain_scope
+            OUTPUT_EVENT = ek_travel_events_skyrim.0011
+            INVALIDATION_EVENT = single_combat.1006
+        }
+    }
+
+	option = { # just go
+		name = ek_travel_events_skyrim.0010.c
+		scope:old_nord = {
+			if = {
+				limit = {
+					root = { is_ai = yes }
+				}
+				silent_disappearance_effect = yes
+			}
+		}
+		add_prestige = minor_prestige_gain
+	}
+}
+
+# Character slays the Old Nord
+ek_travel_events_skyrim.0011 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_travel_events_skyrim.0011.t
+    desc = ek_travel_events_skyrim.0011.desc
+    theme = travel
+    left_portrait = {
+        character = root
+        animation = celebrate_sword
+    }
+    immediate = {
+        add_character_modifier = {
+            modifier = famous_duelist
+            years = 10
+        }      
+    }
+    # Gain prestige and blademaster xp
+    option = {
+        name = ek_travel_events_skyrim.0011.a
+		add_prestige = medium_prestige_gain
+		if = {
+			limit = { has_trait = lifestyle_blademaster }
+			add_trait_xp = {
+				trait = lifestyle_blademaster
+				value = 10
+			}
+		}
+		else = { add_trait = lifestyle_blademaster }
+    }       
+}
+
+############################
+## Travel Skyrim Danger Events
+## 4000-7999
+############################
+
+# The Pale Man
+ek_travel_events_skyrim.4000 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_skyrim.4000.t
+	desc = ek_travel_events_skyrim.4000.desc
+	theme = travel_danger
+	
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+
+	lower_right_portrait = {
+		character = scope:kidnapped_character
+	}
+
+	cooldown = { years = 2 }
+
+	trigger = {
+		 
+		exists = location.province_owner
+		is_location_valid_for_travel_event_on_land = yes
+		location_has_winter_trigger = yes
+		location = {
+			geographical_region = mundus_tamriel_skyrim_the_pale
+		}
+		current_travel_plan ?= {
+			any_entourage_character = {
+				NOT = { this = root }
+				count > 1
+			}
+		}
+    }
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+	
+    immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		current_travel_plan = {
+			current_location = { save_scope_as = current_location }
+			ordered_entourage_character = {
+				limit = { NOT = { this = root } }
+				order_by = {
+					value = 0
+					subtract = prowess
+					if = {
+						limit = { is_knight_of = root }
+						add = -50
+					}
+					if = {
+						limit = {
+							root = { exists = cp:councillor_marshal }
+							this = root.cp:councillor_marshal
+						}
+						add = -50
+					}
+					if = {
+						limit = { has_court_position = bodyguard_court_position }
+						add = -50
+					}
+				}
+				save_scope_as = kidnapped_character
+			}
+		}
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+	}
+
+	option = { # Go before they get you!
+		name = ek_travel_events_skyrim.4000.a
+		scope:kidnapped_character = {
+			death = { death_reason = death_pale_man }
+		}
+
+		stress_impact = {
+			arrogant = medium_stress_impact_gain
+			brave = medium_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				has_trait = arrogant
+			}
+			modifier = {
+				factor = 0
+				has_trait = brave
+			}
+		}
+	}
+
+	# Get them!
+    option = {
+        name = ek_travel_events_skyrim.4000.b
+		duel = {
+			skill = prowess
+			value = high_skill_rating
+			50 = {
+				desc = ek_travel_events_skyrim.4000.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+				}
+				root = {
+					send_interface_toast = {
+						title = ek_travel_events_skyrim.4000.b.success
+						type = event_toast_effect_good
+						left_icon = scope:kidnapped_character
+						add_prestige = major_prestige_gain
+					}
+				}
+			}
+			50 = {
+				desc = ek_travel_events_skyrim.4000.b.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+				}
+				death = { death_reason = death_pale_man }
+				send_interface_toast = {
+					title = ek_travel_events_skyrim.4000.b.failure
+					type = event_toast_effect_bad
+					left_icon = root
+					scope:kidnapped_character = {
+						death = { death_reason = death_pale_man }
+					}
+				}
+			}
+		}
+		stress_impact = {
+			craven = medium_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				has_trait = craven
+			}
+		}
+	}
+}
+
+# The Wispmother
+ek_travel_events_skyrim.4005 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_skyrim.4005.t
+	desc = ek_travel_events_skyrim.4005.desc
+	theme = travel_danger
+
+	override_background = {
+		reference = ep2_hunt_snowy_forest
+	}
+	right_portrait = {
+		character = root
+		scripted_animation = duel_wield_weapon
+	}
+
+	cooldown = { years = 2 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		is_location_valid_for_travel_event_on_land = yes
+		location = {
+			geographical_region = mundus_tamriel_skyrim
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	option = { # Kill it! Kill it with fire!
+		name = ek_travel_events_skyrim.4005.a
+		duel = {
+			skill = prowess
+			value = high_skill_rating
+			10 = {
+				desc = ek_travel_events_skyrim.4005.a.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_good
+					title = ek_travel_events_skyrim.4005.a.success
+					add_prestige = minor_prestige_gain
+				}
+			}
+			
+			5 = {
+				desc = ek_travel_events_skyrim.4005.a.failure
+				send_interface_toast = {
+					left_icon = root
+					type = event_toast_effect_bad
+					title = ek_travel_events_skyrim.4005.a.failure
+					add_prestige = medium_prestige_loss
+					random_list = {
+						5 = {
+							death = { death_reason = death_wispmother }
+							send_interface_toast = {
+								title = ek_travel_events_skyrim.4005.a.failure
+								type = event_toast_effect_bad
+								left_icon = root
+							}
+						}
+						30 = { 
+							increase_wounds_effect = { REASON = wispmother }
+						} 
+					} 
+				}
+			}
+		}
+
+		stress_impact = {
+			brave = minor_stress_impact_loss
+			craven = minor_stress_impact_gain
+		}
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_zeal = -0.5
+			}
+		}
+	}
+
+	option = { # Run as fast as you can
+		name = ek_hunt.1003.b
+		custom_tooltip = ek_hunt.1002.b.tt
+		stress_impact = {
+			craven = minor_stress_impact_loss
+			brave = minor_stress_impact_gain
+		}
+
+		increase_wounds_effect = { REASON = wispmother }
+		
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_boldness = -0.5
+			}
+		}
+	}
+}
+
+############################
+## Travel Skyrim Province Events
+## 8000-9999
+############################
+
+# The Crypt
+ek_travel_events_skyrim.8000 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_skyrim.8000.t
+	desc = ek_travel_events_skyrim.8000.desc
+	theme = travel
+
+	override_background = {
+		reference = temple
+	}
+	
+	left_portrait = {
+		character = root
+		animation = shock
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		location = province:1207 #Dimhollow Crypt
+		NOT = { location.county.holder = root } #If I own it then it does not make sense to visit it.
+	}
+
+	immediate = {
+		play_music_cue = mx_cue_travel_arrival
+	}
+
+	option = { # vampire
+		name = ek_travel_events_skyrim.8000.a
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+		random = {
+			chance = 25
+			show_as_tooltip = {
+				contract_sanguinare_vampiris = yes
+			}
+			if = {
+				limit = {
+					is_vampire = no
+				}
+				contract_sanguinare_vampiris = yes
+			}
+			else = {
+				add_stress = medium_stress_loss
+			}
+		}
+	}
+
+	option = { # necromancer
+		name = ek_travel_events_skyrim.8000.b
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+		random = {
+			chance = 30
+			if = {
+				limit = {
+					is_necromancer = yes
+				}
+				add_dark_arts_lifestyle_xp = medium_lifestyle_xp
+			}
+			else = {
+				start_story_cycle_learn_necromancy_effect = yes
+			}
+		}
+	}
+
+	option = { # no thanks
+		name = ek_travel_events_skyrim.8000.c
+	}
+}
+
+# A Story in Stone
+ek_travel_events_skyrim.8005 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_travel_events_skyrim.8005.t
+	desc = ek_travel_events_skyrim.8005.desc
+	theme = travel
+	
+	left_portrait = {
+		character = root
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		 
+		is_location_valid_for_travel_event_on_land = yes
+		NOT = { location.county.holder = root } #If I own it then it does not make sense to visit it.
+		location = province:1460 #Markarth
+	}
+
+	immediate = {
+		play_music_cue = mx_cue_travel_arrival
+	}
+
+	option = { # very cool
+		name = ek_travel_events_skyrim.8005.a
+		skill = stewardship
+		add_stewardship_lifestyle_xp = medium_lifestyle_xp
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}
+
+	option = { # just go
+		name = ek_travel_events_skyrim.8005.b
+	}
+}

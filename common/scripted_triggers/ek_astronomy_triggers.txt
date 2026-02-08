@@ -1,0 +1,37 @@
+﻿has_birthsign = {
+	has_trait = birthsign
+}
+
+has_mundus_stone_modifier = {
+	OR = {
+		has_character_modifier = mundus_apprentice_modifier
+		has_character_modifier = mundus_mage_modifier
+		has_character_modifier = mundus_lady_modifier
+		has_character_modifier = mundus_lord_modifier
+		has_character_modifier = mundus_lover_modifier
+		has_character_modifier = mundus_mage_modifier
+		has_character_modifier = mundus_ritual_modifier
+		has_character_modifier = mundus_serpent_modifier
+		has_character_modifier = mundus_shadow_modifier
+		has_character_modifier = mundus_steed_modifier
+		has_character_modifier = mundus_thief_modifier
+		has_character_modifier = mundus_tower_modifier
+		has_character_modifier = mundus_warrior_modifier
+	}
+}
+
+#To check whether a character would call the Guardian constellations differently.
+# Reachfolk
+# Warrior -> Headsman; Mage -> Witch; Thief -> Hunter; Serpent -> Snake
+has_reachfolk_constellation_names = {
+	culture = { has_cultural_tradition = tradition_reach_core }
+	NOT = { culture = { has_cultural_pillar = heritage_dwemeri }}
+	NOT = { faith = { religion_tag = celestial_religion } }
+}
+# Ritual -> Laboratory; Apprentice -> Automaton; Atronach -> Warmachine; Mage -> Mechanist
+# Dwemer
+has_dwemer_constellation_names = {
+	culture = { has_cultural_pillar = heritage_dwemeri }
+	NOT = { culture = { has_cultural_tradition = tradition_reach_core }}
+	NOT = { faith = { religion_tag = celestial_religion } }
+}

@@ -1,0 +1,256 @@
+﻿ek_on_game_start_history = {
+
+	effect = {
+		
+		#Unmourned blood distribution
+		dynasty:dyn_verelnim = {
+			add_dynasty_modifier = {
+				modifier = unmourned_blood_dynasty_modifier
+			}
+		}
+		dynasty:dyn_morvayn = {
+			add_dynasty_modifier = {
+				modifier = unmourned_blood_dynasty_modifier
+			}
+		}
+		dynasty:dyn_ilabael = {
+			add_dynasty_modifier = {
+				modifier = unmourned_blood_dynasty_modifier
+			}
+		}
+		dynasty:dyn_zamarasour = {
+			add_dynasty_modifier = {
+				modifier = unmourned_blood_dynasty_modifier
+			}
+		}
+		dynasty:dyn_menas = {
+			add_dynasty_modifier = {
+				modifier = unmourned_blood_dynasty_modifier
+			}
+		}
+		dynasty:dyn_drinith = {
+			add_dynasty_modifier = {
+				modifier = unmourned_blood_dynasty_modifier
+			}
+		}
+
+		#############
+		# BOOKMARKS #
+		#############
+		
+		### 2E440 BOOKMARK ###
+		## Assassination of Logrolf, the High King of Skyrim, by a lowly noble on the order of Svartr
+		# The lowly noble then joined Western Skyrim and received lands and a wife for his services
+		character:cursebraid_1000 = { save_scope_as = hk_svartr }
+		character:bannertorn_100 = { save_scope_as = logrolf_murderer }
+		character:flamehair_999 = { save_scope_as = hk_logrolf }
+		if = {
+			limit = {
+				scope:logrolf_murderer = { is_alive = yes }
+				scope:hk_svartr = { is_alive = yes }
+			}
+			
+			# The noble first tried, without success, to kill Logrolf... Svartr knows it, and used the hook to force the noble to *again* try to kill his liege. Once the murder was successful, the two strong hooks cancelled each other out.
+		
+			# Svartr knows the murder attempt...
+			scope:logrolf_murderer = {
+				random_secret = {
+					limit = {
+						secret_type = secret_murder_attempt
+						NOT = { is_known_by = scope:hk_svartr }
+					}
+					save_scope_as = logrolf_murder_attempt_secret
+					
+					# Svartr knows
+					reveal_to = scope:hk_svartr
+					# Used it to force the agent to kill his liege
+					scope:hk_svartr = { blackmail_target_with_secret_effect = { SECRET = scope:logrolf_murder_attempt_secret TARGET = scope:logrolf_murderer } }
+					# And then the two hooks cancelled each other
+					scope:hk_svartr = { remove_hook = { target = scope:logrolf_murderer } }
+				}
+			}
+		
+			# And the lowly noble knows who killed Logrolf...
+			scope:hk_svartr = {
+				random_secret = {
+					limit = {
+						secret_type = secret_murder
+						NOT = { is_known_by = scope:logrolf_murderer }
+					}
+					save_scope_as = logrolf_murder_proper_secret
+					
+					reveal_to = scope:logrolf_murderer
+					# Mainly so Svartr can't be blackmailed *again*
+					# The safe passage to Western Skyrim and the rewards can be counted as "blackmail"
+					scope:logrolf_murderer = { blackmail_target_with_secret_effect = { SECRET = scope:logrolf_murder_proper_secret TARGET = scope:hk_svartr } }
+					scope:logrolf_murderer = { remove_hook = { target = scope:hk_svartr } }
+				}
+			}
+		}
+
+		#Dres Grand Magnate's bastard
+		if = {
+			limit = {
+				character:serano_101 = { is_alive = yes }
+				character:serano_101b = { is_alive = yes }
+			}
+			character:serano_101 = { set_real_father = character:beleran_101c }
+			character:serano_101c = { set_real_father = character:beleran_101c }
+		}
+
+		#Akaviri families
+		distribute_akaviri_ethnicity = { DYNASTY = dyn_szivi } 
+		distribute_akaviri_ethnicity = { DYNASTY = dyn_tsavizus }
+		distribute_akaviri_ethnicity = { DYNASTY = dyn_kssazi }
+		distribute_akaviri_ethnicity = { DYNASTY = dyn_chorak }
+		distribute_akaviri_ethnicity = { DYNASTY = dyn_brol }
+
+		#Pre-Akaviri invasion nibenese families
+		pre_akaviri_nibenese_fix = yes
+
+		### 2E450 BOOKMARK ###
+
+		# If the Bookmark starts after 3480/560, and the historic black death setting was chosen, we avoid triggering it another time.
+		if = {
+			limit = {
+			 	game_start_date >= 3480.1.1
+				has_game_rule = bd_occurrence_historical
+			}
+			set_global_variable = black_death_happened
+		}
+		
+		#############
+		# REGENCIES #
+		#############
+		if = {
+			limit = { game_start_date = 3360.1.1 }
+			# Morrowind, Stonefalls: Young Ashlander Chieftess, Regency of mother
+			character:ishanuran_100 = { designate_diarch = character:kagesh_101c }
+			character:ishanuran_100 = { trigger_event = ek_startup_event.1 }
+			# Morrowind, young Telvanni, regency of her father
+			character:onthim_100 = { designate_diarch = character:onthim_99_husband }
+			character:onthim_100 = { trigger_event = ek_startup_event.1 }
+			#Morrowind, reclusive ruler, regency of her cousin
+			character:karath_100 = { designate_diarch = character:karath1_101 }
+			character:karath_100 = { trigger_event = ek_startup_event.1 }
+		}
+		if = {
+			limit = { game_start_date = 3370.1.1 }
+			#Hesta Sosildor and Caius Lex
+			character:sosildor_101 = {
+				designate_diarch = character:lex_caius
+				#The Heartlands pretty much exist as united realm due to Caius
+				character:sosildor_101 = {
+					add_opinion = {
+						target = character:lex_caius
+						modifier = promise_to_predecessor
+						opinion = 50
+					}
+				}
+			}
+			character:sosildor_101 = { trigger_event = ek_startup_event.1 }
+			#Morrowind, reclusive ruler, regency of her cousin
+			character:karath_100 = { designate_diarch = character:karath1_101 }
+			character:karath_100 = { trigger_event = ek_startup_event.1 }
+		}
+
+		#############
+		# FEUDS		#
+		#############
+		if = {
+			limit = {
+				has_dlc_feature = friends_and_foes
+			}
+			# Two households, both alike in dignity,
+			# In fair Bangkorai, where we lay our scene,
+			# From ancient grudge break to new mutiny,
+			# Where civil blood makes civil hands unclean.
+			# High Rock, Evermore: Moile vs Guimard
+			every_ruler = {
+				if = {
+					limit = {
+						dynasty = dynasty:dyn_moile
+						has_title = title:d_evermore
+					}
+					save_scope_as = moile
+				}
+			}
+			every_ruler = {
+				if = {
+					limit = {
+						house = house:dynn_Guimard
+						has_title = title:d_bangkorai
+					}
+					save_scope_as = guimard
+				}
+			}
+			scope:moile = {
+				scope:guimard = { save_scope_as = rival }
+				trigger_event = ek_house_feud.0001
+			}
+			scope:guimard = {
+				scope:moile = { save_scope_as = rival }
+				trigger_event = ek_house_feud.0001
+			}
+			# Corranto vs Helenil
+			every_ruler = {
+				if = {
+					limit = {
+						house = house:dyn_corranto
+						has_title = title:d_nf_corranto
+					}
+					save_scope_as = corranto
+				}
+			}
+			every_ruler = {
+				if = {
+					limit = {
+						dynasty = dynasty:dyn_helenil
+						has_title = title:d_nf_helenil
+					}
+					save_scope_as = helenil
+				}
+			}
+			scope:corranto = {
+				scope:helenil = { save_scope_as = rival }
+				trigger_event = ek_house_feud.0001
+			}
+			scope:helenil = {
+				scope:corranto = { save_scope_as = rival }
+				trigger_event = ek_house_feud.0001
+			}
+			#Nerothan vs Nedalor
+			if = {
+				limit = { #Only after 450
+					game_start_date >= 3370.1.1
+				}
+				every_ruler = {
+					if = {
+						limit = {
+							house = house:dyn_nerothan
+							has_title = title:c_dresoth
+						}
+						save_scope_as = nerothan
+					}
+				}
+				every_ruler = {
+					if = {
+						limit = {
+							dynasty = dynasty:dyn_nedalor
+							has_title = title:c_marr
+						}
+						save_scope_as = nedalor
+					}
+				}
+				scope:nerothan = {
+					scope:nedalor = { save_scope_as = rival }
+					trigger_event = ek_house_feud.0001
+				}
+				scope:nedalor = {
+					scope:nerothan = { save_scope_as = rival }
+					trigger_event = ek_house_feud.0001
+				}
+			}
+		}
+	}
+}

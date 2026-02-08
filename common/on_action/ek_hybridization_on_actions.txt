@@ -1,0 +1,23 @@
+﻿on_game_start = {
+	on_actions = { species_startup }
+}
+
+species_startup = {	
+	effect = { every_culture_global = { initialize_species = yes } }
+}
+
+on_culture_created = {
+	on_actions = { species_culture_created }
+}
+
+species_culture_created = {	
+	effect = { 
+		every_parent_culture = {
+			limit = { has_same_culture_heritage = prev }
+			prev = {
+				set_variable = { name = species value = prev.var:species }
+			}			
+		}
+		initialize_species = yes
+	}
+}

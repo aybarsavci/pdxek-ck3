@@ -1,0 +1,862 @@
+﻿switch_cult_cyrodiil_decision = {
+	ai_check_interval = 12
+	picture = { reference = "gfx/interface/illustrations/decisions/decision_major_religion.dds" }
+	sort_order = -20
+	decision_group_type = major
+	
+	cooldown = { years = 30 }
+
+	is_shown = {
+		faith = { has_doctrine = special_doctrine_cyrodiilic_cult }
+		is_landed = yes
+		NOT = { has_character_flag = ai_will_not_convert }
+	}
+
+	is_valid = {
+		
+	}
+	
+	widget = {
+		gui = "decision_view_widget_generic_multichoice_with_effects"
+		controller = decision_option_list_controller
+		decision_to_second_step_button = "SWITCH_CULT_CYRODIIL_FAITH"
+		show_from_start = yes
+		#EK TODO: possibly add modifiers for laamps. Mercenaries like heroes, scholars Thousand Cults or Temple of the One and etc
+		### Eight Divines
+		item = {
+			value = choose_eight_divines
+			is_valid = {
+				NOT = { faith = faith:imperial_cult }
+			}
+			current_description = choose_eight_divines_desc
+			localization = choose_eight_divines_name
+			icon = "gfx/interface/icons/faith/imperial_cult.dds"
+			ai_chance = {
+				value = 5 #Main cult
+				if = {
+					limit = { #Most generic option
+						has_trait = temperate
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						any_sub_realm_county = {
+							count >= 3
+							faith = faith:imperial_cult
+						}
+					}
+					add = 10
+				}
+			}
+		}
+		### Hero Cult
+		item = {
+			value = choose_hero_cult
+			is_valid = {
+				NOT = { faith = faith:hero_cult }
+			}
+			current_description = choose_hero_cult_desc
+			localization = choose_hero_cult_name
+			icon = "gfx/interface/icons/faith/cult_of_heroes.dds"
+			ai_chance = {
+				value = 0
+				if = { #More popular in Colovia
+					limit = {
+						OR = {
+							culture = culture:colovian
+							culture = { any_parent_culture_or_above = { this = culture:colovian } }
+						}
+					}
+					multiply = 2
+				}
+				if = {
+					limit = { #More militaristic than other cults
+						OR = {
+							has_trait = brave
+							has_trait = zealous
+							has_trait = education_martial
+						}
+					}
+					add = 5
+				}
+				if = {
+					limit = {
+						any_sub_realm_county = {
+							count >= 3
+							faith = faith:hero_cult
+						}
+					}
+					add = 10
+				}
+			}
+		}
+		### Reman Mysteries
+		item = {
+			value = choose_reman_cult
+			is_valid = {
+				NOT = { faith = faith:reman_cult }
+			}
+			current_description = choose_reman_cult_desc
+			localization = choose_reman_cult_name
+			icon = "gfx/interface/icons/faith/reman.dds"
+			ai_chance = {
+				value = 0
+				if = { #More popular in Colovia
+					limit = {
+						OR = {
+							culture = culture:colovian
+							culture = { any_parent_culture_or_above = { this = culture:colovian } }
+						}
+					}
+					multiply = 2
+				}
+				if = {
+					limit = {
+						has_trait = education_martial
+						has_trait = ambitious
+						ai_boldness >= 25
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						any_sub_realm_county = {
+							faith = faith:reman_cult
+						}
+					}
+					add = 10
+				}
+			}
+		}
+		### Thousand Cults
+		item = {
+			value = choose_niben_cult
+			is_valid = {
+				NOT = { faith = faith:niben_cult }
+			}
+			current_description = choose_niben_cult_desc
+			localization = choose_niben_cult_name
+			icon = "gfx/interface/icons/faith/nibenfolk.dds"
+			ai_chance = {
+				value = 0
+				if = { #More popular in Nibenay
+					limit = {
+						OR = {
+							culture = culture:nibenese
+							culture = { any_parent_culture_or_above = { this = culture:nibenese } }
+						}
+					}
+					multiply = 2
+				}
+				if = { #Especially popular among Nibenu
+					limit = {
+						culture = { has_cultural_tradition = tradition_ut_nibenu_folklore }
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						has_trait = lifestyle_mystic
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						any_sub_realm_county = {
+							count >= 3
+							faith = faith:niben_cult
+						}
+					}
+					add = 10
+				}
+			}
+		}
+
+		### Temple of the One
+		item = {
+			value = choose_temple_one
+			is_valid = {
+				NOT = { faith = faith:temple_one }
+			}
+			current_description = choose_temple_one_desc
+			localization = choose_temple_one_name
+			icon = "gfx/interface/icons/faith/alessian_order.dds"
+			ai_chance = { #Most niche faith, modifiers add up to less values
+				value = 0
+				if = {
+					limit = {
+						has_trait = scholar
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						any_sub_realm_county = {
+							faith = faith:temple_one
+						}
+					}
+					add = 10
+				}
+			}
+		}
+	}
+
+	effect = {
+		if = {
+			limit = { scope:choose_eight_divines = yes }
+			show_as_tooltip = { set_character_faith = faith:imperial_cult }
+			hidden_effect = {
+				set_character_faith_with_conversion = faith:imperial_cult
+			}
+		}
+		else_if = {
+			limit = { scope:choose_hero_cult = yes  }
+			show_as_tooltip = { set_character_faith = faith:hero_cult }
+			hidden_effect = {
+				set_character_faith_with_conversion = faith:hero_cult
+			}
+		}
+		else_if = {
+			limit = { scope:choose_reman_cult = yes  }
+			show_as_tooltip = { set_character_faith = faith:reman_cult }
+			hidden_effect = {
+				set_character_faith_with_conversion = faith:reman_cult
+			}
+		}
+		else_if = {
+			limit = { scope:choose_niben_cult = yes  }
+			show_as_tooltip = { set_character_faith = faith:niben_cult }
+			hidden_effect = {
+				set_character_faith_with_conversion = faith:niben_cult
+			}
+		}
+		else_if = {
+			limit = { scope:choose_temple_one = yes  }
+			show_as_tooltip = { set_character_faith = faith:temple_one }
+			hidden_effect = {
+				set_character_faith_with_conversion = faith:temple_one
+			}
+		}
+	}
+	
+	cost = {
+		piety = {
+			value = major_piety_value
+		}
+	}
+	
+	ai_potential = {
+		highest_held_title_tier >= tier_county
+		is_landed = yes
+		is_at_war = no
+	}
+
+	ai_will_do = {
+		base = 10
+		
+		modifier = {
+			add = {
+				value = ai_zeal
+				multiply = -0.5
+			}
+		}
+		
+		modifier = {
+			add = -20
+			has_trait = craven
+		}
+		
+		modifier = {
+			add = 20
+			has_trait = ambitious
+		}
+	}
+}
+
+### Colovia/Nibenay Divide
+accept_colovia_nibenay_divide_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+
+	desc = accept_colovia_nibenay_divide_decision_desc
+	selection_tooltip = accept_colovia_nibenay_divide_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		exists = capital_province
+		has_feudal_or_admin_government = yes
+		
+		culture = { has_cultural_pillar = heritage_cyrodiilic }
+		
+		#both Nibenay and Colovia exist
+		exists = title:e_colovian_estates.holder
+		exists = title:e_nibenay.holder
+		
+		OR = {
+			AND = {
+				root = title:e_colovian_estates.holder
+				NOT = { root = title:e_nibenay.holder }
+			}
+			AND = {
+				root = title:e_nibenay.holder
+				NOT = { root = title:e_colovian_estates.holder }
+			}
+		}
+		
+		# e_cyrodiil has de Jure vassals
+		title:e_cyrodiil = {
+			any_in_de_jure_hierarchy = {
+				NOT = { this = title:e_cyrodiil }
+				
+				exists = this
+			}
+		}
+		
+	}
+
+	is_valid = {
+		# There needs to be some time passed since the empire collapsed
+		title:e_cyrodiil = {
+			NOT = { recent_history = { type = destroyed years = 450 } }
+		}
+		
+		# Has to be at peace to formalize such a treaty
+		NOT = {
+			title:e_colovian_estates.holder = { is_at_war_with = title:e_nibenay.holder }
+		}
+
+		# Neither of them holds the Heartlands, thus having an indirect claim on Cyrodiil
+		NOR = {
+			title:e_colovian_estates.holder = { has_title = title:c_imperial_city }
+			title:e_nibenay.holder = { has_title = title:c_imperial_city }
+		}
+
+		# Neither of them wants to go for the Ruby Throne
+		NOT = {
+			title:e_colovian_estates.holder = { has_trait = ambitious }
+			title:e_nibenay.holder = { has_trait = ambitious }
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	effect = {
+		custom_tooltip = accept_colovia_nibenay_divide_decision.colovia_vassals.tt
+		custom_tooltip = accept_colovia_nibenay_divide_decision.nibenay_vassals.tt
+		custom_tooltip = accept_colovia_nibenay_divide_decision.create_de_jure_empires.tt
+		custom_tooltip = accept_colovia_nibenay_divide_decision.reunite_cyrodiil.tt
+		
+		hidden_effect = {
+			# to be safe, let's make sure the kingdoms are actually part of Cyrodiil still and not, say, e_orsinium
+			break_up_cyrodiil_scripted_effect = yes
+			every_player = { trigger_event = central_tamriel.0001 }
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+secure_heartlands_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/decision_misc.dds" }
+	
+	desc = secure_heartlands_decision_desc
+	selection_tooltip = secure_heartlands_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		OR = {
+			has_cyrodilic_empire_trigger = yes
+			primary_title = { has_variable = warlord_empire }
+			has_title = title:e_nibenay
+			has_title = title:e_colovian_estates
+		}
+		NOT = { has_character_flag = secured_heartlands }
+	}
+
+	is_valid = {
+		completely_controls_region = mundus_tamriel_cyrodiil_heartlands
+		has_title = title:k_heartlands
+		
+		custom_tooltip = {
+			text = secure_heartlands_decision_vassal_heartlands_positive_opinion
+			NOT = {
+				any_vassal = {
+					is_landed = yes
+					NOT = { highest_held_title_tier = tier_barony }
+					capital_province = { geographical_region = mundus_tamriel_cyrodiil_heartlands }
+					opinion = { target = ROOT value <= 0 }
+				}
+			}
+		}
+		
+		custom_tooltip = {
+			text = secure_heartlands_decision_full_control_imperial_isle
+			NOT = {
+				any_county = {
+					duchy = title:d_imperial_isle
+					county_control < 90
+				}
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_at_war = no
+		is_alive = yes
+		is_available_adult = yes
+	}
+	
+	effect = {
+		add_legitimacy = minor_legitimacy_gain
+		custom_tooltip = {
+			text = heartlands_secured_modifier_tooltip
+			title:k_heartlands = {	
+				every_de_jure_county = {
+					limit = {
+						holder.top_liege = root
+					}
+					add_county_modifier = {
+						modifier = heartlands_secured_modifier
+						years = 15
+					}
+				}
+			}
+		}
+		add_character_flag = {
+			flag = secured_heartlands
+		}
+	}
+
+	ai_potential = {
+		OR = {
+			has_cyrodilic_empire_trigger = yes
+			primary_title = { has_variable = warlord_empire }
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+rebuild_imperial_legion_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/decision_misc.dds" }
+
+	desc = rebuild_imperial_legion_decision_desc
+	selection_tooltip = rebuild_imperial_legion_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		OR = {
+			has_cyrodilic_empire_trigger = yes
+			primary_title = { has_variable = warlord_empire }
+			has_title = title:e_nibenay
+			has_title = title:e_colovian_estates
+		}
+		NOT = { title:c_bastion.title_province = { has_building_or_higher = the_bastion_02 } }
+	}
+
+	is_valid = {
+		custom_tooltip = {
+			text = rebuild_imperial_legion_decision_1000_legionnaires
+			number_maa_soldiers_of_type = {
+				type = armored_legionaires
+				value >= 1000
+			}
+		}
+		custom_tooltip = {
+			text = rebuild_imperial_legion_decision_300_lc
+			number_maa_soldiers_of_base_type = {
+				type = light_cavalry
+				value >= 300
+			}
+		}
+		has_title = title:c_bastion
+	}
+
+	is_valid_showing_failures_only = {
+		is_at_war = no
+		is_alive = yes
+		is_available_adult = yes
+	}
+
+	cost = {
+		gold = 500
+		prestige = 1000
+	}
+
+	effect = {
+		if = {
+			limit = {
+				title:c_bastion.title_province = { has_building_or_higher = the_bastion_01 }
+			}
+			hidden_effect = {
+				title:c_bastion.title_province = { remove_building = the_bastion_01 }
+			}
+			title:c_bastion.title_province = { add_special_building = the_bastion_02 }
+		}
+
+		custom_tooltip = rebuild_legion_court_position_tooltip
+
+		primary_title = {
+			set_variable = can_use_grand_marshal
+		}
+
+		if = {
+			limit = {
+				this = character:sosildor_100
+			}
+			trigger_event = ek_attrebus_potentate.0064
+		}
+	}
+
+	ai_potential = {
+		OR = {
+			has_cyrodilic_empire_trigger = yes
+			primary_title = { has_variable = warlord_empire }
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+become_pretender_emperor_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/decision_found_kingdom.dds" }
+
+	desc = become_pretender_emperor_decision_desc
+	selection_tooltip = become_pretender_emperor_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 60
+
+	is_shown = {
+		is_landed = yes
+		highest_held_title_tier = tier_kingdom #available to king tier rulers (not emperors!)
+		any_sub_realm_county = { this = title:c_imperial_city } #gotta control the IC at the very least
+		# Empire proper can't be around still
+		NOR = { 
+			exists = title:e_cyrodiil.holder
+			exists = title:e_cyrodiilic_potentate.holder
+		}
+		# notably the decision is available also to non-imperials
+	}
+
+	is_valid = {
+		prestige_level >= 3 #gotta be pretty prestigious to attempt this
+		sub_realm_size >= 40 # gotta be of a certain size
+		completely_controls = title:d_imperial_isle #gotta at least hold all of the Imperial Isle
+		# you're a warlord raahr gotta be sorta martially inclined
+		OR = {
+			has_trait = education_martial_3
+			has_trait = education_martial_4
+			has_trait = education_martial_5
+			martial >= 12
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_at_war = no
+		is_alive = yes
+		is_available_adult = yes
+	}
+
+	cost = {
+		gold = 500
+		prestige = 1000
+	}
+
+	effect = {
+		save_scope_as = founder
+		primary_title = {
+			save_scope_as = old_title
+		}
+		root.house = {
+			save_scope_as = pretender_empire_house
+		}
+
+		custom_tooltip = become_pretender_emperor_decision_effect
+
+		if = { # Do we become administrative?
+			limit = { 
+				has_dlc_feature = admin_gov
+				NOT = { has_government = administrative_government } 
+			}
+			change_to_administrative_effect = yes
+		}
+
+		# usurp the IC if you don't hold it personally
+		if = {
+			limit = {
+				NOT = { title:c_imperial_city.holder = { this = root } }
+			}
+			create_title_and_vassal_change = {
+				type = returned
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			title:c_imperial_city = {
+				change_title_holder = {
+					holder = root
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+		}
+
+		# make it your capital
+		if = {
+			limit = {
+				NOT = { capital_county = title:c_imperial_city }
+			}
+			set_realm_capital = title:c_imperial_city
+		}
+
+		hidden_effect = {
+			create_dynamic_title = {
+				tier = empire
+				# name it after your House
+				name = PRETENDER_EMPIRE_TITLE_NAME
+				adj = PRETENDER_EMPIRE_TITLE_NAME_ADJ
+			}
+
+			create_title_and_vassal_change = {
+				type = created
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+
+			scope:new_title = {
+				change_title_holder = {
+					holder = root
+					change = scope:change
+				}
+			}
+
+			resolve_title_and_vassal_change = scope:change
+
+			scope:new_title = {
+				set_coa = root.house #have it share your House CoA
+				set_color_from_title = scope:old_title #borrow the colour of your old primary
+				set_capital_county = title:c_imperial_city #Imperial City, of course
+				set_definitive_form = yes #should be named *the* X empire
+				set_can_be_named_after_dynasty = no # it already is preset as such, we don't want Reachfolk etc naming conventions overriding this
+				# this is a warlord empire and unstable
+				set_variable = {
+					name = warlord_empire
+					value = yes
+				}
+			}
+
+			set_primary_title_to = scope:new_title
+		}
+
+		# you're a warlord emperor and should be treated accordingly...
+		add_character_modifier = {
+			modifier = warlord_emperor_modifier
+		}
+
+		# to give you the emperor character title
+		set_variable = flavourise_warlord_emperor
+
+		# other kings in Cyrodiil don't pog
+		custom_tooltip = {
+			text = become_pretender_emperor_decision_effect_opinion
+
+			every_ruler = {
+				limit = {
+					capital_province = { geographical_region = mundus_tamriel_cyrodiil }
+					is_landed = yes
+					highest_held_title_tier = tier_kingdom
+					NOT = { this = root }
+				}
+				add_opinion = {
+					modifier = upstart_pretender_emperor
+					target = root
+				}
+			}
+		}
+
+		custom_tooltip = become_pretender_emperor_decision_title_break #warn players that the title may break at death
+
+		#Notify other players
+		every_ruler = {
+			limit = {
+				NOT = { this = root }
+				is_within_diplo_range = { CHARACTER = root }
+			}
+			trigger_event = central_tamriel.0006
+		}
+	}
+
+	ai_potential = {
+		# these guys wouldn't wanna do this
+		NOR = { 
+			has_trait = content 
+			has_trait = craven
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+reunite_cyrodiil_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/decision_found_kingdom.dds" }
+
+	desc = reunite_cyrodiil_decision_desc
+	selection_tooltip = reunite_cyrodiil_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_landed = yes
+		# Available to e tier rulers with a viable claim to Cyrodiil
+		OR = {
+			primary_title = { has_variable = warlord_empire }
+			has_title = title:e_colovian_estates
+			has_title = title:e_nibenay
+			has_title = title:e_cyrodiilic_potentate
+		}
+		# Empire proper can't be around still
+		NOR = { 
+			exists = title:e_cyrodiil.holder
+			exists = title:e_cyrodiilic_potentate.holder
+		}
+		# notably the decision is available also to non-imperials
+	}
+
+	is_valid = {
+		prestige_level >= 4 #gotta be hella swag...
+		legitimacy_level >= 4 #gotta be hella legit...
+
+		completely_controls = title:d_imperial_isle #gotta at least hold all of the Imperial Isle
+
+		# unless you hold Nibenay, nobody must hold Nibenay
+		trigger_if = {
+			limit = {
+				NOT = { has_title = title:e_nibenay }
+			}
+			custom_tooltip = {
+		 		text = reunite_cyrodiil_decision_no_nibenay
+				NOT = { exists = title:e_nibenay.holder }
+			}
+		}
+		
+		# # unless you hold Colovia, nobody must hold Colovia
+		trigger_if = {
+			limit = {
+				NOT = { has_title = title:e_colovian_estates }
+			}
+			custom_tooltip = {
+		 		text = reunite_cyrodiil_decision_no_colovia
+				NOT = { exists = title:e_colovian_estates.holder }
+			}
+		}
+
+		# these bad boys can vary a bit
+		calc_true_if = {
+			amount >= 4
+
+			legitimacy_level >= 5 #could compensate by being super hella legit...
+
+			custom_tooltip = {
+				text = reunite_cyrodiil_decision_secured_heartlands
+				has_character_flag = secured_heartlands # you must have secured the Heartlands - every would-be emperor needs to do this
+			}
+
+			title:c_bastion.title_province = { has_building_or_higher = the_bastion_02 } # Legion must have been restored - this could've been done by someone before you
+
+			#has_trait = dragonborn #for when that's a thing
+
+			# if you haven't done all the other stuff, at the very least control a lot of Cyrodiil
+			# holding 2/3 gives some bonus...
+			custom_tooltip = {
+				text = restore_cyrodiil_percentage_66
+				any_county_in_region = { #Need to control 66% of Cyrodiil
+					region = mundus_tamriel_cyrodiil
+					percent > 0.66
+					holder.top_liege = root
+				}
+			}
+			# holding 3/4 gives even more!
+			custom_tooltip = {
+				text = restore_cyrodiil_percentage_75
+				any_county_in_region = { #Need to control 75% of Cyrodiil
+					region = mundus_tamriel_cyrodiil
+					percent > 0.75
+					holder.top_liege = root
+				}
+			}
+		}	
+	}
+
+	is_valid_showing_failures_only = {
+		is_at_war = no
+		is_alive = yes
+		is_available_adult = yes
+	}
+
+	cost = {
+		gold = 1000
+		prestige = 1000
+	}
+
+	effect = {
+		save_scope_as = founder
+		primary_title = {
+			save_scope_as = old_title
+		}
+
+		# usurp the IC if you don't hold it personally
+		if = {
+			limit = {
+				NOT = { title:c_imperial_city.holder = { this = root } }
+			}
+			create_title_and_vassal_change = {
+				type = returned
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			title:c_imperial_city = {
+				change_title_holder = {
+					holder = root
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+		}
+
+		# make it your capital
+		if = {
+			limit = {
+				NOT = { capital_county = title:c_imperial_city }
+			}
+			set_realm_capital = title:c_imperial_city
+		}
+
+		reform_cyrodiilic_empire_scripted_effect = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}

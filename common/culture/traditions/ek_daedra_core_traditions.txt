@@ -1,0 +1,69 @@
+﻿tradition_dremora_core = {
+	category = core
+
+	layers = {
+		0 = martial
+		1 = western
+		4 = swords.dds
+	}
+
+	is_shown = {
+		always = yes
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_dremora_core_trigger_desc
+			OR = {
+				this = culture:dremora
+				any_parent_culture_or_above = {
+					this = culture:dremora
+				}
+			}
+		}
+	}
+
+	parameters = {
+		cb_lower_prestige_level_requirement = yes
+		cheaper_cbs = yes
+		disloyal_trait_more_common = yes
+		vengeful_trait_more_common = yes
+		vengeful_positive_forgiving_negative = yes
+		rebellious_vassals = yes
+		vassals_more_likely_to_refuse_demands = yes
+		rivalries_more_common = yes
+		hostile_action_vs_rival_bonuses = yes
+		unlock_duel_for_title = yes
+	}
+
+	character_modifier = {
+		martial_per_piety_level = 1
+		prowess_per_piety_level = 1
+		fellow_vassal_opinion = -10
+		vassal_opinion = -15
+		ai_honor = -20
+		ai_war_chance = 0.5
+		ai_war_cooldown = -0.25
+	}
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_dremora_core }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}

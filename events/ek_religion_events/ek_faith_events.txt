@@ -1,0 +1,599 @@
+﻿namespace = ek_faith_events
+
+ek_faith_events.0001 = { # the Viridian Sentinel dies, let's find another one
+	type = character_event
+	content_source = dlc_ek
+	hidden = yes
+
+	trigger = {
+		has_character_flag = viridian_sentinel_flag
+	}
+
+	immediate = {
+
+		#Saving scope for later use
+		save_scope_as = previous_viridian_sentinel
+
+		create_character = {
+			age = { 20 55 }
+			culture = culture:bjoule
+			faith = faith:druid_circles
+			dynasty = none
+			location = scope:previous_viridian_sentinel.location # just gotta put him somewhere for the time being
+			gender_female_chance = 50
+			save_scope_as = new_viridian_sentinel
+
+			health = 3 # Sentinels are noted for their longevity
+
+			trait = devoted # priest dude person
+			random_traits = no
+			
+			# Education
+			random_traits_list = {
+				count = 1
+				education_learning_1 = {
+					weight = { base = 40 }
+				}
+				education_learning_2 = {
+					weight = { base = 30 }
+				}
+				education_learning_3 = {
+					weight = { base = 20 }
+				}
+				education_learning_4 = {
+					weight = { base = 10 }
+				}
+			}
+			# Magic abilities
+			random_traits_list = {
+				count = 1
+				education_magic_1 = {
+					weight = { base = 40 }
+				}
+				education_magic_2 = {
+					weight = { base = 20 }
+				}
+				education_magic_3 = {
+					weight = { base = 10 }
+				}
+			}
+			# Let's ensure he has at least two virtues of his faith
+			random_traits_list = {
+				count = 2 
+				honest = {}
+				generous = {}
+				diligent = {}
+			}
+			# Then fill out the rest of his personality with an assortment
+			random_traits_list = {
+				count = 1
+				brave = {}
+				calm = {}
+				content = {}
+				fickle = {}
+				stubborn = {}
+				humble = {}
+				patient = {}
+				paranoid = {}
+				zealous = {}
+				cynical = {}
+				honest = {}
+				generous = {}
+				diligent = {}
+			}
+			# And a chance for a lifestyle trait to boot
+			random_traits_list = {
+				count = { 0 1 }
+				lifestyle_gardener = {}
+				lifestyle_herbalist = {}
+				scholar = {}
+				lifestyle_mystic = {}
+				lifestyle_physician = {}
+			}
+			# Skills
+			diplomacy = { min_template_low_skill max_template_decent_skill }
+			learning = { min_template_decent_skill max_template_decent_skill }
+			
+			after_creation = {
+				ek_character_setup_effect = yes
+				add_arcana_skill = { VALUE = "{ 5 8 }" }
+				add_character_flag = {
+					flag = viridian_sentinel_flag
+				}
+			}				
+		}
+
+		scope:new_viridian_sentinel = {
+			if = { # if the previous Sentinel held Viridian Woods however, let's have the new one take over
+				limit = {
+					scope:previous_viridian_sentinel = {
+						has_title = title:c_viridian_woods
+					}
+				}
+				get_title = title:c_viridian_woods
+			}
+			else_if = {
+				limit = {
+					NOT = { has_title = title:c_viridian_woods }
+				}
+				add_pressed_claim = title:c_viridian_woods # if the previous Sentinel did not hold the Viridian Woods, let's give them a claim on it
+
+			}
+			give_nickname = nick_the_viridian_sentinel # since he's the new Viridian Sentinel, let's nickname him accordingly
+		}
+
+		random_ruler = {
+			limit = {
+				has_faith = faith:druid_circles # if the Viridian Sentinel is unlanded, let's find a Druid court for them to hang out in in exile
+				is_landed = yes # let's ensure no random mercenaries etc get them
+			}
+			save_scope_as = viridian_sentinel_host
+		}
+
+		if = {
+			limit = {
+				exists = scope:viridian_sentinel_host
+			}
+			scope:viridian_sentinel_host = {
+				add_courtier = scope:new_viridian_sentinel # a new home, until they may return to the Viridian Woods
+			}
+		}
+	}	
+}
+
+ek_faith_events.0002 = { # the Scribe of Auri-El dies, let's ensure another one of the house of Xarxes is generated
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		has_character_flag = auriel_priest_flag
+	}
+
+	immediate = {
+
+		#Saving scope for later use
+		save_scope_as = previous_auriel_priest
+
+		create_character = {
+			age = { 90 200 }
+			culture = culture:alinor
+			faith = faith:auriel
+			#dynasty = xarxesar # this didn't seem to work, see the effect at the end
+			location = scope:previous_auriel_priest.location # just gotta put them somewhere for the time being
+			gender_female_chance = 50
+			save_scope_as = new_auriel_priest
+
+			trait = lifespan_4 # Line of Xarxes are long lived
+			trait = pure_blooded # descendants of Xarxes
+			trait = scholar # they're also scholars, duh
+			trait = p_ae_xarxes # well
+			random_traits = no
+			
+			# Education
+			random_traits_list = { # Scholars, scribes, learned folk
+				count = 1
+				education_learning_3 = {
+					weight = { base = 20 }
+				}
+				education_learning_4 = {
+					weight = { base = 10 }
+				}
+			}
+			# Magic abilities
+			random_traits_list = { # Probably kinda magicky too
+				count = { 0 1 }
+				education_magic_1 = {
+					weight = { base = 40 }
+				}
+				education_magic_2 = {
+					weight = { base = 30 }
+				}
+				education_magic_3 = {
+					weight = { base = 20 }
+				}
+				education_magic_4 = {
+					weight = { base = 10 }
+				}
+			}
+			# Of a fine Altmeri line, their genetics will also typically be good
+			random_traits_list = {
+				count = { 0 1 }
+				intellect_good_1 = {
+					weight = { base = 40 }
+				}
+				intellect_good_2 = {
+					weight = { base = 20 }
+				}
+				intellect_good_3 = {
+					weight = { base = 10 }
+				}
+				beauty_good_1 = {
+					weight = { base = 40 }
+				}
+				beauty_good_2 = {
+					weight = { base = 20 }
+				}
+				beauty_good_3 = {
+					weight = { base = 10 }
+				}
+				physique_good_1 = {
+					weight = { base = 40 }
+				}
+				physique_good_2 = {
+					weight = { base = 20 }
+				}
+				physique_good_3 = {
+					weight = { base = 10 }
+				}
+				arcana_good_1 = {
+					weight = { base = 40 }
+				}
+				arcana_good_2 = {
+					weight = { base = 20 }
+				}
+				arcana_good_3 = {
+					weight = { base = 10 }
+				}
+			}
+			# Let's ensure they have at least one virtue of their faith
+			random_traits_list = {
+				count = 1
+				honest = {}
+				generous = {}
+				diligent = {}
+			}
+			# Then fill out the rest of their personality with an assortment
+			random_traits_list = {
+				count = 2
+				brave = {}
+				calm = {}
+				content = {}
+				ambitious = {}
+				fickle = {}
+				stubborn = {}
+				humble = {}
+				arrogant = {}
+				patient = {}
+				paranoid = {}
+				zealous = {}
+				cynical = {}
+				honest = {}
+				generous = {}
+				diligent = {}
+			}
+			# Skills
+			diplomacy = { min_template_low_skill max_template_decent_skill }
+			learning = { min_template_decent_skill max_template_decent_skill }
+			
+			after_creation = {
+				ek_character_setup_effect = yes
+				add_arcana_skill = { VALUE = "{ 5 8 }" }
+			}				
+		}
+
+		scope:new_auriel_priest = {
+			if = { # Have the new Scribe of Auri-El inherit the Xarxean Priesthood
+				limit = {
+					scope:previous_auriel_priest = {
+						has_title = title:d_auriel
+					}
+				}
+				get_title = title:d_auriel
+			}
+			add_character_flag = auriel_priest_flag
+			set_father = character:xarxes_line
+			set_house = character:xarxes_xarxes.house # ensure they're set to the Xarxes house
+		}
+	}	
+}
+
+ek_faith_events.0003 = { # the King of Worms dies, who could claim to therefore lead his Order?
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		has_title = title:d_worm_kingdom
+		title:d_worm_kingdom.previous_holder = character:mannimarco_1000 #we only break the Order after the death of Mannimarco. having to remake it every generation seems annoying
+	}
+
+	immediate = {
+		#Notify players - if of a relevant faith
+		every_player = {
+			limit = {
+				faith = faith:worm_cult
+			}
+			trigger_event = ek_faith_events.0004
+		}
+		destroy_title = title:d_worm_kingdom
+		faith:worm_cult = {
+			remove_doctrine = doctrine_temporal_head
+			add_doctrine = doctrine_no_head
+		}
+	}
+}
+
+# let's inform players with a relevant faith about this
+ek_faith_events.0004 = {
+	type = character_event
+	content_source = dlc_ek
+
+	title = ek_faith_events.0004.t
+	desc = ek_faith_events.0004.desc
+
+	theme = necromancy
+	override_background = { reference = ce1_catacombs  } #for that proper spooky skeleton vibe
+
+	immediate = {
+		title:d_worm_kingdom = {
+			previous_holder = { 
+				save_scope_as = previous_worm_king
+			}
+		}
+		title:d_worm_kingdom.holder = {
+			save_scope_as = current_worm_king
+		}
+		faith:worm_cult = {
+			save_scope_as = worm_cult
+		}
+		show_as_tooltip = {
+			destroy_title = title:d_worm_kingdom
+			faith:worm_cult = {
+				remove_doctrine = doctrine_temporal_head
+				add_doctrine = doctrine_no_head
+			}
+		}
+	}
+
+	left_portrait = {
+		character = scope:previous_worm_king
+		animation = dead
+	}
+
+	lower_right_portrait = {
+		character = scope:current_worm_king
+	}
+
+	option = {
+		name = ek_faith_events.0004.option
+		flavor = ek_faith_events.0004.flavor
+	}
+}
+
+ek_faith_events.0005 = { # oh hey, someone claims to lead his Order
+	type = character_event
+	content_source = dlc_ek
+	title = ek_faith_events.0005.t
+	desc = ek_faith_events.0005.desc
+
+	theme = faith
+
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+
+	lower_right_portrait = {
+		character = scope:mannimarco
+	}
+
+	immediate = {
+		faith:worm_cult = {
+			save_scope_as = worm_cult
+		}
+		title:d_worm_kingdom = {
+			save_scope_as = worm_kingdom
+		}
+		character:mannimarco_1000 = {
+			save_scope_as = mannimarco
+		}
+		root = {
+			save_scope_as = new_worm_lord
+		}
+		# let's put the effect right here in the immediate - this way we also ensure Manni gets titled as Lord!
+		faith:worm_cult = {
+			remove_doctrine = doctrine_no_head
+			add_doctrine = doctrine_temporal_head
+		}
+		# restore the title...
+		get_title = title:d_worm_kingdom
+		# and a nice little fluff reward :) everybody loves those
+		give_nickname = nick_lady_lord_worms
+	}
+
+	option = {
+		name = ek_faith_events.0005.option1
+		flavor = ek_faith_events.0005.flavor
+
+		faith:worm_cult = {
+			remove_doctrine = tenet_personality_cult
+			add_doctrine = tenet_militant_cult
+		}
+	}
+
+	option = {
+		name = ek_faith_events.0005.option2
+		flavor = ek_faith_events.0005.flavor
+
+		faith:worm_cult = {
+			remove_doctrine = tenet_personality_cult
+			add_doctrine = tenet_mystery_cult
+		}
+	}
+
+	after = {
+		every_player = {
+			limit = {
+				NOT = { this = root }
+				faith = faith:worm_cult
+			}
+			trigger_event = ek_faith_events.0006
+		}
+	}
+}
+
+# simple event to inform players with a relevant faith about this
+ek_faith_events.0006 = {
+	type = character_event
+	content_source = dlc_ek
+
+	title = ek_faith_events.0006.t #let's recycle the loc
+
+	desc = ek_faith_events.0006.desc
+
+	theme = faith
+
+	left_portrait = {
+		character = scope:new_worm_lord
+		animation = personality_zealous
+	}
+
+	# to inform players about what has happened
+	immediate = {
+		show_as_tooltip = {
+			faith:worm_cult = {
+				remove_doctrine = doctrine_no_head
+				add_doctrine = doctrine_temporal_head
+			}
+			# restore the title...
+			scope:new_worm_lord = {
+				get_title = title:d_worm_kingdom
+				give_nickname = nick_lady_lord_worms
+			}
+			# Inform which Cult tenet the reformed Worm Cult has gained
+			if = {
+				limit = {
+					faith:worm_cult = {
+						has_doctrine = tenet_militant_cult
+					}
+				}
+				faith:worm_cult = {
+					remove_doctrine = tenet_personality_cult
+					add_doctrine = tenet_militant_cult
+				}
+			}
+			else_if = {
+				limit = {
+					faith:worm_cult = {
+						has_doctrine = tenet_mystery_cult
+					}
+				}
+				faith:worm_cult = {
+					remove_doctrine = tenet_personality_cult
+					add_doctrine = tenet_mystery_cult
+				}
+			}
+		}
+	}
+
+	option = {
+		name = ek_faith_events.0006.option
+		flavor = ek_faith_events.0005.flavor #let's recycle the loc
+	}
+
+}
+
+#Succession event for when a non-Ebonarm worshipping player assumes control of the Battlelords
+ek_faith_events.0007 = {
+	type = character_event
+	content_source = dlc_ek
+
+	title = ek_faith_events.0007.t
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:previous_battlelord = { faith = { patron_fg_ebonarm_valid = no } } }	#The previous Battlelord did not revere Ebonarm as a god
+				desc = ek_faith_events.0007.desc.a
+			}
+			desc = ek_faith_events.0007.desc.fallback
+		}
+	}
+
+	theme = faith
+
+	trigger = {
+		has_title = title:d_laamp_battlelords
+		NOT = { has_trait = p_fg_ebonarm }
+
+		any_courtier = {
+			faith = { patron_fg_ebonarm_valid = yes }	#If there are no FG followers there's nobody to peer pressure you
+		}
+	}
+
+	immediate = {
+		random_courtier = {
+			limit = {
+				faith = { patron_fg_ebonarm_valid = yes }
+			}
+			save_scope_as = fg_follower
+		}
+		title:d_laamp_battlelords = {
+			previous_holder = { 
+				save_scope_as = previous_battlelord
+			}
+		}
+		title:d_laamp_battlelords.holder = {
+			save_scope_as = current_battlelord
+		}
+	}
+
+	left_portrait = { 	
+		character = scope:fg_follower
+		animation = personality_bold
+	}
+
+	right_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+
+	option = {	#Ebonarm is not your patron - it's time for a change
+		name = ek_faith_events.0007.a
+
+		if = {
+			limit = { scope:current_battlelord = { faith = { patron_fg_ebonarm_valid = no } } }
+			set_character_faith = faith:forgotten_gods
+		}		
+		patron_clear_traits_effect = yes
+		add_trait = p_fg_ebonarm
+		add_piety = minor_piety_gain
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {	#Ebonarm is not your patron - and you refuse to worship him!
+		name = ek_faith_events.0007.b
+
+		every_courtier = {
+			custom = every_fg_follower
+			limit = {
+				faith = { patron_fg_ebonarm_valid = yes }
+			}
+			if = {
+				limit = { scope:current_battlelord = { faith = { patron_fg_ebonarm_valid = yes } } }
+				add_opinion = {
+					modifier = impious_opinion
+					target = scope:current_battlelord
+					opinion = -15
+				}
+			}
+			else = {
+				add_opinion = {
+					modifier = impious_opinion
+					target = scope:current_battlelord
+					opinion = -30
+				}
+			}
+		}
+		if = {
+			limit = { scope:current_battlelord = { faith = { patron_fg_ebonarm_valid = yes } } }
+			add_piety = minor_piety_loss
+		}	
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}

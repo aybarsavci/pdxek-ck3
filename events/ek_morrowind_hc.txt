@@ -1,0 +1,550 @@
+﻿#Events related to high councilor of Morrowind
+namespace = ek_morrowind_hc
+ek_morrowind_hc.0001 = { #Event for on_death
+	type = character_event
+	content_source = dlc_ek
+	hidden = yes
+	theme = realm
+	trigger = {
+		is_morrowind_high_councilor = { CHARACTER = root }
+	}
+	immediate = {
+		root = { save_scope_as = dead_high_councilor }
+		set_global_variable = {
+			name = indoril_votes
+			value = 0
+		}
+		set_global_variable = {
+			name = hlaalu_votes
+			value = 0
+		}
+		set_global_variable = {
+			name = redoran_votes
+			value = 0
+		}
+		set_global_variable = {
+			name = telvanni_votes
+			value = 0
+		}
+		set_global_variable = {
+			name = dres_votes
+			value = 0
+		}
+		every_living_character = {
+			limit = {
+				OR = {
+					is_great_house_leader = yes
+					has_primary_title = title:k_archcanon_vivec
+					has_primary_title = title:k_archcanon_almalexia
+					has_primary_title = title:k_archcanon_sotha_sil
+					has_primary_title = title:e_tribunal_temple
+				}
+			}
+			trigger_event = {
+				id = ek_morrowind_hc.0002
+				days = 5
+			}
+			trigger_event = {
+				id = ek_morrowind_hc.0003
+				days = 10
+			}
+		}
+		primary_heir = {
+			trigger_event = {
+				id = ek_morrowind_hc.0002
+				days = 5
+			}
+			trigger_event = {
+				id = ek_morrowind_hc.0003
+				days = 10
+			}
+		}
+	}
+}
+
+ek_morrowind_hc.0011 = { #Event for on_title_lost
+	type = character_event
+	content_source = dlc_ek
+	hidden = yes
+	theme = realm
+	immediate = {
+		set_global_variable = {
+			name = indoril_votes
+			value = 0
+		}
+		set_global_variable = {
+			name = hlaalu_votes
+			value = 0
+		}
+		set_global_variable = {
+			name = redoran_votes
+			value = 0
+		}
+		set_global_variable = {
+			name = telvanni_votes
+			value = 0
+		}
+		set_global_variable = {
+			name = dres_votes
+			value = 0
+		}
+		every_living_character = {
+			limit = {
+				OR = {
+					is_great_house_leader = yes
+					has_primary_title = title:k_archcanon_vivec
+					has_primary_title = title:k_archcanon_almalexia
+					has_primary_title = title:k_archcanon_sotha_sil
+					has_primary_title = title:e_tribunal_temple
+				}
+			}
+			trigger_event = {
+				id = ek_morrowind_hc.0002
+				days = 5
+			}
+			trigger_event = {
+				id = ek_morrowind_hc.0003
+				days = 10
+			}
+		}
+	}
+}
+
+ek_morrowind_hc.0002 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind_hc.0002.t
+	desc = ek_morrowind_hc.0002.desc
+	theme = realm
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	lower_right_portrait = {
+		character = scope:dead_high_councilor
+	}
+	immediate = {
+		title:k_indoril.holder = { save_scope_as = indoril_candidate }
+		title:k_hlaalu.holder = { save_scope_as = hlaalu_candidate }
+		title:k_redoran.holder = { save_scope_as = redoran_candidate }
+		title:k_telvanni.holder = { save_scope_as = telvanni_candidate }
+		title:k_dres.holder = { save_scope_as = dres_candidate }
+	}
+	option = {
+		name = ek_morrowind_hc.0002.a
+		trigger = {
+			exists = title:k_indoril.holder
+		}
+		change_global_variable = {
+			name = indoril_votes
+			add = character_vote_total_score_in_favor_meeting
+		}
+		ai_chance = {
+			base = 50 #Indoril get advantage for lore reasons
+			modifier = { #Dunmer aren't ruled by children
+				add = -200
+				scope:indoril_candidate = {
+					is_adult = no
+				}
+			}
+			modifier = { #Positive opinion
+				add = 10
+				opinion = {
+					target = scope:indoril_candidate
+					value > 0
+				}
+			}
+			modifier = {
+				add = 30
+				scope:indoril_candidate = {
+					has_hook = root
+				}
+			}
+			modifier = {
+				add = 100
+				scope:indoril_candidate = {
+					has_strong_hook = root
+				}
+			}
+			modifier = {
+				add = 30
+				has_relation_friend = scope:indoril_candidate
+			}
+			modifier = {
+				add = 30
+				has_relation_lover = scope:indoril_candidate
+			}
+			modifier = {
+				add = -30
+				has_relation_rival = scope:indoril_candidate
+			}
+			modifier = {
+				add = -80
+				has_relation_nemesis = scope:indoril_candidate
+			}
+		}
+	}
+	option = {
+		name = ek_morrowind_hc.0002.b
+		trigger = {
+			exists = title:k_hlaalu.holder
+		}
+		change_global_variable = {
+			name = hlaalu_votes
+			add = character_vote_total_score_in_favor_meeting
+		}
+		ai_chance = {
+			base = 0
+			modifier = { #Dunmer aren't ruled by children
+				add = -200
+				scope:hlaalu_candidate = {
+					is_adult = no
+				}
+			}
+			modifier = { #Positive opinion
+				add = 10
+				opinion = {
+					target = scope:hlaalu_candidate
+					value > 0
+				}
+			}
+			modifier = {
+				add = 30
+				scope:hlaalu_candidate = {
+					has_hook = root
+				}
+			}
+			modifier = {
+				add = 100
+				scope:hlaalu_candidate = {
+					has_strong_hook = root
+				}
+			}
+			modifier = {
+				add = 30
+				has_relation_friend = scope:hlaalu_candidate
+			}
+			modifier = {
+				add = 30
+				has_relation_lover = scope:hlaalu_candidate
+			}
+		}
+	}
+	option = {
+		name = ek_morrowind_hc.0002.c
+		trigger = {
+			exists = title:k_redoran.holder
+		}
+		change_global_variable = {
+			name = redoran_votes
+			add = character_vote_total_score_in_favor_meeting
+		}
+		ai_chance = {
+			base = 0
+			modifier = { #Dunmer aren't ruled by children
+				add = -200
+				scope:redoran_candidate = {
+					is_adult = no
+				}
+			}
+			modifier = { #Positive opinion
+				add = 10	
+				opinion = {
+					target = scope:redoran_candidate
+					value > 0
+				}
+			}
+			modifier = {
+				add = 30
+				scope:redoran_candidate = {
+					has_hook = root
+				}
+			}
+			modifier = {
+				add = 100
+				scope:redoran_candidate = {
+					has_strong_hook = root
+				}
+			}
+			modifier = {
+				add = 30
+				has_relation_friend = scope:redoran_candidate
+			}
+			modifier = {
+				add = 30
+				has_relation_lover = scope:redoran_candidate
+			}
+		}
+	}
+	option = {
+		name = ek_morrowind_hc.0002.d
+		trigger = {
+			exists = title:k_telvanni.holder
+		}
+		change_global_variable = {
+			name = telvanni_votes
+			add = character_vote_total_score_in_favor_meeting
+		}
+		ai_chance = {
+			base = 0
+			modifier = { #Dunmer aren't ruled by children
+				add = -200
+				scope:telvanni_candidate = {
+					is_adult = no
+				}
+			}
+			modifier = { #Positive opinion
+				add = 10
+				opinion = {
+					target = scope:telvanni_candidate
+					value > 0
+				}
+			}
+			modifier = {
+				add = 30
+				scope:telvanni_candidate = {
+					has_hook = root
+				}
+			}
+			modifier = {
+				add = 100
+				scope:telvanni_candidate = {
+					has_strong_hook = root
+				}
+			}
+			modifier = {
+				add = 30
+				has_relation_friend = scope:telvanni_candidate
+			}
+			modifier = {
+				add = 30
+				has_relation_lover = scope:telvanni_candidate
+			}
+		}
+	}
+	option = {
+		name = ek_morrowind_hc.0002.e
+		trigger = {
+			exists = title:k_dres.holder
+		}
+		change_global_variable = {
+			name = dres_votes
+			add = character_vote_total_score_in_favor_meeting
+		}
+		ai_chance = {
+			base = 0
+			modifier = { #Dunmer aren't ruled by children
+				add = -200
+				scope:dres_candidate = {
+					is_adult = no
+				}
+			}
+			modifier = { #Positive opinion
+				add = 10
+				opinion = {
+					target = scope:dres_candidate
+					value > 0
+				}
+			}
+			modifier = {
+				add = 30
+				scope:dres_candidate = {
+					has_hook = root
+				}
+			}
+			modifier = {
+				add = 100
+				scope:dres_candidate = {
+					has_strong_hook = root
+				}
+			}
+			modifier = {
+				add = 30
+				has_relation_friend = scope:dres_candidate
+			}
+			modifier = {
+				add = 30
+				has_relation_lover = scope:dres_candidate
+			}
+		}
+	}
+}
+
+ek_morrowind_hc.0003 = {
+	type = character_event
+	content_source = dlc_ek
+	hidden = yes
+	theme = realm
+	immediate = {
+		if = {
+			limit = {
+				global_var:indoril_votes >= global_var:hlaalu_votes
+				global_var:indoril_votes >= global_var:redoran_votes
+				global_var:indoril_votes >= global_var:telvanni_votes
+				global_var:indoril_votes >= global_var:dres_votes
+			}
+			title:k_indoril.holder = { save_scope_as = new_high_councilor }
+		}
+		if = {
+			limit = {
+				global_var:hlaalu_votes > global_var:indoril_votes
+				global_var:hlaalu_votes >= global_var:redoran_votes
+				global_var:hlaalu_votes >= global_var:telvanni_votes
+				global_var:hlaalu_votes >= global_var:dres_votes
+			}
+			title:k_hlaalu.holder = { save_scope_as = new_high_councilor }
+		}
+		if = {
+			limit = {
+				global_var:redoran_votes > global_var:hlaalu_votes
+				global_var:redoran_votes > global_var:indoril_votes
+				global_var:redoran_votes >= global_var:telvanni_votes
+				global_var:redoran_votes >= global_var:dres_votes
+			}
+			title:k_redoran.holder = { save_scope_as = new_high_councilor }
+		}
+		if = {
+			limit = {
+				global_var:telvanni_votes > global_var:hlaalu_votes
+				global_var:telvanni_votes > global_var:indoril_votes
+				global_var:telvanni_votes > global_var:redoran_votes
+				global_var:telvanni_votes >= global_var:dres_votes
+			}
+			title:k_telvanni.holder = { save_scope_as = new_high_councilor }
+		}
+		if = {
+			limit = {
+				global_var:dres_votes > global_var:hlaalu_votes
+				global_var:dres_votes > global_var:indoril_votes
+				global_var:dres_votes > global_var:redoran_votes
+				global_var:dres_votes > global_var:telvanni_votes
+			}
+			title:k_dres.holder = { save_scope_as = new_high_councilor }
+		}
+		set_global_variable = {
+			name = morrowind_high_councilor
+			value = scope:new_high_councilor
+		}
+		scope:new_high_councilor = {
+			set_variable = flavourise_high_councilor
+			add_character_flag = gcm_high_councilor
+		}
+		if = {
+			limit = {
+				is_ai = no
+			}		
+			trigger_event = {
+				id = ek_morrowind_hc.0004
+				days = 6
+			}
+		}
+	}
+}
+
+ek_morrowind_hc.0004 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind_hc.0004.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					is_morrowind_high_councilor = { CHARACTER = this }
+				}
+				desc = ek_morrowind_hc.0004.desc.self
+			}
+			desc = ek_morrowind_hc.0004.desc
+		}
+	}
+	theme = realm
+	left_portrait = {
+		character = scope:new_high_councilor
+		animation = personality_honorable
+	}
+	option = {
+		name = ek_morrowind_hc.0004.a
+	}
+}
+
+#Other gcm events
+namespace = ek_morrowind_gcm
+
+ek_morrowind_gcm.0001 = { #Big gcm guy is attacked by someone
+	type = letter_event
+	sender = scope:defender
+
+	opening = {
+		desc = ek_morrowind_gcm.0001.opening
+	}
+
+	desc = ek_morrowind_gcm.0001.desc
+
+	immediate = {
+		scope:defender = {
+			random_character_war = {
+				limit = { primary_attacker = scope:attacker }
+				save_scope_as = interested_war
+			}
+			primary_title = { save_scope_as = defender_primary_title } #For loc
+		}
+	}
+
+	on_trigger_fail = {
+		trigger_event = {
+			id = ek_morrowind_gcm.0001
+			days = 1
+		}
+	}
+
+	option = {
+		name = ek_morrowind_gcm.0001.a
+
+		scope:interested_war = {
+			hidden_effect = { set_called_to = root }
+			add_defender = root
+		}
+		if = {
+			limit = {
+				situation:grand_council ?= {
+					situation_top_has_catalyst = catalyst_situation_join_gcm_war
+				}
+			}
+			situation:grand_council = {
+				trigger_situation_catalyst = catalyst_situation_join_gcm_war
+			}
+		}
+		
+		ai_chance = { 
+			base = 50 #Not guaranteed
+			modifier = { #Indorils and temple are quite willing to help
+				OR = {
+					has_primary_title = title:k_indoril
+					is_temple_faction = yes
+				}
+				add = 30
+			}
+			modifier = { #This is Redorans main function
+				has_primary_title = title:k_redoran
+				add = 100
+			}
+		}
+	}
+
+	option = {
+		name = ek_morrowind_gcm.0001.b
+
+		reverse_add_opinion = {
+			target = scope:defender
+			opinion = -30
+			modifier = betrayed_me_opinion
+		}
+		
+		ai_chance = { 
+			base = 50 #Not guaranteed
+			modifier = { #Telvanni moment
+				has_primary_title = title:k_telvanni
+				add = 35
+			}
+		}
+	}
+}

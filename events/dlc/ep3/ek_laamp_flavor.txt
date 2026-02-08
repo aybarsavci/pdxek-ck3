@@ -1,0 +1,263 @@
+﻿namespace = ek_laamp_flavor
+
+scripted_trigger ek_laamp_flavor.1000_suitable_courtier_trigger = {
+	is_adult = yes
+	is_available_allow_travelling = yes
+}
+
+scripted_trigger ek_laamp_flavor.1000_no_bantam_trigger = {
+	NOR = {
+		any_owned_story = { story_type = story_cycle_pet_bantam }
+		has_character_modifier = bantam_story_modifier
+	}
+}
+
+scripted_trigger ek_laamp_flavor.1000_valid_bantam_courtier_trigger = {
+	ek_laamp_flavor.1000_suitable_courtier_trigger = yes
+	ek_laamp_flavor.1000_no_bantam_trigger = yes
+	location = { geographical_region = mundus_tamriel_morrowind }
+}
+
+scripted_trigger ek_laamp_flavor.1000_no_scorpion_trigger = {
+	NOR = {
+		any_owned_story = { story_type = story_cycle_pet_scorpion }
+		has_character_modifier = scorpion_story_modifier
+	}
+}
+
+scripted_trigger ek_laamp_flavor.1000_valid_scorpion_courtier_trigger = {
+	ek_laamp_flavor.1000_suitable_courtier_trigger = yes
+	ek_laamp_flavor.1000_no_scorpion_trigger = yes
+	location = { geographical_region = mundus_tamriel_hammerfell }
+}
+
+scripted_trigger ek_laamp_flavor.1000_no_mudcrab_trigger = {
+	NOR = {
+		any_owned_story = { story_type = story_cycle_pet_mudcrab }
+		has_character_modifier = mudcrab_story_modifier
+	}
+}
+
+scripted_trigger ek_laamp_flavor.1000_valid_mudcrab_courtier_trigger = {
+	ek_laamp_flavor.1000_suitable_courtier_trigger = yes
+	ek_laamp_flavor.1000_no_mudcrab_trigger = yes
+}
+
+scripted_trigger ek_laamp_flavor.1000_valid_spells_courtier_trigger = {
+	ek_laamp_flavor.1000_suitable_courtier_trigger = yes
+	can_magic_trigger = yes
+}
+
+#	Something minor happens at camp.
+ek_laamp_flavor.1000 = {
+	hidden = yes
+
+	trigger = {
+		# DLC check.
+		has_ep3_dlc_trigger = yes
+		# Standard checks.
+		is_adult = yes
+		is_available_allow_travelling = yes
+		# Laamps use title cooldowns, to help trim down repeats when succession happens.
+		primary_title = {
+			NOT = { has_variable = had_ep3_laamp_flavour_ewan_9541 } # Shares a cooldown with the vanilla equvivalent
+		}
+		# Plus make sure _someone_ is valid for something.
+		any_courtier = { ek_laamp_flavor.1000_suitable_courtier_trigger = yes }
+	}
+
+	immediate = {
+		if = {
+			limit = { enable_debug_laamp_event_logging_toggle_trigger = yes }
+			increment_global_variable_effect = {
+				VAR = tally_lfe_9541
+				VAL = 1
+			}
+		}
+		# Set our cooldown.
+		primary_title = {
+			set_variable = {
+				name = had_ep3_laamp_flavour_ewan_9541
+				value = yes
+				years = 2
+			}
+		}
+		# Grab a courtier for our relation effect triggers.
+		random_courtier = {
+			limit = { ek_laamp_flavor.1000_suitable_courtier_trigger = yes }
+			save_scope_as = follower_1
+		}
+		# Right, determine what's going to be happening.
+		random_list = {
+			# Mudcrab
+			50 = {
+				trigger = {
+					any_courtier = { ek_laamp_flavor.1000_valid_mudcrab_courtier_trigger = yes }
+					location = {
+						OR = {
+							is_coastal = yes
+							is_riverside_province = yes
+						}
+					}
+				}
+				random_courtier = {
+					limit = { ek_laamp_flavor.1000_valid_mudcrab_courtier_trigger = yes }
+					weight = { laamp_weight_up_minor_chars_modifier = yes }
+					save_scope_as = pet_owner
+				}
+				send_interface_message = {
+					type = event_camp_follower_with_text
+					title = ek_laamp_flavor.1000.t.mudcrab_gained
+					desc = ek_laamp_flavor.1000.desc.mudcrab_gained
+					left_icon = scope:pet_owner
+					scope:pet_owner = { start_mudcrab_story_cycle_effect = yes }
+				}
+			}
+			# Bantam Guar
+			100 = {
+				trigger = {
+					any_courtier = { ek_laamp_flavor.1000_valid_bantam_courtier_trigger = yes }
+				}
+				random_courtier = {
+					limit = { ek_laamp_flavor.1000_valid_bantam_courtier_trigger = yes }
+					weight = { laamp_weight_up_minor_chars_modifier = yes }
+					save_scope_as = pet_owner
+				}
+				send_interface_message = {
+					type = event_camp_follower_with_text
+					title = ek_laamp_flavor.1000.t.bantam_gained
+					desc = ek_laamp_flavor.1000.desc.bantam_gained
+					left_icon = scope:pet_owner
+					scope:pet_owner = { start_bantam_story_cycle_effect = yes }
+				}
+			}
+			# Scorpion
+			100 = {
+				trigger = {
+					any_courtier = { ek_laamp_flavor.1000_valid_scorpion_courtier_trigger = yes }
+				}
+				random_courtier = {
+					limit = { ek_laamp_flavor.1000_valid_scorpion_courtier_trigger = yes }
+					weight = { laamp_weight_up_minor_chars_modifier = yes }
+					save_scope_as = pet_owner
+				}
+				send_interface_message = {
+					type = event_camp_follower_with_text
+					title = ek_laamp_flavor.1000.t.scorpion_gained
+					desc = ek_laamp_flavor.1000.desc.scorpion_gained
+					left_icon = scope:pet_owner
+					scope:pet_owner = { start_scorpion_story_cycle_effect = yes }
+				}
+			}
+			# Skills
+			25 = {
+				trigger = {
+					any_courtier = { ek_laamp_flavor.1000_suitable_courtier_trigger = yes }
+				}
+				random_courtier = {
+					limit = { ek_laamp_flavor.1000_suitable_courtier_trigger = yes }
+					weight = { laamp_weight_up_minor_chars_modifier = yes }
+					save_scope_as = skill_learner
+				}
+				send_interface_message = {
+					type = event_camp_follower_with_text
+					title = ek_laamp_flavor.1000.t.skill_learned
+					desc = ek_laamp_flavor.1000.desc.skill_learned
+					left_icon = scope:skill_learner
+					scope:skill_learner = { add_random_skill_point_effect = yes }
+				}
+			}			
+			# Spells
+			10 = {
+				trigger = {
+					any_courtier = { ek_laamp_flavor.1000_valid_spells_courtier_trigger = yes }
+				}
+				random_courtier = {
+					limit = { ek_laamp_flavor.1000_valid_spells_courtier_trigger = yes }
+					weight = { laamp_weight_up_minor_chars_modifier = yes }
+					save_scope_as = spell_learner
+				}
+				send_interface_message = {
+					type = event_camp_follower_with_text
+					title = ek_laamp_flavor.1000.t.spell_learned
+					desc = ek_laamp_flavor.1000.desc.spell_learned
+					left_icon = scope:spell_learner
+					scope:spell_learner = { add_random_magic_perk_effect = yes }
+				}
+			}
+			# Gather Provisions
+			50 = {
+				trigger = {
+					any_courtier = { ek_laamp_flavor.1000_suitable_courtier_trigger = yes }
+				}
+				random_courtier = {
+					limit = { ek_laamp_flavor.1000_suitable_courtier_trigger = yes }
+					weight = { laamp_weight_up_minor_chars_modifier = yes }
+					save_scope_as = gatherer
+				}
+				send_interface_message = {
+					type = event_camp_follower_with_text
+					title = ek_laamp_flavor.1000.t.gathered_provisions
+					desc = ek_laamp_flavor.1000.desc.gathered_provisions
+					left_icon = scope:gatherer					
+					domicile ?= {
+						change_provisions = miniscule_provisions_gain
+					}
+				}
+			}
+			# Eat Provisions
+			50 = {
+				trigger = {
+					any_courtier = { ek_laamp_flavor.1000_suitable_courtier_trigger  = yes }
+				}
+				random_courtier = {
+					limit = { ek_laamp_flavor.1000_suitable_courtier_trigger  = yes }
+					weight = { laamp_weight_up_minor_chars_modifier = yes }
+					save_scope_as = eater
+				}
+				send_interface_message = {
+					type = event_camp_follower_with_text
+					title = ek_laamp_flavor.1000.t.eaten_provisions
+					desc = ek_laamp_flavor.1000.desc.eaten_provisions
+					left_icon = scope:eater
+					if = { 
+						limit = {
+							scope:eater = {
+								OR = {
+									has_trait = gluttonous
+									has_trait = comfort_eater
+								}
+							}							
+						}
+						domicile ?= {
+							change_provisions = minor_provisions_loss
+						}
+					}
+					else = { 
+						domicile ?= {
+							change_provisions = miniscule_provisions_loss
+						} 
+					}
+				}
+			}
+			# Wound
+			20 = {
+				trigger = {
+					any_courtier = { ek_laamp_flavor.1000_suitable_courtier_trigger = yes }
+				}
+				random_courtier = {
+					limit = { ek_laamp_flavor.1000_suitable_courtier_trigger = yes }
+					weight = { laamp_weight_up_minor_chars_modifier = yes }
+					save_scope_as = wounded
+				}
+				send_interface_message = {
+					type = event_camp_follower_with_text
+					title = ek_laamp_flavor.1000.t.wounded
+					desc = ek_laamp_flavor.1000.desc.wounded
+					left_icon = scope:wounded
+					scope:wounded = { increase_wounds_no_death_effect = { REASON = wounds } }
+				}
+			}
+		}
+	}
+}

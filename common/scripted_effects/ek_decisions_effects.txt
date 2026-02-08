@@ -1,0 +1,1109 @@
+﻿turn_reach_nord_hold_decision_effect = {
+	# Make Westholder native unless there is already an Atmoran culture in Karth
+	if = {
+		limit = {
+			capital_county = {
+				NOT = {
+					any_in_list = {
+						variable = native_culture_list
+						has_same_culture_heritage = root.culture
+					}
+				}
+			}
+		}
+		set_culture_native_to = { REGION = karth CULTURE = culture:westmarcher }
+		setup_county_native_cultures_link_region = { REGION = mundus_tamriel_skyrim_karth }
+	}
+	
+	# Nickname
+	give_nickname = nick_the_peacemaker
+	
+	#Laws, if capital in Markarth
+	if = {
+		limit = {
+			capital_province = { geographical_region = mundus_tamriel_skyrim_karth }
+			primary_title = { tier >= tier_kingdom }
+		}
+		if = {
+			limit = {
+				has_realm_law = crown_authority_0
+			}
+			add_realm_law_skip_effects = crown_authority_1
+		}
+		else_if = {
+			limit = {
+				has_realm_law = crown_authority_1
+			}
+			add_realm_law_skip_effects = crown_authority_2
+		}
+		else_if = {
+			limit = {
+				has_realm_law = crown_authority_2
+			}
+			add_realm_law_skip_effects = crown_authority_3
+		}
+	}
+}
+
+direnni_hegemony_pt_1_decision_effect = {
+	save_scope_as = founder
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = title_change
+		add_claim_on_loss = no
+	}
+	title:e_direnni_hegemony = {
+		change_title_holder = {
+			holder = root
+			change = scope:title_change
+		}
+	}
+	resolve_title_and_vassal_change = scope:title_change
+	
+	# Direnni family gets a small bonus
+	if = {
+		limit = { dynasty = dynasty:dyn_direnni }
+		dynasty:dyn_direnni = {
+			add_dynasty_modifier = {
+				modifier = direnni_reclaim_hegemony_1
+				years = 25
+			}
+		}
+	}
+	
+	capital_county = {
+		add_county_modifier = {
+			modifier = hegemony_new_capital_temp
+			years = 25
+		}
+	}
+	custom_tooltip = direnni_hegemony_core_de_jure_drift
+	hidden_effect = {	
+		every_kingdom = { #Grab every kingdom in core region
+			limit = {
+				title_capital_county.title_province = {
+					geographical_region = mundus_tamriel_direnni_hegemony_core
+				}
+			}
+			set_de_jure_liege_title = title:e_direnni_hegemony
+		}
+	}
+	custom_tooltip = direnni_hegemony_region_a_de_jure_drift
+	hidden_effect = {		
+		if = {
+			limit = {
+				completely_controls_region = mundus_tamriel_direnni_hegemony_form_a
+			}
+			every_kingdom = { #Grab every kingdom in region 1
+				limit = {
+					title_capital_county.title_province = {
+						geographical_region = mundus_tamriel_direnni_hegemony_form_a
+					}
+				}
+				set_de_jure_liege_title = title:e_direnni_hegemony
+			}
+		}
+	}
+	custom_tooltip = direnni_hegemony_region_b_de_jure_drift
+	hidden_effect = {		
+		if = {
+			limit = {
+				completely_controls_region = mundus_tamriel_direnni_hegemony_form_b
+			}
+			every_kingdom = { #Grab every kingdom in region 2
+				limit = {
+					title_capital_county.title_province = {
+						geographical_region = mundus_tamriel_direnni_hegemony_form_b
+					}
+				}
+				set_de_jure_liege_title = title:e_direnni_hegemony
+			}
+		}
+	}
+}
+
+direnni_hegemony_pt_2_decision_effect = {
+	custom_tooltip = direnni_hegemony_pt_2_decision_effect_a
+	hidden_effect = {
+		every_kingdom = {
+			limit = { title_capital_county.title_province = { geographical_region = mundus_tamriel_direnni_hegemony_full } }
+			set_de_jure_liege_title = title:e_direnni_hegemony
+		}
+	}
+	
+	# Direnni family gets a special bonus
+	if = {
+		limit = { dynasty = dynasty:dyn_direnni }
+		dynasty:dyn_direnni = {
+			add_dynasty_modifier = {
+				modifier = direnni_reclaim_hegemony_2
+			}
+		}
+	}
+	
+	else = {
+		dynasty = {
+			add_dynasty_modifier = {
+				modifier = direnni_reclaim_hegemony_3
+			}
+		}
+	}
+	
+	custom_tooltip = unlocks_hegemony_dynasty_legacy #Unlock Hegemony legacy
+	dynasty = {
+		set_variable = {
+			name = can_get_hegemon_legacy_track
+			value = yes
+		}
+	}
+	
+	capital_county = {
+		add_county_modifier = {
+			modifier = hegemony_new_capital_perm
+		}
+	}
+}
+
+recreate_arnesia_decision_scripted_effect = {
+	save_scope_as = founder
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = title_change
+		add_claim_on_loss = no
+	}
+	title:k_arnesia = {
+		change_title_holder = {
+			holder = root
+			change = scope:title_change
+		}
+		save_scope_as = arnesia
+	}
+	resolve_title_and_vassal_change = scope:title_change
+
+	hidden_effect = {
+		title:d_arnesia = { save_scope_as = arnesia_arnesia }
+		title:d_seafalls = { save_scope_as = arnesia_seafalls }
+		title:d_padomeic = { save_scope_as = arnesia_padomeic }
+		title:d_nootanara = { save_scope_as = arnesia_nootanara }
+		title:d_riverbridge = { save_scope_as = arnesia_riverbridge }
+		title:d_arnesia = { set_de_jure_liege_title = title:k_arnesia }
+		title:d_seafalls = { set_de_jure_liege_title = title:k_arnesia }
+		title:d_padomeic = { set_de_jure_liege_title = title:k_arnesia }
+		title:d_nootanara = { set_de_jure_liege_title = title:k_arnesia }
+		title:d_riverbridge = { set_de_jure_liege_title = title:k_arnesia }
+	}
+	custom_tooltip = recreate_lost_kingdom_arnesia_decision_effects_de_jure_tt
+}
+
+integrate_tearmarsh_black_marsh_decision_scripted_effect = {
+	title:k_tearmarsh = { set_de_jure_liege_title = title:e_black_marsh }
+	dynasty = { add_dynasty_prestige = 100 }
+}
+
+integrate_tearmarsh_cantemiris_decision_scripted_effect = {
+	title:k_tearmarsh = { set_de_jure_liege_title = title:e_cantemiris }
+	dynasty = { add_dynasty_prestige = 100 }
+}
+
+integrate_tearmarsh_morrowind_decision_scripted_effect = {
+	title:k_tearmarsh = { set_de_jure_liege_title = title:e_morrowind }
+	dynasty = { add_dynasty_prestige = 100 }
+}
+
+abecean_confederacy_decision_effect = {
+	save_scope_as = founder
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = title_change
+		add_claim_on_loss = no
+	}
+	title:k_the_isles = {
+		change_title_holder = {
+			holder = root
+			change = scope:title_change
+		}
+	}
+	resolve_title_and_vassal_change = scope:title_change
+
+	add_to_global_variable_list = {
+		name = unavailable_unique_decisions
+		target = flag:flag_abecean_confederacy
+	}
+
+	root = { 
+		save_scope_as = mediterranean_conqueror 
+		house = { save_scope_as = mediterranean_house }
+	}
+	title:d_stirk = { save_scope_as = mallorca }
+	title:d_stros_mkai = { save_scope_as = sardinas }
+	title:d_systres = { save_scope_as = sicily }
+	title:k_the_isles = { save_scope_as = mediterranean_title }
+	
+	custom_tooltip = form_pirate_confederacy_the_isles_de_jure_tt
+	hidden_effect = {
+		every_sub_realm_county = {
+			limit = { title_province = { geographical_region = mundus_tamriel_pirate_conf_the_isles } }
+			duchy = { add_to_list = duchies_to_dejure_drift }
+		}
+		every_in_list = {
+			list = duchies_to_dejure_drift
+			set_de_jure_liege_title = title:k_the_isles
+		}
+		title:k_the_isles = { set_de_jure_liege_title = title:e_hammerfell }
+	}
+	if = {
+		limit = { has_fp2_dlc_trigger = yes }
+		#magic stuff happening here
+		house = {
+			add_house_modifier = {
+				modifier = fp2_controls_the_mediterranean_house_modifier
+				years = 80
+			}
+		}
+		custom_tooltip = secure_mediterranean_decision.a
+		every_player = {
+			limit = {
+				NOT = { this = ROOT }
+				any_held_title = { title_province = { geographical_region = dlc_fp2_mediterranean_shoreline } }
+			}
+			send_interface_message = {
+				type = event_generic_bad_with_text
+				title = secure_mediterranean_decision.involved_notif
+				desc = secure_mediterranean_decision.involved_notif_desc # Players who get this: "why do I hear boss music?" (It is meant to sound vaguely threatening, because it is)
+				left_icon = scope:mediterranean_conqueror
+	
+				show_as_tooltip = {
+					scope:mediterranean_conqueror = {
+						house = {
+							add_house_modifier = {
+								modifier = fp2_controls_the_mediterranean_house_modifier
+								years = 80
+							}
+						}
+					}
+				}
+			}
+		}
+	}	
+}
+
+### COURT MAGE MANAGEMENT ###
+
+set_court_mage_effect = {
+	$MAGE$ = {
+		if = {
+			limit = { 
+				NOT = { liege = $EMPLOYER$ }
+			}
+			$EMPLOYER$ = { add_courtier = $MAGE$ }
+		}
+	}
+	$EMPLOYER$ = {
+		#Replace existing court mage if one exists
+		if = {
+			limit = {
+				employs_court_position = court_mage_court_position
+				any_court_position_holder = {
+					type = court_mage_court_position
+					count > 0
+				}
+			}
+			every_court_position_holder = {
+				type = court_mage_court_position
+				save_temporary_scope_as = old_mage
+
+				$EMPLOYER$ = {
+					replace_court_position = {
+						recipient = $MAGE$
+						holder = scope:old_mage
+						court_position = court_mage_court_position
+					}
+					reverse_add_opinion = {
+						target = scope:old_mage
+						modifier = disappointed_opinion
+						opinion = -15
+					}
+					reverse_add_opinion = {
+						target = $MAGE$
+						modifier = hired_me_opinion
+					}
+				}
+			}
+		}
+		#Else just straight up appoint
+		else = {
+			appoint_court_position = {
+				recipient = $MAGE$
+				court_position = court_mage_court_position
+			}
+			reverse_add_opinion = {
+				target = $MAGE$
+				modifier = hired_me_opinion
+			}
+		}
+	}
+}
+
+create_tamriel_empire_scripted_effect = {
+	# add_trait = augustus
+	#Create Tamrielic Empire, shift dejure/history/laws, destroy e_byzantium.
+	hidden_effect = {
+		title:e_cyrodiil = { #Should shift all dejure of Cyrodiil.
+			every_in_de_jure_hierarchy = {
+				limit = {
+					tier = tier_kingdom
+				}
+				set_de_jure_liege_title = title:e_tamriel
+			}
+		}
+		title:e_cyrodiilic_potentate = { #Should shift all dejure of Cyrodiil.
+			every_in_de_jure_hierarchy = {
+				limit = {
+					tier = tier_kingdom
+				}
+				set_de_jure_liege_title = title:e_tamriel
+			}
+		}
+	}
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	title:e_tamriel = {
+		change_title_holder = {
+			holder = root
+			change = scope:change
+		}
+	}
+	resolve_title_and_vassal_change = scope:change
+	hidden_effect = { set_primary_title_to = title:e_tamriel }
+	if = { #Automatically move capital to the Imperial City.
+		limit = {
+			NOT = { capital_county = { this = title:c_imperial_city } }
+		}
+		hidden_effect = {
+			if = { #Usurp if not held personally.
+				limit = {
+					NOT = { this = title:c_imperial_city.holder }
+				}
+				create_title_and_vassal_change = {
+					type = returned
+					save_scope_as = change
+					add_claim_on_loss = no
+				}
+				title:c_imperial_city = {
+					change_title_holder = {
+						holder = root
+						change = scope:change
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+			}
+		}
+		root = { set_realm_capital = title:c_imperial_city }
+	}
+	hidden_effect = {
+		# create_story = restoring_roman_provinces_story
+		add_character_flag = flag_restorer_of_the_empire #Potentially useful for later..
+	}
+	
+	# Last so your vassals don't become independent
+	destroy_title = title:e_cyrodiil
+	destroy_title = title:e_cyrodiilic_potentate
+}
+
+form_aldmeri_dominion_scripted_effect = {
+	root = {
+		primary_title = { save_temporary_scope_as = title_copy }
+	}
+	title:e_aldmeri_dominion = {
+		copy_title_history = scope:title_copy
+	}
+	hidden_effect = {
+		title:e_summerset = {
+			every_in_de_jure_hierarchy = {
+				limit = {
+					tier = tier_kingdom
+				}
+				set_de_jure_liege_title = title:e_aldmeri_dominion
+			}
+		}
+	}
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	title:e_aldmeri_dominion = {
+		change_title_holder = {
+			holder = root
+			change = scope:change
+		}
+	}
+	resolve_title_and_vassal_change = scope:change
+	dynasty = {
+		add_dynasty_modifier = {
+			modifier = aldmeri_dominion_dynasty_modifier
+		}
+	}
+	hidden_effect = {
+		set_primary_title_to = title:e_aldmeri_dominion
+		add_character_flag = flag_founder_of_the_aldmeri_dominion
+	}
+	destroy_title = title:e_summerset
+}
+
+peryite_disease_effect = {
+	random_list = {
+		20 = {
+			trigger = { NOT = { has_trait = ill } }
+			add_trait = ill
+		}
+		10 = {
+			trigger = { NOT = { has_trait = pneumonic } }
+			add_trait = pneumonic
+		}
+		10 = {
+			trigger = { NOT = { has_trait = lovers_pox } }
+			add_trait = lovers_pox
+		}
+		10 = {
+			trigger = { NOT = { has_trait = gout_ridden } }
+			add_trait = gout_ridden
+		}
+		10 = {
+			trigger = { NOT = { has_trait = great_pox } }
+			add_trait = great_pox
+		}
+		5 = {
+			trigger = { NOT = { has_trait = cancer } }
+			add_trait = cancer
+		}
+		10 = {
+			trigger = { NOT = { has_trait = ergotism } }
+			add_trait = ergotism
+			root.capital_province = {
+				create_epidemic_outbreak = {
+					type = ergotism
+					intensity = $INTENSITY$
+				}
+			}
+		}
+		10 = {
+			trigger = { NOT = { has_trait = smallpox } }
+			add_trait = smallpox
+			root.capital_province = {
+				create_epidemic_outbreak = {
+					type = smallpox
+					intensity = $INTENSITY$
+				}
+			}
+		}
+		10 = {
+			trigger = { NOT = { has_trait = consumption } }
+			add_trait = consumption
+			root.capital_province = {
+				create_epidemic_outbreak = {
+					type = consumption
+					intensity = $INTENSITY$
+				}
+			}
+		}
+		10 = {
+			trigger = { 
+				NOT = { has_trait = chrondiasis }
+				can_magic_trigger = yes
+			}
+			add_trait = chrondiasis
+			root.capital_province = {
+				create_epidemic_outbreak = {
+					type = chrondiasis
+					intensity = $INTENSITY$
+				}
+			}
+		}
+		10 = {
+			trigger = { NOT = { has_trait = dysentery } }
+			add_trait = dysentery
+			root.capital_province = {
+				create_epidemic_outbreak = {
+					type = dysentery
+					intensity = $INTENSITY$
+				}
+			}
+		}
+		10 = {
+			trigger = { NOT = { has_trait = typhus } }
+			add_trait = typhus
+			root.capital_province = {
+				create_epidemic_outbreak = {
+					type = typhus
+					intensity = $INTENSITY$
+				}
+			}
+		}
+		10 = {
+			trigger = { NOT = { has_trait = measles } }
+			add_trait = measles
+			root.capital_province = {
+				create_epidemic_outbreak = {
+					type = measles
+					intensity = $INTENSITY$
+				}
+			}
+		}
+		10 = {
+			trigger = { NOT = { has_trait = peryite_affliction } }
+			add_trait = peryite_affliction
+			root.capital_province = {
+				create_epidemic_outbreak = {
+					type = peryite_affliction
+					intensity = $INTENSITY$
+				}
+			}
+		}
+	}
+}
+
+reform_cyrodiilic_empire_scripted_effect = {
+	custom_tooltip = reform_cyrodiilic_empire_scripted_effect_tooltip
+
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	title:e_cyrodiil = {
+		change_title_holder = {
+			holder = root
+			change = scope:change
+		}
+	}
+	resolve_title_and_vassal_change = scope:change
+
+	# check if you have a warlord empire title to get rid of
+	# we check this before giving you Cyrodiil
+	if = {
+		limit = {
+			primary_title = { has_variable = warlord_empire }
+		}
+		primary_title = { save_scope_as = warlord_empire_to_destroy }
+	}
+	
+	#Try to make it the primary title, unless it's the Emperor doing this.
+	hidden_effect = {
+		set_primary_title_to = title:e_cyrodiil
+		reunite_cyrodiil_scripted_effect = yes
+		# then destroy the warlord title after making sure you've gotten another primary
+		destroy_title = scope:warlord_empire_to_destroy
+		destroy_title = title:e_colovian_estates
+		destroy_title = title:e_nibenay
+	}
+
+	# also remove the warlord emperor modifier since you've sorta proven yourself by now
+	if = {
+		limit = {
+			has_character_modifier = warlord_emperor_modifier
+		}
+		remove_character_modifier = warlord_emperor_modifier 
+	}
+
+	#becoming emperor means becoming admin if you aren't already
+	if = {
+		limit = { 
+			has_dlc_feature = admin_gov
+			NOT = { has_government = administrative_government } 
+		}
+		change_to_administrative_effect = yes
+	}
+	# announcement event
+	trigger_event = central_tamriel.0002
+}
+
+accept_scarab_blood_decision_effects = {
+	save_scope_as = dagothist
+	dynasty = {
+		add_dynasty_modifier = {
+			modifier = scarab_blood_dynasty_modifier
+		}
+	}
+	dynasty = {
+		remove_dynasty_modifier = unmourned_blood_dynasty_modifier
+	}
+	scope:dagothist = {
+		if = {
+			limit = { dynasty = dynasty:dyn_verelnim }
+			character:verelnim_98 = { set_father = character:uthol_line }
+		}
+		else_if = {
+			limit = { dynasty = dynasty:dyn_morvayn }
+			character:morvayn_98 = { set_father = character:gilvoth_line }
+		}
+		else_if = {
+			limit = { dynasty = dynasty:dyn_ilabael }
+			character:ilabael_98 = { set_father = character:endus_line }
+		}
+		else_if = {
+			limit = { dynasty = dynasty:dyn_zamarasour }
+			character:zamarasour_97 = { set_father = character:araynys_line }
+		}
+		else_if = {
+			limit = { dynasty = dynasty:dyn_menas }
+			character:menas_98 = { set_father = character:tureynul_line }
+		}
+		else_if = {
+			limit = { dynasty = dynasty:dyn_drinith }
+			character:drinith_99 = { set_father = character:odros_line }
+		}
+	}
+	trigger_event = {
+		id = ek_tenets.0060
+	}
+}
+
+abandon_scarab_blood_decision_effects = {
+	dynasty = {
+		remove_dynasty_modifier = scarab_blood_dynasty_modifier
+	}
+	dynasty = {
+		add_dynasty_modifier = {
+			modifier = unmourned_blood_dynasty_modifier
+		}
+	}
+}
+restore_hlaalu_scripted_effect = {
+	save_scope_as = restorer
+	title:k_hlaalu = {
+		save_scope_as = restored_great_house
+	}
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	title:k_hlaalu = {
+		change_title_holder = {
+			holder = root
+			change = scope:change
+		}
+	}
+	resolve_title_and_vassal_change = scope:change
+	if = {
+		limit = { 
+			has_dlc_feature = admin_gov
+			NOT = { has_government = administrative_government } 
+		}
+		convert_to_administrative_from_feudalism_effect = yes
+	}
+	else = {
+		title:k_hlaalu = {
+			add_title_law = dunmeri_elective_succession_law
+		}
+	}
+	every_held_title = { #Should destroy all other kingdoms owned at the time.
+		limit = {
+			tier = tier_kingdom
+			NOT = { this = title:k_hlaalu }
+		}
+		root = { destroy_title = prev }
+	}
+	every_held_title = {
+		limit = {
+			tier = tier_duchy
+			NOT = { target_is_de_jure_liege_or_above = title:k_hlaalu }
+			target_is_de_jure_liege_or_above = title:e_morrowind
+		}
+		set_de_jure_liege_title = title:k_hlaalu
+	}
+	situation:grand_council ?= {
+		if = {
+			limit = { situation_top_has_catalyst = catalyst_situation_great_house_restored }
+			trigger_situation_catalyst = catalyst_situation_great_house_restored
+		}
+	}
+	trigger_event = {
+		id = ektitulartitle.1601
+	}
+}
+
+restore_dres_scripted_effect = {
+	save_scope_as = restorer
+	title:k_dres = {
+		save_scope_as = restored_great_house
+	}
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	title:k_dres = {
+		change_title_holder = {
+			holder = root
+			change = scope:change
+		}
+	}
+	resolve_title_and_vassal_change = scope:change
+	title:k_dres = {
+		add_title_law = dunmeri_elective_succession_law
+	}
+	every_held_title = { #Should destroy all other kingdoms owned at the time.
+		limit = {
+			tier = tier_kingdom
+			NOT = { this = title:k_dres }
+		}
+		root = { destroy_title = prev }
+	}
+	every_held_title = {
+		limit = {
+			tier = tier_duchy
+			NOT = { target_is_de_jure_liege_or_above = title:k_dres }
+			target_is_de_jure_liege_or_above = title:e_morrowind
+		}
+		set_de_jure_liege_title = title:k_dres
+	}
+	situation:grand_council ?= {
+		if = {
+			limit = { situation_top_has_catalyst = catalyst_situation_great_house_restored }
+			trigger_situation_catalyst = catalyst_situation_great_house_restored
+		}
+	}
+	trigger_event = {
+		id = ektitulartitle.1601
+	}
+}
+
+restore_telvanni_scripted_effect = {
+	save_scope_as = restorer
+	title:k_telvanni = {
+		save_scope_as = restored_great_house
+	}
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	title:k_telvanni = {
+		change_title_holder = {
+			holder = root
+			change = scope:change
+		}
+	}
+	resolve_title_and_vassal_change = scope:change
+	title:k_telvanni = {
+		add_title_law = magelord_elective_succession_law
+	}
+	every_held_title = { #Should destroy all other kingdoms owned at the time.
+		limit = {
+			tier = tier_kingdom
+			NOT = { this = title:k_telvanni }
+		}
+		root = { destroy_title = prev }
+	}
+	every_held_title = {
+		limit = {
+			tier = tier_duchy
+			NOT = { target_is_de_jure_liege_or_above = title:k_telvanni }
+			target_is_de_jure_liege_or_above = title:e_morrowind
+		}
+		set_de_jure_liege_title = title:k_telvanni
+	}
+	situation:grand_council ?= {
+		if = {
+			limit = { situation_top_has_catalyst = catalyst_situation_great_house_restored }
+			trigger_situation_catalyst = catalyst_situation_great_house_restored
+		}
+	}
+	trigger_event = {
+		id = ektitulartitle.1601
+	}
+}
+
+restore_indoril_scripted_effect = {
+	save_scope_as = restorer
+	title:k_indoril = {
+		save_scope_as = restored_great_house
+	}
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	title:k_indoril = {
+		change_title_holder = {
+			holder = root
+			change = scope:change
+		}
+	}
+	resolve_title_and_vassal_change = scope:change
+	if = {
+		limit = { 
+			has_dlc_feature = admin_gov
+			NOT = { has_government = administrative_government } 
+		}
+		convert_to_administrative_from_feudalism_effect = yes
+	}
+	else = {
+		title:k_indoril = {
+			add_title_law = dunmeri_elective_succession_law
+		}
+	}
+	every_held_title = { #Should destroy all other kingdoms owned at the time.
+		limit = {
+			tier = tier_kingdom
+			NOT = { this = title:k_indoril }
+			target_is_de_jure_liege_or_above = title:e_morrowind
+		}
+		root = { destroy_title = prev }
+	}
+	every_held_title = {
+		limit = {
+			tier = tier_duchy
+			NOT = { target_is_de_jure_liege_or_above = title:k_indoril }
+		}
+		set_de_jure_liege_title = title:k_indoril
+	}
+	situation:grand_council ?= {
+		if = {
+			limit = { situation_top_has_catalyst = catalyst_situation_great_house_restored }
+			trigger_situation_catalyst = catalyst_situation_great_house_restored
+		}
+	}
+	trigger_event = {
+		id = ektitulartitle.1601
+	}
+}
+
+restore_redoran_scripted_effect = {
+	save_scope_as = restorer
+	title:k_redoran = {
+		save_scope_as = restored_great_house
+	}
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	title:k_redoran = {
+		change_title_holder = {
+			holder = root
+			change = scope:change
+		}
+	}
+	resolve_title_and_vassal_change = scope:change
+	title:k_redoran = {
+		add_title_law = dunmeri_elective_succession_law
+	}
+	every_held_title = { #Should destroy all other kingdoms owned at the time.
+		limit = {
+			tier = tier_kingdom
+			NOT = { this = title:k_redoran }
+			target_is_de_jure_liege_or_above = title:e_morrowind
+		}
+		root = { destroy_title = prev }
+	}
+	every_held_title = {
+		limit = {
+			tier = tier_duchy
+			NOT = { target_is_de_jure_liege_or_above = title:k_redoran }
+		}
+		set_de_jure_liege_title = title:k_redoran
+	}
+	situation:grand_council ?= {
+		if = {
+			limit = { situation_top_has_catalyst = catalyst_situation_great_house_restored }
+			trigger_situation_catalyst = catalyst_situation_great_house_restored
+		}
+	}
+	trigger_event = {
+		id = ektitulartitle.1601
+	}
+}
+
+reform_elsweyr_ai_scripted_effect = {
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	title:e_elsweyr = {
+		change_title_holder = {
+			holder = root
+			change = scope:change
+		}
+	}
+	add_to_global_variable_list = {
+		name = elsweyr_variables
+		target = flag:restored_elsweyr
+	}
+	resolve_title_and_vassal_change = scope:change
+	hidden_effect = {
+		if = { #If Anequina/Pellitine/Mane is primary title then we apply all imperial things to new title and make it primary
+			limit = {
+				OR = {
+					primary_title = title:e_anequina
+					primary_title = title:e_pellitine
+					has_title = title:d_mane
+				}
+			}
+			set_primary_title_to = title:e_elsweyr
+		}
+		reunite_elsweyr_scripted_effect = yes
+		#Check for Leyawiin
+		if = {
+			limit = { title:k_rimmen = { is_de_jure_liege_or_above_target = title:d_leyawiin }}
+			title:d_leyawiin = { set_de_jure_liege_title = title:k_alabaster }
+		}
+		if = {
+			limit = { title:k_alabaster = { is_de_jure_liege_or_above_target = title:d_nomore }}
+			title:d_nomore = { set_de_jure_liege_title = title:k_rimmen }
+		}
+		if = {
+			limit = { #If capital is in de jure Elsweyr, then make it de jure capital of Elsweyr
+				title:e_elsweyr = { is_de_jure_liege_or_above_target = root.capital_county }
+			}
+			title:e_elsweyr = {
+				set_capital_county = root.capital_county
+			}
+		}
+	}
+	destroy_title = title:e_anequina
+	destroy_title = title:e_pellitine
+}
+reform_skyrim_ai_scripted_effect = {
+	### Get the HK of Skyrim
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	title:e_skyrim = {
+		change_title_holder = {
+			holder = root
+			change = scope:change
+		}
+		if = {
+    		    limit = {
+    		        root = {
+    		            primary_title = title:e_eastern_skyrim
+    		        }
+    		    }
+    		    copy_title_history = title:e_eastern_skyrim
+    		}
+    	if = {
+    	    limit = {
+    	        root = {
+    	            primary_title = title:e_western_skyrim
+    	        }
+    	    }
+    	    copy_title_history = title:e_western_skyrim
+    	}
+	}
+	resolve_title_and_vassal_change = scope:change
+	hidden_effect = {
+		if = { #If one of Skyrims is primary title then we apply all Skyrim things to new title and make it primary
+			limit = {
+				OR = {
+					primary_title = title:e_western_skyrim
+					primary_title = title:e_eastern_skyrim
+				}
+			}
+			set_primary_title_to = title:e_skyrim
+			title:e_skyrim = { add_title_law = moot_elective_succession_law }
+		}
+		# to be safe, let's make sure the kingdoms are actually part of Skyrim still and not, say, e_reach or e_orsinium
+		reunite_skyrim_scripted_effect = yes
+		if = {
+			limit = { #If capital is in de jure Skyrim, then make it de jure capital of Skyrim
+				title:e_skyrim = { is_de_jure_liege_or_above_target = root.capital_county }
+			}
+			title:e_skyrim = {
+				set_capital_county = root.capital_county
+			}
+		}
+	}
+	destroy_title = title:e_western_skyrim
+	destroy_title = title:e_eastern_skyrim
+}
+
+join_cyrodiil_dynasty_scripted_effect = {
+	custom_tooltip = house_members_switch_dynasty
+	dynasty = {
+		# Ancestors
+		every_dynasty_member = {
+			even_if_dead = yes
+			limit = {
+				NOT = {
+					any_in_list = {
+						list = cyrodiil_members
+						this = prev
+					}
+				}
+			}
+			every_ancestor = {
+				even_if_dead = yes
+				limit = {
+					dynasty = root.dynasty
+				}
+				add_to_list = cyrodiil_members
+				every_ancestor = {
+					even_if_dead = yes
+					limit = {
+						dynasty = root.dynasty
+					}
+					add_to_list = cyrodiil_members
+					every_ancestor = {
+						even_if_dead = yes
+						limit = {
+							dynasty = root.dynasty
+						}
+						add_to_list = cyrodiil_members
+						every_ancestor = {
+							even_if_dead = yes
+							limit = {
+								dynasty = root.dynasty
+							}
+							add_to_list = cyrodiil_members
+							every_ancestor = {
+								even_if_dead = yes
+								limit = {
+									dynasty = root.dynasty
+								}
+								add_to_list = cyrodiil_members
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	dynasty = {
+		# Current alive members
+		every_dynasty_member = {
+			limit = {
+				NOT = {
+					any_in_list = {
+						list = cyrodiil_members
+						this = prev
+					}
+				}
+			}
+			add_to_list = cyrodiil_members
+		}
+	}
+	dynasty.dynasty_founder = { set_father = character:reman_100 }
+	hidden_effect = {
+		every_in_list = {
+			list = cyrodiil_members
+			set_house = character:reman_100.house
+		}
+	}
+	set_house = character:reman_100.house
+	character:reman_100.house ?= {
+		if = {
+			limit = { NOT = { house_head = root } }
+			set_house_head = root
+		}
+	}
+	character:reman_100.dynasty ?= { add_dynasty_prestige = 10000 }
+}

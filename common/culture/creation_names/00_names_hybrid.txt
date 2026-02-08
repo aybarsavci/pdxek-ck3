@@ -1,0 +1,400 @@
+﻿### EK NOTE: Replaced vanilla names with our own
+# These are used when hybridizing two cultures
+
+# Used in definition order
+
+#monke_placeholder = {
+#	name = monke_placeholder_name # Optional. Defaults to <key>_name
+#	collective_noun = monke_placeholder_collective_noun # Optional. Defaults to <key>_collective_noun
+#	prefix = monke_placeholder_prefix # Optional. Defaults to <key>_trigger
+#	
+#	trigger = {
+#		# scope:culture = { has_cultural_pillar = heritage_tangmo }
+#		# scope:other_culture = { has_cultural_pillar = heritage_imgan }
+#		
+#		always = no
+#	}
+#
+#	hybrid = yes # Is this for hybridization? Defaults to no
+#}
+
+###### BLACK MARSH ######
+archonese = { #Archonese
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_cyrodiilic } #Nibenese typically
+				scope:other_culture = culture:horwalli
+			}
+			AND = {
+				scope:culture = culture:horwalli
+				scope:other_culture = { has_cultural_pillar = heritage_cyrodiilic }
+			}
+		}
+	}
+	hybrid = yes
+}
+
+arnesian = { #Arnesian
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = culture:cantemiric
+				scope:other_culture = { has_cultural_pillar = heritage_dunmeri }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_dunmeri }
+				scope:other_culture = culture:cantemiric
+			}
+		}
+	}
+	hybrid = yes
+}
+
+onkobranese = { #Onkobranese
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_cyrodiilic } #Nibenese typically
+				scope:other_culture = culture:kothringi
+			}
+			AND = {
+				scope:culture = culture:kothringi
+				scope:other_culture = { has_cultural_pillar = heritage_cyrodiilic }
+			}
+		}
+	}
+	hybrid = yes
+}
+
+ormalese = { #Ormalese
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = culture:orma
+				scope:other_culture = { has_cultural_pillar = heritage_cyrodiilic } #Nibenese typically
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_cyrodiilic }
+				scope:other_culture = culture:orma
+			}
+		}
+	}
+	hybrid = yes
+}
+
+topalese = { #Topalese
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = culture:yespest
+				scope:other_culture = { has_cultural_pillar = heritage_cyrodiilic } #Nibenese typically
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_cyrodiilic }
+				scope:other_culture = culture:yespest
+			}
+		}
+	}
+	hybrid = yes
+}
+
+###### CYRODIIL ######
+syradri = { #Syradri - Cyrodiilic + Redguard. Taken from PT where it's used for Colo-Redguards
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_yokudan }
+				scope:other_culture = { has_cultural_pillar = heritage_cyrodiilic }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_cyrodiilic }
+				scope:other_culture = { has_cultural_pillar = heritage_yokudan }
+			}
+		}
+		capital_county = {
+			title_province = { geographical_region = mundus_tamriel_cyrodiil }
+		}
+	}
+	hybrid = yes
+}
+
+colonord = { #Colo-Nord, very original...
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = culture:colovian
+				scope:other_culture = { has_cultural_pillar = heritage_atmoran }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_atmoran }
+				scope:other_culture = culture:colovian
+			}
+		}
+	}
+	hybrid = yes
+}
+
+cyrobreton = { #Cyro-Breton...
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_breton }
+				scope:other_culture = { has_cultural_pillar = heritage_cyrodiilic }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_cyrodiilic }
+				scope:other_culture = { has_cultural_pillar = heritage_breton }
+			}
+		}
+	}
+	hybrid = yes
+}
+
+cyroorc = { #Cyro-Orc...
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_orsimeri }
+				scope:other_culture = { has_cultural_pillar = heritage_cyrodiilic }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_cyrodiilic }
+				scope:other_culture = { has_cultural_pillar = heritage_orsimeri }
+			}
+		}
+	}
+	hybrid = yes
+}
+
+###### ELSWEYR ######
+
+###### HAMMERFELL ######
+bangkorite = { #Bangkorite
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_breton }
+				scope:other_culture = { has_cultural_pillar = heritage_yokudan }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_yokudan }
+				scope:other_culture = { has_cultural_pillar = heritage_breton }
+			}
+		}
+		capital_county = {
+			OR = {
+				title_province = { geographical_region = mundus_tamriel_border_greater_bangkorai }
+				title_province = { geographical_region = mundus_tamriel_hammerfell_hallin }
+			}
+		}
+	}
+	hybrid = yes
+}
+
+bendr = { #Bend'r
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_atmoran }
+				scope:other_culture = { has_cultural_pillar = heritage_yokudan }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_yokudan }
+				scope:other_culture = { has_cultural_pillar = heritage_atmoran }
+			}
+		}
+		capital_county = {
+			OR = {
+				title_province = { geographical_region = mundus_tamriel_border_greater_bangkorai }
+				title_province = { geographical_region = mundus_tamriel_hammerfell_hallin }
+				title_province = { geographical_region = mundus_tamriel_hammerfell_craglorn }
+			}
+		}
+	}
+	hybrid = yes
+}
+
+craglorner = { #Craglorner
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_cyrodiilic }
+				scope:other_culture = { has_cultural_pillar = heritage_yokudan }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_yokudan }
+				scope:other_culture = { has_cultural_pillar = heritage_cyrodiilic }
+			}
+		}
+		capital_county = {
+			title_province = { geographical_region = mundus_tamriel_hammerfell_craglorn }
+		}
+	}
+	hybrid = yes
+}
+
+yoku_keptu = { #Ra-Keptu
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = culture:keptu
+				scope:other_culture = { has_cultural_pillar = heritage_yokudan }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_yokudan }
+				scope:other_culture = culture:keptu
+			}
+		}
+	}
+	hybrid = yes
+}
+
+###### HIGH ROCK ######
+bjoulefolk = { #Men-of-Bjoule
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = culture:bjoule
+				OR = {
+					scope:other_culture = { has_cultural_pillar = heritage_nedic_north }
+					scope:other_culture = { has_cultural_pillar = heritage_nedic_central }
+					scope:other_culture = { has_cultural_pillar = heritage_kothri }
+				}
+			}
+			AND = {
+				OR = {
+					scope:culture = { has_cultural_pillar = heritage_nedic_north }
+					scope:culture = { has_cultural_pillar = heritage_nedic_central }
+					scope:culture = { has_cultural_pillar = heritage_kothri }
+				}
+				scope:other_culture = culture:bjoule
+			}
+		}
+	}
+	hybrid = yes
+}
+
+###### MORROWIND ######
+altmeridunmer = { #Mora Vvynthi
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_aldmeri }
+				scope:other_culture = { has_cultural_pillar = heritage_dunmeri }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_dunmeri }
+				scope:other_culture = { has_cultural_pillar = heritage_aldmeri }
+			}
+		}
+		capital_county = {
+			title_province = { geographical_region = mundus_tamriel_morrowind }
+		}
+	}
+	hybrid = yes
+}
+
+moriche = {
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_ayleid }
+				scope:other_culture = { has_cultural_pillar = heritage_dunmeri }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_dunmeri }
+				scope:other_culture = { has_cultural_pillar = heritage_ayleid }
+			}
+		}
+	}
+	hybrid = yes
+}
+
+###### SKYRIM ######
+menofvir = { #Men-of-Vir
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = culture:reachfolk
+				scope:other_culture = { has_cultural_pillar = heritage_tsaesci }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_tsaesci }
+				scope:other_culture = culture:reachfolk
+			}
+		}
+	}
+	hybrid = yes
+}
+
+reachnord = { #Karthmen
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = culture:reachfolk
+				scope:other_culture = { has_cultural_pillar = heritage_atmoran }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_atmoran }
+				scope:other_culture = culture:reachfolk
+			}
+		}
+	}
+	hybrid = yes
+}
+
+###### VALENWOOD ######
+ayleidbosmer = { #Saliaboiche
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_ayleid }
+				scope:other_culture = { has_cultural_pillar = heritage_bosmeri }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_bosmeri }
+				scope:other_culture = { has_cultural_pillar = heritage_ayleid }
+			}
+		}
+	}
+	hybrid = yes
+}
+
+salache = { #Salache
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_aldmeri }
+				scope:other_culture = { has_cultural_pillar = heritage_bosmeri }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_bosmeri }
+				scope:other_culture = { has_cultural_pillar = heritage_aldmeri }
+			}
+		}
+	}
+	hybrid = yes
+}
+
+###### SUMMERSET ISLES ######
+dunmerialtmer = { #Indoranyo
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_dunmeri }
+				scope:other_culture = { has_cultural_pillar = heritage_aldmeri }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_aldmeri }
+				scope:other_culture = { has_cultural_pillar = heritage_dunmeri }
+			}
+		}
+		capital_county = {
+			title_province = { geographical_region = mundus_tamriel_summerset_isles }
+		}
+	}
+	hybrid = yes
+}
+
+###### YOKUDA ######

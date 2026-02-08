@@ -1,0 +1,80 @@
+﻿### Checks if a character is older than a certain age, but a different age depending on what lifespan trait they have. Used for determining if characters can become infirm or die of old age etc
+
+ek_life_expectancy = { #returns a number equivalent to age 60 in human lifespan
+	if = {
+		limit = { has_trait_with_flag = is_immortal }
+		value = 9999 # the values here are equivalent to age 60 of shortlived characters
+		# infertile at 7500
+	}
+	else_if = {
+		limit = { has_trait_with_flag = lifespan_5_flag }
+		value = 520 # infertile at 390
+	}
+	else_if = {
+		limit = { has_trait_with_flag = lifespan_4_flag }
+		value = 320 # infertile at 240
+	}
+	else_if = {
+		limit = { has_trait_with_flag = lifespan_3_flag }
+		value = 220	# characters become infertile at 45 or equivalent - in this case 165 - which is always 75% of equivalent of 60
+	}
+	else_if = {
+		limit = { has_trait_with_flag = lifespan_2_flag }
+		value = 170	# infertile at 128
+	}
+	else_if = {
+		limit = { has_trait_with_flag = lifespan_1_flag }
+		value = 120 # infertile at 90
+	}
+	else = {
+		value = 60
+	}
+}
+
+ek_human_age_equivalent_calc = {
+	value = age
+	divide = ek_life_expectancy
+	multiply = 60	
+}
+
+ek_human_age_equivalent = { # returns the scope's age in human lifespan
+	if = {
+		limit = { age > 18 }
+		if = {
+			limit = { ek_human_age_equivalent_calc > 18 }
+			value = ek_human_age_equivalent_calc
+		}
+		else = {
+			value = 18
+		}
+	}
+	else = {
+		value = age
+	}
+}
+
+ek_human_age_equivalent_plus_5 = {
+	value = ek_human_age_equivalent
+	add = 5
+}
+ek_human_age_equivalent_plus_10 = {
+	value = ek_human_age_equivalent
+	add = 10
+}
+ek_human_age_equivalent_plus_25 = {
+	value = ek_human_age_equivalent
+	add = 25
+}
+
+ek_human_age_equivalent_minus_5 = {
+	value = ek_human_age_equivalent
+	subtract = 5
+}
+ek_human_age_equivalent_minus_10 = {
+	value = ek_human_age_equivalent
+	subtract = 10
+}
+ek_human_age_equivalent_minus_25 = {
+	value = ek_human_age_equivalent
+	subtract = 25
+}

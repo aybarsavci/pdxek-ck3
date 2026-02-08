@@ -1,0 +1,41 @@
+pdxmesh = {
+	name = "building_special_parliament_of_bugs_mesh"
+	file = "building_special_parliament_of_bugs.mesh"
+	scale = 1.0
+
+	meshsettings = {
+		name = "pob_tower"
+		index = 0
+		texture_diffuse = "building_telvanni_atlas_diffuse.dds"
+		texture_normal = "building_telvanni_atlas_normal.dds"
+		texture_specular = "building_telvanni_atlas_properties.dds"
+		texture = { file = "building_special_parliament_of_bugs_unique.dds" index = 5 }
+		shader = "standard_atlas"
+		shader_file = "gfx/FX/pdxmesh.shader"
+	}
+	meshsettings = {
+		name = "pob_hill"
+		index = 0
+		texture_diffuse = "gravel_diffuse.dds"
+		texture_normal = "gravel_normal.dds"
+		texture_specular = "gravel_properties.dds"
+		texture = { file = "building_special_parliament_of_bugs_unique_02.dds" index = 5 }
+		shader = "EK2_snap_to_terrain"
+		shader_file = "gfx/FX/pdxmesh.shader"
+	}
+	meshsettings = {
+		name = "decal_plane"
+		index = 0
+		texture_diffuse = "gravel_02_diffuse.dds"
+		texture_normal = "gravel_normal.dds"
+		texture_specular = "gravel_properties.dds"
+		shader = "decal_local"
+		shader_file = "gfx/FX/pdxmesh_decal.shader"
+		subpass = "LocalDecals"
+	}
+}
+
+entity = {
+	name = "building_special_parliament_of_bugs_entity"
+	pdxmesh = "building_special_parliament_of_bugs_mesh"
+}

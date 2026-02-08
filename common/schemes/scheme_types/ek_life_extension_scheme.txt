@@ -1,0 +1,170 @@
+﻿ek_life_extension = {
+	
+	#EK TODO: find a way to make skill = arcana
+	# Basic Setup
+	skill = learning
+	desc = ek_life_extension_desc_general
+	success_desc = "EK_LIFE_EXTENSION_SUCCESS_DESC"
+	icon = icon_scheme_culture
+	illustration = "gfx/interface/illustrations/event_scenes/corridor.dds"
+	target_type = character
+	is_secret = no
+	is_basic = yes
+	cooldown = { months = 2 }
+	
+	# Parameters
+	speed_per_skill_point = t1_spsp_owner_value
+	spymaster_speed_per_skill_point = 0
+	uses_resistance = no
+	base_progress_goal = 730
+	base_maximum_success = 95
+	minimum_success = 5
+	
+	allow = {
+		has_perk = restoration_master_perk
+
+		# You can't try to learn your own liturgical language twice
+		NOT = { any_scheme = { scheme_type = ek_life_extension } }
+		
+		is_imprisoned = no
+	}
+	
+	valid = {
+		always = yes
+	}
+
+	base_success_chance = {
+		base = 0
+		
+		modifier = {
+			add = {
+				value = scope:owner.arcana
+				multiply = 3
+			}
+			desc = SCHEME_ARCANA_MODIFIER
+			scope:owner.arcana > 0
+		}
+		
+		modifier = {
+			add = {
+				value = 30
+				subtract = scope:owner.age
+				multiply = 2
+			}
+			desc = SCHEME_YOUTH_MODIFIER
+			scope:owner.age < 30
+		}
+
+		#Intellect good
+		modifier = {
+			desc = "scheme_arcana_good_1"
+			scope:owner = { has_trait = arcana_good_1 }
+			add = 10
+		}
+		
+		modifier = {
+			desc = "scheme_arcana_good_2"
+			scope:owner = { has_trait = arcana_good_2 }
+			add = 20
+		}
+		
+		modifier = {
+			desc = "scheme_arcana_good_3"
+			scope:owner = { has_trait = arcana_good_3 }
+			add = 30
+		}
+		
+		modifier = {
+			scope:target = { has_trait = stubborn }
+			desc = "SCHEME_TRAIT_STUBBORN"
+			add = 10
+		}
+		
+		modifier = {
+			scope:target = { has_trait = ambitious }
+			desc = "SCHEME_TRAIT_AMBITIOUS"
+			add = 5
+		}
+		
+		#Paranoid value is added automatically because of trait	parameter enemy_personal_scheme_success_chance_add 
+		
+		# Lifestyles
+
+		# Dynasty Kin Personal Scheme Success Chance on Dynasty Perk
+		modifier = {
+			add = kin_legacy_4_success_chance
+			desc = KIN_LEGACY_DESC
+			exists = scope:owner.dynasty
+			scope:owner.dynasty = {
+				has_dynasty_perk = kin_legacy_4
+			}
+			scope:target.dynasty = scope:owner.dynasty
+		}
+
+		# House Personal Scheme Success Chance on Cultural Parameter
+		modifier = {
+			add = cultural_house_personal_scheme_success_chance
+			desc = KIN_PARAMETER_DESC
+			exists = scope:owner.house
+			exists = scope:target.house
+			scope:owner.culture = {
+				has_cultural_parameter = cultural_house_personal_scheme_success_chance
+			}
+			scope:target.house = scope:owner.house
+		}
+	}
+
+		### EK TODO: Add modifiers for magic dynasty perks
+
+	on_phase_completed = {
+		random = {
+			chance = scope:scheme.scheme_success_chance
+
+			save_scope_value_as = {
+				name = scheme_successful
+				value = yes
+			}
+		}
+		scope:owner = {
+			if = {
+				limit = {
+					exists = scope:scheme_successful
+				}
+				trigger_event = {
+					on_action = ek_life_extension_success
+				}
+			}
+			else = {
+				trigger_event = {
+					on_action = ek_life_extension_failure
+				}	
+			}
+		}
+	}
+
+	on_start = {
+		scope:scheme = { set_variable = { name = arcana value = scheme_owner.arcana } }
+	}
+	
+	on_invalidated = {
+		scheme_owner = {
+			save_scope_as = owner
+		}
+		
+		scope:owner = {
+			send_interface_toast = {
+				title = ek_life_extension_invalidated
+				custom_tooltip = ek_life_extension_invalidated_cannot_extend_life_desc
+				left_icon = scope:owner
+			}
+		}
+	}
+
+	on_monthly = {
+		save_scope_as = scheme
+		scheme_owner = {
+			save_scope_as = owner
+			trigger_event = { on_action = ek_life_extension_ongoing }
+		}
+	}
+}

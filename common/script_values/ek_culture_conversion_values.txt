@@ -1,0 +1,24 @@
+﻿ek_culture_conversion_acceptance_threshold = {
+	if = {
+		limit = { has_cultural_parameter = reduced_acceptance_to_convert_counties_to_other_cultures }
+		value = ek_culture_conversion_acceptance_threshold_reduced
+	}
+	else = { value = ek_culture_conversion_acceptance_threshold_normal }
+}
+
+ek_culture_conversion_acceptance_threshold_normal = 75
+ek_culture_conversion_acceptance_threshold_reduced = 50
+
+culture_conversion_acceptance_positive_impact = {
+	add = {
+		value = 1
+		divide = {
+			value = scope:county.var:culture_to_convert.culture_number_of_counties
+			min = 1
+		}
+		multiply = 15 #Same as used in grant above
+
+		min = 0.5
+		max = 15
+	}
+}

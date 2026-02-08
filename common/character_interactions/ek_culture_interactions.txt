@@ -1,0 +1,939 @@
+﻿offer_cyrodiilic_subject_interaction = {
+	category = interaction_category_vassal
+	icon = icon_vassal
+
+	desc = offer_cyrodiilic_subject_interaction_desc
+
+	ai_targets = {
+		ai_recipients = vassals
+	}
+	ai_target_quick_trigger = {
+		adult = yes
+	}
+	ai_frequency = 12
+
+	is_shown = {
+		scope:actor = { culture = { has_cultural_parameter = can_create_cyrodiilic_subjects_cultures } }
+		scope:recipient = {
+			NOT = { this = scope:actor }
+			is_landed = yes
+			is_independent_ruler = no
+			this = culture.culture_head	
+			top_liege = scope:actor
+			culture = { 
+				NOR = { 
+					has_same_culture_heritage = scope:actor.culture 
+					has_cultural_parameter = can_remove_cyrodiilic_subject_with_conditions #they aren't already Imperial Scion
+				}
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:recipient = { 
+			is_at_war = no 
+		}
+		# this stuff sorta breaks if the target culture is Cyrodiilic - they can just adopt Imperial Legacy directly!
+		custom_tooltip = {
+			text = cyrodiilic_subject_interaction_not_cyrodiilic
+			scope:recipient = {
+				NOT = {
+					culture = {
+						has_cultural_pillar = heritage_cyrodiilic
+					}
+				}
+			}	
+		}		
+		# doesn't make sense if they're already Imperial Legacy
+		custom_tooltip = {
+			text = cyrodiilic_subject_interaction_not_imperial_legacy
+			scope:recipient = {
+				NOT = {
+					culture = {
+						has_cultural_parameter = can_create_cyrodiilic_subjects_cultures
+					}
+				}
+			}	
+		}		
+	}
+	
+	is_valid = {
+		custom_tooltip = {
+			text = cyrodiilic_subject_interaction_no_other_scion
+			NOT = {
+				any_culture_global = {
+					has_same_culture_heritage = scope:recipient.culture 
+					has_cultural_parameter = can_remove_cyrodiilic_subject_with_conditions
+				}
+			}
+		}
+		
+	}
+
+	greeting = positive
+	notification_text = OFFER_CYRODIILIC_SUBJECT_INTERACTION_NOTIFICATION
+
+	ai_min_reply_days = 5
+	ai_max_reply_days = 10
+
+	ai_accept = {
+		base = 0
+		
+		# Offered proportional gold
+		modifier = {
+			add = 50
+			scope:financial_support = yes
+			desc = GOLD_REASON
+		}
+		
+		modifier = { # Cultural Acceptance
+			add = offer_vassalage_acceptance_value
+			desc = cultural_acceptance_interaction_reason
+			trigger = {
+				scope:actor = {
+					NOT = { has_same_culture_as = scope:recipient }
+					culture = {
+						cultural_acceptance = { target = scope:recipient.culture value <= 90 }
+					}
+				}
+			}
+		}
+
+		# MAIN
+		modifier = { #Different faith, no pluralism.
+			desc = offer_vassalization_interaction_aibehavior_differentfaith_tt
+			trigger = {
+				scope:recipient = {
+					NOR = { #Of two different faiths AND the potential vassal's faith is not pluralistic.
+						faith = scope:actor.faith
+						faith = { has_doctrine = doctrine_pluralism_pluralistic }
+					}
+				}
+			}
+			add = {
+				value = -30
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_hostile_level
+							}
+						}
+					}
+					add = -30
+				}
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_evil_level
+							}
+						}
+					}
+					add = -30
+				}
+			}
+		}
+
+		modifier = { #Different faith, pluralism.
+			desc = offer_vassalization_interaction_aibehavior_differentfaith_tt
+			trigger = {
+				scope:recipient = {
+					NOT = {
+						faith = scope:actor.faith
+					}
+					NOT = {
+						scope:actor.faith = { has_doctrine = doctrine_pluralism_pluralistic }
+					}
+					faith = { has_doctrine = doctrine_pluralism_pluralistic }
+				}
+			}
+			add = {
+				value = -20
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_hostile_level
+							}
+						}
+					}
+					add = -20
+				}
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_evil_level
+							}
+						}
+					}
+					add = -20
+				}
+			}
+		}
+
+		modifier = { #Different faith, both have pluralism.
+			desc = offer_vassalization_interaction_aibehavior_differentfaith_tt
+			trigger = {
+				scope:recipient = {
+					NOT = {
+						faith = scope:actor.faith
+					}
+					scope:actor.faith = { has_doctrine = doctrine_pluralism_pluralistic }
+					faith = { has_doctrine = doctrine_pluralism_pluralistic }
+				}
+			}
+			add = {
+				value = -10
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_hostile_level
+							}
+						}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:recipient.faith = {
+							faith_hostility_level = {
+								target = scope:actor.faith
+								value >= faith_evil_level
+							}
+						}
+					}
+					add = -10
+				}
+			}
+		}
+		modifier = { #We just fought against each other.
+			desc = offer_vassalization_interaction_aibehavior_recent_war_tt
+			trigger = {
+				scope:recipient = {
+					any_truce_holder = {
+						this = scope:actor
+					}
+				}
+			}
+			add = -50
+		}
+		modifier = { #I fought an independence war against you.
+			desc = offer_vassalization_interaction_aibehavior_independence_war_tt
+			trigger = {
+				scope:recipient = {
+					exists = var:independence_war_former_liege
+					var:independence_war_former_liege = scope:actor
+				}
+			}
+			add = -200
+		}
+		modifier = { # I am Tribal and you are not
+			desc = interaction_tribal_vs_nontribal
+			trigger = {
+				scope:recipient = {
+					government_has_flag = government_is_tribal
+				}
+				scope:actor = {
+					NOT = { government_has_flag = government_is_tribal }
+				}
+			}
+			add = -20
+		}
+		modifier = { # You are Tribal and I am not
+			desc = interaction_tribal_vs_nontribal
+			trigger = {
+				scope:actor = {
+					government_has_flag = government_is_tribal
+				}
+				scope:recipient = {
+					NOT = { government_has_flag = government_is_tribal }
+				}
+			}
+			add = -20
+		}
+		modifier = { #Bankrupt
+			desc = bankrupt_reason
+			trigger = {
+				scope:actor.gold <= -1
+			}
+			add = -100
+		}
+		modifier = { #Wide difference in rank
+			desc = offer_vassalization_interaction_aibehavior_widetitletier_tt
+			trigger = {
+				scope:actor = {
+					tier_difference = {
+						target = scope:recipient
+						value > 1
+					}
+				}
+			}
+			add = 10
+		}
+		modifier = { # Allied
+			desc = offer_vassalization_interaction_aibehavior_allied_tt
+			trigger = {
+				scope:recipient = {
+					is_allied_to = scope:actor
+				}
+			}
+			add = 20
+		}
+		modifier = { # Is the Rightful Liege of recipient
+			desc = offer_vassalization_interaction_aibehavior_rightfulliegetitleholder_tt
+			trigger = {
+				scope:actor = { is_rightful_liege_of = scope:recipient }
+			}
+			add = 20
+		}
+		### EK EDIT: De Jure penalty is a lot harsher at game start, but gets closer to the regular penalty as time progresses and your culture gets innovations
+		modifier = { #Is not the Rightful Liege of recipient
+			desc = offer_vassalization_interaction_aibehavior_not_rightfulliegetitleholder_tt
+			trigger = {
+				NOT = {
+					scope:actor = { is_rightful_liege_of = scope:recipient }
+				}
+			}
+			add = {
+				value = -50
+				if = {
+					limit = { scope:actor.culture = { has_innovation = innovation_casus_belli } }
+					add = 10
+				}
+				if = {
+					limit = { scope:actor.culture = { has_innovation = innovation_chronicle_writing } }
+					add = 10
+				}
+				if = {
+					limit = { scope:actor.culture = { has_innovation = innovation_provincial_governors } }
+					add = 10
+				}
+				if = {
+					limit = { scope:actor.culture = { has_innovation = innovation_rightful_ownership } }
+					add = 10
+				}
+			}
+		}
+		modifier = {
+			desc = offer_vassalization_interaction_aibehavior_power_tt
+	  	  	add = {
+				value = 1
+				subtract = {
+					value = scope:recipient.max_military_strength # Intended for recipient to use max, to avoid having vassalizations become too easy for weakened realms
+					divide = { value = scope:actor.current_military_strength min = 1 }
+				}
+				multiply = 20
+				ceiling = yes
+	  		}
+		}
+
+		# MINOR
+		modifier = { #Friend modifier.
+			desc = offer_vassalization_interaction_aibehavior_friend_tt
+			trigger = {
+				scope:recipient = {
+					has_relation_friend = scope:actor
+					NOT = { has_relation_best_friend = scope:actor }
+				}
+			}
+			add = 10
+		}
+		modifier = { #Best Friend modifier.
+			desc = offer_vassalization_interaction_aibehavior_best_friend_tt
+			trigger = {
+				scope:recipient = {
+					has_relation_best_friend = scope:actor
+				}
+			}
+			add = 20
+		}
+		modifier = { #Lover modifier.
+			desc = interaction_lover
+			trigger = {
+				scope:recipient = {
+					has_relation_lover = scope:actor
+					NOT = { has_relation_soulmate = scope:actor }
+				}
+			}
+			add = 10
+		}
+		modifier = { #Soulmate modifier.
+			desc = interaction_soulmate
+			trigger = {
+				scope:recipient = {
+					has_relation_soulmate = scope:actor
+				}
+			}
+			add = 20
+		}
+		modifier = { #Rivalry modifier.
+			desc = offer_vassalization_interaction_aibehavior_rival_tt
+			trigger = {
+				scope:recipient = {
+					has_relation_rival = scope:actor
+					NOT = { has_relation_nemesis = scope:actor }
+				}
+			}
+			add = -100
+		}
+		modifier = { #Nemesis modifier.
+			desc = offer_vassalization_interaction_aibehavior_nemesis_tt
+			trigger = {
+				scope:recipient = {
+					has_relation_nemesis = scope:actor
+				}
+			}
+			add = -1000
+		}
+		modifier = { #Same Dynasty modifier.
+			desc = offer_vassalization_interaction_aibehavior_dynasty_tt
+			trigger = {
+				scope:recipient = {
+					dynasty = scope:actor.dynasty
+				}
+			}
+			add = 5
+		}
+
+		modifier = { # Same language
+			add = 5
+			desc = speaks_same_language_interaction_reason
+			trigger = {
+				scope:actor = {
+					knows_language_of_culture = scope:recipient.culture
+				}
+			}
+		}
+		modifier = { #Ageism modifier vs kids.
+			desc = offer_vassalization_interaction_aibehavior_child_tt
+			trigger = {
+				scope:actor = {
+					age < 12
+				}
+				scope:recipient = {
+					age > 16
+				}
+			}
+			add = -5
+		}
+		modifier = { #Illegitimacy modifier.
+			desc = offer_vassalization_interaction_aibehavior_illegitimate_tt
+			trigger = {
+				OR = {
+					AND = {
+						scope:actor = {
+							has_trait = bastard
+						}
+						scope:recipient = {
+							faith = { NOT = { has_doctrine = doctrine_bastardry_none } }
+						}
+					}
+					has_trait = denounced
+					has_trait = disinherited
+				}
+			}
+			add = -10
+		}
+
+		modifier = { #Claimant modifier.
+			desc = offer_vassalization_interaction_aibehavior_claimant_tt
+			trigger = {
+				scope:actor.primary_title = {
+					scope:recipient = {
+						has_claim_on = prev
+					}
+				}
+			}
+			add = -20
+		}
+
+		modifier = { # Ambitious
+			desc = TAKE_THE_VOWS_AMBITIOUS
+			trigger = {
+				scope:recipient = {
+					has_trait = ambitious
+				}
+			}
+			add = -20
+		}
+
+		modifier = { # Paranoid
+			desc = INTERACTION_PARANOID
+			trigger = {
+				scope:recipient = {
+					has_trait = paranoid
+				}
+			}
+			add = -20
+		}
+
+		modifier = { # Arrogant
+			desc = INTERACTION_ARROGANT
+			trigger = {
+				scope:recipient = {
+					has_trait = arrogant
+				}
+			}
+			add = -20
+		}
+
+		modifier = { # Fickle
+			desc = INTERACTION_FICKLE
+			trigger = {
+				scope:recipient = {
+					has_trait = fickle
+				}
+			}
+			add = -10
+		}
+
+		modifier = { # Stubborn
+			desc = INTERACTION_STUBBORN
+			trigger = {
+				scope:recipient = {
+					has_trait = stubborn
+				}
+			}
+			add = -10
+		}
+
+		modifier = { # Trusting
+			desc = TAKE_THE_VOWS_TRUSTING
+			trigger = {
+				scope:recipient = {
+					has_trait = trusting
+				}
+			}
+			add = 5
+		}
+
+		modifier = { # Content
+			desc = INTERACTION_CONTENT
+			trigger = {
+				scope:recipient = {
+					has_trait = content
+				}
+			}
+			add = 5
+		}
+		# OPINION INFLUENCE
+		modifier = {
+			add = intimidated_external_reason_value
+			scope:recipient = {
+				has_dread_level_towards = {
+					target = scope:actor
+					level = 1
+				}
+			}
+			desc = INTIMIDATED_REASON
+		}
+		modifier = {
+			add = cowed_external_reason_value
+			scope:recipient = {
+				has_dread_level_towards = {
+					target = scope:actor
+					level = 2
+				}
+			}
+			desc = COWED_REASON
+		}
+		# DIPLOMATIC COURT GRANDEUR BONUS
+		modifier = {
+			trigger = {
+				scope:actor = {
+					has_royal_court = yes
+					has_court_type = court_diplomatic
+					court_grandeur_current_level >= 1
+				}
+			}
+			add = {
+				value = scope:actor.court_grandeur_current
+				if = {
+					limit = { # Reduce the bonus if you are below your expected level
+						scope:actor = {
+							court_grandeur_current_level < court_grandeur_minimum_expected_level
+						}
+					}
+					multiply = 0.15
+				}
+				else = {
+					multiply = 0.3
+				}
+			}
+			desc = DIPLOMATIC_COURT_ACCEPTANCE_INCREASE_REASON
+		}
+		modifier = { # House Heads have a slight bonus towards members of the same house
+			desc = offer_vassalization_interaction_aibehavior_dynasty_tt
+			trigger = {
+				scope:actor = {
+					is_house_head = yes
+					house = scope:recipient.house
+				}
+			}
+			add = 5
+		}
+
+		#ALL these modifiers are also used in impress_intent_vassalization_acceptance_value, keep them synced
+	}
+
+	cost = {
+		prestige = {
+			value = major_prestige_value 
+		}
+		gold = {
+			value = offer_cyrodiilic_subject_interaction_cost
+		}
+	}
+
+	send_options_exclusive = no
+	
+	send_option = {
+		flag = financial_support
+		localization = offer_cyrodiilic_subject_interaction_option_more_gold
+		current_description = offer_cyrodiilic_subject_interaction_option_more_gold_desc
+	}
+
+	on_accept = {
+		scope:recipient = { 
+			add_gold = offer_cyrodiilic_subject_interaction_cost 
+			add_prestige = major_prestige_value	
+		}
+		scope:recipient.culture = { 
+			custom_tooltip = {
+				text = recipient_gains_imperial_scion_tradition
+				add_culture_tradition = tradition_cyrodiilic_subject 
+			}
+			custom_tooltip = {
+				text = every_culture_county_ek_recent_imperialization
+				every_culture_county = {
+					add_county_modifier = { modifier = ek_recent_imperialization years = 20 }
+				}
+			}
+			custom_tooltip = {
+				text = imperial_scion_tradition_cultural_acceptance_gain
+				every_culture_global = {
+					limit = { 
+						has_same_culture_heritage = scope:actor.culture
+					}
+					change_cultural_acceptance = {
+						target = scope:recipient.culture
+						value = major_cultural_acceptance_gain
+						desc = imperial_scion_tradition_gain
+					}
+				}				
+			}
+			custom_tooltip = {
+				text = imperial_scion_tradition_cultural_acceptance_loss
+				every_culture_global = {
+					limit = { 
+						NOT = { this = prev }
+						has_same_culture_heritage = prev 
+					}
+					change_cultural_acceptance = {
+						target = prev
+						value = major_cultural_acceptance_loss
+						desc = imperial_scion_tradition_loss
+					}
+				}
+			}
+		}
+		scope:actor = {
+			trigger_event = ek_char_interaction.0001
+			# every vassal of the Scion culture gains cultural rights so that their liege won't just start converting their counties
+			custom_tooltip = {
+				text = cyrodiilic_subject_gains_cultural_rights
+				every_vassal = {
+					limit = { 
+						culture = scope:recipient.culture
+						NOT = { vassal_contract_has_flag = culturally_protected } # check that they don't already have them
+					} 
+					vassal_contract_set_obligation_level = { type = cultural_rights level = 1 }
+				}
+			}
+		}
+	}
+
+	on_decline = {
+		scope:actor = {
+			trigger_event = ek_char_interaction.0002
+		}
+	}
+
+	ai_potential = {
+		is_adult = yes
+		is_independent_ruler = yes
+		highest_held_title_tier > tier_county
+	}
+
+	ai_will_do = {
+		base = 100
+
+		modifier = {
+			add = -50
+			scope:financial_support = yes
+		}
+		modifier = {
+			gold < offer_cyrodiilic_subject_interaction_cost
+			add = -1000
+		}
+		modifier = {
+			is_at_war = yes
+			add = -1000
+		}
+	}
+}
+
+offer_cyrodiilic_suzerain_interaction = {
+	category = interaction_category_vassal
+	icon = icon_liege
+
+	desc = offer_cyrodiilic_suzerain_interaction_desc
+
+	is_shown = {
+		scope:recipient = { culture = { has_cultural_parameter = can_create_cyrodiilic_subjects_cultures } }
+		scope:actor = {
+			NOT = { this = scope:recipient }
+			is_landed = yes
+			is_independent_ruler = no
+			this = culture.culture_head	
+			top_liege = scope:recipient
+			culture = { 
+				NOR = { 
+					has_same_culture_heritage = scope:recipient.culture 
+					has_cultural_parameter = can_remove_cyrodiilic_subject_with_conditions #they aren't already Imperial Scion
+				}
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		scope:recipient = { 
+			is_at_war = no 
+		}
+		# this stuff sorta breaks if the actor culture is Cyrodiilic - just adopt Imperial Legacy directly!
+		custom_tooltip = {
+			text = actor_cyrodiilic_subject_interaction_not_cyrodiilic
+			scope:actor = {
+				NOT = {
+					culture = {
+						has_cultural_pillar = heritage_cyrodiilic
+					}
+				}
+			}	
+		}		
+		# doesn't make sense if they're already Imperial Legacy
+		custom_tooltip = {
+			text = actor_cyrodiilic_subject_interaction_not_imperial_legacy
+			scope:actor = {
+				NOT = {
+					culture = {
+						has_cultural_parameter = can_create_cyrodiilic_subjects_cultures
+					}
+				}
+			}	
+		}		
+	}
+
+	is_valid = {
+		custom_tooltip = {
+			text = actor_cyrodiilic_subject_interaction_no_other_scion
+			NOT = {
+				any_culture_global = {
+					has_same_culture_heritage = scope:actor.culture 
+					has_cultural_parameter = can_remove_cyrodiilic_subject_with_conditions
+				}
+			}
+		}
+	}
+
+	greeting = positive
+	notification_text = OFFER_CYRODIILIC_SUZERAIN_INTERACTION_NOTIFICATION
+
+	ai_min_reply_days = 5
+	ai_max_reply_days = 10
+
+	ai_accept = {
+		base = 50
+		modifier = { # Different faith, no pluralism.
+			desc = offer_vassalization_interaction_aibehavior_differentfaith_tt
+			trigger = {
+				scope:actor = {
+					NOR = { # Of two different faiths AND the potential vassal's faith is not pluralistic.
+						faith = scope:recipient.faith
+						faith = { has_doctrine = doctrine_pluralism_pluralistic }
+					}
+				}
+			}
+			add = {
+				value = -25
+				if = {
+					limit = {
+						scope:actor.faith = {
+							faith_hostility_level = {
+								target = scope:recipient.faith
+								value >= faith_hostile_level
+							}
+						}
+					}
+					add = -10
+				}
+				if = {
+					limit = {
+						scope:actor.faith = {
+							faith_hostility_level = {
+								target = scope:recipient.faith
+								value >= faith_evil_level
+							}
+						}
+					}
+					add = -25
+				}
+			}
+		}
+
+		# MINOR
+		modifier = { # Rivalry modifier.
+			desc = offer_vassalization_interaction_aibehavior_rival_tt
+			trigger = {
+				scope:recipient = {
+					has_relation_rival = scope:actor
+					NOT = { has_relation_nemesis = scope:actor }
+				}
+			}
+			add = -10
+		}
+		modifier = { # Nemesis modifier.
+			desc = offer_vassalization_interaction_aibehavior_nemesis_tt
+			trigger = {
+				scope:recipient = {
+					has_relation_nemesis = scope:actor
+				}
+			}
+			add = -30
+		}
+		modifier = { # Same Dynasty modifier.
+			desc = offer_vassalization_interaction_aibehavior_dynasty_tt
+			trigger = {
+				scope:recipient = {
+					dynasty = scope:actor.dynasty
+				}
+			}
+			add = 10
+		}
+
+		modifier = { # Cultural Acceptance
+			add = -5
+			desc = cultural_acceptance_interaction_reason
+			trigger = {
+				scope:actor = {
+					NOT = { has_same_culture_as = scope:recipient }
+					culture = {
+						cultural_acceptance = { target = scope:recipient.culture value < 50 }
+					}
+				}
+			}
+		}
+
+		modifier = { # Same language
+			add = 5
+			desc = speaks_same_language_interaction_reason
+			trigger = {
+				scope:actor = {
+					knows_language_of_culture = scope:recipient.culture
+				}
+			}
+		}
+
+		modifier = { # Claimant modifier.
+			desc = offer_vassalization_interaction_aibehavior_claimant_tt
+			trigger = {
+				scope:actor.primary_title = {
+					scope:recipient = {
+						has_claim_on = prev
+					}
+				}
+			}
+			add = -15
+		}
+
+		# OPINION INFLUENCE
+		opinion_modifier = { # Compare Opinion modifier.
+			who = scope:recipient
+			opinion_target = scope:actor
+			multiplier = 0.5
+		}
+	}
+
+	on_accept = {
+		scope:actor = { 
+			add_prestige = major_prestige_value #you don't gain gold when you make the proposal towards your suzerain
+			trigger_event = ek_char_interaction.0003
+		}
+		scope:actor.culture = { 
+			custom_tooltip = {
+				text = actor_gains_imperial_scion_tradition
+				add_culture_tradition = tradition_cyrodiilic_subject 
+			}
+			custom_tooltip = {
+				text = actor_every_culture_county_ek_recent_imperialization
+				every_culture_county = {
+					add_county_modifier = { modifier = ek_recent_imperialization years = 20 }
+				}
+			}
+			custom_tooltip = {
+				text = actor_imperial_scion_tradition_cultural_acceptance_gain
+				every_culture_global = {
+					limit = { 
+						has_same_culture_heritage = scope:recipient.culture
+					}
+					change_cultural_acceptance = {
+						target = scope:actor.culture
+						value = major_cultural_acceptance_gain
+						desc = imperial_scion_tradition_gain
+					}
+				}				
+			}
+			custom_tooltip = {
+				text = actor_imperial_scion_tradition_cultural_acceptance_loss
+				every_culture_global = {
+					limit = { 
+						NOT = { this = prev }
+						has_same_culture_heritage = prev 
+					}
+					change_cultural_acceptance = {
+						target = prev
+						value = major_cultural_acceptance_loss
+						desc = imperial_scion_tradition_loss
+					}
+				}
+			}
+		}
+		scope:recipient = {
+			# every vassal of the Scion culture gains cultural rights so that their liege won't just start converting their counties
+			custom_tooltip = {
+				text = actor_cyrodiilic_subject_gains_cultural_rights
+				every_vassal = {
+					limit = { 
+						culture = scope:actor.culture
+						NOT = { vassal_contract_has_flag = culturally_protected } # check that they don't already have them
+					} 
+					vassal_contract_set_obligation_level = { type = cultural_rights level = 1 }
+				}
+			}
+		}
+	}
+
+	on_decline = {
+		scope:actor = {
+			trigger_event = ek_char_interaction.0004
+		}
+	}
+}

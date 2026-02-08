@@ -1,0 +1,102 @@
+﻿namespace = ek_death_management
+### EK ADDITION: for when Know Thyself triggers but you don't actually die because you became immortal in the meanwhile
+
+ek_death_management.0001 = {
+	type = character_event
+	title = ek_death_management.0001.t
+	theme = death
+
+	trigger = {
+		is_immortal = yes 
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_trait = lich_character
+				}
+				desc = ek_death_management.0001.lich.desc
+			}	
+			triggered_desc = {	
+				trigger = {
+					scope:spelling = flag:vampire
+					OR = {
+						has_trait = vampire_character
+						has_trait = reclusive_vampire
+					}
+				}
+				desc = ek_death_management.0001.vampire.desc	
+			}
+			triggered_desc = {	
+				trigger = {
+					scope:spelling = flag:vampyre #plotting
+					OR = {
+						has_trait = vampire_character
+						has_trait = reclusive_vampire
+					}
+				}
+				desc = ek_death_management.0001.vampyre.desc #fullerton was here
+			}
+			#triggered_desc = { EK TODO: uncomment when you can become briarheart
+			#	trigger = {
+			#		has_trait = briarheart
+			#	}
+			#	desc = ek_death_management.0001.briarheart.desc
+			#}	
+			desc = ek_death_management.0001.lifespan_6.desc
+		}	
+	}
+
+	immediate = {
+		#Vampire/vampyre check for descs
+		random_list = {
+			9 = { save_scope_value_as = { name = spelling value = flag:vampire } }
+			1 = { save_scope_value_as = { name = spelling value = flag:vampyre } } #evil and zany
+		}
+	}
+
+	left_portrait = root
+
+	option = {
+		name = ek_death_management.0001.lich.a
+		trigger = {
+			has_trait = lich_character
+		}
+		add_prestige = 500
+		add_stress = -30
+	}	
+	option = {
+		name = ek_death_management.0001.vampire.a
+		trigger = {
+			OR = {
+				has_trait = vampire_character
+				has_trait = reclusive_vampire
+			}	
+		}
+		add_prestige = 500
+		add_stress = -30
+	}	
+	#option = {
+	#	name = ek_death_management.0001.briarheart.a
+	#	trigger = {
+	#		has_trait = briarheart
+	#	}
+	#
+	#add_prestige = 500
+	#add_stress = -30
+	#}	
+	option = {
+		name = ek_death_management.0001.lifespan_6.a
+		trigger = {
+			NOR = {
+				has_trait = lich_character
+				has_trait = vampire_character
+				has_trait = reclusive_vampire
+				#has_trait = briarheart
+			}
+		}
+		add_prestige = 500
+		add_stress = -30
+	}	
+}

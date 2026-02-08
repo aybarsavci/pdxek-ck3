@@ -1,0 +1,1328 @@
+﻿### BONUS SCALING WITH DEVOTION
+has_character_modifier_scaling_devotion = {
+	OR = {
+		has_character_modifier = $MODIFIER$_0
+		has_character_modifier = $MODIFIER$_1
+		has_character_modifier = $MODIFIER$_2
+		has_character_modifier = $MODIFIER$_3
+		has_character_modifier = $MODIFIER$_4
+		has_character_modifier = $MODIFIER$_5
+	}
+}
+
+### PANTHEON
+
+is_daedric_prince_religion_tag = {
+	OR = {
+		religion_tag = azura_religion
+		religion_tag = boethiah_religion
+		religion_tag = clavicus_religion
+		religion_tag = hermaeus_religion
+		religion_tag = hircine_religion
+		religion_tag = malacath_religion
+		religion_tag = mehrunes_religion
+		religion_tag = mephala_religion
+		religion_tag = meridia_religion
+		religion_tag = molag_religion
+		religion_tag = namira_religion
+		religion_tag = nocturnal_religion
+		religion_tag = peryite_religion
+		religion_tag = sanguine_religion
+		religion_tag = sheogorath_religion
+		religion_tag = vaermina_religion
+	}
+}
+
+faith_is_centered_daedric_princes = {
+	OR = {
+		has_doctrine = doctrine_pantheon_daedra
+		# Prince specific
+		has_doctrine = doctrine_pantheon_azura
+		has_doctrine = doctrine_pantheon_boethiah
+		has_doctrine = doctrine_pantheon_clavicus
+		has_doctrine = doctrine_pantheon_hermaeus
+		has_doctrine = doctrine_pantheon_hircine
+		has_doctrine = doctrine_pantheon_malacath
+		has_doctrine = doctrine_pantheon_mehrunes
+		has_doctrine = doctrine_pantheon_mephala
+		has_doctrine = doctrine_pantheon_meridia
+		has_doctrine = doctrine_pantheon_molag
+		has_doctrine = doctrine_pantheon_namira
+		has_doctrine = doctrine_pantheon_nocturnal
+		has_doctrine = doctrine_pantheon_peryite
+		has_doctrine = doctrine_pantheon_sanguine
+		has_doctrine = doctrine_pantheon_sheogorath
+		has_doctrine = doctrine_pantheon_vaermina
+		# Special group of princes
+		has_doctrine = doctrine_pantheon_good_daedra
+		has_doctrine = doctrine_pantheon_bad_daedra
+		has_doctrine = doctrine_pantheon_ten_ancestors
+		has_doctrine = doctrine_pantheon_old_gods
+		# Secondary Pantheon
+		has_doctrine = doctrine_sp_daedra
+		has_doctrine = doctrine_sp_good_daedra
+	}
+}
+
+### Scripted Triggers when creating a faith
+can_see_doctrine_pantheon_daedra = {
+	OR = {
+		doctrine:doctrine_main_pantheon_type_daedric_prince = { is_in_list = selected_doctrines }
+	}
+}
+
+## Daedric Worship
+creating_faith_doctrine_adds_azura = {
+	custom_tooltip = {
+		text = FAITH_MUST_ALLOW_PATRON_AZURA
+		OR = {
+			doctrine:tenet_esotericism = { is_in_list = selected_doctrines }
+			doctrine:tenet_legalism = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_good_daedra = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_khajiiti = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_riddlethar = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_daedra_azura = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_good_daedra_azura = { is_in_list = selected_doctrines }
+		}
+	}
+}
+
+creating_faith_doctrine_adds_boethiah = {
+	custom_tooltip = {
+		text = FAITH_MUST_ALLOW_PATRON_BOETHIAH
+		OR = {
+			doctrine:tenet_unrelenting_faith = { is_in_list = selected_doctrines }
+			doctrine:tenet_sacred_shadows = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_good_daedra = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_khajiiti = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_daedra_boethiah = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_good_daedra_boethiah = { is_in_list = selected_doctrines }
+		}
+	}
+}
+
+creating_faith_doctrine_adds_clavicus = {
+	custom_tooltip = {
+		text = FAITH_MUST_ALLOW_PATRON_CLAVICUS
+		OR = {
+			doctrine:tenet_lifestyle_ste_faith = { is_in_list = selected_doctrines }
+			doctrine:tenet_daedric_bargains = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_daedra_clavicus = { is_in_list = selected_doctrines }
+		}
+	}
+}
+
+creating_faith_doctrine_adds_hermaeus = {
+	custom_tooltip = {
+		text = FAITH_MUST_ALLOW_PATRON_HERMAEUS
+		OR = {
+			doctrine:tenet_lifestyle_lea_faith = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_khajiiti = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_daedra_hermaeus = { is_in_list = selected_doctrines }
+		}
+	}
+}
+
+creating_faith_doctrine_adds_hircine = {
+	custom_tooltip = {
+		text = FAITH_MUST_ALLOW_PATRON_HIRCINE
+		OR = {
+			doctrine:doctrine_lycanthropy_accepted = { is_in_list = selected_doctrines }
+			doctrine:doctrine_lycanthropy_virtuous = { is_in_list = selected_doctrines }
+			doctrine:tenet_ritual_hunts = { is_in_list = selected_doctrines }
+			doctrine:tenet_sanctity_of_nature = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_khajiiti = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_riddlethar = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_daedra_hircine = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_ten_ancestors = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_old_gods = { is_in_list = selected_doctrines }
+		}
+	}
+}
+
+creating_faith_doctrine_adds_malacath = {
+	custom_tooltip = {
+		text = FAITH_MUST_ALLOW_PATRON_MALACATH
+		OR = {
+			doctrine:tenet_contempt_for_the_weak = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_bad_daedra = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_daedra_malacath = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_old_gods = { is_in_list = selected_doctrines }
+		}
+	}
+}
+
+creating_faith_doctrine_adds_mehrunes = {
+	custom_tooltip = {
+		text = FAITH_MUST_ALLOW_PATRON_MEHRUNES
+		OR = {
+			doctrine:tenet_pursuit_of_power = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_bad_daedra = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_daedra_mehrunes = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_ten_ancestors = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_old_gods = { is_in_list = selected_doctrines }
+		}
+	}
+}
+
+creating_faith_doctrine_adds_mephala = {
+	custom_tooltip = {
+		text = FAITH_MUST_ALLOW_PATRON_MEPHALA
+		OR = {
+			doctrine:tenet_lifestyle_int_faith = { is_in_list = selected_doctrines }
+			doctrine:tenet_sacred_shadows = { is_in_list = selected_doctrines }
+			doctrine:tenet_false_conversion_sanction = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_good_daedra = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_khajiiti = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_daedra_mephala = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_good_daedra_mephala = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_ten_ancestors = { is_in_list = selected_doctrines }
+		}
+	}
+}
+
+creating_faith_doctrine_adds_meridia = {
+	custom_tooltip = {
+		text = FAITH_MUST_ALLOW_PATRON_MERIDIA
+		OR = {
+			doctrine:tenet_sanctity_of_life = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_daedra_meridia = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_magna_ge_meridnunda = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_magna_ge = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_ten_ancestors = { is_in_list = selected_doctrines }
+		}
+	}
+}
+
+creating_faith_doctrine_adds_molag = {
+	custom_tooltip = {
+		text = FAITH_MUST_ALLOW_PATRON_MOLAG
+		OR = {
+			doctrine:doctrine_vampirism_accepted = { is_in_list = selected_doctrines }
+			doctrine:doctrine_vampirism_virtuous = { is_in_list = selected_doctrines }
+			doctrine:tenet_human_sacrifice = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_bad_daedra = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_daedra_molag = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_ten_ancestors = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_old_gods = { is_in_list = selected_doctrines }
+		}
+	}
+}
+
+creating_faith_doctrine_adds_namira = {
+	custom_tooltip = {
+		text = FAITH_MUST_ALLOW_PATRON_NAMIRA
+		OR = {
+			doctrine:tenet_vows_of_squalor = { is_in_list = selected_doctrines }
+			doctrine:tenet_adorcism = { is_in_list = selected_doctrines }
+			doctrine:tenet_ritual_cannibalism = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_daedra_namira = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_ten_ancestors = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_old_gods = { is_in_list = selected_doctrines }
+		}
+	}
+}
+
+creating_faith_doctrine_adds_nocturnal = {
+	custom_tooltip = {
+		text = FAITH_MUST_ALLOW_PATRON_NOCTURNAL
+		OR = {
+			doctrine:tenet_lifestyle_int_faith = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_khajiiti = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_daedra_nocturnal = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_ten_ancestors = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_old_gods = { is_in_list = selected_doctrines }
+		}
+	}
+}
+
+creating_faith_doctrine_adds_peryite = {
+	custom_tooltip = {
+		text = FAITH_MUST_ALLOW_PATRON_PERYITE
+		OR = {
+			doctrine:tenet_veneration_of_diseases = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_daedra_peryite = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_ten_ancestors = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_old_gods = { is_in_list = selected_doctrines }
+		}
+	}
+}
+
+creating_faith_doctrine_adds_sanguine = {
+	custom_tooltip = {
+		text = FAITH_MUST_ALLOW_PATRON_SANGUINE
+		OR = {
+			doctrine:tenet_carnal_exaltation = { is_in_list = selected_doctrines }
+			doctrine:tenet_hedonistic = { is_in_list = selected_doctrines }
+			doctrine:doctrine_deviancy_virtuous = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_daedra_sanguine = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_ten_ancestors = { is_in_list = selected_doctrines }
+		}
+	}
+}
+
+creating_faith_doctrine_adds_sheogorath = {
+	custom_tooltip = {
+		text = FAITH_MUST_ALLOW_PATRON_SHEOGORATH
+		OR = {
+			doctrine:tenet_radical_detachment = { is_in_list = selected_doctrines }
+			doctrine:tenet_thriving_in_chaos = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_bad_daedra = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_daedra_sheogorath = { is_in_list = selected_doctrines }
+		}
+	}
+}
+
+creating_faith_doctrine_adds_vaermina = {
+	custom_tooltip = {
+		text = FAITH_MUST_ALLOW_PATRON_VAERMINA
+		OR = {
+			doctrine:tenet_sacred_alchemy = { is_in_list = selected_doctrines }
+			doctrine:tenet_ritual_nightmares = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sp_daedra_vaermina = { is_in_list = selected_doctrines }
+			doctrine:doctrine_pantheon_ten_ancestors = { is_in_list = selected_doctrines }
+		}
+	}
+}
+
+## Does this faith allow Daedric patrons
+creating_faith_allow_daedric_patrons = {
+	NOT = { creating_faith_pantheon_cannot_be_changed_active = yes }
+}
+
+## Any pantheon doctrine with pantheon_cannot_be_changed_active = yes
+creating_faith_pantheon_cannot_be_changed_active = {
+	doctrine:doctrine_main_pantheon_type_monolatrism = { is_in_list = selected_doctrines }
+}
+
+creating_faith_has_daedric_prince_allowed = {
+	OR = {
+		doctrine:doctrine_azura_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_boethiah_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_clavicus_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_hermaeus_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_hircine_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_malacath_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_mehrunes_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_mephala_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_meridia_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_molag_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_namira_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_nocturnal_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_peryite_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_sanguine_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_sheogorath_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_vaermina_pantheon = { is_in_list = selected_doctrines }
+	}
+}
+
+creating_faith_has_daedric_prince_pantheon = {
+	OR = {
+		doctrine:doctrine_azura_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_boethiah_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_clavicus_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_hermaeus_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_hircine_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_malacath_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_mehrunes_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_mephala_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_meridia_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_molag_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_namira_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_nocturnal_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_peryite_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_sanguine_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_sheogorath_pantheon = { is_in_list = selected_doctrines }
+		doctrine:doctrine_vaermina_pantheon = { is_in_list = selected_doctrines }
+	}
+}
+
+creating_faith_has_several_daedric_princes_pantheon = {
+	custom_description = {
+		text = creating_faith_has_several_daedric_princes_pantheon_trigger
+		calc_true_if = {
+			amount >= 2
+			doctrine:doctrine_azura_pantheon = { is_in_list = selected_doctrines }
+			doctrine:doctrine_boethiah_pantheon = { is_in_list = selected_doctrines }
+			doctrine:doctrine_clavicus_pantheon = { is_in_list = selected_doctrines }
+			doctrine:doctrine_hermaeus_pantheon = { is_in_list = selected_doctrines }
+			doctrine:doctrine_hircine_pantheon = { is_in_list = selected_doctrines }
+			doctrine:doctrine_malacath_pantheon = { is_in_list = selected_doctrines }
+			doctrine:doctrine_mehrunes_pantheon = { is_in_list = selected_doctrines }
+			doctrine:doctrine_mephala_pantheon = { is_in_list = selected_doctrines }
+			doctrine:doctrine_meridia_pantheon = { is_in_list = selected_doctrines }
+			doctrine:doctrine_molag_pantheon = { is_in_list = selected_doctrines }
+			doctrine:doctrine_namira_pantheon = { is_in_list = selected_doctrines }
+			doctrine:doctrine_nocturnal_pantheon = { is_in_list = selected_doctrines }
+			doctrine:doctrine_peryite_pantheon = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sanguine_pantheon = { is_in_list = selected_doctrines }
+			doctrine:doctrine_sheogorath_pantheon = { is_in_list = selected_doctrines }
+			doctrine:doctrine_vaermina_pantheon = { is_in_list = selected_doctrines }
+		}
+	}
+}
+
+creating_faith_daedric_monolatrism_picked_right_daedra_or_none = {
+	OR = {
+		NOT = {
+			calc_true_if = {
+				amount >= 1
+				doctrine:doctrine_azura_pantheon = { is_in_list = selected_doctrines }
+				doctrine:doctrine_boethiah_pantheon = { is_in_list = selected_doctrines }
+				doctrine:doctrine_clavicus_pantheon = { is_in_list = selected_doctrines }
+				doctrine:doctrine_hermaeus_pantheon = { is_in_list = selected_doctrines }
+				doctrine:doctrine_hircine_pantheon = { is_in_list = selected_doctrines }
+				doctrine:doctrine_malacath_pantheon = { is_in_list = selected_doctrines }
+				doctrine:doctrine_mehrunes_pantheon = { is_in_list = selected_doctrines }
+				doctrine:doctrine_mephala_pantheon = { is_in_list = selected_doctrines }
+				doctrine:doctrine_meridia_pantheon = { is_in_list = selected_doctrines }
+				doctrine:doctrine_molag_pantheon = { is_in_list = selected_doctrines }
+				doctrine:doctrine_namira_pantheon = { is_in_list = selected_doctrines }
+				doctrine:doctrine_nocturnal_pantheon = { is_in_list = selected_doctrines }
+				doctrine:doctrine_peryite_pantheon = { is_in_list = selected_doctrines }
+				doctrine:doctrine_sanguine_pantheon = { is_in_list = selected_doctrines }
+				doctrine:doctrine_sheogorath_pantheon = { is_in_list = selected_doctrines }
+				doctrine:doctrine_vaermina_pantheon = { is_in_list = selected_doctrines }
+			}
+		}
+		doctrine:doctrine_$DAEDRA$_pantheon = { is_in_list = selected_doctrines }
+	}
+}
+
+### Secret Daedric Worship
+# Can you secretly worship X daedra
+can_secretly_worship_daedra = { # Can you secretly worship at least one Daedric Prince
+	OR = {
+		can_secretly_worship_azura = yes
+		can_secretly_worship_boethiah = yes
+		can_secretly_worship_clavicus = yes
+		can_secretly_worship_hermaeus = yes
+		can_secretly_worship_hircine = yes
+		can_secretly_worship_malacath = yes
+		can_secretly_worship_mehrunes = yes
+		can_secretly_worship_mephala = yes
+		can_secretly_worship_meridia = yes
+		can_secretly_worship_molag = yes
+		can_secretly_worship_namira = yes
+		can_secretly_worship_nocturnal = yes
+		can_secretly_worship_peryite = yes
+		can_secretly_worship_sanguine = yes
+		can_secretly_worship_sheogorath = yes
+		can_secretly_worship_vaermina = yes
+	}
+}
+
+can_secretly_worship_prince = {
+	faith = {
+		OR = {
+			has_doctrine_parameter = worship_$PRINCE$_shunned_active
+			has_doctrine_parameter = worship_$PRINCE$_criminal_active
+		}
+	}
+	NOT = {
+		any_secret = { secret_type = secret_crypto_religionist } #secret faiths cannot be stacked
+	}
+}
+
+can_secretly_worship_azura = {
+	can_secretly_worship_prince = { PRINCE = azura }
+}
+
+can_secretly_worship_boethiah = {
+	can_secretly_worship_prince = { PRINCE = boethiah }
+}
+
+can_secretly_worship_clavicus = {
+	can_secretly_worship_prince = { PRINCE = clavicus }
+}
+
+can_secretly_worship_hermaeus = {
+	can_secretly_worship_prince = { PRINCE = hermaeus }
+}
+
+can_secretly_worship_hircine = {
+	can_secretly_worship_prince = { PRINCE = hircine }
+}
+
+can_secretly_worship_malacath = {
+	can_secretly_worship_prince = { PRINCE = malacath }
+}
+
+can_secretly_worship_mehrunes = {
+	can_secretly_worship_prince = { PRINCE = mehrunes }
+}
+
+can_secretly_worship_mephala = {
+	can_secretly_worship_prince = { PRINCE = mephala }
+}
+
+can_secretly_worship_meridia = {
+	can_secretly_worship_prince = { PRINCE = meridia }
+	# no fun allowed :(
+	is_hated_meridia = no
+}
+
+can_secretly_worship_molag = {
+	can_secretly_worship_prince = { PRINCE = molag }
+}
+
+can_secretly_worship_namira = {
+	can_secretly_worship_prince = { PRINCE = namira }
+}
+
+can_secretly_worship_nocturnal = {
+	can_secretly_worship_prince = { PRINCE = nocturnal }
+}
+
+can_secretly_worship_peryite = {
+	can_secretly_worship_prince = { PRINCE = peryite }
+}
+
+can_secretly_worship_sanguine = {
+	can_secretly_worship_prince = { PRINCE = sanguine }
+}
+
+can_secretly_worship_sheogorath = {
+	can_secretly_worship_prince = { PRINCE = sheogorath }
+}
+
+can_secretly_worship_vaermina = {
+	can_secretly_worship_prince = { PRINCE = vaermina }
+}
+
+# Are you currently worshipping X daedra
+is_secretly_worshipping_daedra = { # Is currently secretly worshipping at least one Daedric Prince
+	OR = {
+		is_secretly_worshipping_azura = yes
+		is_secretly_worshipping_boethiah = yes
+		is_secretly_worshipping_clavicus = yes
+		is_secretly_worshipping_hermaeus = yes
+		is_secretly_worshipping_hircine = yes
+		is_secretly_worshipping_malacath = yes
+		is_secretly_worshipping_mehrunes = yes
+		is_secretly_worshipping_mephala = yes
+		is_secretly_worshipping_meridia = yes
+		is_secretly_worshipping_molag = yes
+		is_secretly_worshipping_namira = yes
+		is_secretly_worshipping_nocturnal = yes
+		is_secretly_worshipping_peryite = yes
+		is_secretly_worshipping_sanguine = yes
+		is_secretly_worshipping_sheogorath = yes
+		is_secretly_worshipping_vaermina = yes
+	}
+}
+
+is_secretly_worshipping_prince = {
+	AND = {
+		any_secret = { secret_type = secret_crypto_religionist }
+		secret_faith = { has_doctrine = doctrine_pantheon_$PRINCE$ }
+	}
+}
+
+is_secretly_worshipping_azura = {
+	is_secretly_worshipping_prince = { PRINCE = azura }
+}
+
+is_secretly_worshipping_boethiah = {
+	is_secretly_worshipping_prince = { PRINCE = boethiah }
+}
+
+is_secretly_worshipping_clavicus = {
+	is_secretly_worshipping_prince = { PRINCE = clavicus }
+}
+
+is_secretly_worshipping_hermaeus = {
+	is_secretly_worshipping_prince = { PRINCE = hermaeus }
+}
+
+is_secretly_worshipping_hircine = {
+	is_secretly_worshipping_prince = { PRINCE = hircine }
+}
+
+is_secretly_worshipping_malacath = {
+	is_secretly_worshipping_prince = { PRINCE = malacath }
+}
+
+is_secretly_worshipping_mehrunes = {
+	is_secretly_worshipping_prince = { PRINCE = mehrunes }
+}
+
+is_secretly_worshipping_mephala = {
+	is_secretly_worshipping_prince = { PRINCE = mephala	}
+}
+
+is_secretly_worshipping_meridia = {
+	is_secretly_worshipping_prince = { PRINCE = meridia }
+}
+
+is_secretly_worshipping_molag = {
+	is_secretly_worshipping_prince = { PRINCE = molag }
+}
+
+is_secretly_worshipping_namira = {
+	is_secretly_worshipping_prince = { PRINCE = namira }
+}
+
+is_secretly_worshipping_nocturnal = {
+	is_secretly_worshipping_prince = { PRINCE = nocturnal }
+}
+
+is_secretly_worshipping_peryite = {
+	is_secretly_worshipping_prince = { PRINCE = peryite }
+}
+
+is_secretly_worshipping_sanguine = {
+	is_secretly_worshipping_prince = { PRINCE = sanguine }
+}
+
+is_secretly_worshipping_sheogorath = {
+	is_secretly_worshipping_prince = { PRINCE = sheogorath }
+}
+
+is_secretly_worshipping_vaermina = {
+	is_secretly_worshipping_prince = { PRINCE = vaermina }
+}
+
+### Do these faiths have the same pantheon?
+# Needs FAITH1 and FAITH2
+faiths_have_same_pantheon = {
+	### Polytheism
+	trigger_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_divines } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_divines }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_heroes } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_heroes }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_thousand_cults } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_thousand_cults }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_nedic_aedra } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_nedic_aedra }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_aedra } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_aedra }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_green_pact } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_green_pact }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_yokudan } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_yokudan }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_ragada } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_ragada }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_dwemer_ancestors } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_dwemer_ancestors }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_good_daedra } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_good_daedra }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_bad_daedra } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_bad_daedra }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_tribunal } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_tribunal }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_nerevar } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_nerevar }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_atmoran_totems } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_atmoran_totems }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_elemental } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_elemental }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_riddlethar } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_riddlethar }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_redguard } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_redguard }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_nord } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_nord }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_khajiiti } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_khajiiti }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_green_pact } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_green_pact }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_forgotten_gods } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_forgotten_gods }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_magna_ge } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_magna_ge }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_ten_ancestors} }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_ten_ancestors }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_old_gods} }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_old_gods }
+	}
+
+	### Daedric Monolatrism
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_azura } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_azura }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_boethiah } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_boethiah }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_clavicus } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_clavicus }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_hermaeus } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_hermaeus }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_hircine } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_hircine }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_malacath } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_malacath }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_mehrunes } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_mehrunes }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_mephala } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_mephala }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_meridia } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_meridia }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_molag } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_molag }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_namira } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_namira }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_nocturnal } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_nocturnal }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_peryite } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_peryite }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_sanguine } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_sanguine }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_sheogorath } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_sheogorath }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_vaermina } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_vaermina }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_reman } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_reman }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_trinimac } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_trinimac }
+	}
+
+	### Monolatrism
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_the_one } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_the_one }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_lorkhan } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_lorkhan }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_ancestor_moth } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_ancestor_moth }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_herd_mother } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_herd_mother }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_druadach } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_druadach }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_dragons } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_dragons }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_all_maker } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_all_maker }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_celestials } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_celestials }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_celestial_serpent } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_celestial_serpent }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_magnus } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_magnus }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_jephre } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_jephre }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_baandar } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_baandar }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_deepones } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_deepones }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_hist } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_hist }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_sithis } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_sithis }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_ghost_snake } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_ghost_snake }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_mannimarco } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_mannimarco }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_ideal_masters } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_ideal_masters }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_stones } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_stones }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_lamae } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_lamae }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_dagoth } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_dagoth }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_wilderking } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_wilderking }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_ius } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_ius }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_anui_el } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_anui_el }
+	}
+	trigger_else_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_pantheon_satakal } }
+		$FAITH2$ = { has_doctrine = doctrine_pantheon_satakal }
+	}
+	# Default, nope
+	trigger_else = { always = no }
+}
+
+# Does FAITH2 have FAITH1 pantheon as secondary panth? (Or the opposite)
+faiths_syncretize_each_other = {
+	trigger_if = {
+		limit = {
+			OR = {
+				$FAITH1$ = { has_doctrine = doctrine_sp_divines }
+				$FAITH2$ = { has_doctrine = doctrine_sp_divines }
+			}
+		}
+		OR = {
+			$FAITH1$ = { has_doctrine = doctrine_pantheon_divines }
+			$FAITH2$ = { has_doctrine = doctrine_pantheon_divines }
+		}
+	}
+	trigger_else_if = {
+		limit = {
+			OR = {
+				$FAITH1$ = { has_doctrine = doctrine_sp_redguard }
+				$FAITH2$ = { has_doctrine = doctrine_sp_redguard }
+			}
+		}
+		OR = {
+			$FAITH1$ = { has_doctrine = doctrine_pantheon_redguard }
+			$FAITH2$ = { has_doctrine = doctrine_pantheon_redguard }
+		}
+	}
+	trigger_else_if = {
+		limit = {
+			OR = {
+				$FAITH1$ = { has_doctrine = doctrine_sp_nord }
+				$FAITH2$ = { has_doctrine = doctrine_sp_nord }
+			}
+		}
+		OR = {
+			$FAITH1$ = { has_doctrine = doctrine_pantheon_nord }
+			$FAITH2$ = { has_doctrine = doctrine_pantheon_nord }
+		}
+	}
+	trigger_else_if = {
+		limit = {
+			OR = {
+				$FAITH1$ = { has_doctrine = doctrine_sp_nedic_aedra }
+				$FAITH2$ = { has_doctrine = doctrine_sp_nedic_aedra }
+			}
+		}
+		OR = {
+			$FAITH1$ = { has_doctrine = doctrine_pantheon_nedic_aedra }
+			$FAITH2$ = { has_doctrine = doctrine_pantheon_nedic_aedra }
+		}
+	}
+	trigger_else_if = {
+		limit = {
+			OR = {
+				$FAITH1$ = { has_doctrine = doctrine_sp_aedra }
+				$FAITH2$ = { has_doctrine = doctrine_sp_aedra }
+			}
+		}
+		OR = {
+			$FAITH1$ = { has_doctrine = doctrine_pantheon_aedra }
+			$FAITH2$ = { has_doctrine = doctrine_pantheon_aedra }
+		}
+	}
+	trigger_else_if = {
+		limit = {
+			OR = {
+				$FAITH1$ = { has_doctrine = doctrine_sp_daedra }
+				$FAITH2$ = { has_doctrine = doctrine_sp_daedra }
+			}
+		}
+		OR = {
+			$FAITH1$ = { has_doctrine = doctrine_pantheon_daedra }
+			$FAITH2$ = { has_doctrine = doctrine_pantheon_daedra }
+		}
+	}
+	trigger_else_if = {
+		limit = {
+			OR = {
+				$FAITH1$ = { has_doctrine = doctrine_sp_atmoran_totems }
+				$FAITH2$ = { has_doctrine = doctrine_sp_atmoran_totems }
+			}
+		}
+		OR = {
+			$FAITH1$ = { has_doctrine = doctrine_pantheon_atmoran_totems }
+			$FAITH2$ = { has_doctrine = doctrine_pantheon_atmoran_totems }
+		}
+	}
+	trigger_else_if = {
+		limit = {
+			OR = {
+				$FAITH1$ = { has_doctrine = doctrine_sp_good_daedra }
+				$FAITH2$ = { has_doctrine = doctrine_sp_good_daedra }
+			}
+		}
+		OR = {
+			$FAITH1$ = { has_doctrine = doctrine_pantheon_good_daedra }
+			$FAITH2$ = { has_doctrine = doctrine_pantheon_good_daedra }
+		}
+	}
+	trigger_else_if = { #Reins note to self: Something about the ordering here matters for faith hostility. (maybe??) Look into that maybe re: faith creation and weird inconsistencies
+		limit = {
+			OR = {
+				$FAITH1$ = { has_doctrine = doctrine_sp_nerevar }
+				$FAITH2$ = { has_doctrine = doctrine_sp_nerevar }
+			}
+		}
+		OR = {
+			$FAITH1$ = { has_doctrine = doctrine_pantheon_nerevar }
+			$FAITH2$ = { has_doctrine = doctrine_pantheon_nerevar }
+		}
+	}
+	trigger_else_if = {
+		limit = {
+			OR = {
+				$FAITH1$ = { has_doctrine = doctrine_sp_magna_ge }
+				$FAITH2$ = { has_doctrine = doctrine_sp_magna_ge }
+			}
+		}
+		OR = {
+			$FAITH1$ = { has_doctrine = doctrine_pantheon_magna_ge }
+			$FAITH2$ = { has_doctrine = doctrine_pantheon_magna_ge }
+		}
+	}
+	trigger_else_if = {
+		limit = {
+			OR = {
+				$FAITH1$ = { has_doctrine = doctrine_sp_heroes }
+				$FAITH2$ = { has_doctrine = doctrine_sp_heroes }
+			}
+		}
+		OR = {
+			$FAITH1$ = { has_doctrine = doctrine_pantheon_heroes }
+			$FAITH2$ = { has_doctrine = doctrine_pantheon_heroes }
+		}
+	}
+	trigger_else_if = {
+		limit = {
+			OR = {
+				$FAITH1$ = { has_doctrine = doctrine_sp_reman }
+				$FAITH2$ = { has_doctrine = doctrine_sp_reman }
+			}
+		}
+		OR = {
+			$FAITH1$ = { has_doctrine = doctrine_pantheon_reman }
+			$FAITH2$ = { has_doctrine = doctrine_pantheon_reman }
+		}
+	}
+	trigger_else_if = {
+		limit = {
+			OR = {
+				$FAITH1$ = { has_doctrine = doctrine_sp_trinimac }
+				$FAITH2$ = { has_doctrine = doctrine_sp_trinimac }
+			}
+		}
+		OR = {
+			$FAITH1$ = { has_doctrine = doctrine_pantheon_trinimac }
+			$FAITH2$ = { has_doctrine = doctrine_pantheon_trinimac }
+		}
+	}
+	trigger_else = { always = no }
+}
+
+# Various oppositions
+faiths_doctrine_daedra_pantheon_vs_doctrine_daedra_criminal = {
+	trigger_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_$DAEDRA$_pantheon } }
+		$FAITH2$ = { has_doctrine = doctrine_$DAEDRA$_criminal }
+	}
+	trigger_else_if = {
+		limit = { $FAITH2$ = { has_doctrine = doctrine_$DAEDRA$_pantheon } }
+		$FAITH1$ = { has_doctrine = doctrine_$DAEDRA$_criminal }
+	}
+	trigger_else = { always = no }
+}
+st_faiths_doctrine_daedra_pantheon_vs_doctrine_daedra_criminal = { faiths_doctrine_daedra_pantheon_vs_doctrine_daedra_criminal = { FAITH1 = $PARAM1$ FAITH2 = $PARAM2$ DAEDRA = $DAEDRA$ } }
+
+faiths_doctrine_daedra_pantheon_vs_doctrine_daedra_shunned = {
+	trigger_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_$DAEDRA$_pantheon } }
+		$FAITH2$ = { has_doctrine = doctrine_$DAEDRA$_shunned }
+	}
+	trigger_else_if = {
+		limit = { $FAITH2$ = { has_doctrine = doctrine_$DAEDRA$_pantheon } }
+		$FAITH1$ = { has_doctrine = doctrine_$DAEDRA$_shunned }
+	}
+	trigger_else = { always = no }
+}
+st_faiths_doctrine_daedra_pantheon_vs_doctrine_daedra_shunned = { faiths_doctrine_daedra_pantheon_vs_doctrine_daedra_shunned = { FAITH1 = $PARAM1$ FAITH2 = $PARAM2$ DAEDRA = $DAEDRA$ } }
+
+faiths_doctrine_daedra_allowed_vs_doctrine_daedra_criminal = {
+	trigger_if = {
+		limit = { $FAITH1$ = { has_doctrine = doctrine_$DAEDRA$_allowed } }
+		$FAITH2$ = { has_doctrine = doctrine_$DAEDRA$_criminal }
+	}
+	trigger_else_if = {
+		limit = { $FAITH2$ = { has_doctrine = doctrine_$DAEDRA$_allowed } }
+		$FAITH1$ = { has_doctrine = doctrine_$DAEDRA$_criminal }
+	}
+	trigger_else = { always = no }
+}
+st_faiths_doctrine_daedra_allowed_vs_doctrine_daedra_criminal = { faiths_doctrine_daedra_allowed_vs_doctrine_daedra_criminal = { FAITH1 = $PARAM1$ FAITH2 = $PARAM2$ DAEDRA = $DAEDRA$ } }
+
+####
+# The goal here is to avoid having to call each scripted trigger 16 times whenever we check something Daedric
+# Since we use PARAM1..3, we need to convert the PARAM into whatever the scripted trigger uses
+# To that end, all the scripted triggers that are made with this sytem in mind need a st_SCRIPTED_TRIGGER, which calls the SCRIPTED_TRIGGER and converts the PARAM into whatever it uses
+daedric_princes_scripted_trigger_no_param = {
+	OR = {
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = azura }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = boethiah }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = clavicus }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = hermaeus }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = hircine }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = malacath }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = mehrunes }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = mephala }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = meridia }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = molag }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = namira }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = nocturnal }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = peryite }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = sanguine }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = sheogorath }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = vaermina }
+	}
+}
+daedric_princes_scripted_trigger_one_params = {
+	OR = {
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = azura PARAM1 = $PARAM1$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = boethiah PARAM1 = $PARAM1$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = clavicus PARAM1 = $PARAM1$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = hermaeus PARAM1 = $PARAM1$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = hircine PARAM1 = $PARAM1$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = malacath PARAM1 = $PARAM1$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = mehrunes PARAM1 = $PARAM1$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = mephala PARAM1 = $PARAM1$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = meridia PARAM1 = $PARAM1$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = molag PARAM1 = $PARAM1$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = namira PARAM1 = $PARAM1$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = nocturnal PARAM1 = $PARAM1$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = peryite PARAM1 = $PARAM1$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = sanguine PARAM1 = $PARAM1$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = sheogorath PARAM1 = $PARAM1$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = vaermina PARAM1 = $PARAM1$ }
+	}
+}
+daedric_princes_scripted_trigger_two_params = {
+	OR = {
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = azura PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = boethiah PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = clavicus PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = hermaeus PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = hircine PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = malacath PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = mehrunes PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = mephala PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = meridia PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = molag PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = namira PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = nocturnal PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = peryite PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = sanguine PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = sheogorath PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = vaermina PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ }
+	}
+}
+daedric_princes_scripted_trigger_three_params = {
+	OR = {
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = azura PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ PARAM3 = $PARAM3$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = boethiah PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ PARAM3 = $PARAM3$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = clavicus PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ PARAM3 = $PARAM3$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = hermaeus PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ PARAM3 = $PARAM3$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = hircine PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ PARAM3 = $PARAM3$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = malacath PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ PARAM3 = $PARAM3$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = mehrunes PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ PARAM3 = $PARAM3$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = mephala PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ PARAM3 = $PARAM3$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = meridia PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ PARAM3 = $PARAM3$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = molag PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ PARAM3 = $PARAM3$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = namira PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ PARAM3 = $PARAM3$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = nocturnal PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ PARAM3 = $PARAM3$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = peryite PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ PARAM3 = $PARAM3$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = sanguine PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ PARAM3 = $PARAM3$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = sheogorath PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ PARAM3 = $PARAM3$ }
+		st_$SCRIPTED_TRIGGER$ = { DAEDRA = vaermina PARAM1 = $PARAM1$ PARAM2 = $PARAM2$ PARAM3 = $PARAM3$ }
+	}
+}
+
+# Replaces controls_holy_site
+
+### Liturgical languages
+# Does this faith have a liturgical language? From faith scope
+faith_has_liturgical_language = {
+	OR = {
+		has_doctrine_parameter = daedric_language_becomes_liturgical
+		has_doctrine_parameter = dragon_language_becomes_liturgical
+		has_doctrine_parameter = tsaesci_language_becomes_liturgical
+		has_doctrine_parameter = altmeris_language_becomes_liturgical
+	}
+}
+
+# Does this character know their faith liturgical language?
+# If their faith doesn't have a liturgical language, they are considered as not knowing it
+knows_liturgical_language = {
+	trigger_if = {
+		limit = { faith = { faith_has_liturgical_language = yes } }
+		trigger_if = {
+			limit = { faith = { has_doctrine_parameter = daedric_language_becomes_liturgical } }
+			knows_language = language_daedric
+		}
+		trigger_else_if = {
+			limit = { faith = { has_doctrine_parameter = dragon_language_becomes_liturgical } }
+			knows_language = language_dovahzul
+		}
+		trigger_else_if = {
+			limit = { faith = { has_doctrine_parameter = tsaesci_language_becomes_liturgical } }
+			knows_language = language_tsaesci
+		}
+		trigger_else_if = {
+			limit = { faith = { has_doctrine_parameter = altmeris_language_becomes_liturgical } }
+			knows_language = language_altmeris
+		}
+		trigger_else = { always = no }
+	}
+	trigger_else = { always = no }
+}
+
+malevolent_necromantic_faith = {
+	OR = {
+		has_doctrine = tenet_necromancy_worship
+		has_doctrine = tenet_ghosthist
+	}
+}
+
+malevolent_vampiric_faith = {
+	has_doctrine = doctrine_vampirism_virtuous 
+}
+
+malevolent_lycanthropic_faith = {
+	has_doctrine = doctrine_lycanthropy_virtuous 
+}
+
+# this and the county faith trigger below are different due to tooltips
+character_faith_tolerated_by_admin_government = {
+	# if you have the full tolerance law, every faith is tolerated
+	trigger_if = {
+		limit = { $EMPIRE$.holder ?= { has_realm_law = religious_tolerance_law_2 } }
+		custom_tooltip = {
+			text = admin_religious_tolerance_full_trigger
+			always = yes
+		}
+	}
+	# if you have the partial tolerance law, astray and hostile faiths are tolerated
+	trigger_else_if = {
+		limit = { $EMPIRE$.holder ?= { has_realm_law = religious_tolerance_law_1 } }
+		custom_tooltip = {
+			text = admin_religious_tolerance_partial_trigger
+			$EMPIRE$.state_faith ?= {
+				faith_hostility_level = {
+					target = $FAITH$
+					value <= faith_evil_level
+				}
+			}
+		}
+	}
+	# if you have the no tolerance law, only astray faiths are tolerated
+	# unless your faith is fundamentalist, then it's fair game on all faiths
+	trigger_else_if = {
+		limit = { 
+			$EMPIRE$.holder ?= { has_realm_law = religious_tolerance_law_0 } 
+			NOT = { #Fundamentalists can convert anyone
+				$EMPIRE$.state_faith ?= {
+					has_doctrine = doctrine_pluralism_fundamentalist 
+				}
+			}
+		}
+		custom_tooltip = {
+			text = admin_religious_tolerance_none_trigger
+			$EMPIRE$.state_faith ?= {
+				faith_hostility_level = {
+					target = $FAITH$
+					value <= faith_hostile_level
+				}
+			}
+		}
+	}
+	trigger_else = {
+		$EMPIRE$.state_faith ?= {
+			NOR = {
+				faith_hostility_level = {
+					target = $FAITH$
+					value <= faith_hostile_level
+				}
+				#Fundamentalists can convert anyone
+				has_doctrine = doctrine_pluralism_fundamentalist
+			}
+		}
+	}
+}
+
+county_faith_tolerated_by_admin_government = {
+	# if you have the full tolerance law, every faith is tolerated
+	trigger_if = {
+		limit = { $EMPIRE$.holder ?= { has_realm_law = religious_tolerance_law_2 } }
+		custom_tooltip = {
+			text = admin_conversion_full_tolerance_tt
+			always = yes
+		}
+	}
+	# if you have the partial tolerance law, astray and hostile faiths are tolerated
+	trigger_else_if = {
+		limit = { $EMPIRE$.holder ?= { has_realm_law = religious_tolerance_law_1 } }
+		custom_tooltip = {
+			text = admin_conversion_partial_tolerance_tt
+			$EMPIRE$.state_faith ?= {
+				faith_hostility_level = {
+					target = $FAITH$
+					value <= faith_evil_level
+				}
+			}
+		}
+	}
+	# if you have the no tolerance law, only astray faiths are tolerated
+	# unless your faith is fundamentalist, then it's fair game on all faiths
+	trigger_else_if = {
+		limit = { 
+			$EMPIRE$.holder ?= { has_realm_law = religious_tolerance_law_0 } 
+			NOT = { #Fundamentalists can convert anyone
+				$EMPIRE$.state_faith ?= {
+					has_doctrine = doctrine_pluralism_fundamentalist 
+				}
+			}
+		}
+		custom_tooltip = {
+			text = admin_conversion_no_tolerance_tt
+			$EMPIRE$.state_faith ?= {
+				faith_hostility_level = {
+					target = $FAITH$
+					value <= faith_hostile_level
+				}
+			}
+		}
+	}
+	trigger_else = {
+		$EMPIRE$.state_faith ?= {
+			NOR = {
+				faith_hostility_level = {
+					target = $FAITH$
+					value <= faith_hostile_level
+				}
+				#Fundamentalists can convert anyone
+				has_doctrine = doctrine_pluralism_fundamentalist
+			}
+		}
+	}
+}
+
+last_dagoth_trigger = {
+	dynasty = {
+		any_dynasty_member = {
+			faith = faith:sixth_house
+			count < 1
+		}
+	}
+}

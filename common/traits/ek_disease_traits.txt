@@ -1,0 +1,164 @@
+﻿# Standard Values
+@pos_compat_high = 30
+@pos_compat_medium = 15
+@pos_compat_low = 5
+
+@neg_compat_high = -30
+@neg_compat_medium = -15
+@neg_compat_low = -5
+
+sanies_lupinus = {
+	health = -1
+	prowess = -4
+	fertility = -0.2
+
+	category = health
+
+	shown_in_ruler_designer = no
+
+	dread_baseline_add = -10
+	dread_loss_mult = 1
+
+	ai_energy = -25
+
+	flag = illness
+	flag = debilitating_illness
+	flag = blocks_getting_non_epidemic_disease
+
+	flag = curable_disease
+}
+
+sanguinare_vampiris = {
+	health = -1
+	child_health = -5
+	prowess = -4
+	fertility = -0.2
+
+	category = health
+
+	shown_in_ruler_designer = no
+
+	dread_baseline_add = -10
+	dread_loss_mult = 1
+
+	ai_energy = -25
+
+	flag = illness
+	flag = debilitating_illness
+	flag = blocks_getting_non_epidemic_disease
+
+	flag = curable_disease
+}
+
+chrondiasis = {
+    diplomacy = -2
+	stewardship = -2
+	intrigue = -1
+	learning = -5
+	health = -3
+	flag = subtract_arcana_10 
+
+	category = health
+	
+	dread_baseline_add = -10
+	
+	ruler_designer_cost = 0
+
+	flag = illness
+	flag = debilitating_illness
+	flag = blocks_getting_non_epidemic_disease
+
+	flag = not_curable_disease
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_chrondiasis_desc
+			}
+			desc = trait_chrondiasis_character_desc
+		}
+	}
+
+    ai_energy = low_negative_ai_value
+	ai_rationality = medium_negative_ai_value
+}
+
+peryite_affliction = {
+	diplomacy = -5
+	stewardship = -2
+	intrigue = -2
+	learning = -3
+	health = -2
+	prowess = 5
+	flag = subtract_arcana_5
+
+	category = health
+	
+	dread_baseline_add = 10
+	
+	ruler_designer_cost = 0
+
+	flag = illness
+	flag = debilitating_illness
+	flag = blocks_getting_non_epidemic_disease
+
+	flag = curable_disease
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_peryite_affliction_desc
+			}
+			desc = trait_peryite_affliction_character_desc
+		}
+	}
+
+    ai_energy = low_negative_ai_value
+	ai_rationality = medium_negative_ai_value
+}
+
+# Actually a health trait (but based on a disease)
+# Essentially, a weak non-infective version of bubonic_plague
+stricken = {
+	diplomacy = -3
+	stewardship = -3
+	intrigue = -3
+	learning = -3
+	health = -1
+	fertility = -0.25
+	flag = subtract_arcana_4 #EK EDIT: Arcana penalty
+
+	category = health
+
+	attraction_opinion = -30
+	same_opinion = 25
+	general_opinion = -20
+	dread_baseline_add = 20
+	dread_gain_mult = 1
+	
+	shown_in_ruler_designer = no
+
+	flag = blocks_getting_non_epidemic_disease
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = this }
+				}
+				desc = trait_stricken_desc
+			}
+			desc = trait_stricken_character_desc
+		}
+	}
+
+	ai_energy = -25
+	ai_rationality = -25
+}
+

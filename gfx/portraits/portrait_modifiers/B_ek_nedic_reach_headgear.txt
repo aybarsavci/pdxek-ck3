@@ -1,0 +1,343 @@
+﻿ek_nedic_reach_headgear = {
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 1
+
+##############################
+#							 #	
+#			NEDIC REACH		 #
+#							 #
+##############################
+
+	ek_nedic_reach_commoners = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = northern_common
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 70
+				has_pol_dlc_trigger = no
+                portrait_commoner_headgear_fallback_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+			}
+			modifier = {
+				add = 30
+				has_pol_dlc_trigger = no
+                portrait_commoner_clothing_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+			}
+		}
+	}
+
+	ek_nedic_reach_low_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = religious_northern_high
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			court_fashion_level_4_headgear_modifier = { INPUT_PARAMETER = ek_nedic_reach } 
+			modifier = {
+				add = 50
+				has_pol_dlc_trigger = no
+				OR = {
+	                portrait_low_nobles_clothing_trigger = {
+	                    CULTURE_INPUT = ek_nedic_reach
+	                }
+				}
+			}
+		}
+	}
+
+	ek_nedic_reach_high_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = northern_high_nobility
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+				has_pol_dlc_trigger = no
+                portrait_high_nobles_headgear_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }   
+			}
+		}
+	}
+
+	ek_nedic_reach_royalty = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = northern_royalty
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+				has_pol_dlc_trigger = no
+                portrait_royalty_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+			}
+		}
+	}
+	
+	ek_nedic_reach_commoners_pol = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = pol_common
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 70
+				has_pol_dlc_trigger = yes
+                portrait_commoner_headgear_fallback_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+			}
+			modifier = {
+				add = 30
+                portrait_commoner_clothing_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+			}
+		}
+	}
+
+	ek_nedic_reach_low_nobles_pol = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = pol_low_nobility
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			court_fashion_level_4_headgear_modifier = { INPUT_PARAMETER = ek_nedic_reach } 
+			modifier = {
+				add = 50
+				has_pol_dlc_trigger = yes
+				OR = {
+	                portrait_low_nobles_clothing_trigger = {
+	                    CULTURE_INPUT = ek_nedic_reach
+	                }
+				}
+			}
+		}
+	}
+
+	ek_nedic_reach_high_nobles_pol = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = pol_high_nobility
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+				has_pol_dlc_trigger = yes
+                portrait_high_nobles_headgear_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }   
+			}
+		}
+	}
+
+	ek_nedic_reach_royalty_pol = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = pol_royalty
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+				is_female = yes
+				has_pol_dlc_trigger = yes
+                portrait_royalty_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+			}
+		}
+	}
+	
+	sp3_ek_nedic_reach_royalty = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = sp3_western_high_nobility
+				range = { 0 1 } # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 50
+                portrait_royalty_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+			}
+			modifier = {					# this is a better way of doing the dlc thing, i dont think it matters too much but its a bit cleaner, maybe we should consider switching to this
+				factor = 0
+				NOT = { has_dlc_feature = couture_of_the_capets }	# basically, if you have the dlc, multiply the result of all previous modifiers by zero - so that it uses the other one instead
+            }
+		}
+	}
+
+}
+
+ek_nedic_reach_headgear_armor = {
+
+	usage = game
+	selection_behavior = weighted_random
+	priority = 4
+
+   ek_nedic_reach_war_low_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = northern_war
+                accessory = m_headgear_sec_northern_war_nob_01_lo
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+				has_pol_dlc_trigger = no
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_reach
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_reach
+                    }
+                }
+            }
+        }
+    }
+
+    ek_nedic_reach_war_high_nobles = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = northern_war
+                accessory = m_headgear_sec_northern_war_nob_01_hi
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50 
+				has_pol_dlc_trigger = no
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+                portrait_high_nobles_armor_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+            }
+        }
+    }
+	
+   ek_nedic_reach_war_low_nobles_pol = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = pol_war
+				range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+				has_pol_dlc_trigger = yes
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+                OR = {
+                    portrait_commoner_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_reach
+                    }
+                    portrait_low_nobles_armor_trigger = { 
+                        CULTURE_INPUT = ek_nedic_reach
+                    }
+                }
+            }
+        }
+    }
+
+    ek_nedic_reach_war_high_nobles_pol = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = pol_war
+				range = { 0 1 } # For the randomness to work correctly
+            }
+        }
+        outfit_tags = { military_outfit }
+        weight = {
+            base = 0
+            modifier = {
+                add = 50
+				has_pol_dlc_trigger = yes
+                portrait_war_nobles_helmet_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+                portrait_high_nobles_armor_trigger = {
+                    CULTURE_INPUT = ek_nedic_reach
+                }
+            }
+        }
+    }
+
+}

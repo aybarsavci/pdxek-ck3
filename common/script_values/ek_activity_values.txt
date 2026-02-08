@@ -1,0 +1,69 @@
+﻿hist_communion_base_cost = {
+	value = 0 
+	add = standard_activity_base_cost
+    multiply = 0.5
+}
+
+hist_communion_entourage_base_set_weighting_value = { #based on pilgrimage with tweaks
+	if = {
+		limit = { bannable_serving_diarch_trigger = no }
+		# We want to have bodyguards most of all.
+		if = {
+			limit = { 
+				has_court_position = bodyguard_court_position 
+				has_hist_communion = yes #gotta be Hist Argonian
+				faith = scope:host.faith #gotta be your flavour of Hist
+			}
+			add = 1000
+		}
+		# But we'll settle for knights.
+		else_if = {
+			limit = {
+				is_knight = yes
+				prowess >= high_skill_rating
+				has_hist_communion = yes #gotta be Hist Argonian
+				faith = scope:host.faith #gotta be your flavour of Hist
+			}
+			# We keep the weight low, since you'll probably have a good few such knights and we don't want them hogging all the spots.
+			add = 5
+		}
+		# Also maybe someone to just chat to.
+		## Positive relations.
+		if = {
+			limit = {
+				has_any_good_relationship_with_character_trigger = { CHARACTER = scope:host }
+				has_hist_communion = yes #gotta be Hist Argonian
+				faith = scope:host.faith #gotta be your flavour of Hist
+			}
+			add = 100
+		}
+		## Also your family can come along
+		if = {
+			limit = {
+				age > 5 # can't be too young
+				OR = {
+					is_close_family_of = scope:host
+					is_spouse_of = scope:host
+				}
+				has_hist_communion = yes #gotta be Hist Argonian
+				faith = scope:host.faith #gotta be your flavour of Hist
+			}
+			add = 100
+		}
+		## Religious figures.
+		if = {
+			limit = {
+				save_temporary_scope_as = current_char
+				liege ?= { cp:councillor_court_chaplain ?= scope:current_char }
+				has_hist_communion = yes #gotta be Hist Argonian
+			}
+			add = 300
+		}
+	}
+	if = {
+		limit = {
+			bannable_serving_diarch_trigger = yes
+		}
+		add = -5000
+	}
+}

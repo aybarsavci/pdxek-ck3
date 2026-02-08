@@ -1,0 +1,280 @@
+﻿#EK EDIT several ek edits
+# We can use these modifiers for adding specific clothes to historical and vanity characters
+
+clothes_scripted_characters = {
+
+    usage = game
+    selection_behavior = max
+    priority = 10
+
+	fp1_norse_low_nobles = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = fp1_low_nobility_clothes
+				range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        weight = {
+            base = 0
+        }
+    }
+	
+	alinori_clothing_mannimarco = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_mannimarco
+				range = { 0 1 }
+			}
+	        accessory = {
+	            mode = add
+	            gene = clothes
+				template = ek_altmer_mannimarco_clothes
+	            range = { 0 1 }
+	        }
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = ek_altmer_cloak_mannimarco
+				range = { 0 1 }
+			}			
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = ek_altmer_mannimarco_legwear
+	            range = { 0 1 }
+	        }
+			morph = {
+				mode = replace
+				gene = race_gene_mer_ears_01
+				value = 0.5
+				template = human_ears
+			}
+			morph = {
+				mode = replace
+				gene = race_gene_mer_ears_02
+				value = 0.5
+				template = human_ears
+			}
+			morph = {
+				mode = replace
+				gene = gene_bs_ear_bend
+				value = 0.0
+				template = ear_both_bend_pos
+			}
+			morph = {
+				mode = replace
+				gene = gene_bs_ear_outward
+				value = 1.0
+				template = ear_outward_neg
+			}
+			morph = {
+				mode = replace
+				gene = gene_bs_ear_size
+				value = 1.0
+				template = ear_size_neg
+			}			
+	        morph = {
+				mode = modify_multiply
+				gene = gene_bs_bust
+				value = 0.8
+				template = bust_clothes
+			}
+			morph = {
+				mode = add	
+				gene = gene_bs_cloak
+				template = cloak
+				value = 1.0
+			}
+		}			
+		weight = {
+			base = 0
+			modifier = {
+				add = 500
+				exists = character:mannimarco_1000
+				this = character:mannimarco_1000
+			}
+		}
+	}
+
+	# syl clothes
+	marie_1000_syl_clothes = {
+		dna_modifiers = {			
+			morph = {
+				mode = add
+				gene = attachment_colour_palette
+				template = colour_palette_selection
+				value = 0.19
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				exists = character:marie_1000
+				this = character:marie_1000
+			}
+		}		
+	}
+	
+	# Forces Lamae into white-and-red dress
+	# for 50_clothes_scripted_characters.txt
+	lamae_white_dress = {
+			dna_modifiers = {			
+				morph = {
+					mode = add
+					gene = attachment_colour_palette
+					template = colour_palette_selection
+					value = 0.72
+				}
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 1000
+					exists = character:bal_100
+					this = character:bal_100
+				}
+			}
+		}
+		
+	alessia_clothes = {
+			dna_modifiers = {
+					accessory = {
+					mode = add
+					gene = headgear
+					template = no_headgear
+					range = { 0 1 } # For the randomness to work correctly
+				}			
+				morph = {
+					mode = add
+					gene = attachment_colour_palette
+					template = colour_palette_selection
+					value = 0.2
+				}
+			}
+			weight = {
+				base = 0
+				modifier = {
+					add = 1000
+					exists = character:alessian_100
+					this = character:alessian_100
+				}
+			}
+		}
+		
+	marukh_priest_clothing = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_generic_monk
+				range = { 2 2 }
+			}		
+			accessory = {
+				mode = add
+				gene = clothes
+				template = ek_generic_monk_clothes
+				range = { 0 1 }
+			}
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = mena_war_legwear
+	            range = { 0 1 }
+	        }
+			morph = {
+				mode = add
+				gene = attachment_colour_palette
+				template = colour_palette_selection
+				value = 0.9
+			}			
+		}
+		outfit_tags = { priest_outfit bishop_outfit }
+			weight = {
+				base = 0
+				modifier = {
+					add = 1000
+					exists = character:marukh_100
+					this = character:marukh_100
+				}
+			}
+	}
+	
+	frostvoice_finn_clothing = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_colovian_fur_hat
+				range = { 2 2 }
+			}		
+			accessory = {
+				mode = add
+				gene = clothes
+				template = ek_mage_generic_01
+				range = { 1 1 }
+			}
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = no_legwear
+	            range = { 0 1 }
+	        }
+			morph = {
+				mode = add
+				gene = attachment_colour_palette
+				template = colour_palette_selection
+				value = 0.3
+			}			
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				exists = character:frostvoice_finn
+				this = character:frostvoice_finn
+			}
+		}
+	}
+
+	boa_tarde_amigo = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ek_colovian_fur_hat
+				range = { 2 2 }
+			}		
+			accessory = {
+				mode = add
+				gene = clothes
+				template = ek_mage_generic_01
+				range = { 1 1 }
+			}
+			accessory = {
+				mode = add
+				gene = legwear
+				template = no_legwear
+				range = { 0 1 }
+			}
+			morph = {
+				mode = add
+				gene = attachment_colour_palette
+				template = colour_palette_selection
+				value = 0.2
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				exists = character:boa_tarde_amigo_001
+				this = character:boa_tarde_amigo_001
+			}
+		}
+	}
+}

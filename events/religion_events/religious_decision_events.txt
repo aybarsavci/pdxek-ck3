@@ -1,0 +1,3312 @@
+﻿#EK NOTE: removed vanilla references, changes to bhakti
+namespace = religious_decision
+
+#########################
+# Seek Aid of Spirits	#
+# by Sean Hughes		#
+# 0001-0009				#
+#########################
+
+
+religious_decision.0001 = {
+	type = character_event
+	title = religious_decision.0001.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { is_landless_adventurer = yes }
+				desc = religious_decision.0001.desc_landless
+			}
+			desc = religious_decision.0001.desc
+		}
+	}
+	theme = faith
+	override_background = { reference = fp3_cave }
+	left_portrait = {
+		character = root
+		triggered_animation = {
+			trigger = {
+				NOT = { exists = scope:realm_priest }
+			}
+			animation = personality_zealous
+		}
+		triggered_animation = {
+			trigger = {
+				NOT = { has_trait = cynical }
+			}
+			animation = disbelief
+		}
+		animation = personality_coward
+	}
+	right_portrait = {
+		trigger = { exists = scope:realm_priest }
+		character = scope:realm_priest
+		animation = personality_zealous
+	}
+	trigger = {
+		NOT = { has_character_flag = flag_sought_aid_of_spirits }
+	}
+
+	weight_multiplier = {
+		base = 1
+	}
+
+	immediate = {
+		if = {
+			limit = { exists = cp:councillor_court_chaplain }
+			cp:councillor_court_chaplain = {
+				save_scope_as = realm_priest
+			}
+		}
+	}
+
+	option = {
+		trigger = {
+			OR = {
+				is_ai = no
+				short_term_gold > major_gold_value
+			}
+		}
+		name = religious_decision.0001.a
+		remove_short_term_gold = major_gold_value
+		custom_tooltip = religious_decision.0001.a.tt.1
+		custom_tooltip = religious_decision.0001.a.tt.2
+		save_scope_value_as = {
+			name = offering
+			value = flag:expensive
+		}
+		stress_impact = {
+			greedy = medium_stress_gain
+			cynical = medium_stress_gain
+		}
+		trigger_event = {
+			id = religious_decision.0002
+			days = { 2 3 }
+		}
+		ai_chance = {
+			base = 0
+
+			ai_value_modifier = {
+				ai_zeal = 10
+				ai_greed = -10
+			}
+		}
+	}
+
+	option = {
+		trigger = {
+			OR = {
+				is_ai = no
+				short_term_gold > minor_gold_value
+			}
+		}
+		name = religious_decision.0001.b
+		remove_short_term_gold = minor_gold_value
+		custom_tooltip = religious_decision.0001.b.tt
+		save_scope_value_as = {
+			name = offering
+			value = flag:traditional
+		}
+		trigger_event = {
+			id = religious_decision.0002
+			days = { 2 3 }
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = religious_decision.0001.c
+		custom_tooltip = religious_decision.0001.c.tt
+		save_scope_value_as = {
+			name = offering
+			value = flag:none
+		}
+		stress_impact = {
+			generous = medium_stress_gain
+			humble = medium_stress_gain
+		}
+		trigger_event = {
+			id = religious_decision.0002
+			days = { 2 3 }
+		}
+
+		ai_chance = {
+			base = 0
+
+			ai_value_modifier = {
+				ai_boldness = 5
+				ai_greed = 5
+				ai_zeal = -10
+			}
+
+			modifier = {
+				add = 980
+				has_trait = arrogant
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0001.d
+		flavor = religious_decision.0001.d.flavor
+		remove_character_flag = flag_sought_aid_of_spirits
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+religious_decision.0002 = {
+	type = character_event
+	title = religious_decision.0002.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					exists = scope:realm_priest
+					scope:offering = flag:none
+				}
+				desc = religious_decision.0002.desc.start_no_offering
+			}
+			triggered_desc = {
+				trigger = { scope:offering = flag:none }
+				desc = religious_decision.0002.desc.start_no_offering_alone
+			}
+			triggered_desc = {
+				trigger = { exists = scope:realm_priest }
+				desc = religious_decision.0002.desc.start_offering
+			}
+			desc = religious_decision.0002.desc.start_offering_alone
+		}
+		first_valid = {
+			triggered_desc = { 
+				trigger = { exists = scope:realm_priest }
+				desc = religious_decision.0002.desc
+			}
+			desc = religious_decision.0002.desc_alone
+		}
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:outcome = flag:no_effect
+				}
+				desc = religious_decision.0002.desc.end_no_change
+			}
+			desc = religious_decision.0002.desc.end_changed
+		}
+	}
+	theme = faith
+	override_background = { reference = fp3_cave }
+	left_portrait = {
+		character = root
+		triggered_animation = {
+			trigger = { scope:outcome = flag:shrewd }
+			animation = personality_rational
+		}
+		triggered_animation = {
+			trigger = { 
+				OR = {
+					scope:outcome = flag:strong
+					scope:outcome = flag:wind_spirit
+					scope:outcome = flag:water_spirit
+					scope:outcome = flag:tree_spirit
+					scope:outcome = flag:bush_spirit
+					scope:outcome = flag:rock_spirit
+				}
+			}
+			animation = ecstasy
+		}
+		triggered_animation = {
+			trigger = { 
+				OR = {
+					scope:outcome = flag:possessed 
+					scope:outcome = flag:impotent
+				}
+			}
+			animation = paranoia
+		}
+		triggered_animation = {
+			trigger = { scope:outcome = flag:ill }
+			animation = sick
+		}
+		triggered_animation = {
+			trigger = { scope:outcome = flag:infirm }
+			animation = personality_irrational
+		}
+		animation = disbelief
+	}
+	right_portrait = {
+		trigger = { exists = scope:realm_priest }
+		character = scope:realm_priest
+		animation = personality_zealous
+	}
+
+	trigger = {
+		trigger_if = {
+			limit = { exists = scope:realm_priest }
+			scope:realm_priest = { is_available_adult = yes }
+		}
+	}
+	# Refund the player's money if the ritual fails for some reason.
+	on_trigger_fail = {
+		if = {
+			limit = {
+				scope:offering = flag:expensive
+			}
+			add_gold = major_gold_value
+		}
+		else_if = {
+			limit = {
+				scope:offering = flag:traditional
+			}
+			add_gold = minor_gold_value
+		}
+	}
+	immediate = {
+		# Character cannot take this decision again for 5 years.
+		add_character_flag = {
+			flag = flag_sought_aid_of_spirits
+			years = 5
+		}
+		# Determine what the impact of the ritual will be.
+		if = {
+			#Realm Priest, don't fail me now
+			limit = { exists = scope:realm_priest }
+			random_list = {
+				# Positive Effect
+				40 = { # Maximum ~85% chance of a good effect (Expensive offering nullifies no outcome; 60 weight good vs. 10 weight bad)
+					compare_modifier = {
+						value = {
+							value = scope:realm_priest.learning
+							subtract = 10
+						}
+					}
+					modifier = {
+						add = 10
+						scope:realm_priest = { has_trait = lifestyle_mystic }
+					}
+					random_list = {
+						# Permanent Skill Boost
+						10 = {
+							# Minimum chance of ~0%. Maximum chance of ~40% (Miracle Worker RP with 20 Learning and an Expensive Offering)
+							compare_modifier = {
+								value = {
+									value = scope:realm_priest.learning
+									subtract = 10
+								}
+							}
+							modifier = {
+								add = 10
+								scope:realm_priest = { has_trait = lifestyle_mystic }
+							}
+							modifier = {
+								add = 10
+								scope:realm_priest = {
+									has_trait = lifestyle_mystic
+									has_trait_xp = {
+										trait = lifestyle_mystic
+										value >= 50
+									}
+								}
+							}
+							modifier = {
+								add = 10
+								scope:realm_priest = {
+									has_trait = lifestyle_mystic
+									has_trait_xp = {
+										trait = lifestyle_mystic
+										value >= 100
+									}
+								}
+							}
+							modifier = {
+								add = 40
+								scope:offering = flag:expensive
+							}
+							trigger = {
+								NAND = {
+									AND = {
+										has_trait = shrewd
+										has_trait_rank = {
+											trait = intellect_bad
+											rank > 0
+										}
+									}
+									AND = {
+										has_trait = strong
+										has_trait_rank = {
+											trait = physique_bad
+											rank > 0
+										}
+									}
+								}
+							}
+							random_list = {
+								50 = {
+									trigger = {
+										NOR = {
+											has_trait = shrewd
+											has_trait_rank = {
+												trait = intellect_bad
+												rank > 0
+											}
+										}
+									}
+									save_scope_value_as = {
+										name = outcome
+										value = flag:shrewd
+									}
+								}
+								50 = {
+									trigger = {
+										NOR = {
+											has_trait = strong
+											has_trait_rank = {
+												trait = physique_bad
+												rank > 0
+											}
+										}
+									}
+									save_scope_value_as = {
+										name = outcome
+										value = flag:strong
+									}
+								}
+							}
+						}
+						# Temporary Skill Boost
+						90 = {
+							random_list = {
+								20 = {
+									save_scope_value_as = {
+										name = outcome
+										value = flag:wind_spirit
+									}
+								}
+								20 = {
+									save_scope_value_as = {
+										name = outcome
+										value = flag:water_spirit
+									}
+								}
+								20 = {
+									save_scope_value_as = {
+										name = outcome
+										value = flag:bush_spirit
+									}
+								}
+								20 = {
+									save_scope_value_as = {
+										name = outcome
+										value = flag:rock_spirit
+									}
+								}
+								20 = {
+									save_scope_value_as = {
+										name = outcome
+										value = flag:tree_spirit
+									}
+								}
+							}
+						}
+					}
+				}
+				# No Effect
+				40 = {
+					# Offering modifiers only effect the 'None' chance.
+					modifier = { # 0% chance with expensive offering.
+						add = -40
+						scope:offering = flag:expensive
+					}
+					modifier = { # 40% chance with standard offering.
+						add = 0
+						scope:offering = flag:traditional
+					}
+					modifier = { # 66% chance with no offering.
+						add = 80
+						scope:offering = flag:none
+						NOT = { has_trait = arrogant }
+					}
+
+					# Since the effects of the ritual could be explained through belief alone (placebo effect), a character's skepticism influences if they receive a bonus or not.
+					modifier = { # Cynical characters less likely to believe in the ritual.
+						add = 40
+						has_trait = cynical
+					}
+					modifier = { # Zealous characters more likely to believe in the ritual.
+						add = -20
+						has_trait = zealous
+					}
+					save_scope_value_as = {
+						name = outcome
+						value = flag:no_effect
+					}
+				}
+				# Negative Effect
+				20 = {
+					modifier = {
+						add = 20
+						scope:offering = flag:none
+					}
+					compare_modifier = {
+						value = {
+							value = 10
+							subtract = scope:realm_priest.learning
+							min = -10
+						}
+					}
+					random_list = {
+						25 = {
+							trigger = { NOT = { has_trait = possessed } }
+							modifier = {
+								add = 100
+								scope:offering = flag:expensive
+							}
+							save_scope_value_as = {
+								name = outcome
+								value = flag:possessed
+							}
+						}
+						25 = {
+							trigger = { NOT = { has_trait = impotent } }
+							save_scope_value_as = {
+								name = outcome
+								value = flag:impotent
+							}
+						}
+						25 = {
+							trigger = { can_contract_disease_trigger = { DISEASE = ill } }
+							save_scope_value_as = {
+								name = outcome
+								value = flag:ill
+							}
+						}
+						25 = {
+							trigger = { NOT = { has_trait = infirm } }
+							save_scope_value_as = {
+								name = outcome
+								value = flag:infirm
+							}
+						}
+					}
+				}
+			}
+		}
+		#... we're on our own
+		else = {
+			random_list = {
+				# Positive Effect
+				40 = { # Maximum ~85% chance of a good effect (Expensive offering nullifies no outcome; 60 weight good vs. 10 weight bad)
+					compare_modifier = {
+						value = {
+							value = learning
+							subtract = 10
+						}
+					}
+					modifier = {
+						add = 10
+						has_trait = lifestyle_mystic
+					}
+					random_list = {
+						# Permanent Skill Boost
+						10 = {
+							# Minimum chance of ~0%. Maximum chance of ~40% (Miracle Worker RP with 20 Learning and an Expensive Offering)
+							compare_modifier = {
+								value = {
+									value = learning
+									subtract = 10
+								}
+							}
+							modifier = {
+								add = 10
+								has_trait = lifestyle_mystic
+							}
+							modifier = {
+								add = 10
+								has_trait = lifestyle_mystic
+								has_trait_xp = {
+									trait = lifestyle_mystic
+									value >= 50
+								}
+							}
+							modifier = {
+								add = 10
+								has_trait = lifestyle_mystic
+								has_trait_xp = {
+									trait = lifestyle_mystic
+									value >= 100
+								}
+							}
+							modifier = {
+								add = 40
+								scope:offering = flag:expensive
+							}
+							trigger = {
+								NAND = {
+									AND = {
+										has_trait = shrewd
+										has_trait_rank = {
+											trait = intellect_bad
+											rank > 0
+										}
+									}
+									AND = {
+										has_trait = strong
+										has_trait_rank = {
+											trait = physique_bad
+											rank > 0
+										}
+									}
+								}
+							}
+							random_list = {
+								50 = {
+									trigger = {
+										NOR = {
+											has_trait = shrewd
+											has_trait_rank = {
+												trait = intellect_bad
+												rank > 0
+											}
+										}
+									}
+									save_scope_value_as = {
+										name = outcome
+										value = flag:shrewd
+									}
+								}
+								50 = {
+									trigger = {
+										NOR = {
+											has_trait = strong
+											has_trait_rank = {
+												trait = physique_bad
+												rank > 0
+											}
+										}
+									}
+									save_scope_value_as = {
+										name = outcome
+										value = flag:strong
+									}
+								}
+							}
+						}
+						# Temporary Skill Boost
+						90 = {
+							random_list = {
+								20 = {
+									save_scope_value_as = {
+										name = outcome
+										value = flag:wind_spirit
+									}
+								}
+								20 = {
+									save_scope_value_as = {
+										name = outcome
+										value = flag:water_spirit
+									}
+								}
+								20 = {
+									save_scope_value_as = {
+										name = outcome
+										value = flag:bush_spirit
+									}
+								}
+								20 = {
+									save_scope_value_as = {
+										name = outcome
+										value = flag:rock_spirit
+									}
+								}
+								20 = {
+									save_scope_value_as = {
+										name = outcome
+										value = flag:tree_spirit
+									}
+								}
+							}
+						}
+					}
+				}
+				# No Effect
+				40 = {
+					# Offering modifiers only effect the 'None' chance.
+					modifier = { # 0% chance with expensive offering.
+						add = -40
+						scope:offering = flag:expensive
+					}
+					modifier = { # 40% chance with standard offering.
+						add = 0
+						scope:offering = flag:traditional
+					}
+					modifier = { # 66% chance with no offering.
+						add = 80
+						scope:offering = flag:none
+						NOT = { has_trait = arrogant }
+					}
+
+					# Since the effects of the ritual could be explained through belief alone (placebo effect), a character's skepticism influences if they receive a bonus or not.
+					modifier = { # Cynical characters less likely to believe in the ritual.
+						add = 40
+						has_trait = cynical
+					}
+					modifier = { # Zealous characters more likely to believe in the ritual.
+						add = -20
+						has_trait = zealous
+					}
+					save_scope_value_as = {
+						name = outcome
+						value = flag:no_effect
+					}
+				}
+				# Negative Effect
+				20 = {
+					modifier = {
+						add = 20
+						scope:offering = flag:none
+					}
+					compare_modifier = {
+						value = {
+							value = 10
+							subtract = learning
+							min = -10
+						}
+					}
+					random_list = {
+						25 = {
+							trigger = { NOT = { has_trait = possessed } }
+							modifier = {
+								add = 100
+								scope:offering = flag:expensive
+							}
+							save_scope_value_as = {
+								name = outcome
+								value = flag:possessed
+							}
+						}
+						25 = {
+							trigger = { NOT = { has_trait = impotent } }
+							save_scope_value_as = {
+								name = outcome
+								value = flag:impotent
+							}
+						}
+						25 = {
+							trigger = { can_contract_disease_trigger = { DISEASE = ill } }
+							save_scope_value_as = {
+								name = outcome
+								value = flag:ill
+							}
+						}
+						25 = {
+							trigger = { NOT = { has_trait = infirm } }
+							save_scope_value_as = {
+								name = outcome
+								value = flag:infirm
+							}
+						}
+					}
+				}
+			}
+		}
+
+		# If we failed to set the outcome flag, set it now.
+		if = {
+			limit = {
+				NOT = { exists = scope:outcome }
+			}
+			save_scope_value_as = {
+				name = outcome
+				value = flag:no_effect
+			}
+		}
+	}
+
+	option = {
+		# Custom name text based on ritual outcome.
+		name = {
+			trigger = { scope:outcome = flag:shrewd }
+			text = religious_decision.0002.shrewd
+		}
+		name = {
+			trigger = { scope:outcome = flag:strong }
+			text = religious_decision.0002.strong
+		}
+		name = {
+			trigger = {
+				OR = {
+					scope:outcome = flag:wind_spirit
+					scope:outcome = flag:water_spirit
+					scope:outcome = flag:rock_spirit
+					scope:outcome = flag:bush_spirit
+					scope:outcome = flag:tree_spirit
+				}
+			}
+			text = religious_decision.0002.good
+		}
+		name = {
+			trigger = {
+				OR = {
+					scope:outcome = flag:ill
+					scope:outcome = flag:impotent
+					scope:outcome = flag:infirm
+				}
+			}
+			text = religious_decision.0002.bad
+		}
+		name = {
+			trigger = { scope:outcome = flag:possessed }
+			text = religious_decision.0002.possessed
+		}
+		name = {
+			trigger = {
+				scope:outcome = flag:no_effect
+				has_trait = zealous
+			}
+			text = religious_decision.0002.no_change.zealous
+		}
+		name = {
+			trigger = {
+				scope:outcome = flag:no_effect
+				NOT = { has_trait = zealous }
+			}
+			text = religious_decision.0002.no_change
+		}
+
+		# Apply the actual outcome effects:
+		# Good Outcomes
+		if = {
+			limit = { scope:outcome = flag:shrewd }
+			if = {
+				limit = { has_trait = dull }
+				remove_trait = dull
+			}
+			else = {
+				add_trait = shrewd
+			}
+		}
+		else_if = {
+			limit = { scope:outcome = flag:strong }
+			if = {
+				limit = { has_trait = weak }
+				remove_trait = weak
+			}
+			else = {
+				add_trait = strong
+			}
+		}
+		else_if = {
+			limit = { scope:outcome = flag:wind_spirit }
+			add_character_modifier = {
+				modifier = wind_spirit_blessing
+				years = 20
+			}
+		}
+		else_if = {
+			limit = { scope:outcome = flag:water_spirit }
+			add_character_modifier = {
+				modifier = water_spirit_blessing
+				years = 20
+			}
+		}
+		else_if = {
+			limit = { scope:outcome = flag:tree_spirit }
+			add_character_modifier = {
+				modifier = tree_spirit_blessing
+				years = 20
+			}
+		}
+		else_if = {
+			limit = { scope:outcome = flag:bush_spirit }
+			add_character_modifier = {
+				modifier = bush_spirit_blessing
+				years = 20
+			}
+		}
+		else_if = {
+			limit = { scope:outcome = flag:rock_spirit }
+			add_character_modifier = {
+				modifier = rock_spirit_blessing
+				years = 20
+			}
+		}
+		# Bad Outcomes
+		else_if = {
+			limit = { scope:outcome = flag:possessed }
+			add_trait = possessed_1
+		}
+		else_if = {
+			limit = { scope:outcome = flag:impotent }
+			add_trait = impotent
+		}
+		else_if = {
+			limit = { scope:outcome = flag:ill }
+			contract_disease_effect = { DISEASE = ill TREATMENT_EVENT = yes }
+		}
+		else_if = {
+			limit = { scope:outcome = flag:infirm }
+			add_trait = infirm
+		}
+	}
+}
+
+#########################
+# Select Personal God	#
+# by Sean Hughes		#
+# 0101-0120				#
+#########################
+
+
+### EK EDIT: handled in patron window for players, this for ai - Varlatra
+religious_decision.0101 = {
+	type = character_event
+	title = religious_decision.0101.t
+	desc = {
+		desc = religious_decision.0101.desc.start
+		desc = religious_decision.0101.desc.generic
+		desc = religious_decision.0101.desc.end
+	}
+	theme = faith
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	# 8 Divines
+	option = {
+		name = religious_decision.0101.p_dv_akatosh
+		trigger = { faith = { patron_dv_akatosh_valid = yes } }
+		add_trait = p_dv_akatosh
+
+		ai_chance = {
+			base = 1
+			modifier = { #Liked by important rulers
+				highest_held_title_tier >= tier_kingdom
+				factor = 2
+			}
+			modifier = { #Especially liked by emperors of Cyrodiil
+				has_cyrodilic_empire_trigger = yes
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_dv_arkay
+		trigger = { faith = { patron_dv_arkay_valid = yes } }
+		add_trait = p_dv_arkay
+	}
+
+	option = {
+		name = religious_decision.0101.p_dv_dibella
+		trigger = { faith = { patron_dv_dibella_valid = yes } }
+		add_trait = p_dv_dibella
+
+		ai_chance = {
+			base = 1
+			modifier = { #Liked by lustful and beautiful people
+				OR = {
+					has_trait = lustful
+					has_trait = beauty_good
+				}
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_dv_julianos
+		trigger = { faith = { patron_dv_julianos_valid = yes } }
+		add_trait = p_dv_julianos
+
+		ai_chance = {
+			base = 1
+			modifier = { #Liked by mages and learned people
+				OR = {
+					has_trait = education_magic
+					has_trait = education_learning
+				}
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_dv_kynareth
+		trigger = { faith = { patron_dv_kynareth_valid = yes } }
+		add_trait = p_dv_kynareth
+	}
+
+	option = {
+		name = religious_decision.0101.p_dv_mara
+		trigger = { faith = { patron_dv_mara_valid = yes } }
+		add_trait = p_dv_mara
+	}
+
+	option = {
+		name = religious_decision.0101.p_dv_stendarr
+		trigger = { faith = { patron_dv_stendarr_valid = yes } }
+		add_trait = p_dv_stendarr
+
+		ai_chance = {
+			base = 1
+			modifier = { #Liked by just and compassionate people
+				OR = {
+					has_trait = just
+					has_trait = compassionate
+				}
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_dv_zenithar
+		trigger = { faith = { patron_dv_zenithar_valid = yes } }
+		add_trait = p_dv_zenithar
+
+		ai_chance = {
+			base = 1
+			modifier = { #Liked by people who like to make money
+				OR = {
+					has_trait = education_stewardship
+					has_trait = greedy
+					has_trait = diligent
+				}
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_dv_shezarr
+		trigger = { faith = { patron_dv_shezarr_valid = yes } }
+		add_trait = p_dv_shezarr
+	}
+
+	# Aldmer
+	option = {
+		name = religious_decision.0101.p_ae_auriel
+		trigger = { faith = { patron_ae_auriel_valid = yes } }
+		add_trait = p_ae_auriel
+
+		ai_chance = {
+			base = 1
+			modifier = { #People ruling Alinor like emulating Auriel...
+				has_primary_title = title:e_summerset
+				factor = 5
+			}
+			modifier = { #Liked by important rulers
+				highest_held_title_tier >= tier_kingdom
+				factor = 2
+			}
+			modifier = { #Alkosh more popular in Anequina
+				faith = { patron_khajiiti_valid = yes }
+				culture = { has_cultural_tradition = tradition_beasts_of_war }
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_ae_jephre
+		trigger = { faith = { patron_ae_jephre_valid = yes } }
+		add_trait = p_ae_jephre
+	}
+
+	option = {
+		name = religious_decision.0101.p_ae_magnus
+		trigger = { faith = { patron_ae_magnus_valid = yes } }
+		add_trait = p_ae_magnus
+	}
+
+	option = {
+		name = religious_decision.0101.p_ae_phynaster
+		trigger = { faith = { patron_ae_phynaster_valid = yes } }
+		add_trait = p_ae_phynaster
+	}
+
+	option = {
+		name = religious_decision.0101.p_ae_syrabane
+		trigger = { faith = { patron_ae_syrabane_valid = yes } }
+		add_trait = p_ae_syrabane
+
+		ai_chance = {
+			base = 1
+			modifier = { #Syrabane ruled Shimmerene in life
+				has_primary_title = title:k_shimmerene
+				factor = 5
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_ae_trinimac
+		trigger = { faith = { patron_ae_trinimac_valid = yes } }
+		add_trait = p_ae_trinimac
+	}
+
+	option = {
+		name = religious_decision.0101.p_ae_xarxes
+		trigger = { faith = { patron_ae_xarxes_valid = yes } }
+		add_trait = p_ae_xarxes
+
+		ai_chance = {
+			base = 1
+			modifier = { #Liked by scholars
+				has_trait = education_learning
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_ae_xen
+		trigger = { faith = { patron_ae_xen_valid = yes } }
+		add_trait = p_ae_xen
+
+		ai_chance = {
+			base = 1
+			modifier = { #Post-Knahaten, the Bosmer almost completely abandoned the worship of Z'en/Xen.
+				has_global_variable = black_death_happened
+				faith = { patron_green_pact_valid = yes }
+				factor = 0.5
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_ob_azura
+		trigger = { faith = { patron_ob_azura_valid = yes } }
+		add_trait = p_ob_azura
+	}
+
+	option = {
+		name = religious_decision.0101.p_ob_boethiah
+		trigger = { faith = { patron_ob_boethiah_valid = yes } }
+		add_trait = p_ob_boethiah
+	}
+
+	option = {
+		name = religious_decision.0101.p_ob_clavicus
+		trigger = { faith = { patron_ob_clavicus_valid = yes } }
+		add_trait = p_ob_clavicus
+	}
+
+	option = {
+		name = religious_decision.0101.p_ob_hermaeus
+		trigger = { faith = { patron_ob_hermaeus_valid = yes } }
+		add_trait = p_ob_hermaeus
+	}
+
+	option = {
+		name = religious_decision.0101.p_ob_hircine
+		trigger = { faith = { patron_ob_hircine_valid = yes } }
+		add_trait = p_ob_hircine
+		
+		ai_chance = {
+			base = 1
+			modifier = { #Liked by hunters, obviously...
+				has_trait = lifestyle_hunter
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_ob_malacath
+		trigger = { faith = { patron_ob_malacath_valid = yes } }
+		add_trait = p_ob_malacath
+	}
+
+	option = {
+		name = religious_decision.0101.p_ob_mehrunes
+		trigger = { faith = { patron_ob_mehrunes_valid = yes } }
+		add_trait = p_ob_mehrunes
+	}
+
+	option = {
+		name = religious_decision.0101.p_ob_mephala
+		trigger = { faith = { patron_ob_mephala_valid = yes } }
+		add_trait = p_ob_mephala
+	}
+
+	option = {
+		name = religious_decision.0101.p_ob_meridia
+		trigger = { faith = { patron_ob_meridia_valid = yes } }
+		add_trait = p_ob_meridia
+	}
+
+	option = {
+		name = religious_decision.0101.p_ob_molag
+		trigger = { faith = { patron_ob_molag_valid = yes } }
+		add_trait = p_ob_molag
+
+		ai_chance = {
+			base = 1
+			modifier = { #Liked by sadists
+				OR = {
+					has_trait = sadistic
+					has_trait = callous
+				}
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_ob_namira
+		trigger = { faith = { patron_ob_namira_valid = yes } }
+		add_trait = p_ob_namira
+	}
+
+	option = {
+		name = religious_decision.0101.p_ob_nocturnal
+		trigger = { faith = { patron_ob_nocturnal_valid = yes } }
+		add_trait = p_ob_nocturnal
+	}
+
+	option = {
+		name = religious_decision.0101.p_ob_peryite
+		trigger = { faith = { patron_ob_peryite_valid = yes } }
+		add_trait = p_ob_peryite
+	}
+
+	option = {
+		name = religious_decision.0101.p_ob_sanguine
+		trigger = { faith = { patron_ob_sanguine_valid = yes } }
+		add_trait = p_ob_sanguine
+	}
+
+	option = {
+		name = religious_decision.0101.p_ob_sheogorath
+		trigger = { faith = { patron_ob_sheogorath_valid = yes } }
+		add_trait = p_ob_sheogorath
+	}
+
+	option = {
+		name = religious_decision.0101.p_ob_vaermina
+		trigger = { faith = { patron_ob_vaermina_valid = yes } }
+		add_trait = p_ob_vaermina
+	}
+
+	option = {
+		name = religious_decision.0101.p_da_architect
+		trigger = { faith = { patron_da_architect_valid = yes } }
+		add_trait = p_da_architect
+	}
+
+	option = {
+		name = religious_decision.0101.p_da_giant
+		trigger = { faith = { patron_da_giant_valid = yes } }
+		add_trait = p_da_giant
+	}
+
+	option = {
+		name = religious_decision.0101.p_da_lost_king
+		trigger = { faith = { patron_da_lost_king_valid = yes } }
+		add_trait = p_da_lost_king
+	}
+
+	option = {
+		name = religious_decision.0101.p_da_warrior
+		trigger = { faith = { patron_da_warrior_valid = yes } }
+		add_trait = p_da_warrior
+	}
+
+	option = {
+		name = religious_decision.0101.p_at_hawk
+		trigger = { faith = { patron_at_hawk_valid = yes } }
+		add_trait = p_at_hawk
+	}
+
+	option = {
+		name = religious_decision.0101.p_at_wolf
+		trigger = { faith = { patron_at_wolf_valid = yes } }
+		add_trait = p_at_wolf
+
+		ai_chance = {
+			base = 1
+			modifier = { #Associated with women
+				is_female = no
+				factor = 0.5
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_at_snake
+		trigger = { faith = { patron_at_snake_valid = yes } }
+		add_trait = p_at_snake
+	}
+
+	option = {
+		name = religious_decision.0101.p_at_moth
+		trigger = { faith = { patron_at_moth_valid = yes } }
+		add_trait = p_at_moth
+
+		ai_chance = {
+			base = 1
+			modifier = { #Associated with women
+				is_female = no
+				factor = 0.5
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_at_owl
+		trigger = { faith = { patron_at_owl_valid = yes } }
+		add_trait = p_at_owl
+	}
+
+	option = {
+		name = religious_decision.0101.p_at_whale
+		trigger = { faith = { patron_at_whale_valid = yes } }
+		add_trait = p_at_whale
+	}
+
+	option = {
+		name = religious_decision.0101.p_at_bear
+		trigger = { faith = { patron_at_bear_valid = yes } }
+		add_trait = p_at_bear
+	}
+
+	option = {
+		name = religious_decision.0101.p_at_fox
+		trigger = { faith = { patron_at_fox_valid = yes } }
+		add_trait = p_at_fox
+	}
+
+	option = {
+		name = religious_decision.0101.p_at_dragon
+		trigger = { faith = { patron_at_dragon_valid = yes } }
+		add_trait = p_at_dragon
+	}
+
+	option = {
+		name = religious_decision.0101.p_at_hare
+		trigger = { faith = { patron_at_hare_valid = yes } }
+		add_trait = p_at_hare
+	}
+
+	option = {
+		name = religious_decision.0101.p_eg_myn
+		trigger = { faith = { patron_eg_myn_valid = yes } }
+		add_trait = p_eg_myn
+	}
+
+	option = {
+		name = religious_decision.0101.p_eg_zisa
+		trigger = { faith = { patron_eg_zisa_valid = yes } }
+		add_trait = p_eg_zisa
+	}
+
+	option = {
+		name = religious_decision.0101.p_eg_nyfa
+		trigger = { faith = { patron_eg_nyfa_valid = yes } }
+		add_trait = p_eg_nyfa
+	}
+
+	option = {
+		name = religious_decision.0101.p_eg_ilni
+		trigger = { faith = { patron_eg_ilni_valid = yes } }
+		add_trait = p_eg_ilni
+	}
+
+	option = {
+		name = religious_decision.0101.p_eg_tam
+		trigger = { faith = { patron_eg_tam_valid = yes } }
+		add_trait = p_eg_tam
+	}
+
+	option = {
+		name = religious_decision.0101.p_ch_alessia
+		trigger = { faith = { patron_ch_alessia_valid = yes } }
+		add_trait = p_ch_alessia
+	}
+
+	option = {
+		name = religious_decision.0101.p_ch_pelinal
+		trigger = { faith = { patron_ch_pelinal_valid = yes } }
+		add_trait = p_ch_pelinal
+
+		ai_chance = {
+			base = 1
+			modifier = { #Liked by zealous people
+				has_trait = zealous
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_ch_morihaus
+		trigger = { faith = { patron_ch_morihaus_valid = yes } }
+		add_trait = p_ch_morihaus
+	}
+
+	option = {
+		name = religious_decision.0101.p_ch_reman
+		trigger = { faith = { patron_ch_reman_valid = yes } }
+		add_trait = p_ch_reman
+
+		ai_chance = {
+			base = 1
+			modifier = { #Liked by ambitious people
+				has_trait = ambitious
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_ch_bendu
+		trigger = { faith = { patron_ch_bendu_valid = yes } }
+		add_trait = p_ch_bendu
+	}
+
+	option = {
+		name = religious_decision.0101.p_tc_aka
+		trigger = { faith = { patron_tc_aka_valid = yes } }
+		add_trait = p_tc_aka
+	}
+
+	option = {
+		name = religious_decision.0101.p_tc_missing
+		trigger = { faith = { patron_tc_missing_valid = yes } }
+		add_trait = p_tc_missing
+	}
+
+	option = {
+		name = religious_decision.0101.p_tc_land
+		trigger = { faith = { patron_tc_land_valid = yes } }
+		add_trait = p_tc_land
+	}
+
+	option = {
+		name = religious_decision.0101.p_tc_moth
+		trigger = { faith = { patron_tc_moth_valid = yes } }
+		add_trait = p_tc_moth
+	}
+
+	option = {
+		name = religious_decision.0101.p_tc_beasts
+		trigger = { faith = { patron_tc_beasts_valid = yes } }
+		add_trait = p_tc_beasts
+	}
+
+	option = {
+		name = religious_decision.0101.p_tc_love
+		trigger = { faith = { patron_tc_love_valid = yes } }
+		add_trait = p_tc_love
+	}
+
+	option = {
+		name = religious_decision.0101.p_tc_guilds
+		trigger = { faith = { patron_tc_guilds_valid = yes } }
+		add_trait = p_tc_guilds
+
+		ai_chance = {
+			base = 1
+			modifier = { #Liked by people who like to make money. Same as Zenithar + just from Stendarr
+				OR = {
+					has_trait = just
+					has_trait = education_stewardship
+					has_trait = greedy
+					has_trait = diligent
+				}
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_tc_heavens
+		trigger = { faith = { patron_tc_heavens_valid = yes } }
+		add_trait = p_tc_heavens
+	}
+
+	option = {
+		name = religious_decision.0101.p_yp_diagna
+		trigger = { faith = { patron_yp_diagna_valid = yes } }
+		add_trait = p_yp_diagna
+	}
+
+	option = {
+		name = religious_decision.0101.p_yp_morwha
+		trigger = { faith = { patron_yp_morwha_valid = yes } }
+		add_trait = p_yp_morwha
+
+		ai_chance = {
+			base = 1
+			modifier = { #Less likely to be picked by men
+				is_female = no
+				factor = 0.5
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_yp_onsi
+		trigger = { faith = { patron_yp_onsi_valid = yes } }
+		add_trait = p_yp_onsi
+
+		ai_chance = {
+			base = 1
+			modifier = { #Liked by blademasters
+				has_trait = lifestyle_blademaster
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_yp_ruptga
+		trigger = { faith = { patron_yp_ruptga_valid = yes } }
+		add_trait = p_yp_ruptga
+
+		ai_chance = {
+			base = 1
+			modifier = { #Liked by important rulers
+				highest_held_title_tier >= tier_kingdom
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_yp_satakal
+		trigger = { faith = { patron_yp_satakal_valid = yes } }
+		add_trait = p_yp_satakal
+	}
+
+	option = {
+		name = religious_decision.0101.p_yp_tava
+		trigger = { faith = { patron_yp_tava_valid = yes } }
+		add_trait = p_yp_tava
+	}
+
+	option = {
+		name = religious_decision.0101.p_yp_tuwhacca
+		trigger = { faith = { patron_yp_tuwhacca_valid = yes } }
+		add_trait = p_yp_tuwhacca
+	}
+
+	option = {
+		name = religious_decision.0101.p_yp_zeht
+		trigger = { faith = { patron_yp_zeht_valid = yes } }
+		add_trait = p_yp_zeht
+	}
+
+	option = {
+		name = religious_decision.0101.p_yp_leki
+		trigger = { faith = { patron_yp_leki_valid = yes } }
+		add_trait = p_yp_leki
+	}
+
+	option = {
+		name = religious_decision.0101.p_yp_hoonding
+		trigger = { faith = { patron_yp_hoonding_valid = yes } }
+		add_trait = p_yp_hoonding
+	}
+
+	option = {
+		name = religious_decision.0101.p_tr_vivec
+		trigger = { faith = { patron_tr_vivec_valid = yes } }
+		add_trait = p_tr_vivec
+
+		ai_chance = {
+			base = 1
+			modifier = { #Warriors (gah-julan/redoran) like warrior god
+				culture = { has_cultural_tradition = tradition_bulwark_of_the_west }
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_tr_almalexia
+		trigger = { faith = { patron_tr_almalexia_valid = yes } }
+		add_trait = p_tr_almalexia
+
+		ai_chance = {
+			base = 1
+			modifier = { #Chuzei/indoril like Almalexia
+				culture = { has_cultural_tradition = tradition_garden_of_veloth }
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_tr_sotha
+		trigger = { faith = { patron_tr_sotha_valid = yes } }
+		add_trait = p_tr_sotha
+
+		ai_chance = {
+			base = 1
+			modifier = { #Mages like Magus
+				has_trait = education_magic
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_fg_notorgo
+		trigger = { faith = { patron_fg_notorgo_valid = yes } }
+		add_trait = p_fg_notorgo
+	}
+
+	option = {
+		name = religious_decision.0101.p_fg_raen
+		trigger = { faith = { patron_fg_raen_valid = yes } }
+		add_trait = p_fg_raen
+	}
+	
+	option = {
+		name = religious_decision.0101.p_fg_vigryl
+		trigger = { faith = { patron_fg_vigryl_valid = yes } }
+		add_trait = p_fg_vigryl
+	}
+	
+	option = {
+		name = religious_decision.0101.p_fg_shandar
+		trigger = { faith = { patron_fg_shandar_valid = yes } }
+		add_trait = p_fg_shandar
+	}
+	
+	option = {
+		name = religious_decision.0101.p_fg_jhimsei
+		trigger = { faith = { patron_fg_jhimsei_valid = yes } }
+		add_trait = p_fg_jhimsei
+	}
+	
+	option = {
+		name = religious_decision.0101.p_fg_druaaga
+		trigger = { faith = { patron_fg_druaaga_valid = yes } }
+		add_trait = p_fg_druaaga
+	}
+	
+	option = {
+		name = religious_decision.0101.p_fg_qolwen
+		trigger = { faith = { patron_fg_qolwen_valid = yes } }
+		add_trait = p_fg_qolwen
+	}
+	
+	option = {
+		name = religious_decision.0101.p_fg_sai
+		trigger = { faith = { patron_fg_sai_valid = yes } }
+		add_trait = p_fg_sai
+	}
+	
+	option = {
+		name = religious_decision.0101.p_fg_ebonarm
+		trigger = { faith = { patron_fg_ebonarm_valid = yes } }
+		add_trait = p_fg_ebonarm
+	}
+	
+	option = {
+		name = religious_decision.0101.p_fg_ius
+		trigger = { faith = { patron_fg_ius_valid = yes } }
+		add_trait = p_fg_ius
+	}
+
+	option = {
+		name = religious_decision.0101.p_vl_nerevar
+		trigger = { faith = { patron_vl_nerevar_valid = yes } }
+		add_trait = p_vl_nerevar
+	}
+
+	option = {
+		name = religious_decision.0101.p_mg_mnemoli
+		trigger = { faith = { patron_mg_mnemoli_valid = yes } }
+		add_trait = p_mg_mnemoli
+	}
+
+	option = {
+		name = religious_decision.0101.p_mg_xerolyg
+		trigger = { faith = { patron_mg_xerolyg_valid = yes } }
+		add_trait = p_mg_xerolyg
+	}
+
+	option = {
+		name = religious_decision.0101.p_rm_light_of_man
+		trigger = { faith = { patron_rm_light_of_man_valid = yes } }
+		add_trait = p_rm_light_of_man
+
+		ai_chance = {
+			base = 1
+			modifier = { #Warriors like warrior aspect of Reman
+				has_trait = education_martial
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_rm_the_cyrodiil
+		trigger = { faith = { patron_rm_the_cyrodiil_valid = yes } }
+		add_trait = p_rm_the_cyrodiil
+		
+		ai_chance = {
+			base = 1
+			modifier = { #Diplomats like diplomat aspect of Reman
+				has_trait = education_diplomacy
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_rm_worldly_god
+		trigger = { faith = { patron_rm_worldly_god_valid = yes } }
+		add_trait = p_rm_worldly_god
+
+		ai_chance = {
+			base = 1
+			modifier = { #Ambitious people like aspect that focuses on ascension
+				has_trait = ambitious
+				factor = 2
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0101.p_tm_paragon
+		trigger = { faith = { patron_tm_paragon_valid = yes } }
+		add_trait = p_tm_paragon
+	}
+
+	option = {
+		name = religious_decision.0101.p_tm_gold_champ
+		trigger = { faith = { patron_tm_gold_champ_valid = yes } }
+		add_trait = p_tm_gold_champ
+	}
+
+	option = {
+		name = religious_decision.0101.p_tm_blade_of_courage
+		trigger = { faith = { patron_tm_blade_of_courage_valid = yes } }
+		add_trait = p_tm_blade_of_courage
+	}
+
+	## EK TODO: someone should add other patrons. also probably a trigger so ai with patronless faiths dont try to take the decision
+
+	option = {
+		name = religious_decision.0101.optout
+		flavor = religious_decision.0101.flavor
+
+		ai_chance = {
+			base = 0
+		}		
+	}
+}
+
+### EK DISABLED: Event disabled
+religious_decision.0102 = {
+	type = character_event
+	title = religious_decision.0102.t
+	desc = religious_decision.0102.desc
+	theme = faith
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	#EK DISABLED
+	# # Odin
+	# option = {
+		# name = religious_decision.0102.odin
+		# trigger = {
+			# NOT = { has_character_modifier = bhakti_germanic_generic_odin }
+		# }
+		# set_bhakti_effect = { BHAKTI = bhakti_germanic_generic_odin }
+	# }
+
+	# # Ullr
+	# option = {
+		# name = religious_decision.0102.ullr
+		# trigger = {
+			# is_vaguely_danish_bhakti_trigger = no
+			# NOT = { has_character_modifier = bhakti_germanic_not_danish_ullr }
+		# }
+		# set_bhakti_effect = { BHAKTI = bhakti_germanic_not_danish_ullr }
+	# }
+
+	# # Tyr
+	# option = {
+		# name = religious_decision.0102.tyr
+		# trigger = {
+			# is_vaguely_danish_bhakti_trigger = yes
+			# NOT = { has_character_modifier = bhakti_germanic_danish_tyr }
+		# }
+		# set_bhakti_effect = { BHAKTI = bhakti_germanic_danish_tyr }
+	# }
+
+	# # Thor
+	# option = {
+		# name = religious_decision.0102.thor
+		# trigger = {
+			# NOT = { has_character_modifier = bhakti_germanic_generic_thor }
+		# }
+		# set_bhakti_effect = { BHAKTI = bhakti_germanic_generic_thor }
+	# }
+
+	# # Freyr
+	# option = {
+		# name = religious_decision.0102.freyr
+		# trigger = {
+			# NOT = { has_character_modifier = bhakti_germanic_generic_freyr }
+		# }
+		# set_bhakti_effect = { BHAKTI = bhakti_germanic_generic_freyr }
+	# }
+
+	# Opt-Out
+	option = {
+		name = religious_decision.0102.optout
+		flavor = religious_decision.0102.flavor
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+
+#########################
+# Meditate in Seclusion	#
+# by Sean Hughes		#
+# 0201-0299				#
+#########################
+
+# If the player exits the travel planning UI, this event fires reseting the decision cooldown and removing variables
+religious_decision.0200 = {
+	hidden = yes
+	trigger = {
+		OR = {
+			exists = var:meditation_location
+			has_character_flag = meditation_character_flag
+		}
+	}
+	immediate = {
+		current_travel_plan ?= { cancel_travel_plan = yes }
+		remove_decision_cooldown = meditate_in_seclusion_decision
+		remove_variable = meditation_location
+		remove_character_flag = meditation_character_flag
+	}
+}
+
+scripted_trigger religious_decision_0201_can_meditate_in_terrain_trigger = {
+	religious_decision_0201_has_two_meditation_options_trigger = no
+	any_sub_realm_barony = {
+		NOT = { this = root.capital_barony }
+		title_province = {
+			terrain = $TERRAIN$
+		}
+	}
+}
+
+scripted_trigger religious_decision_0201_has_two_meditation_options_trigger = {
+	# Stops after we've found 2 good places for meditation (don't want to overload the player).
+	calc_true_if = {
+		amount >= 2
+		has_character_flag = meditation_option_plains
+		has_character_flag = meditation_option_hills
+		has_character_flag = meditation_option_steppe
+		has_character_flag = meditation_option_forest
+		has_character_flag = meditation_option_drylands
+		has_character_flag = meditation_option_mountains
+		has_character_flag = meditation_option_wetlands
+		has_character_flag = meditation_option_jungle
+		has_character_flag = meditation_option_desert
+	}
+}
+
+scripted_effect save_meditation_option_effect = {
+	add_character_flag = meditation_option_$TERRAIN$
+	random_sub_realm_barony = {
+		limit = {
+			NOT = { this = root.capital_barony }
+			title_province = {
+				terrain = $TERRAIN$
+			}
+		}
+		title_province = { save_scope_as = $TERRAIN$_location }
+	}
+}
+
+scripted_effect meditate_at_location_effect = {
+	set_variable = {
+		name = meditation_location
+		value = scope:$TERRAIN$_location
+	}
+	start_travel_plan = {
+		destination = var:meditation_location
+		on_travel_planner_cancel_event = religious_decision.0200
+		on_arrival_event = religious_decision.0210
+		on_arrival_destinations = all_but_last
+	}
+	add_character_modifier = {
+		modifier = meditating_in_seclusion_modifier
+		days = meditation_duration
+	}
+	add_character_flag = meditation_character_flag
+}
+
+religious_decision.0201 = {
+	type = character_event
+	title = religious_decision.0201.t
+	desc = religious_decision.0201.desc
+	theme = faith
+
+	override_background = {
+		reference = throne_room
+	}
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	immediate = {
+		# Stop characters from planning multiple activities at once.
+		add_character_flag = {
+			flag = planning_an_activity
+			days = 30
+		}
+
+		# Save the character's capital scope for meditation
+		capital_barony.title_province = {
+			save_scope_as = capital_location
+		}
+
+		# Generate options for meditation based on terrain in character's realm.
+		if = {
+			limit = {
+				religious_decision_0201_has_two_meditation_options_trigger = no
+				any_sub_realm_barony = {
+					NOT = { this = root.capital_barony }
+					title_province = {
+						OR = {
+							terrain = mountains
+							terrain = desert_mountains
+						}
+					}
+				}
+			}
+			add_character_flag = meditation_option_mountains
+			random_sub_realm_barony = {
+				limit = {
+					NOT = { this = root.capital_barony }
+					title_province = {
+						OR = {
+							terrain = mountains
+							terrain = desert_mountains
+						}
+					}
+				}
+				title_province = { save_scope_as = mountains_location }
+			}
+		}
+		if = {
+			limit = { religious_decision_0201_can_meditate_in_terrain_trigger = {TERRAIN = steppe}}
+			save_meditation_option_effect = { TERRAIN = steppe }
+		}
+		if = {
+			limit = {
+				religious_decision_0201_has_two_meditation_options_trigger = no
+				any_sub_realm_barony = {
+					NOT = { this = root.capital_barony }
+					title_province = {
+						OR = {
+							terrain = forest
+							terrain = taiga
+						}
+					}
+				}
+			}
+			add_character_flag = meditation_option_forest
+			random_sub_realm_barony = {
+				limit = {
+					NOT = { this = root.capital_barony }
+					title_province = {
+						OR = {
+							terrain = forest
+							terrain = taiga
+						}
+					}
+				}
+				title_province = { save_scope_as = forest_location }
+			}
+		}
+		if = {
+			limit = { religious_decision_0201_can_meditate_in_terrain_trigger = {TERRAIN = desert}}
+			save_meditation_option_effect = { TERRAIN = desert }
+		}
+		if = {
+			limit = { religious_decision_0201_can_meditate_in_terrain_trigger = {TERRAIN = hills}}
+			save_meditation_option_effect = { TERRAIN = hills }
+		}
+		if = {
+			limit = { religious_decision_0201_can_meditate_in_terrain_trigger = {TERRAIN = drylands}}
+			save_meditation_option_effect = { TERRAIN = drylands }
+		}
+		if = {
+			limit = { religious_decision_0201_can_meditate_in_terrain_trigger = {TERRAIN = plains}}
+			save_meditation_option_effect = { TERRAIN = plains }
+		}
+		if = {
+			limit = { religious_decision_0201_can_meditate_in_terrain_trigger = {TERRAIN = jungle}}
+			save_meditation_option_effect = { TERRAIN = jungle }
+		}
+		if = {
+			limit = { religious_decision_0201_can_meditate_in_terrain_trigger = {TERRAIN = wetlands}}
+			save_meditation_option_effect = { TERRAIN = wetlands }
+		}
+	}
+
+	# Option 1: Meditate at home. Lowest risk, lowest reward.
+	option = {
+		name = religious_decision.0201.home
+		set_variable = {
+			name = meditation_location
+			value = scope:capital_location
+		}
+		add_character_flag = meditation_character_flag
+		add_character_modifier = {
+			modifier = meditating_in_seclusion_modifier
+			days = meditation_duration
+		}
+		custom_tooltip = religious_decision.0201.difficulty.easy
+		trigger_event = {
+			id = religious_decision.0211
+			days = meditation_duration
+		}
+	}
+
+	# Option 2-A: Meditate in the plains. Low risk, low reward.
+	option = {
+		trigger = { has_character_flag = meditation_option_plains }
+		name = religious_decision.0201.plains
+		meditate_at_location_effect = { TERRAIN = plains }
+		custom_tooltip = religious_decision.0201.difficulty.easy
+		custom_tooltip = religious_decision.0201.stress
+	}
+
+	# Option 2-B: Meditate in the hills. Low risk, low reward.
+	option = {
+		trigger = { has_character_flag = meditation_option_hills }
+		name = religious_decision.0201.hills
+		meditate_at_location_effect = { TERRAIN = hills }
+		custom_tooltip = religious_decision.0201.difficulty.easy
+		custom_tooltip = religious_decision.0201.learning
+	}
+
+	# Option 2-C: Meditate in the steppe. Low risk, medium reward.
+	option = {
+		trigger = { has_character_flag = meditation_option_steppe }
+		name = religious_decision.0201.steppe
+		meditate_at_location_effect = { TERRAIN = steppe }
+		custom_tooltip = religious_decision.0201.difficulty.easy
+		custom_tooltip = religious_decision.0201.trait
+	}
+
+	# Option 2-D: Meditate in the forest. Medium risk, medium reward.
+	option = {
+		trigger = { has_character_flag = meditation_option_forest }
+		name = religious_decision.0201.forest
+		meditate_at_location_effect = { TERRAIN = forest }
+		custom_tooltip = religious_decision.0201.difficulty.medium
+		custom_tooltip = religious_decision.0201.stress
+	}
+
+	# Option 2-E: Meditate in the drylands. Medium risk, medium reward.
+	option = {
+		trigger = { has_character_flag = meditation_option_drylands }
+		name = religious_decision.0201.drylands
+		meditate_at_location_effect = { TERRAIN = drylands }
+		custom_tooltip = religious_decision.0201.difficulty.medium
+		custom_tooltip = religious_decision.0201.learning
+	}
+
+	# Option 2-F: Meditate in the mountains. High risk, high reward.
+	option = {
+		trigger = { has_character_flag = meditation_option_mountains }
+		name = religious_decision.0201.mountains
+		meditate_at_location_effect = { TERRAIN = mountains }
+		custom_tooltip = religious_decision.0201.difficulty.hard
+		custom_tooltip = religious_decision.0201.stress
+		custom_tooltip = religious_decision.0201.trait
+	}
+
+	# Option 2-G: Meditate in the desert. High risik, high reward.
+	option = {
+		trigger = { has_character_flag = meditation_option_desert }
+		name = religious_decision.0201.desert
+		meditate_at_location_effect = { TERRAIN = desert }
+		custom_tooltip = religious_decision.0201.difficulty.hard
+		custom_tooltip = religious_decision.0201.learning
+	}
+
+	# Option 2-H: Meditate in the swamp. High risk, low reward.
+	option = {
+		trigger = { has_character_flag = meditation_option_wetlands }
+		name = religious_decision.0201.wetlands
+		meditate_at_location_effect = { TERRAIN = wetlands }
+		custom_tooltip = religious_decision.0201.difficulty.hard
+	}
+
+	# Option 2-I: Meditate in the jugnle. High risk, low reward.
+	option = {
+		trigger = { has_character_flag = meditation_option_jungle }
+		name = religious_decision.0201.jungle
+		meditate_at_location_effect = { TERRAIN = jungle }
+		custom_tooltip = religious_decision.0201.difficulty.hard
+	}
+
+	# Option 3: Opt-out
+	option = {
+		name = religious_decision.0201.optout
+		flavor = religious_decision.0201.optout.flavor
+
+		ai_chance = {
+			base = 0
+		}
+
+		remove_decision_cooldown = meditate_in_seclusion_decision
+	}
+
+	after = {
+		remove_character_flag = meditation_option_plains
+		remove_character_flag = meditation_option_hills
+		remove_character_flag = meditation_option_steppe
+		remove_character_flag = meditation_option_forest
+		remove_character_flag = meditation_option_drylands
+		remove_character_flag = meditation_option_mountains
+		remove_character_flag = meditation_option_wetlands
+		remove_character_flag = meditation_option_jungle
+		remove_character_flag = meditation_option_desert
+		remove_character_flag = planning_an_activity
+	}
+}
+
+scripted_effect improve_meditation_skill = {
+	if = {
+		limit = {
+			has_variable = meditation_experience
+		}
+		change_variable = {
+			name = meditation_experience
+			add = 1
+		}
+	}
+	else = {
+		set_variable = {
+			name = meditation_experience
+			value = 1
+		}
+	}
+	custom_tooltip = religious_decision.0211.experience
+}
+
+religious_decision.0210 = {
+	hidden = yes
+	immediate = {
+		send_interface_toast = {
+			title = religious_decision.0210.toast
+			left_icon = root
+			current_travel_plan = {
+				delay_travel_plan = { days = meditation_duration }
+			}
+		}
+		trigger_event = {
+			id = religious_decision.0211
+			days = meditation_duration
+		}
+	}
+}
+
+religious_decision.0211 = {
+	type = character_event
+	title = religious_decision.0211.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:at_home = yes }
+				desc = religious_decision.0211.desc.beginning.home
+			}
+			triggered_desc = {
+				trigger = {
+					var:meditation_location = {
+						OR = {
+							terrain = mountains
+							terrain = desert_mountains
+						}
+					}
+				}
+				desc = religious_decision.0211.desc.beginning.mountains
+			}
+			triggered_desc = {
+				trigger = {
+					var:meditation_location = {
+						OR = {
+							terrain = forest
+							terrain = taiga
+						}
+				}
+				}
+				desc = religious_decision.0211.desc.beginning.forest
+			}
+			triggered_desc = {
+				trigger = {var:meditation_location = { terrain = plains }}
+				desc = religious_decision.0211.desc.beginning.plains
+			}
+			triggered_desc = {
+				trigger = {var:meditation_location = { terrain = hills }}
+				desc = religious_decision.0211.desc.beginning.hills
+			}
+			triggered_desc = {
+				trigger = {var:meditation_location = { terrain = steppe }}
+				desc = religious_decision.0211.desc.beginning.steppe
+			}
+			triggered_desc = {
+				trigger = {var:meditation_location = { terrain = drylands }}
+				desc = religious_decision.0211.desc.beginning.drylands
+			}
+			triggered_desc = {
+				trigger = {var:meditation_location = { terrain = wetlands }}
+				desc = religious_decision.0211.desc.beginning.wetlands
+			}
+			triggered_desc = {
+				trigger = {var:meditation_location = { terrain = jungle }}
+				desc = religious_decision.0211.desc.beginning.jungle
+			}
+			triggered_desc = {
+				trigger = {var:meditation_location = { terrain = desert }}
+				desc = religious_decision.0211.desc.beginning.desert
+			}
+		}
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_character_flag = meditation_minor_stress_loss }
+				desc = religious_decision.0211.desc.result.minor_stress
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = meditation_medium_stress_loss }
+				desc = religious_decision.0211.desc.result.medium_stress
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = meditation_major_stress_loss }
+				desc = religious_decision.0211.desc.result.major_stress
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = meditation_reflection }
+				desc = religious_decision.0211.desc.result.reflection
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = meditation_fugue }
+				desc = religious_decision.0211.desc.result.fugue
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = meditation_epiphany }
+				desc = religious_decision.0211.desc.result.epiphany
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = meditation_impatient }
+				desc = religious_decision.0211.desc.result.impatient
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = meditation_secret }
+				desc = religious_decision.0211.desc.result.secret
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = meditation_hungry }
+				desc = religious_decision.0211.desc.result.hungry
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = meditation_thirsty }
+				desc = religious_decision.0211.desc.result.thirsty
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = meditation_headache }
+				desc = religious_decision.0211.desc.result.headache
+			}
+			triggered_desc = {
+				trigger = { has_character_flag = meditation_distraction }
+				desc = religious_decision.0211.desc.result.distraction
+			}
+		}
+	}
+	theme = faith
+	override_background = {
+		trigger = {	scope:at_home = yes }
+		reference = sitting_room
+	}
+	override_background = {
+		trigger = {	scope:at_home = no }
+		reference = wilderness_scope
+	}
+	override_background = {
+		trigger = {	has_character_flag = meditation_thirsty }
+		reference = bp1_crossroads_inn
+	}
+	left_portrait = root
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = {
+					exists = var:meditation_location
+				}
+			}
+			set_variable = {
+				name = meditation_location
+				value = root.location
+			}
+		}
+		var:meditation_location = {
+			save_scope_as = meditation_location
+			save_scope_as = background_wilderness_scope
+		}
+
+		# Check if we are meditating in our capital (will be checked frequently when determining outcomes).
+		if = {
+			limit = {
+				exists = capital_province
+				scope:meditation_location = root.capital_province
+			}
+			save_scope_value_as = {
+				name = at_home
+				value = yes
+			}
+		}
+		else = {
+			save_scope_value_as = {
+				name = at_home
+				value = no
+			}
+		}
+
+		# Determine what the outcome of the meditation journey will be.
+		random_list = {
+			# Positive Outcomes
+			80 = {
+				# Double positive chance for meditating at home (though the benefits will be small).
+				modifier = {
+					add = 80
+					trigger = { scope:at_home = yes }
+				}
+
+				random_list = {
+					# Stress Reduction
+					60 = {
+						modifier = {
+							add = 40
+							scope:meditation_location = {
+								OR = {
+									terrain = mountains
+									terrain = desert_mountains
+									terrain = forest
+									terrain = taiga
+								}
+							}
+						}
+
+						random_list = {
+							# Lower stress loss when meditating at home.
+							100 = {
+								trigger = { scope:at_home = yes }
+								add_character_flag = meditation_minor_stress_loss
+							}
+
+							# Higher stress loss when meditating in the wilderness
+							66 = {
+								trigger = { scope:at_home = no }
+								add_character_flag = meditation_medium_stress_loss
+							}
+							33 = {
+								trigger = { scope:at_home = no }
+								modifier = {
+									add = 121
+									scope:meditation_location = {
+										OR = {
+											terrain = desert_mountains
+											terrain = mountains
+										}
+									}
+								}
+								add_character_flag = meditation_major_stress_loss
+							}
+						}
+					}
+					# Replace Negative Trait
+					20 = {
+						trigger = {
+							scope:at_home = no
+							# Must have a negative trait to replace.
+							OR = {
+								has_trait = greedy
+								has_trait = lustful
+								has_trait = gluttonous
+								has_trait = deceitful
+								has_trait = ambitious
+								has_trait = impatient
+								has_trait = sadistic
+								has_trait = wrathful
+							}
+						}
+
+						# Greater chance when meditating in one of these terrains.
+						modifier = {
+							add = 75
+							scope:meditation_location = {
+								terrain = steppe
+							}
+						}
+						modifier = {
+							add = 150
+							scope:meditation_location = {
+								OR = {
+									terrain = mountains
+									terrain = desert_mountains
+								}
+							}
+						}
+						add_character_flag = meditation_reflection
+					}
+					# Gain Learning
+					20 = {
+						trigger = {
+							scope:at_home = no
+						}
+						modifier = {
+							add = 50
+							scope:meditation_location = {
+								terrain = hills
+							}
+						}
+						add_character_flag = meditation_epiphany
+					}
+					# Gain extra Learning
+					50 = {
+						trigger = {
+							scope:at_home = no
+							# Only in hot regions.
+							scope:meditation_location = {
+								OR = {
+									terrain = desert
+									terrain = drylands
+								}
+							}
+						}
+						modifier = {
+							add = 100
+							scope:meditation_location = {
+								terrain = desert
+							}
+						}
+						add_character_flag = meditation_fugue
+					}
+				}
+			}
+			# Negative Outcomes
+			20 = {
+				# Location modifiers.
+				modifier = { # Failure increases from 20% to 25%. Still relatively easy.
+					add = 7 # Total 27
+					scope:at_home = no
+				}
+				modifier = { # Failure increases from 25% to 40%. Moderate difficulty.
+					add = 26 # Total 53
+					scope:at_home = no
+					scope:meditation_location = {
+						OR = {
+							terrain = forest
+							terrain = taiga
+							terrain = drylands
+						}
+					}
+				}
+				modifier = { # Failure increases from 25% to 60%. Hard difficulty.
+					add = 93 # Total 120
+					scope:at_home = no
+					scope:meditation_location = {
+						OR = {
+							terrain = desert
+							terrain = desert_mountains
+							terrain = mountains
+							terrain = wetlands
+							terrain = jungle
+						}
+					}
+				}
+
+				# Positive Personality Modifiers.
+				modifier = {
+					factor = 0.86
+					has_trait = patient
+				}
+				modifier = {
+					factor = 0.90
+					has_trait = calm
+				}
+				modifier = {
+					factor = 0.92
+					has_trait = temperate
+				}
+
+				# Negative Personality Modifiers.
+				modifier = {
+					factor = 1.13
+					has_trait = impatient
+				}
+				modifier = {
+					factor = 1.10
+					has_trait = gluttonous
+				}
+				modifier = {
+					factor = 1.08
+					has_trait = wrathful
+				}
+
+				# Reduces failure chance by 10 points per previous successful meditation.
+				modifier = {
+					add = {
+						subtract = var:meditation_experience
+						multiply = 10
+					}
+					has_variable = meditation_experience
+				}
+
+				random_list = {
+					25 = {
+						trigger = { NOT = { has_trait = patient } }
+						modifier = {
+							add = 50
+							var:meditation_location = {
+								terrain = wetlands
+							}
+						}
+						modifier = {
+							add = 75
+							has_trait = impatient
+						}
+						add_character_flag = meditation_impatient
+					}
+					25 = {
+						trigger = {
+							any_secret = {
+								count > 0
+							}
+						}
+						modifier = {
+							add = 75
+							any_secret = {
+								is_criminal_for = root
+							}
+						}
+						add_character_flag = meditation_secret
+					}
+					75 = {
+						trigger = {
+							scope:meditation_location = {
+								terrain = jungle
+							}
+						}
+						add_character_flag = meditation_distraction
+					}
+					25 = {
+						modifier = {
+							add = -20
+							has_trait = temperate
+						}
+						modifier = {
+							add = 75
+							has_trait = gluttonous
+						}
+						add_character_flag = meditation_hungry
+					}
+					100 = {
+						trigger = {
+							scope:meditation_location = {
+								OR = {
+									terrain = desert
+									terrain = drylands
+								}
+							}
+						}
+						add_character_flag = meditation_thirsty
+					}
+					100 = {
+						trigger = {
+							scope:meditation_location = {
+								OR = {
+									terrain = mountains
+									terrain = desert_mountains
+								}
+							}
+						}
+						add_character_flag = meditation_headache
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = {
+			trigger = {
+				OR = {
+					has_character_flag = meditation_epiphany
+					has_character_flag = meditation_fugue
+					has_character_flag = meditation_major_stress_loss
+				}
+			}
+			text = religious_decision.0211.a.critical_success
+		}
+		name = {
+			trigger = {
+				OR = {
+					has_character_flag = meditation_reflection
+					has_character_flag = meditation_medium_stress_loss
+					has_character_flag = meditation_minor_stress_loss
+				}
+			}
+			text = religious_decision.0211.a.success
+		}
+		name = {
+			trigger = {
+				OR = {
+					has_character_flag = meditation_secret
+					has_character_flag = meditation_impatient
+					has_character_flag = meditation_hungry
+					has_character_flag = meditation_thirsty
+					has_character_flag = meditation_distraction
+					has_character_flag = meditation_headache
+				}
+			}
+			text = religious_decision.0211.a.failure
+		}
+		if = {
+			limit = {has_character_flag = meditation_minor_stress_loss }
+			add_stress = minor_stress_loss
+			improve_meditation_skill = yes
+		}
+		else_if = {
+			limit = {has_character_flag = meditation_medium_stress_loss }
+			add_stress = medium_stress_loss
+			improve_meditation_skill = yes
+		}
+		else_if = {
+			limit = {has_character_flag = meditation_major_stress_loss }
+			add_stress = major_stress_loss
+			improve_meditation_skill = yes
+		}
+		else_if = {
+			limit = {has_character_flag = meditation_reflection }
+			random_list = {
+				1 = {
+					trigger = {	has_trait = gluttonous }
+					remove_trait = gluttonous
+					add_trait_force_tooltip = temperate
+				}
+				1 = {
+					trigger = {	has_trait = greedy }
+					remove_trait = greedy
+					add_trait_force_tooltip = generous
+				}
+				1 = {
+					trigger = {	has_trait = ambitious }
+					remove_trait = ambitious
+					add_trait_force_tooltip = content
+				}
+				1 = {
+					trigger = {	has_trait = lustful }
+					remove_trait = lustful
+					add_trait_force_tooltip = chaste
+				}
+				1 = {
+					trigger = {	has_trait = deceitful }
+					remove_trait = deceitful
+					add_trait_force_tooltip = honest
+				}
+				1 = {
+					trigger = {	has_trait = sadistic }
+					remove_trait = sadistic
+					add_trait_force_tooltip = compassionate
+				}
+				1 = {
+					trigger = {	has_trait = impatient }
+					remove_trait = impatient
+					add_trait_force_tooltip = patient
+				}
+				1 = {
+					trigger = {	has_trait = wrathful }
+					remove_trait = wrathful
+					add_trait_force_tooltip = calm
+				}
+			}
+			improve_meditation_skill = yes
+		}
+		else_if = {
+			limit = {has_character_flag = meditation_fugue }
+			add_learning_skill = 2
+			improve_meditation_skill = yes
+		}
+		else_if = {
+			limit = {has_character_flag = meditation_epiphany }
+			add_learning_skill = 1
+			improve_meditation_skill = yes
+		}
+		else_if = {
+			limit = {has_character_flag = meditation_impatient }
+			add_stress = minor_stress_gain
+		}
+		else_if = {
+			limit = {has_character_flag = meditation_secret }
+			add_stress = minor_stress_gain
+		}
+		else_if = {
+			limit = {has_character_flag = meditation_hungry }
+			add_stress = minor_stress_gain
+		}
+		else_if = {
+			limit = {has_character_flag = meditation_thirsty }
+			add_stress = minor_stress_gain
+		}
+		else_if = {
+			limit = {has_character_flag = meditation_headache }
+			add_stress = minor_stress_gain
+		}
+		else_if = {
+			limit = {has_character_flag = meditation_distraction }
+			add_stress = minor_stress_gain
+		}
+	}
+
+	after = {
+		# Remove character
+		remove_character_flag = meditation_secret
+		remove_character_flag = meditation_impatient
+		remove_character_flag = meditation_epiphany
+		remove_character_flag = meditation_fugue
+		remove_character_flag = meditation_reflection
+		remove_character_flag = meditation_major_stress_loss
+		remove_character_flag = meditation_medium_stress_loss
+		remove_character_flag = meditation_minor_stress_loss
+
+		# Run the clean-up event.
+		trigger_event = {
+			id = religious_decision.0291
+			days = 30
+		}
+	}
+}
+
+religious_decision.0291 = {
+	hidden = yes
+	immediate = {
+		send_interface_toast = {
+			title = religious_decision.0291.toast
+			left_icon = root
+			current_travel_plan ?= {
+				if = {
+					limit = { is_paused = yes }
+					resume_travel_plan = yes
+				}
+			}
+		}
+		remove_variable = meditation_location
+		remove_character_flag = meditation_character_flag
+	}
+}
+
+#########################
+# Sky Burials 			#
+# by Sean Hughes		#
+# 0301-0302				#
+#########################
+
+religious_decision.0301 = {
+	hidden = yes
+
+	# Faiths with Sky Burial need to have this character saved as a variable on their successor.
+	trigger = {
+		exists = player_heir
+		faith = {
+			has_doctrine_parameter = sky_burials_active
+		}
+	}
+
+	immediate = {
+		player_heir = {
+			if = {
+				limit = {
+					faith = root.faith
+					OR = {
+						is_child_of = root
+						is_grandchild_of = root
+						is_great_grandchild_of = root
+					}
+				}
+				set_variable = {
+					name = ancestor_to_bury
+					value = root
+					years = 5
+				}
+			}
+		}
+	}
+}
+
+### EK DISABLED: Removed references to vanilla religions
+religious_decision.0302 = {
+	type = character_event
+	title = religious_decision.0302.t
+	desc = {
+		triggered_desc = {
+			# trigger = {
+				# NOR = {
+					# religion = religion:zoroastrianism_religion
+					# religion = religion:zunism_religion
+				# }
+			# }
+			desc = religious_decision.0302.desc.wilderness
+		}
+		# triggered_desc = {
+			# trigger = {
+				# OR = {
+					# religion = religion:zoroastrianism_religion
+					# religion = religion:zunism_religion
+				# }
+			# }
+			# desc = religious_decision.0302.desc.zoroastrian
+		# }
+	}
+	theme = faith
+	override_background = {
+		# trigger = {
+			# NOR = {
+				# religion = religion:zoroastrianism_religion
+				# religion = religion:zunism_religion
+			# }
+		# }
+		reference = wilderness
+	}
+	# override_background = {
+		# trigger = {
+			# OR = {
+				# religion = religion:zoroastrianism_religion
+				# religion = religion:zunism_religion
+			# }
+		# }
+		# reference = temple
+	# }
+
+	left_portrait = {
+		character = var:ancestor_to_bury
+	}
+
+	immediate = {
+		add_piety = major_piety_value
+		if = {
+			limit = {
+				any_vassal = {
+					faith = {
+						has_doctrine_parameter = sky_burials_active
+					}
+				}
+			}
+			every_vassal = {
+				limit = {
+					faith = {
+						has_doctrine_parameter = sky_burials_active
+					}
+				}
+				custom = give_sky_burial_vassals
+				add_opinion = {
+					modifier = pleased_opinion
+					target = root
+					opinion = 20
+				}
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0302.a
+	}
+
+	after = {
+		remove_variable = ancestor_to_bury
+	}
+}
+
+#################################
+# Raise Runestone Maintenance	#
+# by Linnéa Thimrén				#
+# 0311							#
+#################################
+
+religious_decision.0311 = {
+	hidden = yes
+
+	# Faiths that can raise a runestone need to have this character saved as a variable on their successor.
+	trigger = {
+		exists = player_heir
+		player_heir = {
+			is_close_family_of = root
+			is_alive = yes
+		}
+		dynasty = player_heir.dynasty
+		# Has access to a valid method of raising runestones.
+		fp1_can_raise_stele_trigger = yes
+	}
+
+	immediate = {
+		player_heir = {
+			set_variable = {
+				name = ancestor_to_bury
+				value = root
+				years = 5
+			}
+		}
+	}
+}
+
+#New holder of the county with a runestone
+religious_decision.0312 = {
+	hidden = yes
+
+	trigger = {
+		scope:title = {
+			exists = var:ancestor_to_bury
+		}
+		NOT = { dynasty = scope:previous_holder.dynasty } #We only have to change something if the new holder is of a different dynasty
+		# Use expanded version if we have FP1.
+		has_fp1_dlc_trigger = no
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				scope:title = {
+					NOT = { var:ancestor_to_bury.dynasty = root.dynasty }
+				}
+			}
+			scope:title = {
+				remove_county_modifier = county_raised_runestone_modifier
+				remove_variable = ancestor_to_bury
+			}
+		}
+	}
+}
+
+
+#########################
+# Divine the Stars		#
+# by Sean Hughes		#
+# 0401					#
+#########################
+
+religious_decision.0401 = {
+	type = character_event
+	title = religious_decision.0401.t
+	desc = {
+		desc = religious_decision.0401.desc.beginning
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:divination_outcome = flag:great_battle
+				}
+				desc = religious_decision.0401.desc.great_battle
+			}
+			triggered_desc = {
+				trigger = {
+					scope:divination_outcome = flag:new_friends
+				}
+				desc = religious_decision.0401.desc.new_friends
+			}
+			triggered_desc = {
+				trigger = {
+					scope:divination_outcome = flag:hard_work
+				}
+				desc = religious_decision.0401.desc.hard_work
+			}
+			triggered_desc = {
+				trigger = {
+					scope:divination_outcome = flag:betrayal
+				}
+				desc = religious_decision.0401.desc.betrayal
+			}
+			triggered_desc = {
+				trigger = {
+					scope:divination_outcome = flag:new_beginnings
+				}
+				desc = religious_decision.0401.desc.new_beginnings
+			}
+		}
+	}
+	theme = faith
+	override_background = {
+		trigger = { is_landless_adventurer = no }
+		reference = corridor_night
+	}
+	override_background = {
+		trigger = { is_landless_adventurer = yes }
+		reference = bp1_bonfire
+	}
+	left_portrait = root
+
+	immediate = {
+		random_list = {
+			20 = {
+				save_scope_value_as = {
+					name = divination_outcome
+					value = flag:great_battle
+				}
+			}
+			20 = {
+				save_scope_value_as = {
+					name = divination_outcome
+					value = flag:new_friends
+				}
+			}
+			20 = {
+				save_scope_value_as = {
+					name = divination_outcome
+					value = flag:hard_work
+				}
+			}
+			20 = {
+				save_scope_value_as = {
+					name = divination_outcome
+					value = flag:betrayal
+				}
+			}
+			20 = {
+				save_scope_value_as = {
+					name = divination_outcome
+					value = flag:new_beginnings
+				}
+			}
+		}
+	}
+
+	option = {
+		name = religious_decision.0401.a
+
+		if = {
+			limit = {
+				scope:divination_outcome = flag:great_battle
+			}
+			add_character_modifier = {
+				modifier = astrology_great_battle
+				years = 10
+			}
+		}
+		else_if = {
+			limit = {
+				scope:divination_outcome = flag:new_friends
+			}
+			add_character_modifier = {
+				modifier = astrology_new_friends
+				years = 10
+			}
+		}
+		else_if = {
+			limit = {
+				scope:divination_outcome = flag:hard_work
+			}
+			add_character_modifier = {
+				modifier = astrology_hard_work
+				years = 10
+			}
+		}
+		else_if = {
+			limit = {
+				scope:divination_outcome = flag:betrayal
+			}
+			add_character_modifier = {
+				modifier = astrology_betrayal
+				years = 10
+			}
+		}
+		else_if = {
+			limit = {
+				scope:divination_outcome = flag:new_beginnings
+			}
+			add_character_modifier = {
+				modifier = astrology_new_beginnings
+				years = 10
+			}
+		}
+
+		# Remove the blocking flag.
+		remove_character_flag = divining_the_stars
+	}
+}
+
+
+#########################
+# Reforming Kabarism	#
+# by James Beaumont		#
+# 0501-0502				#
+#########################
+#EK DISABLED: no kabarism
+# religious_decision.0501 = {
+	# type = character_event
+	# title = religious_decision.0501.t
+	# desc = {
+		# desc = religious_decision.0501.desc
+	# }
+	# theme = faith
+	# override_background = {
+		# reference = temple_generic
+	# }
+	# left_portrait = root
+	# right_portrait = root.faith.religious_head
+	
+	# immediate = {
+		# save_scope_as = khazar_khan
+	# }
+
+	# option = {
+		# name = religious_decision.0501.a
+		# stress_impact = {
+			# zealous = major_stress_impact_gain
+			# cynical = minor_stress_impact_loss
+		# }
+		# root.faith.religious_head = {
+			# add_opinion = {
+				# target = root
+				# modifier = insult_opinion
+				# opinion = -40
+			# }
+		# }
+		# every_vassal = {
+			# custom = religious_decision.0501.jewish.tt
+			# limit = {
+				# has_religion = religion:judaism_religion
+			# }
+			# add_opinion = {
+				# target = root
+				# modifier = disappointed_opinion
+				# opinion = -10
+			# }
+		# }
+		# every_vassal = {
+			# custom = religious_decision.0501.nonjewish.tt
+			# limit = {
+				# NOT = { has_religion = religion:judaism_religion }
+			# }
+			# add_opinion = {
+				# target = root
+				# modifier = pleased_opinion
+				# opinion = 30
+			# }
+		# }
+	# }
+
+	# option = {
+		# name = religious_decision.0501.b
+		# ai_chance = {
+			# base = 100 #the AI should always pick this one
+		# }
+		# stress_impact = {
+			# zealous = minor_stress_impact_loss
+		# }
+		# root.faith = {
+			# remove_doctrine = tenet_unreformed_syncretism
+			# add_doctrine = tenet_esotericism
+			# remove_doctrine = doctrine_pluralism_pluralistic
+			# add_doctrine = doctrine_pluralism_righteous
+		# }
+		# every_vassal = {
+			# custom = religious_decision.0501.nonjewish.tt
+			# limit = {
+				# NOT = { has_religion = religion:judaism_religion }
+			# }
+			# add_opinion = {
+				# target = root
+				# modifier = disappointed_opinion
+				# opinion = -10
+			# }
+		# }
+		# hidden_effect = {
+			# every_ruler = {
+				# limit = {
+					# OR = {
+						# is_vassal_of = root
+						# has_faith = faith:kabarism
+					# }
+				# }
+				# trigger_event = religious_decision.0502
+			# }
+		# }
+	# }
+
+	# option = {
+		# name = religious_decision.0501.c
+		# stress_impact = {
+			# zealous = major_stress_impact_loss
+			# gregarious = minor_stress_impact_gain
+		# }
+		# root.faith = {
+			# remove_doctrine = tenet_unreformed_syncretism
+			# add_doctrine = tenet_armed_pilgrimages
+			# remove_doctrine = doctrine_pluralism_pluralistic
+			# add_doctrine = doctrine_pluralism_fundamentalist
+		# }
+		# every_vassal = {
+			# custom = religious_decision.0501.nonjewish.tt
+			# limit = {
+				# NOT = { has_religion = religion:judaism_religion }
+			# }
+			# add_opinion = {
+				# target = root
+				# modifier = scared_opinion
+				# opinion = -25
+			# }
+		# }
+		# every_vassal = {
+			# limit = {
+				# has_religion = religion:judaism_religion
+			# }
+			# custom = religious_decision.0501.jewish.tt
+			# add_opinion = {
+				# target = root
+				# modifier = respect_opinion
+				# opinion = 20
+			# }
+		# }
+		# hidden_effect = {
+			# every_ruler = {
+				# limit = {
+					# NOT = { this = root }
+					# OR = {
+						# is_vassal_of = root
+						# has_faith = faith:kabarism
+					# }
+				# }
+				# trigger_event = religious_decision.0502
+			# }
+		# }
+	# }
+# }
+
+# #Event notifying vassals and Kabarites of the changes
+# religious_decision.0502 = {
+	# type = character_event
+	# title = religious_decision.0502.t
+	# desc = {
+		# desc = religious_decision.0502.desc.intro
+		# desc = religious_decision.0502.desc.body
+		# triggered_desc = {
+			# trigger = {
+				# scope:khazar_khan.faith = {
+					# NOT = {
+						# has_doctrine = doctrine_pluralism_fundamentalist
+					# }
+				# }
+			# }
+			# desc = religious_decision.0502.desc.righteous
+		# }
+		# triggered_desc = {
+			# trigger = {
+				# scope:khazar_khan.faith = {
+					# has_doctrine = doctrine_pluralism_fundamentalist
+				# }
+			# }
+			# desc = religious_decision.0502.desc.fundamentalist
+		# }
+	# }
+	# theme = faith
+	# override_background = {
+		# reference = temple_generic
+	# }
+	# left_portrait = scope:khazar_khan
+	# right_portrait = root
+
+	# option = {
+		# name = religious_decision.0502.a
+		# trigger = {
+			# NOT = { has_faith = faith:kabarism }
+			# scope:khazar_khan.faith = {
+				# NOT = {
+					# has_doctrine = doctrine_pluralism_fundamentalist
+				# }
+			# }
+		# }
+		# ai_chance = {
+			# base = 10
+		# }
+		# show_as_tooltip = {
+			# scope:khazar_khan.faith = {
+				# remove_doctrine = tenet_unreformed_syncretism
+				# add_doctrine = tenet_esotericism
+				# remove_doctrine = doctrine_pluralism_pluralistic
+				# add_doctrine = doctrine_pluralism_righteous
+			# }
+		# }
+	# }
+
+	# option = {
+		# name = religious_decision.0502.a
+		# trigger = {
+			# NOT = { has_faith = faith:kabarism }
+			# scope:khazar_khan.faith = { has_doctrine = doctrine_pluralism_fundamentalist }
+		# }
+		# show_as_tooltip = {
+			# scope:khazar_khan.faith = {
+				# remove_doctrine = tenet_unreformed_syncretism
+				# add_doctrine = tenet_armed_pilgrimages
+				# remove_doctrine = doctrine_pluralism_pluralistic
+				# add_doctrine = doctrine_pluralism_fundamentalist
+			# }
+		# }
+	# }
+
+	# option = {
+		# name = religious_decision.0502.b
+		# trigger = {
+			# has_faith = faith:kabarism
+			# scope:khazar_khan.faith = {
+				# NOT = {
+					# has_doctrine = doctrine_pluralism_fundamentalist
+				# }
+			# }
+		# }
+		# ai_chance = {
+			# base = 10
+		# }
+		# show_as_tooltip = {
+			# scope:khazar_khan.faith = {
+				# remove_doctrine = tenet_unreformed_syncretism
+				# add_doctrine = tenet_esotericism
+				# remove_doctrine = doctrine_pluralism_pluralistic
+				# add_doctrine = doctrine_pluralism_righteous
+			# }
+		# }
+	# }
+
+	# option = {
+		# name = religious_decision.0502.b
+		# trigger = {
+			# has_faith = faith:kabarism
+			# scope:khazar_khan.faith = { has_doctrine = doctrine_pluralism_fundamentalist }
+		# }
+		# show_as_tooltip = {
+			# scope:khazar_khan.faith = {
+				# remove_doctrine = tenet_unreformed_syncretism
+				# add_doctrine = tenet_armed_pilgrimages
+				# remove_doctrine = doctrine_pluralism_pluralistic
+				# add_doctrine = doctrine_pluralism_fundamentalist
+			# }
+		# }
+	# }
+# }
+
+#EK DISABLED: deleted Caliphate stuff

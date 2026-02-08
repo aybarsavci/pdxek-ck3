@@ -1,0 +1,773 @@
+﻿### EK CoA
+coa_altmer_culture_trigger = {
+	scope:culture = { has_coa_gfx = aldmeris_group_coa_gfx }
+}
+
+coa_argonian_culture_trigger = {
+	scope:culture = { has_coa_gfx = argonian_group_coa_gfx }
+}
+
+coa_khajiit_culture_trigger = {
+	scope:culture = { has_coa_gfx = khajiit_group_coa_gfx }
+}
+
+coa_reachfolk_culture_trigger = {
+	OR = {
+		culture = culture:reachfolk
+		culture = { any_parent_culture_or_above = { this = culture:reachfolk } }
+	}
+}
+
+coa_redoran_trigger = {
+	OR = {
+		culture = culture:gah_julan
+		culture = { any_parent_culture_or_above = { this = culture:gah_julan } }
+	}
+}
+
+coa_hlaalu_trigger = {
+	OR = {
+		culture = culture:armun_an
+		culture = { any_parent_culture_or_above = { this = culture:armun_an } }
+	}
+}
+
+coa_indoril_trigger = {
+	OR = {
+		culture = culture:chuzei
+		culture = { any_parent_culture_or_above = { this = culture:chuzei } }
+	}
+}
+
+coa_telvanni_trigger = {
+	OR = {
+		culture = culture:chi_addun
+		culture = { any_parent_culture_or_above = { this = culture:chi_addun } }
+	}
+}
+
+coa_dres_trigger = {
+	OR = {
+		culture = culture:marduhn_oad
+		culture = { any_parent_culture_or_above = { this = culture:marduhn_oad } }
+	}
+}
+
+coa_shinathi_trigger = {
+	OR = {
+		culture = culture:shinathi
+		culture = { any_parent_culture_or_above = { this = culture:shinathi } }
+	}
+}
+
+coa_pirate_trigger = {
+	OR = {
+		has_government = pirate_government
+		has_trait = pirate
+	}
+	AND = {
+		exists = scope:title
+		scope:title = {
+			OR = {
+				any_this_title_or_de_jure_above = {
+					OR = {
+						#Topal Bay
+						this = title:k_soulrest
+						this = title:d_stonewaste_coast
+						this = title:d_blackwood
+						this = title:d_leyawiin
+						this = title:d_alabaster
+						this = title:k_senchal
+						#Abecean
+						this = title:k_systres
+						this = title:k_hew_bane
+						this = title:k_abecean
+						this = title:k_the_isles
+						this = title:k_anvil
+						#Iliac Bay
+						this = title:k_hegathe
+						this = title:k_sentinel
+						this = title:k_daggerfall
+						this = title:k_camlorn
+						this = title:k_wayrest
+						#Yokuda
+						this = title:e_yokuda
+					}
+				}
+				#Topal Bay
+				this = title:d_topal_corsairs
+				#Abecean
+				this = title:d_brethren_gold_coast
+				this = title:d_red_sails
+				this = title:d_regal_pirate
+				this = title:d_heartless_horde
+				#Iliac Bay
+				this = title:d_masconian_pirates
+				#Yokuda
+				this = title:d_yoku_freeport
+				this = title:d_ra_ugakta
+				this = title:d_napere_do_kotu
+			}
+		}
+	}
+}
+
+coa_imga_altmer_trigger = {
+	scope:culture = { has_coa_gfx = imga_group_coa_gfx }
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_anui_el
+			has_doctrine = doctrine_pantheon_aedra
+		}
+	}
+}
+
+coa_marukhati_trigger = {
+	OR = {
+		scope:culture = { has_coa_gfx = imga_group_coa_gfx }
+		scope:culture = { has_coa_gfx = cyrodiilic_group_coa_gfx }
+	}
+	faith = {
+		has_doctrine = doctrine_pantheon_the_one
+	}
+}
+
+coa_altmer_title_trigger = {	#For baronies / mercenaries / and leased temples
+	AND = {
+		coa_altmer_culture_trigger = yes
+		OR = {
+			highest_held_title_tier = tier_barony
+			primary_title ?= { is_mercenary_company = yes }
+			government_has_flag = government_is_theocracy
+			AND = {
+				exists = liege
+				liege = {
+					any_sub_realm_barony = {
+						lessee = ROOT
+						title_province = {
+							has_holding_type = church_holding
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+coa_hist_title_trigger = {	#For hist holdings
+	OR = {
+		AND = {
+			coa_hist_religion_trigger = yes
+			government_has_flag = government_is_theocracy
+		}
+		AND = {
+			root.faith = { has_doctrine_parameter = can_hold_hist_holdings }
+			root.capital_barony.title_province ?= { has_holding_type = hist_holding }
+		}
+	}
+}
+
+### Aedric Faith Triggers
+coa_divines_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_divines
+			has_doctrine = doctrine_pantheon_redguard
+		}
+	}
+}
+coa_divines_temple_trigger = {	#For leased temple baronies
+	faith = {
+		has_doctrine = doctrine_pantheon_divines
+	}
+	OR = {
+		government_has_flag = government_is_theocracy
+		AND = {
+			exists = liege
+			liege = {
+				any_sub_realm_barony = {
+					lessee = ROOT
+					title_province = {
+						has_holding_type = church_holding
+					}
+				}
+			}
+		}
+	}
+}
+coa_cyrodiilic_cult_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_heroes
+			has_doctrine = doctrine_pantheon_thousand_cults
+		}
+	}
+}
+coa_nedic_divines_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_nedic_aedra
+	}
+}
+coa_nord_divines_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_nord
+	}
+}
+coa_nord_divines_temple_trigger = {	#For leased temple baronies
+	faith = {
+		has_doctrine = doctrine_pantheon_nord
+	}
+	OR = {
+		government_has_flag = government_is_theocracy
+		AND = {
+			exists = liege
+			liege = {
+				any_sub_realm_barony = {
+					lessee = ROOT
+					title_province = {
+						has_holding_type = church_holding
+					}
+				}
+			}
+		}
+	}
+}
+coa_totemic_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_atmoran_totems
+	}
+}
+coa_yokudan_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_yokudan
+			has_doctrine = doctrine_pantheon_ragada
+		}
+	}
+}
+coa_satakal_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_satakal
+	}
+}
+coa_green_pact_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_green_pact
+	}
+}
+coa_aedra_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_aedra
+	}
+}
+coa_akatosh_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_sp_divines_akatosh
+			has_doctrine = doctrine_sp_redguard_akatosh
+		}
+	}
+}
+coa_alduin_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_sp_at_dragon
+	}
+}
+coa_arkay_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_sp_divines_arkay
+			has_doctrine = doctrine_sp_redguard_arkay
+			has_doctrine = doctrine_sp_nedic_aedra_arkay
+		}
+	}
+}
+coa_orkey_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_sp_at_snake
+	}
+}
+coa_dibella_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_sp_divines_dibella
+			has_doctrine = doctrine_sp_nedic_aedra_dibella
+		}
+	}
+}
+coa_dibella_nord_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_sp_nord_dibella
+	}
+}
+coa_julianos_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_sp_divines_julianos
+	}
+}
+coa_jhunal_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_sp_nord_jhunal
+			has_doctrine = doctrine_sp_at_owl
+		}
+	}
+}
+coa_kynareth_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_divines
+			has_doctrine = doctrine_pantheon_redguard
+			has_doctrine = doctrine_pantheon_nedic_aedra
+			has_doctrine = doctrine_sp_divines_kynareth
+			has_doctrine = doctrine_sp_redguard_kynareth
+			has_doctrine = doctrine_sp_nedic_aedra_kynareth
+		}
+	}
+}
+coa_kyne_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_sp_nord_kyne
+			has_doctrine = doctrine_sp_at_hawk
+		}
+	}
+}
+coa_mara_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_sp_divines_mara
+			has_doctrine = doctrine_sp_redguard_morwha
+			has_doctrine = doctrine_sp_nord_mara
+			has_doctrine = doctrine_sp_nedic_aedra_mara
+		}
+	}
+}
+coa_mara_nord_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_sp_nord_mara
+	}
+}
+coa_stendarr_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_sp_divines_stendarr
+	}
+}
+coa_stuhn_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_sp_nord_stuhn
+	}
+}
+coa_zenithar_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_sp_divines_zenithar
+			has_doctrine = doctrine_sp_redguard_zenithar
+			has_doctrine = doctrine_sp_nedic_aedra_zenithar
+		}
+	}
+}
+coa_tsun_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_sp_nord_tsun
+			has_doctrine = doctrine_sp_at_bear
+		}
+	}
+}
+coa_shor_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_sp_nord_shor
+			has_doctrine = doctrine_sp_at_fox
+		}
+	}
+}
+coa_wolf_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_sp_at_wolf
+	}
+}
+coa_moth_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_sp_at_moth
+			has_doctrine = doctrine_pantheon_ancestor_moth
+		}
+	}
+}
+coa_marukhati_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_the_one
+	}
+}
+coa_alessia_religion_trigger = {
+	faith = {
+			has_doctrine = doctrine_sp_heroes_alessia
+	}
+}
+coa_pelinal_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_sp_heroes_pelinal
+	}
+}
+coa_morihaus_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_sp_heroes_morihaus
+	}
+}
+coa_reman_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_reman
+			has_doctrine = doctrine_sp_heroes_reman
+		}
+	}
+}
+coa_auriel_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_sp_aedra_auriel
+			has_doctrine = doctrine_pantheon_anui_el
+		}
+	}
+}
+coa_magnus_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_magna_ge
+			has_doctrine = doctrine_pantheon_magnus
+			has_doctrine = doctrine_sp_aedra_magnus
+			has_doctrine = doctrine_sp_magna_ge_magnus
+		}
+	}
+}
+coa_dragon_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_dragons
+	}
+}
+
+### Aurbic Faith Triggers
+coa_deepones_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_deepones
+	}
+}
+coa_hist_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_hist
+	}
+}
+coa_lilmothiit_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_lilmothiit
+	}
+}
+coa_khajiiti_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_khajiiti
+	}
+}
+coa_riddlethar_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_riddlethar
+	}
+}
+coa_baandar_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_baandar
+	}
+}
+coa_necromantic_religion_trigger = {
+	faith = {
+		has_doctrine = tenet_necromancy_worship
+	}
+}
+coa_worm_cult_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_mannimarco
+	}
+}
+coa_reach_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_old_gods
+			has_doctrine = doctrine_pantheon_druadach
+		}
+	}
+}
+coa_herd_mother_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_herd_mother
+	}
+}
+coa_sithis_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_sithis
+			has_doctrine = doctrine_pantheon_ghost_snake
+		}
+	}
+}
+coa_vampire_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_lamae
+	}
+}
+coa_wyrd_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_jephre
+			has_doctrine = doctrine_pantheon_forgotten_gods
+		}
+	}
+}
+coa_akaviri_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_elemental
+	}
+}
+coa_celestial_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_celestials
+	}
+}
+coa_celestial_serpent_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_celestial_serpent
+	}
+}
+coa_dwemer_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_dwemer_ancestors
+			this = faith:golden_tones
+		}
+	}
+}
+coa_all_maker_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_all_maker
+	}
+}
+coa_osh_ornim_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_stones
+	}
+}
+coa_xrib_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_xrib
+	}
+}
+coa_ius_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_ius
+	}
+}
+coa_wilderking_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_wilderking
+	}
+}
+
+### Daedric Faith Triggers
+coa_azura_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_azura
+			has_doctrine = doctrine_sp_daedra_azura
+		}
+	}
+}
+coa_boethiah_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_boethiah
+			has_doctrine = doctrine_sp_daedra_boethiah
+		}
+	}
+}
+coa_clavicus_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_clavicus
+			has_doctrine = doctrine_sp_daedra_clavicus
+		}
+	}
+}
+coa_hermaeus_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_hermaeus
+			has_doctrine = doctrine_sp_daedra_hermaeus
+		}
+	}
+}
+coa_hircine_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_hircine
+			has_doctrine = doctrine_sp_daedra_hircine
+		}
+	}
+}
+coa_malacath_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_malacath
+			has_doctrine = doctrine_sp_daedra_malacath
+		}
+	}
+}
+coa_mehrunes_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_mehrunes
+			has_doctrine = doctrine_sp_daedra_mehrunes
+		}
+	}
+}
+coa_mephala_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_mephala
+			has_doctrine = doctrine_sp_daedra_mephala
+		}
+	}
+}
+coa_meridia_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_meridia
+			has_doctrine = doctrine_sp_daedra_meridia
+		}
+	}
+}
+coa_molag_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_molag
+			has_doctrine = doctrine_sp_daedra_molag
+		}
+	}
+}
+coa_namira_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_namira
+			has_doctrine = doctrine_sp_daedra_namira
+		}
+	}
+}
+coa_nocturnal_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_nocturnal
+			has_doctrine = doctrine_sp_daedra_nocturnal
+		}
+	}
+}
+coa_peryite_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_peryite
+			has_doctrine = doctrine_sp_daedra_peryite
+		}
+	}
+}
+coa_sanguine_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_sanguine
+			has_doctrine = doctrine_sp_daedra_sanguine
+		}
+	}
+}
+coa_sheogorath_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_sheogorath
+			has_doctrine = doctrine_sp_daedra_sheogorath
+		}
+	}
+}
+coa_vaermina_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_vaermina
+			has_doctrine = doctrine_sp_daedra_vaermina
+		}
+	}
+}
+#Velothi
+coa_nerevar_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_nerevar
+			has_doctrine = doctrine_sp_vl_nerevar
+		}
+	}
+}
+coa_dagoth_religion_trigger = {
+	has_faith = faith:sixth_house
+}
+coa_tribunal_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_tribunal
+	}
+}
+coa_tribunal_temple_trigger = {	#For leased temple baronies
+	faith = {
+		has_doctrine = doctrine_pantheon_tribunal
+	}
+	OR = {
+		government_has_flag = government_is_theocracy
+		AND = {
+			exists = liege
+			liege = {
+				any_sub_realm_barony = {
+					lessee = ROOT
+					title_province = {
+						has_holding_type = church_holding
+					}
+				}
+			}
+		}
+	}
+}
+coa_velothi_religion_trigger = {
+	faith = {
+		OR = {
+			has_doctrine = doctrine_pantheon_good_daedra
+			has_doctrine = doctrine_sp_good_daedra
+		}
+	}
+}
+coa_velothi_azura_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_sp_good_daedra_azura
+	}
+}
+coa_velothi_boethiah_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_sp_good_daedra_boethiah
+	}
+}
+coa_velothi_mephala_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_sp_good_daedra_mephala
+	}
+}
+coa_bad_daedra_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_bad_daedra
+	}
+}
+#Ayleid
+coa_ten_ancestors_religion_trigger = {
+	faith = {
+		has_doctrine = doctrine_pantheon_ten_ancestors
+	}
+}

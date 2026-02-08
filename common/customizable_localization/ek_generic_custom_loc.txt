@@ -1,0 +1,89 @@
+﻿SeraSerjo = {
+	type = character
+	text = {
+		trigger = {
+			is_male = yes
+		}
+		localization_key = CHARACTER_SERJO
+	}
+	text = {
+		trigger = {
+			is_female = yes
+		}
+		localization_key = CHARACTER_SERA
+	}
+}
+
+NickLastLivingDwarf = {
+	type = character
+
+	text = {
+		trigger = {
+			any_culture_global = {
+				has_cultural_pillar = heritage_dwemeri
+				culture_is_alive = yes
+			}
+		}
+		localization_key = not_last_living_dwarf
+	}
+
+	text = {
+		trigger = {
+			any_culture_global = {
+				has_cultural_pillar = heritage_dwemeri
+				culture_is_alive = no
+			}
+		}
+		localization_key = last_living_dwarf
+	}
+}
+
+GetDwemerisLanguageDesc = {
+	type = character
+
+	text = {
+		trigger = {
+			any_culture_global = {
+				has_cultural_pillar = heritage_dwemeri
+				culture_is_alive = yes
+			}
+		}
+		localization_key = language_dwemeris_desc_not_extinct
+	}
+
+	text = {
+		trigger = {
+			any_culture_global = {
+				has_cultural_pillar = heritage_dwemeri
+				culture_is_alive = no
+			}
+		}
+		localization_key = language_dwemeris_desc_extinct
+	}
+}
+
+GetBalfieraCultureDesc = {
+	type = character
+
+	text = {
+		trigger = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_direnni_hegemony_pt_2
+			}
+		}
+		localization_key = balfiera_desc_hegemony
+	}
+
+	text = {
+		trigger = {
+			NOT = {
+				is_target_in_global_variable_list = {
+					name = unavailable_unique_decisions
+					target = flag:flag_direnni_hegemony_pt_2
+				}
+			}
+		}
+		localization_key = balfiera_desc_normal
+	}
+}

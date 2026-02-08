@@ -1,0 +1,1499 @@
+﻿namespace = hist_communion
+
+# Arrival
+hist_communion.0001 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0001.t
+	desc = {
+		first_valid = {
+		    triggered_desc = {      
+                trigger = { faith = { has_doctrine = tenet_amberhist } }
+                desc = hist_communion.0001.desc.amberhist
+            }
+            triggered_desc = {      
+                trigger = { faith = { has_doctrine = tenet_ghosthist } }
+                desc = hist_communion.0001.desc.ghosthist
+            }
+            triggered_desc = {      
+                trigger = { faith = { has_doctrine = tenet_sunhist } }
+                desc = hist_communion.0001.desc.sunhist
+            }
+            desc = hist_communion.0001.desc
+        }
+	}
+	theme = hist_communion
+	left_portrait = {
+		character = root
+		animation = happiness
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+		play_music_cue = mx_cue_pilgrimage_arrival
+		set_hist_communion_initial_level_effect = yes	
+	}
+
+	#Alright
+	option = {
+		name = {  
+			text = {
+				desc = {
+					first_valid = {
+						triggered_desc = {
+							trigger = { faith = { has_doctrine = tenet_amberhist } }
+							desc = hist_communion.0001.a.amberhist
+						}
+						triggered_desc = {
+							trigger = { faith = { has_doctrine = tenet_sunhist } }
+							desc = hist_communion.0001.a.sunhist
+						}
+						triggered_desc = {
+							trigger = { faith = { has_doctrine = tenet_ghosthist } }
+							desc = hist_communion.0001.a.ghosthist
+						}
+						desc = hist_communion.0001.a
+					}
+				}
+			} 
+		}			
+		pilgrimage_arrival_stress_loss_effect = yes
+	}
+}
+
+### Standard Hist
+
+#Become a Behemoth
+hist_communion.0100 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0100.t
+	desc = hist_communion.0100.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		has_activity_intent = hist_blessing_intent
+		NOT = { has_trait = argonian_behemoth_3 }
+		has_character_flag = race_argonian
+	}
+
+	#Alright
+	option = {
+		name = hist_communion.0100.a
+
+		trigger = {
+			NOT = { has_trait = argonian_behemoth_2 }
+		}
+
+		random_list = {
+			10 = {
+				hist_communion_success_chance = yes
+				desc = hist_communion.0100.a.success
+				send_interface_toast = {
+					title = hist_communion.0100.a.success
+					left_icon = root
+					custom_tooltip = hist_communion.behemoth.tt
+					add_character_flag = increase_argonian_behemoth
+					custom_tooltip = hist_communion_tt_positive_massive
+					scope:activity = { activity_hist_communion_progression_massive = yes }
+				}				
+			}
+			50 = {
+				desc = hist_communion.0100.a.failure
+				send_interface_toast = {
+					title = hist_communion.0100.a.failure
+					left_icon = root
+					add_stress = major_stress_gain
+				}				
+			}
+		}
+	}
+
+	#Same option as above, but warning the player that becoming tier three Behemoth will make them mindless and depose them
+	option = {
+		name = hist_communion.0100.b
+		add_internal_flag = dangerous
+		trait = argonian_behemoth_2
+
+		trigger = {
+			has_trait = argonian_behemoth_2
+		}
+
+		random_list = {
+			10 = {
+				hist_communion_success_chance = yes
+				desc = hist_communion.0100.a.success
+				send_interface_toast = {
+					title = hist_communion.0100.a.success
+					left_icon = root
+					custom_tooltip = hist_communion.behemoth.tt.danger
+					add_character_flag = increase_argonian_behemoth
+					custom_tooltip = hist_communion_tt_positive_massive
+					scope:activity = { activity_hist_communion_progression_massive = yes }
+				}				
+			}
+			50 = {
+				desc = hist_communion.0100.a.failure
+				send_interface_toast = {
+					title = hist_communion.0100.a.failure
+					left_icon = root
+					add_stress = major_stress_gain
+				}				
+			}
+		}
+	}
+
+	option = {
+		name = hist_communion.0100.c
+	}
+}
+
+#Adopt a new Hatchling
+hist_communion.0101 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0101.t
+	desc = hist_communion.0101.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:new_parent
+		trigger = {
+			exists = scope:new_parent
+		}
+	}
+
+	center_portrait = {
+		character = scope:hatchling
+	}
+
+	immediate = {
+		hidden_effect = {
+            create_character = {
+                location = root.location
+                gender_female_chance = 50
+                template_character = root
+                random_traits = yes
+                age = { 40 60 }
+                save_scope_as = new_parent
+                after_creation = {
+                    ek_character_setup_effect = yes
+                }
+            }
+            create_character = {
+                location = root.location
+                gender_female_chance = 50
+                template_character = root
+                random_traits = yes
+                dynasty = none
+                age = 0
+                save_scope_as = hatchling
+                after_creation = {
+                    ek_character_setup_effect = yes
+                }
+            }
+			scope:activity = {
+				if = {
+					limit = {
+						any_attending_character = {
+							NOT = { this = root }
+						}
+					}
+					random_attending_character = { 
+						save_scope_as = new_parent
+					}
+				}
+			}
+        }		
+	}
+
+
+	# Adopt
+	option = {
+		name = hist_communion.0101.a
+		
+		custom_tooltip = hist_communion_tt_positive_massive
+		scope:activity = { activity_hist_communion_progression_massive = yes }
+
+		#One shiny new child for you!
+		if = {
+			limit = { is_female = yes }
+			scope:hatchling = { set_mother = root }
+		}
+		else = {
+			scope:hatchling = { set_father = root }
+		}
+
+		create_character_memory = {
+			type = adopted_child_memory
+				participants = {
+				child = scope:hatchling
+			}
+		}
+
+        hidden_effect = {
+			#We take care of the sundries in a hidden effect so as not to put too much into the tooltip.
+			scope:hatchling= { 
+				set_house = root.house 
+				add_trait = disputed_heritage
+				create_character_memory = {
+					type = became_adopted_memory
+					participants = {
+						new_parent = root
+					}
+				}
+			}
+		}
+	}
+
+	# Give it to a guest
+	option = {
+		name = hist_communion.0101.b
+		trigger = {
+			exists = scope:new_parent
+		}
+		
+		custom_tooltip = hist_communion_tt_positive_medium
+		scope:activity = { activity_hist_communion_progression_medium = yes }
+		
+		scope:new_parent = {
+			if = {
+				limit = { is_female = yes }
+				scope:hatchling = { set_mother = scope:new_parent }
+			}
+			else = {
+				scope:hatchling = { set_father = scope:new_parent }
+			}
+
+			create_character_memory = {
+				type = adopted_child_memory
+					participants = {
+					child = scope:hatchling
+				}
+			}
+
+			hidden_effect = {
+				#We take care of the sundries in a hidden effect so as not to put too much into the tooltip.
+				scope:hatchling= { 
+					set_house = scope:new_parent.house 
+					add_trait = disputed_heritage
+					create_character_memory = {
+						type = became_adopted_memory
+						participants = {
+							new_parent = scope:new_parent
+						}
+					}
+				}
+				add_courtier = scope:hatchling
+			}
+		}
+	}
+
+	# Nah
+	option = {
+		name = hist_communion.0101.c
+	}
+}
+
+#Listen to a Hist Speaker
+hist_communion.0102 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0102.t
+	desc = hist_communion.0102.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:hist_speaker
+	}
+
+	immediate = {
+		hidden_effect = {
+            create_character = {
+                location = root.location
+                gender_female_chance = 50
+                template_character = root
+                random_traits = yes
+                age = { 40 60 }
+                save_scope_as = hist_speaker
+                after_creation = {
+                    ek_character_setup_effect = yes
+                }
+            }
+		}
+	}
+
+	# Just listen
+	option = {
+		name = hist_communion.0102.a
+
+		custom_tooltip = hist_communion_tt_positive_tiny
+		scope:activity = { activity_hist_communion_progression_tiny = yes }
+		add_piety = minor_piety_gain
+	}
+
+	# Engage in a debate
+	option = {
+		name = hist_communion.0102.b
+
+		duel = {
+			skill = learning
+			target = scope:hist_speaker
+			#Success
+			60 = {
+				desc = hist_communion.0102.b.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3
+					min = -49
+				}
+				modifier = {
+					has_perk = zealous_proselytizer_perk
+					add = 25
+				}
+				modifier = {
+					has_trait = zealous
+					add = 25
+				}
+				send_interface_toast = {
+					title = hist_communion.0102.b.success
+					left_icon = root
+					right_icon = scope:hist_speaker
+					custom_tooltip = hist_communion_tt_positive_medium
+					scope:activity = { activity_hist_communion_progression_medium = yes }
+					add_piety = medium_piety_gain
+					very_pious_type_option_effect = yes
+				}
+			}
+			#Failure
+			40 = {
+				desc = hist_communion.0102.b.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3
+					min = -49
+				}
+				send_interface_toast = {
+					title = hist_communion.0102.b.failure
+					left_icon = root
+					custom_tooltip = hist_communion_tt_negative
+					scope:activity = { activity_special_type_progression_negative = yes }
+					add_piety = minor_piety_loss
+				}		
+			}
+		}
+	}
+
+	# Lecture them instead
+	option = {
+		name = hist_communion.0102.c
+		skill = learning
+		trigger = { learning >= high_skill_rating }
+
+		duel = {
+			skills = { learning diplomacy }
+			target = scope:hist_speaker
+			#Success
+			40 = {
+				desc = hist_communion.0102.c.success
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3
+					min = -49
+				}
+				modifier = {
+					has_perk = diplomat_perk
+					add = 25
+				}
+				modifier = {
+					has_trait = shrewd
+					add = 25
+				}
+				send_interface_toast = {
+					title = hist_communion.0102.c.success
+					left_icon = root
+					right_icon = scope:hist_speaker
+					custom_tooltip = hist_communion_tt_positive_major
+					scope:activity = { activity_hist_communion_progression_major = yes }
+					add_piety = major_piety_gain
+				}
+			}
+			#Failure
+			60 = {
+				desc = hist_communion.0102.c.failure
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3
+					min = -49
+				}
+				send_interface_toast = {
+					title = hist_communion.0102.c.failure
+					left_icon = root
+					custom_tooltip = hist_communion_tt_negative
+					scope:activity = { activity_special_type_progression_negative = yes }
+					add_piety = medium_piety_loss
+				}		
+			}
+		}
+	}
+}
+
+
+#Listen to the Hist
+hist_communion.0103 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0103.t
+	desc = hist_communion.0103.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	# Listen closely
+	option = {
+		name = hist_communion.0103.a
+
+		duel = {
+			skill = learning
+			value = high_skill_rating
+			# Great Success.
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 0.49
+				}
+				desc = hist_communion.0103.a.great_success
+				send_interface_toast = {
+					title = hist_communion.0103.a.great_success
+					left_icon = root
+					custom_tooltip = hist_communion_tt_positive_major
+					scope:activity = { activity_hist_communion_progression_major = yes }
+				}
+			}
+			# Success
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 0.49
+				}
+				desc = hist_communion.0103.a.success
+				send_interface_toast = {
+					title = hist_communion.0103.a.success
+					left_icon = root
+					custom_tooltip = hist_communion_tt_positive_medium
+					scope:activity = { activity_hist_communion_progression_medium = yes }
+				}
+			}
+			# Failure
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.49
+				}
+				desc = hist_communion.0103.a.fail
+				root = {
+					send_interface_toast = {
+						title = hist_communion.0103.a.fail
+						left_icon = root
+						stress_impact = {
+							base = miniscule_stress_impact_gain
+						}
+					}
+				}
+			}
+		}			
+	}
+
+	# Start a conversation
+	option = {
+		name = hist_communion.0103.b
+		trait = eccentric
+		trigger = { has_trait = eccentric }
+
+		custom_tooltip = hist_communion_tt_positive_massive
+		scope:activity = { activity_hist_communion_progression_massive = yes }
+	}
+
+	# Just the wind
+	option = {
+		name = hist_communion.0103.c
+
+		stress_impact = {
+			base = medium_stress_loss
+		}
+	}
+}
+
+#Heal Mental Illness
+hist_communion.0104 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0104.t
+	desc = hist_communion.0104.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+
+	trigger = {
+		has_activity_intent = healing_intent
+		OR = {
+			has_trait = depressed_1
+			has_trait = lunatic_1
+			has_trait = possessed_1
+		}
+		NOT = { faith = { has_doctrine = tenet_amberhist } } #Tsono Xuhil itself is mad
+	}
+
+	#Alright
+	option = {
+		name = hist_communion.0104.a
+		custom_tooltip = hist_mental_healing_reward.tt
+		add_character_flag = hist_mental_healing_reward
+	}
+}
+
+#Regrow a limb
+hist_communion.0105 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0105.t
+	desc = hist_communion.0105.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = pain
+	}
+
+	trigger = {
+		has_activity_intent = healing_intent
+		OR = {
+			has_trait = maimed
+			has_trait = one_legged
+			has_trait = one_eyed
+			has_trait = blind
+		}
+	}
+
+	#Alright
+	option = {
+		name = hist_communion.0105.a
+		custom_tooltip = hist_limb_healing_reward.tt
+		add_character_flag = hist_limb_healing_reward
+	}
+}
+
+#Remove Disrupted
+hist_communion.0106 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0106.t
+	desc = hist_communion.0106.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+
+	trigger = {
+		has_activity_intent = healing_intent
+		has_trait = disrupted
+	}
+
+	#Alright
+	option = {
+		name = hist_communion.0106.a
+
+		custom_tooltip = hist_disrupted_healing_reward.tt
+		add_character_flag = hist_disrupted_healing_reward
+	}
+}
+
+#Remove Infirm
+hist_communion.0107 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0107.t
+	desc = hist_communion.0107.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		has_activity_intent = healing_intent
+		has_trait = infirm
+	}
+
+	#Alright
+	option = {
+		name = hist_communion.0107.a
+		custom_tooltip = hist_infirm_healing_reward.tt
+		add_character_flag = hist_infirm_healing_reward
+	}
+}
+
+#Remove a Curse
+hist_communion.0108 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0108.t
+	desc = hist_communion.0108.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = personality_forgiving
+	}
+
+	trigger = {
+		has_daedric_curse = yes
+	}
+
+	#Alright
+	option = {
+		name = hist_communion.0108.a
+		lift_curse = yes
+	}
+}
+
+#Receive smaller Blessing
+hist_communion.0109 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0109.t
+	desc = hist_communion.0109.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+
+	trigger = {
+		NOR = {
+			faith = { has_doctrine = tenet_amberhist }
+			faith = { has_doctrine = tenet_sunhist }
+			faith = { has_doctrine = tenet_ghosthist }
+		}
+		has_activity_intent = hist_blessing_intent
+	}
+
+	immediate = {
+		# Determine what the impact of the ritual will be.
+		random_list = {
+			20 = {
+				save_scope_value_as = {
+					name = outcome
+					value = flag:wind_spirit
+				}
+			}
+			20 = {
+				save_scope_value_as = {
+					name = outcome
+					value = flag:water_spirit
+				}
+			}
+			20 = {
+				save_scope_value_as = {
+					name = outcome
+					value = flag:bush_spirit
+				}
+			}
+			20 = {
+				save_scope_value_as = {
+					name = outcome
+					value = flag:rock_spirit
+				}
+			}
+			20 = {
+				save_scope_value_as = {
+					name = outcome
+					value = flag:tree_spirit
+				}
+			}
+		}		
+	}
+
+	option = {
+		name = hist_communion.0109.a
+
+		random_list = {			
+			10 = {
+				hist_communion_success_chance = yes
+				desc = hist_communion.0109.a.success
+				send_interface_toast = {
+					title = hist_communion.0109.a.success
+					left_icon = root
+					custom_tooltip = hist_communion_tt_positive_massive
+					scope:activity = { activity_hist_communion_progression_massive = yes }
+					if = {
+						limit = { scope:outcome = flag:wind_spirit}
+						add_character_modifier = {
+							modifier = hist_domination_blessing
+							years = 10
+						}
+					}
+					else_if = {
+						limit = { scope:outcome = flag:water_spirit}
+						add_character_modifier = {
+							modifier = hist_fruitful_blessing
+							years = 10
+						}
+					}
+					else_if = {
+						limit = { scope:outcome = flag:tree_spirit}
+						add_character_modifier = {
+							modifier = hist_resilient_blessing
+							years = 10
+						}
+					}
+					else_if = {
+						limit = { scope:outcome = flag:bush_spirit}
+						add_character_modifier = {
+							modifier = hist_sharp_blessing
+							years = 10
+						}
+					}
+					else_if = {
+						limit = { scope:outcome = flag:rock_spirit}
+						add_character_modifier = {
+							modifier = hist_insight_blessing
+							years = 10
+						}
+					}
+				}				
+			}
+			50 = {
+				desc = hist_communion.0109.a.failure
+				send_interface_toast = {
+					title = hist_communion.0109.a.failure
+					left_icon = root
+					add_stress = major_stress_gain
+				}				
+			}
+		}
+
+		stress_impact = {
+			ambitious = medium_stress_impact_loss
+			zealous = medium_stress_impact_loss
+			content = minor_stress_impact_gain
+			cynical = minor_stress_impact_gain
+		}
+	}
+
+	option = {
+		name = hist_communion.0109.b
+
+		stress_impact = {
+			ambitious = minor_stress_impact_gain
+			zealous = minor_stress_impact_gain
+			content = minor_stress_impact_loss
+			cynical = minor_stress_impact_loss
+		}
+	}
+}
+
+#Sleep under the Tree
+hist_communion.0110 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0110.t
+	desc = hist_communion.0110.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			has_activity_intent = reflection_intent
+			factor = 2
+		}
+	}
+
+	#Sleep
+	option = {
+		name = hist_communion.0110.a
+
+		add_piety = minor_piety_loss
+		custom_tooltip = hist_communion_tt_negative
+		scope:activity = { activity_special_type_progression_negative = yes }
+
+		stress_impact = {
+			base = medium_stress_impact_loss
+			lazy = major_stress_impact_loss
+			ambitious = medium_stress_impact_gain
+			diligent = medium_stress_impact_gain
+			zealous = medium_stress_impact_gain
+		}
+	}
+
+	# Meditate
+	option = {
+		name = hist_communion.0110.b
+		trait = reclusive
+		trigger = { has_trait = reclusive }
+
+		add_piety = minor_piety_gain
+		custom_tooltip = hist_communion_tt_positive_tiny
+		scope:activity = { activity_hist_communion_progression_tiny = yes }
+
+		stress_impact = {
+			base = minor_stress_impact_loss
+		}
+	}
+
+	# Pray
+	option = {
+		name = hist_communion.0110.c
+
+		add_piety = medium_piety_gain
+		custom_tooltip = hist_communion_tt_positive_medium
+		scope:activity = { activity_hist_communion_progression_medium = yes }
+
+		stress_impact = {
+			lazy = medium_stress_impact_gain
+			ambitious = minor_stress_impact_loss
+			diligent = minor_stress_impact_loss
+			zealous = medium_stress_impact_loss
+		}
+	}
+}
+
+#Guest wants to become behemoth
+hist_communion.0111 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0111.t
+	desc = hist_communion.0111.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:wannabe_behemoth
+	}
+
+	trigger = {
+		scope:activity = {
+			any_attending_character = {
+				NOT = { this = root }
+				NOT = { has_trait = argonian_behemoth_3 }
+				has_character_flag = race_argonian
+				OR = {
+					has_trait = wrathful
+					has_trait = intellect_bad
+					has_trait = dull
+				}
+			}
+		}
+	}
+
+	immediate = {
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					NOT = { this = root }
+					NOT = { has_trait = argonian_behemoth_3 }
+					has_character_flag = race_argonian
+					OR = {
+						has_trait = wrathful
+						has_trait = intellect_bad
+						has_trait = dull
+					}
+				}
+				save_scope_as = wannabe_behemoth
+			}
+		}
+	}
+
+	#Alright
+	option = {
+		name = hist_communion.0111.a
+
+		scope:wannabe_behemoth = {
+			increase_argonian_behemoth_effect = yes
+			add_opinion = {
+				target = root
+				modifier = thankful_opinion
+				opinion = 30
+			}
+		}
+	}
+
+	# No
+	option = {
+		name = hist_communion.0111.b
+
+		scope:wannabe_behemoth = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -30
+			}
+		}
+	}
+}
+
+#Gain Amber Blessed
+hist_communion.0200 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0200.t
+	desc = hist_communion.0200.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		has_activity_intent = hist_blessing_intent
+		faith = { has_doctrine = tenet_amberhist }
+		NOT = { has_trait = amber_blessed_3 }
+		has_character_flag = race_argonian
+		# also to ensure you can'stack these traits
+		NOT = {
+			has_trait = ghost_scale
+			has_trait = sun_blessed
+		}
+	}
+
+	#Here we go
+	option = {
+		name = hist_communion.0200.a
+
+		random_list = {	
+			10 = {
+				hist_communion_success_chance = yes
+				desc = hist_communion.0200.a.great_success
+				send_interface_toast = {
+					title = hist_communion.0200.a.great_success
+					left_icon = root
+					custom_tooltip = hist_communion.blessing.tt
+					add_character_flag = increase_hist_blessing
+					custom_tooltip = hist_communion_tt_positive_massive
+					scope:activity = { activity_hist_communion_progression_massive = yes }
+				}				
+			}		
+			10 = {
+				hist_communion_success_chance = yes
+				trigger = { NOT = { has_trait = lunatic_1 } }
+				desc = hist_communion.0200.a.success
+				send_interface_toast = {
+					title = hist_communion.0200.a.success
+					left_icon = root
+					add_trait = lunatic_1
+					custom_tooltip = hist_communion.blessing.tt
+					add_character_flag = increase_hist_blessing
+					custom_tooltip = hist_communion_tt_positive_medium
+					scope:activity = { activity_hist_communion_progression_medium = yes }
+				}				
+			}
+			50 = {
+				desc = hist_communion.0200.a.failure
+				send_interface_toast = {
+					title = hist_communion.0200.a.failure
+					left_icon = root
+					add_stress = major_stress_gain
+				}				
+			}
+		}
+
+		stress_impact = {
+			ambitious = medium_stress_impact_loss
+			zealous = medium_stress_impact_loss
+			brave = minor_stress_impact_loss
+			content = minor_stress_impact_gain
+			cynical = minor_stress_impact_gain
+		}
+	}
+	
+	# I am not ready
+	option = {
+		name = hist_communion.0200.b
+	}
+}
+
+#Holy Guardians
+hist_communion.0201 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0201.t
+	desc = hist_communion.0201.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+	}
+	
+	right_portrait = {
+		character = scope:amber_warrior
+		animation = marshal
+	}
+
+	trigger = {
+		faith = { has_doctrine = tenet_amberhist }
+	}
+
+	immediate = {
+		create_character = {
+            location = root.location
+            gender_female_chance = 50
+            template_character = root
+            random_traits = yes
+            age = { 30 50 }
+            save_scope_as = amber_warrior
+            after_creation = {
+                ek_character_setup_effect = yes
+				add_trait = holy_warrior
+				add_trait = amber_blessed_3
+				add_character_flag = wear_armor
+            }
+        }
+	}
+
+	#Observe
+	option = {
+		name = hist_communion.0201.a
+
+		add_martial_lifestyle_xp = minor_lifestyle_xp
+	}
+
+	#Join
+	option = {
+		name = hist_communion.0201.b
+		
+		random_list = {
+			25 = {
+				trigger = { NOT = { has_trait = holy_warrior } }
+				desc = hist_communion.0201.b.great_success
+				send_interface_toast = {
+					title = hist_communion.0201.b.great_success
+					left_icon = root
+					right_icon = scope:amber_warrior
+					add_trait = holy_warrior
+				}				
+			}
+			75 = {
+				desc = hist_communion.0201.b.success
+				send_interface_toast = {
+					title = hist_communion.0201.b.success
+					left_icon = root
+					right_icon = scope:amber_warrior
+						add_character_modifier = {
+						modifier = fought_a_seasoned_warrior 
+						years = 5
+					}
+				}			
+			}			
+		}
+	}
+
+	#Admire
+	option = {
+		name = hist_communion.0201.c
+
+		add_piety = medium_piety_gain
+	}
+
+	after = {
+		scope:amber_warrior = {
+			silent_disappearance_effect = yes
+		}
+	}
+}
+
+#Gain Sun Blessed
+hist_communion.0300 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0300.t
+	desc = hist_communion.0300.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		has_activity_intent = hist_blessing_intent
+		faith = { has_doctrine = tenet_sunhist }
+		NOT = { has_trait = sun_blessed_3 }
+		has_character_flag = race_argonian
+		# also to ensure you can'stack these traits
+		NOT = {
+			has_trait = amber_blessed
+			has_trait = ghost_scale
+		}
+	}
+
+	#Alright
+	option = {
+		name = hist_communion.0300.a
+
+		random_list = {			
+			10 = {
+				hist_communion_success_chance = yes
+				desc = hist_communion.0300.a.success
+				send_interface_toast = {
+					title = hist_communion.0300.a.success
+					left_icon = root
+					custom_tooltip = hist_communion.blessing.tt
+					add_character_flag = increase_hist_blessing
+					custom_tooltip = hist_communion_tt_positive_massive
+					scope:activity = { activity_hist_communion_progression_massive = yes }
+				}				
+			}
+			50 = {
+				desc = hist_communion.0300.a.failure
+				send_interface_toast = {
+					title = hist_communion.0300.a.failure
+					left_icon = root
+					add_stress = major_stress_gain
+				}				
+			}
+		}
+
+		stress_impact = {
+			ambitious = medium_stress_impact_loss
+			zealous = medium_stress_impact_loss
+			arrogant = minor_stress_impact_loss
+			content = minor_stress_impact_gain
+			cynical = minor_stress_impact_gain
+		}
+	}
+
+	option = {
+		name = hist_communion.0300.b
+
+		stress_impact = {
+			ambitious = minor_stress_impact_gain
+			zealous = minor_stress_impact_gain
+			humble = minor_stress_impact_loss
+			content = minor_stress_impact_loss
+			cynical = minor_stress_impact_loss
+		}
+	}
+}
+
+#Gain Magicka
+hist_communion.0301 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0301.t
+	desc = hist_communion.0301.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		faith = { has_doctrine = tenet_sunhist }
+		can_magic_trigger = yes
+	}
+
+	# Stress
+	option = {
+		name = hist_communion.0301.a
+
+		add_magicka = { VALUE = 100 }
+	}
+
+	# Magicka
+	option = {
+		name = hist_communion.0301.b
+
+		add_stress = medium_stress_loss
+	}
+}
+
+#Gain Ghost Scale
+hist_communion.0400 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0400.t
+	desc = hist_communion.0400.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+	}
+
+	trigger = {
+		has_activity_intent = hist_blessing_intent
+		faith = { has_doctrine = tenet_ghosthist }
+		NOT = { has_trait = ghost_scale_3 }
+		has_character_flag = race_argonian
+		# also to ensure you can'stack these traits
+		NOT = {
+			has_trait = amber_blessed
+			has_trait = sun_blessed
+		}
+	}
+
+	#Alright
+	option = {
+		name = hist_communion.0400.a
+
+		random_list = {			
+			10 = {
+				hist_communion_success_chance = yes
+				desc = hist_communion.0400.a.success
+				send_interface_toast = {
+					title = hist_communion.0400.a.success
+					left_icon = root
+					custom_tooltip = hist_communion.blessing.tt
+					add_character_flag = increase_hist_blessing
+					custom_tooltip = hist_communion_tt_positive_massive
+					scope:activity = { activity_hist_communion_progression_massive = yes }
+				}				
+			}
+			50 = {
+				desc = hist_communion.0400.a.failure
+				send_interface_toast = {
+					title = hist_communion.0400.a.failure
+					left_icon = root
+					add_stress = major_stress_gain
+				}				
+			}
+		}
+
+		stress_impact = {
+			ambitious = medium_stress_impact_loss
+			zealous = medium_stress_impact_loss
+			callous = minor_stress_impact_loss
+			content = minor_stress_impact_gain
+			cynical = minor_stress_impact_gain
+		}
+	}
+
+	option = {
+		name = hist_communion.0400.b
+
+		stress_impact = {
+			ambitious = minor_stress_impact_gain
+			zealous = minor_stress_impact_gain
+			compassionate = minor_stress_impact_loss
+			content = minor_stress_impact_loss
+			cynical = minor_stress_impact_loss
+		}
+	}
+}
+
+# Observe Ghost Scales
+hist_communion.0401 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.0401.t
+	desc = hist_communion.0401.desc
+
+	theme = hist_communion
+
+	cooldown = { years = 5 }
+
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:ghost_warrior
+		animation = spymaster
+	}
+
+	trigger = {
+		faith = { has_doctrine = tenet_ghosthist }
+	}
+
+	immediate = {
+		create_character = {
+            location = root.location
+            gender_female_chance = 50
+            template_character = root
+            random_traits = yes
+            age = { 30 50 }
+            save_scope_as = ghost_warrior
+            after_creation = {
+                ek_character_setup_effect = yes
+				add_trait = holy_warrior
+				add_trait = ghost_scale_3
+            }
+        }
+	}
+
+	#Observe
+	option = {
+		name = hist_communion.0401.a
+
+		add_intrigue_lifestyle_xp = minor_lifestyle_xp
+	}
+
+	#Admire
+	option = {
+		name = hist_communion.0401.b
+
+		add_piety = medium_piety_gain
+	}
+
+	after = {
+		scope:ghost_warrior = {
+			silent_disappearance_effect = yes
+		}
+	}
+}
+
+### End
+hist_communion.1000 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = hist_communion.1000.t
+	desc = {
+		first_valid = {			
+			triggered_desc = {
+				trigger = { faith = { has_doctrine = tenet_amberhist } }
+				desc = hist_communion.1000.desc.amberhist
+			}
+			triggered_desc = {
+				trigger = { faith = { has_doctrine = tenet_sunhist } }
+				desc = hist_communion.1000.desc.sunhist
+			}
+			triggered_desc = {
+				trigger = { faith = { has_doctrine = tenet_ghosthist } }
+				desc = hist_communion.1000.desc.ghosthist
+			}
+			desc = hist_communion.1000.desc	
+		}
+	}
+
+	theme = hist_communion
+
+	left_portrait = {
+		character = root
+		animation = personality_forgiving
+	}
+
+	#Alright
+	option = {
+		name = {  
+			text = {
+				first_valid = {
+					#Perfect pious
+					triggered_desc = {
+						trigger = {
+							has_character_flag = miniscule_hist_reward 
+						}
+						desc = hist_communion.1000.a.miniscule
+					}
+					#Perfect pious
+					triggered_desc = {
+						trigger = {
+							has_character_flag = minor_hist_reward
+						}
+						desc = hist_communion.1000.a.minor
+					}
+					#Perfect pious
+					triggered_desc = {
+						trigger = {
+							has_character_flag = medium_hist_reward 
+						}
+						desc = hist_communion.1000.a.medium
+					}
+					#Perfect pious
+					triggered_desc = {
+						trigger = {
+							has_character_flag = major_hist_reward 
+						}
+						desc = hist_communion.1000.a.major
+					}
+				}
+			} 
+		}			
+		custom_tooltip = hist_communion.1000.a.tt
+
+		show_as_tooltip = { hist_communion_completed_log_entry_effect = yes }
+	}
+
+	after = {
+		#Party's over; clean up time
+		clean_up_hist_communion_type_reward_flags_effect = yes
+	}
+}

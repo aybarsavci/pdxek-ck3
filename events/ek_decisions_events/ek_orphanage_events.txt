@@ -1,0 +1,597 @@
+﻿namespace = ek_orphanage
+
+#Choosing a child to adopt
+ek_orphanage.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_orphanage.0001.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { government_has_flag = government_is_tribal }
+				desc = ek_orphanage.0001.tribal_desc
+			}
+			desc = ek_orphanage.0001.desc
+		}
+	}
+	theme = family
+	left_portrait = root
+    right_portrait = scope:caretaker
+	lower_left_portrait = scope:child_option
+	lower_center_portrait = scope:teen_option
+	lower_right_portrait = scope:special_option	
+
+	immediate = {
+		hidden_effect = {
+            # create caretaker
+            create_character = {
+                location = root.capital_province
+                gender_female_chance = 50
+                template_character = root
+                random_traits = yes
+                age = { 20 80 }
+                save_scope_as = caretaker
+                ### EK EDIT
+                after_creation = {
+                    ek_character_setup_effect = yes
+                }
+            }
+
+			#Find some appropriate options
+
+			if = { #Performance heavy option finding is only for players
+				limit = { is_ai = no }
+
+				# BABY OPTION
+				random_pool_character = {
+					province = capital_province
+					limit = {
+                        is_adult = no
+                        is_imprisoned = no
+                        is_alive = yes # Because apparently there can be dead characters in the pool (remove when fixed)
+                        age < 6
+                        any_parent = {
+                            is_alive = no
+                        }
+                    }
+                    weight = {
+                        base = 1
+                        modifier = {
+                            faith = root.faith
+                            factor = 10
+                        }
+                    }
+
+                    save_scope_as = baby_option
+
+                    #Backup generation
+                    if = {
+                        limit = { NOT = { exists = scope:baby_option } }
+
+                        create_character = {
+                            location = root.capital_province
+                            gender_female_chance = 50
+                            template_character = root
+                            random_traits = yes
+                            dynasty = none
+                            age = { 0 6 }
+                            save_scope_as = baby_option
+                            ### EK EDIT
+                            after_creation = {
+                                ek_character_setup_effect = yes
+                            }
+                        }
+                    }
+                }
+
+				# CHILD OPTION
+				random_pool_character = {
+					province = capital_province
+					limit = {
+						is_adult = no
+                        is_imprisoned = no
+                        is_alive = yes # Because apparently there can be dead characters in the pool (remove when fixed)
+                        age < 11
+                        any_parent = {
+                            is_alive = no
+                        }
+					}
+					weight = {
+						base = 1
+						modifier = {
+							faith = root.faith
+							factor = 10
+						}
+					}
+					save_scope_as = child_option
+				}
+
+				#Backup generation
+				if = {
+					limit = { NOT = { exists = scope:child_option } }
+
+					create_character = {
+						location = root.capital_province
+						gender_female_chance = 50
+						template_character = root
+						random_traits = yes
+                        dynasty = none
+						age = { 6 10 }
+						save_scope_as = child_option
+						### EK EDIT
+						after_creation = {
+							ek_character_setup_effect = yes
+						}
+					}
+				}
+
+				#TEEN OPTION
+				random_pool_character = {
+					province = root.capital_province
+					limit = { 
+						is_adult = no
+                        is_imprisoned = no
+                        is_alive = yes # Because apparently there can be dead characters in the pool (remove when fixed)
+                        age < 16
+                        any_parent = {
+                            is_alive = no
+                        }
+					}
+					weight = {
+						base = 1
+						modifier = {
+							faith = root.faith
+							factor = 10
+						}
+					}
+					save_scope_as = teen_option
+				}
+
+                #Backup generation
+				if = {
+					limit = { NOT = { exists = scope:teen_option } }
+
+					create_character = {
+						location = root.capital_province
+						gender_female_chance = 50
+						template_character = root
+						random_traits = yes
+                        dynasty = none
+						age = { 10 16 }
+						save_scope_as = teen_option
+						### EK EDIT
+						after_creation = {
+							ek_character_setup_effect = yes
+						}
+					}
+				}
+
+				#SPECIAL OPTION
+				random_pool_character = {
+					province = root.capital_province
+					limit = { 
+						is_adult = no
+                        is_imprisoned = no
+                        is_alive = yes # Because apparently there can be dead characters in the pool (remove when fixed)
+                        age < 11
+                        any_parent = {
+                            is_alive = no
+                        }
+                        OR = {
+                            has_trait = incapable
+                            has_trait = blind
+                            has_trait = disfigured
+                            has_trait = maimed
+                            has_trait = one_eyed
+                            has_trait = one_legged
+                            has_trait = clubfooted
+                            has_trait = hunchbacked
+                            has_trait = dwarf
+                        }
+					}
+					weight = {
+						base = 1
+						modifier = {
+							faith = root.faith
+							factor = 10
+						}
+					}
+					save_scope_as = special_option
+				}
+
+                #Backup generation
+				if = {
+					limit = { NOT = { exists = scope:special_option } }
+
+					create_character = {
+						location = root.capital_province
+						gender_female_chance = 50
+						template_character = root
+						random_traits = yes
+                        dynasty = none
+						age = { 10 16 }
+                        random_traits_list = {
+                            count = 1
+                            incapable = {}
+                            blind = {}
+                            disfigured = {}
+                            maimed = {}
+                            one_eyed = {}
+                            one_legged = {}
+                            clubfooted = {}
+                            hunchbacked = {}
+                            dwarf = {}
+                        }
+						save_scope_as = special_option
+						### EK EDIT
+						after_creation = {
+							ek_character_setup_effect = yes
+						}
+					}
+				}
+			}
+			else = { #Ai get someone simple
+				random_pool_character = {
+					province = root.capital_province
+					limit = { 
+						is_adult = no
+                        is_imprisoned = no
+                        is_alive = yes # Because apparently there can be dead characters in the pool (remove when fixed)
+                        age < 16
+                        any_parent = {
+                            is_alive = no
+                        }
+					}
+					weight = {
+						base = 1
+						modifier = {
+							faith = root.faith
+							factor = 10
+						}
+					}
+					save_scope_as = teen_option
+				}
+			}
+			
+			#Backup generation
+			if = {
+				limit = { NOT = { exists = scope:teen_option } }
+
+				create_character = {
+					location = root.capital_province
+                    gender_female_chance = 50
+                    template_character = root
+                    random_traits = yes
+                    dynasty = none
+                    age = { 10 16 }
+                    save_scope_as = teen_option
+                    ### EK EDIT
+                    after_creation = {
+                        ek_character_setup_effect = yes
+                    }
+				}
+			}
+		}
+	}
+
+	#BABY OPTION
+	option = {
+		trigger = {
+			exists = scope:baby_option
+			is_landed = yes #extra check to make sure they haven't lost their status
+		}
+		name = ek_orphanage.0001.baby
+		
+		#One shiny new child for you!
+		if = {
+			limit = { is_female = yes }
+			scope:baby_option = { set_mother = root }
+		}
+		else = {
+			scope:baby_option = { set_father = root }
+		}
+
+		create_character_memory = {
+			type = adopted_child_memory
+				participants = {
+				child = scope:baby_option
+			}
+		}
+
+        hidden_effect = {
+			#We take care of the sundries in a hidden effect so as not to put too much into the tooltip.
+			scope:baby_option = { 
+				set_house = root.house 
+				add_trait = disputed_heritage
+				create_character_memory = {
+					type = became_adopted_memory
+					participants = {
+						new_parent = root
+					}
+				}
+			}
+			add_courtier = scope:baby_option
+		}
+		trigger_event = {
+            id = ek_orphanage.0002
+        }
+
+		ai_chance = {
+			factor = 500
+		}
+	}
+
+	#CHILD OPTION
+	option = {
+		trigger = {
+			is_landed = yes #extra check to make sure they haven't lost their status
+			exists = scope:child_option
+		}
+		name = ek_orphanage.0001.child
+		
+		#One shiny new child for you!
+		if = {
+			limit = { is_female = yes }
+			scope:child_option = { set_mother = root }
+		}
+		else = {
+			scope:child_option = { set_father = root }
+		}
+
+		create_character_memory = {
+			type = adopted_child_memory
+				participants = {
+				child = scope:child_option
+			}
+		}
+
+        hidden_effect = {
+			#We take care of the sundries in a hidden effect so as not to put too much into the tooltip.
+			scope:child_option = { 
+				set_house = root.house 
+				add_trait = disputed_heritage
+				create_character_memory = {
+					type = became_adopted_memory
+					participants = {
+						new_parent = root
+					}
+				}
+			}
+			add_courtier = scope:child_option
+		}
+
+        trigger_event = {
+            id = ek_orphanage.0002
+        }
+
+		ai_chance = {
+			factor = 100
+		}
+	}
+
+	#TEEN OPTION
+	option = {
+		trigger = {
+			is_landed = yes #extra check to make sure they haven't lost their status
+            exists = scope:teen_option
+		}
+		name = ek_orphanage.0001.teen
+		
+		#One shiny new child for you!
+		if = {
+			limit = { is_female = yes }
+			scope:teen_option = { set_mother = root }
+		}
+		else = {
+			scope:teen_option = { set_father = root }
+		}
+
+		create_character_memory = {
+			type = adopted_child_memory
+				participants = {
+				child = scope:teen_option
+			}
+		}
+
+        hidden_effect = {
+			#We take care of the sundries in a hidden effect so as not to put too much into the tooltip.
+			scope:teen_option = { 
+				set_house = root.house 
+				add_trait = disputed_heritage
+				create_character_memory = {
+					type = became_adopted_memory
+					participants = {
+						new_parent = root
+					}
+				}
+			}
+			add_courtier = scope:teen_option
+		}
+
+        trigger_event = {
+            id = ek_orphanage.0002
+        }
+
+		ai_chance = {
+			factor = 100
+		}
+	}
+
+	#SPECIAL OPTION
+	option = {
+		trigger = {
+			exists = scope:special_option
+			is_landed = yes #extra check to make sure they haven't lost their status
+		}
+		name = ek_orphanage.0001.special
+		
+        #One shiny new child for you!
+		if = {
+			limit = { is_female = yes }
+			scope:special_option = { set_mother = root }
+		}
+		else = {
+			scope:special_option = { set_father = root }
+		}
+
+		create_character_memory = {
+			type = adopted_child_memory
+				participants = {
+				child = scope:special_option
+			}
+		}
+
+        hidden_effect = {
+			#We take care of the sundries in a hidden effect so as not to put too much into the tooltip.
+			scope:special_option = { 
+				set_house = root.house 
+				add_trait = disputed_heritage
+				create_character_memory = {
+					type = became_adopted_memory
+					participants = {
+						new_parent = root
+					}
+				}
+			}
+			add_courtier = scope:special_option
+		}
+		
+        trigger_event = {
+            id = ek_orphanage.0003
+        }
+
+		stress_impact = {
+			compassionate = medium_stress_impact_loss
+		}
+
+		ai_chance = {
+			factor = 10
+			ai_value_modifier = {
+                ai_compassion = medium_chance_impact_positive_ai_value
+			}	
+		}
+	}
+
+	#None...
+	option = {
+		name = ek_orphanage.0001.none
+
+        stress_impact = {
+			compassionate = major_stress_impact_gain
+		}
+
+		ai_chance = {
+			factor = 1
+		}
+	}
+}
+
+ek_orphanage.0002 = {
+    type = character_event
+	content_source = dlc_ek
+	title = ek_orphanage.0002.t
+	desc = ek_orphanage.0002.desc
+	theme = family
+	left_portrait = root
+    right_portrait = {
+        character = scope:new_child
+        animation = ecstasy
+    }
+
+    immediate = {
+        random_child = {
+            save_scope_as = new_child
+        }
+    }
+
+    option = {
+        name = ek_orphanage.0002.a
+        #And they're pretty happy about being stepping up in life.
+        reverse_add_opinion = {
+            target = scope:new_child
+            modifier = love_opinion
+            opinion = 70
+        }
+        add_hook = {
+            target = scope:new_child
+            type = loyalty_hook
+        }
+        every_vassal = {
+			custom = custom.every_feudal_vassal
+			limit = {
+				has_feudal_like_government = yes
+			}
+			add_opinion = {
+				modifier = ep1_disagreed_with_lowborn_adoption_opinion
+				target = root
+				opinion = -40
+			}
+		}
+		every_consort = {
+			custom = custom.every_opposite_sex_consort
+			limit = {
+				sex_opposite_of = root
+			}
+			add_opinion = {
+				modifier = ep1_disagreed_with_lowborn_adoption_opinion
+				target = root
+				opinion = -80
+			}
+		}
+    }
+}
+
+ek_orphanage.0003 = {
+    type = character_event
+	content_source = dlc_ek
+	title = ek_orphanage.0003.t
+	desc = ek_orphanage.0003.desc
+	theme = family
+	left_portrait = root
+    right_portrait = {
+        character = scope:new_child
+        animation = ecstasy
+    }
+
+    immediate = {
+        random_child = {
+            save_scope_as = new_child
+        }
+    }
+
+    option = {
+        name = ek_orphanage.0003.a
+        #And they're pretty happy about being stepping up in life.
+        reverse_add_opinion = {
+            target = scope:new_child
+            modifier = love_opinion
+            opinion = 70
+        }
+        add_hook = {
+            target = scope:new_child
+            type = loyalty_hook
+        }
+        every_vassal = {
+			custom = custom.every_feudal_vassal
+			limit = {
+				has_feudal_like_government = yes
+			}
+			add_opinion = {
+				modifier = ep1_disagreed_with_lowborn_adoption_opinion
+				target = root
+				opinion = -40
+			}
+		}
+		every_consort = {
+			custom = custom.every_opposite_sex_consort
+			limit = {
+				sex_opposite_of = root
+			}
+			add_opinion = {
+				modifier = ep1_disagreed_with_lowborn_adoption_opinion
+				target = root
+				opinion = -80
+			}
+		}
+    }
+}

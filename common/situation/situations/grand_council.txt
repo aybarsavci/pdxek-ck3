@@ -1,0 +1,372 @@
+﻿grand_council = {
+	
+	is_unique = yes # It can only exist once in the world
+
+	gui_window_name = "window_grand_council"
+	gui_participation_window_name = "window_situation_participation"
+
+	##################################################
+	# Regions
+	##################################################
+	sub_regions = {
+		morrowind = {
+			icon = "gfx/interface/icons/situations/debug_situation/steppe_west.dds"
+			geographical_regions = { mundus_tamriel_morrowind }
+		}
+	}
+	
+	##################################################
+	# On Actions
+	##################################################
+	# on_monthly = {
+	# }
+
+	##################################################
+	# Groups
+	##################################################
+	participant_groups = {
+		grand_council_members = {
+			icon = "gfx/interface/icons/situations/grand_council/grand_council_members.dds"
+			
+			is_character_valid = {
+				OR = {
+					AND = {				
+						faith = { has_doctrine = doctrine_pantheon_tribunal }
+						culture = { has_cultural_tradition = tradition_great_houses }
+					}
+					any_liege_or_above = {
+						AND = {				
+							faith = { has_doctrine = doctrine_pantheon_tribunal }
+							culture = { has_cultural_tradition = tradition_great_houses }
+						}
+					}
+				}
+				highest_held_title_tier >= tier_county
+			}
+
+
+			on_join = {
+				trigger_event = grand_council.0001
+			}
+
+			map_color = { 140 85 0 }
+		}
+
+		ashlanders = {
+			icon = "gfx/interface/icons/situations/grand_council/ashlanders.dds"
+
+			is_character_valid = {
+				culture = { has_cultural_pillar = heritage_dunmeri }
+				highest_held_title_tier >= tier_county
+			}
+			on_join = {
+				trigger_event = grand_council.0001
+			}
+
+			map_color = { 0.67 0.58 0.42 }
+		}
+
+		outlanders = {
+			icon = "gfx/interface/icons/situations/grand_council/outlanders.dds"
+
+			is_character_valid = {
+				#Everyone left in Morrowind is considered an outlander
+				highest_held_title_tier >= tier_county
+			}
+			on_join = {
+				trigger_event = grand_council.0001
+			}
+
+			map_color =  { 0.8 0.05 0.05 }
+		}
+
+		rulers_outside_gcm = {
+			icon = "gfx/interface/icons/situations/grand_council/other_rulers.dds"
+			is_character_valid = {
+				scope:situation = {
+					is_manual_participant = root
+				}
+			}
+			require_realm_in_sub_region = no
+			map_color = hsv{ 0.37 0.50 0.9 }
+		}
+	}
+	
+	##################################################
+	# Phases
+	##################################################
+	start_phase = gcm_balanced
+
+	phases = {
+		gcm_balanced = {
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+
+			on_start = {
+				scope:situation_sub_region = {
+					save_scope_as = my_subregion
+					every_situation_sub_region_participant_group = {
+						limit = { participant_group_type = grand_council_members }
+						every_situation_group_participant = {
+							trigger_event = grand_council.0002
+						}
+					}
+				}
+			}
+
+			future_phases = {
+				gcm_autonomy = {
+					takeover_type = points
+					takeover_points = 1000
+					catalysts = {
+						catalyst_situation_discovery_of_very_important_murder = minor_grand_council_catalyst_gain
+						catalyst_situation_reveal_secret_important = minor_grand_council_catalyst_gain
+						catalyst_situation_hc_died_violently = medium_grand_council_catalyst_gain
+						catalyst_situation_defeated_outlander_outside_mw = medium_grand_council_catalyst_gain
+						catalyst_situation_converted_to_non_tribunal = medium_grand_council_catalyst_gain
+						catalyst_situation_gcm_member_lost_civil_war = medium_grand_council_catalyst_gain
+						catalyst_situation_gcm_member_expanded_de_jure = medium_grand_council_catalyst_gain
+						catalyst_situation_gcm_member_lost_war = major_grand_council_catalyst_gain
+						catalyst_situation_great_house_destroyed = major_grand_council_catalyst_gain
+					}
+				}
+				gcm_centralised = {
+					takeover_type = points
+					takeover_points = 1000
+					catalysts = {
+						catalyst_situation_hc_died_naturally = minor_grand_council_catalyst_gain
+						catalyst_situation_gift_independent_gcm_ruler = minor_grand_council_catalyst_gain
+						catalyst_situation_join_gcm_war = minor_grand_council_catalyst_gain
+						catalyst_situation_gcm_member_won_civil_war = medium_grand_council_catalyst_gain
+						catalyst_situation_defeated_outlander_inside_mw = medium_grand_council_catalyst_gain
+						catalyst_situation_enforcing_de_jure_claims = medium_grand_council_catalyst_gain
+						catalyst_situation_hc_hook_on_gcm = medium_grand_council_catalyst_gain
+						catalyst_situation_hc_expanded_de_jure = medium_grand_council_catalyst_gain
+						catalyst_situation_hc_alliance_gcm = major_grand_council_catalyst_gain
+					}
+				}
+			}
+
+			modifier_sets = {
+				situation_grand_council_military_effects = {
+					icon = "gfx/interface/icons/situations/situation_modifier_military.dds"
+					
+					grand_council_members = {
+						parameters = {
+							unable_to_declare_war_against_gcm = yes
+							writ_of_war_purchased_from_hc = yes
+							unable_to_start_dissolution_factions_gcm = yes
+							unable_to_start_independence_factions_gcm = yes
+						}
+						character_modifier = {
+							defender_advantage = 5
+							additional_fort_level = 1
+						}
+					}
+				}
+				situation_grand_council_schemes_effects = {
+					icon = "gfx/interface/icons/situations/situation_schemes.dds"
+					grand_council_members = {
+						parameters = {
+							can_buy_writ_of_execution_against_gcm = yes
+						}
+						character_modifier = {
+							enemy_hostile_scheme_phase_duration_add = -2
+							scheme_discovery_chance_mult = 0.1
+						}
+					}
+				}
+				situation_grand_council_diplomacy_effects = {
+					icon = "gfx/interface/icons/situations/situation_modifier_character.dds"
+					
+					grand_council_members = {
+						parameters = {
+							unable_to_negotiate_alliance_outside_gcm = yes
+							unable_to_marry_outside_gcm = yes
+							can_freely_revoke_outlander_titles = yes
+						}
+					}
+				}
+				situation_grand_council_domain_effects = {
+					icon = "gfx/interface/icons/situations/situation_modifier_subject.dds"
+					
+					grand_council_members = {
+						parameters = {
+							can_build_slavery_buildings = yes
+							cannot_ban_slavery = yes
+						}
+						character_modifier = {
+							tax_mult = -0.05
+							development_growth_factor = 0.05
+						}
+					}
+				}
+			}
+		}
+
+		gcm_autonomy = {
+			icon = "gfx/interface/icons/situations/grand_council/autonomy.dds"
+
+			on_start = {
+				scope:situation_sub_region = {
+					save_scope_as = my_subregion
+					every_situation_sub_region_participant_group = {
+						limit = { participant_group_type = grand_council_members }
+						every_situation_group_participant = {
+							trigger_event = grand_council.0002
+						}
+					}
+				}
+			}
+
+			max_duration_next_phase = weighted_random_points
+
+			future_phases = {
+				gcm_balanced = {
+					takeover_type = points
+					takeover_points = 1000
+					catalysts = {
+						catalyst_situation_hc_died_naturally = minor_grand_council_catalyst_gain
+						catalyst_situation_gift_independent_gcm_ruler = minor_grand_council_catalyst_gain
+						catalyst_situation_join_gcm_war = minor_grand_council_catalyst_gain
+						catalyst_situation_gcm_member_won_civil_war = medium_grand_council_catalyst_gain
+						catalyst_situation_defeated_outlander_inside_mw = medium_grand_council_catalyst_gain
+						catalyst_situation_enforcing_de_jure_claims = medium_grand_council_catalyst_gain
+						catalyst_situation_hc_expanded_de_jure = medium_grand_council_catalyst_gain
+						catalyst_situation_hc_hook_on_gcm = major_grand_council_catalyst_gain
+						catalyst_situation_hc_alliance_gcm = major_grand_council_catalyst_gain
+						catalyst_situation_great_house_restored = major_grand_council_catalyst_gain
+					}
+				}
+			}
+
+			modifier_sets = {
+				situation_grand_council_military_effects = {
+					icon = "gfx/interface/icons/situations/situation_modifier_military.dds"
+					
+					grand_council_members = {
+						parameters = {
+							unable_to_declare_war_against_gcm = yes
+							writ_of_war_purchased_independently = yes
+						}
+					}
+				}
+				situation_grand_council_schemes_effects = {
+					icon = "gfx/interface/icons/situations/situation_schemes.dds"
+					grand_council_members = {
+						parameters = {
+							can_buy_writ_of_execution_against_anyone = yes
+						}
+						character_modifier = {
+							enemy_hostile_scheme_phase_duration_add = 2
+							scheme_discovery_chance_mult = -0.1
+						}
+					}
+				}
+				situation_grand_council_domain_effects = {
+					icon = "gfx/interface/icons/situations/situation_modifier_subject.dds"
+					
+					grand_council_members = {
+						parameters = {
+							can_build_slavery_buildings = yes
+							can_ban_slavery = yes
+						}
+					}
+				}
+			}
+		}
+
+		gcm_centralised = {
+			#EK TODO: replace with custom icon
+			icon = "gfx/interface/icons/situations/grand_council/balanced.dds"
+
+			on_start = {
+				scope:situation_sub_region = {
+					save_scope_as = my_subregion
+					every_situation_sub_region_participant_group = {
+						limit = { participant_group_type = grand_council_members }
+						every_situation_group_participant = {
+							trigger_event = grand_council.0002
+						}
+					}
+				}
+			}
+
+			max_duration_next_phase = weighted_random_points
+
+			future_phases = {
+				gcm_balanced = {
+					takeover_type = points
+					takeover_points = 1000
+					catalysts = {
+						catalyst_situation_discovery_of_very_important_murder = minor_grand_council_catalyst_gain
+						catalyst_situation_reveal_secret_important = minor_grand_council_catalyst_gain
+						catalyst_situation_hc_died_violently = medium_grand_council_catalyst_gain
+						catalyst_situation_defeated_outlander_outside_mw = medium_grand_council_catalyst_gain
+						catalyst_situation_converted_to_non_tribunal = medium_grand_council_catalyst_gain
+						catalyst_situation_gcm_member_lost_civil_war = medium_grand_council_catalyst_gain
+						catalyst_situation_gcm_member_expanded_de_jure = medium_grand_council_catalyst_gain
+						catalyst_situation_gcm_member_lost_war = major_grand_council_catalyst_gain
+						catalyst_situation_great_house_destroyed = major_grand_council_catalyst_gain
+					}
+				}
+			}
+
+			modifier_sets = {
+				situation_grand_council_military_effects = {
+					icon = "gfx/interface/icons/situations/situation_modifier_military.dds"
+					
+					grand_council_members = {
+						parameters = {
+							unable_to_declare_war_against_gcm = yes
+							only_high_councilor_can_wage_external_wars = yes
+							unable_to_start_dissolution_factions_gcm = yes
+							unable_to_start_independence_factions_gcm = yes
+						}
+						character_modifier = {
+							defender_advantage = 10
+							additional_fort_level = 1
+						}
+					}
+				}
+				situation_grand_council_schemes_effects = {
+					icon = "gfx/interface/icons/situations/situation_schemes.dds"
+					grand_council_members = {
+						parameters = {
+							can_buy_writ_of_execution_against_gcm = yes
+						}
+						character_modifier = {
+							enemy_hostile_scheme_phase_duration_add = -2
+							scheme_discovery_chance_mult = 0.1
+						}
+					}
+				}
+				situation_grand_council_diplomacy_effects = {
+					icon = "gfx/interface/icons/situations/situation_modifier_character.dds"
+					
+					grand_council_members = {
+						parameters = {
+							unable_to_negotiate_alliance_outside_gcm = yes
+							unable_to_marry_outside_gcm = yes
+							high_councilor_can_open_vvardenfell = yes
+							can_freely_revoke_outlander_titles = yes
+						}
+					}
+				}
+				situation_grand_council_domain_effects = {
+					icon = "gfx/interface/icons/situations/situation_modifier_subject.dds"
+					
+					grand_council_members = {
+						parameters = {
+							can_build_slavery_buildings = yes
+							high_councilor_can_ban_slavery = yes
+						}
+						character_modifier = {
+							tax_mult = -0.1
+							development_growth_factor = 0.1
+						}
+					}
+				}
+			}
+		}
+	}
+}

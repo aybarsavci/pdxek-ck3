@@ -1,0 +1,798 @@
+﻿save_culture_in_global_list = {
+	$CULTURE$ = { save_scope_as = culture_to_save }
+	add_to_global_variable_list = {
+		name = culture_list
+		target = scope:culture_to_save
+	}
+}
+
+set_culture_native_to = {
+	$CULTURE$ = {
+		if = { # If the culture is nomadic it now isn't (nomadic divergence)
+			limit = { has_innovation = innovation_native_nomadic }
+			remove_innovation = innovation_native_nomadic
+		}
+		add_innovation = innovation_native_$REGION$
+		# Special case for BM
+		if = { # If we were originally from BM, we lost our special inno
+			limit = { has_innovation = innovation_black_marsh_natives }
+			remove_innovation = innovation_black_marsh_natives
+		}
+		if = { # If we just arrived in BM, we get our inno
+			limit = {
+				has_innovation_flag = nativity_innovation_black_marsh
+				NOT = { has_innovation = innovation_black_marsh_natives }
+			}
+			add_innovation = innovation_black_marsh_natives
+		}
+	}
+	add_to_global_variable_list = {
+		name = culture_innovation_native_$REGION$
+		target = $CULTURE$
+	}
+}
+
+county_save_native_cultures = {
+	every_culture_global = {
+		limit = { is_native_to = { CULTURE = this REGION = $REGION$ } }
+		save_temporary_scope_as = culture_to_save
+		scope:current_county = {
+			add_to_variable_list = {
+				name = native_culture_list
+				target = scope:culture_to_save
+			}
+		}
+	}
+}
+
+create_local_culture_decision_scripted_effects = {
+	random_culture_global = {
+		limit = {
+			has_same_culture_heritage = root.culture
+			is_native_to = { CULTURE = this REGION = $REGION$ }
+			NOT = { culture_is_alive = yes }
+		}
+		
+		save_scope_as = new_culture
+	}
+	
+	# The culture is revived!
+	scope:new_culture = { 
+		culture_become_alive_effect = yes
+		set_language_from = root.culture
+	}
+	
+	# Copy over innovations
+	#Hold fast, all innovations incoming. If someone knows how to do this better without giving the new culture a bunch of unrelated nativity regions, feel free to change this
+	hidden_effect = {
+		scope:new_culture = {
+			if = {
+				limit = { root.culture = { has_innovation = innovation_motte }}
+				add_innovation = innovation_motte 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_catapult }}
+				add_innovation = innovation_catapult 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_barracks }}
+				add_innovation = innovation_barracks 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_mustering_grounds }}
+				add_innovation = innovation_mustering_grounds 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_bannus }}
+				add_innovation = innovation_bannus 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_development_01 }}
+				add_innovation = innovation_development_01 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_currency_01 }}
+				add_innovation = innovation_currency_01 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_gavelkind }}
+				add_innovation = innovation_gavelkind 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_crop_rotation }}
+				add_innovation = innovation_crop_rotation 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_city_planning }}
+				add_innovation = innovation_city_planning 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_casus_belli }}
+				add_innovation = innovation_casus_belli 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_plenary_assemblies }}
+				add_innovation = innovation_plenary_assemblies 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_ledger }}
+				add_innovation = innovation_ledger 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_battlements }}
+				add_innovation = innovation_battlements 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_mangonel }}
+				add_innovation = innovation_mangonel 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_burhs }}
+				add_innovation = innovation_burhs 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_house_soldiers }}
+				add_innovation = innovation_house_soldiers 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_horseshoes }}
+				add_innovation = innovation_horseshoes 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_arched_saddle }}
+				add_innovation = innovation_arched_saddle 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_manorialism }}
+				add_innovation = innovation_manorialism 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_development_02 }}
+				add_innovation = innovation_development_02 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_currency_02 }}
+				add_innovation = innovation_currency_02 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_royal_prerogative }}
+				add_innovation = innovation_royal_prerogative 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_chronicle_writing }}
+				add_innovation = innovation_chronicle_writing 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_armilary_sphere }}
+				add_innovation = innovation_armilary_sphere 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_baliffs }}
+				add_innovation = innovation_baliffs 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_hoardings }}
+				add_innovation = innovation_hoardings 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_trebuchet }}
+				add_innovation = innovation_trebuchet 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_castle_baileys }}
+				add_innovation = innovation_castle_baileys 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_men_at_arms }}
+				add_innovation = innovation_men_at_arms 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_knighthood }}
+				add_innovation = innovation_knighthood 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_advanced_bowmaking }}
+				add_innovation = innovation_advanced_bowmaking 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_heraldry }}
+				add_innovation = innovation_heraldry 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_windmills }}
+				add_innovation = innovation_windmills 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_divine_right }}
+				add_innovation = innovation_divine_right 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_land_grants }}
+				add_innovation = innovation_land_grants 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_scutage }}
+				add_innovation = innovation_scutage 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_guilds }}
+				add_innovation = innovation_guilds 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_development_03 }}
+				add_innovation = innovation_development_03 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_currency_03 }}
+				add_innovation = innovation_currency_03 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_machicolations }}
+				add_innovation = innovation_machicolations 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_siege_magic }}
+				add_innovation = innovation_siege_magic 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_royal_armory }}
+				add_innovation = innovation_royal_armory 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_standing_armies }}
+				add_innovation = innovation_standing_armies 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_sappers }}
+				add_innovation = innovation_sappers 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_plate_armor }}
+				add_innovation = innovation_plate_armor 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_primogeniture }}
+				add_innovation = innovation_primogeniture 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_cranes }}
+				add_innovation = innovation_cranes 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_noblesse_oblige }}
+				add_innovation = innovation_noblesse_oblige 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_rightful_ownership }}
+				add_innovation = innovation_rightful_ownership 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_ermine_cloaks }}
+				add_innovation = innovation_ermine_cloaks 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_court_officials }}
+				add_innovation = innovation_court_officials 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_development_04 }}
+				add_innovation = innovation_development_04 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_currency_04 }}
+				add_innovation = innovation_currency_04 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_war_magic }}
+				add_innovation = innovation_war_magic 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_leather_armor }}
+				add_innovation = innovation_leather_armor 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_sanded_wood }}
+				add_innovation = innovation_sanded_wood 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_steel_spearhead }}
+				add_innovation = innovation_steel_spearhead 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_horse_breeding }}
+				add_innovation = innovation_horse_breeding 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_alchemy }}
+				add_innovation = innovation_alchemy 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_master_field }}
+				add_innovation = innovation_master_field 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_might_makes_right }}
+				add_innovation = innovation_might_makes_right 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_magical_studies }}
+				add_innovation = innovation_magical_studies 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_local_school }}
+				add_innovation = innovation_local_school 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_schools_of_magic }}
+				add_innovation = innovation_schools_of_magic 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_restoration_squads }}
+				add_innovation = innovation_restoration_squads 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_provincial_governors }}
+				add_innovation = innovation_provincial_governors 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_community_college }}
+				add_innovation = innovation_community_college 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_lost_arcane_arts }}
+				add_innovation = innovation_lost_arcane_arts 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_horse_armor }}
+				add_innovation = innovation_horse_armor 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_census_and_excise }}
+				add_innovation = innovation_census_and_excise 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_integrated_guilds }}
+				add_innovation = innovation_integrated_guilds 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_horse_armor }}
+				add_innovation = innovation_horse_armor 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_census_and_excise }}
+				add_innovation = innovation_census_and_excise 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_alfiq }}
+				add_innovation = innovation_alfiq 
+			}
+			if = {
+				limit = { root.culture = { has_innovation = innovation_lunar_mysteries }}
+				add_innovation = innovation_lunar_mysteries
+			}
+		}	
+	}	
+	### Capital in $REGION$, personally convert culture
+	if = {
+		limit = { capital_province = { geographical_region = custom_nativity_$REGION$ } }
+		hidden_effect = {
+			every_courtier = {
+				limit = {
+					has_culture = root.culture
+					dynasty = root.dynasty
+				}
+				set_culture = scope:new_culture
+			}
+			capital_county = { set_county_culture = scope:new_culture }
+		}
+		set_culture = scope:new_culture
+		add_character_flag = converted_culture_this_lifetime
+	}
+	
+	### Most of the titles held within the region should convert
+	hidden_effect = {
+		random_held_title = {
+			limit = {
+				tier = tier_county
+				culture = {
+					has_same_culture_heritage = root.culture
+				} 
+				title_province = { geographical_region = custom_nativity_$REGION$ }
+			}
+			set_county_culture = scope:new_culture
+		}
+		every_held_title = {
+			limit = {
+				tier = tier_county
+				culture = {
+					has_same_culture_heritage = root.culture
+				}
+				NOT = { culture = scope:new_culture }
+				title_province = { geographical_region = custom_nativity_$REGION$ }
+			}
+			random = {
+				chance = 60
+				set_county_culture = scope:new_culture
+			}
+		}
+	}
+	
+	trigger_event = ek_culture_creation_decision.0001
+}
+
+# Every county gets a list of native cultures
+setup_county_native_cultures_link = {
+	every_county = {
+		save_temporary_scope_as = current_county
+		## First we empty the list
+		clear_variable_list = native_culture_list
+		## Then we go through every nativity region and give to the county the list of cultures native from here
+		# High Rock
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_glenumbra } }
+			county_save_native_cultures = { REGION = glenumbra }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_rivenspire } }
+			county_save_native_cultures = { REGION = rivenspire }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_stormhaven } }
+			county_save_native_cultures = { REGION = stormhaven }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_greater_wrothgar } }
+			county_save_native_cultures = { REGION = greater_wrothgar }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_bangkorai } }
+			county_save_native_cultures = { REGION = bangkorai }
+		}
+		# Hammerfell
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_craglorn } }
+			county_save_native_cultures = { REGION = craglorn }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_alikr } }
+			county_save_native_cultures = { REGION = alikr }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_brena } }
+			county_save_native_cultures = { REGION = brena }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_sunforge } }
+			county_save_native_cultures = { REGION = sunforge }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_abecee } }
+			county_save_native_cultures = { REGION = abecee }
+		}
+		# Cyrodiil
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_heartlands } }
+			county_save_native_cultures = { REGION = heartlands }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_gold_coast } }
+			county_save_native_cultures = { REGION = gold_coast }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_west_weald } }
+			county_save_native_cultures = { REGION = west_weald }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_colovian_highlands } }
+			county_save_native_cultures = { REGION = colovian_highlands }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_jerall_mountains } }
+			county_save_native_cultures = { REGION = jerall_mountains }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_nibenay_basin } }
+			county_save_native_cultures = { REGION = nibenay_basin }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_nibenese_lowlands } }
+			county_save_native_cultures = { REGION = nibenese_lowlands }
+		}
+		# Skyrim
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_karth } }
+			county_save_native_cultures = { REGION = karth }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_west_ghost } }
+			county_save_native_cultures = { REGION = west_ghost }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_white_river } }
+			county_save_native_cultures = { REGION = white_river }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_east_ghost } }
+			county_save_native_cultures = { REGION = east_ghost }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_dark_water } }
+			county_save_native_cultures = { REGION = dark_water }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_solstheim } }
+			county_save_native_cultures = { REGION = solstheim }
+		}
+		# Yokuda
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_yokuda } }
+			county_save_native_cultures = { REGION = yokuda }
+		}
+		# Summerset Isles
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_auridon } }
+			county_save_native_cultures = { REGION = auridon }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_summerset } }
+			county_save_native_cultures = { REGION = summerset }
+		}
+		# Valenwood
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_grahtwood } }
+			county_save_native_cultures = { REGION = grahtwood }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_greenshade } }
+			county_save_native_cultures = { REGION = greenshade }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_malabal_tor } }
+			county_save_native_cultures = { REGION = malabal_tor }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_reaper_march } }
+			county_save_native_cultures = { REGION = reaper_march }
+		}
+		# Elsweyr
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_anequina } }
+			county_save_native_cultures = { REGION = anequina }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_pellitine } }
+			county_save_native_cultures = { REGION = pellitine }
+		}
+		# Morrowind
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_vvardenfell } }
+			county_save_native_cultures = { REGION = vvardenfell }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_velothi_range } }
+			county_save_native_cultures = { REGION = velothi_range }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_greater_deshaan } }
+			county_save_native_cultures = { REGION = greater_deshaan }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_thir } }
+			county_save_native_cultures = { REGION = thir }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_padomay_coast } }
+			county_save_native_cultures = { REGION = padomay_coast }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_southern_marshes } }
+			county_save_native_cultures = { REGION = southern_marshes }
+		}
+		# Black Marsh
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_middle_argonia } }
+			county_save_native_cultures = { REGION = middle_argonia }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_onkobra } }
+			county_save_native_cultures = { REGION = onkobra }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_black_bays } }
+			county_save_native_cultures = { REGION = black_bays }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_padomaic_marshes } }
+			county_save_native_cultures = { REGION = padomaic_marshes }
+		}
+	}
+}
+
+setup_county_native_cultures_link_region = {
+	every_county = {
+		limit = { title_province = { geographical_region = $REGION$ } }
+		
+		save_temporary_scope_as = current_county
+		## First we empty the list
+		clear_variable_list = native_culture_list
+		## Then we go through every nativity region and give to the county the list of cultures native from here
+		# High Rock
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_glenumbra } }
+			county_save_native_cultures = { REGION = glenumbra }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_rivenspire } }
+			county_save_native_cultures = { REGION = rivenspire }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_stormhaven } }
+			county_save_native_cultures = { REGION = stormhaven }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_greater_wrothgar } }
+			county_save_native_cultures = { REGION = greater_wrothgar }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_bangkorai } }
+			county_save_native_cultures = { REGION = bangkorai }
+		}
+		# Hammerfell
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_craglorn } }
+			county_save_native_cultures = { REGION = craglorn }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_alikr } }
+			county_save_native_cultures = { REGION = alikr }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_brena } }
+			county_save_native_cultures = { REGION = brena }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_sunforge } }
+			county_save_native_cultures = { REGION = sunforge }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_abecee } }
+			county_save_native_cultures = { REGION = abecee }
+		}
+		# Cyrodiil
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_heartlands } }
+			county_save_native_cultures = { REGION = heartlands }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_gold_coast } }
+			county_save_native_cultures = { REGION = gold_coast }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_west_weald } }
+			county_save_native_cultures = { REGION = west_weald }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_colovian_highlands } }
+			county_save_native_cultures = { REGION = colovian_highlands }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_jerall_mountains } }
+			county_save_native_cultures = { REGION = jerall_mountains }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_nibenay_basin } }
+			county_save_native_cultures = { REGION = nibenay_basin }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_nibenese_lowlands } }
+			county_save_native_cultures = { REGION = nibenese_lowlands }
+		}
+		# Skyrim
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_karth } }
+			county_save_native_cultures = { REGION = karth }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_west_ghost } }
+			county_save_native_cultures = { REGION = west_ghost }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_white_river } }
+			county_save_native_cultures = { REGION = white_river }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_east_ghost } }
+			county_save_native_cultures = { REGION = east_ghost }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_dark_water } }
+			county_save_native_cultures = { REGION = dark_water }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_solstheim } }
+			county_save_native_cultures = { REGION = solstheim }
+		}
+		# Yokuda
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_yokuda } }
+			county_save_native_cultures = { REGION = yokuda }
+		}
+		# Summerset Isles
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_auridon } }
+			county_save_native_cultures = { REGION = auridon }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_summerset } }
+			county_save_native_cultures = { REGION = summerset }
+		}
+		# Valenwood
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_grahtwood } }
+			county_save_native_cultures = { REGION = grahtwood }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_greenshade } }
+			county_save_native_cultures = { REGION = greenshade }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_malabal_tor } }
+			county_save_native_cultures = { REGION = malabal_tor }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_reaper_march } }
+			county_save_native_cultures = { REGION = reaper_march }
+		}
+		# Elsweyr
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_anequina } }
+			county_save_native_cultures = { REGION = anequina }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_pellitine } }
+			county_save_native_cultures = { REGION = pellitine }
+		}
+		# Morrowind
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_vvardenfell } }
+			county_save_native_cultures = { REGION = vvardenfell }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_velothi_range } }
+			county_save_native_cultures = { REGION = velothi_range }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_greater_deshaan } }
+			county_save_native_cultures = { REGION = greater_deshaan }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_thir } }
+			county_save_native_cultures = { REGION = thir }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_padomay_coast } }
+			county_save_native_cultures = { REGION = padomay_coast }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_southern_marshes } }
+			county_save_native_cultures = { REGION = southern_marshes }
+		}
+		# Black Marsh
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_middle_argonia } }
+			county_save_native_cultures = { REGION = middle_argonia }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_onkobra } }
+			county_save_native_cultures = { REGION = onkobra }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_black_bays } }
+			county_save_native_cultures = { REGION = black_bays }
+		}
+		if = {
+			limit = { this.title_province = { geographical_region = custom_nativity_padomaic_marshes } }
+			county_save_native_cultures = { REGION = padomaic_marshes }
+		}
+	}
+}

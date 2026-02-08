@@ -1,0 +1,861 @@
+﻿### EK EDIT: Repository for EK Beastfolk Core Traditions
+#EK TODO: Change modifiers to more relevant ones like culture_pillar:ethos_spiritual = { is_in_list = traits } Opinion, chance of having a Stance and so on...
+##############################
+# CORE CULTURAL TRADITIONS #
+##############################
+
+
+
+
+### Argonian Traditions
+
+tradition_histskin = { #common to all Argonians
+	category = core
+
+	layers = {
+		0 = diplo
+		1 = mediterranean
+		4 = swamp.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_argonian_trigger_desc
+			has_cultural_pillar = heritage_argonian
+		}		
+	}
+	parameters = {
+		forder_trait_more_common = yes
+		can_travel_along_rivers = yes
+		black_marsh_trait_bonuses = yes
+	}
+
+	character_modifier = {
+		black_marsh_cancel_negative_supply = yes
+		jungle_cancel_negative_supply = yes
+		wetlands_cancel_negative_supply = yes
+		embarkation_cost_mult = -0.25
+		wetlands_advantage = 3
+		black_marsh_advantage = 3
+		black_marsh_travel_danger = black_marsh_medium_danger_reduction
+		wetlands_travel_danger = wetlands_high_danger_reduction
+	}
+
+	county_modifier = {
+		jungle_levy_size = 0.2
+		jungle_development_growth_factor = 0.1
+		wetlands_levy_size = 0.2
+		wetlands_development_growth_factor = 0.1
+		black_marsh_levy_size = 0.2
+		black_marsh_development_growth_factor = 0.1
+	}
+
+	province_modifier = {
+		epidemic_resistance = 90
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_histskin }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+
+}
+tradition_saxhleel_mistrust = { #similar to Isolationist, but for angy Argonians. Naga, Sarpa, Paatru
+	category = core
+
+	layers = {
+		0 = intrigue
+		1 = mediterranean
+		4 = noble.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_argonian_trigger_desc
+			has_cultural_pillar = heritage_argonian
+		}		
+	}
+	
+	parameters = {
+		is_isolationist_tradition = yes
+		#fewer other heritage wanderers, more likely to execute other heritage prisoners
+		foreign_guest_hostility = yes
+		#opinion bonus to Vengeful, malus to Forgiving
+		vengeful_positive_forgiving_negative = yes
+		#trusting less common
+		trusting_trait_less_common = yes
+		#same as Isolationist
+		courtiers_less_likely_to_leave_same_culture_court = yes
+	}
+
+	culture_modifier = { #harsher than Isolationist
+		cultural_acceptance_gain_mult = -0.50
+	}
+
+	character_modifier = {
+		martial_per_piety_level = 1
+		#should give advantage against hostile faiths, check
+		tolerance_advantage_mod = 5
+		#same as Isolationist
+		diplomatic_range_mult = -0.25
+		same_culture_opinion = 5
+	}
+
+	county_modifier = { #same as Isolationist
+		monthly_county_control_growth_add = 0.5
+	}
+	province_modifier = {
+		travel_danger = 15 #travelling near angy Argonians is dangerous according to the Argonian Account
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			if = {
+				limit = {
+					culture_pillar:ethos_egalitarian = { is_in_list = traits }
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = culture_not_egalitarian
+				}
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_saxhleel_mistrust }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+tradition_naga_underworld = { #Naga unique
+	category = core
+
+	layers = {
+		0 = intrigue
+		1 = mediterranean
+		4 = ai_tradition_argonian_03.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_naga_underworld_trigger_desc
+			OR = {
+				this = culture:naga
+				any_parent_culture_or_above = {
+					this = culture:naga
+				}
+			}
+		}
+	}
+	
+	parameters = {
+		rowdy_trait_more_common = yes
+		learning_education_worse_outcomes = yes
+		cheaper_bribes = yes
+		#opinion bonus to Wrathful, malus to Fickle
+		ruthlessness_valued = yes
+		#opinion bonus to Overseer and Schemer, malus to Diplomat
+		control_valued = yes
+	}
+
+	character_modifier = {
+		intrigue_per_prestige_level = 1
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_naga_underworld }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+tradition_feathered_ones = { #Sarpa unique
+	category = core
+
+	layers = {
+		0 = steward
+		1 = mediterranean
+		4 = ai_tradition_argonian_02.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_feathered_ones_trigger_desc
+			OR = {
+				this = culture:sarpa
+				any_parent_culture_or_above = {
+					this = culture:sarpa
+				}
+			}
+		}
+	}
+	
+	parameters = {
+		stewardship_education_better_outcomes = yes
+		martial_education_worse_outcomes = yes
+		#unlocks unique MAA
+		unlock_maa_winged_avengers = yes
+		#opinion bonus to Adventurer, malus to Reclusive
+		adventurers_valued = yes
+	}
+
+	character_modifier = {
+		movement_speed = 0.20
+		character_travel_speed_mult = 0.2
+	}
+
+	county_modifier = {
+		monthly_county_control_growth_factor = 0.2
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_feathered_ones }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+tradition_batracian_blessings = { #Paatru exclusive
+	category = core
+
+	layers = {
+		0 = learning
+		1 = mediterranean
+		4 = ai_tradition_argonian_01.dds
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_batracian_blessings_trigger_desc
+			OR = {
+				this = culture:paatru
+				any_parent_culture_or_above = {
+					this = culture:paatru
+				}
+			}
+		}
+	}
+	
+	parameters = {
+		#bonus to learning, malus to intrigue
+		learning_education_better_outcomes = yes
+		intrigue_education_worse_outcomes = yes
+		#babies have chance to be born with Arcana affinity
+		arcane_affinity_birth = yes
+		#witch has additional bonuses, herbalist gives prestige
+		witch_doctors = yes
+		magic_preference = yes
+	}
+
+	character_modifier = {
+		negate_health_penalty_add = 0.25
+		negate_fertility_penalty_add = 0.25
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_batracian_blessings }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+### Goblinken Traditions
+
+tradition_beast_tamers = {
+	category = core
+	
+	layers = {
+		0 = intrigue
+		1 = mediterranean
+		4 = horses.dds
+	}
+
+	#Replaces Prolific Hunters
+	is_shown = {
+		always = yes
+	}
+	
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_goblinken_trigger_desc
+			NOT = { has_cultural_tradition = tradition_hunters }
+			has_cultural_pillar = heritage_goblinken
+		}
+	}
+	
+	parameters = {
+		more_frequent_hunts = yes
+		hunting_traits_more_valued = yes
+		hunting_traits_more_common = yes
+		#going on hunts give more prestige
+		hunting_activity_prestige = yes
+		#pets_more_common = yes not made yet
+		#brave valued, callous and craven not
+		courage_valued = yes
+		#pastures and hunting grounds buildings give prestige
+		pastures_prestige = yes
+		hunting_grounds_prestige = yes
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_beast_tamers }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				scope:character = {
+					government_has_flag = government_is_tribal
+				}
+			}
+
+			multiply = 0
+		}
+	}
+}
+
+tradition_proven_shamans = {
+	category = core
+
+	layers = {
+		0 = learning
+		1 = mediterranean
+		4 = core_tenet_unreformed_syncretism.dds
+	}
+
+	is_shown = {
+		always = yes
+	}
+	
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_goblinken_trigger_desc
+			has_cultural_pillar = heritage_goblinken
+		}
+	}
+	
+	parameters = {
+		#babies have chance to be born with Arcana affinity
+		arcane_affinity_birth = yes
+		wanderers_gain_extra_magic_education = yes
+		send_mage_to_wander = yes #EK TODO: make the the decision have a chance to give Traveler and Seasoned. Seasoned should give Arcana and same culture opinion
+		witch_trait_more_common = yes
+		witch_piety = yes
+		unlock_maa_ice_shamans = yes
+		can_host_arcane_clash_contests = yes
+		magic_preference = yes
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_proven_shamans }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+	
+	ai_will_do = {
+		value = 100
+		if = {
+			limit = {
+				scope:character = {
+					government_has_flag = government_is_tribal
+				}
+			}
+			multiply = 0
+		}
+	}
+}
+
+### Imga traditions
+
+tradition_imga_core = {
+	category = core
+
+	layers = {
+		0 = steward
+		1 = mena
+		4 = jungle.dds
+	}
+
+	is_shown = {
+		always = yes
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_imga_trigger_desc
+			has_cultural_pillar = heritage_imgan
+		}
+	}
+
+	parameters = {
+		unlock_maa_imga_frenzied = yes
+		weak_rulers_contest_rule = yes
+		number_of_spouses = 4
+		arrogant_trait_more_common = yes
+		august_xp_rebate = yes
+		diplo_stewards = yes
+	}
+	culture_modifier = {
+		cultural_acceptance_gain_mult = 0.20
+	}
+
+	character_modifier = {
+		negate_prowess_penalty_add = 5
+	}
+	
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_imga_core }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+### Khajiit Traditions
+
+tradition_moonsugar_plantations = {
+	category = core
+
+	layers = {
+		0 = steward
+		1 = indian
+		4 = farmland.dds
+	}
+
+	is_shown = {
+		always = yes
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_moonsugar_plantations_trigger_desc
+			OR = {
+				this = culture:pellitinian
+				any_parent_culture_or_above = {
+					this = culture:pellitinian
+				}
+			}
+		}
+	}
+	parameters = {
+		stewardship_education_better_outcomes = yes
+		bossy_trait_more_common = yes
+		rowdy_trait_less_common = yes
+		avaricious_xp_rebate = yes
+		unlock_urbanism_legacy = yes
+	}
+
+	character_modifier = {
+		stewardship_per_prestige_level = 1
+		prowess = -2		
+		levy_size = -0.2
+	}
+	county_modifier = {
+		farmlands_development_growth_factor = 0.2
+	}
+	culture_modifier = {
+		mercenary_count_mult = 1
+	}
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_moonsugar_plantations }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+tradition_beasts_of_war = {
+	category = core
+
+	layers = {
+		0 = martial
+		1 = indian
+		4 = swords.dds
+	}
+
+	is_shown = {
+		always = yes
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_beasts_of_war_trigger_desc
+			OR = {
+				this = culture:anequinan
+				any_parent_culture_or_above = {
+					this = culture:anequinan
+				}
+			}
+		}
+		#culture_not_pacifistic_trigger = yes
+	}
+
+	parameters = {
+		desert_warrior_trait_more_common = yes
+		dry_trait_bonuses = yes
+		can_recruit_dry_specialist = yes
+		culture_clergy_can_fight = yes
+		cheaper_cbs = yes
+		diplomacy_education_worse_outcomes = yes
+		bossy_trait_more_common = yes
+		rebellious_vassals = yes
+	}
+
+	character_modifier = {
+		supply_capacity_mult = 0.5
+		prowess = 3
+		powerful_vassal_opinion = -15
+		character_travel_safety_mult = 0.1
+	}
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_beasts_of_war }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+tradition_priest_kings = {
+	category = core
+
+	layers = {
+		0 = learning
+		1 = indian
+		4 = ai_tradition_khajiit_01.dds
+	}
+
+	is_shown = {
+		always = yes
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_khajiit_trigger_desc
+			has_cultural_pillar = heritage_khajiiti
+		}		
+	}
+	parameters = {
+		learning_education_better_outcomes = yes
+		pensive_trait_more_common = yes
+		#learning education gives prestige, theologian trait gives opinion
+		theologians_valued = yes
+		theologian_xp_rebate = yes
+		#Compassionate more common, Sadistic and Callous looked down upon
+		kindness_valued = yes
+	}
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_priest_kings }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+### Lilmothiit traditions
+
+tradition_walk_worm_trails = {
+	category = core
+
+	layers = {
+		0 = martial
+		1 = indian
+		4 = soldiers.dds
+	}
+
+	is_shown = {
+		always = yes
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_lilmothiit_trigger_desc
+			has_cultural_pillar = heritage_lilmothiit
+		}		
+	}
+
+	parameters = {
+		# Lilmothiit MaA
+		unlock_maa_soul_trappers = yes
+		unlock_maa_walk_worm_cavalry = yes
+		# learning yay, stewards boo
+		learning_education_better_outcomes = yes
+		stewardship_education_worse_outcomes = yes
+		# medicine shit
+		court_physicians_are_better = yes
+		herbalist_traits_more_common = yes
+		# also hunters
+		hunting_traits_more_valued = yes
+		# living in Black Marsh necessitates this
+		can_travel_along_rivers = yes
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_walk_worm_trails }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}
+
+tradition_life_does_part = {
+	category = core
+
+	layers = {
+		0 = diplo
+		1 = indian
+		4 = greeting.dds
+	}
+
+	is_shown = {
+		always = yes
+	}
+
+	can_pick = {
+		custom_tooltip = {
+			text = tradition_lilmothiit_trigger_desc
+			has_cultural_pillar = heritage_lilmothiit
+		}		
+		custom_tooltip = {
+			text = only_one_marriage_tradition_allowed
+			trigger_if = {
+				limit = {
+					OR = {
+						NOT = { exists = scope:replacing }
+						NOR = {
+							scope:replacing = culture_tradition:tradition_monogamous
+							scope:replacing = culture_tradition:tradition_polygamous
+						}
+					}
+				}
+				NOR = {
+					culture_tradition:tradition_monogamous = { is_in_list = traits }
+					culture_tradition:tradition_polygamous = { is_in_list = traits }
+				}
+			}
+		}
+	}
+
+	parameters = {
+		number_of_spouses = 1
+		number_of_consorts = 3
+		free_divorce = yes
+		adultery_and_fornication_is_ok = yes
+		bastard_opinion = yes
+		cannot_disherit = yes
+	}
+
+	character_modifier = {
+		seduce_scheme_phase_duration_add = medium_scheme_phase_duration_bonus_value
+		max_seduce_schemes_add = 1
+	}
+
+	cost = {
+		prestige = {
+			add = {
+				value = tradition_base_cost
+				desc = BASE
+				format = "BASE_VALUE_FORMAT"
+			}
+			
+			if = {
+				limit = {
+					culture_tradition_reduction_trigger = { TRADITION = tradition_life_does_part }
+				}
+				multiply = {
+					value = 0.5
+					desc = inspired_by_culture_desc
+				}
+			}
+
+			multiply = tradition_replacement_cost_if_relevant
+		}
+	}
+}

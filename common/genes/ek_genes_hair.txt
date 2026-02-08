@@ -1,0 +1,249 @@
+﻿
+
+morph_genes = {
+
+	hairline_type = {
+		group = hair
+		inheritable = yes
+				default_hairline = { 
+					visible = no
+					index = 0
+					male = {}
+					female = {}
+					boy = male
+					girl = female
+				}
+				receding = { 
+					index = 1
+					male = {
+						setting = { attribute = "bs_hair_receding"	value = { min = 0.0 max = 1.0 }	 } 
+					}
+					female = male
+					boy = male
+					girl = female
+				}
+				widows_peak = {
+				index = 2
+					male = {
+						setting = { attribute = "bs_hair_wp"	value = { min = 0.0 max = 1.0 }	 } 
+					}
+					female = male
+					boy = male
+					girl = female
+					}
+
+				mohawk = {
+					index = 3
+						male = {
+							setting = { attribute = "bs_hair_shaved"	value = { min = 1.0 max = 1.0 }	 } 
+						}
+						female = {}
+						boy = male
+						girl = female
+					}
+		}	
+			
+
+		hair_aging = { # Strength Slider Controls the hair "Salt and pepperness" Templates control how quickly the base hair ages.
+			group = hair
+				vanilla_hair_aging = {
+				index = 0
+					male = {
+
+						hair_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 -1.0 0.2 } }
+							}
+							age = {
+								mode = multiply
+								curve = {
+									{ 0.0 0.0 }
+									{ 0.35 0.0 }
+									{ 0.7 1.0 }
+								}
+							}
+						}
+
+						decal = {
+							body_part = head
+							textures = {
+								diffuse = "gfx/models/portraits/decals/hair_aging_control.dds"
+								# normal = ""
+								# properties = ""
+							}
+							alpha_curve = {
+								{ 0.0   0.0 }
+								{ 1.0   1.0 }
+							}
+							blend_modes = {#overlay/replace/hard_light/multiply
+								diffuse = replace
+								# normal = replace
+								# properties = replace
+							}
+							priority = 100
+							decal_apply_order = post_skin_color # pre_skin_color | post_skin_color
+							age = {
+								mode = multiply
+								curve = {
+									{ 0.0 0.01 }
+									{ 0.2 0.01 }
+									{ 0.9 1.0 }
+								}
+							}
+						}
+
+					}
+					female = male
+					boy = male
+					girl = female
+					}
+
+				late_hair_aging = {
+				index = 1
+					male = {
+
+						hair_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 -1.0 0.2 } }
+							}
+							age = {
+								mode = multiply
+								curve = {
+									{ 0.0 0.0 }
+									{ 0.55 0.0 }
+									{ 0.7 1.0 }
+								}
+							}
+						}
+
+						decal = {
+							body_part = head
+							textures = {
+								diffuse = "gfx/models/portraits/decals/hair_aging_control.dds"
+								# normal = ""
+								# properties = ""
+							}
+							alpha_curve = {
+								{ 0.0   0.0 }
+								{ 1.0   1.0 }
+							}
+							blend_modes = {#overlay/replace/hard_light/multiply
+								diffuse = replace
+								# normal = replace
+								# properties = replace
+							}
+							priority = 100
+							decal_apply_order = post_skin_color # pre_skin_color | post_skin_color
+							age = {
+								mode = multiply
+								curve = {
+									{ 0.0 0.01 }
+									{ 0.2 0.01 }
+									{ 0.9 1.0 }
+								}
+							}
+						}
+
+					}
+					female = male
+					boy = male
+					girl = female
+					}	
+					
+				no_hair_aging = {
+				index = 2
+					male = {
+
+						decal = {
+							body_part = head
+							textures = {
+								diffuse = "gfx/models/portraits/decals/hair_aging_control.dds"
+								# normal = ""
+								# properties = ""
+							}
+							alpha_curve = {
+								{ 0.0   0.0 }
+								{ 1.0   1.0 }
+							}
+							blend_modes = {#overlay/replace/hard_light/multiply
+								diffuse = replace
+								# normal = replace
+								# properties = replace
+							}
+							priority = 100
+							decal_apply_order = post_skin_color # pre_skin_color | post_skin_color
+							age = {
+								mode = multiply
+								curve = {
+									{ 0.0 0.01 }
+									{ 0.2 0.01 }
+									{ 0.9 1.0 }
+								}
+							}
+						}
+
+					}
+					female = male
+					boy = male
+					girl = female
+					}						
+				
+
+				beast_hair_aging = {
+				index = 3
+					male = {
+
+						hair_hsv_shift_curve = {
+							curve = {
+								{ 0.0   { 0.0 -0.25 -0.05 } }
+							}
+							age = {
+								mode = multiply
+								curve = {
+									{ 0.0 0.0 }
+									{ 0.35 0.0 }
+									{ 0.7 1.0 }
+								}
+							}
+						}
+
+						decal = {
+							body_part = head
+							textures = {
+								diffuse = "gfx/models/portraits/decals/hair_aging_control.dds"
+								# normal = ""
+								# properties = ""
+							}
+							alpha_curve = {
+								{ 0.0   0.0 }
+								{ 1.0   1.0 }
+							}
+							blend_modes = {#overlay/replace/hard_light/multiply
+								diffuse = replace
+								# normal = replace
+								# properties = replace
+							}
+							priority = 100
+							decal_apply_order = post_skin_color # pre_skin_color | post_skin_color
+							age = {
+								mode = multiply
+								curve = {
+									{ 0.0 0.01 }
+									{ 0.2 0.01 }
+									{ 0.9 1.0 }
+								}
+							}
+						}
+
+					}
+					female = male
+					boy = male
+					girl = female
+					}						
+				}	
+				
+			}
+										
+	
+
+

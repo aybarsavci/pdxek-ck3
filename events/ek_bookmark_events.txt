@@ -1,0 +1,120 @@
+﻿#Events triggered at game start for certain characters if controlled by a player. Explains their situation and background.
+
+namespace = ek_bookmark
+
+ek_bookmark.0001 = { #Starting event for Yashnag
+	type = character_event
+	content_source = dlc_ek
+	title = ek_bookmark.0001.t
+	desc = ek_bookmark.0001.desc
+
+	immediate = {
+		play_music_cue = "mx_cue_peace_ensues"
+		character:skjoralmor_100 = { save_scope_as = hakkvild }
+		character:yashnag_100 = { save_scope_as = yashnag }
+		character:skjoralmor_200 = { save_scope_as = engar }
+		character:skjoralmor_99 = { save_scope_as = falk }
+		title:d_helgen = { save_scope_as = helgen}
+		title:k_falkreath = { save_scope_as = falkreath }
+		title:k_orsinium = { save_scope_as = orsinium }
+		character:branquette_999 = { save_scope_as = edgar }
+		character:deleyn_999 = { save_scope_as = anton }
+	}
+
+	theme = war
+	left_portrait = {
+		character = character:yashnag_100
+		animation = war_over_win
+	}
+	
+	right_portrait = {
+		character = character:skjoralmor_99
+		animation = anger
+	}
+
+	# Let's see what he has come up with.
+	option = {
+		name = ek_bookmark.0001.a
+
+		ai_chance = {
+			base = 0	#The AI should never get this event, but if they do, shouldn't opt in.
+		}
+	}
+}
+ek_bookmark.0002 = { #Starting event for Mane Marandru-Jo
+	type = character_event
+	title = ek_bookmark.0002.t
+	content_source = dlc_ek
+	desc = ek_bookmark.0002.desc
+	theme = realm
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	option = {
+		name = ek_bookmark.0002.a
+		custom_tooltip = elsweyr_dissolution.tt
+	}
+}
+ek_bookmark.0003 = { #Starting event for Queen Nilwen
+	type = character_event
+	title = ek_bookmark.0003.t
+	content_source = dlc_ek
+	desc = ek_bookmark.0003.desc
+	theme = realm
+	immediate = {
+		play_music_cue = "mx_cue_peace_ensues"
+		character:camoran_gorinir_101 = { save_scope_as = cormount_gelthior }
+		character:camoran_haven_100 = { save_scope_as = haven_elirus }
+		character:zantonius_1 = { save_scope_as = southpoint_zantonius }
+		title:d_haven = { save_scope_as = haven }
+		title:d_southpoint = { save_scope_as = southpoint }
+		title:k_eldenroot = { save_scope_as = eldenroot }
+		culture:colovian = { save_scope_as = colovian }
+		faith:blacksapmovement = { save_scope_as = blacksap }
+	}
+	left_portrait = {
+		character = root
+		animation = war_attacker
+	}
+	lower_left_portrait = {
+		character = scope:cormount_gelthior
+	}
+	lower_center_portrait = {
+		character = scope:haven_elirus
+	}
+	lower_right_portrait = {
+		character = scope:southpoint_zantonius
+	}
+	option = {
+		name = ek_bookmark.0003.a
+		add_pressed_claim = title:k_cormount
+		reverse_add_opinion = {
+			target = scope:cormount_gelthior
+			modifier = insult_opinion
+			opinion = -50
+		}
+	}
+	option = {
+		name = ek_bookmark.0003.b
+		add_pressed_claim = title:d_haven
+		reverse_add_opinion = {
+			target = scope:haven_elirus
+			modifier = insult_opinion
+			opinion = -50
+		}
+	}
+	option = {
+		name = ek_bookmark.0003.c
+		add_pressed_claim = title:d_southpoint
+		reverse_add_opinion = {
+			target = scope:southpoint_zantonius
+			modifier = insult_opinion
+			opinion = -50
+		}
+	}
+	option = {
+		name = ek_bookmark.0003.d
+		add_prestige = 500
+	}
+}

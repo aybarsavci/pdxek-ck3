@@ -1,0 +1,870 @@
+﻿namespace = ek_morrowind_travel_events
+
+# Testimonials on Mushroom Towers
+ek_morrowind_travel_events.0001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind_travel_events.0001.t
+	desc = ek_morrowind_travel_events.0001.desc
+	theme = travel
+	
+	left_portrait = {
+		character = root
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		is_landed = yes
+		is_location_valid_for_travel_event_on_land = yes
+		NOT = { location.county.holder = root } #If I own it then it does not make sense to visit it.
+		location = {
+			culture = {
+				NOT = { this = root.culture }
+				has_cultural_tradition = tradition_parliament_of_bugs
+			}
+		}
+	}
+
+	immediate = {
+		play_music_cue = mx_cue_travel_arrival
+	}
+
+	option = { # scent
+		name = ek_morrowind_travel_events.0001.a
+		add_diplomacy_lifestyle_xp = minor_lifestyle_experience
+		random_list = {
+			50 = {		
+				desc = ek_morrowind_travel_events.0001.a.like
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_morrowind_travel_events.0001.a.like
+					left_icon = root
+					add_stress = minor_stress_loss
+				}
+			}
+
+			50 = {		
+				desc = ek_morrowind_travel_events.0001.a.hate
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_morrowind_travel_events.0001.a.hate
+					left_icon = root
+					add_stress = minor_stress_gain
+				}
+			}
+		}
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}
+
+	option = { # taste
+		name = ek_morrowind_travel_events.0001.b
+		add_stewardship_lifestyle_xp = minor_lifestyle_experience
+		random_list = {
+			50 = {		
+				desc = ek_morrowind_travel_events.0001.b.like
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_morrowind_travel_events.0001.b.like
+					left_icon = root
+					add_stress = minor_stress_loss
+				}
+			}
+
+			50 = {		
+				desc = ek_morrowind_travel_events.0001.b.hate
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_morrowind_travel_events.0001.b.hate
+					left_icon = root
+					add_stress = minor_stress_gain
+				}
+			}
+		}
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}
+
+	option = { # aphrodisiac
+		name = ek_morrowind_travel_events.0001.c
+		add_intrigue_lifestyle_xp = minor_lifestyle_experience
+		random_list = {
+			50 = {		
+				desc = ek_morrowind_travel_events.0001.c.like
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_morrowind_travel_events.0001.c.like
+					left_icon = root
+					add_character_modifier = {
+						modifier = successful_fertility_treatment
+						years = 10
+					}
+				}
+			}
+
+			50 = {		
+				desc = ek_morrowind_travel_events.0001.c.hate
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_morrowind_travel_events.0001.c.hate
+					left_icon = root
+					add_character_modifier = {
+						modifier = botched_fertility_treatment
+						years = 5
+					}
+				}
+			}
+		}
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}
+
+	option = { # intimidation
+		name = ek_morrowind_travel_events.0001.d
+		add_intrigue_lifestyle_xp = minor_lifestyle_experience
+		random_list = {
+			50 = {		
+				desc = ek_morrowind_travel_events.0001.d.like
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_morrowind_travel_events.0001.d.like
+					left_icon = root
+					add_dread = minor_dread_gain
+				}
+			}
+
+			50 = {		
+				desc = ek_morrowind_travel_events.0001.d.hate
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_morrowind_travel_events.0001.d.hate
+					left_icon = root
+					add_prestige = minor_prestige_loss
+				}
+			}
+		}
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}
+
+	option = { # just go
+		name = ek_morrowind_travel_events.0001.e
+	}
+}
+
+# Most Shrewd
+ek_morrowind_travel_events.0002 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind_travel_events.0002.t
+	desc = ek_morrowind_travel_events.0002.desc
+	theme = travel
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:merchant
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		is_landed = yes
+		is_location_valid_for_travel_event_on_land = yes
+		location = {
+			culture = {
+				has_cultural_tradition = tradition_philosophy_of_trade
+			}
+		}
+	}
+
+	immediate = {
+		play_music_cue = mx_cue_travel_arrival
+		create_character = {
+			template = stewardship_wealth_focus_friend_template
+			location = root.location
+			culture = root.location.culture
+			faith = root.location.faith
+			save_scope_as = merchant
+		}
+	}
+
+	option = { # make a quick trade
+		name = ek_morrowind_travel_events.0002.a
+		remove_short_term_gold = minor_gold_value
+		skill = stewardship
+		duel = {
+			skill = stewardship
+			value = medium_skill_rating
+			10 = {
+				desc = ek_morrowind_travel_events.0002.a.good
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_morrowind_travel_events.0002.a.good
+					left_icon = root
+					add_gold = medium_gold_value
+				}
+			}
+
+			10 = {
+				desc = ek_morrowind_travel_events.0002.a.bad
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_morrowind_travel_events.0002.a.bad
+					left_icon = root
+					add_stress = minor_stress_gain
+				}
+			}
+		}
+		current_travel_plan = {
+			delay_travel_plan = { days = 1 }
+		}
+	}
+
+	option = { # make a bigger investment
+		name = ek_morrowind_travel_events.0002.b
+		remove_short_term_gold = medium_gold_value
+		skill = stewardship
+		duel = {
+			skill = stewardship
+			value = high_skill_rating
+			10 = {
+				desc = ek_morrowind_travel_events.0002.b.good
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_morrowind_travel_events.0002.b.good
+					left_icon = root
+					add_gold = major_gold_value
+				}
+			}
+
+			10 = {
+				desc = ek_morrowind_travel_events.0002.b.bad
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_morrowind_travel_events.0002.b.bad
+					left_icon = root
+					add_stress = medium_stress_gain
+				}
+			}
+		}
+		current_travel_plan = {
+			delay_travel_plan = { days = 1 }
+		}
+	}
+
+	option = {
+		name = ek_morrowind_travel_events.0002.c
+		trigger = {
+			has_focus_stewardship = yes
+		}
+		add_stewardship_lifestyle_xp = medium_lifestyle_xp
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}	
+
+	option = { # just go
+		name = ek_morrowind_travel_events.0002.d
+	}
+}
+
+# Healing Hearts
+ek_morrowind_travel_events.0003 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind_travel_events.0003.t
+	desc = ek_morrowind_travel_events.0003.desc
+	theme = travel
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:healer
+		animation = beg
+	}
+
+
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		is_landed = yes
+		is_location_valid_for_travel_event_on_land = yes
+		location = {
+			geographical_region = mundus_tamriel_morrowind
+		}
+	}
+
+	immediate = {
+		play_music_cue = mx_cue_travel_arrival
+		create_character = {
+			template = priest_character_template
+			location = root.location
+			culture = root.location.culture
+			faith = root.location.faith
+			save_scope_as = healer
+		}
+	}
+
+	option = { # give away some gold
+		name = ek_morrowind_travel_events.0003.a
+		remove_short_term_gold = minor_gold_value
+		add_piety = minor_piety_gain
+	}
+
+	option = { # kill some daedra yourself
+		name = ek_morrowind_travel_events.0003.b
+		skill = prowess
+		duel = {
+			skill = prowess
+			value = high_skill_rating
+			10 = {
+				desc = ek_morrowind_travel_events.0003.b.good
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 1
+				}
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_morrowind_travel_events.0003.b.good
+					left_icon = root
+					add_piety = medium_piety_gain
+					add_prestige = medium_prestige_gain
+				}
+			}
+
+			10 = {
+				desc = ek_morrowind_travel_events.0003.b.bad
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_morrowind_travel_events.0003.b.bad
+					left_icon = root
+					add_prestige = medium_prestige_loss
+					increase_wounds_effect = { REASON = fight }
+				}
+			}
+		}
+		stress_impact = {
+			brave = medium_stress_impact_loss
+		}
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}
+
+	option = {
+		name = ek_morrowind_travel_events.0003.c
+		trigger = {
+			has_perk = restoration_journeyman_perk
+		}
+		add_magic_lifestyle_xp = medium_lifestyle_xp
+		add_piety = medium_piety_gain
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}	
+
+	option = { # just go
+		name = ek_morrowind_travel_events.0003.d
+	}
+}
+
+# Path of Exile
+ek_morrowind_travel_events.0004 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind_travel_events.0004.t
+	desc = ek_morrowind_travel_events.0004.desc
+	theme = travel_danger
+
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+	right_portrait = {
+		character = scope:exile
+		animation = marshal
+	}
+
+	cooldown = { years = 2 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		is_landed = yes
+		location = {
+			geographical_region = mundus_tamriel_morrowind
+		}
+		location = {
+			county = {
+				culture = culture:ashlander
+				faith = faith:old_velothi
+			}
+		}
+	}
+
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			has_variable = bad_prophecy_var
+		}
+	}
+
+	immediate = {
+		mp_delay_travel_plan = { DAYS = 90 }
+		traveler_danger_xp_effect = {
+			MIN = 3
+			MAX = 7
+		}
+
+		current_travel_plan = {
+			ordered_entourage_character = {
+				order_by = stewardship
+				save_scope_as = travel_leader
+			}
+			current_location = { save_scope_as = current_location }
+		}
+		# find head exile
+		random_pool_character = {
+			province = root.location
+			limit = {
+				is_available_ai_adult = yes
+				culture = {	
+					has_cultural_pillar = heritage_dunmeri	
+					has_cultural_tradition = tradition_red_mountain_might
+				}
+			}
+			weight = {
+				base = 10
+				modifier = {
+					can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = THIS }
+					add = 100
+				}
+			}
+			save_scope_as = exile
+		}
+		if = { #As a backup create the character
+			limit = {
+				NOT = { exists = scope:exile }
+			}
+			create_character = {
+				template = bandit_character
+				location = root.location
+				culture = culture:ashlander
+				faith = faith:old_velothi
+				dynasty = none
+				save_scope_as = exile
+			}
+			hidden_effect = {
+				scope:exile = {
+					move_to_pool = yes
+				}
+			}
+		}
+	}
+
+	# Attempt to fight the exiles
+	option = {
+		name = ek_morrowind_travel_events.0004.a
+		duel = {
+			skill = prowess
+			target = scope:exile
+			45 = { # You beat up the exile leader
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 0.5
+				}
+				send_interface_toast = {
+					title = ek_morrowind_travel_events.0004.defeated_exile
+					type = event_toast_effect_good
+					left_icon = scope:exile
+					add_prestige = medium_prestige_gain
+					create_character_memory = {
+						type = won_duel
+						participants = {
+							duel_loser = scope:exile
+						}
+					}
+				}
+			}
+			45 = { # You get beaten up by the exile leader
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.5
+				}
+				send_interface_toast = {
+					title = ek_morrowind_travel_events.0004.defeated_by_exile
+					type = event_toast_effect_bad
+					left_icon = scope:exile
+					increase_wounds_effect = { REASON = fight }
+					add_prestige = medium_prestige_loss
+					create_character_memory = {
+						type = lost_duel
+						participants = {
+							duel_winner = scope:exile
+						}
+					}
+				}
+			}
+			10 = { # You get beaten up by the exile and die
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.5
+				}
+				send_interface_toast = {
+					title = ek_morrowind_travel_events.0004.defeated_by_exile
+					type = event_toast_effect_bad
+					left_icon = scope:exile
+					death = {
+						killer = scope:exile
+						death_reason = death_fight
+					}
+				}
+			}
+		}
+		stress_impact = {
+			calm = medium_stress_impact_gain
+			craven = major_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				OR = {
+					has_trait = calm
+					has_trait = craven
+				}
+			}
+		}
+	}
+	# Attempt to bribe the exile
+	option = {
+		name = ek_morrowind_travel_events.0004.b
+		remove_short_term_gold = medium_gold_value
+		stress_impact = {   
+			greedy = medium_stress_impact_gain
+			wrathful = medium_stress_impact_gain
+			brave = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				OR = {
+					has_trait = greedy
+					has_trait = wrathful
+					has_trait = brave
+				}
+			}
+			modifier = {
+				factor = 0
+				short_term_gold < medium_gold_value
+			}
+		}
+	}
+	# Attempt to outmanuever the exile
+	option = {
+		name = ek_morrowind_travel_events.0004.c
+		duel = {
+			skills = { martial learning }
+			target = scope:exile
+			50 = { # You outmanuever the exile
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 0.5
+				}
+				modifier = {
+					factor = 2
+					has_trait = strategist
+				}
+				send_interface_toast = {
+					title = ek_morrowind_travel_events.0004.defeated_exile
+					type = event_toast_effect_good
+					left_icon = scope:exile
+					add_prestige = medium_prestige_gain
+				}
+			}
+			50 = { # You get beaten up by the exile
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.5
+				}
+
+				send_interface_toast = {
+					title = ek_morrowind_travel_events.0004.defeated_by_exile
+					type = event_toast_effect_bad
+					left_icon = scope:leviathan
+					increase_wounds_effect = { REASON = fight }
+					remove_short_term_gold = medium_gold_value
+				}
+				create_character_memory = {
+					type = lost_duel
+					participants = {
+						duel_winner = scope:exile
+					}
+				}
+			}
+			5 = { # You get beaten up by the exile and die
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.5
+				}
+				death = {
+					killer = scope:exile
+					death_reason = death_fight
+				}
+			}
+		}
+		stress_impact = {   
+			arrogant = medium_stress_impact_gain
+			brave = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				OR = {
+					has_trait = arrogant
+					has_trait = brave
+				}
+			}
+		}
+	}
+	# Attempt to hire the exile as your personal guard
+	option = {
+		name = ek_morrowind_travel_events.0004.d
+		duel = {
+			skills = { diplomacy stewardship }
+			target = scope:exile
+			50 = { # You convince them to join you
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 0.5
+				}
+				send_interface_toast = {
+					title = ek_morrowind_travel_events.0004.offer_accepted
+					left_icon = scope:exile
+					pay_short_term_gold = {
+						target = scope:exile
+						gold = minor_gold_value
+					}
+					add_courtier = scope:exile
+					root.current_travel_plan = {
+						add_companion = scope:exile
+					}
+				}
+				hidden_effect = {
+					scope:exile = {
+						add_character_flag = {
+							flag = blocked_from_leaving
+							years = 5
+						}
+					}
+				}
+			}
+			50 = { # You get beaten up by the exile
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.5
+				}
+				send_interface_toast = {
+					title = ek_morrowind_travel_events.0004.offer_refused
+					left_icon = scope:exile
+					increase_wounds_effect = { REASON = fight }
+					add_prestige = medium_prestige_loss
+				}
+				create_character_memory = {
+					type = lost_duel
+					participants = {
+						duel_winner = scope:exile
+					}
+				}
+			}
+			5 = { # You get beaten up by the exile and die
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -0.5
+				}
+				death = {
+					killer = scope:exile
+					death_reason = death_fight
+				}
+			}
+		}
+		stress_impact = {   
+			greedy = medium_stress_impact_gain
+		}
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = greedy
+				add = -50
+			}
+			modifier = {
+				factor = 0
+				short_term_gold < minor_gold_value
+			}
+		}
+	}
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					NOT = {
+						scope:exile = { is_courtier_of = root }
+					}
+					scope:exile = { is_alive = yes }
+					is_alive = no # Allow the player to get revenge if they were killed by the exile
+				}
+				scope:exile = {
+					if = {
+						limit = {
+							root = { is_ai = yes }
+						}
+						silent_disappearance_effect = yes
+					}
+				}
+			}
+		}
+	}
+}
+
+# Maddening Whispers
+ek_morrowind_travel_events.0005 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind_travel_events.0005.t
+	desc = ek_morrowind_travel_events.0005.desc
+	theme = travel
+	override_background = { reference = dungeon }
+	
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		is_landed = yes
+		is_location_valid_for_travel_event_on_land = yes
+		location = province:4402 #Sandil, where Gorne Asylum is
+	}
+
+	immediate = {
+		play_music_cue = mx_cue_travel_arrival
+	}
+
+	option = {
+		name = ek_morrowind_travel_events.0005.a
+		add_learning_lifestyle_xp = medium_lifestyle_xp
+		add_stress = medium_stress_gain
+		random = {
+			chance = 30
+			add_stress = major_stress_gain
+		}
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}	
+
+	option = { # say a little prayer and go
+		name = ek_morrowind_travel_events.0005.b
+		add_piety = minor_piety_gain
+	}
+}
+
+# Dark Elves, Dark Hearts
+ek_morrowind_travel_events.0006 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_morrowind_travel_events.0006.t
+	desc = ek_morrowind_travel_events.0006.desc
+	theme = travel
+	
+	left_portrait = {
+		character = root
+		animation = fear
+	}
+
+	cooldown = { years = 10 }
+
+	trigger = {
+		is_available_travelling_adult = yes
+		is_landed = yes
+		is_location_valid_for_travel_event_on_land = yes
+		location = {
+			culture = {
+				has_cultural_pillar = heritage_dunmeri
+			}
+		}
+		culture = {
+			NOT = {
+				has_cultural_pillar = heritage_dunmeri
+			}
+		}
+	}
+
+	immediate = {
+		play_music_cue = mx_cue_travel_arrival
+	}
+
+	option = {
+		name = ek_morrowind_travel_events.0006.a
+		trigger = {
+			OR = {
+				dread < high_dread
+				NOT = { has_trait = sadistic }
+			}
+		}
+		add_prestige = medium_prestige_gain
+		add_stress = minor_stress_gain
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}
+
+	option = {
+		name = ek_morrowind_travel_events.0006.b
+		trigger = {
+			OR = {
+				dread > high_dread
+				has_trait = sadistic
+			}
+		}
+		add_gold = medium_gold_value
+		add_dread = medium_dread_gain
+		current_travel_plan = {
+			delay_travel_plan = { days = 7 }
+		}
+	}
+
+	option = { # say a little prayer and go
+		name = ek_morrowind_travel_events.0006.c
+		add_piety = minor_piety_gain
+	}
+}
+

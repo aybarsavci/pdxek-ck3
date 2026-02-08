@@ -1,0 +1,95 @@
+﻿
+
+# Must be synced between files with the values located at "# Provisions Costs #".
+@provisions_cost_infantry_cheap = 3
+@provisions_cost_infantry_moderate = 7
+@provisions_cost_infantry_expensive = 12
+@provisions_cost_infantry_bankrupting = 15
+
+@provisions_cost_cavalry_cheap = 7
+@provisions_cost_cavalry_moderate = 15
+@provisions_cost_cavalry_expensive = 21
+@provisions_cost_cavalry_bankrupting = 30
+
+@provisions_cost_special_cheap = 6
+@provisions_cost_special_moderate = 12
+@provisions_cost_special_expensive = 18
+@provisions_cost_special_bankrupting = 24
+
+accolade_maa_mages = {
+	type = mages
+	icon = mages
+
+	can_recruit = {
+		any_active_accolade = { 
+			primary_type = {
+				this = accolade_type:archmage_attribute
+			}
+			accolade_rank >= 3
+		}
+	}
+	
+	damage = 30
+	toughness = 20
+	pursuit = 5
+	screen = 20
+	
+	siege_tier = 1
+	siege_value = 0.1
+	
+	counters = {
+		heavy_infantry = 2
+		pikemen = 2
+	}
+
+	buy_cost = { gold = accolade_mages_recruitment_cost }
+	low_maintenance_cost = { gold = mages_low_maint_cost }
+	high_maintenance_cost = { gold = mages_high_maint_cost }
+	provision_cost = @provisions_cost_special_moderate
+
+	max_sub_regiments = 6
+	
+	stack = 50
+	ai_quality = {
+		value = culture_ai_weight_mages
+		add = 50
+	}
+}
+
+accolade_maa_spellswords = {
+	type = spellblades
+	icon = spellblades
+
+	can_recruit = {
+		any_active_accolade = { 
+			primary_type = {
+				this = accolade_type:spellsword_attribute
+			}
+			accolade_rank >= 3
+		}
+	}
+	
+	damage = 40
+	toughness = 27
+	pursuit = 10
+	screen = 10
+	
+	counters = {
+		mages = 2
+		archers = 2
+		skirmishers = 2
+	}
+
+	buy_cost = { gold = accolade_spellblades_recruitment_cost }
+	low_maintenance_cost = { gold = spellblades_low_maint_cost }
+	high_maintenance_cost = { gold = spellblades_high_maint_cost }
+	provision_cost = @provisions_cost_special_moderate
+
+	max_sub_regiments = 6
+	
+	stack = 50
+	ai_quality = {
+		value = culture_ai_weight_mages
+		add = 50
+	}
+}

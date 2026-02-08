@@ -1,0 +1,387 @@
+﻿lunar_cycle_start = {
+    add = { # year 365, moon cycle 96 (384).
+        value = current_year
+        subtract = 3360
+        multiply = 365
+    }
+    #multiply = 360 # is this needed?
+    #multiply = 12
+    #multiply = 30
+    add = current_day
+    #EK EDIT: Switch doesn't work on script_values, unfortunately
+	# switch = {
+        # trigger = current_month
+        # 1 = { add = 0 }
+        # 2 = { add = 31 }
+        # 3 = { add = 59 }
+        # 4 = { add = 90 }
+        # 5 = { add = 120 }
+        # 6 = { add = 151 }
+        # 7 = { add = 181 }
+        # 8 = { add = 212 }
+        # 9 = { add = 243 }
+        # 10 = { add = 273 }
+        # 11 = { add = 304 }
+        # 12 = { add = 334 }
+    # }
+    if = {
+        limit = { current_month = 2 }
+        add = 31
+    }
+    else_if = {
+        limit = { current_month = 3 }
+        add = 59
+    }
+    else_if = {
+        limit = { current_month = 4 }
+        add = 90
+    }
+    else_if = {
+        limit = { current_month = 5 }
+        add = 120
+    }
+    else_if = {
+        limit = { current_month = 6 }
+        add = 151
+    }
+    else_if = {
+        limit = { current_month = 7 }
+        add = 181
+    }
+    else_if = {
+        limit = { current_month = 8 }
+        add = 212
+    }
+    else_if = {
+        limit = { current_month = 9 }
+        add = 243
+    }
+    else_if = {
+        limit = { current_month = 10 }
+        add = 273
+    }
+    else_if = {
+        limit = { current_month = 11 }
+        add = 304
+    }
+    else_if = {
+        limit = { current_month = 12 }
+        add = 334
+    }
+}
+
+# each sign should average ~28 days a year as 365/13 is ~28 -> serpent should average 28 days a year active
+# serpent is semi-random in its activity -> use a formula with predicatable outcome, random input
+# formula is (365/x)*a = 28 where a is num active days, x is cycle length x = a*(365/13) ~= a*13
+# x is cycle length, need inactive time -> x = a*12 as 1/13 time spent active
+# changed use cycle time now
+
+serpent_active_days = {
+    integer_range = { min = 3 max = 6 }
+}
+
+serpent_cycle_days = {
+    value = serpent_active_days
+    multiply = 13
+}
+
+# based upon the serpent setup, we have the third moon
+# This is the attempt by EK to represent the circumstances under which a Mane is born. It works similarly to the serpent in that when the Third Moon is present, it overrides other moon phases when deciding which furstock trait to give
+# with the current setup, the eclipse event lasts for 2 to 3 weeks, and is repeated every 588 to 882 days
+
+third_moon_active_days = {
+    integer_range = { min = 14 max = 21 }
+}
+
+third_moon_cycle_days = {
+    value = third_moon_active_days
+    multiply = 42
+}
+
+cycle_month = {
+    value = current_month
+    if = {
+        limit = { has_global_variable = serpent_active }
+        value = 13
+    }
+}
+
+cycle_masser = {
+    if = { #new
+        limit = { global_var:lunarphase_masser <= 6 }
+        value = 1
+    }
+    else_if = { #waxing
+        limit = { global_var:lunarphase_masser <= 12 }
+        value = 2
+    }
+    else_if = { #full
+        # limit = { global_var:lunarphase_masser <= 19 }
+        limit = { global_var:lunarphase_masser <= 18 }
+        value = 3
+    }
+    else_if = { #waning
+        # limit = { global_var:lunarphase_masser <= 25 }
+        limit = { global_var:lunarphase_masser <= 24 }
+        value = 4
+    }
+}
+
+cycle_secunda = {
+    if = { #new
+        limit = { global_var:lunarphase_secunda <= 8 }
+        value = 1
+    }
+    else_if = { #waxing
+        limit = { global_var:lunarphase_secunda <= 16 }
+        value = 2
+    }
+    else_if = { #full
+        # limit = { global_var:lunarphase_secunda <= 25 }
+        limit = { global_var:lunarphase_secunda <= 24 }
+        value = 3
+    }
+    else_if = { #waning
+        # limit = { global_var:lunarphase_secunda <= 33 }
+        limit = { global_var:lunarphase_secunda <= 32 }
+        value = 4
+    }
+}
+
+cycle_masser_gui = {
+    if = {
+        limit = { #new moon
+            #global_var:lunarphase_masser > 0
+            global_var:lunarphase_masser <= 3
+        }
+        value = 1
+    }
+    else_if = {
+        limit = { #waxing cresent
+            #global_var:lunarphase_masser > 3
+            global_var:lunarphase_masser <= 6
+        }
+        value = 2
+    }
+    else_if = {
+        limit = { #first quarter
+            #global_var:lunarphase_masser > 6
+            global_var:lunarphase_masser <= 9
+        }
+        value = 3
+    }
+    else_if = {
+        limit = { #waxing gibbous
+            #global_var:lunarphase_masser > 9
+            global_var:lunarphase_masser <= 12
+        }
+        value = 4
+    }
+    else_if = {
+        limit = { #full moon
+            #global_var:lunarphase_masser > 12
+            global_var:lunarphase_masser <= 16
+        }
+        value = 5
+    }
+    else_if = {
+        limit = { #waning gibbous
+            #global_var:lunarphase_masser > 16
+            global_var:lunarphase_masser <= 18
+        }
+        value = 6
+    }
+    else_if = {
+        limit = { #third quarter
+            #global_var:lunarphase_masser > 19
+            global_var:lunarphase_masser <= 21
+        }
+        value = 7
+    }
+    else = {
+        # limit = { #waning cresent
+        #     global_var:lunarphase_masser > 22
+        #     #global_var:lunarphase_masser <= 25
+        # }
+        value = 8
+    }
+}
+
+cycle_secunda_gui = {
+    if = {
+        limit = { #new moon
+            #global_var:lunarphase_secunda > 0
+            global_var:lunarphase_secunda <= 4
+        }
+        value = 1
+    }
+    else_if = {
+        limit = { #waxing cresent
+            #global_var:lunarphase_secunda > 4
+            global_var:lunarphase_secunda <= 8
+        }
+        value = 2
+    }
+    else_if = {
+        limit = { #first quarter
+            #global_var:lunarphase_secunda > 8
+            global_var:lunarphase_secunda <= 12
+        }
+        value = 3
+    }
+    else_if = {
+        limit = { #waxing gibbous
+            #global_var:lunarphase_secunda > 12
+            global_var:lunarphase_secunda <= 16
+        }
+        value = 4
+    }
+    else_if = {
+        limit = { #full moon
+            #global_var:lunarphase_secunda > 16
+            global_var:lunarphase_secunda <= 20
+        }
+        value = 5
+    }
+    else_if = {
+        limit = { #waning gibbous
+            #global_var:lunarphase_secunda > 21
+            global_var:lunarphase_secunda <= 24
+        }
+        value = 6
+    }
+    else_if = {
+        limit = { #third quarter
+            #global_var:lunarphase_secunda > 25
+            global_var:lunarphase_secunda <= 28
+        }
+        value = 7
+    }
+    else = {
+        # limit = { #waning cresent
+        #     global_var:lunarphase_secunda > 29
+        #     #global_var:lunarphase_secunda <= 33
+        # }
+        value = 8
+    }
+}
+
+# if we one day add the remaining furstocks, this could be the basis for an element to the astronomy widget saying which furstock is "active", akin to the birthsign one
+cycle_both_moons = {
+    if = { #mane
+        limit = { has_global_variable = third_moon_active } #Third Moon
+        value = 1
+    }
+    else_if = { #suthay
+        limit = {
+            global_var:lunarphase_masser <= 6 #new
+            global_var:lunarphase_secunda <= 8 #new
+        }
+        value = 2
+    }
+    else_if = { #ohmes-raht
+        limit = {
+            global_var:lunarphase_masser <= 6 #new
+            global_var:lunarphase_secunda <= 16 #waxing
+        }
+        value = 3
+    }
+    else_if = { #ohmes
+        limit = {
+            global_var:lunarphase_masser <= 6 #new
+            global_var:lunarphase_secunda <= 25 #full
+        }
+        value = 4
+    }
+    else_if = { #suthay-raht
+        limit = {
+            global_var:lunarphase_masser <= 6 #new
+            global_var:lunarphase_secunda <= 33 #waning
+        }
+        value = 5
+    }
+    else_if = { #tojau
+        limit = {
+            global_var:lunarphase_masser <= 12 #waxing
+            global_var:lunarphase_secunda <= 8 #new
+        }
+        value = 6
+    }
+    else_if = { #cathay-raht
+        limit = {
+            global_var:lunarphase_masser <= 12 #waxing
+            global_var:lunarphase_secunda <= 16 #waxing
+        }
+        value = 7
+    }
+    else_if = { #cathay
+        limit = {
+            global_var:lunarphase_masser <= 12 #waxing
+            global_var:lunarphase_secunda <= 25 #full
+        }
+        value = 8
+    }
+    else_if = { #tojay-raht
+        limit = {
+            global_var:lunarphase_masser <= 12 #waxing
+            global_var:lunarphase_secunda <= 33 #waning
+        }
+        value = 9
+    }
+    else_if = { #pahmar
+        limit = {
+            global_var:lunarphase_masser <= 19 #full
+            global_var:lunarphase_secunda <= 8 #new
+        }
+        value = 10
+    }
+    # else_if = { #senche-raht
+        # limit = {
+            # global_var:lunarphase_masser <= 19 #full
+            # global_var:lunarphase_secunda <= 16 #waxing
+        # }
+        # value = 11
+    # }
+    # else_if = { #senche
+        # limit = {
+            # global_var:lunarphase_masser <= 19 #full
+            # global_var:lunarphase_secunda <= 25 #full
+        # }
+        # value = 12
+    # }
+    else_if = {
+        limit = { #pahmar-raht
+            global_var:lunarphase_masser <= 19 #full
+            global_var:lunarphase_secunda <= 33 #waning
+        }
+        value = 13
+    }
+    else_if = {
+        limit = { #dagi
+            global_var:lunarphase_masser <= 25 #waning
+            global_var:lunarphase_secunda <= 8 #new
+        }
+        value = 14
+    }
+    # else_if = {
+        # limit = { #alfiq-raht
+            # global_var:lunarphase_masser <= 25 #waning
+            # global_var:lunarphase_secunda <= 16 #waxing
+        # }
+        # value = 15
+    # }
+    # else_if = {
+        # limit = { #alfiq
+            # global_var:lunarphase_masser <= 25 #waning
+            # global_var:lunarphase_secunda <= 25 #full
+        # }
+        # value = 16
+    # }
+    else_if = {
+        limit = { #dagi-raht
+            global_var:lunarphase_masser <= 25 #waning
+            global_var:lunarphase_secunda <= 33 #waning
+        }
+        value = 17
+    }
+}

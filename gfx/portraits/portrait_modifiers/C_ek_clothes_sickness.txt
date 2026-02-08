@@ -1,0 +1,170 @@
+﻿#EK: EDIT TODO needs some expansion probably 
+
+clothes_sickness = { # All clothes triggers are found in 00_clothing_triggers.txt
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 3
+
+
+    western_sickness = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = western_sickness
+                range = { 0 1 } # For the randomness to work correctly
+            }
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}			
+			accessory = {
+				mode = add
+				gene = legwear
+				template = western_common_legwear
+				range = { 0 1 }
+			}			
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 55
+                portrait_sickness_trigger = yes
+                OR = {
+                    portrait_byzantine_clothing_trigger = yes
+                    portrait_northern_clothing_trigger = yes
+                    portrait_western_clothing_trigger = yes
+					portrait_ek_aldmeri_clothing_trigger = yes
+					portrait_ek_breton_clothing_trigger = yes
+					portrait_ek_northmen_clothing_trigger = yes
+					portrait_ek_balfieri_clothing_trigger = yes
+					portrait_ek_nibenese_clothing_trigger = yes
+					portrait_ek_heartlander_clothing_trigger = yes
+					portrait_ek_colovian_clothing_trigger = yes
+					portrait_ek_strident_clothing_trigger = yes
+					portrait_ek_nedic_north_clothing_trigger = yes
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					portrait_ek_nedic_keptu_clothing_trigger = yes
+					portrait_ek_skaal_clothing_trigger = yes
+					portrait_ek_nordic_clothing_trigger = yes
+					portrait_ek_cyro_nordic_clothing_trigger = yes	
+                }
+            }
+        }
+    }
+
+    fp4_western_sickness = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = fp4_western_bedchamber_clothes
+                range = { 0 1 } # For the randomness to work correctly
+            }
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}			
+			accessory = {
+				mode = add
+				gene = legwear
+				template = western_common_legwear
+				range = { 0 1 }
+			}			
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 65
+                portrait_sickness_trigger = yes
+                has_ce1_dlc_trigger = yes
+                is_adult = yes
+                OR = {
+                    portrait_byzantine_clothing_trigger = yes
+                    portrait_northern_clothing_trigger = yes
+                    portrait_western_clothing_trigger = yes
+					portrait_ek_aldmeri_clothing_trigger = yes
+					portrait_ek_breton_clothing_trigger = yes
+					portrait_ek_northmen_clothing_trigger = yes
+					portrait_ek_balfieri_clothing_trigger = yes
+					portrait_ek_nibenese_clothing_trigger = yes
+					portrait_ek_heartlander_clothing_trigger = yes
+					portrait_ek_colovian_clothing_trigger = yes
+					portrait_ek_strident_clothing_trigger = yes
+					portrait_ek_nedic_north_clothing_trigger = yes
+					portrait_ek_nedic_reach_clothing_trigger = yes
+					portrait_ek_nedic_keptu_clothing_trigger = yes
+					portrait_ek_skaal_clothing_trigger = yes
+					portrait_ek_nordic_clothing_trigger = yes
+					portrait_ek_cyro_nordic_clothing_trigger = yes
+                }
+            }
+        }
+    }
+
+    mena_sickness = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = mena_sickness
+                range = { 0 1 } # For the randomness to work correctly
+            }
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 }
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 }
+			}			
+			accessory = {
+				mode = add
+				gene = legwear
+				template = western_common_legwear
+				range = { 0 1 }
+			}			
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 110
+                portrait_sickness_trigger = yes
+                OR = {
+                    portrait_mena_clothing_trigger = yes
+                    portrait_indian_clothing_trigger = yes
+                    portrait_steppe_clothing_trigger = yes
+                    portrait_african_clothing_trigger = yes
+					portrait_ek_redguard_clothing_trigger = yes
+					portrait_ek_alikr_clothing_trigger = yes	
+					portrait_ek_dwemeri_clothing_trigger = yes
+					portrait_ek_dunmer_clothing_trigger = yes
+					portrait_ek_gah_julan_clothing_trigger  = yes
+					portrait_ek_akaviri_clothing_trigger  = yes
+                }
+            }
+        }
+    }
+
+}

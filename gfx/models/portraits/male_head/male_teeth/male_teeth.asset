@@ -1,0 +1,66 @@
+pdxmesh = {
+	name = "male_teeth_mesh"
+	file = "male_teeth.mesh"
+
+	meshsettings = {
+		name = "male_teethShape"
+		index = 0
+		texture_diffuse = "male_teeth_diffuse.dds"
+		texture_normal = "male_teeth_normal.dds"
+		texture_specular = "male_teeth_properties.dds"
+		texture = { file = "male_teeth_ssao_color.dds" index = 3 }
+		shader = "portrait_skin"
+		shader_file = "gfx/FX/jomini/portrait.shader"
+	}
+
+	blend_shape = { id = "male_teeth_bs_lower_down"	type = "male_teeth_bs_lower_down.mesh"  }
+	blend_shape = { id = "male_teeth_bs_cheek_fat_neg"	type = "male_teeth_bs_cheek_fat_neg.mesh"  }
+
+	#EK2 ADDITIONS
+	blend_shape = { id = "orc_teeth_bottom_teeth_size"	type = "orc_teeth_bottom_teeth_size.mesh" data = "position" }
+	blend_shape = { id = "orc_teeth_broken_left"	type = "orc_teeth_broken_left.mesh"  data = "position" }
+	blend_shape = { id = "orc_teeth_broken_right"	type = "orc_teeth_broken_right.mesh" data = "position" }
+	blend_shape = { id = "orc_teeth_tusk_size"	type = "orc_teeth_tusk_size.mesh"  data = "position" }
+	blend_shape = { id = "orc_teeth_tusks_forward"	type = "orc_teeth_tusks_forward.mesh" data = "position" }
+	blend_shape = { id = "orc_teeth_tusks_outward"	type = "orc_teeth_tusks_outward.mesh" data = "position" }
+
+	blend_shape = { id = "male_khajiit_teeth"	type = "male_khajiit_teeth.mesh" data = "position" }
+	blend_shape = { id = "male_lilmothiit_teeth"	type = "male_lilmothiit_teeth.mesh" data = "position" }
+	blend_shape = { id = "male_khajiit_fangs"	type = "male_khajiit_fangs.mesh"  data = "position" }
+	
+	blend_shape = { id = "male_vampire_teeth"	type = "male_vampire_teeth.mesh"  data = "position" }
+
+	#END OF EK2 ADDITIONS
+}
+
+entity = {
+	name = "male_teeth_entity"
+	pdxmesh = "male_teeth_mesh"
+
+	attribute = { name = "teeth_bs_lower_down"					blend_shape = "male_teeth_bs_lower_down" }
+	attribute = { name = "teeth_bs_cheek_fat_neg"					blend_shape = "male_teeth_bs_cheek_fat_neg" }
+
+	#EK2 ADDITIONS
+	attribute = { name = "bs_orc_teeth_bottom_teeth_size"					blend_shape = "orc_teeth_bottom_teeth_size" }
+	attribute = { name = "bs_orc_teeth_broken_left"					blend_shape = "orc_teeth_broken_left" }
+	attribute = { name = "bs_orc_teeth_broken_right"					blend_shape = "orc_teeth_broken_right" }
+	attribute = { name = "bs_orc_teeth_tusk_size"					blend_shape = "orc_teeth_tusk_size" }
+	attribute = { name = "bs_orc_teeth_tusks_forward"					blend_shape = "orc_teeth_tusks_forward" }
+	attribute = { name = "bs_orc_teeth_tusks_outward"					blend_shape = "orc_teeth_tusks_outward" }
+
+	attribute = { name = "khajiit_teeth"					blend_shape = "male_khajiit_teeth" }
+	attribute = { name = "lilmothiit_teeth"					blend_shape = "male_lilmothiit_teeth" }
+	attribute = { name = "khajiit_fangs"					blend_shape = "male_khajiit_fangs" }
+
+	attribute = { name = "vampire_teeth"					blend_shape = "male_vampire_teeth" }
+
+	#END OF EK2 ADDITIONS
+	
+	game_data = {
+		portrait_entity_user_data = {
+			color_mask_remap_interval = {
+				interval = {0.0 1.0}
+			}
+		}
+	}
+}

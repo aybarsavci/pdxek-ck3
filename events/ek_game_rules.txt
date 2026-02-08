@@ -1,0 +1,288 @@
+﻿namespace = ek_game_rule
+
+scripted_trigger ek_game_rule_0001_war_using_valid_cb_trigger = {
+	any_character_war = {
+		using_cb = attrebus_potentate_cb
+	}
+}
+
+scripted_trigger ek_game_rule_0001_no_player_vision_on_wars_trigger = {
+	any_player = {
+		count = all
+		NOR = {
+			ek_game_rule_0001_war_using_valid_cb_trigger = yes
+			any_liege_or_above = { ek_game_rule_0001_war_using_valid_cb_trigger = yes }
+			any_war_enemy = { ek_game_rule_0001_war_using_valid_cb_trigger = yes }
+			domicile ?= {
+				domicile_location.county ?= {
+					holder = {
+						OR = {
+							ek_game_rule_0001_war_using_valid_cb_trigger = yes
+							any_liege_or_above = { ek_game_rule_0001_war_using_valid_cb_trigger = yes }
+						}
+					}
+				}
+			}
+			any_army = {
+				location = {
+					county ?= {
+						holder = { ek_game_rule_0001_war_using_valid_cb_trigger = yes }
+					}
+				}
+			}
+		}
+	}
+}
+
+ek_game_rule.0001 = {
+	hidden = yes
+	scope = none
+
+	trigger = {
+		ek_game_rule_0001_no_player_vision_on_wars_trigger = yes
+		title:e_cyrodiilic_potentate.holder = {
+			any_character_war = { using_cb = attrebus_potentate_cb }
+		}
+	}
+
+	immediate = {
+		title:e_cyrodiilic_potentate.holder = {
+			save_scope_as = cyrodilic_potentate
+			random_character_war = {
+				limit = { using_cb = attrebus_potentate_cb }
+				primary_attacker = { save_scope_as = colovian_estates }
+			}
+		}
+		scope:colovian_estates = {
+			ordered_army = {
+				order_by = army_size
+				assign_commander = scope:colovian_estates
+				set_army_location = province:2140
+			}
+		}
+		scope:cyrodilic_potentate = {
+			ordered_army = {
+				order_by = army_size
+				assign_commander = scope:cyrodilic_potentate
+				set_army_location = province:2140
+			}
+		}
+	}
+}
+
+########################################
+# ATTREBUS-POTENTATE WAR DETERMINATION #
+########################################
+
+scripted_effect ek_game_rule_0002_process_endings_guts_effect = {
+	# Damage the armies.
+	scope:army = {
+		location = {
+			every_army_in_location = {
+				if = {
+					limit = { army_owner = scope:winner }
+					deplete_army_by_percentage = 0.5
+				}
+				else_if = {
+					limit = { army_owner = scope:loser }
+					deplete_army_by_percentage = 0.95
+				}
+			}
+			# Register our first battle.
+			if = {
+				limit = {
+					NOT = { exists = global_var:conquest_first_battle }
+				}
+				scope:winner = {
+					trigger_event = {
+						id = ek_game_rule.0003
+						delayed = yes
+					}
+				}
+			}
+		}
+	}
+	# End the war.
+	end_war = $WINNER$
+	# Pretend that we're gonna kill our losers, as we can't _actually_ kill them here due to the war just invalidating (and don't want to kill them beforehand or title transfer'll happen and screw a bunch of stuff).
+	show_as_tooltip = {
+		every_in_list = {
+			list = kill_list
+			death = {
+				death_reason = death_battle
+				killer = scope:winner
+			}
+		}
+	}
+}
+
+scripted_effect ek_game_rule_0002_process_endings_effect = {
+	scope:char_1 = {
+		random_character_war = {
+			limit = { using_cb = $CB$ }
+			# Register our scopes.
+			primary_$WINNER$ = { save_scope_as = winner }
+			primary_$LOSER$ = { save_scope_as = loser }
+			save_scope_as = war
+			scope:new_location = {
+				every_army_in_location = {
+					if = {
+						limit = { army_owner = scope:loser }
+						# Note our commanders for execution after the war's over.
+						involved_combat_side = {
+							every_side_commander = { add_to_list = kill_list }
+						}
+					}
+				}
+			}
+			# Trigger the events after we've sorted our scopes so that we can use them there too.
+			#scope:loser = { trigger_event = $LOSER_EVENT$ }
+			#scope:winner = { trigger_event = $WINNER_EVENT$ }
+			scope:war = {
+				ek_game_rule_0002_process_endings_guts_effect = { WINNER = $WINNER$ }
+			}
+		}
+	}
+	# Now we can kill scope:loser — if appropriate.
+	scope:winner = {
+		every_in_list = {
+			list = kill_list
+			death = {
+				death_reason = death_battle
+				killer = scope:winner
+			}
+		}
+	}
+}
+
+#	Figure out whether we should fire a conclusion event during the Conquest.
+ek_game_rule.0002 = {
+	hidden = yes
+
+	trigger = {
+		exists = global_var:deterministic_attrebus_war_440
+		NOT = { exists = global_var:attrebus_potentate_cb_concluded }
+		OR = {
+			has_game_rule = historicity_attrebus_war_determined_attrebus
+			has_game_rule = historicity_attrebus_war_determined_potentate
+		}
+		any_character_war = {
+			using_cb = attrebus_potentate_cb
+		}
+	}
+
+	immediate = {
+		# We do this in the immediate because uhhh... it was _not_ liking being in the trigger for some reason.
+		scope:army.involved_combat_side ?= {
+			side_primary_participant = { save_scope_as = char_1 }
+			enemy_side.side_primary_participant = {
+				if = {
+					limit = {
+						any_character_war = {
+							using_cb = attrebus_potentate_cb
+						}
+					}
+					save_scope_as = char_2
+				}
+			}
+		}
+		if = {
+			limit = {
+				exists = scope:char_1
+				exists = scope:char_2
+			}
+			# Double check what narrative we'd use.
+			scope:new_location = {
+				# Historical settings.
+				## Stamford Bridge.
+				if = {
+					limit = { this = province:2140 }
+					save_scope_value_as = {
+						name = locale
+						value = flag:fanacescul
+					}
+				}
+				# Fallback.
+				else = {
+					save_scope_value_as = {
+						name = locale
+						value = flag:fallback
+					}
+				}
+			}
+			# Now fire our actual events.
+			if = {
+				limit = { has_game_rule = historicity_attrebus_war_determined_attrebus }
+				# Atrebus beats Potentate.
+				trigger_event = ek_game_rule.0004
+			}
+			else_if = {
+				limit = { has_game_rule = historicity_attrebus_war_determined_potentate }
+				# Potentate beats Attrebus.
+				trigger_event = ek_game_rule.0005
+			}
+		}
+	}
+}
+
+#	Launder our battle registration so that we don't call the first battle of X "the Second Battle of X".
+ek_game_rule.0003 = {
+	hidden = yes
+
+	immediate = {
+		set_global_variable = {
+			name = conquest_first_battle
+			value = scope:new_location
+		}
+	}
+}
+
+scripted_trigger ek_game_rule_0004_valid_participants_trigger = {
+	scope:char_1 = {
+		any_character_war = {
+			using_cb = $CB$
+			OR = {
+				primary_defender = scope:char_1
+				primary_defender = scope:char_2
+			}
+			OR = {
+				primary_attacker = scope:char_1
+				primary_attacker = scope:char_2
+			}
+		}
+	}
+}
+
+# Attrebus beats Potentate
+ek_game_rule.0004 = {
+	hidden = yes
+
+	trigger = {
+		ek_game_rule_0004_valid_participants_trigger = { CB = attrebus_potentate_cb }
+	}
+
+	immediate = {
+		ek_game_rule_0002_process_endings_effect = {
+			WINNER = attacker
+			LOSER = defender
+			CB = attrebus_potentate_cb
+		}
+	}
+}
+
+# Potentate beats Attrebus
+ek_game_rule.0005 = {
+	hidden = yes
+
+	trigger = {
+		ek_game_rule_0004_valid_participants_trigger = { CB = attrebus_potentate_cb }
+	}
+
+	immediate = {
+		ek_game_rule_0002_process_endings_effect = {
+			WINNER = defender
+			LOSER = attacker
+			CB = attrebus_potentate_cb
+		}
+	}
+}

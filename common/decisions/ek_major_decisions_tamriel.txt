@@ -1,0 +1,722 @@
+﻿##############
+#  ORSINIUM  #
+##############
+
+#KING -> ORSINIUM KINGDOM (YOUR KINGDOM BECOMES ORSINIUM DE JURE)
+create_orsinium_kingdom_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+	
+	desc = create_orsinium_decision_desc
+	selection_tooltip = create_orsinium_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		NOT = { has_global_variable = orsinium_established }
+		culture = { has_cultural_parameter = can_found_orsinium }
+		#This decision is for kings creating Orsinium
+		highest_held_title_tier > tier_duchy
+	}
+	
+	is_valid = {
+		#FAME LEVEL
+		prestige_level >= 4
+		#INDEPENDENT
+		is_independent_ruler = yes
+		#You completely control the kingdom where your capital is located
+		capital_county.de_jure_liege.de_jure_liege = { save_temporary_scope_as = kingdom_check }
+		scope:kingdom_check.holder = root
+		completely_controls = scope:kingdom_check
+	}
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+	}
+	
+	cost = {
+		prestige = { value = 1500 }
+		gold = { value = 500 }
+	}
+
+	effect = {
+		#Becomes King of Orsinium
+		get_title = title:k_orsinium
+		#Saves the kingdom that becomes Orsinium
+		capital_county.de_jure_liege.de_jure_liege = { save_scope_as = original_kingdom }
+		#Saves the empire whose kingdom become Orsinium
+		capital_county.de_jure_liege.de_jure_liege.de_jure_liege = { save_scope_as = original_empire }
+		#Marks Orsinium as a complete kingdom (can't expand it via decision)
+		title:k_orsinium = { 
+			set_variable = {
+				name = orsinium_kingdom_complete_boolean
+				value = 1
+			}
+		}
+		#Event for the new King
+		trigger_event = ek_major_decisions.0020
+		#Set global variable
+		set_global_variable = {
+			name = orsinium_established
+			value = 1
+		}
+	}
+
+	ai_potential = {
+		always = yes 
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+#DUKE -> ORSINIUM KINGDOM (YOUR DUCHY BECOMES ORSINIUM DE JURE)
+create_orsinium_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+	
+	desc = create_orsinium_decision_desc
+	selection_tooltip = create_orsinium_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		NOT = { has_global_variable = orsinium_established }
+		culture = { has_cultural_parameter = can_found_orsinium }
+		#This decision is for dukes creating Orsinium
+		highest_held_title_tier < tier_kingdom 
+	}
+	
+	is_valid = {
+		#FAME LEVEL
+		prestige_level >= 3
+		#INDEPENDENT
+		is_independent_ruler = yes
+		#DUKE
+		any_held_title = { tier = tier_duchy }
+		#Your main duchy's capital is Orc-culture and is not already the capital of another kingdom
+		has_title = capital_county.de_jure_liege
+		has_title = capital_county.de_jure_liege.title_capital_county
+		custom_description = {
+			capital_county.culture = root.culture
+			text = orsinium_county_culture_cd
+		}
+		custom_description = {
+			capital_county.de_jure_liege.title_capital_county = { save_temporary_scope_as = capital_check }
+			NOT = { 
+				any_kingdom = { 
+					title_capital_county = scope:capital_check
+					is_titular = no
+				} 
+			}
+			text = create_orsinium_decision_alt_cd 
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+	}
+	
+	cost = {
+		prestige = { value = 1000 }
+		gold = { value = 350 }
+	}
+
+	effect = {
+		#Becomes King of Orsinium
+		get_title = title:k_orsinium
+		#Saves the duchy that becomes Orsinium
+		capital_county.de_jure_liege = { save_scope_as = original_duchy }
+		#Saves the kingdom whore duchy becomes Orsinium
+		capital_county.de_jure_liege.de_jure_liege = { save_scope_as = original_kingdom }
+		#Saves the empire whose duchy become Orsinium
+		capital_county.de_jure_liege.de_jure_liege.de_jure_liege = { save_scope_as = original_empire }
+		#Event for the new King
+		trigger_event = ek_major_decisions.0020
+		#Set global variable
+		set_global_variable = {
+			name = orsinium_established
+			value = 1
+		}
+	}
+
+	ai_potential = {
+		always = yes 
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+#TURN THE WHOLE ORIGINAL KINGDOM INTO ORSINIUM DE JURE
+expand_orsinium_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+	
+	desc = expand_orsinium_decision_desc
+	selection_tooltip = expand_orsinium_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		has_title = title:k_orsinium
+		title:k_orsinium = { NOT = { has_variable = orsinium_kingdom_complete_boolean } }
+		culture = { has_cultural_parameter = can_found_orsinium }
+	}
+	
+	is_valid = {
+		#FAME LEVEL
+		prestige_level >= 4
+		#You hold Orsinium's original de jure Kingdom
+		custom_description = {
+			any_held_title = { 
+				has_variable = orsinium_original_kingdom_boolean
+				root = { completely_controls = prev }
+			}
+			text = expand_orsinium_decision_cd
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+	}
+	
+	cost = {
+		prestige = { value = 1500 }
+		gold = { value = 500 }
+	}
+	
+	effect = {
+		#New variable
+		title:k_orsinium = {
+			set_variable = {
+				name = orsinium_kingdom_complete_boolean
+				value = 1
+			}
+		}
+		#Saves the kingdom that becomes Orsinium
+		every_held_title = {
+			limit = { has_variable = orsinium_original_kingdom_boolean }
+			save_scope_as = original_kingdom
+		}
+		#Saves the empire whose kingdom become Orsinium
+		scope:original_kingdom.de_jure_liege = { save_scope_as = original_empire }
+		#Event for Orsinium king
+		trigger_event = ek_major_decisions.0022
+	}
+
+	ai_potential = {
+		always = yes 
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+#FORM THE EMPIRE OF GREATER ORSINIUM
+form_orsinium_empire_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+	
+	desc = form_orsinium_empire_decision_desc
+	selection_tooltip = form_orsinium_empire_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		has_title = title:k_orsinium
+		title:e_orsinium = { is_title_created = no }
+		culture = { has_cultural_parameter = can_found_orsinium }
+	}
+	
+	is_valid = {
+		#FAME LEVEL
+		prestige_level >= 4
+		custom_description = {
+			text = orsinium_kingdom_requirement_cd
+			
+			any_held_title = {
+				count >= 4
+				tier = tier_kingdom
+			}
+		}
+		custom_description = {
+			text = expanded_orsinium_cd
+			title:k_orsinium = { has_variable = orsinium_kingdom_complete_boolean }
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+	}
+	
+	cost = {
+		prestige = { value = 2000 }
+		gold = { value = 800 }
+	}
+	
+	effect = {
+		get_title = title:e_orsinium
+		if = {
+			limit = { has_dlc_feature = legends }
+			create_legend_seed = {
+				type = legitimizing
+				quality = illustrious
+				chronicle = new_title
+				properties = {
+					title = title:e_orsinium
+					founder = root
+				}
+			}
+		}
+		title:e_orsinium = { set_capital_county = title:k_orsinium.title_capital_county }
+		custom_tooltip = {
+			text = form_orsinium_empire_decision_effect
+			every_sub_realm_county = { #based on vanilla custom empire code, modified
+				limit = {
+					exists = kingdom
+					holder.top_liege = root
+					kingdom = {
+						save_temporary_scope_as = test_kingdom
+					}
+					holder.top_liege = {
+						completely_controls = scope:test_kingdom
+					}
+				}
+				if = {
+					limit = {
+						NOT = {
+							kingdom = {
+								is_in_list = additional_de_jure_kingdoms
+							}
+						}
+					}
+					kingdom = {
+						set_de_jure_liege_title = title:e_orsinium
+						add_to_list = additional_de_jure_kingdoms
+					}
+				}
+			}
+		}
+	}
+
+	ai_potential = {
+		always = yes 
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+#MOVES THE CAPITAL BACK INTO OLD ORSINIUM
+old_orsinium_capital_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+	
+	desc = old_orsinium_capital_decision_desc
+	selection_tooltip = old_orsinium_capital_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		OR = {
+			has_title = title:k_orsinium
+			has_title = title:e_orsinium
+		}
+		OR = {
+			NOT = { title:k_orsinium.title_capital_county = title:c_old_orsinium }
+			NOT = { title:e_orsinium.title_capital_county = title:c_old_orsinium }
+		}
+		culture = { has_cultural_parameter = can_found_orsinium }
+	}
+	
+	is_valid = {
+		has_title = title:c_old_orsinium
+		completely_controls = title:d_shipwreck_coast
+	}
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+	}
+	
+	cost = {
+		prestige = { value = 300 }
+		gold = { value = 200 }
+	}
+	
+	effect = {
+		title:k_orsinium = { set_capital_county = title:c_old_orsinium }
+		title:e_orsinium = { set_capital_county = title:c_old_orsinium }
+		title:d_shipwreck_coast = { set_de_jure_liege_title = title:k_orsinium }
+		set_realm_capital = title:c_old_orsinium
+		
+		hidden_effect = {
+			### Modifiers to defend the new Orsinium
+			update_orsinium_mountain_orc_advantage = yes
+		}
+	}
+
+	ai_potential = {
+		always = yes 
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+#TAKES ORSINIUM BACK INTO THE ORIGINAL DE JURE
+reintegrate_orsinium_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+	
+	desc = reintegrate_orsinium_decision_desc
+	selection_tooltip = reintegrate_orsinium_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		#Orsinium exists de_jure
+		title:k_orsinium = { is_titular = no }
+		#You're not an Orc
+		NOT = { culture = { has_cultural_pillar = heritage_orcish } }
+		#You hold one of the original liege titles
+		OR = {
+			any_held_title = {
+				OR = {
+					has_variable = orsinium_original_kingdom_boolean
+					has_variable = orsinium_original_empire_boolean 
+				}
+			}
+			completely_controls = title:k_orsinium
+		}
+	}
+	
+	is_valid = {
+		#FAME LEVEL
+		prestige_level >= 1
+		#You (or a non-Orc vassal) hold Orsinium's de jure duchy
+		completely_controls = title:k_orsinium
+		custom_description = {
+			NOT = {
+				any_vassal_or_below = {
+					culture = { has_cultural_pillar = heritage_orcish }
+					has_title = title:k_orsinium
+				}
+			}
+			text = no_orsimer_king_vassal_cd
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+	}
+	
+	cost = {
+		gold = { value = 250 }
+		prestige = { value = 250 }
+	}
+	
+	effect = {
+		#Destroys related titles
+		destroy_title = title:e_orsinium
+		destroy_title = title:k_orsinium
+		#Clear variable
+		remove_global_variable = orsinium_established
+		#Take them back de jure (and clear variable)
+		every_kingdom = {
+			limit = { has_variable = orsinium_original_kingdom_boolean }
+			
+			every_duchy = {
+				limit = { de_jure_liege = title:k_orsinium }
+				set_de_jure_liege_title = prev
+			}
+
+			remove_variable = orsinium_original_kingdom_boolean
+		}
+		#Clear variable
+		every_empire = {
+			limit = { has_variable = orsinium_original_empire_boolean }
+			
+			remove_variable = orsinium_original_empire_boolean
+		}
+		save_scope_as = orsinium_conqueror #for loc
+		title:k_orsinium.previous_holder.culture = { save_scope_as = regained_pariah_culture }
+		#If the Mountain Orcs have lost their Pariah status, destroying Orsinium is sure to set them back in that regard
+		if = {
+			limit = {
+				scope:regained_pariah_culture = { 
+					OR = {
+						has_innovation = innovation_pariah_legacy
+						has_innovation = innovation_redeemed_pariahs
+					}
+				}	
+			}
+			custom_tooltip = {
+				text = orsinium_culture_regains_pariah_status
+				scope:regained_pariah_culture = {
+					# remove the other pariah innovations
+					if = {
+						limit = { has_innovation = innovation_pariah_legacy} 
+						remove_innovation = innovation_pariah_legacy
+					}
+					if = {
+						limit = { has_innovation = innovation_redeemed_pariahs} 	
+						remove_innovation = innovation_redeemed_pariahs
+					}	
+					# then add back Pariah Folk
+					add_innovation = innovation_pariah_folk
+				}
+			}	
+		}
+		
+		#Let other rulers know about it (only matters for players)
+		every_ruler = { 
+			limit = { is_ai = no }
+			trigger_event = { id = ek_major_decisions.0024 days = 1 }
+		}
+	}
+
+	ai_potential = {
+		always = yes 
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+##############
+#  ATTREBUS  #
+##############
+### Required tasks
+# End Akaviri Rule - in two parts: Remove the Akaviri from Cyrodiil
+attrebus_draft_tsaesci_act_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/decision_misc.dds" }
+	
+	desc = attrebus_draft_tsaesci_act_decision_desc
+	selection_tooltip = attrebus_draft_tsaesci_act_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		has_primary_title = title:e_sosildor_empire
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:attrebus_draft_tsaesci_act_decision
+			}
+		}
+	}
+
+	is_valid = {
+		custom_description = {
+			title:c_imperial_city.duchy = {
+				NOT = {
+					any_in_de_jure_hierarchy = {
+						holder.culture ?= { has_cultural_pillar = heritage_tsaesci }
+					}
+				}
+			}
+			text = attrebus_draft_tsaesci_act_decision_no_tsaesci_ruler_imperial_isle
+		}
+		custom_description = {
+			title:c_imperial_city.duchy = {
+				NOT = {
+					any_in_de_jure_hierarchy = {
+						culture = { has_cultural_pillar = heritage_tsaesci }
+					}
+				}
+			}
+			text = attrebus_draft_tsaesci_act_decision_no_tsaesci_province_imperial_isle
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+		is_at_war = no
+	}
+	
+	cost = {
+		prestige = {
+			value = 1000
+		}
+	}
+
+	effect = {
+		custom_tooltip = attrebus_draft_tsaesci_act_decision_effect_desc
+		
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:attrebus_draft_tsaesci_act_decision
+			}
+			add_character_flag = {
+				flag = flag_tsaesci_act_passed # Helps to have the effect fire even after the decision
+			}
+		}
+		
+		trigger_event = ek_attrebus_potentate.0065
+	}
+
+	ai_potential = {
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+###############
+#  POTENTATE  #
+###############
+
+### A Heartlander Potentate: Completely control the Heartlands, get your culture as native to the area
+potentate_control_heartlands_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/decision_misc.dds" }
+	
+	desc = potentate_control_heartlands_decision_desc
+	selection_tooltip = potentate_control_heartlands_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		# Potentate that won against Attrebus
+		has_character_flag = flag_triumphant_potentate
+		# Still owns the Potentate
+		has_title = title:e_cyrodiilic_potentate
+		# Culture is Akaviri and no culture in the heritage has the Heartlands as their nativity region
+		culture = { has_cultural_pillar = heritage_tsaesci }
+		NOT = {
+			any_culture_global = {
+				has_cultural_pillar = heritage_tsaesci
+				is_native_to = { CULTURE = this REGION = heartlands }
+			}
+		}
+	}
+
+	is_valid = {
+		# Full control of the Heartlands
+		completely_controls_region = mundus_tamriel_cyrodiil_heartlands
+		# Enough prestige
+		prestige_level >= 3
+		# Owns k_heartlands and has done so for like 10 years
+		has_title = title:k_heartlands
+		title:k_heartlands = { title_held_years >= 10 }
+	}
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		NOT = { exists = involved_activity }
+		is_imprisoned = no
+		is_at_war = no
+	}
+	
+	cost = {
+		prestige = { value = 250 }
+	}
+	
+	effect = {
+		# Your culture now gets the Heartlands as their nativity region
+		custom_tooltip = potentate_control_heartlands_decision_effect
+		hidden_effect = {
+			set_culture_native_to = { REGION = heartlands CULTURE = root.culture }
+			setup_county_native_cultures_link_region = { REGION = mundus_tamriel_cyrodiil_heartlands }
+			trigger_event = ek_attrebus_potentate.0110
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+##############
+#   GENERAL  #
+##############
+
+#Nedic High Kingdom
+restore_nedic_kingdom_decision = {
+	picture = { reference ="gfx/interface/illustrations/decisions/ai_decision_title_drift.dds" }
+	desc = restore_nedic_kingdom_decision_desc
+	selection_tooltip = restore_nedic_kingdom_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		culture = { has_cultural_pillar = heritage_nedic_north }
+		NOT = { #Reachfolk have Reach Empire
+			culture = culture:reachfolk
+			culture = { any_parent_culture_or_above = { this = culture:reachfolk }}
+		}
+		highest_held_title_tier >= tier_kingdom
+		NOT = { #You can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:nedic_kingdom_restored
+			} 
+		}
+	}
+	is_valid = {
+		is_independent_ruler =  yes
+		prestige_level >= 3
+		completely_controls_region = ek_nedic_kingdom_region
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_available = yes
+		is_at_war = no
+		is_imprisoned = no
+	}
+
+	cost = {
+    	prestige = 1000 
+    	gold = 500 
+	}
+	
+	effect = {
+		show_as_tooltip = {
+			form_nedic_kingdom_scripted_effect = yes	
+		}
+		trigger_event = ektitulartitle.1501
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:nedic_kingdom_restored
+			}
+		}
+	}
+
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}

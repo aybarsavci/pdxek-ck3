@@ -1,0 +1,3728 @@
+﻿namespace = ek_ymis_events
+
+#The Old Orc
+ek_ymis_events.0001 = { 
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0001.t
+    desc = ek_ymis_events.0001.desc   
+    theme = realm
+    override_icon = {reference = "gfx/interface/icons/event_types/type_war.dds"}
+    left_portrait = {
+        character = scope:old_orc
+        animation = personality_vengeful
+    }
+    cooldown = { years = 30 }
+
+    trigger = {
+        has_trait =  lifestyle_blademaster
+    }
+
+    immediate = {       
+        # Create Old Orc
+        create_character = {
+            location = root.capital_province
+            template = old_orc_template
+            save_scope_as = old_orc
+        }
+        # Choose combatant
+        if = {
+            limit = {
+                any_court_position_holder = {
+                    has_court_position = champion_court_position
+                    is_available_ai_adult = yes
+                }
+            }
+            random_courtier = {
+                limit = {
+                    has_court_position = champion_court_position
+                    is_available_ai_adult = yes
+                }
+                save_scope_as = combatant
+            }
+        }   
+        else_if = {
+            limit = {
+                any_courtier = {
+                    is_available_ai_adult = yes 
+                    is_knight = yes
+                    prowess >= 20
+                }
+            }
+            random_courtier = {
+                limit = {
+                    is_available_ai_adult = yes 
+                    is_knight = yes
+                    prowess >= 20
+                }
+                save_scope_as = combatant
+            }
+        }
+    }
+
+    #Join my court
+    option = { 
+        name = ek_ymis_events.0001.a
+        custom_tooltip = ek_ymis_events.0001.a.tt
+        skill = diplomacy
+        duel = {
+            skill = diplomacy
+            value = decent_skill_rating
+            desc = outcome_in_a_few_days
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                }               
+                send_interface_toast = {
+                    type = event_toast_effect_good
+                    title = ek_ymis_events.0001a.tt.success
+                    left_icon = root
+                    add_courtier = scope:old_orc  
+                    trigger_event = {
+                        id = ek_ymis_events.0002
+                        days = {1825 3650}
+                    }      
+                }
+            }
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                    multiplier = -1
+                }                    
+                send_interface_toast = {
+                    type =  event_toast_effect_bad
+                    title = ek_ymis_events.0001a.tt.failure
+                    left_icon = root
+                    scope:old_orc = {
+                        add_opinion = {
+                        modifier = insult_opinion
+                        target = root
+                        opinion = -30
+                        }   
+                    }
+                }
+                scope:old_orc = {
+                    move_to_pool = yes
+                }
+            }
+        }
+        stress_impact = {
+            paranoid = minor_stress_impact_gain
+        }
+
+        ai_chance = { 
+            base = 50
+            modifier = {
+                add = 50
+                diplomacy >= high_skill_rating                
+            }
+        }  
+    }
+
+    #Begone
+    option = { 
+        name = ek_ymis_events.0001.d
+        scope:old_orc = {
+            move_to_pool = yes
+        }
+        stress_impact = {
+            paranoid = minor_stress_impact_loss
+            craven = minor_stress_impact_loss
+            brave = minor_stress_impact_gain
+        }
+
+        ai_chance = { 
+            base = 50
+        }  
+    }
+
+    #Fight Knight
+    option = { 
+        name = ek_ymis_events.0001.b
+        custom_tooltip = ek_ymis_events.0001.b.tt
+
+        trigger = { 
+            exists = scope:combatant 
+        }
+
+        configure_start_single_combat_effect = {
+            SC_INITIATOR = scope:old_orc
+            SC_ATTACKER = scope:old_orc
+            SC_DEFENDER = scope:combatant
+            FATALITY = always
+            FIXED = no
+            LOCALE = courtyard
+            OUTPUT_EVENT = ek_ymis_events.0005
+            INVALIDATION_EVENT = single_combat.1006
+        }
+        stress_impact = {
+            craven = minor_stress_impact_loss
+            brave = minor_stress_impact_gain
+        }
+        trigger_event = {
+            id = ek_ymis_events.0005
+            days = 1
+        }
+
+        ai_chance = { 
+            base = 50
+        }
+    }
+
+    #Duel to the Death
+    option = { 
+        name = ek_ymis_events.0001.c
+        custom_tooltip = ek_ymis_events.0001.c.tt
+        stress_impact = {
+            craven = medium_stress_impact_gain
+            brave = medium_stress_impact_loss
+        }
+
+        configure_start_single_combat_effect = {
+            SC_INITIATOR = scope:old_orc
+            SC_ATTACKER = scope:old_orc
+            SC_DEFENDER = root
+            FATALITY = always
+            FIXED = no
+            LOCALE = courtyard
+            OUTPUT_EVENT = ek_ymis_events.0008
+            INVALIDATION_EVENT = single_combat.1006
+        }
+
+        ai_chance = { 
+            base = 10
+            modifier = { 
+                add = 40
+                has_trait = brave
+            } 
+            modifier = { 
+                add = 50
+                prowess >= high_skill_rating
+            }
+            modifier = {
+                add = -100
+                has_trait = craven            
+            }
+        }
+    }
+}
+
+# Check Relation and Faith
+ek_ymis_events.0002 = {
+    hidden = yes
+
+    immediate = {
+        if = {
+            limit = {
+                scope:old_orc = { 
+                    is_available_ai_adult = yes
+                    has_faith = faith:code_of_malacath
+                    opinion = { 
+                        target = root
+                        value >= 50
+                    }                       
+                }
+            }
+            # Friendly Relation
+            trigger_event = { id = ek_ymis_events.0003 days = 1 }
+        }   
+        else_if = {
+            limit = {
+                scope:old_orc = { 
+                    is_available_ai_adult = yes
+                    has_faith = faith:code_of_malacath
+                    opinion = { 
+                        target = root
+                        value < 50 
+                    }
+                }
+            }
+            # Unfriendly Relation
+            trigger_event = { id = ek_ymis_events.0004 days = 1 }
+        }
+    }
+}
+
+# The Old Orc wants to wander off
+ek_ymis_events.0003 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0003.t
+    desc = ek_ymis_events.0003.desc
+    theme = realm
+    override_icon = {reference = "gfx/interface/icons/event_types/type_war.dds"}    
+    left_portrait = {
+        character = scope:old_orc
+        animation = worry
+    }
+    trigger = {
+         scope:old_orc = {
+             is_available_ai_adult = yes
+        }
+    }
+
+    # Convince to change faith
+    option = {
+        name = ek_ymis_events.0003.a
+
+        trigger = {
+            NOR = {
+                has_faith = faith:code_of_malacath
+                has_faith = faith:goblin_shamanism
+                has_faith = faith:malacath_brutal_breed
+            }           
+        }
+
+        duel = {
+            skill = learning
+            value = decent_skill_rating
+            desc = outcome_in_a_few_days
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                }
+                desc = ek_ymis_events.0003.a.succes
+                send_interface_toast = {
+                    type = event_toast_effect_good
+                    title = ek_ymis_events.0003.a.tt_succes
+                    left_icon = root
+                    scope:old_orc = {
+                        set_character_faith = root.faith
+                    }
+                }
+            }
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                    multiplier = -1
+                }
+                desc = ek_ymis_events.0003.a.failure
+                send_interface_toast = {
+                    type =  event_toast_effect_bad
+                    title = ek_ymis_events.0003.a.tt_failure
+                    left_icon = root
+                    scope:old_orc = {
+                        move_to_pool = yes
+                    } 
+                }
+            }
+        }
+        stress_impact = {
+            cynical = medium_stress_impact_gain
+            zealous = medium_stress_impact_loss
+        }
+
+        ai_chance = { 
+            base = 50
+            modifier = {
+                add = 50
+                learning >= high_skill_rating                
+            }
+            modifier = {
+                add = 50
+                has_trait = zealous
+            }
+        } 
+    }
+    # Let him go
+    option = {
+        name = ek_ymis_events.0003.b
+        scope:old_orc = {
+            add_opinion = {
+                modifier = respect_opinion
+                target = root
+                opinion = 10
+            }   
+            move_to_pool = yes
+        }
+
+        ai_chance = { 
+            base = 100
+        } 
+    }
+    
+    # Give him his duel
+    option = { 
+        name = ek_ymis_events.0003.c
+        show_as_tooltip = {
+            random_list = {
+                50 = {
+                    root = {
+                        death = { death_reason = death_duel }
+                    }
+                }
+                50 = {
+                    scope:old_orc = {
+                        death = { death_reason = death_duel }
+                    }
+                }
+            }
+        }   
+        configure_start_single_combat_effect = {
+            SC_INITIATOR = scope:old_orc
+            SC_ATTACKER = scope:old_orc
+            SC_DEFENDER = root
+            FATALITY = always
+            FIXED = no
+            LOCALE = courtyard
+            OUTPUT_EVENT = ek_ymis_events.0008
+            INVALIDATION_EVENT = single_combat.1006
+        }
+        stress_impact = {
+            craven = medium_stress_impact_gain
+            brave = medium_stress_impact_loss
+        }
+
+        ai_chance = { 
+            base = 10
+            modifier = { 
+                add = 40
+                has_trait = brave
+            } 
+            modifier = { 
+                add = 50
+                prowess >= high_skill_rating
+            }
+            modifier = {
+                add = -100
+                has_trait = craven            
+            }
+        }
+    }
+}   
+
+# The Old Orc is forcing a duel
+ek_ymis_events.0004 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0004.t
+    desc = ek_ymis_events.0004.desc
+    theme = realm
+    override_icon = {reference = "gfx/interface/icons/event_types/type_war.dds"}
+    left_portrait = {
+        character = scope:old_orc
+        animation = rage
+    }
+
+    trigger = {
+        scope:old_orc = {
+            is_available_ai_adult = yes
+            OR = {
+                has_faith = faith:code_of_malacath
+                has_faith = faith:goblin_shamanism
+                has_faith = faith:malacath_brutal_breed
+            }
+            NOT = { 
+                highest_held_title_tier <= tier_kingdom
+            }   
+        }
+    }
+
+    # Fight Duel
+    option = {
+        name = ek_ymis_events.0004.b
+        custom_tooltip = ek_ymis_events.0001.c.tt
+        show_as_tooltip = {
+            random_list = {
+                50 = {
+                    root = {
+                        death = { death_reason = death_duel }
+                    }
+                }
+                50 = {
+                    scope:old_orc = {
+                        death = { death_reason = death_duel }
+                    }
+                }
+            }
+        }   
+        configure_start_single_combat_effect = {
+            SC_INITIATOR = scope:old_orc
+            SC_ATTACKER = scope:old_orc
+            SC_DEFENDER = root
+            FATALITY = always
+            FIXED = no
+            LOCALE = castle
+            OUTPUT_EVENT = ek_ymis_events.0008
+            INVALIDATION_EVENT = single_combat.1006
+        }   
+    }
+}
+
+# Check for Winner
+ek_ymis_events.0005 = {
+    hidden = yes
+    immediate = {
+        if = {
+            limit = {
+                scope:old_orc = { 
+                    is_alive = yes
+                }
+            }
+            # Old Orc wins
+            trigger_event = { id = ek_ymis_events.0006 days = 1 }
+        }   
+        else = {
+            # Combatant Wins
+            trigger_event = { id = ek_ymis_events.0007 days = 1 }
+        }
+    }
+}
+
+# Old Orc slays Combatant
+ek_ymis_events.0006 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0006.t
+    desc = ek_ymis_events.0006.desc
+    theme = realm
+    override_icon = {reference = "gfx/interface/icons/event_types/type_war.dds"}    
+    left_portrait = {
+        character = scope:old_orc
+        animation = personality_vengeful 
+    }
+
+    trigger = {         
+        scope:old_orc = {
+            is_available_ai_adult = yes
+        }
+    }
+
+    # Let him go
+    option = {
+        name = ek_ymis_events.0006.a
+        scope:old_orc = {
+            move_to_pool = yes
+        }
+        stress_impact = {
+            vengeful = medium_stress_impact_gain
+        }   
+    }
+
+    # Give him his duel
+    option = { 
+        name = ek_ymis_events.0006.b
+        custom_tooltip = ek_ymis_events.0001.c.tt
+        configure_start_single_combat_effect = {
+            SC_INITIATOR = root
+            SC_ATTACKER = root
+            SC_DEFENDER = scope:old_orc
+            FATALITY = always
+            FIXED = no
+            LOCALE = courtyard
+            OUTPUT_EVENT = ek_ymis_events.0008
+            INVALIDATION_EVENT = single_combat.1006
+        }
+        stress_impact = {
+            craven = medium_stress_impact_gain
+            brave = medium_stress_impact_loss
+        }
+    }
+}
+
+# Combatant slays Old Orc
+ek_ymis_events.0007 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0007.t
+    desc = ek_ymis_events.0007.desc
+    theme = realm
+    override_icon = {reference = "gfx/interface/icons/event_types/type_war.dds"}    
+    left_portrait = {
+        character = scope:combatant
+        animation = celebrate_sword
+    }
+    immediate = {
+        scope:combatant = {
+            add_character_modifier = {
+                modifier = famous_duelist
+                years = 10
+            }
+        }
+    }
+    # Leave the armor to Combatant
+    option = {
+        name = ek_ymis_events.0007.a
+        custom_tooltip = ek_ymis_events.0007.a.tt
+        create_artifact_armor_effect = {
+			OWNER = scope:combatant
+			CREATOR = scope:old_orc
+			SET_ARMOR_TYPE = flag:armor_type_plate
+        }       
+        stress_impact = {
+            greedy = medium_stress_impact_gain
+            generous = medium_stress_impact_loss
+        }
+    }
+    # Claim the armor yourself
+    option = {
+        name = ek_ymis_events.0007.b
+        custom_tooltip = ek_ymis_events.0007.b.tt
+        create_artifact_armor_effect = {
+			OWNER = root
+			CREATOR = scope:old_orc
+			SET_ARMOR_TYPE = flag:armor_type_plate
+		}       
+        stress_impact = {
+            generous = medium_stress_impact_gain
+            greedy = medium_stress_impact_loss
+        }
+    }
+}
+
+# Character slays the Old Orc
+ek_ymis_events.0008 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0008.t
+    desc = ek_ymis_events.0008.desc
+    theme = realm
+    override_icon = { reference = "gfx/interface/icons/event_types/type_war.dds" }    
+    left_portrait = {
+        character = root
+        animation = celebrate_sword
+    }
+    immediate = {
+        add_character_modifier = {
+            modifier = famous_duelist
+            years = 10
+        }      
+    }
+    # Gain the armor
+    option = {
+        name = ek_ymis_events.0008.a
+        custom_tooltip = ek_ymis_events.0008.a.tt
+        create_artifact_armor_effect = {
+			OWNER = root
+			CREATOR = scope:old_orc
+			SET_ARMOR_TYPE = flag:armor_type_plate
+        }
+    }       
+}
+
+
+### House of Reveries
+# Child wants to join the House of Reveries
+ek_ymis_events.0009 = { 
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0009.t
+    desc = ek_ymis_events.0009.desc   
+    theme = family
+    left_portrait = {
+        character = scope:wannabe_artist
+    }
+    cooldown = { years = 30 }
+
+    trigger = {
+        culture = { has_cultural_pillar = heritage_aldmeri }
+        root.capital_province = { geographical_region = mundus_tamriel_summerset_isles }
+        any_child = { 
+            is_available_ai_adult = yes 
+            NOR = { 
+                has_trait = zealous
+                has_trait = ambitious
+                has_trait = shy
+                has_trait = house_of_reveries
+                age <= 50
+                is_landed = yes
+            }
+        }
+    }
+
+    immediate = {
+        random_child = {
+            limit = { 
+                is_available_ai_adult = yes 
+                NOR = { 
+                    has_trait = zealous
+                    has_trait = ambitious
+                    has_trait = shy
+                    has_trait = house_of_reveries
+                    age <= 50
+                    is_landed = yes
+                }
+            }
+        save_scope_as = wannabe_artist
+        }
+    }
+
+    # Let the child go
+    option = { 
+        name = ek_ymis_events.0009a
+        scope:wannabe_artist = { 
+            add_trait = house_of_reveries
+            hidden_effect = { house_of_reveries_name_effect = yes }
+            move_to_pool = yes
+        }
+        small_praxis_decrease_effect = yes
+        trigger_event = { 
+            id = ek_ymis_events.0013
+            days = { 1095 1825 }
+        }
+        stress_impact = {
+            compassionate = minor_stress_impact_loss
+        }
+        ai_chance = {
+            base = 50
+            modifier = {
+			    add = 50
+			    has_trait = compassionate
+		    }
+        }
+    }
+    # Try to convince the child to stay
+    option = {
+        name = ek_ymis_events.0009b
+        skill = diplomacy
+        duel = {
+            skill = diplomacy
+            value = decent_skill_rating
+            desc = outcome_in_a_few_days
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                }               
+                send_interface_toast = {
+                    type = event_toast_effect_good
+                    title = ek_ymis_events.0009b.tt.success
+                    left_icon = root
+                    scope:wannabe_artist = {
+                        add_opinion = {
+                            modifier = respect_opinion
+                            target = root
+                            opinion = 5
+                        }
+                    small_praxis_increase_effect = yes
+            }     
+                }      
+            }
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                    multiplier = -1
+                }                    
+                send_interface_toast = {
+                    type =  event_toast_effect_bad
+                    title = ek_ymis_events.0009b.failure
+                    left_icon = root
+                    scope:wannabe_artist = {
+                        add_trait = house_of_reveries
+                        hidden_effect = { house_of_reveries_name_effect = yes }
+                        move_to_pool = yes
+                    }
+                    small_praxis_decrease_effect = yes
+                }
+                trigger_event = { 
+                    id = ek_ymis_events.0013
+                    days = { 1095 1825 }
+                }
+            }
+        }
+        ai_chance = {
+            base = 50
+            modifier = {
+			    add = 50
+			    diplomacy >= high_skill_rating
+		    }
+        }   
+    }
+    # Force the child to stay
+    option = { 
+        name = ek_ymis_events.0009c
+        scope:wannabe_artist = {
+            add_opinion = {
+                modifier = refusal_opinion
+                target = root
+                opinion = -30
+            }   
+        }
+        trigger_event = {
+            id = ek_ymis_events.0010
+            days = { 1 3 }
+        }
+
+        small_praxis_increase_effect = yes
+
+        stress_impact = {
+        compassionate = minor_stress_impact_gain
+        }
+
+        ai_chance = {
+            base = 100
+            modifier = {
+			    add = 100
+			    has_trait = zealous
+		    }
+        }        
+    }
+}
+# Check Relation between child and parent
+ek_ymis_events.0010 = {
+    hidden = yes
+
+    immediate = {
+        if = {
+            limit = {
+                scope:wannabe_artist = { 
+                    is_available_ai_adult = yes
+                    opinion = { 
+                        target = root
+                        value >= 50
+                    }                       
+                }
+            }
+        }   
+        else_if = {
+            limit = {
+                scope:wannabe_artist = { 
+                    is_available_ai_adult = yes
+                }
+            }
+            # Child runs away
+            trigger_event = { 
+                id = ek_ymis_events.0011
+            }
+        }
+    }
+}
+# The Child has run off
+ek_ymis_events.0011 = { 
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0011.t
+    desc = ek_ymis_events.0011.desc   
+    theme = family
+    left_portrait = {
+        character = scope:random_knight
+        animation = shock 
+    }
+
+    immediate = {
+        random_courtier = {
+            limit = {
+                is_available_ai_adult = yes
+                is_knight = yes
+            }
+        save_scope_as = random_knight
+        }
+        scope:wannabe_artist = {
+            move_to_pool = yes
+        }
+    }
+    # Bring it back
+    option = {
+        name = ek_ymis_events.0011a
+        custom_tooltip = ek_ymis_events.0011att
+
+        hidden_effect = {
+		    random_list = {
+                # The knight fails
+			    40 = {
+                    send_interface_toast = {
+                        type = event_toast_effect_bad
+			            left_icon = scope:random_knight
+			            title = ek_ymis_events.0011a.toast_bad
+			            scope:wannabe_artist = {
+                            add_trait = house_of_reveries
+                            hidden_effect = { house_of_reveries_name_effect = yes }
+                        }
+			        }
+                    trigger_event = { 
+                        id = ek_ymis_events.0013
+                        days = { 1095 1825 }
+                    }
+		        }			        
+                # The knight succeeds
+			    40 = {
+                    send_interface_toast = {
+                        type = event_toast_effect_good
+                        left_icon = scope:wannabe_artist
+			            title = ek_ymis_events.0011a.toast_good
+				        add_courtier = scope:wannabe_artist
+                    }
+                }
+                # The knight also joins the House of Reveries
+                10 =  {
+                    send_interface_toast = {
+                        type = event_toast_effect_bad
+			            left_icon = scope:random_knight
+			            title = ek_ymis_events.0011a.toast_very_bad
+			            scope:wannabe_artist = {
+                            add_trait = house_of_reveries
+                            hidden_effect = { house_of_reveries_name_effect = yes }
+                        }
+                        scope:random_knight = {
+                            add_trait = house_of_reveries
+                            hidden_effect = { house_of_reveries_name_effect = yes }
+                            move_to_pool = yes
+                        }
+                    }
+                    trigger_event = { 
+                        id = ek_ymis_events.0013
+                        days = { 1095 1825 }
+                    }
+			    }
+                # The child vanishes
+                10 = { 
+                    send_interface_toast = {
+                        type = event_toast_effect_bad
+			            left_icon = scope:wannabe_artist
+			            title = ek_ymis_events.0011a.toast_extremly_bad
+		                scope:wannabe_artist = {
+                            death = { death_reason = death_disappearance }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    # Go yourself
+    option = {
+        name = ek_ymis_events.0011b
+        custom_tooltip = ek_ymis_events.0011bt
+        trigger_event = {
+            id = ek_ymis_events.0012
+            days = 3
+        }
+        add_stress = major_stress_gain
+        stress_impact = {
+            lazy = major_stress_impact_gain
+        }
+    }
+
+    # Leave it be
+    option = {
+        name = ek_ymis_events.0011c
+        scope:wannabe_artist = {
+            add_trait = house_of_reveries
+            hidden_effect = { house_of_reveries_name_effect = yes }
+        }
+        small_praxis_decrease_effect = yes
+        trigger_event = { 
+            id = ek_ymis_events.0013
+            days = { 1095 1825 }
+        }
+        stress_impact = {
+            callous = minor_stress_impact_loss
+            vengeful = minor_stress_impact_gain
+        }    
+    }
+}
+# Confront the child yourself
+ek_ymis_events.0012 = { 
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0012.t
+    desc = ek_ymis_events.0012.desc   
+    theme = family
+    override_background = wilderness_forest
+    left_portrait = {
+        character = scope:wannabe_artist
+        animation = worry
+    }
+
+    # Convince the child to return
+    option = {
+        name = ek_ymis_events.0012a
+        skill = diplomacy
+        duel = {
+            skill = diplomacy
+            value = decent_skill_rating
+            desc = outcome_in_a_few_days
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                }               
+                send_interface_toast = {
+                    type = event_toast_effect_good
+                    title = ek_ymis_events.0012a.tt.success
+                    left_icon = scope:wannabe_artist
+                    add_courtier = scope:wannabe_artist
+                }      
+            }
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                    multiplier = -1
+                }                    
+                send_interface_toast = {
+                    type =  event_toast_effect_bad
+                    title = ek_ymis_events.0012a.failure
+                    left_icon = scope:wannabe_artist
+                    scope:wannabe_artist = {
+                        add_trait = house_of_reveries
+                        hidden_effect = { house_of_reveries_name_effect = yes }
+                    }
+                }
+                trigger_event = { 
+                    id = ek_ymis_events.0013
+                    days = { 1095 1825 }
+                }
+            }
+        }
+        ai_chance = {
+            base = 50
+            modifier = {
+			    add = 50
+			    diplomacy >= high_skill_rating
+		    }
+        }   
+    }
+    # Let the child be
+    option = {
+        name = ek_ymis_events.0012b
+        scope:wannabe_artist = { 
+            add_trait = house_of_reveries
+            hidden_effect = { house_of_reveries_name_effect = yes }
+            add_opinion = {
+                modifier = grateful_opinion
+                target = root
+                opinion = 30
+            }   
+        }
+        small_praxis_decrease_effect = yes
+        trigger_event = { 
+            id = ek_ymis_events.0013
+            days = { 1095 1825 }
+        }
+        stress_impact = {
+            compassionate = minor_stress_impact_loss
+            wrathful = minor_stress_impact_gain
+        }
+        ai_chance = {
+            base = 50
+            modifier = {
+			    add = 50
+			    has_trait = compassionate
+		    }
+        }
+    }
+    # Recruit the child as an artist
+    option = {
+        name = ek_ymis_events.0012c
+        scope:wannabe_artist = { 
+            add_trait = house_of_reveries
+            hidden_effect = { house_of_reveries_name_effect = yes }
+        }
+        add_courtier = scope:wannabe_artist 
+        moderate_praxis_decrease_effect = yes
+        ai_chance = {
+            base = 50
+        }
+    }
+    # Intimidate the child
+    option = {
+        name = ek_ymis_events.0012d
+
+        trigger = {
+            has_trait = sadistic
+        }
+
+        add_courtier = scope:wannabe_artist
+        scope:wannabe_artist = { 
+            add_opinion = {
+                modifier = hate_opinion
+                target = root
+                opinion = -50
+            } 
+            random_list = {
+                30 = { add_trait = depressed_1 }
+                50 = { add_stress = minor_stress_gain }
+                20 = { add_stress = major_stress_gain }              
+            }
+        }
+        stress_impact = {
+         sadistic = minor_stress_impact_loss
+        }
+        ai_chance = {
+            base = 200
+        }
+    }
+}
+
+# Check relations and traits of the missing child
+ek_ymis_events.0013 = {
+    hidden = yes
+
+    immediate = {
+        if = {
+            limit = {
+                scope:wannabe_artist = { 
+                    is_available_ai_adult = yes
+                    opinion = { 
+                        target = root
+                        value >= 50
+                    }
+                    Not = { 
+                        has_trait = fickle
+                    }                       
+                }
+            }
+            trigger_event = { 
+                id = ek_ymis_events.0014
+                days = 1
+            }
+        }   
+        else_if = {
+            limit = {
+                scope:wannabe_artist = { 
+                    is_available_ai_adult = yes
+                    opinion = { 
+                        target = root
+                        value >= 50
+                    }
+                    has_trait = fickle
+                }                       
+            }
+            trigger_event = { 
+                id = ek_ymis_events.0015
+                days = 1
+            }
+        }
+    }   
+}
+
+# The child returns after a while
+ek_ymis_events.0014 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0014.t
+    desc = ek_ymis_events.0014.desc   
+    theme = family
+    left_portrait = {
+        character = scope:wannabe_artist
+    }
+
+    # Recruit to Court  
+    option = { 
+        name = ek_ymis_events.0014a
+        add_courtier = scope:wannabe_artist
+        small_praxis_decrease_effect = yes
+    }
+
+    # Send it away 
+    option = { 
+        name = ek_ymis_events.0014b
+        scope:wannabe_artist = {
+            move_to_pool = yes
+        }
+        small_praxis_increase_effect = yes
+        stress_impact = {
+            compassionate = minor_stress_impact_gain
+        } 
+    }
+}
+
+# A fickle child wants to leave the House of Reveries
+ek_ymis_events.0015 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0015.t
+    desc = ek_ymis_events.0015.desc   
+    theme = family
+    left_portrait = {
+        character = scope:wannabe_artist
+    }
+
+    # Welcome it back
+    option = { 
+        name = ek_ymis_events.0015a
+        scope:wannabe_artist = {
+            if = {
+		        limit = { has_trait = house_of_reveries }
+		        remove_trait = house_of_reveries
+                house_of_reveries_remove_name_effect = yes
+            }
+        }
+        add_courtier = scope:wannabe_artist
+    }
+    
+    # Send it away 
+    option = { 
+        name = ek_ymis_events.0015b
+        scope:wannabe_artist = {
+            move_to_pool = yes
+        }
+        small_praxis_increase_effect = yes
+        stress_impact = {
+            compassionate = minor_stress_impact_gain
+        } 
+    }
+}
+
+# An Artist from the House of Reveries visits your court
+ek_ymis_events.0016 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0016.t
+    desc = ek_ymis_events.0016.desc   
+    theme = realm
+    left_portrait = {
+        character = scope:visiting_artist
+    }
+    cooldown = { years = 30 }
+    # The artist will only visit aldmeri characters with a royal court
+    trigger = {
+        culture = { has_cultural_pillar = heritage_aldmeri }
+        highest_held_title_tier >= tier_kingdom
+        NOT = {
+            government_has_flag = government_is_tribal
+        }
+        any_pool_character = {
+            province = root.capital_province
+            has_trait = house_of_reveries 
+            is_available_ai_adult = yes
+        }
+    }
+    
+    immediate = {
+        random_pool_character = {
+            province = root.capital_province
+			limit = {
+				has_trait = house_of_reveries
+                is_available_ai_adult = yes
+	        }
+            save_scope_as = visiting_artist
+        }
+        add_visiting_courtier = scope:visiting_artist
+    }
+
+    # Let the artist play
+    option = {
+        name = ek_ymis_events.0016a
+        custom_tooltip = ek_ymis_events.0016a.tt
+        scope:visiting_artist = {
+            add_opinion = {
+                modifier = pleased_opinion
+                target = root
+                opinion = 10
+            } 
+        } 
+        small_praxis_decrease_effect = yes
+        hidden_effect = {
+            random_list = {
+                75 = {
+                  trigger_event = {
+                        id = ek_ymis_events.0017
+                        days = 1
+                    }
+                }
+                25 =  {
+                    trigger_event = {
+                        id = ek_ymis_events.0018
+                        days = 1
+                    }
+                }
+            }
+        }
+        pay_short_term_gold = {
+			target = scope:visiting_artist
+			gold = 30
+		}
+        stress_impact = {
+            gregarious = minor_stress_impact_loss
+            zealous = minor_stress_gain
+        }
+    }
+    # Send the artist away
+    option = { 
+        name = ek_ymis_events.0016b
+        scope:visiting_artist = {
+            move_to_pool = yes
+            add_opinion = {
+                modifier = insult_opinion
+                target = root
+                opinion = -10
+            }   
+        }
+        small_praxis_increase_effect = yes
+        stress_impact = {
+            gregarious = minor_stress_impact_gain
+        }
+    }
+}
+
+# The artist performs well
+ek_ymis_events.0017 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0017.t
+    desc = ek_ymis_events.0017.desc
+    theme = realm
+    left_portrait = {
+        character = scope:visiting_artist
+        animation = happiness
+    }
+    immediate = {
+        add_stress = minor_stress_loss
+        every_courtier = {
+            add_stress = minor_stress_loss
+            add_opinion = {
+                target = root
+                modifier = reputation_opinion
+				opinion = 5
+            }
+        }
+    }
+    # Recruit as musician
+    option = {
+        name = ek_ymis_events.0017a
+        add_courtier = scope:visiting_artist      
+        appoint_court_position = {
+			recipient = scope:visiting_artist
+			court_position = court_musician_court_position
+		}
+        if = {
+			limit = {
+				can_employ_court_position_type = court_musician_court_position
+				NOT = { employs_court_position = court_musician_court_position }
+			}
+			appoint_court_position = {
+				recipient = scope:visiting_artist
+				court_position = court_musician_court_position
+			}
+		}
+		else_if = {
+			limit = {
+				can_employ_court_position_type = court_musician_court_position
+			}
+			court_position:court_musician_court_position = {
+				add_opinion = {
+					target = root
+					modifier = disappointed_opinion
+					opinion = -5
+				}
+			}
+			replace_court_position = {
+				recipient = scope:visiting_artist
+				holder = court_position:court_musician_court_position
+				court_position = court_musician_court_position
+			}
+		}
+		reverse_add_opinion = {
+			target = scope:visiting_artist
+			modifier = hired_me_opinion
+		}
+    moderate_praxis_decrease_effect = yes		
+    }
+
+    # Recruit as poet
+    option = {
+        name = ek_ymis_events.0017b
+        trigger = {
+            scope:visiting_artist = {
+                has_trait = poet
+            }
+        }
+        if = {
+			limit = {
+				can_employ_court_position_type = court_poet_court_position
+				NOT = { employs_court_position = court_poet_court_position }
+			}
+			appoint_court_position = {
+				recipient = scope:visiting_artist
+				court_position = court_poet_court_position
+			}
+		}
+		else_if = {
+			limit = {
+				can_employ_court_position_type = court_poet_court_position
+			}
+			court_position:court_poet_court_position = {
+				add_opinion = {
+					target = root
+					modifier = disappointed_opinion
+					opinion = -5
+				}
+			}
+			replace_court_position = {
+				recipient = scope:visiting_artist
+				holder = court_position:court_mage_court_position
+				court_position = court_poet_court_position
+			}
+		}
+		reverse_add_opinion = {
+			target = scope:visiting_artist
+			modifier = hired_me_opinion
+		}
+    moderate_praxis_decrease_effect = yes		
+    }
+    # Send the artist away
+    option = { 
+        name = ek_ymis_events.0017c
+        scope:visiting_artist = {
+            move_to_pool = yes 
+        }
+    }
+}
+
+# The artist performs bad
+ek_ymis_events.0018 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0018.t
+    desc = ek_ymis_events.0018.desc   
+    theme = realm
+    left_portrait = {
+        character = scope:visiting_artist
+        animation = shame
+    }
+    immediate = {
+        every_courtier = {
+            add_opinion = {
+                target = root
+                modifier = reputation_opinion
+				opinion = -5
+            }
+        }
+    }
+    # Recruit as jester
+    option = {
+        name = ek_ymis_events.0018a
+        add_courtier = scope:visiting_artist    
+        if = {
+			limit = {
+				can_employ_court_position_type = court_jester_court_position
+				NOT = { employs_court_position = court_jester_court_position }
+			}
+			appoint_court_position = {
+				recipient = scope:visiting_artist
+				court_position = court_jester_court_position
+			}
+		}
+		else_if = {
+			limit = {
+				can_employ_court_position_type = court_jester_court_position
+			}
+			court_position:court_jester_court_position = {
+				add_opinion = {
+					target = root
+					modifier = disappointed_opinion
+					opinion = -5
+				}
+			}
+			replace_court_position = {
+				recipient = scope:visiting_artist
+				holder = court_position:court_mage_court_position
+				court_position = court_jester_court_position
+			}
+		}
+		reverse_add_opinion = {
+			target = scope:visiting_artist
+			modifier = hired_me_opinion
+		}
+    moderate_praxis_decrease_effect = yes		
+    }
+    # Jail the artist
+    option = {
+        name = ek_ymis_events.0018b
+        trigger = {
+            OR = {
+                has_trait = sadistic
+                culture = { has_cultural_pillar = heritage_aldmeri }
+            }
+        } 
+		imprison = {
+			target = scope:visiting_artist
+			type = dungeon
+		}
+        scope:visiting_artist = {
+		    add_opinion = {
+			    target = root
+			    modifier = imprisoned_me
+		    }
+	    }
+        stress_impact = {
+            sadistic = medium_stress_impact_loss
+            compassionate = medium_stress_impact_gain
+        }
+    small_praxis_increase_effect = yes		
+    }
+    # Send the artist away
+    option = { 
+        name = ek_ymis_events.0018c
+        scope:visiting_artist = {
+            move_to_pool = yes
+        }
+    }
+}
+
+# Your court chaplain wants you to get rid of an House of Reveries artist
+ek_ymis_events.0019 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0019.t
+    desc = ek_ymis_events.0019.desc   
+    theme = realm
+    left_portrait = {
+        character = scope:realm_priest
+        animation = disapproval
+    }
+    right_portrait = {
+        character = scope:artist_in_question
+    }
+    cooldown = { years = 30 }
+    # Only for aldmeri characters with an House of Reveries artist at court
+    trigger = {
+        culture = { has_cultural_pillar = heritage_aldmeri }
+        any_courtier = {
+            has_trait = house_of_reveries
+            is_available_ai_adult = yes
+        }
+    }
+    immediate = {
+        random_courtier = {
+			limit = {
+				has_trait = house_of_reveries
+                is_available_ai_adult = yes
+	        }
+        save_scope_as = artist_in_question
+        }
+        cp:councillor_court_chaplain = {
+			save_scope_as = realm_priest
+		}
+        hidden_effect = {
+            scope:realm_priest = {
+                add_opinion = {
+                    modifier = trust_opinion
+                    target = scope:artist_in_question
+                    opinion = -50
+                }
+            }    
+        }
+    }
+    # Agree to send artist away
+    option = {
+        name = ek_ymis_events.0019a
+
+        if = { 
+            limit = { scope:artist_in_question = { has_court_position = court_jester_court_position } }
+            revoke_court_position = {
+				recipient = scope:artist_in_question
+				court_position = court_jester_court_position
+			}
+        }
+        if = { 
+            limit = { scope:artist_in_question = { has_court_position = court_musician_court_position } }
+            revoke_court_position = {
+				recipient = scope:artist_in_question
+				court_position = court_musician_court_position
+			}
+        }
+        if = { 
+            limit = { scope:artist_in_question = { has_court_position = court_poet_court_position } }
+            revoke_court_position = {
+				recipient = scope:artist_in_question
+				court_position = court_poet_court_position
+			}
+        }
+
+        scope:artist_in_question = {
+            move_to_pool = yes
+            add_opinion = {
+                modifier = disappointed_opinion
+                target = root
+                opinion = -30
+            }
+        }
+        small_praxis_increase_effect = yes
+        scope:realm_priest = {
+            add_opinion = {
+                modifier = pleased_opinion
+                target = root
+                opinion = 10
+            }
+        }
+    }
+    # Disagree to send artist away
+    option = {
+        name = ek_ymis_events.0019b
+        scope:artist_in_question = {
+            add_opinion = {
+                modifier = pleased_opinion
+                target = root
+                opinion = 10
+            }
+        }
+        small_praxis_decrease_effect = yes
+        scope:realm_priest = {
+            add_opinion = {
+                modifier = disappointed_opinion
+                target = root
+                opinion = -30
+            }
+        }
+    }
+}
+
+# An House of Reveries artist looses you some stress
+ek_ymis_events.0020 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0020.t
+    desc = ek_ymis_events.0020.desc   
+    theme = realm
+    right_portrait = {
+        character = scope:artist_in_question
+        animation = admiration
+    }
+    trigger = {
+        culture = { has_cultural_pillar = heritage_aldmeri }
+        any_courtier = {
+            has_trait = house_of_reveries
+            is_available_ai_adult = yes
+        }
+    }
+    immediate = {
+        add_stress = minor_stress_loss
+        random_courtier = {
+			limit = {
+				has_trait = house_of_reveries
+                is_available_ai_adult = yes
+	        }
+        save_scope_as = artist_in_question
+        }
+    }
+    # Loose some more
+    option = {
+        name = ek_ymis_events.0020a 
+        add_character_modifier = {
+            modifier = reminded_of_present_beauty
+            years = 5
+        }
+        
+        scope:artist_in_question = {
+            add_opinion = {
+                modifier = respect_opinion
+                target = root
+                opinion = 10
+            }
+        }
+        small_praxis_decrease_effect = yes
+        stress_impact = {
+            diligent = minor_stress_impact_gain
+            lazy = minor_stress_impact_loss
+        }
+    }
+    # Tell the artist to stay away
+    option = {
+        name = ek_ymis_events.0020b
+        scope:artist_in_question = {
+            add_opinion = {
+                modifier = respect_opinion
+                target = root
+                opinion = -10
+            }
+        }
+        small_praxis_increase_effect = yes
+        stress_impact = {
+            diligent = minor_stress_impact_loss
+            lazy = minor_stress_impact_gain
+        }
+    }
+}
+
+### Necromancy
+# Change to a more necromantic faith
+ek_ymis_events.0021 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0021.t
+    desc = ek_ymis_events.0021.desc   
+    theme = necromancy
+    left_portrait = {
+        character = root
+        animation = stress
+    }
+
+    trigger = {
+        has_trait = necromancer
+        any_held_title = {
+			NOT = { is_head_of_faith = yes }		
+		}
+        NOR = { 
+            has_character_flag = had_ek_ymis_events.0021
+            faith = { has_doctrine = doctrine_necromancy_accepted }
+        }
+	}
+    
+    immediate = {
+        if = {
+            limit = {
+                culture = { has_cultural_pillar = heritage_argonian }
+            }
+            random_list = {
+                10 = { faith:ghostpeople = {save_scope_as = new_necromantic_faith }} #let's make Argonians more likely to turn to the Ghost-Hist
+                4 = { faith:idealmasters = {save_scope_as = new_necromantic_faith }} 
+                2 = { faith:worm_cult = {save_scope_as = new_necromantic_faith }} #I guess there are more scenarios where the Ideal Masters would attract some random Argonian Necromancer in more cases than the Worm Cult
+            }
+        }
+        else_if = {
+            limit = {
+                culture = { has_cultural_pillar = heritage_khajiiti }
+            }
+            random_list = {
+                10 = { faith:hidden_moon = {save_scope_as = new_necromantic_faith }} #similarly for Khajiit and the Order of the Hidden Moon
+                4 = { faith:idealmasters = {save_scope_as = new_necromantic_faith }}
+                2 = { faith:worm_cult = {save_scope_as = new_necromantic_faith }} #I think the Ideal Masters/Worm Cult thing applies here too
+            }
+        }
+        else = {
+            random_list = {
+                2 = { faith:idealmasters = {save_scope_as = new_necromantic_faith }} #for others I guess it doesn't matter too much
+                2 = { faith:worm_cult = {save_scope_as = new_necromantic_faith }}
+            }
+        } 
+        add_character_flag = had_ek_ymis_events.0021
+    } 
+
+    # Continue as before
+    option = {
+        name = ek_ymis_events.0021a 
+        
+        random_list = {
+            10 = { add_trait = depressed_1 }
+            90 = { add_stress = major_stress_gain }
+        }
+        stress_impact = {
+            stubborn = minor_stress_impact_loss
+            fickle = minor_stress_impact_gain
+        }
+        ai_chance = { base = 2 }
+    }
+
+    # Choose a new necromantic faith
+    option = {
+        trigger = {
+            NOT = { has_trait = zealous }
+        }
+        name = ek_ymis_events.0021b
+        set_character_faith = scope:new_necromantic_faith
+
+        stress_impact = {
+            stubborn = minor_stress_impact_gain
+            fickle = minor_stress_impact_loss
+        }
+        ai_chance = { base = 1 }
+    }
+}
+
+# Buy some Sload Soap
+ek_ymis_events.0022 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0022.t
+    desc = ek_ymis_events.0022.desc   
+    theme = necromancy
+    override_background = {
+		reference = market
+	}
+
+    left_portrait = {
+        character = scope:peddler
+        animation = personality_greedy
+    }
+    right_portrait = { 
+        character = root
+    }
+    trigger = {
+        has_trait = necromancer
+	}
+    
+    cooldown = {
+        years = 100 
+    }
+
+    immediate = {
+        random_pool_character = {
+			province = root.capital_province
+			limit = {
+				stewardship >= decent_skill_rating
+				has_trait = greedy
+				has_dynasty = no
+				is_available_adult = yes
+			}
+			alternative_limit = {
+				stewardship >= decent_skill_rating
+				is_available_adult = yes
+			}
+			save_scope_as = peddler
+		}
+		if = {
+			limit = {
+				NOT = { exists = scope:peddler }
+			}
+			create_character = {
+				location = root.capital_province
+				template = merchant_template
+				trait = greedy
+				save_scope_as = peddler
+			}
+        }
+    }
+
+    # Use it for arcana
+    option = {
+        name = ek_ymis_events.0022a 
+        
+        pay_short_term_gold = {
+			target = scope:peddler
+			gold = medium_gold_value
+		}
+        add_character_modifier = {
+            modifier = modifier_sload_soap_arcana
+            years = 5
+        }
+
+        stress_impact = {
+            greedy = minor_stress_impact_gain
+        }
+    }
+
+    # Use it as soap
+    option = {
+        name = ek_ymis_events.0022b
+
+        pay_short_term_gold = {
+			target = scope:peddler
+			gold = medium_gold_value
+		}
+        add_character_modifier = {
+            modifier = modifier_sload_soap_cleaning
+            years = 5
+        }
+
+        stress_impact = {
+            greedy = minor_stress_impact_gain
+        }
+    }
+
+    # Don't buy it
+    option = {
+
+        name = ek_ymis_events.0022c
+
+        stress_impact = {
+            greedy = minor_stress_impact_loss
+        }
+    }
+}
+
+# Train Necromancy on a poor prisoner
+ek_ymis_events.0023 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0023.t
+    desc = ek_ymis_events.0023.desc   
+    theme = necromancy
+    left_portrait = {
+        character = scope:prisoner
+        animation = fear
+    }
+    right_portrait = { 
+        character = root
+    }
+    override_background = { reference = dungeon }
+
+    trigger = {
+        is_necromancer = yes
+        any_prisoner = { is_adult = yes }            
+        NOR = { 
+            has_perk = necromancy_master_perk
+            has_perk = necromancy_expert_perk
+        }
+	}
+    
+    cooldown = {
+        years = 100 
+    }
+
+    immediate = {
+        random_prisoner = {
+			limit = {
+				is_adult = yes
+			}
+			save_scope_as = prisoner
+		}
+    }
+
+    # Do it and create a thrall
+    option = {
+        trigger =  { has_trait = necromancer }
+        name = ek_ymis_events.0023a 
+        
+        if = {
+            limit = { 
+                has_perk = necromancy_novice_perk
+                NOT = { has_perk = necromancy_apprentice_perk }
+            }
+            add_perk = necromancy_apprentice_perk
+        }
+        else_if = {
+            limit = { 
+                has_perk = necromancy_apprentice_perk
+                NOT = { has_perk = necromancy_journeyman_perk }
+            }
+            add_perk = necromancy_journeyman_perk
+        }            
+        else_if = {
+            limit = { 
+                has_perk = necromancy_journeyman_perk
+                NOT = { has_perk = necromancy_expert_perk }
+            }
+            add_perk = necromancy_expert_perk
+        }
+		scope:prisoner = {
+			death = {
+				death_reason = death_execution_thralldom
+				killer = root
+			}
+            create_undead_thrall_effect = { MASTER = root THRALL = scope:prisoner }
+        }
+    
+        stress_impact = {
+            ambitious = minor_stress_impact_loss
+            sadistic = medium_stress_impact_loss
+            compassionate = major_stress_impact_gain
+        }
+    }
+    # Do it and dispose the body
+        option = {
+        trigger =  { has_trait = experimentalist_necromancer }
+        name = ek_ymis_events.0023b 
+        
+        if = {
+            limit = { 
+                has_perk = necromancy_novice_perk
+                NOT = { has_perk = necromancy_apprentice_perk }
+            }
+            add_perk = necromancy_apprentice_perk
+        }
+        else_if = {
+            limit = { 
+                has_perk = necromancy_apprentice_perk
+                NOT = { has_perk = necromancy_journeyman_perk }
+            }
+            add_perk = necromancy_journeyman_perk
+        }            
+        else_if = {
+            limit = { 
+                has_perk = necromancy_journeyman_perk
+                NOT = { has_perk = necromancy_expert_perk }
+            }
+            add_perk = necromancy_expert_perk
+        }
+        else_if = {
+            limit = { has_perk = necromancy_expert_perk }
+            add_perk = necromancy_master_perk
+        }
+		scope:prisoner = {
+			death = {
+				death_reason = death_mysterious
+			}
+        }
+        add_secret = {
+			type = secret_murder
+			target = scope:prisoner
+		}
+
+        stress_impact = {
+            ambitious = minor_stress_impact_loss
+            sadistic = medium_stress_impact_loss
+            compassionate = major_stress_impact_gain
+        }
+    }
+
+    # Nah, it's mean
+    option = {
+        name = ek_ymis_events.0023c
+
+        stress_impact = {
+            ambitious = minor_stress_impact_gain
+            sadistic = medium_stress_impact_gain
+            compassionate = minor_stress_impact_loss
+        }
+    }
+}
+
+# Rob some graves
+ek_ymis_events.0024 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0024.t
+    desc = ek_ymis_events.0024.desc   
+    theme = necromancy
+    left_portrait = {
+        character = root
+    }
+    trigger = {
+        is_necromancer = yes
+        NOR = { 
+            has_perk = necromancy_master_perk
+            has_perk = necromancy_expert_perk
+        }
+	}
+    
+    cooldown = {
+        years = 100 
+    }
+
+    # Do it openly
+    option = {
+        trigger =  { has_trait = necromancer }
+        name = ek_ymis_events.0024a 
+        
+        if = {
+            limit = { 
+                has_perk = necromancy_novice_perk
+                NOT = { has_perk = necromancy_apprentice_perk }
+            }
+            add_perk = necromancy_apprentice_perk
+        }
+        else_if = {
+            limit = { 
+                has_perk = necromancy_apprentice_perk
+                NOT = { has_perk = necromancy_journeyman_perk }
+            }
+            add_perk = necromancy_journeyman_perk
+        }
+        else_if = {
+            limit = { 
+                has_perk = necromancy_journeyman_perk
+                NOT = { has_perk = necromancy_expert_perk }
+            }
+            add_perk = necromancy_expert_perk
+        }
+		capital_county = {
+            add_county_modifier = {
+                modifier = 6190_grave_robbing_county_modifier
+                years = 10
+            }
+        }
+    
+        stress_impact = {
+            ambitious = minor_stress_impact_loss
+            diligent = minor_stress_impact_loss
+            lazy = medium_stress_impact_gain
+            compassionate = minor_stress_impact_gain
+        }
+    }
+    # Do it in secrecy
+    option = {
+        trigger =  { has_trait = experimentalist_necromancer }
+        name = ek_ymis_events.0024b
+        
+        if = {
+            limit = { 
+                has_perk = necromancy_novice_perk
+                NOT = { has_perk = necromancy_apprentice_perk }
+            }
+            add_perk = necromancy_apprentice_perk
+        }
+        else_if = {
+            limit = { 
+                has_perk = necromancy_apprentice_perk
+                NOT = { has_perk = necromancy_journeyman_perk }
+            }
+            add_perk = necromancy_journeyman_perk
+        }
+        else_if = {
+            limit = { 
+                has_perk = necromancy_journeyman_perk
+                NOT = { has_perk = necromancy_expert_perk }
+            }
+            add_perk = necromancy_expert_perk
+        }
+        else_if = {
+            limit = { has_perk = necromancy_expert_perk }
+            add_perk = necromancy_master_perk
+        }
+		capital_county = {
+            add_county_modifier = {
+                modifier = robbed_graves_modifier
+                years = 10
+            }
+        }
+
+        stress_impact = {
+            ambitious = minor_stress_impact_loss
+            diligent = minor_stress_impact_loss
+            lazy = medium_stress_impact_gain
+            compassionate = minor_stress_impact_gain
+        }
+    }
+
+    # Better not
+    option = {
+        name = ek_ymis_events.0024c
+
+        stress_impact = {
+            ambitious = minor_stress_impact_gain
+            lazy = minor_stress_impact_loss
+        }
+    }
+}
+
+# Turn your whole court into undead, only for mad necromancy masters
+ek_ymis_events.0025 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0025.t
+    desc = ek_ymis_events.0025.desc   
+    theme = necromancy
+    override_background = { reference = throne_room }
+    left_portrait = {
+        character = root
+        animation = lunatic
+    }
+    right_portrait = {
+        character = scope:courtier_1
+    }
+
+    trigger = {
+        is_necromancer = yes
+        has_trait = lunatic_1
+        has_perk = necromancy_master_perk
+	}
+    
+    cooldown = {
+        years = 100 
+    }
+
+    immediate = {
+        random_courtier = {
+            limit = {
+                NOT = { has_trait = undead_character }
+            }
+            save_scope_as = courtier_1
+        }
+    }
+
+    # Turn them all!
+    option = {
+        custom_tooltip = {
+            text = ek_ymis_events.0025a.tt
+        }
+        trigger =  { has_trait = necromancer }
+        name = ek_ymis_events.0025a 
+        trait = lunatic_1
+        
+        every_courtier_or_guest = {
+            death = {
+                death_reason = death_execution_thralldom
+                killer = root
+            }
+            save_scope_as = thrall
+            create_undead_thrall_effect = { MASTER = root THRALL = scope:thrall }
+        }
+
+        add_stress = major_stress_loss
+
+        give_nickname = nick_slayer_of_the_living
+    
+        stress_impact = {
+            sadistic = major_stress_impact_loss
+            compassionate = major_stress_impact_gain
+        }
+    }
+    # Turn them all and reveal yourself in the process
+    option = {
+        custom_tooltip = {
+            text = ek_ymis_events.0025a.tt
+        }
+        trigger =  { has_trait = experimentalist_necromancer }
+        name = ek_ymis_events.0025a 
+        trait = lunatic_1
+        
+        every_courtier_or_guest = {
+            death = {
+                death_reason = death_execution_thralldom
+                killer = root
+            }
+            save_scope_as = thrall
+            create_undead_thrall_effect = { MASTER = root THRALL = scope:thrall }
+        }
+
+        add_stress = major_stress_loss
+
+        give_nickname = nick_slayer_of_the_living
+
+        reveal_necromancer_secret_effect = yes
+    
+        stress_impact = {
+            sadistic = major_stress_impact_loss
+            compassionate = major_stress_impact_gain
+        }
+    }
+
+    # Try to resist these urges
+    option = {
+        name = ek_ymis_events.0025b
+
+        add_stress = massive_stress_gain
+    }
+}
+
+# Necromancy Stewardship Event
+ek_ymis_events.0026 = {
+	type = character_event
+    content_source = dlc_ek
+	title = ek_ymis_events.0026.t
+	desc = ek_ymis_events.0026.desc
+	
+	theme = stewardship
+	left_portrait = root
+    right_portrait = scope:undead_courtier
+	
+	trigger = {
+		has_lifestyle = stewardship_lifestyle
+        has_trait = necromancer
+	}
+
+    cooldown = {
+        years = 50
+    }
+
+    immediate = {
+        if = {
+            limit = {
+                any_courtier = {
+                    has_trait = undead_character
+                }
+            }
+            random_courtier = {
+                limit = {
+                    has_trait = undead_character
+                }
+                save_scope_as = undead_courtier
+            }            
+        }
+    }
+
+    # Use them as labourers
+    option = {
+        name = ek_ymis_events.0026a 
+        
+        add_character_modifier = {
+            modifier = undead_labour_force
+            years = 10
+        }
+    }
+
+    # Use them as builders
+    option = {
+        name = ek_ymis_events.0026b
+        
+        add_character_modifier = {
+            modifier = undead_building_force
+            years = 10
+        }
+    }
+
+    # Use them to collect taxes
+    option = {
+        name = ek_ymis_events.0026c
+
+        add_character_modifier = {
+            modifier = undead_tax_collectors
+            years = 10
+        }
+
+        stress_impact = {
+            greedy = medium_stress_impact_loss
+        }
+    }
+
+    # Don't use them at all
+    option = {
+        name = ek_ymis_events.0026d        
+    }
+}
+
+#Necromancy Intrigue Event
+ek_ymis_events.0027 = {
+	type = character_event
+    content_source = dlc_ek
+	title = ek_ymis_events.0027.t
+	desc = ek_ymis_events.0027.desc
+	
+	theme = intrigue
+	left_portrait = root
+    right_portrait = scope:undead_courtier
+	
+	trigger = {
+		has_lifestyle = intrigue_lifestyle
+        has_trait = necromancer
+	}
+
+    cooldown = {
+        years = 50
+    }
+
+    immediate = {
+        if = {
+            limit = {
+                any_courtier = {
+                    has_trait = undead_character
+                }
+            }
+            random_courtier = {
+                limit = {
+                    has_trait = undead_character
+                }
+                save_scope_as = undead_courtier
+            }            
+        }
+    }
+
+    # Deploy undead guards
+    option = {
+        name = ek_ymis_events.0027a 
+        trait = necromancer
+        
+        add_character_modifier = {
+            modifier = undead_guards
+            years = 10
+        }
+        every_courtier_or_guest = {
+            limit = {
+                NOT = { faith = { has_doctrine = doctrine_necromancy_accepted } }
+            }
+            add_opinion = {
+				opinion = -20
+				target = root
+				modifier = disgusted_opinion    
+            }
+        }
+    }
+
+    # Don't do it
+    option = {
+        name = ek_ymis_events.0027b
+    }
+}
+
+# Necromancy Martial Event
+ek_ymis_events.0028 = {
+	type = character_event
+    content_source = dlc_ek
+	title = ek_ymis_events.0028.t
+	desc = ek_ymis_events.0028.desc
+	
+	theme = martial
+	left_portrait = root
+    right_portrait = scope:undead_courtier
+	
+	trigger = {
+		has_lifestyle = martial_lifestyle
+        has_trait = necromancer
+        any_knight = { has_trait = undead_character }
+	}
+
+    cooldown = {
+        years = 50
+    }
+
+    immediate = {
+        if = {
+            limit = {
+                any_knight = {
+                    has_trait = undead_character
+                }
+            }
+            random_knight = {
+                limit = {
+                    has_trait = undead_character
+                }
+                save_scope_as = undead_courtier
+            }            
+        }
+    }
+
+    # Train them yourself
+    option = {
+        name = ek_ymis_events.0028a 
+        
+        random_list = {
+            50 = { add_prowess_skill = 1 }
+            30 = { add_prowess_skill = 2 }
+            20 = { increase_wounds_effect = { REASON = training_accident } }
+        }
+
+        every_knight = {
+            limit = {
+                has_trait = undead_character
+            }
+            random_list = {                
+                50 = { add_prowess_skill = 1 }
+                50 = { add_prowess_skill = 2 }
+            }
+        }
+
+        stress_impact = {
+            craven = medium_stress_impact_gain
+            brave = minor_stress_impact_loss
+        }
+    }
+
+    # Spend some money to flick them
+    option = {
+        name = ek_ymis_events.0028b
+
+        remove_short_term_gold = medium_gold_value
+
+        every_knight = {
+            limit = {
+                has_trait = undead_character
+            }
+            random_list = {                
+                50 = { add_prowess_skill = 1 }
+                30 = { add_prowess_skill = 2 }
+                20 = { add_prowess_skill = 3 }
+            }
+        }
+
+        stress_impact = {
+            greedy = medium_stress_impact_gain
+            generous = minor_stress_impact_loss
+        }
+    }
+
+    # Do both
+    option = {
+        name = ek_ymis_events.0028c
+
+        remove_short_term_gold = medium_gold_value
+        random_list = {
+            50 = { add_prowess_skill = 1 }
+            30 = { add_prowess_skill = 2 }
+            20 = { increase_wounds_effect = { REASON = training_accident } }
+        }
+
+        every_knight = {
+            limit = {
+                has_trait = undead_character
+            }
+            random_list = {                
+                50 = { add_prowess_skill = 2 }
+                30 = { add_prowess_skill = 3 }
+                20 = { add_prowess_skill = 4 }
+            }
+        }
+
+        stress_impact = {
+            greedy = medium_stress_impact_gain
+            craven = medium_stress_impact_gain
+            generous = minor_stress_impact_loss
+            brave = minor_stress_impact_loss
+        }
+    }
+
+     # Better not
+    option = {
+        name = ek_ymis_events.0028d
+
+        stress_impact = {
+            ambitious = minor_stress_impact_gain
+        }
+    }
+}
+
+# Necromancy Learning Event
+ek_ymis_events.0029 = {
+	type = character_event
+    content_source = dlc_ek
+	title = ek_ymis_events.0029.t
+	desc = ek_ymis_events.0029.desc
+	
+	theme = learning
+	left_portrait = root
+    right_portrait = scope:undead_courtier
+	
+	trigger = {
+		has_lifestyle = learning_lifestyle
+        has_trait = necromancer
+	}
+
+    cooldown = {
+        years = 50
+    }
+
+    # Seek Knowledge
+    option = {
+        name = ek_ymis_events.0029a 
+        trait = necromancer
+        custom_tooltip = {
+            text = ek_ymis_events.0029a.tt
+        }
+
+        hidden_effect = {        
+            random_list = {
+                10 = { 
+                    send_interface_toast = {
+                        type = event_toast_effect_good
+                        title = ek_ymis_events.0029a.tt.success
+                        left_icon = root
+                        add_martial_lifestyle_xp = major_lifestyle_xp }
+                    }                
+                10 = { 
+                    send_interface_toast = {
+                        type = event_toast_effect_good
+                        title = ek_ymis_events.0029a.tt.success
+                        left_icon = root
+                        add_diplomacy_lifestyle_xp = major_lifestyle_xp }
+                    }     
+                10 = { 
+                    send_interface_toast = {
+                        type = event_toast_effect_good
+                        title = ek_ymis_events.0029a.tt.success
+                        left_icon = root
+                        add_learning_lifestyle_xp = major_lifestyle_xp }
+                    }     
+                10 = { 
+                    send_interface_toast = {
+                        type = event_toast_effect_good
+                        title = ek_ymis_events.0029a.tt.success
+                        left_icon = root
+                        add_intrigue_lifestyle_xp = major_lifestyle_xp }
+                    }     
+                10 = { 
+                    send_interface_toast = {
+                        type = event_toast_effect_good
+                        title = ek_ymis_events.0029a.tt.success
+                        left_icon = root
+                        add_stewardship_lifestyle_xp = major_lifestyle_xp }
+                    }     
+                20 = { 
+                    send_interface_toast = {
+                        type = event_toast_effect_good
+                        title = ek_ymis_events.0029a.tt.failure
+                        left_icon = root
+                        add_character_modifier = {
+                            modifier = haunted_by_lost_souls
+                            years = 5
+                        }
+                    } 
+                }
+            }
+        }
+        stress_impact = {
+            craven = medium_stress_impact_gain
+            ambitious = minor_stress_impact_loss
+        }
+    }
+
+    # Better not
+    option = {
+        name = ek_ymis_events.0029b
+
+        stress_impact = {
+            craven = minor_stress_impact_loss
+            ambitious = medium_stress_impact_gain
+        }
+    }
+}
+
+# Necromancy Diplomacy Event
+ek_ymis_events.0030 = {
+	type = character_event
+    content_source = dlc_ek
+	title = ek_ymis_events.0030.t
+	desc = ek_ymis_events.0030.desc
+	
+	theme = diplomacy
+	left_portrait = root
+    right_portrait = scope:necromancer_contact
+	
+	trigger = {
+		has_lifestyle = diplomacy_lifestyle
+        has_trait = necromancer
+        any_ruler = {
+            has_trait = necromancer
+            is_available_ai = yes
+        }
+	}
+
+    cooldown = {
+        years = 50
+    }
+
+    immediate = {
+        if = {
+            limit = {
+                any_ruler = {
+                    has_trait = necromancer
+                    is_available_ai = yes
+                    NOT = { has_character_modifier = exchanged_necromantic_knowledge }
+                }
+            }
+            random_ruler = {
+                limit = {
+                    has_trait = necromancer
+                    is_available_ai = yes
+                    NOT = { has_character_modifier = exchanged_necromantic_knowledge }
+                }
+                save_scope_as = necromancer_contact
+            }            
+        }
+    }
+
+    # Ask for Exchange of Knowledge
+    option = {
+        trigger = {
+            scope:necromancer_contact = { is_ai = yes }
+        }
+        name = ek_ymis_events.0030a         
+        skill = diplomacy
+
+        duel = {
+            skill = diplomacy
+            value = decent_skill_rating
+            desc = outcome_in_a_few_days
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                }               
+                send_interface_toast = {
+                    type = event_toast_effect_good
+                    title = ek_ymis_events.0030a.tt.success
+                    left_icon = root
+                    right_icon = scope:necromancer_contact
+                    add_character_modifier = {
+                        modifier = exchanged_necromantic_knowledge
+                        years = 10
+                    } 
+                }
+                scope:necromancer_contact = {
+                    add_character_modifier = {
+                        modifier = exchanged_necromantic_knowledge
+                        years = 10
+                    }
+                    set_relation_potential_friend = root
+                    add_opinion = {
+                        modifier = respect_opinion
+                        target = root
+                        opinion = 20
+                    }  
+                }
+            }
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                    multiplier = -1
+                }                    
+                send_interface_toast = {
+                    type =  event_toast_effect_bad
+                    title = ek_ymis_events.0030a.tt.failure
+                    left_icon = root
+                    right_icon = scope:necromancer_contact
+                    scope:necromancer_contact = {
+                        add_opinion = {
+                            modifier = insult_opinion
+                            target = root
+                            opinion = -30
+                        }   
+                    }
+                }
+            }
+        }
+    }
+    option = {
+        trigger = {
+            scope:necromancer_contact = { is_ai = no }
+        }
+        name = ek_ymis_events.0030b 
+        skill = diplomacy
+
+        save_scope_as = necromancer_contact_seeker
+
+        scope:necromancer_contact = {
+            trigger_event = ek_ymis_events.0031
+        }
+    }
+
+
+    # Better not
+    option = {
+        name = ek_ymis_events.0030c
+
+        stress_impact = {
+            shy = minor_stress_impact_loss
+            ambitious = medium_stress_impact_gain
+        }
+    }
+}
+
+# Necromancy Diplomacy Event - the receiving side gets this event
+ek_ymis_events.0031 = {
+	type = letter_event
+    opening = {
+		desc = ek_ymis_events.0031.opening
+	}
+	title = ek_ymis_events.0031.t
+	desc = ek_ymis_events.0031.desc
+	
+	sender = scope:necromancer_contact_seeker
+	
+    # Yes
+    option = {
+        name = ek_ymis_events.0030a        
+        skill = diplomacy
+
+        add_character_modifier = {
+            modifier = exchanged_necromantic_knowledge
+            years = 10
+        } 
+        set_relation_potential_friend = scope:necromancer_contact_seeker
+        
+        scope:necromancer_contact_seeker = {
+            send_interface_toast = {
+                type = event_toast_effect_good
+                title = ek_ymis_events.0030a.tt.success
+                left_icon = scope:necromancer_contact
+                right_icon = scope:necromancer_contact
+                add_character_modifier = {
+                    modifier = exchanged_necromantic_knowledge
+                    years = 10
+                }
+            }
+            add_opinion = {
+                modifier = respect_opinion
+                target = scope:necromancer_contact
+                opinion = 20                     
+            }            
+        }
+    }
+
+    # No
+    option = {
+        name = ek_ymis_events.0030b
+
+        scope:necromancer_contact_seeker = {
+            send_interface_toast = {
+                type =  event_toast_effect_bad
+                title = ek_ymis_events.0030a.tt.failure
+                left_icon = scope:necromancer_contact_seeker
+                right_icon = scope:necromancer_contact
+            }        
+            add_opinion = {
+                modifier = insult_opinion
+                target = scope:necromancer_contact
+                opinion = -30
+            } 
+        }  
+
+        stress_impact = {
+            shy = minor_stress_impact_loss
+            ambitious = medium_stress_impact_gain
+        }
+    }
+}
+
+## Teach your ward necromancy #EK TODO: reimplement with story cycle
+#ek_ymis_events.0032 = {
+#	type = character_event
+#    content_source = dlc_ek
+#	title = ek_ymis_events.0032.t
+#	desc = ek_ymis_events.0032.desc	
+#	theme = necromancy
+#	left_portrait = root
+#    right_portrait = scope:necromancy_ward
+#	
+#	trigger = {
+#        is_necromancer = yes
+#        any_relation = {
+#			type = ward
+#			can_magic_trigger = yes
+#            age <= 12
+#		}
+#	}
+#
+#    cooldown = {
+#        years = 50 
+#    }
+#
+#    immediate = {
+#		save_scope_as = necromancy_tutor #For ward's event
+#		random_relation = {
+#			type = ward
+#			limit = {
+#				can_magic_trigger = yes
+#                age <= 12
+#			}
+#			save_scope_as = necromancy_ward
+#		}
+#	}
+#
+#    # teach openly
+#    option = {
+#        name = ek_ymis_events.0032a
+#        trait = necromancer
+#        custom_tooltip = ek_ymis_events.0032.tt
+#
+#        trigger = {
+#            has_trait = necromancer
+#            faith = {
+#                OR = { 
+#                    has_doctrine = doctrine_necromancy_accepted
+#                    has_doctrine = doctrine_necromancy_shunned
+#                }
+#            }
+#        }
+#
+#        scope:necromancy_ward = {
+#            trigger_event = ek_ymis_events.0033
+#        }
+#    }
+#
+#    # teach secretly
+#    option = {
+#        name = ek_ymis_events.0032b
+#        trait = experimentalist_necromancer
+#        custom_tooltip = ek_ymis_events.0032.tt
+#
+#        trigger = {
+#            has_trait = experimentalist_necromancer
+#            faith = { has_doctrine = doctrine_necromancy_crime }            
+#        }
+#
+#        random_secret = {
+#            limit = { secret_type = secret_necromancer }
+#            reveal_to = scope:necromancy_ward
+#        }
+#
+#        scope:necromancy_ward = {
+#            trigger_event = ek_ymis_events.0034
+#        }
+#    }
+#
+#     # nah
+#    option = {
+#        name = ek_ymis_events.0032c
+#        
+#        add_stress = minor_stress_impact_loss
+#    }
+#}
+#
+## Your guardian wants to teach you necromancy 
+#ek_ymis_events.0033 = {
+#	type = character_event
+#    content_source = dlc_ek
+#	title = ek_ymis_events.0033.t
+#	desc = ek_ymis_events.0033.desc    
+#    theme = necromancy
+#	left_portrait = root
+#    right_portrait = scope:necromancy_tutor
+#
+#    # sounds good
+#    option = {
+#        name = ek_ymis_events.0033a  
+#
+#        scope:necromancy_tutor = { 
+#            add_character_modifier = is_necromancy_tutor
+#            send_interface_toast = {
+#                title = ek_ymis_events_necromancy_tutorship_accepted
+#				left_icon = scope:necromancy_tutor
+#				right_icon = scope:necromancy_ward
+#            }
+#        }
+#        add_character_flag = has_necromancy_tutor
+#        add_character_modifier = learning_necromancy
+#        trigger_event = {
+#			id = ek_ymis_decision_events.0006
+#            days = { 20 40 }
+#		} 
+#
+#        stress_impact = {
+#            ambitious = medium_stress_impact_loss
+#            sadistic = medium_stress_impact_loss
+#            compassionate = medium_stress_impact_gain
+#            lazy = medium_stress_impact_gain
+#        }
+#
+#        ai_chance = { 
+#            base = 10 
+#            modifier = { 
+#                add = 10 
+#                has_trait = sadistic            
+#            }
+#            modifier = { 
+#                add = 10 
+#                has_trait = callous         
+#            }
+#            modifier = { 
+#                add = 10 
+#                has_trait = cynical           
+#            }
+#            modifier = { 
+#                add = 10 
+#                has_trait = ambitious          
+#            }
+#        }        
+#    }
+#
+#    # don't wanna
+#    option = {
+#        name = ek_ymis_events.0033b
+#
+#        scope:necromancy_tutor = { 
+#            send_interface_toast = {
+#                title = ek_ymis_events_necromancy_tutorship_denied
+#				left_icon = root
+#				right_icon = scope:ward
+#            }
+#        }       
+#
+#        stress_impact = {
+#            ambitious = medium_stress_impact_gain
+#            sadistic = medium_stress_impact_gain
+#            compassionate = medium_stress_impact_loss
+#            lazy = medium_stress_impact_loss
+#        }
+#
+#        ai_chance = { 
+#            base = 5
+#            modifier = { 
+#                add = 5
+#                has_trait = compassionate           
+#            }
+#            modifier = { 
+#                add = 5
+#                has_trait = lazy
+#            }
+#        }
+#    }
+#}
+#
+## Your guardian wants to teach you necromancy in secret
+#ek_ymis_events.0034 = {
+#	type = character_event
+#    content_source = dlc_ek
+#	title = ek_ymis_events.0033.t
+#	desc = ek_ymis_events.0034.desc    
+#    theme = necromancy
+#	left_portrait = root
+#    right_portrait = scope:necromancy_tutor 
+#
+#    # sounds good
+#    option = {
+#        name = ek_ymis_events.0033a  
+#
+#        scope:necromancy_tutor = { 
+#                add_character_modifier = is_necromancy_tutor
+#                send_interface_toast = {
+#                title = ek_ymis_events_necromancy_tutorship_accepted 
+#				left_icon = root
+#				right_icon = scope:ward
+#            }
+#        }
+#        add_character_flag = has_necromancy_tutor
+#        add_character_flag = is_learning_secret_necromancy
+#        add_character_modifier = learning_necromancy
+#        trigger_event = {
+#			id = ek_ymis_decision_events.0006
+#            days = { 20 40 }
+#		} 
+#
+#        stress_impact = {
+#            ambitious = medium_stress_impact_loss
+#            sadistic = medium_stress_impact_loss
+#            compassionate = medium_stress_impact_gain
+#            lazy = medium_stress_impact_gain
+#        }
+#
+#        ai_chance = { 
+#            base = 10 
+#            modifier = { 
+#                add = 10 
+#                has_trait = sadistic            
+#            }
+#            modifier = { 
+#                add = 10 
+#                has_trait = callous         
+#            }
+#            modifier = { 
+#                add = 10 
+#                has_trait = cynical           
+#            }
+#            modifier = { 
+#                add = 10 
+#                has_trait = ambitious          
+#            }
+#        }
+#    }
+#
+#    # don't wanna
+#    option = {
+#        name = ek_ymis_events.0033b
+#
+#        scope:necromancy_tutor = { 
+#            send_interface_toast = {
+#                title = ek_ymis_events_necromancy_tutorship_denied
+#				left_icon = root
+#				right_icon = scope:necromancy_ward
+#            }
+#        }         
+#
+#        stress_impact = {
+#            ambitious = medium_stress_impact_gain
+#            sadistic = medium_stress_impact_gain
+#            compassionate = medium_stress_impact_loss
+#            lazy = medium_stress_impact_loss
+#        }
+#
+#        ai_chance = { 
+#            base = 5
+#            modifier = { 
+#                add = 5
+#                has_trait = compassionate           
+#            }
+#            modifier = { 
+#                add = 5
+#                has_trait = lazy
+#            }
+#        }
+#    }
+#}
+
+# Gain a bad nickname cause of your necromancy
+ek_ymis_events.0035 = {
+	type = character_event
+    content_source = dlc_ek
+	title = ek_ymis_events.0035.t
+	desc = ek_ymis_events.0035.desc	
+	theme = necromancy
+	left_portrait = root
+	
+	trigger = {
+        has_trait = necromancer
+        NOR = { 
+            has_necromancy_nickname = yes
+            has_lichdom_nickname = yes
+        }
+        faith = { 
+            OR = {
+                has_doctrine_parameter = necromancy_shunned
+                has_doctrine_parameter = necromancy_criminal
+            }
+        }
+        OR = {
+            nickname_already_given_list_trigger = { NICKNAME = nick_the_defiler }
+            nickname_already_given_list_trigger = { NICKNAME = nick_the_graveprowler }
+            nickname_already_given_list_trigger = { NICKNAME = nick_the_corpse_stealer }
+            nickname_already_given_list_trigger = { NICKNAME = nick_the_crypt_stalker }
+            nickname_already_given_list_trigger = { NICKNAME = nick_the_bone_miser }
+            nickname_already_given_list_trigger = { NICKNAME = nick_the_ghoulish }
+        } 
+	}
+
+    immediate = {
+        hidden_effect = {
+            random_list = {
+                10 = { 
+                    trigger = { nickname_already_given_list_trigger = { NICKNAME = nick_the_defiler } }
+                    ek_give_nickname_effect = { NICKNAME = nick_the_defiler }
+                }
+                10 = { 
+                    trigger = { nickname_already_given_list_trigger = { NICKNAME = nick_the_graveprowler } }
+                    ek_give_nickname_effect = { NICKNAME = nick_the_graveprowler }
+                }
+                10 = { 
+                    trigger = { nickname_already_given_list_trigger = { NICKNAME = nick_the_corpse_stealer } }
+                    ek_give_nickname_effect = { NICKNAME = nick_the_corpse_stealer }
+                }
+                10 = { 
+                    trigger = { nickname_already_given_list_trigger = { NICKNAME = nick_the_crypt_stalker } }
+                    ek_give_nickname_effect = { NICKNAME = nick_the_crypt_stalker }
+                }
+                10 = { 
+                    trigger = { 
+                        nickname_already_given_list_trigger = { NICKNAME = nick_the_bone_miser }
+                        has_trait = greedy
+                    }
+                    ek_give_nickname_effect = { NICKNAME = nick_the_bone_miser }
+                }
+                10 = { 
+                    trigger = { 
+                        nickname_already_given_list_trigger = { NICKNAME = nick_the_ghoulish }
+                        is_undead = yes
+                    }
+                    ek_give_nickname_effect = { NICKNAME = nick_the_ghoulish }
+                }
+            }
+        } 
+        play_music_cue = "mx_cue_negative"
+        save_scope_as = nickname_getter
+    }
+
+    # Bah
+    option = {
+        name = {
+            trigger = {
+				faith = { has_doctrine_parameter = necromancy_shunned }
+            }
+			text = ek_ymis_events.0035.shunned
+        }
+        name = {
+            trigger = {
+				faith = { NOT = { has_doctrine_parameter = necromancy_shunned } }
+            }
+			text = ek_ymis_events.0035.criminal
+        }
+        trait = necromancer
+        custom_tooltip = ek_ymis_events.0035.tt
+
+        if = {
+            limit = { faith = { has_doctrine_parameter = necromancy_shunned } }
+            add_piety = medium_piety_loss
+        }
+        else = {
+            add_piety = major_piety_loss
+        }
+    }
+}
+
+# Gain a good nickname cause of your necromancy
+ek_ymis_events.0036 = {
+	type = character_event
+    content_source = dlc_ek
+	title = ek_ymis_events.0036.t
+	desc = ek_ymis_events.0036.desc	
+	theme = necromancy
+	left_portrait = root
+	
+	trigger = {
+        is_necromancer = yes
+        has_perk = necromancy_novice_perk
+        NOR = { 
+            has_necromancy_nickname = yes
+            has_lichdom_nickname = yes
+        }
+        faith = { has_doctrine_parameter = necromancy_accepted }
+        OR = {
+            nickname_already_given_list_trigger = { NICKNAME = nick_the_bonecaller }
+            nickname_already_given_list_trigger = { NICKNAME = nick_the_soulbinder }
+            nickname_already_given_list_trigger = { NICKNAME = nick_the_dark_summoner }
+        }        
+	}
+
+    # Gain the nickname
+    option = {
+        name = ek_ymis_events.0036a
+        trait = necromancer
+        custom_tooltip = ek_ymis_events.0036.tt
+
+        add_piety = medium_piety_value
+
+        hidden_effect = {
+            random_list = {
+                10 = { 
+                    trigger = { nickname_already_given_list_trigger = { NICKNAME = nick_the_bonecaller } }
+                    ek_give_nickname_effect = { NICKNAME = nick_the_bonecaller }
+                }
+                10 = { 
+                    trigger = { nickname_already_given_list_trigger = { NICKNAME = nick_the_soulbinder } }
+                    ek_give_nickname_effect = { NICKNAME = nick_the_soulbinder }
+                }
+                10 = { 
+                    trigger = { nickname_already_given_list_trigger = { NICKNAME = nick_the_dark_summoner } }
+                    ek_give_nickname_effect = { NICKNAME = nick_the_dark_summoner }
+                }
+            }
+        }  
+    }
+}
+
+# Gain the gravesinger nickname as a reachfolk necromancer
+ek_ymis_events.0037 = {
+	type = character_event
+    content_source = dlc_ek
+	title = ek_ymis_events.0037.t
+	desc = ek_ymis_events.0037.desc	
+	theme = necromancy
+	left_portrait = root
+	
+	trigger = {
+        has_trait = necromancer
+        has_perk = necromancy_master_perk     
+        nickname_already_given_list_trigger = { NICKNAME = nick_the_gravesinger }
+        culture = { 
+            OR = {
+                this = culture:reachfolk
+                any_parent_culture_or_above = {
+				    this = culture:reachfolk
+			    }
+            }
+        }
+	}
+
+    # Gain the nickname
+    option = {
+        name = ek_ymis_events.0037a
+        trait = necromancer
+        add_prestige = major_prestige_value
+        ek_give_nickname_effect = { NICKNAME = nick_the_gravesinger }
+    } 
+}
+
+# Gain a nice nickname cause of your long unlife
+ek_ymis_events.0038 = {
+	type = character_event
+    content_source = dlc_ek
+	title = ek_ymis_events.0038.t
+	desc = ek_ymis_events.0038.desc	
+	theme = necromancy
+	left_portrait = root
+	
+	trigger = {
+        has_trait = lich_character
+        age >= 250
+        has_lichdom_nickname = no
+        OR = {
+            nickname_already_given_list_trigger = { NICKNAME = nick_the_ancient }
+            nickname_already_given_list_trigger = { NICKNAME = nick_the_eternal }
+            nickname_already_given_list_trigger = { NICKNAME = nick_the_unliving }
+        }
+	}
+
+    # Gain the nickname
+    option = {
+        name = ek_ymis_events.0038a
+        trait = lich_character
+        custom_tooltip = ek_ymis_events.0038.tt
+
+        trigger = {
+            faith = { 
+                NOT = { has_doctrine_parameter = necromancy_accepted }
+            }
+        }
+
+        hidden_effect = {
+            random_list = {
+                10 = { 
+                    trigger = { nickname_already_given_list_trigger = { NICKNAME = nick_the_ancient } }
+                    ek_give_nickname_effect = { NICKNAME = nick_the_ancient }
+                }
+                10 = { 
+                    trigger = { nickname_already_given_list_trigger = { NICKNAME = nick_the_eternal } }
+                    ek_give_nickname_effect = { NICKNAME = nick_the_eternal }
+                }
+                10 = { 
+                    trigger = { nickname_already_given_list_trigger = { NICKNAME = nick_the_unliving } }
+                    ek_give_nickname_effect = { NICKNAME = nick_the_unliving }
+                }
+            }
+        } 
+    }
+
+    # Gain the nickname (lauded)
+    option = {
+        name = ek_ymis_events.0038b
+        trait = lich_character
+        custom_tooltip = ek_ymis_events.0038.tt
+
+        trigger = {
+            faith = { 
+                has_doctrine_parameter = necromancy_accepted
+            }
+        }
+
+        add_piety = major_piety_gain
+
+        hidden_effect = {
+            random_list = {
+                10 = { 
+                    trigger = { nickname_already_given_list_trigger = { NICKNAME = nick_the_ancient } }
+                    ek_give_nickname_effect = { NICKNAME = nick_the_ancient }
+                }
+                10 = { 
+                    trigger = { nickname_already_given_list_trigger = { NICKNAME = nick_the_eternal } }
+                    ek_give_nickname_effect = { NICKNAME = nick_the_eternal }
+                }
+                10 = { 
+                    trigger = { nickname_already_given_list_trigger = { NICKNAME = nick_the_unliving } }
+                    ek_give_nickname_effect = { NICKNAME = nick_the_unliving }
+                }
+            }
+        }
+    }
+}
+
+# Necromancy: A peasant wants final rest for their ancestor
+ek_ymis_events.0039 = { 
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0039.t
+    desc = ek_ymis_events.0039.desc   
+    theme = realm
+    override_icon = { reference = "gfx/interface/icons/event_types/type_illness.dds" }
+    left_portrait = {
+        character = scope:peasant
+        animation = beg
+    }
+    right_portrait = root
+    lower_center_portrait = scope:old_ancestor
+
+    cooldown = { years = 100 }
+
+    trigger = {
+        has_perk = necromancy_medium_rituals_perk
+        has_magicka = { VALUE >= claim_corpse_petty_cost }
+        any_courtier = {
+            has_character_flag = summoned_undead
+        }
+    }
+
+    immediate = {       
+        # Create Peasant
+        create_character = {
+            location = root.capital_province
+            template = generic_peasant_character
+            save_scope_as = peasant
+        }
+        # Choose Ancestor
+        if = {
+            random_courtier = {
+                limit = {
+                    has_character_flag = summoned_undead
+                }
+                save_scope_as = old_ancestor
+            }
+        }        
+    }
+
+    # Release the ancestor from your service
+    option = { 
+        name = ek_ymis_events.0039a
+        scope:old_ancestor = {
+            death = {
+                death_reason = death_crumbled_dust
+            }
+        }
+        scope:peasant = {
+			add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 30
+			}
+        }
+        capital_county = {
+			add_county_modifier = {
+				modifier = soldiers_funeral
+				years = 10
+			}
+		}
+        stress_impact = {
+            generous = minor_stress_impact_loss
+            compassionate = minor_stress_impact_loss
+            callous = minor_stress_impact_gain
+            arbitrary = minor_stress_impact_gain
+        }   
+    }
+
+    # Deny the request
+    option = { 
+        name = ek_ymis_events.0039b
+
+        scope:peasant = {
+			add_opinion = {
+				target = root
+				modifier = angry_opinion
+				opinion = -30
+			}
+        }
+
+        stress_impact = {
+            generous = minor_stress_impact_gain
+            compassionate = minor_stress_impact_gain
+            callous = minor_stress_impact_loss
+            arbitrary = minor_stress_impact_loss
+        }   
+    }
+
+    # Kill the peasant and turn them undead too
+    option = { 
+        name = ek_ymis_events.0039c
+        reason = necromancy
+        custom_tooltip = ek_ymis_events.0039c.tt
+
+        trigger = {
+            has_perk = necromancy_journeyman_perk
+            has_magicka_more_than = { VALUE = claim_corpse_petty_cost }
+        }
+
+        show_as_unavailable = { has_magicka_less_than = { VALUE = claim_corpse_petty_cost } }
+
+        scope:peasant = {
+            death = {
+                death_reason = death_execution_thralldom
+                killer = root
+            }
+            create_undead_thrall_effect = { MASTER = root THRALL = scope:peasant }         
+        }
+
+        add_magicka = { VALUE = claim_corpse_petty_cost.negate }
+
+        stress_impact = {
+            sadistic = major_stress_impact_loss
+            generous = medium_stress_impact_gain
+            compassionate = major_stress_impact_gain
+        }
+    }
+}
+
+# Necromancy: create a bone colossus
+ek_ymis_events.0040 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_ymis_events.0040.t
+	desc = ek_ymis_events.0040.desc
+	theme = necromancy
+
+	left_portrait = {
+		character = root
+		animation = personality_cynical
+	}
+
+	right_portrait = {
+		character = scope:sacrifice
+		animation = prisondungeon
+	}
+
+    cooldown = { years = 10 }
+
+	trigger = {
+		has_prisoners = yes
+		any_prisoner = {
+			NOT= { has_character_flag = is_being_tortured }
+			is_adult = yes
+		}
+		has_perk = necromancy_expert_perk
+	}
+
+	immediate = {
+		random_prisoner = {
+			limit = {
+				NOT = { has_character_flag = is_being_tortured }
+				is_adult = yes
+			}
+			save_scope_as = sacrifice
+		}
+	}
+
+	option = {
+		name = ek_ymis_events.0040.a
+		trait = necromancer
+
+		custom_tooltip = {
+			text = ek_ymis_events.0040.a.tt 
+		}
+
+		random_list = {
+			# success
+			25 = {
+                trigger = {
+					scope:sacrifice = {
+						OR = {
+							arcana >= high_skill_rating
+							prowess >= high_skill_rating
+						}
+					}
+				}
+				modifier = {
+					add = arcana
+				}
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = ek_ymis_events.0040.a.great_success
+					left_icon = root
+					right_icon = scope:sacrifice
+					spawn_army = {
+						men_at_arms = {
+							type = bone_colossus
+							stacks = 1
+						}
+						inheritable = no
+						location = capital_province
+						uses_supply = no 
+						name = "bone_colossus"
+					}
+					scope:sacrifice = {
+						death = { 
+							death_reason = death_became_bone_colossus
+							killer = root
+						}
+					}
+				}				
+			}
+			# failure
+			25 = {
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = ek_ymis_events.0040.a.failure
+					left_icon = root
+					right_icon = scope:sacrifice
+					scope:sacrifice = {
+						death = { 
+							death_reason = death_failed_experiment
+							killer = root
+						}
+					}
+				}				
+			}
+		}
+		
+        stress_impact = {
+            compassionate = major_stress_impact_gain
+            sadistic = medium_stress_impact_loss
+            callous = medium_stress_impact_loss            
+        }
+	}
+
+    option = {
+		name = ek_ymis_events.0040.b
+
+		stress_impact = {
+            sadistic = medium_stress_impact_gain
+            callous = medium_stress_impact_gain                       
+        }
+	}
+}
+
+# Court mage keeps transmuted gold for themselves. 
+ek_ymis_events.0050 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0050.t
+    desc = ek_ymis_events.0050.desc   
+    theme = stewardship
+    left_portrait = {
+        character = court_position:court_mage_court_position
+        animation = personality_dishonorable 
+    }
+
+    immediate = {
+        court_position:court_mage_court_position = {
+            save_scope_as = court_mage
+        }
+
+        hidden_effect = {
+            scope:court_mage = {
+                add_gold = 100
+            }
+        }       
+    }
+
+    # Accept the 10 gold
+    option = { 
+        name = ek_ymis_events.0050a
+
+        scope:court_mage = {
+            pay_short_term_gold = {
+                target = root
+				gold = 10
+			}
+            add_opinion = {
+				target = root
+				modifier = grateful_opinion
+				opinion = 5
+			}
+        }
+
+        stress_impact = {
+            greedy = medium_stress_impact_gain
+            paranoid = minor_stress_impact_gain
+            trusting = minor_stress_impact_loss
+        }   
+    }
+
+    # Uncover their lies
+    option = { 
+        name = ek_ymis_events.0050b
+        skill = intrigue
+
+        trigger = {
+            intrigue >= high_skill_rating
+        }
+
+        duel = {
+            skill = intrigue
+            value = decent_skill_rating
+            desc = outcome_in_a_few_days
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                }
+                desc = ek_ymis_events.0050b.success
+                trigger_event = ek_ymis_events.0051
+                custom_tooltip = {
+                    text = ek_ymis_events.0050b.tt
+                }
+            }
+            20 = {      
+                compare_modifier = {
+                    value = scope:duel_value
+                    multiplier = -1
+                }
+                desc = ek_ymis_events.0050b.failure
+                send_interface_toast = {
+                    type =  event_toast_effect_bad
+                    title = ek_ymis_events.00050b.tt_failure
+                    left_icon = root
+                    scope:court_mage = {
+                        pay_short_term_gold = {
+                            target = root
+                            gold = 10
+                        }
+                    }
+                }
+            }
+        }
+
+        stress_impact = {
+            greedy = medium_stress_impact_loss
+            paranoid = minor_stress_impact_loss
+            trusting = medium_stress_impact_gain
+        } 
+    }
+    
+    # Take the gold by force
+    option = { 
+        name = ek_ymis_events.0050c
+
+        scope:court_mage = {
+            pay_short_term_gold = {
+                target = root
+                gold = 100
+            }
+			add_opinion = {
+				target = root
+				modifier = cruelty_opinion
+				opinion = -20
+			}
+		}
+
+        add_tyranny = minor_tyranny_gain
+        add_dread = minor_dread_gain
+
+        stress_impact = {
+            wrathful = medium_stress_impact_loss
+            sadistic = minor_stress_impact_loss
+            greedy = medium_stress_impact_loss
+            compassionate = medium_stress_impact_gain
+        }
+    }
+
+    # Fire them!
+    option = { 
+        name = ek_ymis_events.0050d
+
+        revoke_court_position = {
+			recipient = scope:court_mage
+			court_position = court_mage_court_position
+		}
+
+        scope:court_mage = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -20
+			}
+            move_to_pool = yes
+		}
+
+        stress_impact = {
+            wrathful = medium_stress_impact_loss
+            greedy = minor_stress_impact_gain
+            compassionate = minor_stress_impact_gain
+        }
+    }
+}
+
+# Court Mage is caught lying
+ek_ymis_events.0051 = {
+    type = character_event
+    content_source = dlc_ek
+    title = ek_ymis_events.0051.t
+    desc = ek_ymis_events.0051.desc   
+    theme = stewardship
+    left_portrait = {
+        character = court_position:court_mage_court_position
+        animation = shame
+    }
+
+    immediate = {
+        scope:court_mage = {
+            pay_short_term_gold = {
+                target = root
+				gold = 100
+			}
+        }
+    }
+
+    # Grant a second chance
+    option = { 
+        name = ek_ymis_events.0051a
+        
+        add_hook = {
+       	    target = scope:court_mage
+		    type = favor_hook
+        }
+
+        stress_impact = {
+            trusting = medium_stress_impact_loss
+            compassionate = minor_stress_impact_loss
+        }   
+    }
+    
+    # Fire them! You have a good reason this time.
+    option = { 
+        name = ek_ymis_events.0051b
+
+        revoke_court_position = {
+			recipient = scope:court_mage
+			court_position = court_mage_court_position
+		}
+
+        scope:court_mage = {
+			add_opinion = {
+				target = root
+				modifier = disappointed_opinion
+				opinion = -5
+			}
+            move_to_pool = yes
+		}
+
+        stress_impact = {
+            wrathful = medium_stress_impact_loss
+            vengeful = medium_stress_impact_loss
+            compassionate = minor_stress_impact_gain
+        }
+    }
+    
+    # Jail them
+    option = { 
+        name = ek_ymis_events.0051c
+
+        imprison = {
+			target = scope:court_mage
+			type = dungeon
+		}
+        scope:court_mage = {
+			add_opinion = {
+				target = root
+				modifier = cruelty_opinion
+				opinion = -30
+			}
+		}
+
+        stress_impact = {
+            wrathful = medium_stress_impact_loss
+            sadistic = medium_stress_impact_loss
+            vengeful = medium_stress_impact_loss
+            compassionate = medium_stress_impact_gain
+        }
+    }
+}

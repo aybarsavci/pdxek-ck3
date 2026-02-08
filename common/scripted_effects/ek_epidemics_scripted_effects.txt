@@ -1,0 +1,606 @@
+﻿#Scripted effects to be called in 00_epidemics.txt on_actions
+
+# If you call it, run a title_province = { geographical_region = mundus_tamriel_black_marsh } limit before
+ek_knahaten_black_marsh_aftereffects = {
+	scope:epidemic = { save_scope_as = epidemic }
+
+	# Post-Knahaten Culture Swap Effects
+	# To model the historic Knahaten Flu, any non-argonian county within Black Marsh may be converted to Argonian once the plague has left the county. Which Argonian culture & faith the county will adopt is determined by neighboring counties or approximated by geographic region.
+	# For the player/ai to react, we will fire 3 events:
+	# 1. If a non-argonian county you hold was converted
+	# 2. If all non-argonian counties you hold were converted
+	# 3. If all non-argonian counties of that culture are gone, the remaining strongest ruler of that culture will get revival options
+	# All this will be skipped, if the player chose to disable culture swaps via ek_knahaten_black_marsh_deadliness game rule
+	if = {
+		limit = {
+			NOT = { has_game_rule = ek_knahaten_bm_deadly_no_swap } #We skip this entire effect, if no county culture swap is allowed
+			scope:epidemic ?= { #Check if this was the main knahaten outbreak
+				outbreak_intensity = apocalyptic
+				epidemic_type.epidemic_trait = trait:bubonic_plague
+			}
+			NOT = { #County should be epidemic free now
+				any_county_province = {
+					NOT = { this = root }
+					any_province_epidemic = {
+						this = scope:epidemic
+					}
+				}
+			}
+			NOR = { 
+				culture = { has_cultural_tradition = tradition_histskin } #The province isn't primarily Argonian
+				culture = { has_cultural_pillar = heritage_dremora } # or Dremora
+			}
+			development_level <= 2 #And development is very low
+		}
+
+		# First, we save culture / faith of the county to be converted
+		culture = { save_scope_as = newly_argonian_county_former_culture }
+		faith = { save_scope_as = newly_argonian_county_former_faith }
+
+
+		if = { # Here, we convert the county's culture to Argonian
+			limit = { #IF the no_extinction game rule isn't active OR if the no_exinction game rule is active, but there are still other counties of that culture
+				OR = {
+					NOT = { has_game_rule = ek_knahaten_bm_deadly_no_extinction }
+					AND = {
+						has_game_rule = ek_knahaten_bm_deadly_no_extinction
+						any_county_in_region = {
+							region = mundus_tamriel
+							count > 1
+							culture = scope:newly_argonian_county_former_culture
+						}
+					}
+				}	
+			}
+			random_list = {
+				75 = { #75% chance, that the county gets swapped to Argonians
+					modifier = { #Unless the historical Knahaten is happening, then it's much higher
+						factor = 12
+						has_game_rule = bd_occurrence_historical
+					}
+					modifier = { #If the province had a very low epidemic resistance, the chance is lowered
+						factor = 1.2
+						root = { epidemic_resistance < 15 }
+					}
+
+					# First, we save culture / faith of the county to be converted
+					culture = { save_scope_as = newly_argonian_county_former_culture }
+					faith = { save_scope_as = newly_argonian_county_former_faith }
+					
+					# Then, we check if there's a neighboring argonian county
+					random_neighboring_county = {
+						limit = {
+							culture = { has_cultural_tradition = tradition_histskin }
+						}
+						save_scope_as = neighboring_argonian_county
+					}
+					if = { #If a suitable neighboring argonian culture exists, we use this
+						limit = {
+							exists = scope:neighboring_argonian_county
+						}
+						set_county_culture = scope:neighboring_argonian_county.culture
+						set_county_faith = scope:neighboring_argonian_county.faith
+						if = { #If you're an argonian too, your relative control of the county would be higher
+							limit = {
+								holder.culture = { has_cultural_tradition = tradition_histskin }
+							}
+							change_county_control = 50
+						}
+						else = { change_county_control = 25 }
+						save_scope_as = newly_argonian_county
+					}
+					else = { #Else, we approximate by geographic region
+						random_list = {
+							80 = { #80% chance that the county gets a regional argonian culture
+								modifier = { #Unless the historical Knahaten is happening, then it's much higher
+									factor = 8
+									has_game_rule = bd_occurrence_historical
+								}
+								modifier = { #If the province had a very low epidemic resistance, the chance is lowered
+									factor = 1.2
+									root = { epidemic_resistance < 15 }
+								}
+								if = {
+									limit = { title_province = { geographical_region = custom_nativity_middle_argonia } }
+									random_culture_global = {
+										limit = {
+											has_innovation = innovation_native_middle_argonia #native to the region
+											has_cultural_tradition = tradition_histskin #and argonian
+										}
+										save_scope_as = native_culture
+									}
+									set_county_culture = scope:native_culture
+								}
+								else_if = {
+									limit = { title_province = { geographical_region = custom_nativity_onkobra } }
+									random_culture_global = {
+										limit = {
+											has_innovation = innovation_native_onkobra #native to the region
+											has_cultural_tradition = tradition_histskin #and argonian
+										}
+										save_scope_as = native_culture
+									}
+									set_county_culture = scope:native_culture
+								}
+								else_if = {
+									limit = { title_province = { geographical_region = custom_nativity_black_bays } }
+									random_culture_global = {
+										limit = {
+											has_innovation = innovation_native_black_bays #native to the region
+											has_cultural_tradition = tradition_histskin #and argonian
+										}
+										save_scope_as = native_culture
+									}
+									set_county_culture = scope:native_culture
+								}
+								else_if = {
+									limit = { title_province = { geographical_region = custom_nativity_padomaic_marshes } }
+									random_culture_global = {
+										limit = {
+											has_innovation = innovation_native_padomaic_marshes #native to the region
+											has_cultural_tradition = tradition_histskin #and argonian
+										}
+										save_scope_as = native_culture
+									}
+									set_county_culture = scope:native_culture
+								}
+								else = { #If we really don't have any native argonian culture, hleel will do
+									set_county_culture = culture:hleel
+								}
+								set_county_faith = faith:hist #Independent of argonian culture, all will follow Hist
+								if = { #If you're an argonian too, your relative control of the county would be higher
+									limit = {
+										holder.culture = { has_cultural_tradition = tradition_histskin }
+									}
+									change_county_control = 50
+								}
+								else = { change_county_control = 25 }
+								save_scope_as = newly_argonian_county
+							}
+							20 = { #20% chance that the county stays its culture
+								modifier = { #If the province had a high epidemic resistance, the chance is lowered
+									factor = 1.5
+									root = { epidemic_resistance > 50 }
+								}
+							}
+						}
+					}
+				}
+				35 = { #35% chance that nothing happens
+					modifier = { #If the province had a high epidemic resistance, the chance is lowered
+						factor = 1.5
+						root = { epidemic_resistance > 50 }
+					}
+				}
+			}
+		}
+		
+		# And now, IF the county was converted, we start doing some events, to inform the player and offer responses
+		if = {
+			limit = {
+				exists = scope:newly_argonian_county
+			}
+			holder = { trigger_event = { id = ek_knahaten_events_bm.0001 }} #General event, handles argonian, former culture and non-argonian reactions
+		}
+		else = { #County wasn't converted, we could do some events here to
+			if = {
+				limit = { #If this is the last county of the culture in black marsh...
+					any_county_in_region = {
+						region = mundus_tamriel_black_marsh
+						count = 1
+						culture = scope:newly_argonian_county_former_culture
+					}
+				}
+				#...survivors might flood the county
+				add_county_modifier = { #+ popular opinion, development growth - epidemic resistance
+					modifier = recent_knahaten_survivors
+					years = 10
+				}
+			}
+		}
+		# We save the former culture on the county
+		if = {
+			limit = { exists = scope:newly_argonian_county }
+			if = {
+				limit = { NOT = { scope:newly_argonian_county = { has_variable = former_culture }}}
+				set_variable = { 
+					name = former_culture
+					value = scope:newly_argonian_county_former_culture
+				}
+			}
+		}
+	}
+}
+
+#Handles the firing of "{Province} ravaged by the Knahaten Flu" broadcasts.
+#Inspired by EK1 events, imported EK1 loc.
+ek_knahaten_global_broadcasts = {
+	scope:epidemic = { save_scope_as = epidemic }
+	if = {
+		limit = {
+			any_province_epidemic = {
+				this = global_var:black_death
+				outbreak_intensity = apocalyptic
+			}
+		}
+		#Infection Counters
+		if = { #Black Marsh
+			limit = { geographical_region = mundus_tamriel_black_marsh }
+			if = {
+				limit = { NOT = { exists = global_var:ek_knahaten_black_marsh_provinces_infected }}
+				set_global_variable = {
+					name = ek_knahaten_black_marsh_provinces_infected
+					value = 1
+				}
+			}
+			else = {
+				change_global_variable = {
+					name = ek_knahaten_black_marsh_provinces_infected
+					add = 1
+				}
+			}
+		}
+		if = { #Elsweyr
+			limit = { geographical_region = mundus_tamriel_elsweyr }
+			if = {
+				limit = { NOT = { exists = global_var:ek_knahaten_elsweyr_provinces_infected }}
+				set_global_variable = {
+					name = ek_knahaten_elsweyr_provinces_infected
+					value = 1
+				}
+			}
+			else = {
+				change_global_variable = {
+					name = ek_knahaten_elsweyr_provinces_infected
+					add = 1
+				}
+			}
+		}
+		if = { #Morrowind
+			limit = { geographical_region = mundus_tamriel_morrowind }
+			if = {
+				limit = { NOT = { exists = global_var:ek_knahaten_morrowind_provinces_infected }}
+				set_global_variable = {
+					name = ek_knahaten_morrowind_provinces_infected
+					value = 1
+				}
+			}
+			else = {
+				change_global_variable = {
+					name = ek_knahaten_morrowind_provinces_infected
+					add = 1
+				}
+			}
+		}
+		if = { #Cyrodiil
+			limit = { geographical_region = mundus_tamriel_cyrodiil }
+			if = {
+				limit = { NOT = { exists = global_var:ek_knahaten_cyrodiil_provinces_infected }}
+				set_global_variable = {
+					name = ek_knahaten_cyrodiil_provinces_infected
+					value = 1
+				}
+			}
+			else = {
+				change_global_variable = {
+					name = ek_knahaten_cyrodiil_provinces_infected
+					add = 1
+				}
+			}
+		}
+		if = { #Skyrim
+			limit = { geographical_region = mundus_tamriel_skyrim }
+			if = {
+				limit = { NOT = { exists = global_var:ek_knahaten_skyrim_provinces_infected }}
+				set_global_variable = {
+					name = ek_knahaten_skyrim_provinces_infected
+					value = 1
+				}
+			}
+			else = {
+				change_global_variable = {
+					name = ek_knahaten_skyrim_provinces_infected
+					add = 1
+				}
+			}
+		}
+		if = { #High Rock
+			limit = { geographical_region = mundus_tamriel_high_rock }
+			if = {
+				limit = { NOT = { exists = global_var:ek_knahaten_high_rock_provinces_infected }}
+				set_global_variable = {
+					name = ek_knahaten_high_rock_provinces_infected
+					value = 1
+				}
+			}
+			else = {
+				change_global_variable = {
+					name = ek_knahaten_high_rock_provinces_infected
+					add = 1
+				}
+			}
+		}
+		if = { #Hammerfell
+			limit = { geographical_region = mundus_tamriel_hammerfell }
+			if = {
+				limit = { NOT = { exists = global_var:ek_knahaten_hammerfell_provinces_infected }}
+				set_global_variable = {
+					name = ek_knahaten_hammerfell_provinces_infected
+					value = 1
+				}
+			}
+			else = {
+				change_global_variable = {
+					name = ek_knahaten_hammerfell_provinces_infected
+					add = 1
+				}
+			}
+		}
+		if = { #Valenwood
+			limit = { geographical_region = mundus_tamriel_valenwood }
+			if = {
+				limit = { NOT = { exists = global_var:ek_knahaten_valenwood_provinces_infected }}
+				set_global_variable = {
+					name = ek_knahaten_valenwood_provinces_infected
+					value = 1
+				}
+			}
+			else = {
+				change_global_variable = {
+					name = ek_knahaten_valenwood_provinces_infected
+					add = 1
+				}
+			}
+		}
+		if = { #Summerset Isles
+			limit = { geographical_region = mundus_tamriel_summerset_isles }
+			if = {
+				limit = { NOT = { exists = global_var:ek_knahaten_summerset_isles_provinces_infected }}
+				set_global_variable = {
+					name = ek_knahaten_summerset_isles_provinces_infected
+					value = 1
+				}
+			}
+			else = {
+				change_global_variable = {
+					name = ek_knahaten_summerset_isles_provinces_infected
+					add = 1
+				}
+			}
+		}
+		if = { #Yokuda
+			limit = { geographical_region = mundus_tamriel_yokuda }
+			if = {
+				limit = { NOT = { exists = global_var:ek_knahaten_yokuda_provinces_infected }}
+				set_global_variable = {
+					name = ek_knahaten_yokuda_provinces_infected
+					value = 1
+				}
+			}
+			else = {
+				change_global_variable = {
+					name = ek_knahaten_yokuda_provinces_infected
+					add = 1
+				}
+			}
+		}
+
+		#Broadcasts
+		#Black Marsh
+		if = {
+			limit = { NOT = { exists = global_var:ek_knahaten_broadcasted_black_marsh } } #Wasn't broadcasted yet
+			if = {
+				limit = {
+					global_var:ek_knahaten_black_marsh_provinces_infected >= 235 # roughly 1/2 of the region (~471)
+				}
+				every_player = {
+					limit = { NOT = { capital_province = { geographical_region = mundus_tamriel_black_marsh } } } #and you're not in Black Marsh
+					trigger_event = { id = ek_knahaten_events_global.0001 days = { 10 15 }}
+				}
+				set_global_variable = {
+					name = ek_knahaten_broadcasted_black_marsh
+					value = yes
+				}
+			}
+		}
+		#Elsweyr
+		if = {
+			limit = {
+				NOT = { exists = global_var:ek_knahaten_broadcasted_elsweyr } #Wasn't broadcasted yet
+				exists = global_var:ek_knahaten_elsweyr_provinces_infected #error suppression, should exists to compare var
+			} 
+			if = {
+				limit = {
+					global_var:ek_knahaten_elsweyr_provinces_infected >= 260 # roughly 3/4 of the region (~356)
+				}
+				every_player = {
+					limit = { NOT = { capital_province = { geographical_region = mundus_tamriel_elsweyr } } } #and you're not in Black Marsh
+					trigger_event = { id = ek_knahaten_events_global.0002 days = { 10 15 }}
+				}
+				set_global_variable = {
+					name = ek_knahaten_broadcasted_elsweyr
+					value = yes
+				}
+			}
+		}
+		#Morrowind
+		if = {
+			limit = {
+				NOT = { exists = global_var:ek_knahaten_broadcasted_morrowind } #Wasn't broadcasted yet
+				exists = global_var:ek_knahaten_morrowind_provinces_infected #error suppression, should exists to compare var
+			}
+			if = {
+				limit = {
+					global_var:ek_knahaten_morrowind_provinces_infected >= 645 # roughly 3/4 of the region (~865)
+				}
+				every_player = {
+					limit = { NOT = { capital_province = { geographical_region = mundus_tamriel_morrowind } } } #and you're not in Black Marsh
+					trigger_event = { id = ek_knahaten_events_global.0003 days = { 10 15 }}
+				}
+				set_global_variable = {
+					name = ek_knahaten_broadcasted_morrowind
+					value = yes
+				}
+			}
+		}
+		#Cyrodiil
+		if = {
+			limit = {
+				NOT = { exists = global_var:ek_knahaten_broadcasted_cyrodiil } #Wasn't broadcasted yet
+				exists = global_var:ek_knahaten_cyrodiil_provinces_infected #error suppression, should exists to compare var
+			}
+			if = {
+				limit = {
+					global_var:ek_knahaten_cyrodiil_provinces_infected >= 580 # roughly 3/4 of the region (~783)
+				}
+				every_player = {
+					limit = { NOT = { capital_province = { geographical_region = mundus_tamriel_cyrodiil } } } #and you're not in Black Marsh
+					trigger_event = { id = ek_knahaten_events_global.0004 days = { 10 15 }}
+				}
+				set_global_variable = {
+					name = ek_knahaten_broadcasted_cyrodiil
+					value = yes
+				}
+			}
+		}
+		#Skyrim
+		if = {
+			limit = {
+				NOT = { exists = global_var:ek_knahaten_broadcasted_skyrim } #Wasn't broadcasted yet
+				exists = global_var:ek_knahaten_skyrim_provinces_infected #error suppression, should exists to compare var
+			}
+			if = {
+				limit = {
+					global_var:ek_knahaten_skyrim_provinces_infected >= 450 # roughly 3/4 of the region (~601)
+				}
+				every_player = {
+					limit = { NOT = { capital_province = { geographical_region = mundus_tamriel_skyrim } } } #and you're not in Black Marsh
+					trigger_event = { id = ek_knahaten_events_global.0005 days = { 10 15 }}
+				}
+				set_global_variable = {
+					name = ek_knahaten_broadcasted_skyrim
+					value = yes
+				}
+			}
+		}
+		#High Rock
+		if = {
+			limit = {
+				NOT = { exists = global_var:ek_knahaten_broadcasted_high_rock } #Wasn't broadcasted yet
+				exists = global_var:ek_knahaten_high_rock_provinces_infected #error suppression, should exists to compare var
+			}
+			if = {
+				limit = {
+					global_var:ek_knahaten_high_rock_provinces_infected >= 261 # roughly 3/4 of the region (~349)
+				}
+				every_player = {
+					limit = { NOT = { capital_province = { geographical_region = mundus_tamriel_high_rock } } } #and you're not in Black Marsh
+					trigger_event = { id = ek_knahaten_events_global.0006 days = { 10 15 }}
+				}
+				set_global_variable = {
+					name = ek_knahaten_broadcasted_high_rock
+					value = yes
+				}
+			}
+		}
+		#Hammerfell
+		if = {
+			limit = {
+				NOT = { exists = global_var:ek_knahaten_broadcasted_hammerfell } #Wasn't broadcasted yet
+				exists = global_var:ek_knahaten_hammerfell_provinces_infected #error suppression, should exists to compare var
+			}
+			if = {
+				limit = {
+					global_var:ek_knahaten_hammerfell_provinces_infected >= 315 # roughly 3/4 of the region (~421)
+				}
+				every_player = {
+					limit = { NOT = { capital_province = { geographical_region = mundus_tamriel_hammerfell } } } #and you're not in Black Marsh
+					trigger_event = { id = ek_knahaten_events_global.0007 days = { 10 15 }}
+				}
+				set_global_variable = {
+					name = ek_knahaten_broadcasted_hammerfell
+					value = yes
+				}
+			}
+		}
+		#Valenwood
+		if = {
+			limit = {
+				NOT = { exists = global_var:ek_knahaten_broadcasted_valenwood } #Wasn't broadcasted yet
+				exists = global_var:ek_knahaten_valenwood_provinces_infected #error suppression, should exists to compare var
+			}
+			if = {
+				limit = {
+					global_var:ek_knahaten_valenwood_provinces_infected >= 235 # roughly 3/4 of the region (~318)
+				}
+				every_player = {
+					limit = { NOT = { capital_province = { geographical_region = mundus_tamriel_valenwood } } } #and you're not in Black Marsh
+					trigger_event = { id = ek_knahaten_events_global.0008 days = { 10 15 }}
+				}
+				set_global_variable = {
+					name = ek_knahaten_broadcasted_valenwood
+					value = yes
+				}
+			}
+		}
+		#Summerset Isles
+		if = {
+			limit = {
+				NOT = { exists = global_var:ek_knahaten_broadcasted_summerset_isles } #Wasn't broadcasted yet
+				exists = global_var:ek_knahaten_summerset_isles_provinces_infected #error suppression, should exists to compare var
+			}
+			if = {
+				limit = {
+					global_var:ek_knahaten_summerset_isles_provinces_infected >= 280 # roughly 3/4 of the region (~378)
+				}
+				every_player = {
+					limit = { NOT = { capital_province = { geographical_region = mundus_tamriel_summerset_isles } } } #and you're not in Black Marsh
+					trigger_event = { id = ek_knahaten_events_global.0009 days = { 10 15 }}
+				}
+				set_global_variable = {
+					name = ek_knahaten_broadcasted_summerset_isles
+					value = yes
+				}
+			}
+		}
+		#Yokuda
+		if = {
+			limit = {
+				NOT = { exists = global_var:ek_knahaten_broadcasted_yokuda } #Wasn't broadcasted yet
+				exists = global_var:ek_knahaten_yokuda_provinces_infected #error suppression, should exists to compare var
+			}
+			if = {
+				limit = {
+					global_var:ek_knahaten_yokuda_provinces_infected >= 90 # roughly 3/4 of the region (~120)
+				}
+				every_player = {
+					limit = { NOT = { capital_province = { geographical_region = mundus_tamriel_yokuda } } } #and you're not in Black Marsh
+					trigger_event = { id = ek_knahaten_events_global.0010 days = { 10 15 }}
+				}
+				set_global_variable = {
+					name = ek_knahaten_broadcasted_yokuda
+					value = yes
+				}
+			}
+		}
+	}
+}
+
+#This removes a vanilla modifier some counties can have. Vanilla forgets to lift quarantines after an epidemic leaves the area.
+ek_lift_quarantine_for_recovered = {
+	scope:epidemic = { save_scope_as = epidemic }
+	if = {
+		limit = {
+			NOT = { #County should be epidemic free now
+				any_county_province = {
+					NOT = { this = root }
+					any_province_epidemic = {
+						this = scope:epidemic
+					}
+				}
+			}
+			has_county_modifier = ce1_major_quarantine_county
+		}
+		remove_county_modifier = ce1_major_quarantine_county
+	}
+}

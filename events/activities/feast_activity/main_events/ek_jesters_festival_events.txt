@@ -1,0 +1,455 @@
+﻿namespace = ek_jesters_festival
+
+
+ek_jesters_festival.2001 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_jesters_festival.2001.t
+	desc = ek_jesters_festival.2001.desc
+	theme = feast_activity
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_relation_friendly.dds"
+	}
+	left_portrait = root
+	right_portrait = scope:enemy_1
+	lower_right_portrait = scope:enemy_2
+
+	trigger = {
+		this = scope:host
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_jesters_festival
+			}
+		}
+	}
+
+	immediate = {
+		play_music_cue = grandfeast_cue
+		if = {
+			limit = {
+				NOT = {
+					exists = var:jesters_festival_count
+				}
+			}
+			set_variable = {
+				name = jesters_festival_count
+				value = 0
+			}
+		}
+	}
+
+	option = {
+		name = ek_jesters_festival.2001.a
+		custom_tooltip = ek_jesters_festival.2001.a.tt
+	}
+}
+
+ek_jesters_festival.2501 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_jesters_festival.2501.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						has_relation_rival = scope:host
+					}
+					reverse_opinion = {
+						target = scope:host
+						value < -40
+					}
+				}
+				desc = ek_jesters_festival.2501.dislikes_host
+			}
+			desc = ek_jesters_festival.2501.likes_host
+		}
+	}
+	theme = feast_activity
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_relation_friendly.dds"
+	}
+	left_portrait = {
+		character = scope:host
+		animation = happiness
+	}
+
+	trigger = {
+		# Guests only.
+		NOT = { this = scope:host }
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_jesters_festival
+			}
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = {
+					exists = var:jesters_festival_count
+				}
+			}
+			set_variable = {
+				name = jesters_festival_count
+				value = 0
+			}
+		}
+		play_music_cue = mx_cue_banquet
+	}
+
+	option = {
+		name = {
+			trigger = { has_trait = gluttonous }
+			text = ek_jesters_festival.2501.a.gluttonous
+		}
+		name = {
+			trigger = { has_trait = drunkard }
+			text = ek_jesters_festival.2501.a.drunkard
+		}
+		name = {
+			trigger = { has_trait = gregarious }
+			text = ek_jesters_festival.2501.a.gregarious
+		}
+		name = {
+			trigger = { has_trait = shy }
+			text = ek_jesters_festival.2501.a.shy
+		}
+		name = {
+			text = ek_jesters_festival.2501.a
+		}
+	}
+
+	option = {
+		trigger = {
+			opinion = {
+				target = scope:host
+				value < 0
+			}
+		}
+		exclusive = yes
+		name = ek_jesters_festival.2501.b
+	}
+}
+
+# Jester's Festival: A Noble Guest
+ek_jesters_festival.0001 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_jesters_festival.0001.t
+	desc = ek_jesters_festival.0001.desc
+	theme = feast_activity
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:prankster
+		animation = laugh
+	}
+
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_relation_friendly.dds"
+	}
+
+	trigger = {
+		NOT = { exists = local_var:had_noble_guest }
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+		}
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_jesters_festival
+			}
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = {
+					exists = var:jesters_festival_count
+				}
+			}
+			set_variable = {
+				name = jesters_festival_count
+				value = 0
+			}
+		}
+		set_local_variable = {
+			name = had_noble_guest
+			value = yes
+		}
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+						is_ai = yes
+						NOT = { this = root }
+						is_alive = yes
+						is_imprisoned = no
+				}
+				save_scope_as = prankster
+			}
+		}
+	}
+
+	option = { # rival option
+		name = ek_jesters_festival.0001.a
+		add_opinion = {
+			modifier = feast_victimised_in_prank
+			target = scope:prankster
+		}
+		progress_towards_rival_effect = {
+			CHARACTER = scope:prankster
+			OPINION = 0
+			REASON = rival_noble_guest
+		}
+	}
+
+	option = { # laugh option
+		name = ek_jesters_festival.0001.b
+		change_variable = {
+			name = jesters_festival_count
+			add = 1
+		}
+		add_prestige = medium_prestige_loss
+		stress_impact = { 
+			arrogant = medium_stress_impact_gain
+			impatient = medium_stress_impact_gain 
+			wrathful = medium_stress_impact_gain
+		}
+	}
+
+	 
+}
+
+# Jester's Festival: Springtime Flair
+ek_jesters_festival.0002 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_jesters_festival.0002.t
+	desc = ek_jesters_festival.0002.desc
+	theme = feast_activity
+	
+	left_portrait = {
+		character = root
+	}
+
+	right_portrait = {
+		character = scope:grumpy
+		animation = sadness
+	}
+
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_relation_friendly.dds"
+	}
+
+	trigger = {
+		NOT = { exists = local_var:had_springtime_flair }
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+		}
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_jesters_festival
+			}
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = {
+					exists = var:jesters_festival_count
+				}
+			}
+			set_variable = {
+				name = jesters_festival_count
+				value = 0
+			}
+		}
+		set_local_variable = {
+			name = had_springtime_flair
+			value = yes
+		}
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					is_ai = yes
+					NOT = { this = root }
+					is_alive = yes
+					is_imprisoned = no
+				}
+				save_scope_as = grumpy
+			}
+		}
+	}
+
+	option = { # do it
+		name = ek_jesters_festival.0002.a
+		change_variable = {
+			name = jesters_festival_count
+			add = 1
+		}
+		random_list = {
+			50 = {
+				modifier = {
+					add = 25
+					scope:grumpy = {
+						opinion = {
+							target = root
+							value >= 25
+						}
+					}
+				}
+				modifier = {
+					add = 25
+					scope:grumpy = {
+						opinion = {
+							target = root
+							value >= 50
+						}
+					}
+				}
+				progress_towards_friend_effect = {
+					CHARACTER = scope:grumpy
+					OPINION = 20
+					REASON = friend_springtime_flair
+				}
+			}
+			50 = {
+				modifier = {
+					add = 25
+					scope:grumpy = {
+						opinion = {
+							target = root
+							value <= 10
+						}
+					}
+				}
+				modifier = {
+					add = 25
+					scope:grumpy = {
+						opinion = {
+							target = root
+							value <= 0
+						}
+					}
+				}
+				progress_towards_rival_effect = {
+					CHARACTER = scope:grumpy
+					OPINION = 0
+					REASON = rival_springtime_flair
+				}
+			}
+		}
+	}
+
+	option = { # better not
+		name = ek_jesters_festival.0002.b
+		add_prestige = minor_prestige_loss
+	}
+
+	 
+}
+
+# Jester's Festival: Royal Revelry
+ek_jesters_festival.0003 = {
+	type = activity_event
+	content_source = dlc_ek
+	title = ek_jesters_festival.0003.t
+	desc = ek_jesters_festival.0003.desc
+	theme = feast_activity
+	
+	left_portrait = {
+		character = root
+	}
+
+	override_icon = {
+		reference = "gfx/interface/icons/event_types/type_relation_friendly.dds"
+	}
+
+	trigger = {
+		NOT = { exists = local_var:had_royal_revelry }
+		scope:host = {
+			is_alive = yes
+			is_imprisoned = no
+		}
+		scope:activity = {
+			has_activity_option = {
+				category = special_type
+				option = feast_type_jesters_festival
+			}
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				NOT = {
+					exists = var:jesters_festival_count
+				}
+			}
+			set_variable = {
+				name = jesters_festival_count
+				value = 0
+			}
+		}
+		set_local_variable = {
+			name = had_royal_revelry
+			value = yes
+		}
+		scope:activity = {
+			random_attending_character = {
+				limit = {
+					is_ai = yes
+					NOT = { this = root }
+					is_alive = yes
+					is_imprisoned = no
+				}
+				save_scope_as = grumpy
+			}
+		}
+	}
+
+	option = { # do it
+		name = ek_jesters_festival.0003.a
+		trigger = {
+			exists = root.capital_county
+		}
+		remove_short_term_gold = minor_gold_value
+		root.capital_county = {
+			add_county_modifier = { 
+				modifier = royal_revelry
+				years = 5
+			}
+		}
+		change_variable = {
+			name = jesters_festival_count
+			add = 1
+		}
+		stress_impact = {
+			greedy = major_stress_impact_gain
+			callous = major_stress_impact_gain
+		}
+	}
+
+	option = { # better not
+		name = ek_jesters_festival.0003.b
+		add_prestige = medium_prestige_gain
+		stress_impact = {
+			ambitious = major_stress_impact_gain
+			gregarious = major_stress_impact_gain
+		}
+	}
+
+	 
+}

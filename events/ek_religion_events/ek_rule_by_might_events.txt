@@ -1,0 +1,477 @@
+﻿namespace = ek_rbm
+
+### The current ruler dies, you pick up
+# Show the possibilities, duel, exile, peace
+# AI characters who decide to challenge the new ruler will wait and challenge you one by one - cancelled if the new ruler dies of course
+# Player characters can choose what they'll do, but for AI characters it'll be picked here
+
+ek_rbm.0001 = {
+	title = ek_rbm.0001.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:previous_ruler = { is_alive = no } }
+				desc = ek_rbm.0001.d.a
+			}
+			desc = ek_rbm.0001.d.b
+		}
+	}
+	content_source = dlc_ek
+	theme = martial
+	
+	left_portrait = {
+		character = scope:previous_ruler
+		animation = idle
+	}
+	right_portrait = {
+		character = scope:new_ruler
+		animation = personality_bold
+	}
+	
+	# We build four lists, will challenge, won't challenge, will leave, too young to decide, have no say in succession (bastards)
+	immediate = {
+		save_scope_as = new_ruler
+		# check for siblings as they usually have a claim
+		every_sibling = {
+			if = {
+				limit = { age <= 12 }
+				add_to_list = rbm_too_young
+			}
+			else_if = {
+				limit = { has_trait = bastard }
+				add_to_list = rbm_bastard
+			}
+			else_if = {
+				limit = { has_trait = disinherited }
+				add_to_list = rbm_disinherited
+			}
+			else = {
+				ROOT = { add_character_flag = rbm_contested_rule }
+				
+				if = {
+					limit = { is_ai = yes }
+					
+					random_list = {
+						40 = { # Challenge
+							ai_value_modifier = {
+								ai_boldness = 1
+							}
+							modifier = {
+								add = prowess
+								factor = 2
+							}									
+							modifier = {
+								factor = 3
+								has_relation_nemesis = root
+							}
+							modifier = {
+								factor = 1.5
+								has_relation_rival = root
+							}
+							modifier = {
+								factor = 0.5
+								has_relation_friend = root
+							}
+							modifier = {
+								factor = 0.33
+								has_relation_best_friend = root
+							}
+							modifier = {
+								factor = 0.2
+								has_relation_lover = root
+							}
+							modifier = {
+								factor = 0
+								has_relation_soulmate = root
+							}								
+							modifier = {
+								factor = 0
+								OR = {
+									AND = {
+										faith = { has_doctrine_parameter = female_claims_are_weak }
+										is_female = yes
+										NOT = { scope:new_ruler = { is_female = yes } }
+									}
+									AND = {
+										faith = { has_doctrine_parameter = male_claims_are_weak }
+										is_female = no
+										NOT = { scope:new_ruler = { is_female = no } }
+									}
+								}
+							}								
+							add_to_list = rbm_challenge
+						}								
+						10 = { # Exile
+							ai_value_modifier = {
+								ai_boldness = -1
+							}
+							modifier = {
+								add = root.prowess
+								factor = 2
+							}
+							modifier = {
+								add = root.dread
+								factor = 0.5
+							}									
+							modifier = { # Landed characters either push their claim or stay in their realm, they aren't completely stupid
+								factor = 0
+								is_landed = yes
+							}									
+							add_to_list = rbm_exile
+						}
+						50 = { # Peace
+							ai_value_modifier = {
+								ai_compassion = 1
+							}
+							modifier = {
+								add = root.prowess
+								factor = 1
+							}									
+							modifier = {
+								factor = 0
+								has_relation_nemesis = root
+							}
+							modifier = {
+								factor = 0.2
+								has_relation_rival = root
+							}
+							modifier = {
+								factor = 1.5
+								has_relation_friend = root
+							}
+							modifier = {
+								factor = 3
+								has_relation_best_friend = root
+							}
+							modifier = {
+								factor = 2
+								has_relation_lover = root
+							}
+							modifier = {
+								factor = 5
+								has_relation_soulmate = root
+							}
+							add_to_list = rbm_peace
+						}
+					}
+				}
+				else = { # Player characters can choose how they respond to their parent's death
+					trigger_event = ek_rbm.0002
+				}
+			}
+		}
+		# check for other claimants to maybe join in on the duels
+		if = { 
+			limit = { primary_title.tier >= tier_county }
+			primary_title = {
+				every_claimant = {
+					if = { 
+						limit = {
+							NOT = { this = scope:previous_ruler }
+							faith = { has_doctrine_parameter = lethal_and_free_claim_duel_active }
+						}
+						if = {
+							limit = { age <= 12 }
+							add_to_list = rbm_too_young
+						}
+						else = {
+							ROOT = { add_character_flag = rbm_contested_rule }
+						}
+							
+						if = {
+							limit = { is_ai = yes }
+								
+							random_list = {
+								40 = { # Challenge
+									ai_value_modifier = {
+										ai_boldness = 1
+									}
+									modifier = {
+										add = prowess
+										factor = 2
+									}
+										
+									modifier = {
+										factor = 3
+										has_relation_nemesis = root
+									}
+									modifier = {
+										factor = 1.5
+										has_relation_rival = root
+									}
+									modifier = {
+										factor = 0.5
+										has_relation_friend = root
+									}
+									modifier = {
+										factor = 0.33
+										has_relation_best_friend = root
+									}
+									modifier = {
+										factor = 0.2
+										has_relation_lover = root
+									}
+									modifier = {
+										factor = 0
+										has_relation_soulmate = root
+									}
+										
+									modifier = {
+										factor = 0
+										OR = {
+											AND = {
+												faith = { has_doctrine_parameter = female_claims_are_weak }
+												is_female = yes
+												NOT = { scope:new_ruler = { is_female = yes } }
+											}
+											AND = {
+												faith = { has_doctrine_parameter = male_claims_are_weak }
+												is_female = no
+												NOT = { scope:new_ruler = { is_female = no } }
+											}
+										}
+									}								
+									add_to_list = rbm_challenge
+								}								
+								10 = { # Exile
+									ai_value_modifier = {
+										ai_boldness = -1
+									}
+									modifier = {
+										add = root.prowess
+										factor = 2
+									}
+									modifier = {
+										add = root.dread
+										factor = 0.5
+									}									
+									modifier = { # Landed characters either push their claim or stay in their realm, they aren't completely stupid
+										factor = 0
+										is_landed = yes
+									}									
+									add_to_list = rbm_exile
+								}
+								50 = { # Peace
+									ai_value_modifier = {
+										ai_compassion = 1
+									}
+									modifier = {
+										add = root.prowess
+										factor = 1
+									}									
+									modifier = {
+										factor = 0
+										has_relation_nemesis = root
+									}
+									modifier = {
+										factor = 0.2
+										has_relation_rival = root
+									}
+									modifier = {
+										factor = 1.5
+										has_relation_friend = root
+									}
+									modifier = {
+										factor = 3
+										has_relation_best_friend = root
+									}
+									modifier = {
+										factor = 2
+										has_relation_lover = root
+									}
+									modifier = {
+										factor = 5
+										has_relation_soulmate = root
+									}
+									add_to_list = rbm_peace
+								}
+							}
+						}
+						else = { # Player characters can choose how they respond to their parent's death
+							trigger_event = ek_rbm.0002
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	option = {
+		name = {
+			trigger = { has_character_flag = rbm_contested_rule }
+			text = ek_rbm.0001.optA_contested
+		}
+		name = {
+			trigger = { NOT = { has_character_flag = rbm_contested_rule } }
+			text = ek_rbm.0001.optA_uncontested
+		}
+		
+		every_in_list = {
+			list = rbm_too_young
+			save_scope_as = current_challenger
+			custom_tooltip = ek_rbm.0001.optA.rbm_too_young_tt
+		}
+		
+		every_in_list = {
+			list = rbm_bastard
+			save_scope_as = current_challenger
+			custom_tooltip = ek_rbm.0001.optA.rbm_bastard_tt
+		}
+
+		every_in_list = {
+			list = rbm_disinherited
+			save_scope_as = current_challenger
+			custom_tooltip = ek_rbm.0001.optA.rbm_disinherited_tt
+		}
+		
+		every_in_list = {
+			list = rbm_challenge
+			save_scope_as = current_challenger
+			custom_tooltip = ek_rbm.0001.optA.rbm_challenge_tt
+		}
+		
+		every_in_list = {
+			list = rbm_exile
+			save_scope_as = current_challenger
+			custom_tooltip = ek_rbm.0001.optA.rbm_exile_tt
+			
+			move_to_pool = yes
+		}
+		
+		every_in_list = {
+			list = rbm_peace
+			save_scope_as = current_challenger
+			custom_tooltip = ek_rbm.0001.optA.rbm_peace_tt
+			
+			hidden_effect = {
+				every_claim = {
+					limit = { holder = root }
+					save_scope_as = current_claim
+					scope:current_challenger = { remove_claim = scope:current_claim }
+				}
+			}
+		}
+	}
+	
+	after = {
+		# Each character in the rbm_challenge list will challenge (duh) the current ruler on 1v1 duels
+		# Loser dies, winner takes the title
+		# This death DOES NOT trigger the Rule by Might succession (duh)
+		trigger_event = {
+			id = ek_rbm.0003
+			days = 3
+		}
+	}
+}
+
+# The player(s) are informed of what they can do
+# They can either push for a duel (and be put into the rbm_challenge), or abandon their claim
+# As the characters are playable (duh), they are landed, so they can't pick up their bag and leave
+ek_rbm.0002 = {
+	title = ek_rbm.0001.t
+	desc = ek_rbm.0002.d
+	content_source = dlc_ek
+	theme = martial
+	
+	left_portrait = {
+		character = scope:previous_ruler
+		animation = idle
+	}
+	right_portrait = {
+		character = scope:new_ruler
+		animation = personality_bold
+	}
+	lower_right_portrait = { character = root }
+	
+	trigger = { is_ai = no }
+	
+	option = { # Push the claim
+		name = ek_rbm.0002.optA
+		
+		add_to_list = rbm_challenge
+		custom_tooltip = ek_rbm.0002.optA.challenge_claim_tt
+	}
+	
+	option = { # Make peace
+		name = ek_rbm.0002.optB
+		
+		add_to_list = rbm_peace
+		### EK TODO : loc
+		#custom_tooltip = ek_rbm.0002.optA.make_peace_tt
+		
+		every_claim = {
+			limit = { holder = scope:new_ruler }
+			save_scope_as = current_claim
+			root = { remove_claim = scope:current_claim }
+		}
+	}
+}
+
+# Hidden even to pick a random member of the list and start the duel
+ek_rbm.0003 = {
+	hidden = yes
+	
+	trigger = {
+		any_in_list = {
+			list = rbm_challenge
+			
+			can_start_single_combat_trigger = yes
+			save_temporary_scope_as = fighting_challenger
+			exists = scope:fighting_challenger
+		}
+	}
+	
+	immediate = {
+		create_story = {
+			type = story_cycle_rule_by_might_duels
+			save_scope_as = story
+		}
+		
+		every_in_list = {
+			list = rbm_challenge
+			
+			save_scope_as = current_challenger
+			
+			scope:story = {
+				add_to_variable_list = { name = rbm_challenger_list target = scope:current_challenger }
+			}
+		}
+	}
+}
+
+# Duel ends
+ek_rbm.0004 = {
+	hidden = yes
+
+	immediate = {
+		clear_saved_scope = rbm_combat_challenger
+		
+		random_owned_story = {
+			limit = { story_type = story_cycle_rule_by_might_duels }
+			set_variable = {
+				name = rule_by_might_ongoing_challenge
+				value = no
+			}
+		}
+	}
+}
+
+# We have defeated everyone!
+ek_rbm.0010 = {
+	content_source = dlc_ek
+	title = ek_rbm.0010.t
+	desc = ek_rbm.0010.d
+	
+	theme = martial_strategy_focus
+	
+	right_portrait = {
+		character = root
+		animation = war_over_win
+	}
+	
+	option = {
+		name = ek_rbm.0010.optA # My rule is now uncontested!
+		
+		custom_tooltip = ek_rbm.0010.optA_every_challenger_defeated_tt
+	}
+}

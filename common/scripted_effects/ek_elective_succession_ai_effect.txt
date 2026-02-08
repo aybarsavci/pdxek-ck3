@@ -1,0 +1,155 @@
+﻿ek_elective_succession_ai_effect = {
+	if = {
+		limit = { #King tier and up only for now
+			highest_held_title_tier >= tier_kingdom
+			OR = {
+				special_succession_witengamot_trigger = yes
+				special_succession_thing_trigger = yes
+				special_succession_tanistry_trigger = yes
+				government_has_flag = government_is_pirate
+				culture = { has_cultural_parameter = moot_elective_enabled }
+				AND = {
+					exists = dynasty
+					dynasty = { has_dynasty_perk = magicka_legacy_4 }
+				}
+				culture = { has_cultural_parameter = magic_elective_enabled }
+				culture = { has_cultural_parameter = sorcerer_kings_tradition }
+			}
+		}
+		save_scope_as = ruler
+		random_list = {
+			10 = {
+				# trigger = { #Not currently used in EK, left here in case we end up using it
+				# 	special_succession_witengamot_trigger = yes
+				# }
+				# every_held_title = { #If you're a king, elective only goes to kingdom titles.
+				# 	limit = {
+				# 		tier = scope:ruler.primary_title.tier
+				# 		NOR = {
+				# 			has_title_law_flag = advanced_succession_law
+				# 			has_title_law_flag = elective_succession_law
+				# 		}
+				# 	}
+				# 	add_title_law = saxon_elective_succession_law
+				# }
+			}
+			10 = {
+				trigger = {
+					special_succession_thing_trigger = yes
+				}
+				every_held_title = {
+					limit = {
+						tier = scope:ruler.primary_title.tier
+						NOR = {
+							has_title_law_flag = advanced_succession_law
+							has_title_law_flag = elective_succession_law
+						}
+					}
+					add_title_law = scandinavian_elective_succession_law
+				}
+			}
+			# 10 = {
+			# 	trigger = { #Not currently used in EK, left here in case we end up using it
+			# 		special_succession_tanistry_trigger = yes
+			# 	}
+			# 	every_held_title = {
+			# 		limit = {
+			# 			tier = scope:ruler.primary_title.tier
+			# 			NOR = {
+			# 				has_title_law_flag = advanced_succession_law
+			# 				has_title_law_flag = elective_succession_law
+			# 			}
+			# 		}
+			# 		add_title_law = gaelic_elective_succession_law
+			# 	}
+			# }
+			10 = {
+				trigger = {
+					government_has_flag = government_is_pirate
+				}
+				every_held_title = {
+					limit = {
+						tier = scope:ruler.primary_title.tier
+						NOR = {
+							has_title_law_flag = advanced_succession_law
+							has_title_law_flag = elective_succession_law
+						}
+					}
+					add_title_law = pirate_elective_succession_law
+				}
+			}
+			10 = {
+				trigger = {
+					culture = { has_cultural_parameter = moot_elective_enabled }
+				}
+				every_held_title = {
+					limit = {
+						tier = scope:ruler.primary_title.tier
+						NOR = {
+							has_title_law_flag = advanced_succession_law
+							has_title_law_flag = elective_succession_law
+						}
+					}
+					add_title_law = moot_elective_succession_law
+				}
+			}
+			10 = {
+				trigger = {
+					OR = {
+						AND = {
+							exists = dynasty
+							dynasty = { has_dynasty_perk = magicka_legacy_4 }
+						}
+						culture = { has_cultural_parameter = magic_elective_enabled }
+						culture = { has_cultural_parameter = sorcerer_kings_tradition }
+					}
+				}
+				every_held_title = {
+					limit = {
+						tier = scope:ruler.primary_title.tier
+						NOR = {
+							has_title_law_flag = advanced_succession_law
+							has_title_law_flag = elective_succession_law
+						}
+					}
+					random_list = { #Equal chance by default unless Telvanni or Balfieri
+						0 = {
+							modifier = {
+								add = 50 #Balfieri never use Magelord
+								NOR = {
+									scope:ruler.culture = culture:balfiera
+									scope:ruler.culture = { any_parent_culture_or_above = { this = culture:balfiera }}
+								}
+							}
+							modifier = {
+								add = 100 #Telvanni always use magelord
+								OR = {
+									scope:ruler.culture = culture:chi_addun
+									scope:ruler.culture = { any_parent_culture_or_above = { this = culture:chi_addun }}
+								}
+							}
+							add_title_law = magelord_elective_succession_law
+						}
+						0 = {
+							modifier = {
+								add = 50 #Telvanni never use sorcerous
+								NOR = {
+									scope:ruler.culture = culture:chi_addun
+									scope:ruler.culture = { any_parent_culture_or_above = { this = culture:chi_addun }}
+								}
+							}
+							modifier = {
+								add = 100 #Balfieri always use sorcerous
+								OR = {
+									scope:ruler.culture = culture:balfiera
+									scope:ruler.culture = { any_parent_culture_or_above = { this = culture:balfiera }}
+								}
+							}
+							add_title_law = sorcerous_elective_succession_law
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,43 @@
+﻿namespace = camoran_decision_event
+
+#Restore the main branch of the Camoran Dynasty
+camoran_decision_event.0001 = {
+	type = character_event
+	title = camoran_decision_event.0001.t
+	desc = camoran_decision_event.0001.desc
+	theme = realm
+	left_portrait = {
+		character = scope:founder
+		animation = personality_bold
+	}
+
+	immediate = { play_music_cue = "mx_cue_epic_sacral_moment" }
+
+	option = {
+		name = camoran_decision_event.0001.a
+		give_nickname = nick_the_restorer 
+		dynasty = { add_dynasty_prestige = major_dynasty_prestige_value }
+	}
+}
+
+#Inform other Camorans
+camoran_decision_event.0002 = {
+	type = character_event
+	title = camoran_decision_event.0002.t
+	desc = camoran_decision_event.0002.desc
+	theme = realm
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+	right_portrait = {
+		character = scope:founder
+		animation = personality_bold
+	}
+
+	immediate = { play_music_cue = "mx_cue_combat_2" }
+
+	option = {
+		name = camoran_decision_event.0002.a
+	}
+}

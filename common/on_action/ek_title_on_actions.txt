@@ -1,0 +1,658 @@
+﻿# A title is transferred to a new character
+# root = the new holder
+# scope:title = the title that changes hands
+# scope:previous_holder = previous holder. Might be dead
+ek_on_title_gain = {	
+	effect = {
+		# If none of the holder's title is older than a month, and is not independent. Set their obligation to the default level
+
+		if = {
+			limit = {
+				NOT = {
+					any_held_title = {
+						title_held_years > 0
+					}
+				}
+				is_independent_ruler = no
+				NOR = {
+					government_has_flag = government_is_feudal 
+				}
+			}
+			save_scope_as = vassal
+			scope:vassal.liege = { save_scope_as = liege }
+			# titles below baronies don't have obligations
+			if = {
+				limit = {
+					highest_held_title_tier > tier_barony
+					government_uses_obligations = yes
+				}
+				vassal_update_obligations_type = yes
+			}
+		}
+		
+		# Ceremoniarchy, set their praxis value to the base value.
+		if = {
+			limit = {
+				uses_praxis_mechanics = yes
+				NOT = { has_variable = state_praxis }
+			}
+			set_starting_praxis = yes
+		}
+		
+		### If you're a pirate gov and it's a duchy+ title, give it the pirate succ law
+		if = {
+			limit = { government_has_flag = government_is_pirate scope:title.tier >= tier_duchy }
+			scope:title = { add_title_law = pirate_elective_succession_law }
+		}
+		
+		else_if = {
+			limit = {
+				NOT = { government_has_flag = government_is_pirate }
+				scope:title = { has_title_law = pirate_elective_succession_law }
+			}
+			scope:title = { clear_title_laws = yes }
+		}
+
+		### If you're a Ceremoniarchy culture and it's a king title, give it the Praxis succ law
+		#Only if not admin
+		if = {
+			limit = {
+				NOT = { has_dlc_feature = admin_gov }
+				should_use_praxis_mechanics = yes
+				NOT = { scope:title = { has_title_law = altmeri_elective_succession_law } }
+				scope:title.tier = tier_kingdom 
+			}
+			scope:title = { add_title_law = altmeri_elective_succession_law }
+		}
+		
+		else_if = {
+			limit = {
+				should_use_praxis_mechanics = no
+				scope:title = { has_title_law = altmeri_elective_succession_law }
+			}
+			scope:title = { clear_title_laws = yes }
+		}
+
+		# if Empire tier Ceremoniarchy, let's give you the Xarxean Investiture realm law
+		if = {
+			limit = {
+				NOT = { has_dlc_feature = admin_gov } 
+				should_use_praxis_mechanics = yes
+				scope:title.tier = tier_empire 
+			}
+			add_realm_law = xarxean_investiture_succession_law
+			every_held_title = {
+				limit = {
+					OR = {
+						tier = tier_kingdom
+						tier = tier_duchy
+					}	
+				}
+				clear_title_laws = yes # and then we purge the Praxis Elective law from your kingdom and duchy tier titles to have those also follow your fancy new Xarxean Investiture succession
+			}
+		}
+
+		#Telvanni like magocracy
+		if = {
+			limit = {
+				culture = {
+					has_cultural_tradition = tradition_parliament_of_bugs
+					#If for some sick reason someone kept parliament but not sorcerer kings
+					has_cultural_tradition = tradition_sorcerer_kings
+				}
+				scope:title.tier >= tier_duchy 
+				has_feudal_like_government = yes
+			}
+			scope:title = { add_title_law = magelord_elective_succession_law }
+		}
+		"
+
+		### Viridian Sentinel is made a theocrat should they gain control of the county
+		if = {
+			limit = {
+				has_character_flag = viridian_sentinel_flag
+				scope:title = title:c_viridian_woods
+			}
+			change_government = theocracy_government
+		}
+
+		### Pride of Alkosh masters are made Mane furstocks - kinda hacky, but the end result is as intended
+		if = {
+			limit = {
+				scope:title = title:d_pride_of_alkosh
+			}
+			# Ensure the next leader is Mane furstock
+			furstock_trait_clear_effect = yes
+			add_trait = furstock_mane 
+		}
+
+		### The Battlelords are the knightly order of Ebonarm - this gives them Ebonarm as a patron
+		if = {
+			limit = {
+				scope:title = title:d_laamp_battlelords
+				NOT = { has_trait = p_fg_ebonarm }	#Players get an event where they can decide to convert or not
+			}
+			trigger_event = {
+				id = ek_faith_events.0007
+				days = 3
+			}
+		}
+
+		# Upon the death of Mannimarco the Worm Cult breaks apart
+		if = {
+			limit = {
+				scope:title = title:d_worm_kingdom
+			}
+			trigger_event = {
+				id = ek_faith_events.0003
+				days = 3
+			}
+		}
+
+		# Upon inheritance of a Popular Cult HoF title, update the faith's sins and virtues
+		if = {
+			limit = {
+				scope:title = { is_head_of_faith = yes }
+				faith = { has_doctrine_parameter = sins_virtues_changing }
+				faith.religious_head = root
+				# we don't want this to happen upon the Worm Cult breaking for the first time to not mess with the above stuff
+				NOT = { scope:title = title:d_worm_kingdom }
+			}
+			personality_cult_update_virtues_sins = yes
+		}
+		#Destroy Green Pact buildings
+		if = {
+			limit = {
+				scope:title ?= {
+					tier = tier_county
+					title_province = {
+						geographical_region = mundus_tamriel_valenwood
+					}
+				}
+				root = { is_ai = yes }
+				NOT = { root.faith = { has_doctrine = tenet_green_pact } }
+			}
+			scope:title ?= {
+				every_county_province = {
+					remove_buildings_effect = { BUILDING = pact_provisions }
+					remove_buildings_effect = { BUILDING = graht_manors }
+				}
+			}
+		}
+		#Destroy non-Green Pact buildings
+		if = {
+			limit = {
+				scope:title ?= {
+					tier = tier_county
+					title_province = {
+						geographical_region = mundus_tamriel_valenwood
+					}
+				}
+				root = { is_ai = yes }
+				root.faith = { has_doctrine = tenet_green_pact }
+			}
+			scope:title ?= {
+				every_county_province = {
+					remove_buildings_effect = { BUILDING = cereal_fields }
+					remove_buildings_effect = { BUILDING = logging_camps }
+					remove_buildings_effect = { BUILDING = orchards }
+					remove_buildings_effect = { BUILDING = farm_estates }
+				}
+			}
+		}
+		#Destroy slavery buildings
+		if = {
+			limit = {
+				scope:title ?= {
+					tier = tier_county
+				}
+				root = {
+					is_slaver = no
+					is_ai = yes
+				}
+			}
+			scope:title ?= {
+				every_county_province = {
+					remove_buildings_four_levels_effect = { BUILDING = slave_markets }
+				}
+			}
+		}
+		# new Academy holders gets assigned the Arch-Mage variable if they qualify
+		if = {
+			limit = {
+				government_has_flag = government_is_academy
+				can_have_mage_magocratic_succession_law_trigger = yes
+			}
+			set_variable = flavourise_arch_mage
+		}	
+		# Heirs of Warlord Empires should be titled accordingly
+		if = {
+			limit = {
+				scope:title ?= {
+					tier = tier_empire
+					has_variable = warlord_empire
+				}
+			}
+			set_variable = flavourise_warlord_emperor
+			add_character_modifier = warlord_emperor_modifier
+		}	
+		# dead culture adventurers becoming landed will have their culture become alive again
+		if = {
+			limit = {
+				culture = {
+					is_target_in_global_variable_list = {
+						name = revivable_adventurer_culture
+						target = this
+					}
+				}
+			}
+			trigger_event = ek_culture_resurrection_event.1000
+		}
+		#unlanded characters granted a hist holding should be set to theocracy
+		if = {
+			limit = {
+				NOT = {
+					any_held_title = {
+						title_held_years > 0
+					}
+				}
+				is_independent_ruler = no
+				scope:title ?= {
+					tier <= tier_county #both county and barony tier
+					title_province = {
+						has_holding_type = hist_holding
+					}
+				}
+			}
+			change_government = theocracy_government
+		}
+		#Manually adding landless nobles to gcm
+		if = {
+			limit = {
+				scope:title = { is_noble_family_title = yes }
+				any_liege_or_above = { is_allowed_to_vote = yes }
+			}
+			situation:grand_council ?= {
+				add_manual_participant = root
+			}
+		}
+		#Manually adding landless nobles to Alinor
+		if = {
+			limit = {
+				scope:title = { is_noble_family_title = yes }
+				any_liege_or_above = {
+					any_character_situation = {
+						this = situation:alinor_isolationism
+					}
+				}
+			}
+			situation:alinor_isolationism ?= {
+				add_manual_participant = root
+			}
+		}
+	}
+	events = {
+		north_tamriel.0001 # West and East Skyrim are reunited
+		north_tamriel.0011 # Solstheim gains control of Bleakrock Isle and Japhet's Folly
+		elsweyr.0006 #Reunificaton of Elsweyr
+		ek_maintenance.0001 # To fire the might makes right law maintenance
+		ek_mbhof.0001 #hierocracy succession
+		elsweyr.0011 #New Mane gets sent hair!
+	}
+}
+
+# A title change makes the character rank up in the landed tiers (eg Duke -> King)
+# root = character ranking up
+# scope:title = old primary title
+ek_on_rank_up = { # Will not fire during history execution or for dying characters
+	effect = {
+		# Magic related traditions, update the mage/spellblade limit and effectiveness modifier
+		if = {
+			limit = { 
+				culture = {
+					OR = {
+						has_cultural_parameter = rank_gives_bonus_to_mage_maa 
+						has_cultural_parameter = sorcerer_kings_tradition
+					}
+				} 
+			}
+			update_magocracy_mage_bonus_modifier = yes
+		}
+	}
+}
+
+# A title change makes the character rank down in the landed tiers (eg King -> Duke)
+# root = character ranking down
+# scope:title = old primary title
+ek_on_rank_down = { # Will not fire during history execution or for dying characters
+	effect = {
+		# Magic related traditions, update the mage/spellblade limit and effectiveness modifier
+		if = {
+			limit = { 
+				culture = {
+					OR = {
+						has_cultural_parameter = rank_gives_bonus_to_mage_maa 
+						has_cultural_parameter = sorcerer_kings_tradition
+					}
+				}
+			}
+			update_magocracy_mage_bonus_modifier = yes
+		}
+	}
+}
+
+# A character gains a vassal
+# root = character gaining vassal
+# scope:vassal = vassal being gained
+# scope:old_liege = the previous liege of the vassal. Might be the null character (vassal used to be a non-ruler or independent), so make sure to use "exists" checks where relevant
+
+# to ensure various types of landed clergy get the appropriate patron traits for their church/temple/abbey/whatever
+# only done for at least c_tier titles, as barony temples are leased in many faiths and therefore don't count as held titles
+# and honestly who cares about b_tier temples
+ek_priest_patron_traits = {
+	effect = {
+		if = {
+			limit = {
+				OR = {
+					government_has_flag = government_is_theocracy # should only apply to landed clergy
+					government_has_flag = government_is_landed_order #or landed holy order
+				}
+				patron_has_any_trait = no # don't apply it again to clergy who already have a patron trait assigned, for whatever reason
+			}
+			### Temples in Cyrodiil
+			if = {
+				limit = { scope:title = title:d_abbey_shezarr } ## Abbey of the Missing Sibling
+				if = {
+					limit = { 
+						OR = {
+							faith = faith:imperial_cult # while Imperial Cult cannot gain the Shezarr patron normally, let's make an exception here
+							faith = { patron_dv_shezarr_valid = yes }
+						}
+					}
+					add_trait = p_dv_shezarr
+				}
+				else_if = {
+					limit = { 
+						faith = { patron_at_fox_valid = yes } # Shor / the Fox
+					}
+					add_trait = p_at_fox
+				}
+				else_if = {
+					limit = { 
+						faith = { patron_tc_missing_valid = yes } # Cult of the Missing
+					}
+					add_trait = p_tc_missing
+				}
+			}
+			if = {
+				limit = { scope:title = title:d_abbey_zenithar } ## Grand Abbey-Bazaar of Zenithar
+				if = {
+					limit = { 
+						faith = { patron_dv_zenithar_valid = yes } # Zenithar/Z'en
+					}
+					add_trait = p_dv_zenithar
+				}
+				else_if = {
+					limit = { 
+						faith = { patron_tc_guilds_valid = yes } # Cult of Guilds
+					}
+					add_trait = p_tc_guilds
+				}
+				else_if = {
+					limit = { 
+						faith = { patron_yp_zeht_valid = yes } # Zeht
+					}
+					add_trait = p_yp_zeht
+				}
+				else_if = {
+					limit = { 
+						faith = { patron_ae_xen_valid = yes } # Z'en/Xen
+					}
+					add_trait = p_ae_xen
+				}
+			}
+			if = {
+				limit = { scope:title = title:d_order_of_the_hour } ## Order of the Hour
+				if = {
+					limit = { 
+						faith = { patron_dv_akatosh_valid = yes } # Akatosh
+					}
+					add_trait = p_dv_akatosh
+				}
+			}
+			if = {
+				limit = { scope:title = title:c_diabell } ## Diabell
+				if = {
+					limit = { 
+						faith = { patron_dv_dibella_valid = yes } # Dibella / Dibe
+					}
+					add_trait = p_dv_dibella
+				}
+				else_if = {
+					limit = { 
+						faith = { patron_at_moth_valid = yes } # Dibella / the Moth
+					}
+					add_trait = p_at_moth
+				}
+				else_if = {
+					limit = { 
+						faith = { patron_tc_love_valid = yes } # Cult of Love
+					}
+					add_trait = p_tc_love
+				}
+			}
+			if = {
+				limit = { scope:title = title:c_hunger_crag } ## Hunger's Crag
+				if = {
+					limit = { 
+						faith = { patron_ob_boethiah_valid = yes } # Boethiah
+					}
+					add_trait = p_ob_boethiah
+				}
+			}
+			## Moth Priest Temples
+			if = {
+				limit = { 
+					OR = {
+						scope:title = title:c_ancestor_moth ## Ancestor Moth
+						scope:title = title:c_ni_mohk ## No-Mohk
+						scope:title = title:c_alma_ruma ## Alma-Ruma
+						scope:title = title:c_chim ## Chim
+						scope:title = title:c_ghartok ## Ghartok
+						# Outside Cyrodiil
+						scope:title = title:c_ancestor_glade ## Ancestor's Glade
+					}	
+				}	
+				if = {
+					limit = { 
+						faith = { patron_tc_moth_valid = yes }
+					}
+					add_trait = p_tc_moth
+					add_trait = devoted 
+					add_trait = blind # for these guys we want them to also be blind and monks to give them Moth Priest bling
+				}
+			}
+
+			### Temples in Elsweyr
+			if = {
+				limit = { scope:title = title:c_khenarthi_breath } # Khenarthi's Breath
+				if = {
+					limit = { 
+						faith = { patron_dv_kynareth_valid = yes } # Kynareth / Khenarthi / Kin
+					}
+					add_trait = p_dv_kynareth
+				}
+				else_if = {
+					limit = { 
+						faith = { patron_at_hawk_valid = yes } # Kyne / the Hawk
+					}
+					add_trait = p_at_hawk
+				}
+				else_if = {
+					limit = { 
+						faith = { patron_yp_tava_valid = yes } # Tava
+					}
+					add_trait = p_yp_tava
+				}
+				else_if = { # Ilni is associated with the wind
+					limit = { 
+						faith = { patron_eg_ilni_valid = yes } # Ilni
+					}
+					add_trait = p_eg_ilni
+				}
+			}
+			if = {
+				limit = {
+					OR = { # Places associated with the forgotten manes + sunspire temple to Alkosh
+						scope:title = title:d_pride_of_alkosh ## Pride of Alkosh
+						scope:title = title:c_highmane ## Halls of the Highmane / the Forgotten Mane
+						scope:title = title:c_sunspire ## Sunspire
+					}
+				}
+				if = {
+					limit = { 
+						faith = { patron_dv_akatosh_valid = yes } # Akatosh
+					}
+					add_trait = p_dv_akatosh
+				}
+				else_if = {
+					limit = { 
+						faith = { patron_ae_auriel_valid = yes } # Auri-El or Alkosh
+					}
+					add_trait = p_ae_auriel
+				}
+				else_if = {
+					limit = { 
+						faith = { patron_at_dragon_valid = yes } # Alduin / the Dragon
+					}
+					add_trait = p_at_dragon
+				}
+				else_if = {
+					limit = { 
+						faith = { patron_tc_aka_valid = yes } # Cult of Aka
+					}
+					add_trait = p_tc_aka
+				}
+			}
+
+			### Temples in High Rock
+			if = {
+				limit = { scope:title = title:c_pariah_abbey } ## Pariah Hill
+				if = {
+					limit = {
+						faith = { patron_ob_azura_valid = yes } # Azura / Azurah / Asuura
+					}
+					add_trait = p_ob_azura
+				}
+				else_if = {
+					limit = { #if Tribunal-worshipers end up in High Rock
+						faith = { patron_tr_sotha_valid = yes } # Sotha Sil
+					}
+					add_trait = p_tr_sotha
+				}
+				else_if = { #CotH syncretized with Azura
+					limit = {
+						faith = { patron_tc_heavens_valid = yes } # Cult of the Heavens
+					}
+					add_trait = p_tc_heavens
+				}
+			}
+			if = {
+				limit = { scope:title = title:c_beldama } ## Beldama
+				if = {
+					limit = { 
+						faith = { patron_ae_jephre_valid = yes } # Jephre / Y'ffre
+					}
+					add_trait = p_ae_jephre
+				}
+				else_if = {
+					limit = { 
+						faith = { patron_dv_kynareth_valid = yes } # Kynareth / Khenarthi / Kin
+					}
+					add_trait = p_dv_kynareth
+				}
+				else_if = {
+					limit = { 
+						faith = { patron_at_hawk_valid = yes } # Kyne / the Hawk
+					}
+					add_trait = p_at_hawk
+				}
+				else_if = {
+					limit = { 
+						faith = { patron_yp_tava_valid = yes } # Tava
+					}
+					add_trait = p_yp_tava
+				}
+			}
+
+			### Temples in Morrowind
+			if = {
+				limit = { scope:title = title:k_archcanon_almalexia } ## Archcanon of Almalexia
+				if = {
+					limit = { 
+						faith = { patron_tr_almalexia_valid = yes }
+					}
+					add_trait = p_tr_almalexia
+				}
+			}
+			if = {
+				limit = { scope:title = title:k_archcanon_sotha_sil } ## Archcanon of Sotha Sil
+				if = {
+					limit = { 
+						faith = { patron_tr_sotha_valid = yes }
+					}
+					add_trait = p_tr_sotha
+				}
+			}
+			if = {
+				limit = { scope:title = title:k_archcanon_vivec } ## Archcanon of Vivec
+				if = {
+					limit = { 
+						faith = { patron_tr_vivec_valid = yes }
+					}
+					add_trait = p_tr_vivec
+				}
+			}
+
+			### Temples in Skyrim
+			if = {
+				limit = { scope:title = title:c_kynesgrove } ## Kynesgrove
+				if = {
+					limit = { 
+						faith = { patron_dv_kynareth_valid = yes } # Kynareth / Khenarthi / Kin
+					}
+					add_trait = p_dv_kynareth
+				}
+				else_if = {
+					limit = { 
+						faith = { patron_at_hawk_valid = yes } # Kyne / the Hawk
+					}
+					add_trait = p_at_hawk
+				}
+				else_if = {
+					limit = { 
+						faith = { patron_yp_tava_valid = yes } # Tava
+					}
+					add_trait = p_yp_tava
+				}
+				else_if = { # Ilni is associated with the wind
+					limit = { 
+						faith = { patron_eg_ilni_valid = yes } # Ilni
+					}
+					add_trait = p_eg_ilni
+				}
+			}
+
+			### Temples in Summerset Isles
+			if = {
+				limit = { scope:title = title:d_magnus_watchers } ## Magnus' Watchers
+				if = {
+					limit = { 
+						faith = { patron_ae_magnus_valid = yes }
+					}
+					add_trait = p_ae_magnus
+				}
+			}
+		}
+	}	
+}

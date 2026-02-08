@@ -1,0 +1,28 @@
+﻿### Story cycle used to store the informations pertaining to each Chapel within the Council of the Eight
+
+# Stores a bunch of stuff related to each Holy Site
+# Stored in a faith, in the 'holy_sites' list
+story_cycle_holy_site = {
+	# County the Holy Site is in - holy_site_county (county)
+	# Special effect - special_effect (variable)
+	on_setup = {
+		set_variable = {
+			name = holy_site_county
+			value = story_owner.var:holy_site_county
+		}
+		
+		if = {
+			limit = { exists = story_owner.var:special_effect }
+			set_variable = {
+				name = special_effect
+				value = story_owner.var:special_effect
+			}
+		}
+		else = {
+			set_variable = {
+				name = special_effect
+				value = flag:none
+			}
+		}
+	}
+}

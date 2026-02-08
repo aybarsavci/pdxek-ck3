@@ -1,0 +1,78 @@
+﻿on_16th_birthday_tattoo_scarification = {
+	trigger = {
+		age = 16
+	}
+	effect = {			### i did by culture as opposed to culture group because ashlanders are part of the same culture group as the great house dunmer, but i need a different flag for them so that i can make ashlander tats/scarification more common than great house dunmer tats/scarification ###
+	
+	### this should probably be tied to traditions, or in some cases heritage, or possibly fashion pillar
+		switch = {
+			trigger = culture
+			
+			## dunmer
+			culture:ashlander = { add_character_flag = ashlander_tattoo_flag }
+			culture:shinathi = { add_character_flag = ashlander_tattoo_flag }
+			culture:chimer = { add_character_flag = chimer_tattoo_flag }
+			culture:cantemiric = { add_character_flag = chimer_tattoo_flag }
+			culture:chimeriquey = { add_character_flag = chimer_tattoo_flag }
+			culture:gah_julan = { add_character_flag = dunmer_tattoo_flag }
+			culture:armun_an = { add_character_flag = dunmer_tattoo_flag }
+			culture:chuzei = { add_character_flag = dunmer_tattoo_flag }
+			culture:chi_addun = { add_character_flag = dunmer_tattoo_flag }
+			culture:marduhn_oad = { add_character_flag = dunmer_tattoo_flag }
+			
+			## nibenese
+			culture:nibenese = { add_character_flag = nibenese_tattoo_flag }
+			culture:nibenu = { add_character_flag = nibenese_tattoo_flag }
+			culture:rimmenese = { add_character_flag = nibenese_tattoo_flag }
+			
+			## yoku
+			culture:yokudan = { add_character_flag = yokudan_tattoo_flag }
+			culture:duadri = { add_character_flag = yokudan_tattoo_flag }
+			culture:horsefolk = { add_character_flag = yokudan_tattoo_flag }
+			culture:silverhoof = { add_character_flag = yokudan_tattoo_flag }
+			
+			## nede
+			culture:horwalli = { add_character_flag = nede_south_tattoo_flag }
+			culture:reachfolk = { add_character_flag = nede_reachfolk_tattoo_flag }
+		}
+	}
+}
+on_start_tattoo_scarification = {
+	trigger = {
+		age >= 16
+	}
+	effect = {
+		switch = {
+			trigger = culture
+			
+			## dunmer
+			culture:ashlander = { add_character_flag = ashlander_tattoo_flag }
+			culture:shinathi = { add_character_flag = ashlander_tattoo_flag }
+			culture:chimer = { add_character_flag = chimer_tattoo_flag }
+			culture:cantemiric = { add_character_flag = chimer_tattoo_flag }
+			culture:chimeriquey = { add_character_flag = chimer_tattoo_flag }
+			culture:gah_julan = { add_character_flag = dunmer_tattoo_flag }
+			culture:armun_an = { add_character_flag = dunmer_tattoo_flag }
+			culture:chuzei = { add_character_flag = dunmer_tattoo_flag }
+			culture:chi_addun = { add_character_flag = dunmer_tattoo_flag }
+			culture:marduhn_oad = { add_character_flag = dunmer_tattoo_flag }
+
+			## orsimer
+			culture:malahk_orc = { add_character_flag = malahk_tattoo_flag }
+			
+			## nibenese
+			culture:nibenese = { add_character_flag = nibenese_tattoo_flag }
+			culture:nibenu = { add_character_flag = nibenese_tattoo_flag }
+			culture:rimmenese = { add_character_flag = nibenese_tattoo_flag }
+			
+			## yoku
+			culture:yokudan = { add_character_flag = yokudan_tattoo_flag }
+			culture:horsefolk = { add_character_flag = yokudan_tattoo_flag }
+			culture:silverhoof = { add_character_flag = yokudan_tattoo_flag }
+			
+			## nede
+			culture:horwalli = { add_character_flag = nede_south_tattoo_flag }
+			culture:reachfolk = { add_character_flag = nede_reachfolk_tattoo_flag }
+		}
+	}
+}

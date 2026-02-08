@@ -1,0 +1,211 @@
+﻿# EK Reworked
+# Valid culture inputs
+
+
+
+clothes_effect = { # Gene modifers to apply for characters wearing or not wearing clothes
+    usage = game
+    selection_behavior = max
+    fallback = unclothed_body
+    priority = 1
+
+    clothed_body = {
+        dna_modifiers = {
+            morph = {
+                mode = modify_multiply
+                gene = gene_bs_bust
+                value = 0.8 # Setting this lower to reduce the exaggerated effect of large bust size when wearing clothes
+                template = bust_clothes_light
+            }            
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 1000
+                NOR = {
+                    should_be_fully_naked_portrait_trigger = yes
+                    should_be_topless_portrait_trigger = yes
+                }
+            }  
+        }    
+    }
+
+    unclothed_body = {
+        dna_modifiers = {    	
+        }
+        weight = {
+            base = 10
+        }
+    }
+}
+
+clothes = { # Special group for the ruler designer only. The game expects this to be named "clothes"
+
+    usage = game
+    selection_behavior = weighted_random
+    priority = 20
+
+    ruler_designer_clothes = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = western_bedchamber
+                range = { 0 1 }
+            }
+			accessory = {
+				mode = add
+				gene = props_right
+				template = prison_shackles_03
+				value = 1.0
+			}			
+            morph = {
+                mode = modify_multiply
+                gene = gene_bs_bust
+                value = 0.8 # Setting this lower to reduce the exaggerated effect of large bust size when wearing clothes
+                template = bust_clothes_light
+            }    
+        }   
+        weight = {
+            base = 0
+            modifier = {
+                add = 5000
+                portrait_ruler_designer_trigger = yes
+            }
+        }
+    }
+
+    default_clothes = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = clothes
+                template = no_clothes
+                range = { 0 1 } # For the randomness to work correctly
+            }
+            accessory = {
+                mode = add
+                gene = legwear
+                template = no_legwear
+                range = { 0 1 } # For the randomness to work correctly
+            }
+        }   
+        outfit_tags = { no_clothes }
+        weight = {
+            base = -100
+        }
+    }    
+}
+
+clothes_children = {
+	usage = game
+	selection_behavior = weighted_random
+	priority = 35
+	
+		## CHILDREN FALLBACK BUT NOT ACTUALLY A FALLBACK BECAUSE ITS TECHNICALLY AN OVERRIDE ## 
+	children_clothing = {
+
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = western_children_commoner_clothes
+				range = { 0 1 } # For the randomness to work correctly
+			}
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = no_legwear
+	            range = { 0 1 }
+	        }			
+			morph = {
+				mode = modify_multiply
+				gene = gene_bs_bust
+				value = 0.8 # Setting this lower to reduce the exaggerated effect of large bust size when wearing clothes
+				template = bust_clothes
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 300
+				scope:age <= 10  #ek edit - will reduce clipping for clothes that have no infant blendshape
+			}
+		}
+	}
+
+}
+
+be_naked_jank = {
+	usage = game
+	selection_behavior = weighted_random
+	priority = 30
+	
+	fully_naked = {
+
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 } # For the randomness to work correctly
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 } # For the randomness to work correctly
+			}
+	        accessory = {
+	            mode = add
+	            gene = legwear
+	            template = no_legwear
+	            range = { 0 1 }
+	        }			
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				should_be_fully_naked_portrait_trigger = yes
+			}
+		}
+	}
+	topless = {
+
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				range = { 0 1 } # For the randomness to work correctly
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = no_cloak
+				range = { 0 1 } # For the randomness to work correctly
+			}
+			accessory = {
+				mode = add
+				gene = clothes
+				template = no_clothes
+				range = { 0 1 } # For the randomness to work correctly
+			}			
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 1000
+				should_be_topless_portrait_trigger = yes
+			}
+		}
+	}
+}
+

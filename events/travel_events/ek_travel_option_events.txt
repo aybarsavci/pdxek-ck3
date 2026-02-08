@@ -1,0 +1,424 @@
+﻿namespace = ek_travel_option_events
+
+# Recruit Criminal
+ek_travel_option_events.0001 = {
+	type = character_event
+	title = ek_travel_option_events.0001.t
+	desc = {
+		desc = ek_travel_option_events.0001.intro
+		first_valid = { # How good they are/salary expectations
+			triggered_desc = {
+				trigger = {
+					exists = scope:excellent_skill
+				}
+				desc = ek_travel_option_events.0001.excellent
+			}
+			triggered_desc = {
+				trigger = {
+					exists = scope:good_skill
+				}
+				desc = ek_travel_option_events.0001.good
+			}
+			triggered_desc = {
+				trigger = {
+					exists = scope:average_skill
+				}
+				desc = ek_travel_option_events.0001.average
+			}
+			desc = ek_travel_option_events.0001.poor
+		}
+	}
+		
+	theme = travel
+	left_portrait = {
+		character = root
+		animation = steward
+	}
+	right_portrait = {
+		character = scope:local_character
+		triggered_animation = {
+			trigger = {
+				OR = {
+					exists = scope:excellent_skill
+					exists = scope:good_skill
+					exists = scope:average_skill
+				}
+			}
+			animation = spymaster
+		}
+		animation = beg
+	}
+
+	trigger = {
+		NOT = { has_character_flag = had_talent_event }
+		is_landless_adventurer = yes
+        has_perk = call_henchmen_perk
+		any_pool_character = {
+			province = root.location
+			is_available_healthy_ai_adult = yes
+			NOR = {
+				has_character_flag = denied_recruitment
+				has_relation_rival = root
+			}
+			has_infamous_trait_trigger = yes
+		}
+	}
+	
+	weight_multiplier = {
+		base = 1
+		modifier = {
+			factor = 5
+			domicile ?= { has_domicile_parameter = camp_better_scout_for_talent }
+		}
+		modifier = {
+			factor = 3
+			any_courtier = {
+				count <= 3
+			}
+		}
+		modifier = {
+			factor = 0.025
+			NOT = {
+				any_pool_character = {
+					province = root.location
+					is_available_healthy_ai_adult = yes
+					NOR = {
+						has_character_flag = denied_recruitment
+						has_relation_rival = root
+					}
+					has_medium_skill_trigger = yes
+				}
+			}
+		}
+	}
+
+	immediate = {
+		location = { save_scope_as = location }
+		random_pool_character = {
+			province = root.location
+			limit = {
+				is_available_healthy_ai_adult = yes
+				NOR = {
+					has_relation_rival = root
+					has_character_flag = denied_recruitment
+				}
+                has_infamous_trait_trigger = yes
+			}
+			save_scope_as = local_character
+			assign_quirk_effect = yes
+			if = {
+				limit = { has_very_high_skill_trigger = yes }
+				save_scope_as = excellent_skill
+			}
+			else_if = {
+				limit = { has_high_skill_trigger = yes }
+				save_scope_as = good_skill
+			}
+			else_if = {
+				limit = { has_medium_skill_trigger = yes }
+				save_scope_as = average_skill
+			}
+			else = { save_scope_as = poor_skill }
+        }
+		if = {
+			limit = {
+				domicile ?= { has_domicile_parameter = camp_better_scout_for_talent }
+			}
+			add_character_flag = {
+				flag = had_talent_event
+				months = 2
+			}
+		}
+		else = {
+			add_character_flag = {
+				flag = had_talent_event
+				months = 4
+			}
+		}
+	}
+
+	option = {
+		name = ek_travel_option_events.0001.a
+		hidden_effect = {
+			scope:local_character = { add_to_court_and_entourage_effect = yes }
+		}
+		show_as_tooltip = {
+			add_courtier = scope:local_character 
+		}
+		if = {
+			limit = {
+				has_perk = benevolent_intent_perk
+			}
+			reverse_add_opinion = {
+				modifier = grateful_opinion
+				target = scope:local_character
+				opinion = 60
+			}
+		}
+		else = {
+			reverse_add_opinion = {
+				modifier = grateful_opinion
+				target = scope:local_character
+				opinion = 35
+			}
+		}
+
+		# Skill
+		if = {
+			limit = {
+				exists = scope:excellent_skill
+			}
+			custom_tooltip = excellent.skill_tt
+			if = {
+				limit = {
+					has_perk = large_levies_perk
+				}
+				pay_short_term_gold = {
+					target = scope:local_character
+					gold = 35
+				}
+			}
+			else = {
+				pay_short_term_gold = {
+					target = scope:local_character
+					gold = 75
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				exists = scope:good_skill
+			}
+			custom_tooltip = good.skill_tt
+			if = {
+				limit = {
+					has_perk = large_levies_perk
+				}
+				pay_short_term_gold = {
+					target = scope:local_character
+					gold = 25
+				}
+			}
+			else = {
+				pay_short_term_gold = {
+					target = scope:local_character
+					gold = 50
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				exists = scope:average_skill
+			}
+			custom_tooltip = average.skill_tt
+			if = {
+				limit = {
+					has_perk = large_levies_perk
+				}
+				pay_short_term_gold = {
+					target = scope:local_character
+					gold = 10
+				}
+			}
+			else = {
+				pay_short_term_gold = {
+					target = scope:local_character
+					gold = 20
+				}
+			}
+		}
+		else = {
+			custom_tooltip = poor.skill_tt
+			pay_short_term_gold = {
+				target = scope:local_character
+				gold = 1
+			}
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				gold <= 500
+			}
+		}
+	}
+
+	option = {
+		name = ek_travel_option_events.0001.provisions
+		show_as_unavailable = { always = yes }
+		trigger = {
+			trigger_if = {
+				limit = {
+					exists = scope:excellent_skill
+				}
+				trigger_if = {
+					limit = {
+						has_perk = large_levies_perk
+					}
+					domicile.provisions >= 400
+				}
+				trigger_else = {
+					domicile.provisions >= 800
+				}
+			}
+			trigger_else_if = {
+				limit = {
+					exists = scope:good_skill
+				}
+				trigger_if = {
+					limit = {
+						has_perk = large_levies_perk
+					}
+					domicile.provisions >= 300
+				}
+				trigger_else = {
+					domicile.provisions >= 600
+				}
+			}
+			trigger_else_if = {
+				limit = {
+					exists = scope:average_skill
+				}
+				trigger_if = {
+					limit = {
+						has_perk = large_levies_perk
+					}
+					domicile.provisions >= 150
+				}
+				trigger_else = {
+					domicile.provisions >= 300
+				}
+			}
+			trigger_else = {
+				trigger_if = {
+					limit = {
+						has_perk = large_levies_perk
+					}
+					domicile.provisions >= 50
+				}
+				trigger_else = {
+					domicile.provisions >= 100
+				}
+			}
+		}
+		
+		hidden_effect = {
+			scope:local_character = { add_to_court_and_entourage_effect = yes }
+		}
+		show_as_tooltip = {
+			add_courtier = scope:local_character 
+		}
+		if = {
+			limit = {
+				has_perk = benevolent_intent_perk
+			}
+			reverse_add_opinion = {
+				modifier = grateful_opinion
+				target = scope:local_character
+				opinion = 35
+			}
+		}
+		else = {
+			reverse_add_opinion = {
+				modifier = grateful_opinion
+				target = scope:local_character
+				opinion = 10
+			}
+		}
+		
+		# Skill
+		if = {
+			limit = {
+				exists = scope:excellent_skill
+			}
+			custom_tooltip = excellent.skill_tt
+			if = {
+				limit = {
+					has_perk = large_levies_perk
+				}
+				domicile = {
+					change_provisions = -400
+				}
+			}
+			else = {
+				domicile = {
+					change_provisions = -800
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				exists = scope:good_skill
+			}
+			custom_tooltip = good.skill_tt
+			if = {
+				limit = {
+					has_perk = large_levies_perk
+				}
+				domicile = {
+					change_provisions = -300
+				}
+			}
+			else = {
+				domicile = {
+					change_provisions = -600
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				exists = scope:average_skill
+			}
+			custom_tooltip = average.skill_tt
+			if = {
+				limit = {
+					has_perk = large_levies_perk
+				}
+				domicile = {
+					change_provisions = -150
+				}
+			}
+			else = {
+				domicile = {
+					change_provisions = -300
+				}
+			}
+		}
+		else = {
+			limit = {
+				exists = scope:poor_skill
+			}
+			custom_tooltip = poor.skill_tt
+			if = {
+				limit = {
+					has_perk = large_levies_perk
+				}
+				domicile = {
+					change_provisions = -50
+				}
+			}
+			else = {
+				domicile = {
+					change_provisions = -100
+				}
+			}
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = ek_travel_option_events.0001.b
+		scope:local_character = {
+			add_character_flag = {
+				flag = denied_recruitment
+				years = 5
+			}
+		}
+		ai_chance = {
+			base = 0
+		}
+	}
+}

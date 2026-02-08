@@ -1,0 +1,108 @@
+﻿### Note: For performance reason only player(s) get the monthly pulse, AIs use the quarterly pulse instead
+ek_realm_maintenance_quarterly_pulse = {
+	effect = {
+		trigger_event = {
+			on_action = ek_realm_maintenance_monthly_pulse
+		}
+		
+		# For players, we call it again one and two months later
+		if = {
+			limit = { is_ai = no }
+			trigger_event = {
+				on_action = ek_realm_maintenance_monthly_pulse
+				months = 1
+			}
+			trigger_event = {
+				on_action = ek_realm_maintenance_monthly_pulse
+				months = 2
+			}
+		}
+	}
+}
+
+ek_realm_maintenance_monthly_pulse = {
+	effect = {
+		### Hierocracy: Lower the Crown Authority if provinces of your faith escape your grasp
+		if = {
+			limit = { government_has_flag = government_is_hierocracy }
+			hierocracy_lower_ca_land_same_faith_held = yes
+		}
+		
+		### Ceremoniarchy: Refresh the Praxis modifiers
+		if = {
+			limit = {
+				OR = {
+					uses_praxis_mechanics = yes
+					any_liege_or_above = { uses_praxis_mechanics = yes }
+				}
+			}
+			every_courtier_or_guest = {
+				update_praxis_monthly = yes
+				refresh_praxis_traits = yes
+			}
+			update_praxis_monthly = yes
+			refresh_praxis_traits = yes
+		}
+		else_if = { 
+			# If character doesn't have praxis government, but does have state_praxis, remove the variable and any modifiers.
+			limit = {
+				has_variable = state_praxis
+			}
+			remove_variable = state_praxis
+			remove_praxis_modifiers = yes
+		}
+
+		### Tribal holdings get their Free Holding modifiers refreshed
+		if = {
+			limit = {
+				any_held_title = {
+					OR = {
+						tier = tier_barony
+						tier = tier_county
+					}
+					county = {
+						any_county_province = {
+							OR = {
+								has_holding_type = tribal_holding
+								has_province_modifier = tribal_holding_1_open_holding
+								has_province_modifier = tribal_holding_2_open_holding
+								has_province_modifier = tribal_holding_3_open_holding
+								has_province_modifier = tribal_holding_4_open_holding
+								has_province_modifier = tribal_holding_5_open_holding
+								has_province_modifier = tribal_holding_6_open_holding
+								has_province_modifier = tribal_holding_7_open_holding
+								has_province_modifier = tribal_holding_8_open_holding
+								has_province_modifier = tribal_holding_9_open_holding
+							}
+						}
+					}
+				}
+			}
+			every_held_title = {
+				limit = {
+					OR = {
+						tier = tier_barony
+						tier = tier_county
+					}
+					county = {
+						any_county_province = {
+							OR = {
+								has_holding_type = tribal_holding
+								has_province_modifier = tribal_holding_1_open_holding
+								has_province_modifier = tribal_holding_2_open_holding
+								has_province_modifier = tribal_holding_3_open_holding
+								has_province_modifier = tribal_holding_4_open_holding
+								has_province_modifier = tribal_holding_5_open_holding
+								has_province_modifier = tribal_holding_6_open_holding
+								has_province_modifier = tribal_holding_7_open_holding
+								has_province_modifier = tribal_holding_8_open_holding
+								has_province_modifier = tribal_holding_9_open_holding
+							}
+						}
+					}
+				}
+				county = { tribal_holding_get_free_holding_modifier = yes }
+			}
+		}
+	}
+}

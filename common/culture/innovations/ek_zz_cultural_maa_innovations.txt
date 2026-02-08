@@ -1,0 +1,151 @@
+﻿### EK TODO: Move most of these into their own Tradition
+
+### NOTE: The file is named this way so cultural MaA are placed after the "regular" MaA innovations
+
+#### Local Types ####
+@administration_1 = "gfx/interface/icons/culture_innovations/innovation_administration_01.dds"
+@administration_2 = "gfx/interface/icons/culture_innovations/innovation_administration_02.dds"
+@administration_3 = "gfx/interface/icons/culture_innovations/innovation_administration_03.dds"
+@civil_construction_1 = "gfx/interface/icons/culture_innovations/innovation_civil_construction_01.dds"
+@civil_construction_2 = "gfx/interface/icons/culture_innovations/innovation_civil_construction_02.dds"
+@leadership_1 = "gfx/interface/icons/culture_innovations/innovation_leadership_01.dds"
+@leadership_2 = "gfx/interface/icons/culture_innovations/innovation_leadership_02.dds"
+@raised_banner = "gfx/interface/icons/culture_innovations/innovation_raised_banner.dds"
+@fortifications = "gfx/interface/icons/culture_innovations/innovation_fortifications.dds"
+@siege_weapons = "gfx/interface/icons/culture_innovations/innovation_siege_weapons.dds"
+@levy_building = "gfx/interface/icons/culture_innovations/innovation_levy_building.dds"
+@maa_01 = "gfx/interface/icons/culture_innovations/innovation_maa_01.dds"
+@maa_02 = "gfx/interface/icons/culture_innovations/innovation_maa_02.dds"
+@weapons_and_armor_01 = "gfx/interface/icons/culture_innovations/innovation_weapons_and_armor_01.dds"
+@weapons_and_armor_02 = "gfx/interface/icons/culture_innovations/innovation_weapons_and_armor_02.dds"
+@knight = "gfx/interface/icons/culture_innovations/innovation_knight.dds"
+@hird = "gfx/interface/icons/culture_innovations/innovation_hird.dds"
+@longboats = "gfx/interface/icons/culture_innovations/innovation_longboats.dds"
+@majesty_01 = "gfx/interface/icons/culture_innovations/innovation_majesty_01.dds"
+@majesty_02 = "gfx/interface/icons/culture_innovations/innovation_majesty_02.dds"
+@majesty_03 = "gfx/interface/icons/culture_innovations/innovation_majesty_03.dds"
+@nobility_01 = "gfx/interface/icons/culture_innovations/innovation_nobility_01.dds"
+@nobility_02 = "gfx/interface/icons/culture_innovations/innovation_nobility_02.dds"
+@nobility_03 = "gfx/interface/icons/culture_innovations/innovation_nobility_03.dds"
+@nobility_04 = "gfx/interface/icons/culture_innovations/innovation_nobility_04.dds"
+@misc_inventions = "gfx/interface/icons/culture_innovations/innovation_misc_inventions.dds"
+
+@camel = "gfx/interface/icons/culture_innovations/innovation_camel.dds"
+#@elephant = "gfx/interface/icons/culture_innovations/innovation_elephant.dds"
+@special_maa_01 = "gfx/interface/icons/culture_innovations/innovation_special_maa_01.dds"
+@special_maa_02 = "gfx/interface/icons/culture_innovations/innovation_special_maa_02.dds"
+
+@moonstone_armor_01 = "gfx/interface/icons/culture_innovations/innovation_moonstone_armor_01.dds"
+@high_rock_crowning_01 = "gfx/interface/icons/culture_innovations/innovation_high_rock_crowning_01.dds"
+@crown_01 = "gfx/interface/icons/culture_innovations/innovation_crown_01.dds"
+@bombard = "gfx/interface/icons/culture_innovations/innovation_bombard.dds"
+@alchemy = "gfx/interface/icons/culture_innovations/innovation_alchemy.dds"
+@blood_price = "gfx/interface/icons/culture_innovations/innovation_blood_price.dds"
+#@mammoth = "gfx/interface/icons/culture_innovations/innovation_mammoth.dds"
+@akaviri_dragon_hunters = "gfx/interface/icons/culture_innovations/innovation_akaviri_dragon_hunters.dds"
+@welkynar_knights = "gfx/interface/icons/culture_innovations/innovation_welkynar_knights.dds"
+@mages = "gfx/interface/icons/culture_innovations/innovation_mages.dds"
+#@bosmer_stalkers = "gfx/interface/icons/culture_innovations/innovation_bosmer_stalkers.dds"
+@crag_warfare = "gfx/interface/icons/culture_innovations/ai_innovation_crag_warfare.dds"
+@witch_knight = "gfx/interface/icons/culture_innovations/ai_innovation_witch_knight.dds"
+@guar = "gfx/interface/icons/culture_innovations/ai_innovation_guar.dds"
+@black_marsh_materials = "gfx/interface/icons/culture_innovations/ai_innovation_black_marsh_materials.dds"
+
+innovation_eton_nir_gryphon_riders = {
+	group = culture_group_regional
+	culture_era = culture_era_late_medieval
+	icon = @welkynar_knights
+
+	potential = {
+		has_cultural_pillar = heritage_aldmeri
+	}
+
+	unlock_maa = welkynar_knights
+
+	flag = global_maa
+	flag = heavy_cavalry_maa
+}
+
+### Argonian
+innovation_black_marsh_materials = {
+	group = culture_group_military
+	culture_era = culture_era_early_medieval
+	icon = @black_marsh_materials
+
+	potential = {
+		has_cultural_pillar = heritage_argonian
+	}
+
+	unlock_maa = shellback_phalanx
+
+	flag = global_maa
+	flag = pikemen_maa
+	flag = innovation_steel_spearhead_replacement
+}
+
+### Dunmeris
+
+innovation_guar = {
+	group = culture_group_military
+	culture_era = culture_era_tribal
+	icon = @guar
+
+	potential = {
+		OR = {
+			has_cultural_pillar = heritage_dunmeri
+			has_cultural_pillar = heritage_chimeri
+		}
+	}
+
+	unlock_maa = nixhound_riders
+
+	flag = global_maa
+	flag = light_cavalry_maa
+	flag = innovation_horse_breeding_replacement
+}
+
+### Falmeris
+# Betrayed
+innovation_crag_warfare = {
+	group = culture_group_military
+	culture_era = culture_era_tribal
+	icon = @crag_warfare
+
+	potential = {
+		OR = {
+			this = culture:falmer_betrayed
+			any_parent_culture_or_above = {
+				this = culture:falmer_betrayed
+			}
+		}	
+	}
+
+	unlock_maa = falmer_stalkers
+	unlock_maa = falmer_gloomlurkers
+	unlock_maa = falmer_battleragers
+
+	flag = global_maa
+	flag = archers_maa
+	flag = skirmishers_maa
+	flag = pikemen_maa
+	flag = innovation_sanded_wood_replacement
+	flag = innovation_steel_spearhead_replacement
+	flag = innovation_leather_armor_replacement
+}
+
+### Nedic
+# Reachfolk
+innovation_bloodforged_arms = {
+	group = culture_group_military
+	culture_era = culture_era_tribal
+	icon = @witch_knight
+
+	potential = {
+		always = no
+	}
+
+	unlock_maa = witch_knight
+
+	flag = global_maa
+	flag = light_cavalry_maa
+}

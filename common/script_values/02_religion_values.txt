@@ -1,0 +1,2075 @@
+﻿### EK NOTE: Disabled references to vanilla religions
+
+#Needs to be loaded after
+# 	* medium_gold_value (01_dynamic_values)
+
+### EK NOTE: Dynamic hostility
+## Hostility levels now scale from 0 (Righteous) to 100 (Evil)
+# 0: Righteous
+# 1-33: Astray
+# 34-66: Hostile
+# 67-100: Evil
+
+#Religious war CB levels
+faith_fully_accepted_level = 0
+faith_astray_level = 1
+faith_hostile_level = 34 #EK ADDITION
+faith_evil_level = 67	 #EK ADDITION
+
+faith_hostility_prevents_marriage_level = faith_evil_level
+
+### EK EDIT: Holy Wars enabled against faiths you consider Evil, not Hostile
+religious_cb_enabled_hostility_level = faith_evil_level
+religious_cb_evil_hostility_level = faith_evil_level
+
+religious_cb_ally_prestige_kingdom = 500
+religious_cb_ally_prestige_duchy = 200
+religious_cb_ally_prestige_county = 100
+
+religious_cb_piety_gain_evil_foe = 200
+religious_cb_piety_gain_empire = 200
+religious_cb_piety_loss_empire = -200
+religious_cb_piety_gain_kingdom = 150
+religious_cb_piety_loss_kingdom = -150
+religious_cb_piety_gain_duchy = 100
+religious_cb_piety_loss_duchy = -100
+religious_cb_piety_gain_county = 50
+religious_cb_piety_loss_county = -50
+religious_cb_piety_white_peace = -50
+
+excommunication_cb_piety_change_multiplier = 4
+excommunication_cb_piety_white_peace = -50
+
+religious_cb_piety_discount_against_hof_humsac = 0.5
+hof_humsacd_fervour_gain = major_fervor_value
+
+faith_doctrine_cost_low = 200
+faith_doctrine_cost_mid = 400
+faith_doctrine_cost_high = 600
+faith_doctrine_cost_massive = 1000
+
+faith_tenet_cost_low = 500
+faith_tenet_cost_mid = 1000
+faith_tenet_cost_high = 1500
+faith_tenet_cost_massive = 2000
+
+#EK EDIT: reduced each of the ones below by 0.25, to perhaps compensate for EK introducing a significantly increased amount of doctrines
+faith_unchanged_doctrine_cost_mult = 0.25
+faith_changed_doctrine_cost_mult_two_step = 1.25
+faith_changed_doctrine_cost_mult_three_step = 2
+faith_changed_doctrine_cost_mult_four_step = 3.25
+
+faith_tenet_discount_mountain_background_value = 0.75
+
+hostility_multiplier_pluralism = 0.5
+hostility_multiplier_righteous = 1
+hostility_multiplier_fundamentalist = 2
+hostility_multiplier_reduction_adaptive = -0.25
+
+heretical_defector_fervor_gain = 15 # How much fervor Old Faith gains when a ruler splits off to a New Heresy
+
+regional_heresy_factor = {
+	if = {
+		limit = { has_game_rule = default_regional_heresy }
+		value = 5
+	}
+	else_if = {
+		limit = { has_game_rule = strict_regional_heresy }
+		value = 200
+	}
+	else = {
+		value = 1
+	}
+}
+
+meditation_duration = 185 # In days
+
+faction_county_opinion_astray = {
+	value = county_opinion
+	multiply = -1.0
+}
+faction_county_opinion_hostile = {
+	value = county_opinion
+	multiply = -2.5
+}
+faction_county_opinion_evil = {
+	value = county_opinion
+	multiply = -5.0
+}
+
+head_of_faith_selection_weight = {
+	value = 1
+
+	# Strong weight for preferred gender
+	if = {
+		limit = {
+			faith = { has_doctrine = doctrine_gender_male_dominated }
+			is_male = yes
+		}
+		add = 50
+	}
+	else_if = {
+		limit = {
+			faith = { has_doctrine = doctrine_gender_female_dominated }
+			is_female = yes
+		}
+		add = 50
+	}
+
+	# Bonus for holding land, especially if it is a holy site.
+	if = {
+		limit = {
+			any_sub_realm_barony = {
+				is_holy_site_of = root.faith
+			}
+		}
+		add = 40
+	}
+	add = {
+		value = highest_held_title_tier
+		multiply = 20
+	}
+
+	# Bonus for piousness/learnedness
+	add = {
+		value = num_virtuous_traits
+		multiply = 30
+	}
+	add = {
+		value = num_sinful_traits
+		multiply = -30
+	}
+	add = {
+		value = piety_level
+		multiply = 10
+	}
+	add = {
+		value = learning
+		multiply = 2
+	}
+	add = {
+		value = diplomacy
+		multiply = 1
+	}	
+}
+################
+# Demand Conversion chance calculation
+################
+
+#Calculated in scope:recipient
+demand_conversion_learning_difference = {
+	add = scope:actor.learning
+	subtract = learning
+	multiply = 5
+}
+
+demand_conversion_fervor_difference = {
+	add = scope:actor.faith.fervor
+	subtract = faith.fervor
+}
+
+demand_conversion_tenet_impact = {
+	value = 0
+	if = {
+		limit = {
+			faith = {
+				has_doctrine_parameter = sanctioned_false_conversion
+				NOT = { has_doctrine_parameter = unattractive_for_character_conversions }
+			}
+		}
+		add = -20
+	}
+	if = {
+		limit = {
+			faith = { has_doctrine_parameter = tenet_adaptive_conversion_resistance }
+		}
+		add = -20
+	}
+	if = {
+		limit = {
+			faith = { has_doctrine_parameter = unattractive_for_character_conversions }
+		}
+		add = 20
+	}
+}
+
+demand_conversion_likelihood_calculation = {
+	#Five times actor's-recipient's learning
+	add = demand_conversion_learning_difference
+
+	#Calculate each faith's fervor
+	add = demand_conversion_fervor_difference
+
+	#Calculate various Doctrines and Tenets
+	add = demand_conversion_tenet_impact
+
+	if = {
+		limit = {
+			opinion = {
+				target = scope:actor
+				value < medium_negative_opinion
+			}
+		}
+		add = -50
+	}
+	else_if = {
+		limit = {
+			opinion = {
+				target = scope:actor
+				value < neutral_opinion
+			}
+		}
+		add = -25
+	}
+	else_if = {
+		limit = {
+			opinion = {
+				target = scope:actor
+				value >= medium_positive_opinion
+			}
+		}
+		add = 50
+	}
+	else_if = {
+		limit = {
+			opinion = {
+				target = scope:actor
+				value > neutral_opinion
+			}
+		}
+		add = 25
+	}
+
+	if = {
+		limit = {
+			scope:actor = { has_trait = savior }
+		}
+		add = 30
+	}
+	if = {
+		limit = {
+			scope:actor = { has_trait = divine_blood }
+		}
+		add = 15
+	}
+	
+	if = {
+		limit = {
+			has_trait = zealous
+		}
+		add = -50
+	}
+	if = {
+		limit = {
+			has_trait = cynical
+		}
+		add = 30
+	}
+
+	if = {
+		limit = {
+			has_trait = heresiarch
+		}
+		add = -100
+	}
+
+	#Add value if refusing is a Crime
+	if = {
+		limit = {
+			scope:actor = {
+				refusing_conversion_is_crime_trigger = {
+					CHARACTER = scope:recipient
+				}
+			}
+		}
+		add = 50
+	}
+	
+	
+		
+	if = {
+		limit = {
+			scope:recipient = {
+				has_dread_level_towards = {
+					target = scope:actor
+					level = 1
+				}
+			}
+		}
+		add = 10
+	}
+	if = {
+		limit = {
+			scope:recipient = {
+				has_dread_level_towards = {
+					target = scope:actor
+					level = 2
+				}
+			}
+		}
+		add = 20
+	}
+	
+	###EK ADDITION: Added our own conversion likelihood modifiers
+	## EK NOTE: ANY CHANGE HERE NEEDS TO BE SYNCHED WITH religion_demand_conversion_default_modifier
+	# Communal Identity
+	if = {
+		limit = {
+			scope:recipient.faith = { has_doctrine = doctrine_cultural_identity_heritage }
+			NOT = {
+				scope:actor.culture = {
+					has_same_culture_heritage = scope:recipient.faith.var:associated_culture
+				}
+			}
+		}
+		add = -30
+	}
+	else_if = {
+		limit = {
+			scope:actor.faith = { has_doctrine = doctrine_cultural_identity_heritage_exclusive }
+			NOT = {
+				scope:recipient.culture = {
+					has_same_culture_heritage = scope:actor.faith.var:associated_culture
+				}  
+			}
+		}
+		add = -60
+	}
+	else_if = {
+		limit = {
+			scope:recipient.faith = { has_doctrine = doctrine_cultural_identity_culture }
+			NOT = { scope:actor.culture = scope:recipient.faith.var:associated_culture }
+		}
+		add = -50
+	}
+	else_if = {
+		limit = {
+			scope:actor.faith = { has_doctrine = doctrine_cultural_identity_culture_exclusive }
+			NOT = { scope:recipient.culture = scope:actor.faith.var:associated_culture }
+		}
+		add = -100
+	}
+	## Daedric Worship
+	# Enforcing the worship of a Prince I hate
+	if = {
+		limit = {
+			OR = {
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_azura_pantheon }
+					scope:recipient.faith = { has_doctrine = doctrine_azura_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_boethiah_pantheon }
+					scope:recipient.faith = { has_doctrine = doctrine_boethiah_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_clavicus_pantheon }
+					scope:recipient.faith = { has_doctrine = doctrine_clavicus_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_hermaeus_pantheon }
+					scope:recipient.faith = { has_doctrine = doctrine_hermaeus_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_hircine_pantheon }
+					scope:recipient.faith = { has_doctrine = doctrine_hircine_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_malacath_pantheon }
+					scope:recipient.faith = { has_doctrine = doctrine_malacath_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_mehrunes_pantheon }
+					scope:recipient.faith = { has_doctrine = doctrine_mehrunes_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_mephala_pantheon }
+					scope:recipient.faith = { has_doctrine = doctrine_mephala_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_meridia_pantheon }
+					scope:recipient.faith = { has_doctrine = doctrine_meridia_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_molag_pantheon }
+					scope:recipient.faith = { has_doctrine = doctrine_molag_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_namira_pantheon }
+					scope:recipient.faith = { has_doctrine = doctrine_namira_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_nocturnal_pantheon }
+					scope:recipient.faith = { has_doctrine = doctrine_nocturnal_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_peryite_pantheon }
+					scope:recipient.faith = { has_doctrine = doctrine_peryite_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_sanguine_pantheon }
+					scope:recipient.faith = { has_doctrine = doctrine_sanguine_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_sheogorath_pantheon }
+					scope:recipient.faith = { has_doctrine = doctrine_sheogorath_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_vaermina_pantheon }
+					scope:recipient.faith = { has_doctrine = doctrine_vaermina_criminal }
+				}
+			}
+		}
+		add = -50
+	}
+	# Legalizing the worship of a Prince I hate
+	else_if = {
+		limit = {
+			OR = {
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_azura_allowed }
+					scope:recipient.faith = { has_doctrine = doctrine_azura_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_boethiah_allowed }
+					scope:recipient.faith = { has_doctrine = doctrine_boethiah_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_clavicus_allowed }
+					scope:recipient.faith = { has_doctrine = doctrine_clavicus_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_hermaeus_allowed }
+					scope:recipient.faith = { has_doctrine = doctrine_hermaeus_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_hircine_allowed }
+					scope:recipient.faith = { has_doctrine = doctrine_hircine_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_malacath_allowed }
+					scope:recipient.faith = { has_doctrine = doctrine_malacath_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_mehrunes_allowed }
+					scope:recipient.faith = { has_doctrine = doctrine_mehrunes_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_mephala_allowed }
+					scope:recipient.faith = { has_doctrine = doctrine_mephala_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_meridia_allowed }
+					scope:recipient.faith = { has_doctrine = doctrine_meridia_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_molag_allowed }
+					scope:recipient.faith = { has_doctrine = doctrine_molag_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_namira_allowed }
+					scope:recipient.faith = { has_doctrine = doctrine_namira_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_nocturnal_allowed }
+					scope:recipient.faith = { has_doctrine = doctrine_nocturnal_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_peryite_allowed }
+					scope:recipient.faith = { has_doctrine = doctrine_peryite_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_sanguine_allowed }
+					scope:recipient.faith = { has_doctrine = doctrine_sanguine_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_sheogorath_allowed }
+					scope:recipient.faith = { has_doctrine = doctrine_sheogorath_criminal }
+				}
+				AND = {
+					scope:actor.faith = { has_doctrine = doctrine_vaermina_allowed }
+					scope:recipient.faith = { has_doctrine = doctrine_vaermina_criminal }
+				}
+			}
+		}
+		add = -25
+	}
+	# Forbidding the worship of a Prince I worship
+	if = {
+		limit = {
+			OR = {
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_azura_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_azura_criminal }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_boethiah_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_boethiah_criminal }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_clavicus_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_clavicus_criminal }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_hermaeus_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_hermaeus_criminal }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_hircine_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_hircine_criminal }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_malacath_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_malacath_criminal }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_mehrunes_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_mehrunes_criminal }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_mephala_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_mephala_criminal }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_meridia_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_meridia_criminal }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_molag_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_molag_criminal }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_namira_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_namira_criminal }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_nocturnal_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_nocturnal_criminal }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_peryite_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_peryite_criminal }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_sanguine_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_sanguine_criminal }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_sheogorath_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_sheogorath_criminal }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_vaermina_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_vaermina_criminal }
+				}
+			}
+		}
+		add = -50
+	}
+	# Discarding the worship of a Prince I worship
+	else_if = {
+		limit = {
+			OR = {
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_azura_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_azura_shunned }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_boethiah_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_boethiah_shunned }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_clavicus_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_clavicus_shunned }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_hermaeus_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_hermaeus_shunned }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_hircine_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_hircine_shunned }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_malacath_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_malacath_shunned }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_mehrunes_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_mehrunes_shunned }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_mephala_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_mephala_shunned }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_meridia_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_meridia_shunned }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_molag_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_molag_shunned }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_namira_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_namira_shunned }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_nocturnal_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_nocturnal_shunned }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_peryite_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_peryite_shunned }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_sanguine_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_sanguine_shunned }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_sheogorath_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_sheogorath_shunned }
+				}
+				AND = {
+					scope:recipient.faith = { has_doctrine = doctrine_vaermina_pantheon }
+					scope:actor.faith = { has_doctrine = doctrine_vaermina_shunned }
+				}
+			}
+		}
+		add = -25
+	}
+	#EK ADDITION END
+
+	max = 100
+}
+
+demand_conversion_bribe_size = {
+	value = medium_gold_value
+}
+
+demand_conversion_piety_cost = {
+	value = medium_piety_value
+}
+
+
+#Religious Legal Pronouncement requirements
+religious_legal_pronouncement_target_value = -20
+
+religious_legal_pronouncement_sinful_value = {
+	value = 0
+	add = scope:recipient.num_sinful_traits
+	multiply = 6
+}
+
+religious_legal_pronouncement_virtuous_value = {
+	value = 0
+	add = scope:recipient.num_virtuous_traits
+	multiply = 5
+}
+
+religious_legal_pronouncement_requirements = {
+	value = religious_legal_pronouncement_target_value
+	add = religious_legal_pronouncement_sinful_value
+	subtract = religious_legal_pronouncement_virtuous_value
+	add = scope:actor.learning
+}
+
+religious_legal_pronouncement_learning_requirement = {
+	value = 0
+	subtract = religious_legal_pronouncement_sinful_value
+	add = religious_legal_pronouncement_virtuous_value
+	subtract = religious_legal_pronouncement_target_value
+	min = 1
+}
+
+claim_piety_value = {
+	value = {
+		add = minor_piety_value
+		multiply = 2
+		if = {
+			limit = {
+				scope:target = {
+					tier = tier_duchy
+				}
+			}
+			multiply = 2
+		}
+		if = {
+			limit = {
+				scope:target = {
+					tier = tier_kingdom
+				}
+			}
+			multiply = 4
+		}
+		if = {
+			limit = {
+				scope:target = {
+					tier = tier_empire
+				}
+			}
+			multiply = 8
+		}
+		add = {
+			value = scope:actor.sub_realm_size
+			multiply = 10
+		}
+		# Landless adventurers can't get cheap access to legitimists without putting in some leg-work.
+		if = {
+			limit = {
+				scope:actor = { is_landless_adventurer = yes }
+			}
+			multiply = 10
+		}
+	}
+}
+
+
+#GHW Targeting Multipliers
+#Up the base size of kingdoms with an existing same-faith ruler a bit:
+ghw_target_existing_same_faith_ruler = 20
+#Prioritise reclaiming lands that are core rather than just new large kingdoms:
+ghw_target_heartlands = 150
+ghw_target_frontier = 25
+ghw_target_fringe = 15
+ghw_target_stretch = 10
+#Always buff any kingdom containing an uncontrolled holy site:
+ghw_target_has_holy_site = 6
+#Targets that should always be priorities if not controlled:
+ghw_target_jerusalem = 200
+ghw_target_key_religious_holding = 100
+ghw_target_religious_vengeance = 150
+#Distance modifiers stack:
+ghw_target_distance_01_reduction = 0.8
+ghw_target_distance_02_reduction = 0.1
+ghw_target_distance_03_reduction = 0.01
+ghw_target_distance_01_threshold = 722500
+ghw_target_distance_02_threshold = 1445000
+ghw_target_distance_03_threshold = 2167500
+
+### EK EDIT: Emptied most of it
+### EK NOTE: If we ever add Great Holy Wars, bring back an exemple from vanilla and use it as a template
+# Referenced by code when building list of ghw targets
+# Logic reworked by Ewan Cowhig Croft
+great_holy_war_target_kingdom_weight = {
+	# WEIGHTING PROCESS
+	# 1. Check how many individual counties within a de jure kingdom have a top-liege with an eligible faith for GHWing. Boost the count a little for kingdoms with existing same-faith monarchs.
+	# 2. Modify the count by region location & relative importance to the Faith (is this kingdom in the heartlands of the faith, or one of an increasing gradiant of frontier regions?).
+	# 3. Modify the count by region distance from the HoF's capital, or a fallback holy site.
+	# 4. Weight up kingdoms containing holy sites directly.
+	# 5. Weight up special priority targets (e.g., Jerusalem, Mecca) directly.
+
+	### 1 ###
+	# Is the target kingdom a viable GHW target?
+	every_in_de_jure_hierarchy = {
+		# Check individual counties within the potential target de jure kingdom.
+		continue = { tier > tier_county }
+		# For every county with a GHWable liege...
+		limit = {
+			tier = tier_county
+			scope:the_faith = {
+				is_hostile_enough_for_holy_war_trigger = { FAITH = prev.holder.top_liege.faith }
+			}
+		}
+		# ... Add 1 to the weighting.
+		add = 1
+	}
+	# Weight up the kingdom if it either has an existing same-faith holder, or at least a same-faith claimant.
+	if = {
+		limit = {
+			OR = {
+				AND = {
+					exists = holder
+					holder.faith = scope:the_faith
+				}
+				any_claimant = {
+					exists = this
+					faith = scope:the_faith
+					is_available_adult = yes
+				}
+			}
+		}
+		multiply = ghw_target_existing_same_faith_ruler
+	}
+	
+	### And we don't care about the rest :)
+	# GHW aren't used in EK, and the few times that it could fit can be handled via events instead
+}
+
+great_holy_war_pledge_amount = {
+	value = root.yearly_character_income
+	min = 10
+}
+
+# Referenced in code; don't delete this. When determining GHW participation score, the character's score from the war is multiplied by this. ROOT is the character
+ghw_score_mult = {
+	value = 1
+	if = {
+		limit = {
+			this = faith.religious_head
+			faith = { has_doctrine = doctrine_spiritual_head } # Temporal heads get credit
+		}
+		value = 0
+	}
+}
+
+# Referenced in code; don't delete this. When determining GHW participation score, the character's score percentage is capped at this. ROOT is the character
+ghw_max_score_percentage = {
+	value = 20
+}
+
+# Referenced in code; don't delete this. Used by the GHW screen to show the player how much of the pot they'll get when the war starts. Should be used where you hand it out: divide_war_chest = { fraction = ghw_war_start_handout_percentage }
+ghw_war_start_handout_percentage = {
+	value = 0.2
+}
+
+# Referenced in code; don't delete this
+# When a holy war is declared, everyone of the defender's faith that passes can_defensively_join_holy_war will be scored using this
+# Scores above 0 will join
+# Scope is the potential joiner
+# scope:attacker is the attacker
+# scope:defender is the defender
+holy_war_defensive_join_value = {
+	add = {
+		desc = "BASE_VALUE"
+		value = -50
+		format = "BASE_VALUE_FORMAT"
+	}
+	add = {
+		desc = "zealous_personality"
+		value = ai_zeal
+	}
+	
+	add = {
+		desc = "bold_personality"
+		value = ai_boldness
+		divide = 2
+	}
+	
+	add = { # More fervent faiths are likelier to defend themselves en masse
+		desc = "high_fervor"
+		value = faith.fervor
+		divide = 5 # Max 20
+		if = {
+			limit = {
+				ai_zeal < 0
+			}
+			divide = 2 # Max 10 if not zealous
+		}
+	}
+	
+	if = {
+		limit = {
+			has_relation_rival = scope:attacker
+		}
+		add = {
+			desc = "you_are_rivals"
+			value = 200
+		}
+	}
+	
+	if = {
+		limit = {
+			OR = {
+				has_relation_friend = scope:defender
+				has_relation_lover = scope:defender
+			}
+		}
+		add = {
+			desc = "friends_with_defender"
+			value = 200
+		}
+	}
+	
+	# Less Likely if you dislike the target
+	if = {
+		limit = {
+			opinion = { target = scope:defender value <= -15 }
+			ai_zeal < 50
+		}
+		add = {
+			desc = "dislikes_defender"
+			value = -25
+		}
+	}
+	
+	# Much Less Likely if you really dislike the target
+	if = {
+		limit = {
+			opinion = { target = scope:defender value <= -50 }
+			ai_zeal < 50
+		}
+		add = {
+			desc = "strongly_dislikes_defender"
+			value = -50
+		}
+	}
+}
+
+# Root = faith
+faith_conversion_fervor_mult = {
+	value = define:NReligion|MAX_FERVOR
+	subtract = fervor
+	multiply = define:NReligion|FAITH_CREATION_FERVOR_DISCOUNT_PER_MISSING_FERVOR
+	max = define:NReligion|FAITH_CREATION_FERVOR_DISCOUNT_MAX
+	divide = define:NReligion|MAX_FERVOR
+}
+
+# Modify (multiply) the doctrine cost when creating a faith.
+# The returned value is interpreted as a multiplicative modifier (e.g. 0.5 means +50% cost).
+# scope:character = the creation character
+# scope:old_faith = the faith the character is converting from
+faith_creation_cost_mult = {
+	subtract = {
+		value = scope:old_faith.faith_conversion_fervor_mult
+		desc = "faith_creation_cost_fervor_impact"
+		format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+	}
+}
+
+# Modify (multiply) the doctrine cost when converting to a faith.
+# The returned value is interpreted as a multiplicative modifier (e.g. 0.5 means +50% cost).
+# scope:character = the converting character
+# scope:new_faith = the faith the character is converting to
+# There should be no subtract equal or higher than 1
+faith_conversion_cost_mult = {
+	
+	#Adding 1 to apply properly the following multipliers
+	add = {
+		value = 1
+	}
+
+	# Try to always be cheaper than creating a new faith
+	if = {
+		limit = {
+			scope:character.learning > 0
+		}
+		multiply = {
+			value = 1
+			subtract = {
+				desc = "learning_modifier"
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = scope:character.learning
+				divide = 100
+			}
+		}
+	}
+	if = {
+		limit = {
+			always = yes
+		}
+		multiply = {
+			value = 1
+			add = {
+				value = scope:new_faith.faith_conversion_fervor_mult
+				subtract = scope:character.faith.faith_conversion_fervor_mult
+				desc = "faith_conversion_cost_fervor_difference"
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+			}
+		}	
+	}
+	# Try to always be cheaper than creating a new faith
+	if = {
+		limit = {
+			scope:new_faith.religion = scope:character.faith.religion
+		}
+		multiply = {
+			value = 1
+			subtract = {
+				desc = "faith_conversion_cost_existing_faith"
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.5
+			}
+		}
+	}
+	# Try to always be cheaper than creating a new faith
+	else = {
+		multiply = {
+			value = 1
+			subtract = {
+				desc = "faith_conversion_cost_existing_faith"
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.35
+			}
+		}
+	}
+	# Pluralistic faiths have it easier converting to each other
+	if = {
+		limit = {
+			scope:new_faith = { has_doctrine = doctrine_pluralism_pluralistic }
+			scope:character.faith = { has_doctrine = doctrine_pluralism_pluralistic }
+		}
+		multiply = {
+			value = 1
+			subtract = {
+				desc = "faith_conversion_cost_pluralists"
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.25
+			}
+		}
+	}
+	# Pluralistic faiths have it easier converting
+	else_if = {
+		limit = {
+			scope:character.faith = { has_doctrine = doctrine_pluralism_pluralistic }
+		}
+		multiply = {
+			value = 1
+			subtract = {
+				desc = "faith_conversion_cost_pluralist"
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.15
+			}
+		}
+	}
+
+	###############################################################
+	# Converting TO an unreformed faith often has steep penalties #
+	###############################################################
+	if = {
+		limit = {
+			scope:new_faith = {
+				has_doctrine_parameter = unreformed
+			}
+		}
+
+		# Massive penalty if your current faith is reformed.
+		if = {
+			limit = {
+				scope:character = {
+					faith = {
+						NOT = { has_doctrine_parameter = unreformed }
+					}
+				}
+			}
+			multiply = {
+				value = 1
+				add = {
+					desc = "faith_conversion_cost_reformed_converting_to_unreformed"
+					format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+					value = 5
+				}
+			}
+			
+		}
+
+		# Minor stacking penalties depending on (non-tribal) government form.
+		if = {
+			limit = {
+				scope:character = {
+					government_has_flag = government_is_clan
+				}
+			}
+			multiply = {
+				value = 1
+				add = {
+					desc = "faith_conversion_cost_clan_converting_to_unreformed"
+					format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+					value = 0.25
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:character = {
+					government_has_flag = government_is_feudal
+				}
+			}
+			multiply = {
+				value = 1
+				add = {
+					desc = "faith_conversion_cost_feudal_converting_to_unreformed"
+					format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+					value = 0.5
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:character = {
+					government_has_flag = government_is_republic
+				}
+			}
+			multiply = {
+				value = 1
+				add = {
+					desc = "faith_conversion_cost_republic_converting_to_unreformed"
+					format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+					value = 0.75
+				}
+			}
+		}
+	}
+
+	##################################
+	# Dead Religion/Faith penalty(s) #
+	##################################
+	#More expensive to convert to a dead religion
+	if = {
+		limit = {
+			scope:new_faith = {
+				religion = {
+					any_faith = {
+						count = all
+						has_followers_trigger = no
+					}
+				}
+			}
+		}
+		multiply = {
+			value = 1
+			add = {
+				desc = faith_conversion_cost_dead_religion
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 5
+			}
+		}
+	}
+
+	#######################################
+	# Switching religion/family penalties #
+	#######################################
+	# More expensive if you convert to a faith outside of your religion's family
+	if = {
+		limit = {
+			scope:new_faith = {
+				religion = { is_in_family = rf_aedra } #EK EDIT: Replaced the religion families with the ones from EK
+			}
+			scope:character = {
+				faith = {
+					religion = {
+						NOT = { is_in_family = rf_aedra } #EK EDIT: Replaced the religion families with the ones from EK
+					}
+				}
+			}
+		}
+		multiply = {
+			value = 1
+			add = {
+				desc = faith_conversion_cost_other_religion_family
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 2
+			}
+		}
+	}
+	if = {
+		limit = {
+			scope:new_faith = {
+				religion = { is_in_family = rf_aurbis } #EK EDIT: Replaced the religion families with the ones from EK
+			}
+			scope:character = {
+				faith = {
+					religion = {
+						NOT = { is_in_family = rf_aurbis } #EK EDIT: Replaced the religion families with the ones from EK
+					}
+				}
+			}
+		}
+		multiply = {
+			value = 1
+			add = {
+				desc = faith_conversion_cost_other_religion_family
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 2
+			}
+		}
+	}
+	if = {
+		limit = {
+			scope:new_faith = {
+				religion = { is_in_family = rf_daedra } #EK EDIT: Replaced the religion families with the ones from EK
+			}
+			scope:character = {
+				faith = {
+					religion = { NOT = { is_in_family = rf_daedra } } #EK EDIT: Replaced the religion families with the ones from EK
+				}
+			}
+		}
+		multiply = {
+			value = 1
+			add = {
+				desc = faith_conversion_cost_other_religion_family
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 2
+			}
+		}
+	}
+	
+	# Unreformed Faiths have an easier way converting to Organized faiths
+	if = {
+		limit = {
+			scope:new_faith = {
+				NOT = {
+					has_doctrine_parameter = unreformed
+				}
+			}
+			scope:character = {
+				faith = {
+					has_doctrine_parameter = unreformed
+				}
+			}
+		}
+		multiply = {
+			value = 1
+			subtract = {
+				desc = faith_conversion_cost_unreformed_to_organized
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.9
+			}
+		}
+	}
+	
+	# More expensive to convert to something inside your religion family that's not the same religion
+	if = {
+		limit = {
+			scope:new_faith = {
+				religion = { is_in_family = rf_aedra } #EK EDIT: Replaced the religion families with the ones from EK
+			}
+			scope:character = {
+				faith = {
+					religion = {
+						is_in_family = rf_aedra #EK EDIT: Replaced the religion families with the ones from EK
+						NOT = { this = scope:new_faith.religion}
+					}
+				}
+			}
+		}
+		multiply = {
+			value = 1
+			add = {
+				desc = faith_conversion_cost_inside_religion_family
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 1
+			}
+		}
+	}
+	if = {
+		limit = {
+			scope:new_faith = {
+				religion = { is_in_family = rf_aurbis } #EK EDIT: Replaced the religion families with the ones from EK
+			}
+			scope:character = {
+				faith = {
+					religion = {
+						is_in_family = rf_aurbis #EK EDIT: Replaced the religion families with the ones from EK
+						NOT = { this = scope:new_faith.religion}
+					}
+				}
+			}
+		}
+		multiply = {
+			value = 1
+			add = {
+				desc = faith_conversion_cost_inside_religion_family
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 1
+			}
+		}
+	}
+	if = {
+		limit = {
+			scope:new_faith = {
+				religion = { is_in_family = rf_daedra } #EK EDIT: Replaced the religion families with the ones from EK
+			}
+			scope:character = {
+				faith = {
+					religion = {
+						is_in_family = rf_daedra #EK EDIT: Replaced the religion families with the ones from EK
+						NOT = { this = scope:new_faith.religion}
+					}
+				}
+			}
+		}
+		multiply = {
+			value = 1
+			add = {
+				desc = faith_conversion_cost_inside_religion_family
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 1
+			}
+		}
+	}
+
+	#######################################
+	# Misc penalties #
+	#######################################
+
+	### EK NOTE: Faith hostility now comes in a 0-100 range
+	# More expensive to convert to a faith who's HoF you HumSac'D/to a faith on good terms with one who's HoF you HumSac'd, unless they're chill with HumSac.
+	if = {
+		limit = {
+			scope:character = {
+				has_variable_list = humsacd_hofs
+				any_in_list = {
+					variable = humsacd_hofs
+					faith_hostility_level = {
+						target = scope:new_faith
+						value <= faith_astray_level
+					}
+				}
+			}
+			# Exemptions for people who already practice HumSac: they're likely not happy, but it's not the ultimate taboo for them.
+			scope:new_faith = {
+				NOT = { has_doctrine_parameter = human_sacrifice_active }
+			}
+		}
+		multiply = {
+			value = 1
+			add = {
+				desc = faith_conversion_cost_sacrificed_hof
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 5
+			}
+		}
+	}
+
+	########################
+	# Conversion Discounts #
+	########################
+	# Cheaper if you are targeted by the new Faith in a defensive Holy War
+	if = {
+		limit = {
+			scope:character = {
+				any_character_war = {
+					using_holy_war_cb_trigger = yes
+					is_defender = scope:character
+				}
+			}
+		}
+		if = { # Even cheaper if unreformed
+			limit = {
+				scope:new_faith = {
+					NOT = { has_doctrine_parameter = unreformed }
+				}
+				scope:character = {
+					faith = {
+						has_doctrine_parameter = unreformed
+					}
+				}
+			}
+			multiply = {
+				value = 1 
+				subtract = {
+					desc = faith_conversion_cost_unreformed_holy_war
+					format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+					value = 0.9
+				}
+			}
+		}
+		else = { # But still a sizable discount otherwise.
+			multiply = {
+				value = 1 
+				subtract = {
+					desc = faith_conversion_cost_holy_war
+					format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+					value = 0.5
+				}
+			}
+		}
+	}
+	# Cheaper if your spouse is of the faith
+	if = {
+		limit = {
+			scope:character = {
+				any_spouse = {
+					faith = scope:new_faith
+				}
+			}
+		}
+		if = { # Even cheaper if unreformed
+			limit = {
+				scope:new_faith = {
+					NOT = { has_doctrine_parameter = unreformed }
+				}
+				scope:character = {
+					faith = {
+						has_doctrine_parameter = unreformed
+					}
+				}
+			}
+			multiply = {
+				value = 1 
+				subtract = {
+					desc = faith_conversion_cost_unreformed_spouse
+					format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+					value = 0.9
+				}
+			}
+		}
+		else = { # But still a sizable discount otherwise.		
+			multiply = {
+				value = 1 
+				subtract = {
+					desc = faith_conversion_cost_spouse
+					format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+					value = 0.5
+				}
+			}
+		}
+	}
+	# Does a concubine have the right religion?
+	else_if = {
+		limit = {
+			scope:character = {
+				any_concubine = {
+					faith = scope:new_faith
+				}
+			}
+		}
+		if = { # Even cheaper if unreformed
+			limit = {
+				scope:new_faith = {
+					NOT = { has_doctrine_parameter = unreformed }
+				}
+				scope:character = {
+					faith = {
+						has_doctrine_parameter = unreformed
+					}
+				}
+			}
+			multiply = {
+				value = 1 
+				subtract = {
+					desc = faith_conversion_cost_unreformed_concubine
+					format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+					value = 0.9
+				}
+			}
+		}
+		else = { # But still a sizable discount otherwise.
+			
+			multiply = {
+				value = 1 
+				subtract = {
+					desc = faith_conversion_cost_concubine
+					format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+					value = 0.25
+				}
+			}
+		}
+	}
+	# Cheaper if the religion is present near/in your borders
+	if = {
+		limit = {
+			scope:new_faith = {
+				religion = { is_in_family = rf_aedra } #EK EDIT
+			}
+			scope:character = {
+				faith = {
+					religion = {
+						NOT = { is_in_family = rf_aedra } #EK EDIT
+					}
+				}
+				OR = {
+					any_neighboring_top_liege_realm_owner = {
+						faith = scope:new_faith
+					}
+					any_vassal = {
+						faith = scope:new_faith
+					}
+					any_realm_province = {
+						faith = scope:new_faith
+					}
+					AND = {
+						exists = liege
+						liege = {
+							faith = scope:new_faith
+						}
+					}
+					AND = {
+						exists = liege
+						liege = {	
+							any_vassal = {
+								faith = scope:new_faith
+							}
+						}
+					}
+				}
+			}
+		}
+		multiply = {
+			value = 1 
+			subtract = {
+				desc = faith_conversion_cost_present
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.9
+			}
+		}
+	}
+	# Cheaper if the religion is present near/in your borders
+	else_if = {
+		limit = {
+			scope:new_faith = {
+				religion = { is_in_family = rf_aurbis } #EK EDIT
+			}
+			scope:character = {
+				faith = {
+					religion = {
+						NOT = { is_in_family = rf_aurbis } #EK EDIT
+					}
+				}
+				OR = {
+					any_neighboring_top_liege_realm_owner = {
+						faith = scope:new_faith
+					}
+					any_vassal = {
+						faith = scope:new_faith
+					}
+					any_realm_province = {
+						faith = scope:new_faith
+					}
+					AND = {
+						exists = liege
+						liege = {
+							faith = scope:new_faith
+						}
+					}
+					AND = {
+						exists = liege
+						liege = {	
+							any_vassal = {
+								faith = scope:new_faith
+							}
+						}
+					}
+				}
+			}
+		}
+		multiply = {
+			value = 1 
+			subtract = {
+				desc = faith_conversion_cost_present
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.9
+			}
+		}
+	}
+	# Cheaper if the religion is present near/in your borders
+	else_if = {
+		limit = {
+			scope:new_faith = {
+				religion = { is_in_family = rf_daedra } #EK EDIT
+			}
+			scope:character = {
+				faith = {
+					religion = {
+						NOT = { is_in_family = rf_daedra } #EK EDIT
+					}
+				}
+				OR = {
+					any_neighboring_top_liege_realm_owner = {
+						faith = scope:new_faith
+					}
+					any_vassal = {
+						faith = scope:new_faith
+					}
+					any_realm_province = {
+						faith = scope:new_faith
+					}
+					AND = {
+						exists = liege
+						liege = {
+							faith = scope:new_faith
+						}
+					}
+					AND = {
+						exists = liege
+						liege = {	
+							any_vassal = {
+								faith = scope:new_faith
+							}
+						}
+					}
+				}
+			}
+		}
+		multiply = {
+			value = 1 
+			subtract = {
+				desc = faith_conversion_cost_present
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.9
+			}
+		}
+	}
+	# Cheaper if the religion is present near/in your borders
+	else_if = {
+		limit = {
+			scope:new_faith = {
+				religion = { is_in_family = rf_aedra } #EK EDIT
+			}
+			scope:character = {
+				faith = {
+					religion = {
+						is_in_family = rf_aedra #EK EDIT
+						NOT = { this = scope:new_faith.religion}
+					}
+				}
+				OR = {
+					any_neighboring_top_liege_realm_owner = {
+						faith = scope:new_faith
+					}
+					any_vassal = {
+						faith = scope:new_faith
+					}
+					any_realm_province = {
+						faith = scope:new_faith
+					}
+					AND = {
+						exists = liege
+						liege = {
+							faith = scope:new_faith
+						}
+					}
+					AND = {
+						exists = liege
+						liege = {	
+							any_vassal = {
+								faith = scope:new_faith
+							}
+						}
+					}
+				}
+			}
+		}
+		multiply = {
+			value = 1 
+			subtract = {
+				desc = faith_conversion_cost_present
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.8
+			}
+		}
+	}
+	# Cheaper if the religion is present near/in your borders
+	else_if = {
+		limit = {
+			scope:new_faith = {
+				religion = { is_in_family = rf_aurbis } #EK EDIT
+			}
+			scope:character = {
+				faith = {
+					religion = {
+						is_in_family = rf_aurbis #EK EDIT
+						NOT = { this = scope:new_faith.religion}
+					}
+				}
+				OR = {
+					any_neighboring_top_liege_realm_owner = {
+						faith = scope:new_faith
+					}
+					any_vassal = {
+						faith = scope:new_faith
+					}
+					any_realm_province = {
+						faith = scope:new_faith
+					}
+					AND = {
+						exists = liege
+						liege = {
+							faith = scope:new_faith
+						}
+					}
+					AND = {
+						exists = liege
+						liege = {	
+							any_vassal = {
+								faith = scope:new_faith
+							}
+						}
+					}
+				}
+			}
+		}
+		multiply = {
+			value = 1 
+			subtract = {
+				desc = faith_conversion_cost_present
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.8
+			}
+		}
+	}
+	# Cheaper if the religion is present near/in your borders
+	else_if = {
+		limit = {
+			scope:new_faith = {
+				religion = { is_in_family = rf_daedra } #EK EDIT
+			}
+			scope:character = {
+				faith = {
+					religion = {
+						is_in_family = rf_daedra #EK EDIT
+						NOT = { this = scope:new_faith.religion}
+					}
+				}
+				OR = {
+					any_neighboring_top_liege_realm_owner = {
+						faith = scope:new_faith
+					}
+					any_vassal = {
+						faith = scope:new_faith
+					}
+					any_realm_province = {
+						faith = scope:new_faith
+					}
+					AND = {
+						exists = liege
+						liege = {
+							faith = scope:new_faith
+						}
+					}
+					AND = {
+						exists = liege
+						liege = {	
+							any_vassal = {
+								faith = scope:new_faith
+							}
+						}
+					}
+				}
+			}
+		}
+		multiply = {
+			value = 1 
+			subtract = {
+				desc = faith_conversion_cost_present
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.8
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			scope:character = {
+				OR = {
+					any_neighboring_top_liege_realm_owner = {
+						faith = scope:new_faith
+					}
+					any_vassal = {
+						faith = scope:new_faith
+					}
+					any_realm_province = {
+						faith = scope:new_faith
+					}
+					AND = {
+						exists = liege
+						liege = {
+							faith = scope:new_faith
+						}
+					}
+					AND = {
+						exists = liege
+						liege = {	
+							any_vassal = {
+								faith = scope:new_faith
+							}
+						}
+					}
+				}
+			}
+		}
+		multiply = {
+			value = 1 
+			subtract = {
+				desc = faith_conversion_cost_present
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.5
+			}
+		}
+	}
+	# Cheaper if you're an interloper in a struggle converting to an involved faith.
+	if = {
+		limit = {
+			scope:character = {
+				any_character_struggle = {
+					involvement = interloper
+					has_struggle_phase_parameter = cheaper_to_convert_to_struggle_faith
+					is_faith_involved_in_struggle = scope:new_faith
+				}
+			}
+		}
+		multiply = {
+			value = 1 
+			subtract = {
+				desc = struggle_parameter_cheaper_to_convert_to_struggle_faith
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.5
+			}
+		}
+	}
+
+	########################################
+	# Conversion Discounts from Traditions #
+	########################################
+	# scope:new_faith.religion = scope:character.faith.religion
+
+	# Pacifism Tenet
+	if = {
+		limit = {
+			AND = {
+				scope:character= {
+					culture = {
+						has_cultural_parameter = reduced_cost_for_conversion_to_pacifist_faith
+					}
+				}
+				scope:new_faith = {
+					has_doctrine = tenet_pacifism 
+				}
+			}
+		}
+		multiply = {
+			value = 1 
+			subtract = {
+				desc = faith_conversion_cost_tradition
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.25
+			}
+		}
+	}
+
+	####################################
+	# Conversion Discounts from Events #
+	####################################
+	if = {
+		limit = {
+			scope:character = {
+				exists = var:discounted_faith_to_convert_to_var
+			}
+			scope:character.var:discounted_faith_to_convert_to_var = scope:new_faith
+		}
+		multiply = {
+			value = 1
+			subtract = {
+				desc = faith_conversion_cost_event
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.5
+			}
+		}
+	}
+	#EK EDIT: no islam
+	#if = {
+	#	limit = {
+	#		scope:character = {
+	#			has_character_modifier = mpo_islam_conversion_modifier
+	#		}
+	#		scope:new_faith = { religion = religion:islam_religion }
+	#	}
+	#	multiply = {
+	#		value = 1
+	#		subtract = {
+	#			desc = faith_conversion_cost_mpo_islam_event
+	#			format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+	#			value = 0.25
+	#		}
+	#	}
+	#}
+	
+	###EK ADDITION: Communal Identity
+	if = {
+		limit = {
+			scope:new_faith = { has_doctrine = doctrine_cultural_identity_heritage }
+			NOT = { scope:character.culture = { has_same_culture_heritage = scope:new_faith.var:associated_culture } }
+		}
+		multiply = {
+			value = 1 
+			add = {
+				desc = faith_conversion_cost_cultural_identity_cg_outside_culture_group
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.5
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			scope:new_faith = { has_doctrine = doctrine_cultural_identity_heritage_exclusive }
+			NOT = { scope:character.culture = { has_same_culture_heritage = scope:new_faith.var:associated_culture } }
+		}
+		multiply = {
+			value = 1 
+			add = {
+				desc = faith_conversion_cost_cultural_identity_cg_exclusive_outside_heritage
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 1
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			scope:new_faith = { has_doctrine = doctrine_cultural_identity_culture }
+			NOT = { scope:character.culture = scope:new_faith.var:associated_culture }
+		}
+		multiply = {
+			value = 1 
+			add = {
+				desc = faith_conversion_cost_cultural_identity_outside_culture
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.5
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			scope:new_faith = { has_doctrine = doctrine_cultural_identity_culture_exclusive }
+			NOT = { scope:character.culture = scope:new_faith.var:associated_culture }
+		}
+		multiply = {
+			value = 1 
+			add = {
+				desc = faith_conversion_cost_cultural_identity_exclusive_outside_culture
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 1
+			}
+		}
+		add = {
+			desc = faith_conversion_cost_cultural_identity_exclusive_outside_culture
+			format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+			value = 1
+		}
+	}
+
+	### EK ADDITION: discount for Abominations to convert to faiths accepting of them
+	# Vamps
+	if = {
+		limit = {
+			scope:new_faith = {
+				has_doctrine_parameter = vampirism_accepted
+			}
+			scope:character = {
+				faith = {
+					NOT = { has_doctrine_parameter = vampirism_accepted }
+				}
+				is_vampire = yes
+			}
+		}
+		multiply = {
+			value = 1 
+			subtract = {
+				desc = faith_conversion_cost_vampire
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.5
+			}
+		}
+	}
+	# Lycans
+	if = {
+		limit = {
+			scope:new_faith = {
+				has_doctrine_parameter = lycanthropy_accepted
+			}
+			scope:character = {
+				faith = {
+					NOT = { has_doctrine_parameter = lycanthropy_accepted }
+				}
+				is_lycan = yes
+			}
+		}
+		multiply = {
+			value = 1 
+			subtract = {
+				desc = faith_conversion_cost_lycan
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.5
+			}
+		}
+	}
+	# Necromancers
+	if = {
+		limit = {
+			scope:new_faith = {
+				has_doctrine = doctrine_necromancy_accepted
+			}
+			scope:character = {
+				faith = {
+					NOT = { has_doctrine = doctrine_necromancy_accepted }
+				}
+				is_necromancer = yes
+			}
+		}
+		multiply = {
+			value = 1 
+			subtract = {
+				desc = faith_conversion_cost_necromancy
+				format = "BREAKDOWN_FORMAT_PIETY_PERCENTAGE_POSITIVE_IS_BAD"
+				value = 0.5
+			}
+		}
+	}
+	#EK ADDITION END
+
+	# Removing 1 to offset the value and present it as expected by the code
+	subtract = {
+		value = 1
+	}
+
+}
+
+reincarnation_chance = 4
+
+holy_sites_to_create_temporal_head_of_faith = 2 #EK EDIT
+holy_sites_to_create_spiritual_head_of_faith = 2 #EK EDIT
+
+faith_military_strength = {
+	every_ruler = {
+		limit = {
+			faith = prev
+			is_at_war = no
+		}
+		add = max_military_strength
+	}
+}
+
+### EK NOTE: Deprecated, Syncretism doesn't give an opinion bonus (makes instead the faiths see each other as Astray instead of Hostile)
+syncretic_mutual_opinion_bonus_value = 30
+
+ask_to_take_vows_piety_cost = {
+	value = {
+		add = medium_piety_value
+		if = {
+			limit = {
+				exists = liege
+				OR = {
+					is_child_of = liege
+					liege.primary_title = {
+						place_in_line_of_succession = {
+							target = prev
+							value <= 3
+						}
+					}
+				}
+			}
+			add = major_piety_value
+		}
+		else_if = {
+			limit = {
+				is_close_family_of = liege
+			}
+			add = medium_piety_value
+		}
+	}
+}
+
+holy_site_reform_tracker_value = {
+	value = 0
+	faith = {
+		every_holy_site = {
+			limit = {
+				county = {
+					save_temporary_scope_as = current_holy_site
+					OR = {
+						is_holy_site_controlled_by = root
+						root.confederation ?= {
+							any_confederation_member = {
+								scope:current_holy_site = {
+									is_holy_site_controlled_by = prev
+								}
+							}
+						}
+					}
+					holder.faith = root.faith
+				}
+			}
+			add = 1
+		}
+	}
+}

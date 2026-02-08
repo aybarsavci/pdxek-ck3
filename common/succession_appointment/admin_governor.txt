@@ -1,0 +1,990 @@
+﻿#EK NOTE: added our crimes, added flavor for Cyrodiil
+admin_governor = {
+	default_candidates = { holder_close_family }
+	invested_candidates = { holder_house_member landed_vassal landed_vassal_house_member unlanded_noble_house_head unlanded_noble_close_family }
+
+	candidate_score = {
+		value = {
+			# Base - Based on skills
+			add = {
+				value = martial
+				add = diplomacy
+				add = stewardship
+				add = intrigue
+				add = learning
+				multiply = 1
+				desc = sum_of_skills_desc
+			}
+
+			#EK ADDITION: arcana for magic-focused cultures
+			if = {
+				limit = {
+					culture = {
+						culture_is_magic_focused = yes
+					}
+				}
+				add = {
+					value = {
+						add = arcana
+						multiply = 1
+					}
+					desc = arcana_skills_desc
+				}
+			}
+			#EK ADDITION END
+
+			# Traits
+			if = {
+				limit = {
+					OR = {
+						has_trait = blind
+						has_trait = incapable
+						has_trait = infirm
+					}
+				}
+				subtract = {
+					value = 50
+					desc = negative_trait_succession
+				}
+			}
+			if = {
+				limit = { has_trait = disinherited }
+				subtract = {
+					value = 200
+					desc = trait_disinherited
+				}
+			}
+			if = {
+				limit = { has_trait = gallivanter }
+				subtract = {
+					value = 200
+					desc = trait_gallivanter
+				}
+			}
+			# CRIMINAL
+			if = {
+				limit = {
+					has_trait = deviant
+					exists = top_liege.primary_title.state_faith
+					trait_is_criminal_in_faith_trigger = { TRAIT = deviant FAITH = top_liege.primary_title.state_faith GENDER_CHARACTER = root }
+				}
+				add = {
+					value = -30
+					desc = "deviant_and_criminal_desc"
+				}
+			}
+			if = {
+				limit = {
+					has_trait = incestuous
+					exists = top_liege.primary_title.state_faith
+					trait_is_criminal_in_faith_trigger = { TRAIT = incestuous FAITH = top_liege.primary_title.state_faith GENDER_CHARACTER = root }
+				}
+				add = {
+					value = -30
+					desc = "incestuous_and_criminal_desc"
+				}
+			}
+			if = {
+				limit = {
+					has_trait = sodomite
+					exists = top_liege.primary_title.state_faith
+					trait_is_criminal_in_faith_trigger = { TRAIT = sodomite FAITH = top_liege.primary_title.state_faith GENDER_CHARACTER = root }
+				}
+				add = {
+					value = -30
+					desc = "sodomite_and_criminal_desc"
+				}
+			}
+			if = {
+				limit = {
+					has_trait = cannibal
+					exists = top_liege.primary_title.state_faith
+					trait_is_criminal_in_faith_trigger = { TRAIT = cannibal FAITH = top_liege.primary_title.state_faith GENDER_CHARACTER = root }
+				}
+				add = {
+					value = -30
+					desc = "cannibal_and_criminal_desc"
+				}
+			}
+			if = {
+				limit = {
+					has_trait = kinslayer_1
+					exists = top_liege.primary_title.state_faith
+					trait_is_criminal_in_faith_trigger = { TRAIT = kinslayer_1 FAITH = top_liege.primary_title.state_faith GENDER_CHARACTER = root }
+				}
+				add = {
+					value = -30
+					desc = "kinslayer_1_and_criminal_desc"
+				}
+			}
+			if = {
+				limit = {
+					has_trait = kinslayer_2
+					exists = top_liege.primary_title.state_faith
+					trait_is_criminal_in_faith_trigger = { TRAIT = kinslayer_2 FAITH = top_liege.primary_title.state_faith GENDER_CHARACTER = root }
+				}
+				add = {
+					value = -30
+					desc = "kinslayer_2_and_criminal_desc"
+				}
+			}
+			if = {
+				limit = {
+					has_trait = kinslayer_3
+					exists = top_liege.primary_title.state_faith
+					trait_is_criminal_in_faith_trigger = { TRAIT = kinslayer_3 FAITH = top_liege.primary_title.state_faith GENDER_CHARACTER = root }
+				}
+				add = {
+					value = -30
+					desc = "kinslayer_3_and_criminal_desc"
+				}
+			}
+			if = {
+				limit = {
+					has_trait = witch
+					exists = top_liege.primary_title.state_faith
+					trait_is_criminal_in_faith_trigger = { TRAIT = witch FAITH = top_liege.primary_title.state_faith GENDER_CHARACTER = root }
+				}
+				add = {
+					value = -30
+					desc = "witch_and_criminal_desc"
+				}
+			}
+			if = {
+				limit = {
+					has_trait = adulterer
+					exists = top_liege.primary_title.state_faith
+					trait_is_criminal_in_faith_trigger = { TRAIT = adulterer FAITH = top_liege.primary_title.state_faith GENDER_CHARACTER = root }
+				}
+				add = {
+					value = -30
+					desc = "adulterer_and_criminal_desc"
+				}
+			}
+			if = {
+				limit = {
+					has_trait = fornicator
+					exists = top_liege.primary_title.state_faith
+					trait_is_criminal_in_faith_trigger = { TRAIT = fornicator FAITH = top_liege.primary_title.state_faith GENDER_CHARACTER = root }
+				}
+				add = {
+					value = -30
+					desc = "fornicator_and_criminal_desc"
+				}
+			}
+
+			#EK ADDITION: our crimes
+			#Necromancy
+			if = { 
+				limit = {
+					has_trait = necromancer
+					exists = top_liege.primary_title.state_faith
+					trait_is_criminal_in_faith_trigger = { TRAIT = necromancer FAITH = top_liege.primary_title.state_faith GENDER_CHARACTER = root }
+				}
+				add = {
+					value = -100
+					desc = "necromancer_and_criminal_desc"
+				}
+			}
+			#Werewolf
+			if = {
+				limit = {
+					has_trait = lycan_character
+					exists = top_liege.primary_title.state_faith
+					trait_is_criminal_in_faith_trigger = { TRAIT = lycan_character FAITH = top_liege.primary_title.state_faith GENDER_CHARACTER = root }
+				}
+				add = {
+					value = -100 #More tolerable than vampirism but still bad
+					desc = "lycan_and_criminal_desc"
+				}
+			}
+			#Vampire
+			if = {
+				limit = {
+					has_trait = vampire_character
+					exists = top_liege.primary_title.state_faith
+					trait_is_criminal_in_faith_trigger = { TRAIT = vampire_character FAITH = top_liege.primary_title.state_faith GENDER_CHARACTER = root }
+				}
+				add = {
+					value = -100 #Big no no for lore and for gameplay
+					desc = "vampire_and_criminal_desc"
+				}
+			}
+
+			# COUNCIL POSITIONS
+			if = {
+				limit = {
+					scope:title.holder ?= {
+						any_councillor ?= { this = root }
+					}
+				}
+				add = {
+					value = 20
+					desc = councillor_position_governor_desc
+				}
+			}
+			# COURT POSITIONS
+			if = {
+				limit = {
+					scope:title.holder ?= {
+						any_court_position_holder ?= {
+							this = root
+						}
+					}
+				}
+				add = {
+					value = 10
+					desc = court_position_succession_governor_desc
+				}
+			}
+
+			# FAITH HOSTILITY
+			#EK EDIT: edited for our hostility system
+			if = {
+				limit = {
+					scope:title.holder.primary_title.state_faith ?= {
+						faith_hostility_level = {
+							target = root.faith
+							value >= faith_astray_level
+						}
+						faith_hostility_level = {
+							target = root.faith
+							value < faith_hostile_level
+						}
+					}
+				} #Change to faith acceptance
+				subtract = {
+					value = 10
+					if = {
+						#EK ADDITION: bigger debuff for ceremoniarchies
+						limit = {
+							scope:title.holder.top_liege ?= { uses_praxis_mechanics = yes }
+						}
+						value = 100
+					}
+					#EK ADDITION: tolerance laws
+					if = { #No penalties if tolerance law level 2
+						limit = {
+							scope:title.holder.top_liege ?= { has_realm_law = religious_tolerance_law_1 }
+						}
+						value = 15
+					}
+					desc = astray_faith_succession_desc
+				}
+			}
+			if = {
+				limit = {
+					scope:title.holder.primary_title.state_faith ?= {
+						faith_hostility_level = {
+							target = root.faith
+							value >= faith_hostile_level
+						}
+						faith_hostility_level = {
+							target = root.faith
+							value < faith_evil_level
+						}
+					}
+				} #Change to faith acceptance
+				subtract = {
+					value = 25
+					if = {
+						#EK ADDITION: bigger debuff for ceremoniarchies
+						limit = {
+							scope:title.holder.top_liege ?= { uses_praxis_mechanics = yes }
+						}
+						value = 250
+					}
+					#EK ADDITION: tolerance laws
+					if = { #Smaller debuff if level 2
+						limit = {
+							scope:title.holder.top_liege ?= { has_realm_law = religious_tolerance_law_1 }
+						}
+						value = 10 
+					}
+					if = { #No debuff if level 3
+						limit = {
+							scope:title.holder.top_liege ?= { has_realm_law = religious_tolerance_law_2 }
+						}
+						value = 0 
+					}
+					desc = hostile_faith_succession_desc
+				}
+			}
+			if = {
+				limit = {
+					scope:title.holder.primary_title.state_faith ?= {
+						faith_hostility_level = {
+							target = root.faith
+							value >= faith_evil_level
+						}
+					}
+				} #Change to faith acceptance
+				subtract = {
+					value = 50
+					if = {
+						#EK ADDITION: bigger debuff for ceremoniarchies
+						limit = {
+							scope:title.holder.top_liege ?= { uses_praxis_mechanics = yes }
+						}
+						value = 500
+					}
+					#EK ADDITION: tolerance laws
+					if = { #Still a small penalty even with highest level
+						limit = {
+							scope:title.holder.top_liege ?= { has_realm_law = religious_tolerance_law_2 }
+						}
+						value = 25
+					}
+					desc = evil_faith_sucession_desc
+				}
+			}
+
+			# CLAIMS
+			if = {
+				limit = { has_strong_claim_on = scope:title }
+				add = {
+					value = 25
+					desc = title_claim_desc
+				}
+			}
+			else_if = {
+				limit = { has_weak_claim_on = scope:title }
+				add = {
+					value = 15
+					desc = title_weak_claim_desc
+				}
+			}
+
+			# POPULAR OPINION
+			if = {
+				limit = { is_landed = yes }
+				add = {
+					value = {
+						value = capital_county.county_holder_opinion
+						multiply = 0.25
+					}
+					desc = county_holder_opinion_desc
+				}
+			}
+
+			# PERKS
+			if = {
+				limit = { has_perk = ducal_conquest_perk }
+				add = {
+					value = 30
+					desc = ducal_conquest_perk_name_desc
+				}
+			}
+
+			# LOWBORN? EW no
+			if = {
+				limit = {
+					is_lowborn = yes
+				}
+				subtract = {
+					value = 25
+					desc = lowborn_desc_succession
+				}
+			}
+
+			# INFLUENCE LEVEL
+			if = {
+				limit = {
+					influence_level = 0
+				}
+				subtract = {
+					value = 10
+					desc = "[influence_level|E]"
+				}
+			}
+			if = {
+				limit = {
+					influence_level >= 2
+				}
+				add = {
+					value = 10
+					multiply = {
+						value = influence_level
+						subtract = 1 # Base value should start at 2
+					}
+					desc = "[influence_level|E]"
+				}
+			}
+
+			#SAME CULTURE AS REGION
+			if = {
+				limit = { culture ?= scope:title.holder.capital_county.culture }
+				add = {
+					value = 10
+					desc = of_local_culture_succession_desc
+				}
+			}
+
+			# Personal reasons
+			if = {
+				limit = {
+					scope:title.holder ?= { is_close_family_of = root }
+				}
+				add = {
+					value = 15
+					desc = "close_family_holder_desc"
+				}
+			}
+			else_if = {
+				limit = {
+					scope:title.holder ?= {
+						any_spouse = { is_close_family_of = root }
+						NOT = { is_close_family_of = root }
+					}
+				}
+				add = {
+					value = 10
+					desc = "close_family_married_to_holder_desc"
+				}
+			}
+
+			#EK ADDITION: dynastic continuity
+			#EK ADDITION: cyrodiilic governorships are slightly more hereditary than in other places
+			if = {
+				limit = {
+					scope:title.holder ?= { #Current title holder is cyrodiilic
+						culture = {
+							has_cultural_pillar = heritage_cyrodiilic
+						}
+					}
+					dynasty = scope:title.holder.dynasty #Same dynasty as title holder
+				}
+				add = {
+					value = 60 #EK TODO COMP 1-13: possibly tweak this
+					desc = ek_imperial_same_dynasty_desc
+				}
+			}
+
+			#FRIENDS OF THE HOLDER
+			if = {
+				limit = {
+					scope:title.holder ?= { has_relation_friend = root }
+				}
+				add = {
+					value = 10
+					desc = governor_friend_desc
+				}
+			}
+			if = {
+				limit = {
+					scope:title.holder ?= { has_relation_best_friend = root }
+				}
+				add = {
+					value = 15
+					desc = governor_best_friend_desc
+				}
+			}
+
+			#REGENT OF EMPEROR
+			if = {
+				limit = { scope:title.holder.diarch ?= root }
+				add = {
+					value = scope:title.holder.diarchy_swing
+					desc = governor_diarch_desc
+				}
+			}
+
+			# Schemes
+			if = {
+				limit = { has_character_modifier = scheme_slandered_modifier }
+				add = {
+					value = slander_appointment_score_value
+					desc = scheme_slandered_modifier
+				}
+			}
+			if = {
+				limit = { has_character_modifier = scheme_promoted_modifier }
+				add = {
+					value = promote_appointment_score_value	# Keep this balanced if more values are added!
+					desc = scheme_promoted_modifier
+				}
+			}
+
+			# Decisions
+			if = {
+				limit = {
+					has_character_modifier = ep3_integration_promoter_modifier
+					has_variable = integration_promoted_in
+					var:integration_promoted_in.duchy ?= scope:title
+				}
+				add = {
+					value = 30
+					desc = ep3_integration_promoter_modifier
+				}
+			}
+
+			# PETITION
+			if = {
+				limit = { scope:title.var:petition_house_rights ?= house }
+				add = {
+					value = 250
+					desc = petition_liege_house_province_rights_value_desc
+				}
+			}
+
+			# EXISTING GOVERNORSHIPS
+			if = {
+				limit = { is_governor = yes }
+				add = {
+					value = -1000
+					desc = already_a_governor_tt
+				}
+			}
+
+			# ACH PURGE PRETENDERS OATH
+			if = {
+				limit = {
+					house ?= {
+						has_house_modifier = oath_of_purge_pretenders_house
+					}
+				}
+				add = {
+					value = 50
+					desc = oath_of_purge_pretenders_house
+				}
+			}
+			#EK ADDITION: Praxis things
+			if = {	#Altmeri governorships are more hereditary than in other places
+				limit = {
+					scope:title.holder.top_liege ?= { uses_praxis_mechanics = yes }
+					dynasty = scope:title.holder.dynasty #Same dynasty as title holder
+				}
+				add = {
+					value = 100 #EK TODO COMP 1-13: possibly tweak this
+					desc = ek_imperial_same_dynasty_desc
+				}
+			}
+			#Beauty
+			if = {
+				limit = {
+					scope:title.holder.top_liege ?= { uses_praxis_mechanics = yes }
+				}
+				add = {
+					value = 0
+					if = {
+						limit = {
+							has_trait = beauty_good_1
+						}
+						add = 10
+					}
+					if = {
+						limit = {
+							has_trait = beauty_good_2
+						}
+						add = 20 
+					}
+					if = {
+						limit = {
+							has_trait = beauty_good_3
+						}
+						add = 30
+					}
+					desc = admin_vote_beauty_good_desc
+				}
+			}
+			if = {
+				limit = {
+					scope:title.holder.top_liege ?= { uses_praxis_mechanics = yes }
+				}
+				add = {
+					value = 0
+					if = {
+						limit = {
+							has_trait = beauty_bad_1
+						}
+						add = -10
+					}
+					if = {
+						limit = {
+							has_trait = beauty_bad_2
+						}
+						add = -20 
+					}
+					if = {
+						limit = {
+							has_trait = beauty_bad_3
+						}
+						add = -30
+					}
+					desc = admin_vote_beauty_bad_desc
+				}
+			}
+			#Physique
+			if = {
+				limit = {
+					scope:title.holder.top_liege ?= { uses_praxis_mechanics = yes }
+				}
+				add = {
+					value = 0
+					if = {
+						limit = {
+							has_trait = physique_good_1
+						}
+						add = 10
+					}
+					if = {
+						limit = {
+							has_trait = physique_good_2
+						}
+						add = 20 
+					}
+					if = {
+						limit = {
+							has_trait = physique_good_3
+						}
+						add = 30
+					}
+					desc = admin_vote_physique_good_desc
+				}
+			}
+			if = {
+				limit = {
+					scope:title.holder.top_liege ?= { uses_praxis_mechanics = yes }
+				}
+				add = {
+					value = 0
+					if = {
+						limit = {
+							has_trait = physique_bad_1
+						}
+						add = -10
+					}
+					if = {
+						limit = {
+							OR = {
+								has_trait = weak
+								has_trait = physique_bad_2
+							}
+						}
+						add = -20
+					}
+					if = {
+						limit = {
+							has_trait = physique_bad_3
+						}
+						add = -30
+					}
+					desc = admin_vote_physique_bad_desc
+				}
+			}
+			if = {
+				limit = {
+					scope:title.holder.top_liege ?= { uses_praxis_mechanics = yes }
+					has_trait = impure
+				}
+				add = {
+					value = -30
+					desc = admin_vote_impurity_desc
+				}
+			}
+			#Altmers are serious about bad physical traits. Copied from admin_emperor but reduced values to 100 from 1000
+			if = {
+				limit = {
+					has_trait = incapable
+					scope:title.holder.culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance }
+				}
+				subtract = {
+					value = 100
+					desc = trait_incapable
+				}
+			}
+			if = {
+				limit = {
+					has_trait = blind
+					scope:title.holder.culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance }
+				}
+				subtract = {
+					value = 100
+					desc = trait_blind
+				}
+			}
+			if = {
+				limit = {
+					has_trait = eunuch_1
+					scope:title.holder.culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance }
+				}
+				subtract = {
+					value = 100
+					desc = trait_eunuch
+				}
+			}
+			if = {
+				limit = {
+					has_trait = beardless_eunuch
+					scope:title.holder.culture = { has_cultural_parameter = physical_disfigurement_blocks_inheritance }
+				}
+				subtract = {
+					value = 150
+					desc = trait_beardless_eunuch
+				}
+			}
+			#Add to succession score if praxis is positive
+			if = {
+				limit = {
+					scope:title.holder.top_liege ?= { uses_praxis_mechanics = yes }
+					has_variable = state_praxis
+					var:state_praxis >= 50
+				}
+				add = {
+					value = 1
+					multiply = var:state_praxis
+					desc = admin_vote_praxis_desc
+				}
+			}
+			#Subtract from succession score if praxis is negative
+			if = {
+				limit = {
+					scope:title.holder.top_liege ?= { uses_praxis_mechanics = yes }
+					has_variable = state_praxis
+					var:state_praxis < 50
+				}
+				subtract = {
+					value = 1
+					multiply = var:state_praxis
+					desc = admin_vote_praxis_desc
+				}
+			}
+			#EK ADDITION: Great Houses values
+			if = {
+				limit = { 
+					scope:title.holder.top_liege ?= { has_primary_title = title:k_hlaalu }
+					OR = {
+						diplomacy >= 10
+						stewardship >= 10
+					}	
+					OR = {
+						has_trait = education_diplomacy
+						has_trait = education_stewardship
+					}
+				}
+				add = {
+					value = 30
+					desc = admin_house_values_education_1
+				}
+			}
+			if = {
+				limit = { 
+					scope:title.holder.top_liege ?= { has_primary_title = title:k_hlaalu }
+					AND = {
+						diplomacy >= 12
+						stewardship >= 12
+					}	
+					OR = {
+						has_trait = education_diplomacy
+						has_trait = education_stewardship
+					}
+				}
+				add = {
+					value = 20
+					desc = admin_house_values_education_2
+				}
+			}
+			if = {
+				limit = { 
+					scope:title.holder.top_liege ?= { has_primary_title = title:k_indoril }
+					OR = {
+						diplomacy >= 10
+						learning >= 10
+					}	
+					OR = {
+						has_trait = education_diplomacy
+						has_trait = education_learning
+					}
+				}
+				add = {
+					value = 30
+					desc = admin_house_values_education_1
+				}
+			}
+			if = {
+				limit = { 
+					scope:title.holder.top_liege ?= { has_primary_title = title:k_indoril }
+					AND = {
+						diplomacy >= 12
+						learning >= 12
+					}	
+					OR = {
+						has_trait = education_diplomacy
+						has_trait = education_learning
+					}
+				}
+				add = {
+					value = 20
+					desc = admin_house_values_education_2
+				}
+			}
+			if = {
+				limit = { 
+					scope:title.holder.top_liege ?= { has_primary_title = title:k_redoran }
+					OR = {
+						martial >= 10
+						learning >= 10
+					}	
+					OR = {
+						has_trait = education_martial
+						has_trait = education_learning
+					}
+				}
+				add = {
+					value = 30
+					desc = admin_house_values_education_1
+				}
+			}
+			if = {
+				limit = { 
+					scope:title.holder.top_liege ?= { has_primary_title = title:k_redoran }
+					AND = {
+						martial >= 12
+						learning >= 12
+					}	
+					OR = {
+						has_trait = education_martial
+						has_trait = education_learning
+					}
+				}
+				add = {
+					value = 20
+					desc = admin_house_values_education_2
+				}
+			}
+			if = {
+				limit = { 
+					scope:title.holder.top_liege ?= { has_primary_title = title:k_dres }
+					OR = {
+						intrigue >= 10
+						stewardship >= 10
+					}	
+					OR = {
+						has_trait = education_intrigue
+						has_trait = education_stewardship
+					}
+				}
+				add = {
+					value = 30
+					desc = admin_house_values_education_1
+				}
+			}
+			if = {
+				limit = { 
+					scope:title.holder.top_liege ?= { has_primary_title = title:k_dres }
+					AND = {
+						intrigue >= 12
+						stewardship >= 12
+					}	
+					OR = {
+						has_trait = education_intrigue
+						has_trait = education_stewardship
+					}
+				}
+				add = {
+					value = 20
+					desc = admin_house_values_education_2
+				}
+			}
+			if = {
+				limit = { 
+					scope:title.holder.top_liege ?= { has_primary_title = title:k_telvanni }
+					OR = {
+						intrigue >= 10
+						has_arcana = { VALUE >= 10 }
+					}	
+					OR = {
+						has_trait = education_intrigue
+						has_trait = education_magic
+					}
+				}
+				add = {
+					value = 30
+					desc = admin_house_values_education_1
+				}
+			}
+			if = {
+				limit = { 
+					scope:title.holder.top_liege ?= { has_primary_title = title:k_telvanni }
+					AND = {
+						intrigue >= 12
+						has_arcana = { VALUE >= 12 }
+					}	
+					OR = {
+						has_trait = education_intrigue
+						has_trait = education_magic
+					}
+				}
+				add = {
+					value = 20
+					desc = admin_house_values_education_2
+				}
+			}
+			#EK ADDITION END
+			#ADJUST BASED ON GENDER LAW - MUST GO AT THE END
+			if = {
+				limit = {
+					scope:title.holder.top_liege ?= { has_realm_law = male_preference_law }
+					is_female = yes
+				}
+				multiply = {
+					value = {
+						value = 1
+						subtract = appointment_non_preferred_gender_penalty_value
+					}
+					desc = appointment_male_preference_desc
+				}
+			}
+			else_if = {
+				limit = {
+					scope:title.holder.top_liege ?= { has_realm_law = male_only_law }
+					is_female = yes
+				}
+				multiply = {
+					value = {
+						value = 1
+						subtract = appointment_opposite_gender_penalty_value
+					}
+					desc = appointment_male_only_desc
+				}
+			}
+			else_if = {
+				limit = {
+					scope:title.holder.top_liege ?= { has_realm_law = female_preference_law }
+					is_female = no
+				}
+				multiply = {
+					value = {
+						value = 1
+						subtract = appointment_non_preferred_gender_penalty_value
+					}
+					desc = appointment_female_preference_desc
+				}
+			}
+			else_if = {
+				limit = {
+					scope:title.holder.top_liege ?= { has_realm_law = female_only_law }
+					is_female = no
+				}
+				multiply = {
+					value = {
+						value = 1
+						subtract = appointment_opposite_gender_penalty_value
+					}
+					desc = appointment_female_only_desc
+				}
+			}
+			
+			# We remove all score from the emperor, to make sure you don't inherit governorships needlessly
+			if = {
+				limit = {
+					is_independent_ruler = yes
+				}
+				multiply = {
+					value = 0
+					desc = appointment_is_top_liege
+				}
+			}
+		}
+	}
+}

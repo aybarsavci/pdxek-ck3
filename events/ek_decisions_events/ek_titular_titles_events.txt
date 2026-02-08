@@ -1,0 +1,433 @@
+﻿namespace = ektitulartitle
+
+### Forming Kingdoms
+# Unifying your native lands
+ektitulartitle.0001 = { #player forms titular kingdom
+	type = character_event
+	content_source = dlc_ek
+	title = ektitulartitle.0001.t
+	desc = ektitulartitle.0001.desc
+	theme = realm
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_epic_sacral_moment"
+	}
+	option = {
+		name = ektitulartitle.0001.a
+	}
+}
+
+### Forming Empires
+# Reach Empire
+ektitulartitle.1001 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ektitulartitle.1001.t
+	desc = ektitulartitle.1001.desc
+	theme = realm
+	left_portrait = {
+		character = scope:founder
+		animation = personality_bold
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_epic_sacral_moment"
+		form_reach_empire_scripted_effect = yes
+	}
+
+	# Take the nickname
+	option = {
+		name = ektitulartitle.1001.a
+		give_nickname = nick_the_great
+		add_prestige_experience = massive_fame_gain
+	}
+	# No thanks on the nickname, more prestige instead please
+	option = {
+		name = ektitulartitle.1001.b
+		add_prestige_experience = monumental_fame_gain
+	}
+}
+
+#Inform any players.
+ektitulartitle.1002 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ektitulartitle.1001.t
+	desc = ektitulartitle.1002.desc
+	theme = realm
+	left_portrait = {
+		character = scope:founder
+		animation = personality_bold
+	}
+
+	immediate = {
+		#Empires get rivalry music.
+		if = {
+			limit = { highest_held_title_tier = tier_empire }
+			play_music_cue = "mx_cue_combat_2"
+		}
+	}
+
+	option = {
+		name = { # Empires are less than impressed
+			trigger = { highest_held_title_tier = tier_empire }
+			text = ektitulartitle.1002.a
+		}
+		name = { # Will it stand the test of time?
+			trigger = { NOT = { highest_held_title_tier = tier_empire } }
+			text = ektitulartitle.1002.b
+		}
+	}
+}
+
+### Vvardenfell Empire
+ektitulartitle.1101 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ektitulartitle.1101.t
+	desc = ektitulartitle.1101.desc
+	theme = realm
+	left_portrait = {
+		character = scope:founder
+		animation = personality_bold
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_epic_sacral_moment"
+		form_vvardenfell_empire_scripted_effect = yes
+	}
+	option = {
+		name = ektitulartitle.1101.a
+		add_prestige_experience = monumental_fame_gain
+		if = {
+			limit = { culture = { has_cultural_pillar = heritage_dwemeri }}
+			give_nickname = nick_dwarf_monarch
+		}	
+		else = { give_nickname = nick_the_great_unifier}
+	}
+}
+
+#Inform any players.
+ektitulartitle.1102 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ektitulartitle.1101.t
+	desc = ektitulartitle.1101.desc
+	theme = realm
+	left_portrait = {
+		character = scope:founder
+		animation = personality_bold
+	}
+
+	immediate = {
+		#Empires get rivalry music.
+		if = {
+			limit = { highest_held_title_tier = tier_empire }
+			play_music_cue = "mx_cue_combat_2"
+		}
+	}
+
+	option = {
+		name = { # Tribunal faith option
+			trigger = { faith = { has_doctrine = doctrine_pantheon_tribunal }}
+			text = ektitulartitle.1102.a
+		}
+		name = { # Others
+			text = ektitulartitle.1102.b
+		}
+	}
+}
+
+### Reintegrate Vvardenfell Empire
+ektitulartitle.1201 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ektitulartitle.1201.t
+	desc = ektitulartitle.1201.desc
+	theme = realm
+	left_portrait = {
+		character = scope:integrator
+		animation = personality_bold
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_epic_sacral_moment"
+	}
+	option = {
+		name = ektitulartitle.1201.a
+		add_prestige_experience = monumental_fame_gain
+		add_piety_experience = monumental_fame_gain
+	}
+}
+
+#Inform any players.
+ektitulartitle.1202 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ektitulartitle.1201.t
+	desc = ektitulartitle.1202.desc
+	theme = realm
+	left_portrait = {
+		character = scope:integrator
+		animation = personality_bold
+	}
+
+	immediate = {
+		#Empires get rivalry music.
+		if = {
+			limit = { highest_held_title_tier = tier_empire }
+			play_music_cue = "mx_cue_combat_2"
+		}
+	}
+
+	option = {
+		name = { # Tribunal faith option
+			trigger = { faith = { has_doctrine = doctrine_pantheon_tribunal }}
+			text = ektitulartitle.1202.a
+		}
+		name = { # Others
+			text = ektitulartitle.1202.b
+		}
+	}
+}
+
+### Cantemiris Empire
+ektitulartitle.1301 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ektitulartitle.1301.t
+	desc = ektitulartitle.1301.desc
+	theme = realm
+
+	left_portrait = {
+		character = scope:founder
+		animation = personality_bold
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_epic_sacral_moment"
+		form_cantemiris_empire_scripted_effect = yes
+	}
+	option = {
+		name = ektitulartitle.1301.a
+		add_prestige_experience = monumental_fame_gain
+		give_nickname = nick_the_cantemir
+	}
+}
+
+#Inform any players.
+ektitulartitle.1302 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ektitulartitle.1301.t
+	desc = ektitulartitle.1301.desc
+	theme = realm
+
+	left_portrait = {
+		character = scope:founder
+		animation = personality_bold
+	}
+
+	immediate = {
+		#Empires get rivalry music.
+		if = {
+			limit = { highest_held_title_tier = tier_empire }
+			play_music_cue = "mx_cue_combat_2"
+		}
+	}
+
+	option = {
+		name = { # Black Marsh option
+			trigger = { 
+				NOT = { capital_province = { geographical_region = mundus_tamriel_black_marsh_padomaic_marshes }} #but not within current Cantemiris
+				capital_province = { geographical_region = mundus_tamriel_black_marsh }
+			}
+			text = ektitulartitle.1302.a
+		}
+
+		name = { # Morrowind option
+			trigger = { capital_province = { geographical_region = mundus_tamriel_morrowind }}
+			text = ektitulartitle.1302.b
+		}
+
+		name = { # Others
+			text = ektitulartitle.1302.c
+		}
+	}
+}
+
+### Barsaebica Empire
+ektitulartitle.1401 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ektitulartitle.1401.t
+	desc = ektitulartitle.1401.desc
+	theme = realm
+
+	left_portrait = {
+		character = scope:founder
+		animation = personality_bold
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_epic_sacral_moment"
+		form_barsaebic_empire_scripted_effect = yes
+		#Notify other players.
+		every_player = {
+			limit = {
+				NOT = { this = root }
+				is_within_diplo_range = { CHARACTER = root }
+			}
+			trigger_event = ektitulartitle.1402
+		}
+	}
+	option = {
+		name = ektitulartitle.1401.a
+		add_prestige_experience = monumental_fame_gain
+		give_nickname = nick_the_fenlord
+	}
+}
+
+#Inform any players.
+ektitulartitle.1402 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ektitulartitle.1402.t
+	desc = ektitulartitle.1402.desc
+	theme = realm
+
+	left_portrait = {
+		character = scope:founder
+		animation = personality_bold
+	}
+
+	immediate = {
+		#Empires get rivalry music.
+		if = {
+			limit = { highest_held_title_tier = tier_empire }
+			play_music_cue = "mx_cue_combat_2"
+		}
+	}
+
+	option = {
+		name = ektitulartitle.1402.a
+	}
+}
+
+### Nedic Confederation
+ektitulartitle.1501 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ektitulartitle.1501.t
+	desc = ektitulartitle.1501.desc
+	theme = realm
+
+	left_portrait = {
+		character = scope:founder
+		animation = personality_bold
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_epic_sacral_moment"
+		form_nedic_kingdom_scripted_effect = yes
+		#Notify other players.
+		every_player = {
+			limit = {
+				NOT = { this = root }
+				is_within_diplo_range = { CHARACTER = root }
+			}
+			trigger_event = ektitulartitle.1502
+		}
+	}
+	option = {
+		name = ektitulartitle.1501.a
+		add_prestige_experience = monumental_fame_gain
+		give_nickname = nick_heir_of_durac
+	}
+}
+
+#Inform any players.
+ektitulartitle.1502 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ektitulartitle.1502.t
+	desc = ektitulartitle.1502.desc
+	theme = realm
+
+	left_portrait = {
+		character = scope:founder
+		animation = personality_bold
+	}
+
+	immediate = {
+		#Empires get rivalry music.
+		if = {
+			limit = { highest_held_title_tier = tier_empire }
+			play_music_cue = "mx_cue_combat_2"
+		}
+	}
+
+	option = {
+		name = ektitulartitle.1502.a
+	}
+}
+
+### Restore one of the Great Houses
+ektitulartitle.1601 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ektitulartitle.1601.t
+	desc = ektitulartitle.1601.desc
+	theme = realm
+	left_portrait = {
+		character = scope:restorer
+		animation = personality_bold
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_epic_sacral_moment"
+		#Notify other players.
+		every_ruler = {
+			limit = {
+				NOT = { this = root }
+				is_within_diplo_range = { CHARACTER = root }
+			}
+			trigger_event = {
+				id = ektitulartitle.1602
+				days = 1
+			}
+		}
+	}
+	option = {
+		name = ektitulartitle.1601.a
+		add_prestige_experience = major_fame_gain
+		add_piety_experience = major_fame_gain
+	}
+}
+
+#Inform any players.
+ektitulartitle.1602 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ektitulartitle.1601.t
+	desc = ektitulartitle.1602.desc
+	theme = realm
+	left_portrait = {
+		character = scope:restorer
+		animation = personality_bold
+	}
+
+	option = {
+		name = { # GCM option
+			trigger = { is_in_morrowind_council = yes }
+			text = ektitulartitle.1602.a
+		}
+		name = { # Others
+			text = ektitulartitle.1602.b
+		}
+	}
+}

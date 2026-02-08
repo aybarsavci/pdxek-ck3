@@ -1,0 +1,778 @@
+﻿namespace = ek_religious_interactions
+
+##########################
+# Rival Challenged to Bout
+# by Ewan Cowhig Croft
+##########################
+
+scripted_effect ek_religious_interactions_0101_apply_effects_effect = {
+	if = {
+		limit = { scope:sc_victor = scope:actor }
+		
+		scope:actor = {
+			create_title_and_vassal_change = {
+				type = conquest_claim
+				save_scope_as = change
+				add_claim_on_loss = yes
+			}
+			
+			every_in_list = {
+				list = potential_titles_taken
+				change_title_holder = {
+					holder = scope:actor
+					change = scope:change
+					take_baronies = yes
+				}
+			}
+	
+			resolve_title_and_vassal_change = scope:change
+		}
+	}
+	else = {
+		scope:actor = {
+			every_claim = {
+				limit = {
+					holder = scope:recipient
+				}
+				save_scope_as = current_claim
+				
+				scope:actor = { remove_claim = scope:current_claim }
+			}
+		}
+	}
+	
+	scope:sc_victor = {
+		if = {
+			limit = { faith = { has_doctrine_parameter = lethal_and_free_claim_duel_active } }
+			add_prestige = medium_piety_gain
+		}
+	}
+}
+
+ek_religious_interactions.0101 = {
+	hidden = yes
+
+	immediate = {
+		scope:sc_victor = {
+			trigger_event = {
+				id = ek_religious_interactions.0103
+				days = 1
+			}
+		}
+	}
+}
+
+ek_religious_interactions.0103 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_religious_interactions.0103.t
+	desc = ek_religious_interactions.0103.desc
+	theme = battle
+	override_background = { reference = courtyard } 
+    left_portrait = {
+        character = scope:sc_victor
+        animation = celebrate_sword
+    }
+
+	immediate = {
+		add_character_flag = wear_armor
+		# If the victor is the one who was challenged gain some prestige
+		if = { 
+			limit = { root = scope:recipient }
+			add_prestige = medium_prestige_value
+		}
+	}
+
+	option = { #Kill the loser 
+		name = ek_religious_interactions.0103.a
+
+		trigger = {
+			scope:sc_loser = { is_alive = yes }
+		}
+		
+		every_courtier = {
+			limit = { faith = { has_doctrine_parameter = lethal_and_free_claim_duel_active } }
+			add_opinion = {
+				target = scope:sc_victor
+				modifier = respect_opinion
+				opinion = 10
+			}
+		}
+
+		scope:sc_loser = {
+			death = {
+				death_reason = death_duel
+				killer = scope:sc_victor
+			}
+		}
+
+		# If the victor is the challenger, get the titles of the loser
+		if = { 
+			limit = { scope:sc_victor = scope:actor }
+			scope:actor = {
+				ek_religious_interactions_0101_apply_effects_effect = yes
+			}
+		}
+
+		stress_impact = {			
+			wrathful = minor_stress_impact_loss
+			callous = minor_stress_impact_loss
+			sadistic = minor_stress_impact_loss
+			vengeful = minor_stress_impact_loss
+			compassionate = major_stress_impact_gain
+			forgiving = medium_stress_impact_gain
+		}
+
+		ai_chance = { 
+            base = 50
+            modifier = { 
+                add = 10 
+                has_trait = wrathful          
+            }
+            modifier = { 
+                add = 10 
+                has_trait = callous         
+            }
+            modifier = { 
+                add = 10 
+                has_trait = sadistic        
+            }
+            modifier = { 
+                add = 10 
+                has_trait = vengeful       
+            }
+        }     
+	}
+
+	option = { #Spare the loser
+		name = ek_religious_interactions.0103.b
+
+		trigger = {
+			scope:sc_loser = { is_alive = yes }
+		}
+
+		every_courtier = {
+			limit = { faith = { has_doctrine_parameter = lethal_and_free_claim_duel_active } }
+			add_opinion = {
+				target = scope:sc_victor
+				modifier = respect_opinion
+				opinion = -10
+			}
+		}
+
+		scope:sc_loser = {
+			if = {
+				limit = { has_trait = craven }
+				add_opinion = {
+					target = scope:sc_victor
+					modifier = grateful_opinion
+					opinion = 50
+				}
+			}
+			else = {
+				add_opinion = {
+					target = scope:sc_victor
+					modifier = humiliated_opinion
+					opinion = -50
+				}
+			}
+		}
+
+		# If the victor is the challenger, get the titles of the loser
+		if = { 
+			limit = { scope:sc_victor = scope:actor }
+			ek_religious_interactions_0101_apply_effects_effect = yes
+			# Start the claimant fighting as if the old ruler was as liege of the winner
+			if = {
+				limit = {
+					scope:sc_victor= {
+						is_child_of = scope:sc_loser
+					}
+				}
+				scope:sc_loser = { save_scope_as = previous_ruler }
+				trigger_event = { id = ek_rbm.0001 days = 3 }				
+			}
+		}
+
+		# If the victor is the one who was challenged and the loser is their vasall, imprison them
+		if = { 
+			limit = { 
+				scope:sc_loser = {
+					NOT = { this = scope:recipient }
+					is_vassal_of = scope:sc_victor
+				}				
+			}
+			imprison = {
+				target = scope:sc_loser
+				type = dungeon
+			}
+		}
+
+		stress_impact = {			
+			wrathful = minor_stress_impact_gain
+			callous = minor_stress_impact_gain
+			sadistic = minor_stress_impact_gain
+			vengeful = minor_stress_impact_gain
+			compassionate = major_stress_impact_loss
+			forgiving = medium_stress_impact_loss
+		}
+
+		ai_chance = { 
+            base = 10
+            modifier = { 
+                add = 40
+                has_trait = compassionate         
+            }
+        }
+	}
+
+	option = { #The loser is already dead
+		name = ek_religious_interactions.0103.c
+		trigger = {
+			scope:sc_loser = { is_alive = no }
+		}
+		custom_tooltip = {
+			text = ek_religious_interactions.0103.c.t			
+		}
+
+		# If the victor is the challenger, get the titles of the loser
+		if = { 
+			limit = { scope:sc_victor = scope:actor }
+			scope:actor = {
+				ek_religious_interactions_0101_apply_effects_effect = yes
+			}
+		}		
+	}
+
+	after = {
+		remove_character_flag = wear_armor
+	}
+}
+
+### EK TSAESENCE
+#Failure
+ek_religious_interactions.0200 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_religious_interactions.0200.t
+	desc = ek_religious_interactions.0200.desc
+	theme = dungeon
+	
+	left_portrait = {
+		character = root
+		animation = stress
+	}	
+
+	right_portrait = {
+		character = scope:victim_char
+	}
+
+	option = {
+		name = ek_religious_interactions.0200.a
+		
+		add_stress = medium_stress_impact_gain
+	}
+}
+
+#Success
+ek_religious_interactions.0201 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_religious_interactions.0201.t
+	desc = {
+		desc = ek_religious_interactions.0201.desc
+		desc = {
+			first_valid = {
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:skill_diplomacy }
+					desc = ek_religious_interactions.0201.diplomacy.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:skill_martial }
+					desc = ek_religious_interactions.0201.martial.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:skill_stewardship }
+					desc = ek_religious_interactions.0201.stewardship.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:skill_intrigue }
+					desc = ek_religious_interactions.0201.intrigue.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:skill_learning }
+					desc = ek_religious_interactions.0201.learning.desc
+				}
+			}
+		}
+		desc = {
+			first_valid = {
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_brave }
+					desc = ek_religious_interactions.0201.brave.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_craven }
+					desc = ek_religious_interactions.0201.craven.desc
+					}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_calm }
+					desc = ek_religious_interactions.0201.calm.desc
+					}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_wrathful }
+					desc = ek_religious_interactions.0201.wrathful.desc
+					}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_chaste }
+					desc = ek_religious_interactions.0201.chaste.desc
+					}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_lustful }
+					desc = ek_religious_interactions.0201.lustful.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_content }
+					desc = ek_religious_interactions.0201.content.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_ambitious }
+					desc = ek_religious_interactions.0201.ambitious.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_diligent }
+					desc = ek_religious_interactions.0201.diligent.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_lazy }
+					desc = ek_religious_interactions.0201.lazy.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_fickle }
+					desc = ek_religious_interactions.0201.fickle.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_stubborn }
+					desc = ek_religious_interactions.0201.stubborn.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_forgiving }
+					desc = ek_religious_interactions.0201.forgiving.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_vengeful }
+					desc = ek_religious_interactions.0201.vengeful.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_generous }
+					desc = ek_religious_interactions.0201.generous.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_greedy }
+					desc = ek_religious_interactions.0201.greedy.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_gregarious }
+					desc = ek_religious_interactions.0201.gregarious.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_shy }
+					desc = ek_religious_interactions.0201.shy.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_honest }
+					desc = ek_religious_interactions.0201.honest.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_deceitful }
+					desc = ek_religious_interactions.0201.deceitful.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_humble }
+					desc = ek_religious_interactions.0201.humble.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_arrogant }
+					desc = ek_religious_interactions.0201.arrogant.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_just }
+					desc = ek_religious_interactions.0201.just.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_arbitrary }
+					desc = ek_religious_interactions.0201.arbitrary.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_patient }
+					desc = ek_religious_interactions.0201.patient.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_impatient }
+					desc = ek_religious_interactions.0201.impatient.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_temperate }
+					desc = ek_religious_interactions.0201.temperate.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_gluttonous }
+					desc = ek_religious_interactions.0201.gluttonous.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_trusting }
+					desc = ek_religious_interactions.0201.trusting.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_paranoid }
+					desc = ek_religious_interactions.0201.paranoid.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_zealous }
+					desc = ek_religious_interactions.0201.zealous.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_cynical }
+					desc = ek_religious_interactions.0201.cynical.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_compassionate }
+					desc = ek_religious_interactions.0201.compassionate.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_callous }
+					desc = ek_religious_interactions.0201.callous.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_sadistic }
+					desc = ek_religious_interactions.0201.sadistic.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:personality_eccentric }
+					desc = ek_religious_interactions.0201.eccentric.desc
+				}
+			}		
+		}
+		desc = {
+			first_valid = {
+				triggered_desc = {
+					trigger = { scope:tsaesence_outcome = flag:new_language }
+					desc = ek_religious_interactions.0201.language.desc
+				}
+			}
+		}
+		desc = {
+			first_valid = {
+				triggered_desc = {
+					trigger = { scope:tsaesence_upgrade = flag:tsaescence_1 }
+					desc = ek_religious_interactions.0201.tsae1.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_upgrade = flag:tsaescence_2 }
+					desc = ek_religious_interactions.0201.tsae2.desc
+				}			
+				triggered_desc = {
+					trigger = { scope:tsaesence_upgrade = flag:tsaescence_3 }
+					desc = ek_religious_interactions.0201.tsae3.desc
+				}
+				triggered_desc = {
+					trigger = { scope:tsaesence_upgrade = flag:tsaescence_4 }
+					desc = ek_religious_interactions.0201.tsae4.desc
+				}
+			}
+		}
+	}
+	theme = dungeon
+	
+	left_portrait = {
+		character = root
+	}	
+
+	right_portrait = {
+		character = scope:victim
+	}
+	
+	immediate = {
+		random_list = {
+			10 = {
+				trigger = { tsaesence_change_personality_trigger = yes }
+				tsaesence_change_personality_effect = yes
+			}
+			10 = {
+				trigger = { tsaesence_learn_language_trigger = yes }
+				tsaesence_learn_language_effect = yes
+			}
+			10 = {
+				tsaesence_get_skill_effect = yes
+			}
+		}
+	}		
+
+	option = {
+		name = ek_religious_interactions.0201.a		
+		tsaesence_resolve_effect = yes
+
+		add_stress = medium_stress_impact_loss
+	}
+}
+
+ek_religious_interactions.0300 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_religious_interactions.0300.t
+	desc = ek_religious_interactions.0300.desc
+	theme = family
+	left_portrait = root
+    right_portrait = scope:child
+
+	option = {
+		name = ek_religious_interactions.0300.a
+		
+		#One shiny new child for you!
+		if = {
+			limit = { is_female = yes }
+			scope:child = { set_mother = root }
+		}
+		else = {
+			scope:child = { set_father = root }
+		}
+
+		scope:child = {
+			release_from_prison = yes
+			set_character_faith = root.faith
+			create_character_memory = {
+				type = became_adopted_memory
+				participants = {
+					new_parent = scope:new_parent
+				}
+			}
+		}
+
+		create_character_memory = {
+			type = adopted_child_memory
+				participants = {
+				child = scope:child
+			}
+		}
+
+        hidden_effect = {
+			#We take care of the sundries in a hidden effect so as not to put too much into the tooltip.
+			scope:child = { 				
+				set_house = root.house 
+				add_trait = disputed_heritage
+				trigger_event = {
+					id = ek_religious_interactions.0301
+				}
+			}
+			add_courtier = scope:child
+		}
+	}
+}
+
+ek_religious_interactions.0301 = {
+	type = character_event
+	content_source = dlc_ek
+	title = ek_religious_interactions.0301.t
+	desc = {
+		triggered_desc = {
+			trigger = {
+				faith = { has_doctrine_parameter = adopt_prisoners_active }
+			}
+			desc = ek_religious_interactions.0301.desc.ghost
+		}
+		desc = ek_religious_interactions.0301.desc
+	}
+	theme = family
+	left_portrait = root
+    right_portrait = scope:child
+
+
+	# Happy
+	option = {
+		name = ek_religious_interactions.0301.a
+		trigger = {
+			is_lowborn = yes
+		}
+		
+		add_opinion = {
+			target = scope:new_parent
+			modifier = changed_my_life_opinion
+			opinion = 50
+		}
+
+		stress_impact = {
+			trusting = medium_stress_impact_loss
+			compassionate = minor_stress_impact_loss
+			paranoid = medium_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = trusting
+				add = 50
+			}
+			modifier = {
+				has_trait = compassionate
+				add = 25
+			}
+			modifier = {
+				has_trait = paranoid
+				add = -50
+			}
+		}
+	}
+
+	# Wary
+	option = {
+		name = ek_religious_interactions.0301.b
+		trigger = {
+			is_lowborn = no
+		}
+		
+		add_opinion = {
+			target = scope:new_parent
+			modifier = changed_my_life_opinion
+			opinion = -25
+		}
+
+		stress_impact = {
+			trusting = medium_stress_impact_loss
+			compassionate = minor_stress_impact_loss
+			forgiving = medium_stress_impact_loss
+			paranoid = medium_stress_impact_gain
+			vengeful = major_stress_impact_gain
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				has_trait = trusting
+				add = 50
+			}
+			modifier = {
+				has_trait = compassionate
+				add = 25
+			}
+			modifier = {
+				has_trait = forgiving
+				add = 50
+			}
+			modifier = {
+				has_trait = paranoid
+				add = -50
+			}
+			modifier = {
+				has_trait = vengeful
+				add = -75
+			}
+		}
+	}
+
+	# Unhappy
+	option = {
+		name = ek_religious_interactions.0301.c
+		
+		add_opinion = {
+			target = scope:new_parent
+			modifier = changed_my_life_opinion
+			opinion = -50
+		}
+
+		if = {
+			limit = {
+				can_set_relation_potential_rival_trigger = { CHARACTER = scope:new_parent }
+			}
+			set_relation_potential_rival = scope:new_parent
+		}
+
+		stress_impact = {
+			trusting = medium_stress_impact_gain
+			compassionate = minor_stress_impact_gain
+			forgiving = medium_stress_impact_gain
+			paranoid = medium_stress_impact_loss
+			vengeful = major_stress_impact_loss
+		}
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				has_trait = trusting
+				add = -50
+			}
+			modifier = {
+				has_trait = compassionate
+				add = -25
+			}
+			modifier = {
+				has_trait = forgiving
+				add = -50
+			}
+			modifier = {
+				has_trait = paranoid
+				add = 50
+			}
+			modifier = {
+				has_trait = vengeful
+				add = 75
+			}
+			modifier = {
+				faith = { NOT = { has_doctrine_parameter = adopt_prisoners_active } }
+				add = 50
+			}
+		}
+	}
+}
+
+# Forced house head challenge surrender: actor
+ek_religious_interactions.0400 = {
+	type = character_event
+	title = ek_religious_interactions.0400.t
+	desc = ek_religious_interactions.0400.desc
+	theme = dynasty
+	override_background = { reference = throne_room }
+	
+	left_portrait = {
+		character = scope:house_challenger
+		animation = war_over_win
+	}
+	right_portrait = {
+		character = scope:house_head
+		animation = war_over_loss
+	}
+
+	immediate = {
+		show_as_tooltip = { fp3_challenge_house_head_duel_challenger_win_prestige_effect = yes } # Prestige gain
+	}
+
+	option = {
+		name = ek_religious_interactions.0400.a
+	}
+}
+
+# Forced house head challenge surrender: recipient
+ek_religious_interactions.0401 = {
+	type = character_event
+	title = ek_religious_interactions.0400.t
+	desc = ek_religious_interactions.0401.desc
+	theme = dynasty
+	override_background = { reference = throne_room }
+	
+	left_portrait = {
+		character = scope:house_head
+		animation = war_over_loss
+	}
+	right_portrait = {
+		character = scope:house_challenger
+		animation = war_over_win
+	}
+
+	immediate = {
+		fp3_challenge_house_head_duel_challenger_win_prestige_effect = yes # Prestige gain
+		fp3_challenge_house_head_duel_challenger_win_house_effect = yes # House head change
+	}
+
+	option = {
+		name = ek_religious_interactions.0401.a
+	}
+}

@@ -1,0 +1,23 @@
+﻿## Events specific to the Ceremoniarchy (Praxis) government.
+
+namespace = praxis
+
+#Liege event for when someone loses the Ceremoniarchy government
+praxis.0001 = {
+	type = character_event
+	theme = crown
+	title = ceremoniarchy_rejection_title
+	desc = ceremoniarchy_rejection_desc
+	left_portrait = {
+		character = scope:dissident
+		animation = disapproval
+	}
+
+	option = {
+		name = ceremoniarchy_rejection_option
+			add_opinion = {
+				modifier = rejected_ceremoniarchy
+				target = scope:dissident
+			}
+	}
+}

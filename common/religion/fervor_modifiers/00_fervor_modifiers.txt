@@ -1,0 +1,28 @@
+﻿### EK NOTE: we've reworked for Fervour works, adding in the Equilibrium mechanic
+# so lets disable the vanila stuff
+# base_fervor_increase = {
+# 	value = 3.5
+# }
+
+#no_head_fervor = {
+#	trigger = {
+#		has_doctrine = doctrine_no_head
+#	}
+#	value = 0.1
+#}
+
+### EK ADITION: and add our own
+fervor_equilibrium_below = {
+	trigger = { fervor < { value = var:fervor_equilibrium } }
+	value = fervor_equilibrium_below_value
+}
+fervor_equilibrium_above = {
+	trigger = { fervor > { value = var:fervor_equilibrium } }
+	value = fervor_equilibrium_below_value
+}
+fervor_equilibrium_at_equilibrium = {
+	trigger = {
+		fervor = { value = var:fervor_equilibrium add = 0 }
+	}
+	value = 0
+}
