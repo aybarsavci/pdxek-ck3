@@ -180,7 +180,6 @@ spell_get_size = {
                 scope:spell = flag:fortify_buildings
                 scope:spell = flag:mass_paranoia
                 scope:spell = flag:calm
-                scope:spell = flag:resilience
                 scope:spell = flag:spread_vitality
                 scope:spell = flag:charm  
                 scope:spell = flag:destroy_walls
@@ -631,14 +630,7 @@ spell_mind_bending_province_effect = {} #left empty on purpose to avoid throwing
 ### Restoration
 # Resilience
 spell_resilience_castee_effect = {
-    switch = {
-        trigger = ROOT.var:spell_selected_size
-        flag:_petty = { cast_spell_effect = { SPELL = resilience CASTER = ROOT.var:spell_caster RECIPIENT = ROOT.var:spell_recipient TIER = petty } }
-        flag:_lesser = { cast_spell_effect = { SPELL = resilience CASTER = ROOT.var:spell_caster RECIPIENT = ROOT.var:spell_recipient TIER = lesser } }
-        flag:_common = { cast_spell_effect = { SPELL = resilience CASTER = ROOT.var:spell_caster RECIPIENT = ROOT.var:spell_recipient TIER = common } }
-        flag:_greater = { cast_spell_effect = { SPELL = resilience CASTER = ROOT.var:spell_caster RECIPIENT = ROOT.var:spell_recipient TIER = greater } }
-        flag:_grand = { cast_spell_effect = { SPELL = resilience CASTER = ROOT.var:spell_caster RECIPIENT = ROOT.var:spell_recipient TIER = grand } }
-    }
+    cast_spell_effect = { SPELL = resilience CASTER = ROOT.var:spell_caster RECIPIENT = ROOT.var:spell_recipient TIER = petty }
 }
 
 spell_resilience_province_effect = {} #left empty on purpose to avoid throwing errors
@@ -851,8 +843,8 @@ school_destruction_ritual_list = {
 }
 
 school_illusion_list = {
-    $EFFECT$ = { SPELL = muffled_senses }
     $EFFECT$ = { SPELL = charm }
+    $EFFECT$ = { SPELL = muffled_senses }
     $EFFECT$ = { SPELL = calm }
     $EFFECT$ = { SPELL = mass_paranoia }
     $EFFECT$ = { SPELL = mind_bending }
@@ -866,8 +858,8 @@ school_illusion_ritual_list = {
 
 school_restoration_spell_list = {
     $EFFECT$ = { SPELL = resilience }
-    $EFFECT$ = { SPELL = mend_wound }
     $EFFECT$ = { SPELL = turn_undead }
+    $EFFECT$ = { SPELL = mend_wound }
     $EFFECT$ = { SPELL = cure_disease }
     $EFFECT$ = { SPELL = spread_vitality }
     $EFFECT$ = { SPELL = remove_curse }    
