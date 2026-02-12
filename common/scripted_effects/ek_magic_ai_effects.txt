@@ -1348,6 +1348,34 @@ ai_cast_restoration_spell_effect = {
                 limit = { has_magicka_less_than = { VALUE = resilience_lesser_cost } }
                 cast_spell_effect = { SPELL = resilience CASTER = root RECIPIENT = scope:friendly_spell_target TIER = petty }   
             }
+            # ek2m edit - disabled AI from casting removed Resilience levels
+            #else_if = {
+            #   limit = {
+            #       has_perk = restoration_apprentice_perk
+            #       has_magicka_less_than = { VALUE = resilience_common_cost } 
+            #   }
+            #   cast_spell_effect = { SPELL = resilience CASTER = root RECIPIENT = scope:friendly_spell_target TIER = lesser }   
+            #}
+            #else_if = {
+            #   limit = {
+            #       has_perk = restoration_journeyman_perk
+            #       has_magicka_less_than = { VALUE = resilience_greater_cost } 
+            #   }
+            #   cast_spell_effect = { SPELL = resilience CASTER = root RECIPIENT = scope:friendly_spell_target TIER = common }   
+            #}
+            #else_if = {
+            #   limit = {
+            #       has_perk = restoration_expert_perk
+            #       has_magicka_less_than = { VALUE = resilience_grand_cost } 
+            #   }
+            #   cast_spell_effect = { SPELL = resilience CASTER = root RECIPIENT = scope:friendly_spell_target TIER = greater }   
+            #}
+            #else = {
+            #   limit = {
+            #       has_perk = restoration_master_perk
+            #   }
+            #   cast_spell_effect = { SPELL = resilience CASTER = root RECIPIENT = scope:friendly_spell_target TIER = grand }   
+            #}
         }
         100 = { # mend wound
             trigger = {
