@@ -1,4 +1,5 @@
 ﻿#EK NOTE: removed vanilla references
+# ek2m edit - removing prestige, piety and unity penalties from refusing call to war
 call_ally_interaction = {
 	category = interaction_category_diplomacy
 	desc = call_ally_interaction_desc
@@ -345,9 +346,9 @@ call_ally_interaction = {
 							target = scope:recipient
 						}
 					}
-					scope:recipient = {
-						add_prestige_experience = major_prestige_loss
-					}
+#					scope:recipient = {
+#						add_prestige_experience = major_prestige_loss
+#					}
 					
 				}
 				else = {
@@ -357,9 +358,9 @@ call_ally_interaction = {
 							target = scope:recipient
 						}
 					}
-					scope:recipient = {
-						add_prestige_experience = massive_prestige_loss
-					}
+#					scope:recipient = {
+#						add_prestige_experience = massive_prestige_loss
+#					}
 				}
 				if = {
 					limit = {
@@ -368,7 +369,7 @@ call_ally_interaction = {
 						}
 					}
 					scope:recipient = {
-						add_piety_experience = massive_piety_loss
+#						add_piety_experience = massive_piety_loss
 						add_character_modifier = {
 							modifier = broke_blood_brotherhood_modifier
 							desc = broke_blood_brotherhood_modifier_acceptance_tt
@@ -423,12 +424,12 @@ call_ally_interaction = {
 					}
 				}
 			}
-			scope:actor = {
-				trigger_event = call_ally.0101
-			}
+#			scope:actor = {
+#				trigger_event = call_ally.0101
+#			}
 			
 			# If we're a clan this interaction affects unity
-			refuse_call_to_arms_add_clan_unity_effect = yes
+#			refuse_call_to_arms_add_clan_unity_effect = yes
 		}
 	}
 
