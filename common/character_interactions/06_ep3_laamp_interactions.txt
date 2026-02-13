@@ -2898,18 +2898,19 @@ contact_list_request_interaction = { # make a request, make_a_request
 		}
 	}
 	#request men-at-arms regiment
-	send_option = {
-		flag = request_maa
-		is_valid = {
-			scope:recipient = {
-				is_landed_or_landless_administrative = yes
-			}
-			custom_tooltip = {
-				scope:actor.maa_regiments_count < scope:actor.maa_regiments_max_count
-				text = contact_list_request_interaction.request_maa_actor_too_many_regiments
-			}
-		}
-	}
+	# ek2m edit - removed option to request MAA regiments
+	#send_option = {
+	#	flag = request_maa
+	#	is_valid = {
+	#		scope:recipient = {
+	#			is_landed_or_landless_administrative = yes
+	#		}
+	#		custom_tooltip = {
+	#			scope:actor.maa_regiments_count < scope:actor.maa_regiments_max_count
+	#			text = contact_list_request_interaction.request_maa_actor_too_many_regiments
+	#		}
+	#	}
+	#}
 	#request a knight
 	send_option = {
 		flag = request_knights
@@ -4529,6 +4530,13 @@ reinforce_soldiers_interaction = {
 			text = SUPPLY_LOSS_AT_SEA
 			scope:actor = { any_laamp_portion_at_sea_trigger = no }
 		}
+		# ek2m edit - cannot refill MAA while at war
+		custom_tooltip = {
+			text = reinforce_soldiers_at_war_tt
+			scope:actor = {
+				is_at_war = no
+			}
+		}
 	}
 
 	send_options_exclusive = yes
@@ -5482,6 +5490,13 @@ refill_maa_interaction = {
 						}
 					}
 				}
+			}
+		}
+		# ek2m edit - cannot refill MAA while at war
+		custom_tooltip = {
+			text = reinforce_soldiers_at_war_tt
+			scope:actor = {
+				is_at_war = no
 			}
 		}
 	}
@@ -7053,8 +7068,9 @@ task_contract_train_knight_interaction = {
 }
 
 #landless adventurer are allowed to change allegiances mid-war
+# ek2m edit - allow everyone to switch sides unlimited number of times
 laamp_war_change_sides_interaction = {
-	category = interaction_category_laamp
+	category = interaction_category_diplomacy
 	icon = alliance
 	desc = laamp_war_change_sides_interaction_desc
 	common_interaction = yes
@@ -7065,13 +7081,13 @@ laamp_war_change_sides_interaction = {
 	ai_min_reply_days = 0
 	ai_max_reply_days = 0
 
-	cooldown_against_recipient = { years = 3 }
+#	cooldown_against_recipient = { years = 3 }
 	send_options_exclusive = yes
 
 	is_shown = {
 		scope:actor = {
 			is_at_war = yes
-			is_landless_adventurer = yes
+#			is_landless_adventurer = yes
 		}
 		scope:recipient = {
 			NOT = { this = scope:actor }
@@ -7091,24 +7107,24 @@ laamp_war_change_sides_interaction = {
 		}
 	}
 
-	is_valid_showing_failures_only = {
-		scope:recipient = {
-			trigger_if = {
-				limit = {
-					any_character_war = {
-						has_variable_list = already_switched_side
-					}
-				}
-				custom_tooltip = {
-					text = laamp_war_change_sides_interaction.already_switched_side
-					is_target_in_variable_list = {
-						name = already_switched_side
-						target = scope:actor	
-					}
-				}
-			}
-		}
-	}
+#	is_valid_showing_failures_only = {
+#		scope:recipient = {
+#			trigger_if = {
+#				limit = {
+#					any_character_war = {
+#						has_variable_list = already_switched_side
+#					}
+#				}
+#				custom_tooltip = {
+#					text = laamp_war_change_sides_interaction.already_switched_side
+#					is_target_in_variable_list = {
+#						name = already_switched_side
+#						target = scope:actor	
+#					}
+#				}
+#			}
+#		}
+#	}
 
 	populate_recipient_list = {
 		scope:recipient = {
@@ -7235,15 +7251,15 @@ laamp_war_change_sides_interaction = {
 				}
 				save_scope_as = war
 			}
-			if = {
-				limit = {
-					scope:war = {
-						using_non_ghw_holy_war_cb_trigger = yes
-					}
-					scope:recipient.faith = scope:actor.faith
-				}
-				add_piety_level = -1
-			}
+#			if = {
+#				limit = {
+#					scope:war = {
+#						using_non_ghw_holy_war_cb_trigger = yes
+#					}
+#					scope:recipient.faith = scope:actor.faith
+#				}
+#				add_piety_level = -1
+#			}
 			every_character_active_contract = {
 				limit = {
 					var:task_contract_war = scope:war
@@ -7289,41 +7305,41 @@ laamp_war_change_sides_interaction = {
 		}
 		scope:actor = {
 			# We deliberately charge you here to let you go into prestige debt; you shouldn't be blocked from switching sides due to a lack of prestige if you're willing to tank the loss.
-			add_prestige = {
-				value = -250
-				multiply = {
-					value = scope:recipient.highest_held_title_tier
-					add = -1
-				}
-			}
-			if = {
-				limit = { scope:recipient.highest_held_title_tier >= tier_kingdom }
-				add_prestige_level = -1
-			}
-			if = {
-				limit = {
-					NOT = { has_contact = scope:secondary_recipient }
-				}
-				add_contact = scope:secondary_recipient
-			}
+#			add_prestige = {
+#				value = -250
+#				multiply = {
+#					value = scope:recipient.highest_held_title_tier
+#					add = -1
+#				}
+#			}
+#			if = {
+#				limit = { scope:recipient.highest_held_title_tier >= tier_kingdom }
+#				add_prestige_level = -1
+#			}
+#			if = {
+#				limit = {
+#					NOT = { has_contact = scope:secondary_recipient }
+#				}
+#				add_contact = scope:secondary_recipient
+#			}
 			# Break the alliance
 			if = {
 				limit = { is_allied_to = scope:recipient }
 				break_alliance = scope:recipient
 			}
 			# And don't forget stress!
-			stress_impact = {
-				base = major_stress_impact_gain
-				disloyal = medium_stress_impact_loss
-				ambitious = minor_stress_impact_loss
-				arrogant = minor_stress_impact_loss
-				callous = miniscule_stress_impact_loss
-				arbitrary = miniscule_stress_impact_loss
-				just = minor_stress_impact_gain
-				humble = medium_stress_impact_gain
-				content = medium_stress_impact_gain
-				loyal = major_stress_impact_gain
-			}
+#			stress_impact = {
+#				base = major_stress_impact_gain
+#				disloyal = medium_stress_impact_loss
+#				ambitious = minor_stress_impact_loss
+#				arrogant = minor_stress_impact_loss
+#				callous = miniscule_stress_impact_loss
+#				arbitrary = miniscule_stress_impact_loss
+#				just = minor_stress_impact_gain
+#				humble = medium_stress_impact_gain
+#				content = medium_stress_impact_gain
+#				loyal = major_stress_impact_gain
+#			}
 		}
 		scope:recipient = {
 			if = {
@@ -7337,19 +7353,19 @@ laamp_war_change_sides_interaction = {
 				target = scope:actor
 			}
 		}
-		scope:secondary_recipient = {
-			add_opinion = {
-				modifier = switched_to_my_side
-				target = scope:actor
-			}
-			if = {
-				limit = { is_ai = yes }
-				pay_short_term_gold = {
-					target = scope:actor
-					gold = major_gold_value
-				}
-			}
-		}
+#		scope:secondary_recipient = {
+#			add_opinion = {
+#				modifier = switched_to_my_side
+#				target = scope:actor
+#			}
+#			if = {
+#				limit = { is_ai = yes }
+#				pay_short_term_gold = {
+#					target = scope:actor
+#					gold = major_gold_value
+#				}
+#			}
+#		}
 		scope:recipient = {
 			every_character_war = {
 				limit = {
@@ -7393,12 +7409,12 @@ laamp_war_change_sides_interaction = {
 				}
 			}
 		}
-		scope:war = {
-			add_to_variable_list = {
-				name = already_switched_side
-				target = scope:actor
-			}
-		}
+#		scope:war = {
+#			add_to_variable_list = {
+#				name = already_switched_side
+#				target = scope:actor
+#			}
+#		}
 	}
 
 	auto_accept = yes
@@ -7538,8 +7554,9 @@ laamp_war_change_sides_interaction = {
 }
 
 #landless adventurer are allowed to leave the war outright
+# ek2m edit - allow everyone to leave war, once per war
 laamp_leave_war_interaction = {
-	category = interaction_category_laamp
+	category = interaction_category_diplomacy
 	icon = alliance
 	desc = laamp_leave_war_interaction_desc
 	common_interaction = yes
@@ -7550,13 +7567,13 @@ laamp_leave_war_interaction = {
 	ai_min_reply_days = 0
 	ai_max_reply_days = 0
 
-	cooldown_against_recipient = { years = 3 }
+#	cooldown_against_recipient = { years = 3 }
 	send_options_exclusive = yes
 
 	is_shown = {
 		scope:actor = {
 			is_at_war = yes
-			is_landless_adventurer = yes
+#			is_landless_adventurer = yes
 		}
 		scope:recipient = {
 			NOT = { this = scope:actor }
@@ -7582,22 +7599,22 @@ laamp_leave_war_interaction = {
 				}
 			}
 		}
-		scope:recipient = {
-			trigger_if = {
-				limit = {
-					any_character_war = {
-						has_variable_list = already_switched_side
-					}
-				}
-				custom_tooltip = {
-					text = laamp_war_change_sides_interaction.already_switched_side
-					is_target_in_variable_list = {
-						name = already_switched_side
-						target = scope:actor	
-					}
-				}
-			}
-		}
+#		scope:recipient = {
+#			trigger_if = {
+#				limit = {
+#					any_character_war = {
+#						has_variable_list = already_switched_side
+#					}
+#				}
+#				custom_tooltip = {
+#					text = laamp_war_change_sides_interaction.already_switched_side
+#					is_target_in_variable_list = {
+#						name = already_switched_side
+#						target = scope:actor	
+#					}
+#				}
+#			}
+#		}
 	}
 
 	on_accept = {
@@ -7653,14 +7670,14 @@ laamp_leave_war_interaction = {
 					target = scope:actor
 				}
 			}
-			if = {
-				limit = {
-					scope:war = {
-						using_non_ghw_holy_war_cb_trigger = yes
-					}
-				}
-				add_piety_level = -1
-			}
+#			if = {
+#				limit = {
+#					scope:war = {
+#						using_non_ghw_holy_war_cb_trigger = yes
+#					}
+#				}
+#				add_piety_level = -1
+#			}
 			save_scope_value_as = {
 				name = task_contract_reward
 				value = flag:failure_standard
@@ -7684,37 +7701,37 @@ laamp_leave_war_interaction = {
 					save_scope_as = task_contract_employer
 				}
 			}
-			trigger_event = ep3_contract_event.0013
-			# We deliberately charge you here to let you go into prestige debt; you shouldn't be blocked from switching sides due to a lack of prestige if you're willing to tank the loss.
-			add_prestige = {
-				value = -200
-				multiply = {
-					value = scope:recipient.highest_held_title_tier
-					add = -1
-				}
-			}
-			if = {
-				limit = { scope:recipient.highest_held_title_tier >= tier_kingdom }
-				add_prestige_level = -1
-			}
+#			trigger_event = ep3_contract_event.0013
+#			# We deliberately charge you here to let you go into prestige debt; you shouldn't be blocked from switching sides due to a lack of prestige if you're willing to tank the loss.
+#			add_prestige = {
+#				value = -200
+#				multiply = {
+#					value = scope:recipient.highest_held_title_tier
+#					add = -1
+#				}
+#			}
+#			if = {
+#				limit = { scope:recipient.highest_held_title_tier >= tier_kingdom }
+#				add_prestige_level = -1
+#			}
 			# Break the alliance
 			if = {
 				limit = { is_allied_to = scope:recipient }
 				break_alliance = scope:recipient
 			}
 			# And don't forget stress!
-			stress_impact = {
-				base = major_stress_impact_gain
-				disloyal = medium_stress_impact_loss
-				ambitious = minor_stress_impact_loss
-				arrogant = minor_stress_impact_loss
-				callous = miniscule_stress_impact_loss
-				arbitrary = miniscule_stress_impact_loss
-				just = minor_stress_impact_gain
-				humble = medium_stress_impact_gain
-				content = medium_stress_impact_gain
-				loyal = major_stress_impact_gain
-			}
+#			stress_impact = {
+#				base = major_stress_impact_gain
+#				disloyal = medium_stress_impact_loss
+#				ambitious = minor_stress_impact_loss
+#				arrogant = minor_stress_impact_loss
+#				callous = miniscule_stress_impact_loss
+#				arbitrary = miniscule_stress_impact_loss
+#				just = minor_stress_impact_gain
+#				humble = medium_stress_impact_gain
+#				content = medium_stress_impact_gain
+#				loyal = major_stress_impact_gain
+#			}
 			# Clear Offer Assistance.
 			if = {
 				limit = {
