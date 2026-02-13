@@ -3141,7 +3141,8 @@ perk_alliance_interaction = {
 	
 }
 
-join_war_interaction = {
+# ek2m edit - Interaction version for AI only
+join_war_interaction_ai = {
 	category = interaction_category_diplomacy
 	interface = interfere_in_war
 	special_interaction = interfere_in_war_interaction
@@ -3154,6 +3155,12 @@ join_war_interaction = {
 	notification_text = join_war_interaction_notification
 
 	is_shown = {
+		scope:actor = {
+			OR = {
+				is_ai = yes
+				debug_only = yes
+			}
+		}
 		scope:recipient = {
 			is_at_war = yes
 			NOR = {
