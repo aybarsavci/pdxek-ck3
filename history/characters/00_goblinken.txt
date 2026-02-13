@@ -1,0 +1,1033 @@
+﻿##Rimesnap Dynasty
+
+#House Rimesnap
+
+rimesnap_98 = {
+	name = "Hrshga"
+	dynasty = dyn_rimesnap
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+	
+	3299.3.9 = { birth = yes }
+	3326.7.30 = { add_matrilineal_spouse = rimesnap_98_husband }
+	3329.4.7 = {
+		death = {
+			death_reason = death_duel
+			killer = heartfang_1000
+		}
+	}
+}
+
+rimesnap_98_husband = {
+	name = "Svgsk"
+	culture = riekling
+	religion = goblin_shamanism
+	
+	3298.2.14 = { birth = yes }
+	3329.4.7 = {
+		death = {
+			death_reason = death_duel
+			killer = heartfang_1000
+		}
+	}
+}
+
+rimesnap_99 = {
+	name = "Tharz" #Riekling Shaman/Mage
+	dynasty = dyn_rimesnap
+	culture = riekling
+	religion = goblin_shamanism
+
+	father = rimesnap_98_husband
+	mother = rimesnap_98
+	
+	3328.1.1 = { birth = yes }
+	3349.7.30 = { add_spouse = rimesnap_99_wife }
+	3383.1.1 = { death = yes }
+}
+
+rimesnap_99_wife = {
+	name = "Agrsh"
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+	
+	3327.6.31 = { birth = yes }
+	3367.4.17 = { employer = ghorak_100 }
+	3389.2.12 = { death = yes }
+}
+
+rimesnap_100 = {
+	name = "Koggr" #Riekling Warrior
+	dynasty = dyn_rimesnap
+	culture = riekling
+	religion = goblin_shamanism
+
+	father = rimesnap_99
+	mother = rimesnap_99_wife
+	
+	3349.1.1 = { birth = yes }
+	3365.1.1 = { trait = education_martial_4 }
+	3397.1.1 = { death = yes }
+}
+
+rimesnap_101 = {
+	name = "Kemma" #Riekling Shaman
+	female = yes
+	dynasty = dyn_rimesnap
+	culture = riekling
+	religion = goblin_shamanism
+
+	father = rimesnap_99
+	mother = rimesnap_99_wife
+
+	3352.1.1 = { birth = yes }
+	3397.1.1 = { death = yes }
+}
+
+## Iceclaw Dynasty 
+
+iceclaw_1000 = {
+	name = "Ogg"
+	dynasty = dyn_iceclaw
+	culture = riekling
+	religion = goblin_shamanism
+
+	trait = arrogant
+	trait = wrathful
+	trait = gluttonous
+
+	3315.1.1 = { birth = yes }
+	3335.11.26 = { add_spouse = woodbiter_999_sister }
+	3335.11.27 = { 
+		effect = {
+			if = {
+				limit = { character:woodbiter_999_sister = { is_alive = yes } }
+				set_relation_lover = { reason = lover_history target = character:woodbiter_999_sister } 
+			}
+		} 
+	}
+	3368.2.19 = {
+		add_trait = depressed_1
+	}
+	3371.1.1 = {
+		death = {
+			death_reason = death_duel
+			killer = iceclaw_1001
+		}
+	}
+}
+
+
+iceclaw_1001_brother = {
+	name = "Krak"
+	dynasty = dyn_iceclaw
+	culture = riekling
+	religion = goblin_shamanism
+
+	trait = diligent
+	trait = ambitious
+	trait = arrogant
+
+	father = iceclaw_1000
+	mother = woodbiter_999_sister
+
+	3338.6.19 = { birth = yes }
+	3354.3.28 = { add_spouse = wolftongue_1000_sister }
+	3364.6.13 = { death = { death_reason = death_battle } }
+}
+
+iceclaw_1001_sister = {
+	name = "Mizzix"
+	dynasty = dyn_iceclaw
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+
+	father = iceclaw_1000
+	mother = woodbiter_999_sister
+
+	3337.2.12 = { birth = yes }
+	3353.3.28 = { add_spouse = iceclaw_1001_sister_husband }
+	3354.5.14 = { death = yes
+	death = {
+			death_reason = death_childbirth
+		}
+	}
+}
+
+iceclaw_1001_sister_husband = {
+	name = "Torak"
+	culture = riekling
+	religion = goblin_shamanism
+
+	3335.3.19 = { birth = yes }
+	3364.6.13 = { death = { death_reason = death_battle } }
+}
+
+iceclaw_1001 = {
+	name = "Hirza"
+	dynasty = dyn_iceclaw
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+
+	father = iceclaw_1000
+	mother = woodbiter_999_sister
+
+	trait = chaste #Why she only has one son
+	trait = wrathful
+	trait = callous
+
+	3336.12.28 = { birth = yes }
+	3352.12.17 = { add_matrilineal_spouse = iceclaw_1001_husband }
+	3381.6.13 = { death = yes }
+}
+
+iceclaw_1001_husband = {
+	name = "Rekr"
+	culture = riekling
+	religion = goblin_shamanism
+
+	trait = greedy
+	trait = impatient
+	trait = arbitrary
+	
+	3337.3.15 = { birth = yes }
+	3378.11.25 = { death = yes }
+}
+
+iceclaw_1002 = {
+	name = "Koggr"
+	dynasty = dyn_iceclaw
+	culture = riekling
+	religion = goblin_shamanism
+
+	father = iceclaw_1001_husband
+	mother = iceclaw_1001
+
+	3353.8.9 = { birth = yes }
+	3367.8.25 = { add_spouse = iceclaw_1002_wife }
+	3395.3.11 = {
+		death = {
+			death_reason = death_duel
+			killer = iceclaw_1003
+		}
+	}
+}
+
+iceclaw_1002_wife = {
+	name = "Akm"
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+	
+	3353.3.7 = { birth = yes }
+	3393.10.11 = { death = yes }
+}
+
+iceclaw_1003 = {
+	name = "Kreem"
+	dynasty = dyn_iceclaw
+	culture = riekling
+	religion = goblin_shamanism
+
+	father = iceclaw_1002
+	mother = iceclaw_1002_wife
+
+	3368.3.19 = { birth = yes }
+	3386.6.16 = { add_spouse = iceclaw_1003_wife }
+	3407.10.8 = {
+		death = {
+			death_reason = death_duel
+			killer = iceclaw_1004
+		}
+	}
+}
+
+iceclaw_1003_wife = {
+	name = "Shbr"
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+	
+	3369.6.3 = { birth = yes }
+	3411.12.9 = { death = yes }
+}
+
+iceclaw_1004 = {
+	name = "Broggr"
+	dynasty = dyn_iceclaw
+	culture = riekling
+	religion = goblin_shamanism
+
+	father = iceclaw_1003
+	mother = iceclaw_1003_wife
+
+	3389.5.13 = { birth = yes }
+	3407.2.12 = { add_spouse = iceclaw_1004_wife }
+	3432.11.13 = {
+		death = {
+			death_reason = death_duel
+			killer = iceclaw_1005
+		}
+	}
+}
+
+iceclaw_1004_wife = {
+	name = "Grska"
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+	
+	3387.3.18 = { birth = yes }
+	3437.9.26 = { death = yes }
+}
+
+iceclaw_1005 = { #Alliance War
+	name = "Grsk" #Masculine version of mom's name
+	dynasty = dyn_iceclaw
+	culture = riekling
+	religion = goblin_shamanism
+
+	father = iceclaw_1004
+	mother = iceclaw_1004_wife
+
+	3412.2.19 = { birth = yes }
+	3430.10.26 = { add_spouse = iceclaw_1005_wife }
+	3458.7.13 = { death = yes } #Eventually slain by child
+}
+
+iceclaw_1005_wife = {
+	name = "Hrkela"
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+	
+	3413.7.5 = { birth = yes }
+	3463.4.18 = { death = yes }
+}
+
+iceclaw_1003_brother = { #Matri marries woodbiter_1002
+	name = "Grmr"
+	dynasty = dyn_iceclaw
+	culture = riekling
+	religion = goblin_shamanism
+
+	father = iceclaw_1002
+	mother = iceclaw_1002_wife
+
+	3371.5.17 = { birth = yes }
+	#3389.7.19 Matri marries woodbiter_1002
+	3409.4.17 = { death = yes }
+}
+
+iceclaw_2000 = { #iceclaw_1001_brother line eventually become Coldsnap tribe from ESO during migration with icelaw_3000
+	name = "Korza"
+	dynasty = dyn_iceclaw
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+
+	father = iceclaw_1001_brother
+	mother = wolftongue_1000_sister
+
+	3355.1.15 = { birth = yes }
+	3374.1.17 = { add_matrilineal_spouse = woodbiter_999_husband_son }
+	3389.6.18 = { death = yes }
+}
+
+iceclaw_2000_brother = { #iceclaw_1001_brother line eventually become Coldsnap tribe (cadet branch) from ESO during migration with icelaw_3000
+	name = "Grozan"
+	dynasty = dyn_iceclaw
+	culture = riekling
+	religion = goblin_shamanism
+
+	father = iceclaw_1001_brother
+	mother = wolftongue_1000_sister
+
+	3356.3.19 = { birth = yes }
+	3372.11.24 = { add_spouse = iceclaw_2000_brother_wife }
+	3393.2.2 = { death = yes }
+}
+
+iceclaw_2000_brother_wife = {
+	name = "Hrgni"
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+	
+	3355.2.12 = { birth = yes }
+	3399.5.11 = { death = yes }
+}
+
+iceclaw_3000 = { #iceclaw_1001_sister line eventually become Iceclaw tribe from ESO on mainland
+	name = "Zich"
+	dynasty = dyn_iceclaw
+	culture = riekling
+	religion = goblin_shamanism
+
+	father = iceclaw_1001_sister_husband
+	mother = iceclaw_1001_sister
+
+	3354.5.14 = { birth = yes }
+	3372.6.18 = { add_spouse = iceclaw_3000_wife }
+	3389.6.18 = { death = yes }
+}
+
+iceclaw_3000_wife = {
+	name = "Avlsh"
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+	
+	3355.2.12 = { birth = yes }
+	3399.5.11 = { death = yes }
+}
+
+## Wolftongue Dynasty
+
+wolftongue_999 = {
+	name = "Lkrsh"
+	dynasty = dyn_wolftongue
+	culture = riekling
+	religion = hircine_cult
+
+	3314.1.1 = { birth = yes }
+	3334.3.19 = { add_spouse = wolftongue_999_wife }
+	3359.1.1 = {
+		death = {
+			death_reason = death_duel
+			killer = wolftongue_1000
+		}
+	}
+}
+
+wolftongue_999_wife = {
+	name = "Kntga"
+	culture = riekling
+	religion = hircine_cult
+	female = yes
+	
+	3313.7.17 = { birth = yes }
+	3362.8.13 = { death = yes }
+}
+
+wolftongue_1000_sister = {
+	name = "Kemma"
+	dynasty = dyn_wolftongue
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+
+	father = wolftongue_999
+	mother = wolftongue_999_wife
+
+	trait = craven
+	trait = content
+	trait = forgiving
+	
+	3336.4.16 = { birth = yes }
+	#Marries iceclaw_1001_brother
+	3364.6.13 = { death = { death_reason = death_battle } }
+}
+
+wolftongue_1000 = {
+	name = "Torak"
+	dynasty = dyn_wolftongue
+	culture = riekling
+	religion = hircine_cult
+
+	father = wolftongue_999
+	mother = wolftongue_999_wife
+
+	trait = diligent
+	trait = arbitrary
+	trait = greedy
+
+	3335.1.1 = { birth = yes }
+	3353.3.19 = { add_spouse = wolftongue_1000_wife }
+	3375.1.1 = {
+		death = {
+			death_reason = death_duel
+			killer = wolftongue_1001
+		}
+	}
+}
+
+wolftongue_1000_wife = {
+	name = "Zoz"
+	culture = riekling
+	religion = hircine_cult
+	female = yes
+	
+	3336.3.6 = { birth = yes }
+	3373.11.19 = { death = yes }
+}
+
+wolftongue_1001 = {
+	name = "Fin"
+	dynasty = dyn_wolftongue
+	culture = riekling
+	religion = hircine_cult
+	female = yes
+
+	father = wolftongue_1000
+	mother = wolftongue_1000_wife
+
+	3354.5.17 = { birth = yes }
+	3375.7.23 = { add_matrilineal_spouse = woodbiter_1001_brother }
+	3392.8.16 = {
+		death = {
+			death_reason = death_duel
+			killer = wolftongue_1002
+		}
+	}
+}
+
+wolftongue_1002 = {
+	name = "Dulk"
+	dynasty = dyn_wolftongue
+	culture = riekling
+	religion = hircine_cult
+
+	father = woodbiter_1001_brother
+	mother = wolftongue_1001
+
+	3377.2.1 = { birth = yes }
+	3398.2.17 = { add_spouse = wolftongue_1002_wife }
+	3428.5.7 = {
+		death = {
+			death_reason = death_duel
+			killer = wolftongue_1003
+		}
+	}
+}
+
+wolftongue_1002_wife = {
+	name = "Gezzala"
+	culture = riekling
+	religion = hircine_cult
+	female = yes
+	
+	3379.6.17 = { birth = yes }
+	3435.3.4 = { death = yes }
+}
+
+wolftongue_1003 = {
+	name = "Nugg"
+	dynasty = dyn_wolftongue
+	culture = riekling
+	religion = hircine_cult
+
+	father = wolftongue_1002
+	mother = wolftongue_1002_wife
+
+	3403.7.19 = { birth = yes }
+	3424.4.12 = { add_spouse = wolftongue_1003_wife }
+	3449.2.11 = {
+		death = {
+			death_reason = death_duel
+			killer = wolftongue_1004
+		}
+	}
+}
+
+wolftongue_1003_wife = {
+	name = "Zarra"
+	culture = riekling
+	religion = hircine_cult
+	female = yes
+	
+	3392.8.13 = { birth = yes }
+	3438.11.18 = { death = yes }
+}
+
+wolftongue_1004 = {
+	name = "Vaxx"
+	dynasty = dyn_wolftongue
+	culture = riekling
+	religion = hircine_cult
+	female = yes
+
+	father = wolftongue_1003
+	mother = wolftongue_1003_wife
+
+	3427.3.12 = { birth = yes }
+	3452.11.23 = { add_matrilineal_spouse = wolftongue_1004_husband }
+	3470.2.11 = {
+		death = {
+			death_reason = death_duel
+			killer = wolftongue_1005
+		}
+	}
+}
+
+wolftongue_1004_husband = {
+	name = "Kog"
+	culture = riekling
+	religion = hircine_cult
+	
+	3324.2.26 = { birth = yes }
+	3468.8.28 = { death = yes }
+}
+
+wolftongue_1005 = { #Alliance War
+	name = "Herk"
+	dynasty = dyn_wolftongue
+	culture = riekling
+	religion = hircine_cult
+	female = yes
+
+	father = wolftongue_1004_husband
+	mother = wolftongue_1004
+
+	3454.11.16 = { birth = yes }
+	3476.4.9 = { add_matrilineal_spouse = wolftongue_1005_husband }
+	3506.2.11 = { death = yes } #Eventually slain by child
+}
+
+wolftongue_1005_husband = {
+	name = "Ekhm"
+	culture = riekling
+	religion = hircine_cult
+	
+	3454.8.11 = { birth = yes }
+	3516.11.7 = { death = yes }
+}
+
+## Woodbiter Dynasty 
+
+woodbiter_998 = {
+	name = "Agrsk"
+	dynasty = dyn_woodbiter
+	culture = riekling
+	religion = goblin_shamanism
+
+	3293.12.26 = { birth = yes }
+	3319.1.9 = { add_spouse = woodbiter_998_wife }
+	3337.1.1 = {
+		death = {
+			death_reason = death_duel
+			killer = woodbiter_999
+		}
+	}
+}
+
+woodbiter_998_wife = {
+	name = "Frsk"
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+	
+	3293.7.26 = { birth = yes }
+	3343.9.3 = { death = yes }
+}
+
+woodbiter_999_sister = { #Marries iceclaw_1000
+	name = "Fnri"
+	dynasty = dyn_woodbiter
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+
+	trait = beauty_good_1
+	trait = sadistic
+	trait = honest
+	trait = just
+
+	mother = woodbiter_998_wife
+	father = woodbiter_998
+
+	3314.8.9 = { birth = yes }
+	3368.2.19 = { death = yes }
+}
+
+woodbiter_999 = {
+	name = "Trisk"
+	dynasty = dyn_woodbiter
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+
+	mother = woodbiter_998_wife
+	father = woodbiter_998
+
+	trait = ill
+	trait = honest
+	trait = brave
+	trait = vengeful
+
+	3309.5.7 = { birth = yes }
+	3338.12.12 = { add_spouse = woodbiter_999_husband }
+	3355.12.7 = { 
+		death = { death_reason = death_ill }
+	}
+}
+
+woodbiter_999_husband = {
+	name = "Krsk"
+	dynasty = dyn_rimesnap #Rimesnap
+	culture = riekling
+	religion = goblin_shamanism
+
+	mother = rimesnap_98
+	father = rimesnap_98_husband
+
+	trait = gregarious
+	trait = generous
+	trait = lustful
+	
+	3319.11.19 = { birth = yes }
+	3356.4.9 = { effect = { set_relation_lover = { reason = lover_history target = character:woodbiter_999_husband_lover } } }
+	3357.1.13 = { #When she learned she was pregnant she came out with who the father was
+		effect = {
+			random_secret = {
+				limit = { secret_type = secret_lover }
+				expose_secret = character:woodbiter_999_husband_lover
+			}
+		}
+	}
+	3361.2.27 = { add_spouse = woodbiter_999_husband_lover }
+	3364.12.16 = { death = yes }
+}
+
+woodbiter_999_husband_lover = {
+	name = "Frds"
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+
+	trait = craven
+	trait = forgiving
+	trait = calm
+	
+	3321.1.7 = { birth = yes }
+	3367.9.24 = { death = yes }
+}
+
+woodbiter_999_husband_son = {
+	name = "Strn"
+	dynasty = dyn_rimesnap #Rimesnap
+	culture = riekling
+	religion = goblin_shamanism
+
+	father = woodbiter_999_husband
+	mother = woodbiter_999_husband_lover
+
+	trait = bastard
+	
+	3357.9.29 = { birth = yes }
+	3361.2.27 = {
+		remove_trait = bastard
+		add_trait = legitimized_bastard
+	}
+	#3361.2.27 = matri married off to iceclaw_2000
+	3371.3.12 = { death = yes }
+}
+
+woodbiter_1000 = {
+	name = "Grutbug"
+	dynasty = dyn_woodbiter
+	culture = riekling
+	religion = goblin_shamanism
+
+	father = woodbiter_999_husband
+	mother = woodbiter_999
+
+	trait = physique_good_1
+	trait = brave
+	trait = calm
+	trait = impatient #Acting hastily while hunting bristlebacks doesn't go well
+
+	3340.1.1 = { birth = yes }
+	3356.3.19 = { add_spouse = woodbiter_1000_wife }
+	3372.1.1 = {
+		death = {
+			death_reason = death_duel
+			killer = woodbiter_1001
+		}
+	}
+}
+
+woodbiter_1000_wife = {
+	name = "Arruluk"
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+
+	3339.2.23 = { birth = yes }
+	3359.11.19 = { death = yes
+	death = {
+			death_reason = death_childbirth
+		}
+	}
+}
+
+woodbiter_1000_sister = {
+	name = "Trisk" #After mom
+	dynasty = dyn_woodbiter
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+
+	father = woodbiter_999_husband
+	mother = woodbiter_999
+
+	3341.5.7 = { birth = yes }
+	3357.5.9 = { add_matrilineal_spouse = woodbiter_1000_sister_husband }
+	3393.6.16 = { death = yes }
+}
+
+woodbiter_1000_sister_husband = {
+	name = "Ekhm"
+	culture = riekling
+	religion = goblin_shamanism
+	
+	3339.6.12 = { birth = yes }
+	3394.12.14 = { death = yes }
+}
+
+woodbiter_1001 = {
+	name = "Burr"
+	dynasty = dyn_woodbiter
+	culture = riekling
+	religion = goblin_shamanism
+
+	father = woodbiter_1000
+	mother = woodbiter_1000_wife
+
+	trait = physique_good_1
+
+	3356.12.28 = { birth = yes }
+	3370.4.16 = { add_spouse = woodbiter_1001_wife }
+	3389.7.19 = {
+		death = {
+			death_reason = death_duel
+			killer = wildblood_1001
+		}
+	}
+}
+
+woodbiter_1001_wife = {
+	name = "Zakka"
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+	
+	3355.4.5 = { birth = yes }
+	3393.12.16 = { death = yes }
+}
+
+woodbiter_1001_brother = {
+	name = "Iziku"
+	dynasty = dyn_woodbiter
+	culture = riekling
+	religion = goblin_shamanism
+
+	father = woodbiter_1000
+	mother = woodbiter_1000_wife
+
+	3357.7.17 = { birth = yes }
+	#Marries wolftongue_1001
+	3386.8.14 = { death = { death_reason = death_battle } }
+}
+
+woodbiter_1001_sister = {
+	name = "Nokka"
+	dynasty = dyn_woodbiter
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+
+	father = woodbiter_1000
+	mother = woodbiter_1000_wife
+
+	3358.4.28 = { birth = yes }
+	#Marries
+	3406.3.5 = { death = yes }
+}
+
+woodbiter_1001_sister_2 = {
+	name = "Korza"
+	dynasty = dyn_woodbiter
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+
+	trait = sickly
+	trait = giant
+
+	father = woodbiter_1000
+	mother = woodbiter_1000_wife
+
+	3359.11.17 = { birth = yes }
+	3359.11.19 = {
+		death = {
+			death_reason = death_sickly
+		}
+	}
+}
+
+woodbiter_1002 = {
+	name = "Ekka"
+	dynasty = dyn_woodbiter
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+
+	father = woodbiter_1001
+	mother = woodbiter_1001_wife
+
+	3371.6.17 = { birth = yes }
+	3387.7.12 = { effect = { set_relation_soulmate = { reason = lover_history target = character:iceclaw_1003_brother } } }
+	3389.7.19 = { add_matrilineal_spouse = iceclaw_1003_brother }
+	3412.11.17 = {
+		death = {
+			death_reason = death_duel
+			killer = woodbiter_1003
+		}
+	}
+}
+
+woodbiter_1003 = {
+	name = "Vokk"
+	dynasty = dyn_woodbiter
+	culture = riekling
+	religion = goblin_shamanism
+
+	trait = legitimized_bastard
+
+	father = iceclaw_1003_brother
+	mother = woodbiter_1002
+
+	3388.5.16 = { birth = yes }
+	3408.7.19 = { add_spouse = woodbiter_1003_wife }
+	3437.8.15 = {
+		death = {
+			death_reason = death_duel
+			killer = woodbiter_1004
+		}
+	}
+}
+
+woodbiter_1003_wife = {
+	name = "Zoz"
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+	
+	3386.12.17 = { birth = yes }
+	3438.8.13 = { death = yes }
+}
+
+woodbiter_1004 = {
+	name = "Krish"
+	dynasty = dyn_woodbiter
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+
+	father = woodbiter_1003
+	mother = woodbiter_1003_wife
+
+	3411.3.14 = { birth = yes }
+	3434.6.18 = { add_spouse = woodbiter_1004_husband }
+	3456.9.7 = {
+		death = {
+			death_reason = death_duel
+			killer = woodbiter_1005
+		}
+	}
+}
+
+woodbiter_1004_husband = {
+	name = "Gis"
+	culture = riekling
+	religion = goblin_shamanism
+	
+	3408.4.23 = { birth = yes }
+	3453.6.26 = { death = yes }
+}
+
+woodbiter_1005 = {
+	name = "Kragk"
+	dynasty = dyn_woodbiter
+	culture = riekling
+	religion = goblin_shamanism
+
+	father = woodbiter_1004_husband
+	mother = woodbiter_1004
+
+	3436.8.17 = { birth = yes }
+	3457.1.27 = { add_spouse = woodbiter_1005_wife }
+	3483.10.19 = {
+		death = {
+			death_reason = death_duel
+			killer = woodbiter_1006
+		}
+	}
+}
+
+woodbiter_1005_wife = {
+	name = "Zyra"
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+	
+	3436.2.17 = { birth = yes }
+	3487.6.16 = { death = yes }
+}
+
+woodbiter_1006 = { #Alliance War
+	name = "Grutbug" #After the 'Half-Nord'
+	dynasty = dyn_woodbiter
+	culture = riekling
+	religion = goblin_shamanism
+
+	father = woodbiter_1005
+	mother = woodbiter_1005_wife
+
+	3467.3.2 = { birth = yes }
+	3489.8.23 = { add_spouse = woodbiter_1006_wife }
+	3518.11.11 = { death = yes } #Eventually slain by child
+}
+
+woodbiter_1006_wife = {
+	name = "Bazzam"
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+	
+	3465.8.27 = { birth = yes }
+	3525.3.19 = { death = yes }
+}
+
+woodbiter_3000 = { #woodbiter_1000_sister line
+	name = "Kreer"
+	dynasty = dyn_woodbiter
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+
+	father = woodbiter_1000_sister_husband
+	mother = woodbiter_1000_sister
+
+	3358.2.5 = { birth = yes }
+	3404.9.7 = { death = yes }
+}
+
+woodbiter_3000_sister = { #woodbiter_1000_sister line
+	name = "Krragsh"
+	dynasty = dyn_woodbiter
+	culture = riekling
+	religion = goblin_shamanism
+	female = yes
+
+	father = woodbiter_1000_sister_husband
+	mother = woodbiter_1000_sister
+
+	3359.8.14 = { birth = yes }
+	3407.10.19 = { death = yes }
+}

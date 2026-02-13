@@ -1,0 +1,53 @@
+﻿# LAAMPS
+
+dynaheir = {
+	name = "Dersaja"
+	dynasty = dyn_rashem
+	religion = celestial_cult
+	culture = forebear
+	female = yes
+
+	trait = education_learning_3
+	trait = education_magic_3
+	trait = arcana_good_2
+	trait = sign_lady
+	trait = just
+	trait = honest
+	trait = diligent
+	trait = witch
+	
+	3335.9.21 = { birth = yes }
+	3360.1.1 = {
+		effect = {
+			add_arcana_skill = { VALUE = 8 }
+			set_relation_friend = { reason = friend_generic_history target = character:minsc }
+			learn_language = language_nordic
+		}
+	}
+	3380.9.21 = { death = { death_reason = death_battle } }
+}
+minsc = {
+	name = "Maul"
+	religion = celestial_cult
+	culture = westmarcher
+
+	trait = education_martial_3
+	trait = sign_thief
+	trait = strong
+	trait = dull	#head injury
+	trait = brave
+	trait = compassionate
+	trait = eccentric
+	trait = berserker
+	trait = loyal
+	
+	3333.12.21 = { birth = yes }
+	3360.1.1 = { employer = dynaheir }
+	3360.1.1 = {
+		effect = {
+			add_character_modifier = { modifier = prison_pet_rat_modifier }	#Miniature giant Oblivion rat
+		}
+	}
+	3380.9.21 = { move_to_pool = yes }
+	3423.8.3 = { death = yes }
+}

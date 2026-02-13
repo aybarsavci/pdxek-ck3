@@ -1,1 +1,425 @@
-﻿#i was too lazy to create a new file, this is laamp file now
+﻿jurgald_1000_sister = {
+	name = "Drusba"
+	female = yes
+	dynasty = jurgald
+	culture = eastmarcher
+	religion = nord_cult
+
+	trait = education_intrigue_2
+	trait = brave
+	trait = vengeful
+	trait = diligent
+	trait = sign_warrior
+
+	3309.8.2 = { 
+		birth = yes 
+		effect = { give_lycan_secret_or_trait_effect = yes }
+	}
+	# 3335 marries ashenvoice_98
+	3368.9.16 = { death = { death_reason = death_old_age } }
+}
+
+#Nords in Morrowind
+felnord_99 = {
+	name = "Haknir"
+	culture = eastmarcher
+	religion = nord_cult
+	
+	3289.1.1 = { birth = yes }
+	3315.1.1 = { add_spouse = felnord_99_wife }
+	3342.1.1 = { death = yes }
+}
+felnord_99_wife = {
+	name = "Temba"
+	culture = eastmarcher
+	religion = nord_cult
+	female = yes
+	
+	3285.1.1 = { birth = yes }
+	3339.1.1 = { death = yes }
+}
+felnord_100 = { #Raider, captured Dagon Fel
+	name = "Hans"
+	dynasty = dyn_fire_eye
+	culture = eastmarcher
+	religion = nord_cult
+
+	father = felnord_99
+	mother = felnord_99_wife
+	
+	trait = viking
+	trait = pirate
+	trait = education_martial_2
+	trait = education_martial_prowess_2
+	trait = one_eyed
+	trait = calm
+	trait = content
+	trait = just
+	
+	3317.1.1 = { birth = yes }
+	3338.1.1 = { add_spouse = felnord_100_wife }
+	3381.10.7 = { death = yes }
+}
+
+felnord_100_wife = {
+	name = "Agata"
+	culture = eastmarcher
+	religion = nord_cult
+	female = yes
+	
+	3319.1.1 = { birth = yes }
+	3387.1.1 = { death = yes }
+}
+
+felnord_101 = {
+	name = "Roggvar"
+	dynasty = dyn_fire_eye
+	culture = eastmarcher
+	religion = nord_cult
+
+	father = felnord_100
+	mother = felnord_100_wife
+
+	trait = calm
+	trait = education_learning_2
+	
+	3341.1.1 = { birth = yes }
+	3369.8.17 = { #Kidnapped and held for random by pirates
+		effect = {
+			character:ulver_100 = {
+				imprison = {
+					target = ROOT
+					type = house_arrest
+				}
+			}
+		}
+	}
+	3410.1.1 = { death = { death_reason = death_old_age } }
+}
+
+felnord_101b = {
+	name = "Ysmal"
+	dynasty = dyn_fire_eye
+	culture = eastmarcher
+	religion = nord_cult
+
+	father = felnord_100
+	mother = felnord_100_wife
+
+	trait = wrathful
+	trait = education_martial_2
+	
+	3343.1.1 = { birth = yes }
+	3386.7.3 = { death = { death_reason = death_battle killer = ilabael_101 } }
+}
+
+felnord_101c = {
+	name = "Temba"
+	dynasty = dyn_fire_eye
+	culture = eastmarcher
+	religion = nord_cult
+	female = yes
+
+	father = felnord_100
+	mother = felnord_100_wife
+	
+	3351.1.1 = { birth = yes }
+	3419.1.1 = { death = yes }
+}
+
+felnord_201 = {
+    name = "Skjort"
+    culture = eastmarcher
+    religion = nord_cult
+
+    trait = education_learning_3
+    trait = p_at_moth
+	trait = scholar
+
+    3335.1.1 = { birth = yes }
+	3360.1.1 = {
+	 	effect = {
+			set_employer = character:felnord_100
+			set_relation_friend = { reason = friend_generic_history target = character:felnord_202 }
+			set_relation_friend = { reason = friend_generic_history target = character:felnord_203 }
+		}
+	}
+    3420.1.1 = { death = yes }
+}
+
+felnord_202 = {
+    name = "Mikkael"
+    culture = eastmarcher
+    religion = nord_cult
+
+    trait = education_learning_3
+    trait = p_at_hawk
+	trait = scholar
+
+    3335.1.1 = { birth = yes }
+	3360.1.1 = {
+		employer = felnord_100
+	 	effect = {
+			set_relation_friend = { reason = friend_generic_history target = character:felnord_203 }
+		}
+	}
+    3420.1.1 = { death = yes }
+}
+
+felnord_203 = {
+    name = "Druwin"
+    culture = eastmarcher
+    religion = nord_cult
+
+    trait = education_learning_3
+    trait = p_at_bear
+	trait = scholar
+
+    3335.1.1 = { birth = yes }
+	3360.1.1 = { employer = felnord_100 }
+    3420.1.1 = { death = yes }
+}
+
+# Vassals to k_Redoran, formerly raiders
+ashenvoice_1 = {
+	name = "Lokir"
+	culture = eastmarcher
+	religion = nord_cult
+	dynasty = ashen_voice
+
+	trait = education_intrigue_1
+	trait = education_martial_prowess_1
+	trait = disputed_heritage #Rumored bastard of Vrage the gifted
+	trait = bastard_founder
+
+	190.1.1 = { birth = yes }
+	240.1.1 = { death = yes }
+}
+
+ashenvoice_2 = {
+	name = "Lokir"
+	culture = eastmarcher
+	religion = nord_cult
+	dynasty = ashen_voice
+
+	father = ashenvoice_1
+
+	trait = line_of_x
+	disallow_random_traits = yes
+	diplomacy = 0
+	martial = 0
+	stewardship = 0
+	intrigue = 0
+	learning = 0
+	prowess = 0
+
+	240.1.1 = { birth = yes }
+	950.1.1 = { give_nickname = nick_line_of }
+	3250.1.1 = { death = yes }
+}
+
+ashenvoice_95 = {
+	name = "Daglin"
+	culture = eastmarcher
+	religion = nord_cult
+	dynasty = ashen_voice
+	
+	father = ashenvoice_2
+	
+	trait = education_martial_2
+	trait = education_martial_prowess_2
+	trait = viking
+	
+	3246.1.1 = { birth = yes }
+	3305.1.1 = { death = yes }
+}
+
+ashenvoice_96 = {
+	name = "Thormar"
+	culture = eastmarcher
+	religion = nord_cult
+	dynasty = ashen_voice
+	
+	father = ashenvoice_95
+	
+	trait = education_martial_2
+	trait = education_martial_prowess_2
+	trait = viking
+	
+	3270.1.1 = { birth = yes }
+	3292 = { add_spouse = ashenvoice_96_spouse }
+	3322.1.1 = { death = yes }
+}
+ashenvoice_96_spouse = {
+	name = "Ondi"
+	female = yes
+	culture = eastmarcher
+	religion = nord_cult
+
+	trait = education_stewardship_3
+	trait = compassionate
+	trait = greedy
+	trait = craven
+	trait = sign_mage
+	
+	3272.4.1 = { birth = yes }
+	3329.1.1 = { death = yes }
+}
+
+ashenvoice_97 = {
+	name = "Freyda"
+	culture = eastmarcher
+	religion = nord_cult
+	dynasty = ashen_voice
+	female = yes
+	
+	father = ashenvoice_95
+	
+	trait = education_intrigue_4
+	trait = vengeful
+	trait = shy
+	trait = patient
+	trait = sign_tower
+	
+	3287.10.4 = { birth = yes }
+	3361.7.3 = { death = yes }
+}
+
+ashenvoice_98 = {
+	name = "Thorkild"
+	culture = eastmarcher
+	religion = nord_cult
+	dynasty = ashen_voice
+	
+	mother = ashenvoice_97
+	
+	trait = education_martial_2
+	trait = education_martial_prowess_3
+	trait = vengeful
+	trait = callous
+	trait = ambitious
+	trait = disloyal
+	trait = viking
+	trait = sign_atronach
+	
+	3310.11.8 = { birth = yes }
+	3335.1.1 = { add_spouse = jurgald_1000_sister }
+	3367.5.4 = { trait = kinslayer_1 }
+	3377.4.10 = { death = yes }
+}
+ashenvoice_98_daughter = {
+	name = "Kili"
+	female = yes
+	culture = eastmarcher
+	religion = nord_cult
+	dynasty = ashen_voice
+
+	father = ashenvoice_98
+	mother = jurgald_1000_sister
+
+	trait = education_intrigue_4
+	trait = callous
+	trait = paranoid
+	trait = diligent
+	trait = physique_good_1
+	trait = sign_lover
+
+	3339.2.5 = { birth = yes }
+	3352.1.1 = { set_relation_friend = { reason = friend_children_stole_alcohol target = character:ashenvoice_101 } }
+	3389.7.14 = { death = yes }
+}
+ashenvoice_99 = {
+	name = "Olav"
+	culture = eastmarcher
+	religion = nord_cult
+	dynasty = ashen_voice
+	give_nickname = nick_the_kneeler
+	
+	father = ashenvoice_96
+	mother = ashenvoice_96_spouse
+	trait = education_martial_1
+	trait = craven
+	trait = greedy
+	trait = content
+	trait = depressed_1
+	trait = sign_warrior
+	
+	3297.8.15 = { birth = yes }
+	3324.1.1 = { add_spouse = ashenvoice_99_spouse }
+	3355.1.1 = { death = yes }
+}
+ashenvoice_99_spouse = {
+	name = "Gunnhild"
+	female = yes
+	culture = eastmarcher
+	religion = nord_cult
+
+	trait = education_martial_1
+	trait = shy
+	trait = patient
+	trait = paranoid
+	trait = sign_tower
+
+	3298.10.13 = { birth = yes }
+	3363.1.1 = { death = yes }
+}
+
+ashenvoice_100 = {
+	name = "Rurik"
+	culture = eastmarcher
+	religion = nord_cult
+	dynasty = ashen_voice
+	
+	father = ashenvoice_99
+	mother = ashenvoice_99_spouse
+	
+	trait = education_martial_2
+	trait = lazy
+	trait = just
+	trait = brave
+	trait = lifestyle_hunter
+	
+	3325.1.1 = { birth = yes }
+	3367.5.4 = {
+		death = {
+			death_reason = death_murder_known
+			killer = ashenvoice_98
+		}
+	}
+}
+
+ashenvoice_101 = {
+	name = "Olfwenn"
+	culture = eastmarcher
+	religion = nord_cult
+	dynasty = ashen_voice
+	female = yes
+	father = ashenvoice_99
+	mother = ashenvoice_99_spouse
+
+	trait = vengeful
+	trait = zealous
+	trait = paranoid
+	trait = sign_warrior
+	disallow_random_traits = yes
+
+	3343.8.28 = { birth = yes }
+	# 3359 betrothed to snowbourne_100
+	3359.8.28 = { trait = education_diplomacy_3 }
+	3420.1.1 = { death = yes }
+}
+
+firemouth_100 = { #Lich from the TESIII Morrowind DLC
+	name = "Grurn"
+	culture = eastmarcher
+	religion = nord_cult
+	dynasty = fire_mouth
+	
+	trait = education_learning_4
+	trait = education_magic_4
+	trait = lich_character
+	trait = patient
+	
+	300.1.1 = { birth = yes }
+	668.1.1 = { death = yes }
+}

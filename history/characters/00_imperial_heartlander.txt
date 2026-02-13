@@ -1,0 +1,91 @@
+﻿#Hlaalu imperials 
+cassian_99 = {
+	name = "Cato"
+	culture = heartlander
+	religion = imperial_cult
+
+	trait = education_stewardship_1
+
+	3291.1.1 = { birth = yes }
+	3320.1.1 = { add_spouse = cassian_99_wife }
+	3340.1.1 = { death = yes }
+}
+cassian_99_wife = {
+	name = "Flavia"
+	culture = heartlander
+	religion = imperial_cult
+	female = yes
+	3295.1.1 = { birth = yes }
+	3348.1.1 = { death = yes }
+}
+cassian_100 = {
+	name = "Fluvius"
+	dynasty = dyn_cassian
+	culture = heartlander
+	religion = imperial_cult
+
+	father = cassian_99
+	mother = cassian_99_wife
+	
+	trait = education_diplomacy_4
+	trait = bastard_founder
+	trait = ambitious
+	trait = gregarious
+	trait = deceitful
+	trait = sign_tower
+
+	3323.10.7 = { birth = yes }
+	3350.1.1 = { 
+		effect = { 
+			if = {
+				limit = { character:hlaalu_100 = { is_alive = yes } }
+				set_relation_friend = { reason = friend_generic_history target = character:hlaalu_100 } 
+			}
+		}
+		give_nickname = nick_the_gold_tongue 
+	}
+	#3358.1.1 = { culture = armun_an }
+	3355.1.1 = {
+		effect = {
+			learn_language = language_dunmeris
+		}
+	}
+	#Marries Hlaalu bastard of a second child of a third child, best a foreigner can get
+	3367.1.1 = { add_spouse = hlaalu2_100_bastard }
+	3384.1.1 = { death = yes }
+}
+
+cassian_101 = {
+	name = "Runethyne"
+	dynasty = dyn_cassian
+	culture = heartlander #Still officially follows her father's culture and faith in 450
+	religion = imperial_cult
+	female = yes
+
+	father = cassian_100
+	mother = hlaalu2_100_bastard
+
+	trait = lifespan_2
+
+	3369.1.1 = { birth = yes }
+	3400.1.1 = { #Converts to Hlaalu faith and culture after some time
+		religion = tribunal_temple
+		culture = armun_an
+	}
+	3410.1.1 = { add_matrilineal_spouse = narusa_101b }
+	3508.1.1 = { death = yes }
+}
+
+cassian_102 = {
+	name = "Sodres"
+	dynasty = dyn_cassian
+	culture = armun_an
+	religion = tribunal_temple
+	trait = lifespan_2
+
+	mother = cassian_101
+	father = narusa_101b
+
+	3436.1.1 = { birth = yes }
+	3619.1.1 = { death = yes }
+}
