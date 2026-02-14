@@ -1,5 +1,6 @@
 ﻿#Give characters money to improve their opinion of you
 #EK NOTE: added flag for summoned characters
+# ek2m edit - interaction modified to send smaller or larger gifts
 gift_interaction = {
 	icon = icon_gold
 	category = interaction_category_friendly
@@ -40,11 +41,13 @@ gift_interaction = {
 		NOT = {
 			scope:recipient = scope:actor
 		}
+
 		#EK EDIT: Added flag to exclude mindless characters
         scope:recipient = {
             is_mindless_character = no
         }
         #EK EDIT END
+
 		# Prioritize paying back loans first
 		scope:actor = {
 			trigger_if = {
@@ -73,7 +76,13 @@ gift_interaction = {
 	highlighted_reason = HIGHLIGHTED_FAMILY_RATING
 
 	is_valid_showing_failures_only = {
-		scope:actor.gold >= gift_value
+		OR = {
+			scope:actor.gold >= gift_value
+			AND = {
+				scope:actor = { is_ai = no }
+				scope:actor.gold >= tiny_gift_value				
+			}
+		}
 		scope:recipient = { 
 			is_busy_in_events_localised = yes
 			NOT = { is_imprisoned_by = scope:actor }
@@ -84,6 +93,58 @@ gift_interaction = {
 		scope:recipient = {
 			trigger_event = char_interaction.0100
 		}
+	}
+
+	## Send a quarter of normal amount.
+	send_option = {
+		is_shown = {
+			scope:actor = { is_ai = no }
+		}
+		flag = RBTSGO_gift_amount_tiny
+		localization = "SEND_GIFT_AMOUNT_TINY"
+	}
+	## Send half of normal amount.
+	send_option = {
+		is_shown = {
+			scope:actor = { is_ai = no }
+			scope:actor.gold >= small_gift_value
+		}
+		flag = RBTSGO_gift_amount_small
+		localization = "SEND_GIFT_AMOUNT_SMALL"
+	}
+	## Send normal amount.
+	send_option = {
+		is_shown = {
+#			always = yes
+			OR = {
+				scope:actor = { is_ai = yes }
+				AND = {
+					scope:actor = { is_ai = no }
+					scope:actor.gold >= gift_value
+				}
+			}
+		}
+		flag = RBTSGO_gift_amount_normal
+		localization = "SEND_GIFT_AMOUNT_NORMAL"
+		starts_enabled = { always = yes }
+	}
+	## Send double normal amount.
+	send_option = {
+		is_shown = {
+			scope:actor = { is_ai = no }
+			scope:actor.gold >= large_gift_value
+		}
+		flag = RBTSGO_gift_amount_large
+		localization = "SEND_GIFT_AMOUNT_LARGE"
+	}
+	## Send five times normal amount.
+	send_option = {
+		is_shown = {
+			scope:actor = { is_ai = no }
+			scope:actor.gold >= massive_gift_value
+		}
+		flag = RBTSGO_gift_amount_massive
+		localization = "SEND_GIFT_AMOUNT_MASSIVE"
 	}
 
 	on_accept = {
@@ -117,28 +178,156 @@ gift_interaction = {
 			}
 			
 			send_interface_message = {
-				type = event_gold_neutral
+				type = event_generic_neutral
 				title = gift_interaction_notification
 				right_icon = scope:recipient
-				pay_short_term_gold = {
-					gold = gift_value
-					target = scope:recipient
-				}
-				stress_impact = {
-					greedy = medium_stress_impact_gain
-				}
-				if = {
-					limit = {
-						scope:recipient = {
-							NOT = {
-								is_heir_of = scope:actor
-							}
-						}
+				if = {  #Pay one quarter.
+					limit = { always = scope:RBTSGO_gift_amount_tiny }						
+					pay_short_term_gold = {
+						gold = tiny_gift_value
+						target = scope:recipient
 					}
 					stress_impact = {
-						generous = medium_stress_impact_loss
+						greedy = miniscule_stress_impact_gain
+					}
+					if = {
+						limit = {
+							scope:recipient = {
+								NOT = {
+									is_heir_of = scope:actor
+								}
+							}
+						}
+						stress_impact = {
+							generous = miniscule_stress_impact_loss
+						}
+					}
+					scope:recipient = {
+						add_opinion = {
+							target = scope:actor
+							modifier = gift_opinion
+							opinion = tiny_send_gift_opinion
+						}
+					}					
+				}
+				else_if = {
+					limit = { always = scope:RBTSGO_gift_amount_small }						
+					pay_short_term_gold = {
+						gold = small_gift_value
+						target = scope:recipient
+					}
+					stress_impact = {
+						greedy = minor_stress_impact_gain
+					}
+					if = {
+						limit = {
+							scope:recipient = {
+								NOT = {
+									is_heir_of = scope:actor
+								}
+							}
+						}
+						stress_impact = {
+							generous = minor_stress_impact_loss
+						}
+					}
+					scope:recipient = {
+						add_opinion = {
+							target = scope:actor
+							modifier = gift_opinion
+							opinion = small_send_gift_opinion
+						}
+					}					
+				}
+				else_if = {
+					limit = { always = scope:RBTSGO_gift_amount_normal }						
+					pay_short_term_gold = {
+						gold = gift_value
+						target = scope:recipient
+					}
+					stress_impact = {
+						greedy = medium_stress_impact_gain
+					}
+					if = {
+						limit = {
+							scope:recipient = {
+								NOT = {
+									is_heir_of = scope:actor
+								}
+							}
+						}
+						stress_impact = {
+							generous = medium_stress_impact_loss
+						}
+					}
+					scope:recipient = {
+						add_opinion = {
+							target = scope:actor
+							modifier = gift_opinion
+							opinion = send_gift_opinion
+						}
+					}					
+				}
+				else_if = {
+					limit = { always = scope:RBTSGO_gift_amount_large }						
+					pay_short_term_gold = {
+						gold = large_gift_value
+						target = scope:recipient
+					}
+					stress_impact = {
+						greedy = major_stress_impact_gain
+					}
+					if = {
+						limit = {
+							scope:recipient = {
+								NOT = {
+									is_heir_of = scope:actor
+								}
+							}
+						}
+						stress_impact = {
+							generous = major_stress_impact_loss
+						}
+					}
+					scope:recipient = {
+						add_opinion = {
+							target = scope:actor
+							modifier = gift_opinion
+							opinion = large_send_gift_opinion
+						}
+					}					
+				}
+				else = {
+#					limit = { always = scope:RBTSGO_gift_amount_massive }						
+					pay_short_term_gold = {
+						gold = massive_gift_value
+						target = scope:recipient
+					}
+					stress_impact = {
+						greedy = massive_stress_impact_gain
+					}
+					if = {
+						limit = {
+							scope:recipient = {
+								NOT = {
+									is_heir_of = scope:actor
+								}
+							}
+						}
+						stress_impact = {
+							generous = massive_stress_impact_loss
+						}
+					}
+					scope:recipient = {
+						add_opinion = {
+							target = scope:actor
+							modifier = gift_opinion
+							opinion = massive_send_gift_opinion
+						}
 					}
 				}
+
+
 				
 				#FP3 Tenet Communal Possessions Perk - piety gain for gift giving. 
 				if = {
@@ -260,15 +449,6 @@ gift_interaction = {
 						}
 					}
 				}
-				
-				# Let's apply the opinion modifier last, as to apply everything else correctly first
-				scope:recipient = {
-					add_opinion = {
-						target = scope:actor
-						modifier = gift_opinion
-						opinion = send_gift_opinion
-					}
-				}
 			}
 
 			if = { # for tutorial purposes
@@ -307,7 +487,25 @@ gift_interaction = {
 						}
 					}
 					change_influence = {
-						value = miniscule_influence_gain
+						if = {
+							limit = { always = scope:RBTSGO_gift_amount_tiny }
+							value = tiny_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_small }
+							value = small_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_normal }
+							value = miniscule_influence_gain
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_large }
+							value = large_gift_influence
+						}
+						else = {
+							value = massive_gift_influence
+						}
 						multiply = 8
 					}
 				}
@@ -324,7 +522,25 @@ gift_interaction = {
 						}
 					}
 					change_influence = {
-						value = miniscule_influence_gain
+						if = {
+							limit = { always = scope:RBTSGO_gift_amount_tiny }
+							value = tiny_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_small }
+							value = small_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_normal }
+							value = miniscule_influence_gain
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_large }
+							value = large_gift_influence
+						}
+						else = {
+							value = massive_gift_influence
+						}
 						multiply = 7
 					}
 				}
@@ -340,7 +556,25 @@ gift_interaction = {
 						}
 					}
 					change_influence = {
-						value = miniscule_influence_gain
+						if = {
+							limit = { always = scope:RBTSGO_gift_amount_tiny }
+							value = tiny_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_small }
+							value = small_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_normal }
+							value = miniscule_influence_gain
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_large }
+							value = large_gift_influence
+						}
+						else = {
+							value = massive_gift_influence
+						}
 						multiply = 6
 					}
 				}
@@ -357,7 +591,25 @@ gift_interaction = {
 						}
 					}
 					change_influence = {
-						value = miniscule_influence_gain
+						if = {
+							limit = { always = scope:RBTSGO_gift_amount_tiny }
+							value = tiny_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_small }
+							value = small_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_normal }
+							value = miniscule_influence_gain
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_large }
+							value = large_gift_influence
+						}
+						else = {
+							value = massive_gift_influence
+						}
 						multiply = 6
 					}
 				}
@@ -374,7 +626,25 @@ gift_interaction = {
 						}
 					}
 					change_influence = {
-						value = miniscule_influence_gain
+						if = {
+							limit = { always = scope:RBTSGO_gift_amount_tiny }
+							value = tiny_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_small }
+							value = small_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_normal }
+							value = miniscule_influence_gain
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_large }
+							value = large_gift_influence
+						}
+						else = {
+							value = massive_gift_influence
+						}
 						multiply = 5
 					}
 				}
@@ -390,7 +660,25 @@ gift_interaction = {
 						}
 					}
 					change_influence = {
-						value = miniscule_influence_gain
+						if = {
+							limit = { always = scope:RBTSGO_gift_amount_tiny }
+							value = tiny_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_small }
+							value = small_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_normal }
+							value = miniscule_influence_gain
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_large }
+							value = large_gift_influence
+						}
+						else = {
+							value = massive_gift_influence
+						}
 						multiply = 4
 					}
 				}
@@ -399,7 +687,25 @@ gift_interaction = {
 						scope:recipient = { influence_level >= 5 }
 					}
 					change_influence = {
-						value = miniscule_influence_gain
+						if = {
+							limit = { always = scope:RBTSGO_gift_amount_tiny }
+							value = tiny_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_small }
+							value = small_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_normal }
+							value = miniscule_influence_gain
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_large }
+							value = large_gift_influence
+						}
+						else = {
+							value = massive_gift_influence
+						}
 						multiply = 3
 					}
 				}
@@ -408,12 +714,50 @@ gift_interaction = {
 						scope:recipient = { influence_level >= 3 }
 					}
 					change_influence = {
-						value = miniscule_influence_gain
+						if = {
+							limit = { always = scope:RBTSGO_gift_amount_tiny }
+							value = tiny_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_small }
+							value = small_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_normal }
+							value = miniscule_influence_gain
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_large }
+							value = large_gift_influence
+						}
+						else = {
+							value = massive_gift_influence
+						}
 						multiply = 2
 					}
 				}
 				else = {
-					change_influence = miniscule_influence_gain
+					change_influence = {
+						if = {
+							limit = { always = scope:RBTSGO_gift_amount_tiny }
+							value = tiny_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_small }
+							value = small_gift_influence
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_normal }
+							value = miniscule_influence_gain
+						}
+						else_if = {
+							limit = { always = scope:RBTSGO_gift_amount_large }
+							value = large_gift_influence
+						}
+						else = {
+							value = massive_gift_influence
+						}
+					}
 				}
 			}
 			#EK ADDITION: gifts give piety, used in "Garden of Veloth" tradition
@@ -421,7 +765,25 @@ gift_interaction = {
 				limit = {
 					culture = { has_cultural_parameter = gifts_give_piety }
 				}
-				add_piety = minor_piety_gain
+				if = {
+					limit = { always = scope:RBTSGO_gift_amount_tiny }
+					add_piety = tiny_gift_piety
+				}
+				else_if = {
+					limit = { always = scope:RBTSGO_gift_amount_small }
+					add_piety = small_gift_piety
+				}
+				else_if = {
+					limit = { always = scope:RBTSGO_gift_amount_normal }
+					add_piety = minor_piety_gain
+				}
+				else_if = {
+					limit = { always = scope:RBTSGO_gift_amount_large }
+					add_piety = large_gift_piety
+				}
+				else = {
+					add_piety = massive_gift_piety
+				}
 			}
 			#EK ADDITION: gcm catalyst
 			if = {
@@ -764,21 +1126,22 @@ gift_interaction = {
 				}
 			}
 		}
-		#EK DISABLED: not relevant
-		# modifier = {
-		# 	add = 100
-		# 	scope:actor = {
-		# 		is_at_war = no
-		# 		has_trait = fp3_struggle_supporter
-		# 		any_character_struggle = { is_struggle_type = persian_struggle }
-		# 	}
-		# 	scope:recipient = {
-		# 		title:d_sunni.holder ?= this
-		# 		gold < 0
-		# 	}
-		# }
 		
-		# Nomads are slightly less likely to do this since they'd prefer to send Herd instead
+	#EK DISABLED: not relevant
+	#	modifier = {
+	#		add = 100
+	#		scope:actor = {
+	#			is_at_war = no
+	#			has_trait = fp3_struggle_supporter
+	#			any_character_struggle = { is_struggle_type = persian_struggle }
+	#		}
+	#		scope:recipient = {
+	#			title:d_sunni.holder ?= this
+	#			gold < 0
+	#		}
+	#	}
+
+	# Nomads are slightly less likely to do this since they'd prefer to send Herd instead
 		modifier = {
 			add = -10
 			scope:actor = {

@@ -358,7 +358,16 @@ can_be_knight_trigger = {
 		}
 		NOT = { this = liege.diarch }
 	}
-	is_ai = yes
+	# ek2m edit - allow players without flag to be knights
+	#is_ai = yes
+	OR = {
+		is_ai = yes
+		AND = {
+			NOT = { has_character_flag = cannot_be_knight_and_commander }
+			is_travelling = no
+			NOT = { exists = involved_activity }
+		}
+	}
 	# EK ADDITION: you shouldn't be able to hire your buoyant armiger escorts
 	NOT = { has_character_flag = buoyant_armiger_armour_flag }
 	# EK ADDITION END
@@ -388,9 +397,21 @@ can_be_commander_basic_trigger = {
 		can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = $ARMY_OWNER$ }
 	}
 
-	trigger_if = {
-		limit = { $ARMY_OWNER$ = { is_ai = yes } }
+	# ek2m edit - allow players without flag to be commanders
+	#trigger_if = {
+	#	limit = { $ARMY_OWNER$ = { is_ai = yes } }
+	#	is_ai = yes
+	#}
+	OR = {
 		is_ai = yes
+		AND = {
+			OR = {
+				this = $ARMY_OWNER$
+				NOT = { has_character_flag = cannot_be_knight_and_commander }
+			}
+			is_travelling = no
+			NOT = { exists = involved_activity }
+		}	
 	}
 }
 

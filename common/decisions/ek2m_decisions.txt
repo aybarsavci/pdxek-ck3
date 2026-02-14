@@ -1,0 +1,37 @@
+﻿# Player can be Knight or Commander for their liege
+can_be_knight_and_commander_decision = {
+	desc = can_be_knight_and_commander_decision_desc
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_knight_kneeling.dds"
+	}
+
+	is_shown = {
+		has_character_flag = cannot_be_knight_and_commander
+		is_ai = no
+		is_independent_ruler = no
+	}
+
+	effect = {
+		custom_tooltip = can_be_knight_and_commander_decision_tooltip
+		remove_character_flag = cannot_be_knight_and_commander
+	}
+}
+
+# Player cannot be Knight or Commander for their liege
+cannot_be_knight_and_commander_decision = {
+	desc = cannot_be_knight_and_commander_decision_desc
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_knight_kneeling.dds"
+	}
+
+	is_shown = {
+		NOT = { has_character_flag = cannot_be_knight_and_commander }
+		is_ai = no
+		is_independent_ruler = no
+	}
+
+	effect = {
+		custom_tooltip = cannot_be_knight_and_commander_decision_tooltip
+		add_character_flag = cannot_be_knight_and_commander
+	}
+}

@@ -1310,20 +1310,23 @@ offer_courtier_interaction = {
 		scope:actor = {
 			every_courtier = {
 				limit = {
-					is_available_healthy_ai_adult = yes
+					# ek2m edit - removed health and adult requirement
+					#is_available_healthy_ai_adult = yes
+					is_available_ai = yes
 					NOR = {
-						is_consort_of = scope:actor
-						is_heir_of = scope:actor
-						AND = {
-							is_female = yes
-							patrilinear_marriage = yes
-						}
-						AND = {
-							is_male = yes
-							matrilinear_marriage = yes
-						}
-						is_diarch = yes
-						is_designated_diarch = yes
+						# ek2m edit - can send any courtier
+						#is_consort_of = scope:actor
+						#is_heir_of = scope:actor
+						#AND = {
+						#	is_female = yes
+						#	patrilinear_marriage = yes
+						#}
+						#AND = {
+						#	is_male = yes
+						#	matrilinear_marriage = yes
+						#}
+						#is_diarch = yes
+						#is_designated_diarch = yes
 						has_character_flag = has_been_offered_as_concubine
 					}
 				}
@@ -1345,46 +1348,50 @@ offer_courtier_interaction = {
 			text = offer_courtier_valid_courtier_tt
 			scope:actor = {
 				any_courtier = {
-					is_available_healthy_ai_adult = yes
-					NOR = {
-						is_consort_of = scope:actor
-						is_heir_of = scope:actor
-						AND = {
-							is_female = yes
-							patrilinear_marriage = yes
-						}
-						AND = {
-							is_male = yes
-							matrilinear_marriage = yes
-						}
-					}
+					is_available_ai = yes
+					# ek2m edit - can send any courtier
+					#is_available_healthy_ai_adult = yes
+					#NOR = {
+					#	is_consort_of = scope:actor
+					#	is_heir_of = scope:actor
+					#	AND = {
+					#		is_female = yes
+					#		patrilinear_marriage = yes
+					#	}
+					#	AND = {
+					#		is_male = yes
+					#		matrilinear_marriage = yes
+					#	}
+					#}
 				}
 			}
 		}
 	}
 
-	can_be_picked = {
-		is_adult = yes
-	}
+	# ek2m edit - can send to any character
+	#can_be_picked = {
+	#	is_adult = yes
+	#}
 
-	can_send = {
-		custom_tooltip = {
-			text = no_heirs_can_be_sent_tt
-			scope:secondary_actor = {
-				NOT = {
-					is_heir_of = scope:actor
-				}
-			}
-		}
-		custom_tooltip = {
-			text = no_spouses_can_be_sent_tt
-			scope:secondary_actor = {
-				NOT = {
-					is_consort_of = scope:actor
-				}
-			}
-		}
-	}
+	# ek2m edit - can send any courtier
+	#can_send = {
+	#	custom_tooltip = {
+	#		text = no_heirs_can_be_sent_tt
+	#		scope:secondary_actor = {
+	#			NOT = {
+	#				is_heir_of = scope:actor
+	#			}
+	#		}
+	#	}
+	#	custom_tooltip = {
+	#		text = no_spouses_can_be_sent_tt
+	#		scope:secondary_actor = {
+	#			NOT = {
+	#				is_consort_of = scope:actor
+	#			}
+	#		}
+	#	}
+	#}
 
 	auto_accept = no
 
@@ -1639,25 +1646,26 @@ offer_courtier_interaction = {
 		}
 		scope:recipient = {
 			add_courtier = scope:secondary_actor
-			scope:secondary_actor = {
-				every_consort = {
-					limit = {
-						is_courtier_of = scope:actor
-					}
-					scope:recipient = {
-						add_courtier = prev
-					}
-				}
-				every_child = {
-					limit = {
-						is_adult = no
-						is_courtier_of = scope:recipient
-					}
-					scope:actor = {
-						add_courtier = prev
-					}
-				}
-			}
+			# ek2m edit - disabled sending whole family
+			#scope:secondary_actor = {
+			#	every_consort = {
+			#		limit = {
+			#			is_courtier_of = scope:actor
+			#		}
+			#		scope:recipient = {
+			#			add_courtier = prev
+			#		}
+			#	}
+			#	every_child = {
+			#		limit = {
+			#			is_adult = no
+			#			is_courtier_of = scope:actor
+			#		}
+			#		scope:recipient = {
+			#			add_courtier = prev
+			#		}
+			#	}
+			#}
 			add_opinion = {
 				target = scope:actor
 				modifier = grateful_opinion
@@ -2027,9 +2035,11 @@ demand_courtier_interaction = {
 				every_child = {
 					limit = {
 						is_adult = no
-						is_courtier_of = scope:recipient
+						# ek2m edit - fixed scope from recipient to actor
+						is_courtier_of = scope:actor
 					}
-					scope:actor = {
+					# ek2m edit - fixed scope from actor to recipient
+					scope:recipient = {
 						add_courtier = prev
 					}
 				}
