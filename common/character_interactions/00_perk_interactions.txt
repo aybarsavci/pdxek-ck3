@@ -1102,22 +1102,23 @@ challenge_to_single_combat_interaction = {
 	popup_on_receive = yes
 	pause_on_receive = yes
 	
-	name = {
-		first_valid = {
-			triggered_desc = {
-				trigger = {
-					scope:actor = {
-						government_has_flag = government_is_nomadic
-					}
-					scope:recipient = {
-						government_has_flag = government_is_nomadic
-					}
-				}
-				desc = challenge_to_single_combat_nomadic_interaction
-			}
-			desc = challenge_to_single_combat_interaction
-		}
-	}
+	# ek2m edit - separate naming for nomads redundant
+	#name = {
+	#	first_valid = {
+	#		triggered_desc = {
+	#			trigger = {
+	#				scope:actor = {
+	#					government_has_flag = government_is_nomadic
+	#				}
+	#				scope:recipient = {
+	#					government_has_flag = government_is_nomadic
+	#				}
+	#			}
+	#			desc = challenge_to_single_combat_nomadic_interaction
+	#		}
+	#		desc = challenge_to_single_combat_interaction
+	#	}
+	#}
 	
 	desc = challenge_to_single_combat_interaction_desc
 
@@ -1125,23 +1126,24 @@ challenge_to_single_combat_interaction = {
 	notification_text = REQUEST_TRIAL_BY_COMBAT_TEXT
 
 	is_shown = {
+		# ek2m edit - allow anyone to duel anyone freely
 		# First, check for the perk.
-		scope:actor = { can_challenge_rival_to_single_combat_trigger = yes }
+		#scope:actor = { can_challenge_rival_to_single_combat_trigger = yes }
 		# Then, look to see if this character is a rival.
-		OR = {
-			scope:actor = { has_relation_rival = scope:recipient }
-			AND = { # If you are a Nomad you can challenge martial non-close family characters
-				scope:actor = {
-					government_has_flag = government_is_nomadic
-					has_perk = stalwart_leader_perk
-				}
-				scope:recipient = {
-					government_has_flag = government_is_nomadic
-					NOT = { is_close_family_of = scope:actor }
-					can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = scope:actor }
-				}
-			}
-		}
+		#OR = {
+		#	scope:actor = { has_relation_rival = scope:recipient }
+		#	AND = { # If you are a Nomad you can challenge martial non-close family characters
+		#		scope:actor = {
+		#			government_has_flag = government_is_nomadic
+		#			has_perk = stalwart_leader_perk
+		#		}
+		#		scope:recipient = {
+		#			government_has_flag = government_is_nomadic
+		#			NOT = { is_close_family_of = scope:actor }
+		#			can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = scope:actor }
+		#		}
+		#	}
+		#}
 		# Can't duel yourself.
 		NOT = { scope:actor = scope:recipient }
 	}

@@ -186,8 +186,10 @@ clan_government = {
 tribal_government = {
 	government_rules = {
 		rulers_should_have_dynasty = yes
-		regiments_prestige_as_gold = yes
-		royal_court = no # EK EDIT: no royal courts for tribal govs
+		# ek2m edit - tribals pay for MAA with gold
+		#regiments_prestige_as_gold = yes
+		# ek2m edit - royal courts re-enabled
+		royal_court = yes # EK EDIT: no royal courts for tribal govs
 		legitimacy = yes
 		dynasty_named_realms = yes #EK EDIT
 	}
@@ -220,7 +222,8 @@ tribal_government = {
 	
 	character_modifier = {
 		title_creation_cost_mult = -0.5
-		army_maintenance_mult = -0.5
+		# ek2m edit - army_maintenance_mult reduced to 20%
+		army_maintenance_mult = -0.2
 
 		feudal_government_vassal_opinion = -20
 		clan_government_vassal_opinion = -20
@@ -233,6 +236,9 @@ tribal_government = {
 		
 		#EK EDIT - Makes tribes more region-centered
 		diplomatic_range_mult = -0.3
+
+		# ek2m edit - MAA upkeep reduced by 50
+		men_at_arms_maintenance = -0.5
 	}
 
 	flag = government_can_raid_rule
