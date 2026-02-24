@@ -1846,264 +1846,265 @@ travel_events.4006 = {
 	}
 }
 
+# ek2m edit - event disabled
 # A storm at sea
-travel_events.4007 = { 
-	type = character_event
-	title = travel_events.4007.t
-	desc = travel_events.4007.desc
-	theme = travel
-	left_portrait = {
-		character = root 
-	   	animation = fear
-	}
-	right_portrait = {
-		character = root.current_travel_plan.travel_leader
-	   	animation = stress
-	}
-	#EK EDIT
-	#Check if you're in the Inner Sea Region, then use the inner_sea background
-	override_background = {
-		trigger = {
-			location = {
-				is_sea_province = yes
-				geographical_region = sea_inner_sea
-			}
-		}
-		reference = ek_inner_sea
-	}
-	#Otherwise, use the default ocean background
-	#EK EDIT END
-	override_background = { reference = fp1_ocean }
-	cooldown = { months = 1 }
-	trigger = {
-		exists = current_travel_plan.travel_leader
-		NOT = { current_travel_plan.travel_leader = root }
-		is_available_travelling = yes
-        is_playable_character = yes
-		location = {
-			has_sea_danger_type = { TRAVEL = root.current_travel_plan }
-		}
-	}
-	immediate = {
-		wayfarer_storyteller_fame_effect = { VALUE = roaming_reward_fame_high }
-		hidden_effect = {
-			while = {
-				count = 5
-				current_travel_plan = {
-					random_entourage_character = {
-						limit = {
-							NOT = { this = root }
-						}
-						weight = {
-							base = 1
-							# Try to find someone relevant
-							modifier = {
-								is_close_family_of = root
-								add = 1
-							}
-						}
-						add_to_list = drowning_courtiers_list
-					}
-				}
-			}
-		}
-		traveler_danger_xp_effect = {
-			MIN = 3
-			MAX = 7
-		}
-	}
-	# Trust your guide leader's judgement
-	option = {
-		name = travel_events.4007.a
-		current_travel_plan.travel_leader = {
-			duel = {
-				skill = martial
-				value = high_skill_rating
-				50 = { # You manage to navigate the storm
-					compare_modifier = {
-						value = scope:duel_value
-						multiplier = 0.5
-					}
-					custom_tooltip = succesfully_navigate_the_storm_tt
-					hidden_effect = {
-						root = {
-							send_interface_toast = {
-								title = succesfully_navigate_the_storm_tt
-								left_icon = root
-								add_prestige = 10
-							}
-						}
-					}
-				}
-				40 = { # You mess up and get someone killed
-					compare_modifier = {
-						value = scope:duel_value
-						multiplier = -0.5
-					}
-					add_prestige = medium_prestige_loss
-					increase_wounds_effect = { REASON = drowned }
-					custom_tooltip = someone_drowns_tt
-					hidden_effect = {
-						root = {
-							send_interface_toast = {
-								title = someone_drowns_tt
-								left_icon = root
-								random_in_list = {
-									list = drowning_courtiers_list
-									death = {
-										death_reason = death_drowned
-									}
-								}
-							}
-						}
-					}
-				}
-				10 = { # They mess up a lot and drown a lot of people
-					compare_modifier = {
-						value = scope:duel_value
-						multiplier = -0.5
-					}
-					increase_wounds_effect = { REASON = drowned }
-					custom_tooltip = some_people_drown_tt
-					hidden_effect = {
-						root = {
-							send_interface_toast = {
-								title = some_people_drown_tt
-								left_icon = root
-								every_in_list = {
-									list = drowning_courtiers_list
-									death = {
-										death_reason = death_drowned
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		stress_impact = {
-			arrogant = medium_stress_impact_gain
-			brave = medium_stress_impact_gain
-		}
-		ai_chance = {
-			base = 100
-			modifier = {
-				factor = 0
-				OR = {
-					has_trait = arrogant
-					has_trait = brave
-				}
-			}
-		}
-	}
-	# Take the helm yourself!
-	option = {
-		name = travel_events.4007.b
-		stress_impact = {
-			arrogant = minor_stress_impact_loss
-			craven = medium_stress_impact_gain
-		}
-		progress_towards_rival_effect = {
-			REASON = rival_upstaged_at_sea
-			CHARACTER = root.current_travel_plan.travel_leader
-			OPINION = default_rival_opinion
-		}
-		duel = {
-			skill = martial
-			value = high_skill_rating
-			50 = { # You manage to navigate the storm
-				compare_modifier = {
-					value = scope:duel_value
-					multiplier = 0.5
-				}
-				send_interface_toast = {
-					title = succesfully_navigate_the_storm_tt
-					left_icon = root
-					add_prestige = medium_prestige_gain
-				}
-			}
-			40 = { # You mess up and get someone killed
-				compare_modifier = {
-					value = scope:duel_value
-					multiplier = -0.5
-				}
-				custom_tooltip = some_people_drown_tt
-				hidden_effect = {
-					send_interface_toast = {
-						title = some_people_drown_tt
-						left_icon = root
-						every_in_list = {
-							list = drowning_courtiers_list
-							death = {
-								death_reason = death_drowned
-							}
-						}
-						add_prestige = medium_prestige_loss
-						increase_wounds_effect = { REASON = drowned }
-					}
-				}
-			}
-			10 = { # You really mess up and get yourself drowned
-				compare_modifier = {
-					value = scope:duel_value
-					multiplier = -0.5
-				}
-				send_interface_toast = {
-					title = you_drown_tt
-					left_icon = root
-					add_prestige = medium_prestige_loss
-					death = {
-						death_reason = death_drowned
-					}
-				}
-			}
-		}
-		ai_chance = {
-			base = 50
-			modifier = {
-				add = 50
-				has_trait = arrogant
-			}
-			modifier = {
-				factor = 0
-				has_trait = craven
-			}
-		}
-	}
-	# Follow the experienced sailors to shore
-	option = {
-		name = travel_events.4007.c
-		trigger = {
-			location = {
-				any_neighboring_province = {
-					exists = county #Not at sea, not an impassable
-					county.culture = {
-						OR = {
-							has_cultural_tradition = tradition_seafaring
-							has_cultural_tradition = tradition_fishermen
-						}
-					}
-				}
-			}
-		}
-		add_prestige = minor_prestige_gain
-		stress_impact = {
-			arrogant = medium_stress_impact_gain
-			brave = medium_stress_impact_gain
-		}
-		ai_chance = {
-			base = 100
-			modifier = {
-				factor = 0
-				OR = {
-					has_trait = arrogant
-					has_trait = brave
-				}
-			}
-		}
-	}
-}
+#travel_events.4007 = { 
+#	type = character_event
+#	title = travel_events.4007.t
+#	desc = travel_events.4007.desc
+#	theme = travel
+#	left_portrait = {
+#		character = root 
+#	   	animation = fear
+#	}
+#	right_portrait = {
+#		character = root.current_travel_plan.travel_leader
+#	   	animation = stress
+#	}
+#	#EK EDIT
+#	#Check if you're in the Inner Sea Region, then use the inner_sea background
+#	override_background = {
+#		trigger = {
+#			location = {
+#				is_sea_province = yes
+#				geographical_region = sea_inner_sea
+#			}
+#		}
+#		reference = ek_inner_sea
+#	}
+#	#Otherwise, use the default ocean background
+#	#EK EDIT END
+#	override_background = { reference = fp1_ocean }
+#	cooldown = { months = 1 }
+#	trigger = {
+#		exists = current_travel_plan.travel_leader
+#		NOT = { current_travel_plan.travel_leader = root }
+#		is_available_travelling = yes
+#       is_playable_character = yes
+#		location = {
+#			has_sea_danger_type = { TRAVEL = root.current_travel_plan }
+#		}
+#	}
+#	immediate = {
+#		wayfarer_storyteller_fame_effect = { VALUE = roaming_reward_fame_high }
+#		hidden_effect = {
+#			while = {
+#				count = 5
+#				current_travel_plan = {
+#					random_entourage_character = {
+#						limit = {
+#							NOT = { this = root }
+#						}
+#						weight = {
+#							base = 1
+#							# Try to find someone relevant
+#							modifier = {
+#								is_close_family_of = root
+#								add = 1
+#							}
+#						}
+#						add_to_list = drowning_courtiers_list
+#					}
+#				}
+#			}
+#		}
+#		traveler_danger_xp_effect = {
+#			MIN = 3
+#			MAX = 7
+#		}
+#	}
+#	# Trust your guide leader's judgement
+#	option = {
+#		name = travel_events.4007.a
+#		current_travel_plan.travel_leader = {
+#			duel = {
+#				skill = martial
+#				value = high_skill_rating
+#				50 = { # You manage to navigate the storm
+#					compare_modifier = {
+#						value = scope:duel_value
+#						multiplier = 0.5
+#					}
+#					custom_tooltip = succesfully_navigate_the_storm_tt
+#					hidden_effect = {
+#						root = {
+#							send_interface_toast = {
+#								title = succesfully_navigate_the_storm_tt
+#								left_icon = root
+#								add_prestige = 10
+#							}
+#						}
+#					}
+#				}
+#				40 = { # You mess up and get someone killed
+#					compare_modifier = {
+#						value = scope:duel_value
+#						multiplier = -0.5
+#					}
+#					add_prestige = medium_prestige_loss
+#					increase_wounds_effect = { REASON = drowned }
+#					custom_tooltip = someone_drowns_tt
+#					hidden_effect = {
+#						root = {
+#							send_interface_toast = {
+#								title = someone_drowns_tt
+#								left_icon = root
+#								random_in_list = {
+#									list = drowning_courtiers_list
+#									death = {
+#										death_reason = death_drowned
+#									}
+#								}
+#							}
+#						}
+#					}
+#				}
+#				10 = { # They mess up a lot and drown a lot of people
+#					compare_modifier = {
+#						value = scope:duel_value
+#						multiplier = -0.5
+#					}
+#					increase_wounds_effect = { REASON = drowned }
+#					custom_tooltip = some_people_drown_tt
+#					hidden_effect = {
+#						root = {
+#							send_interface_toast = {
+#								title = some_people_drown_tt
+#								left_icon = root
+#								every_in_list = {
+#									list = drowning_courtiers_list
+#									death = {
+#										death_reason = death_drowned
+#									}
+#								}
+#							}
+#						}
+#					}
+#				}
+#			}
+#		}
+#		stress_impact = {
+#			arrogant = medium_stress_impact_gain
+#			brave = medium_stress_impact_gain
+#		}
+#		ai_chance = {
+#			base = 100
+#			modifier = {
+#				factor = 0
+#				OR = {
+#					has_trait = arrogant
+#					has_trait = brave
+#				}
+#			}
+#		}
+#	}
+#	# Take the helm yourself!
+#	option = {
+#		name = travel_events.4007.b
+#		stress_impact = {
+#			arrogant = minor_stress_impact_loss
+#			craven = medium_stress_impact_gain
+#		}
+#		progress_towards_rival_effect = {
+#			REASON = rival_upstaged_at_sea
+#			CHARACTER = root.current_travel_plan.travel_leader
+#			OPINION = default_rival_opinion
+#		}
+#		duel = {
+#			skill = martial
+#			value = high_skill_rating
+#			50 = { # You manage to navigate the storm
+#				compare_modifier = {
+#					value = scope:duel_value
+#					multiplier = 0.5
+#				}
+#				send_interface_toast = {
+#					title = succesfully_navigate_the_storm_tt
+#					left_icon = root
+#					add_prestige = medium_prestige_gain
+#				}
+#			}
+#			40 = { # You mess up and get someone killed
+#				compare_modifier = {
+#					value = scope:duel_value
+#					multiplier = -0.5
+#				}
+#				custom_tooltip = some_people_drown_tt
+#				hidden_effect = {
+#					send_interface_toast = {
+#						title = some_people_drown_tt
+#						left_icon = root
+#						every_in_list = {
+#							list = drowning_courtiers_list
+#							death = {
+#								death_reason = death_drowned
+#							}
+#						}
+#						add_prestige = medium_prestige_loss
+#						increase_wounds_effect = { REASON = drowned }
+#					}
+#				}
+#			}
+#			10 = { # You really mess up and get yourself drowned
+#				compare_modifier = {
+#					value = scope:duel_value
+#					multiplier = -0.5
+#				}
+#				send_interface_toast = {
+#					title = you_drown_tt
+#					left_icon = root
+#					add_prestige = medium_prestige_loss
+#					death = {
+#						death_reason = death_drowned
+#					}
+#				}
+#			}
+#		}
+#		ai_chance = {
+#			base = 50
+#			modifier = {
+#				add = 50
+#				has_trait = arrogant
+#			}
+#			modifier = {
+#				factor = 0
+#				has_trait = craven
+#			}
+#		}
+#	}
+#	# Follow the experienced sailors to shore
+#	option = {
+#		name = travel_events.4007.c
+#		trigger = {
+#			location = {
+#				any_neighboring_province = {
+#					exists = county #Not at sea, not an impassable
+#					county.culture = {
+#						OR = {
+#							has_cultural_tradition = tradition_seafaring
+#							has_cultural_tradition = tradition_fishermen
+#						}
+#					}
+#				}
+#			}
+#		}
+#		add_prestige = minor_prestige_gain
+#		stress_impact = {
+#			arrogant = medium_stress_impact_gain
+#			brave = medium_stress_impact_gain
+#		}
+#		ai_chance = {
+#			base = 100
+#			modifier = {
+#				factor = 0
+#				OR = {
+#					has_trait = arrogant
+#					has_trait = brave
+#				}
+#			}
+#		}
+#	}
+#}
 
 # Shipwreck!
 travel_events.4008 = { 

@@ -4258,16 +4258,34 @@ attempted_suicide_effect = {
 }
 
 # Remove infirm when adding incapable so that the player doesn't just immediately die.
+# ek2m edit - effect changed to give random affliction instead of incapable
 upgrade_infirm_to_incapable_effect = {
 	# Stealthily remove infirm
-	hidden_effect = {
-		if = {
-			limit = { has_trait = infirm }
-			remove_trait = infirm
-		}
-	}
+	#hidden_effect = {
+	#	if = {
+	#		limit = { has_trait = infirm }
+	#		remove_trait = infirm
+	#	}
+	#}
 	# And add in capable.
-	add_trait = incapable
+	#add_trait = incapable
+	random_list = {
+                    33 = {
+                        add_trait = dull
+						add_trait = wounded_1
+                    }
+                    33 = {
+                        add_trait = one_eyed
+						add_trait = wounded_2
+                    }
+                    33 = {
+                        add_trait = blind
+						add_trait = wounded_3
+                    }
+                    1 = {
+                        add_trait = shrewd
+                    }
+                }
 	# Logging.
 	log_harm_event_incapability_as_variable_effect = yes
 }
